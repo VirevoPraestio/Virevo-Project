@@ -1,0 +1,155 @@
+{
+ "turn": {
+  "id": "so-07",
+  "tab": "Solutions",
+  "type": "landing",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "",
+  "context": "The user comes back the next morning. The page was brought up to date at midnight. The last turn offered two doors: Automations and Processes."
+ },
+ "chat": {
+  "text": [
+   "Overnight, this page caught up with our conversation. The answer is laid out, and the first steps are agreed in outline."
+  ],
+  "pointer": "Press Proceed to go into the daily automation, or pick a part to add to it.",
+  "note": "The answer is laid out. The detail now lives in Automations and Processes.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Automations",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Changes on the wards",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "People who must agree",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Team and roles",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Measures we will watch",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Walk me through the daily automation",
+   "Scope the two-week trial",
+   "I have a new worry to add"
+  ],
+  "moves": [
+   {
+    "prompt": "Walk me through the daily automation",
+    "tab": "Automations"
+   },
+   {
+    "prompt": "Scope the two-week trial",
+    "tab": "Processes"
+   }
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "landing",
+    "stamp": {
+     "at": "Brought up to date at midnight, 30 September",
+     "since": "Nothing new since then",
+     "fresh": "Brought up to date just now, 9:40 AM",
+     "fresh_since": "Everything you have said is in"
+    },
+    "standing": "Five parts laid out. First steps agreed in outline.",
+    "deck": "The parts only work together. Each one is worked through in its own place.",
+    "solutions": [
+     {
+      "n": 1,
+      "title": "Automations",
+      "status": "shaping",
+      "rev": 1,
+      "changed": "Undoes three knots with part 2",
+      "settled": 2,
+      "total": 3
+     },
+     {
+      "n": 2,
+      "title": "Changes on the wards",
+      "status": "shaping",
+      "rev": 1,
+      "changed": "Undoes three knots with part 1",
+      "settled": 1,
+      "total": 3
+     },
+     {
+      "n": 3,
+      "title": "People who must agree",
+      "status": "idea",
+      "rev": 0,
+      "changed": "Billing must agree to check, not build",
+      "settled": 0,
+      "total": 2
+     },
+     {
+      "n": 4,
+      "title": "Team and roles",
+      "status": "tested",
+      "rev": 1,
+      "changed": "One Discharge Manager now",
+      "settled": 1,
+      "total": 2
+     },
+     {
+      "n": 5,
+      "title": "Measures we will watch",
+      "status": "idea",
+      "rev": 0,
+      "changed": "Measures every knot",
+      "settled": 0,
+      "total": 2
+     }
+    ],
+    "pending": [
+     {
+      "text": "Walk you through the daily automation, in Automations.",
+      "who": "tojo",
+      "point": 1
+     },
+     {
+      "text": "Scope the two-week trial with you, in Processes.",
+      "who": "tojo",
+      "point": 2
+     },
+     {
+      "text": "Say which ward the trial starts on.",
+      "who": "you",
+      "need": "Needs your answer",
+      "point": 2
+     }
+    ],
+    "actions": {
+     "go": {
+      "detail": "The daily automation",
+      "say": "Walk me through the daily automation"
+     },
+     "add": {
+      "detail": "Add a worry or an idea",
+      "say": "I want to add something: "
+     },
+     "jump": {
+      "tab": "Automations",
+      "detail": "The daily automation is next",
+      "say": "Take me to Automations"
+     }
+    }
+   }
+  ]
+ }
+}

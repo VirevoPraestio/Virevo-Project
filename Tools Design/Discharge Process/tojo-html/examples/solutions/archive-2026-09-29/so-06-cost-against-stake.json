@@ -1,0 +1,73 @@
+{
+ "turn": {
+  "id": "so-06",
+  "tab": "Solutions",
+  "type": "recommendation",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Does this change the cost?"
+ },
+ "chat": {
+  "text": [
+   "Put one Discharge Manager in place now. At 40 to 45 discharges a day, you already have the volume. The two Discharge Executives follow once the trial confirms your busy hours.",
+   "The team costs a small part of what the wait costs you, even on the most careful reading."
+  ],
+  "pointer": "Both lines are drawn to the same scale.",
+  "note": "The team costs about a hundredth of what the wait does.",
+  "points": [
+   {
+    "n": 1,
+    "label": "What the team costs",
+    "canvas": false
+   },
+   {
+    "n": 2,
+    "label": "What the wait costs",
+    "canvas": false
+   },
+   {
+    "n": 3,
+    "label": "Your discharges a day",
+    "canvas": false
+   }
+  ],
+  "prompts": [
+   "Why the Manager before the trial?",
+   "Can we start with one person?",
+   "What would the trial look like?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Cost against what is at stake",
+    "title": "A small team against a large wait",
+    "deck": "What the person in charge and two helpers would cost, set against the yearly cost of the wait."
+   },
+   {
+    "type": "scales",
+    "cost": {
+     "label": "One Discharge Manager and two Discharge Executives",
+     "value": "₹10 to 11.5 lakh",
+     "amount": 11.5,
+     "source": "estimate",
+     "note": "A year, at the top of the range"
+    },
+    "stake": {
+     "label": "Yearly cost of the wait",
+     "value": "₹10.9 crore",
+     "amount": 1090,
+     "source": "derived",
+     "note": "The most it could be, worked out from your figures"
+    },
+    "trigger": {
+     "label": "Discharges a day, your number",
+     "value": "40 to 45",
+     "line": "Enough for two helpers, sized to your two busy windows"
+    },
+    "condition": "₹10.9 crore is the most the wait could cost. Winning back even a tenth of it covers the team about nine times over."
+   }
+  ]
+ }
+}

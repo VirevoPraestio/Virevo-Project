@@ -1,0 +1,150 @@
+{
+ "review": {
+  "status": "approved",
+  "date": "2026-09-25",
+  "note": "Approved."
+ },
+ "turn": {
+  "id": "dp-10",
+  "type": "recommendation",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "context": "Tojo · 250-bed hospital, Bhubaneswar",
+  "subject": "plan",
+  "user_message": "Yes — put it into a plan"
+ },
+ "chat": {
+  "text": [
+   "Start with a two-week trial on one ward. It needs no new staff and no new system, and it tells us how much of the 5 hours really comes back.",
+   "Hire the Discharge Manager now, not after the trial. Your own numbers are already past both lines, so this isn’t a maybe-someday. They can run the trial."
+  ],
+  "invite": "Would you like me to plan the two-week trial in detail, or first walk you through what the full software does each day?",
+  "note": "Prove it on one ward, then grow it.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The two-week trial",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Hiring the Discharge Manager now",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Linking the software",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Cost against what’s at stake",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Let’s plan the two-week trial",
+   "Why hire the manager before the trial ends?",
+   "What will the trial cost us?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "The plan",
+    "title": "Try it on one ward first"
+   },
+   {
+    "type": "chain",
+    "label": "In order",
+    "steps": [
+     {
+      "title": "Start the trial on one ward",
+      "value": "Week 1",
+      "state": "start",
+      "point": 1
+     },
+     {
+      "title": "Measure the wait every day",
+      "value": "Weeks 1–2",
+      "point": 1
+     },
+     {
+      "title": "Decide using the numbers",
+      "value": "Week 3"
+     },
+     {
+      "title": "Link the software, ward by ward",
+      "value": "After that",
+      "point": 3
+     },
+     {
+      "title": "Patients home hours sooner",
+      "state": "outcome"
+     }
+    ],
+    "caption": "The trial runs the new order of steps by hand, so it needs no new system. It turns the biggest guess into a measured fact."
+   },
+   {
+    "type": "cards",
+    "items": [
+     {
+      "title": "Hire the Discharge Manager now",
+      "text": "Your numbers already call for one. They run the trial.",
+      "tag": "Now",
+      "state": "start",
+      "point": 2,
+      "more_label": "See why now",
+      "more_points": [
+       "88% of your beds are in use. The line is 80%.",
+       "40 to 45 patients go home each day. The line is 40.",
+       "Both are your own numbers, and each is enough on its own.",
+       "About ₹4 to 4.5 lakh a year."
+      ]
+     },
+     {
+      "title": "What the trial needs from you",
+      "text": "One ward, the doctors’ agreement, and someone to note the times.",
+      "tag": "Needed",
+      "state": "target",
+      "more_label": "See the list",
+      "more_points": [
+       "One ward with a usual mix of patients paying themselves and insured patients.",
+       "Doctors on that ward agree to decide on the 7 PM round, as they already do.",
+       "One person to write down the times for each patient going home.",
+       "Your IT team to share the records the trial needs."
+      ]
+     }
+    ]
+   },
+   {
+    "type": "stat-strip",
+    "stats": [
+     {
+      "label": "Cost of the trial",
+      "value": "No new staff",
+      "source": "target",
+      "note": "and no new system",
+      "state": "start"
+     },
+     {
+      "label": "New roles, cost a year",
+      "value": "₹10 to 11.5 lakh",
+      "source": "derived",
+      "note": "one manager and two helpers",
+      "point": 4
+     },
+     {
+      "label": "At stake a year",
+      "value": "₹10.3 crore",
+      "source": "derived",
+      "note": "the most it could be",
+      "state": "outcome",
+      "point": 4
+     }
+    ]
+   }
+  ]
+ }
+}

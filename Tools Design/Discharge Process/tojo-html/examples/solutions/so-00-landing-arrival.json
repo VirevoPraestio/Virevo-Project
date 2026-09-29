@@ -1,0 +1,143 @@
+{
+ "turn": {
+  "id": "so-00",
+  "tab": "Solutions",
+  "type": "landing",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "",
+  "context": "The user opens Solutions for the first time. Diagnosis is complete: it found the two causes and checked them against real times."
+ },
+ "chat": {
+  "text": [
+   "Diagnosis found two causes. Hours nobody uses overnight, and nobody in charge of the whole discharge. The answer comes in five parts."
+  ],
+  "pointer": "Press Proceed to see all five, or pick a part to add to it.",
+  "note": "Five parts, one answer. None worked through with you yet.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Automations",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Changes on the wards",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "People who must agree",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Team and roles",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Measures we will watch",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Show me the five parts",
+   "Which part would you start with?",
+   "I have an idea of my own"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "landing",
+    "stamp": {
+     "at": "Brought up to date at midnight, 27 September",
+     "since": "Diagnosis named the causes yesterday",
+     "fresh": "Brought up to date just now, 9:40 AM",
+     "fresh_since": "Everything from Diagnosis is in"
+    },
+    "standing": "Five parts drawn up. None worked through yet.",
+    "deck": "Each part answers a cause Diagnosis found. Nothing here has been tested with you yet.",
+    "solutions": [
+     {
+      "n": 1,
+      "title": "Automations",
+      "status": "idea",
+      "rev": 0,
+      "changed": "Papers and bill start on the evening round",
+      "settled": 0,
+      "total": 3
+     },
+     {
+      "n": 2,
+      "title": "Changes on the wards",
+      "status": "idea",
+      "rev": 0,
+      "changed": "Going-home work moves to the night before",
+      "settled": 0,
+      "total": 3
+     },
+     {
+      "n": 3,
+      "title": "People who must agree",
+      "status": "idea",
+      "rev": 0,
+      "changed": "Four groups do the work, one person approves",
+      "settled": 0,
+      "total": 2
+     },
+     {
+      "n": 4,
+      "title": "Team and roles",
+      "status": "idea",
+      "rev": 0,
+      "changed": "One person in charge of the whole discharge",
+      "settled": 0,
+      "total": 2
+     },
+     {
+      "n": 5,
+      "title": "Measures we will watch",
+      "status": "idea",
+      "rev": 0,
+      "changed": "How we will know it works",
+      "settled": 0,
+      "total": 2
+     }
+    ],
+    "pending": [
+     {
+      "text": "Show you all five parts in one picture.",
+      "who": "tojo"
+     },
+     {
+      "text": "Go through each part, one at a time, in the order you choose.",
+      "who": "tojo"
+     },
+     {
+      "text": "Ask if one team does both discharges and admissions.",
+      "who": "you",
+      "need": "Needs your answer",
+      "point": 2
+     }
+    ],
+    "actions": {
+     "go": {
+      "detail": "See all five parts",
+      "say": "Show me the five parts"
+     },
+     "add": {
+      "detail": "Add an idea of your own",
+      "say": "I want to add an idea: "
+     },
+     "jump": {
+      "tab": "Automations",
+      "detail": "Nothing agreed to automate yet",
+      "say": "Take me to Automations"
+     }
+    }
+   }
+  ]
+ }
+}

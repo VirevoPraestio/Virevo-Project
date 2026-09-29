@@ -1,0 +1,150 @@
+{
+ "turn": {
+  "id": "so-09",
+  "tab": "Solutions",
+  "type": "landing",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "",
+  "context": "The user comes back the next morning. The page was brought up to date at midnight."
+ },
+ "chat": {
+  "text": [
+   "Overnight, this page caught up with our conversation. One solution is agreed, and one is a single answer away."
+  ],
+  "pointer": "Pick a solution to add to it, or choose what to do next on the page.",
+  "note": "One agreed. The insurance desk is the next thing to settle.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Starting on the evening round",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Papers and bill that prepare themselves",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "One person in charge",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Getting the bed ready sooner",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Separating discharge and admission work",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Settle the insurance desk question",
+   "Draft the case for our Head of Operations",
+   "Take me to Automations"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "landing",
+    "stamp": {
+     "at": "Brought up to date at midnight, 29 September",
+     "since": "1 conversation since then is not in yet",
+     "fresh": "Brought up to date just now, 9:42 AM",
+     "fresh_since": "Everything you have said is in"
+    },
+    "standing": "Five solutions on the table. One is agreed.",
+    "deck": "Your real times redrew three of them. Each track shows how much is still open.",
+    "solutions": [
+     {
+      "n": 1,
+      "title": "Start the going-home work on the evening round",
+      "status": "tested",
+      "rev": 2,
+      "changed": "Start with the consultants who decide latest",
+      "settled": 4,
+      "total": 5
+     },
+     {
+      "n": 2,
+      "title": "Papers and bill that prepare themselves",
+      "status": "shaping",
+      "rev": 1,
+      "changed": "A one-tap form, since doctors don’t use voice notes",
+      "settled": 1,
+      "total": 3
+     },
+     {
+      "n": 3,
+      "title": "One person in charge of discharge",
+      "status": "agreed",
+      "rev": 1,
+      "changed": "Two helpers, sized to your busy hours",
+      "settled": 3,
+      "total": 3
+     },
+     {
+      "n": 4,
+      "title": "Get the bed ready sooner after the patient leaves",
+      "status": "new",
+      "rev": 1,
+      "changed": "Housekeeping hears the moment the patient leaves",
+      "settled": 0,
+      "total": 2
+     },
+     {
+      "n": 5,
+      "title": "Separate discharge work from admission work",
+      "status": "waiting",
+      "rev": 0,
+      "changed": "Only needed if one team does both",
+      "settled": 0,
+      "total": 1
+     }
+    ],
+    "pending": [
+     {
+      "text": "Settle whether the insurance desk accepts an evening request.",
+      "who": "tojo",
+      "point": 1
+     },
+     {
+      "text": "Draft the case for your Head of Operations.",
+      "who": "tojo",
+      "point": 3
+     },
+     {
+      "text": "Plan the housekeeping alert for the empty bed.",
+      "who": "tojo",
+      "point": 4
+     },
+     {
+      "text": "Ask if one team does both discharges and admissions.",
+      "who": "you",
+      "need": "Needs your answer",
+      "point": 5
+     }
+    ],
+    "actions": {
+     "go": {
+      "detail": "Settle the insurance desk question",
+      "say": "Let’s settle the insurance desk question"
+     },
+     "add": {
+      "detail": "Add a solution or a worry",
+      "say": "I want to add something: "
+     },
+     "jump": {
+      "tab": "Automations",
+      "detail": "Two solutions run as automations",
+      "say": "Take me to Automations"
+     }
+    }
+   }
+  ]
+ }
+}

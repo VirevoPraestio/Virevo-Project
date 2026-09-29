@@ -1,0 +1,129 @@
+{
+ "turn": {
+  "id": "so-08",
+  "tab": "Solutions",
+  "type": "progress",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "What is still left to settle?"
+ },
+ "chat": {
+  "text": [
+   "Here is every solution and how much of it is settled. One is agreed. Solution 1 is one answer away, and the other three each have an open point or two.",
+   "You don’t need to take them in order. Start with whichever open point worries you most."
+  ],
+  "pointer": "Each line shows what the solution depends on and how much of it is settled.",
+  "note": "One agreed, one close, nothing forgotten.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Starting on the evening round",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Papers and bill that prepare themselves",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "One person in charge",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Getting the bed ready sooner",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Separating discharge and admission work",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Settle the insurance desk question",
+   "Does one team do both admissions?",
+   "Take me to Automations"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Where every solution stands",
+    "title": "One agreed, one answer away",
+    "deck": "Each solution, what it depends on, and how much of it is settled."
+   },
+   {
+    "type": "register",
+    "items": [
+     {
+      "n": 1,
+      "title": "Start the going-home work on the evening round",
+      "lenses": [
+       "Cost",
+       "People",
+       "Systems",
+       "Patients",
+       "Timing"
+      ],
+      "status": "tested",
+      "settled": 4,
+      "total": 5,
+      "point": 1
+     },
+     {
+      "n": 2,
+      "title": "Papers and bill that prepare themselves",
+      "lenses": [
+       "Cost",
+       "People",
+       "Systems"
+      ],
+      "status": "shaping",
+      "settled": 1,
+      "total": 3,
+      "point": 2
+     },
+     {
+      "n": 3,
+      "title": "One person in charge of discharge",
+      "lenses": [
+       "Cost",
+       "People",
+       "Timing"
+      ],
+      "status": "agreed",
+      "settled": 3,
+      "total": 3,
+      "point": 3
+     },
+     {
+      "n": 4,
+      "title": "Get the bed ready sooner after the patient leaves",
+      "lenses": [
+       "People",
+       "Systems"
+      ],
+      "status": "new",
+      "settled": 0,
+      "total": 2,
+      "point": 4
+     },
+     {
+      "n": 5,
+      "title": "Separate discharge work from admission work",
+      "lenses": [
+       "People"
+      ],
+      "status": "waiting",
+      "settled": 0,
+      "total": 1,
+      "point": 5
+     }
+    ]
+   }
+  ]
+ }
+}

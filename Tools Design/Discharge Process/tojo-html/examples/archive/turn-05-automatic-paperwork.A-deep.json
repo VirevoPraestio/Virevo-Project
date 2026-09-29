@@ -1,0 +1,165 @@
+{
+ "turn": {
+  "id": "dp-05a",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "context": "Tojo · 250-bed hospital, Bhubaneswar",
+  "subject": "solution",
+  "user_message": "Start with the automatic paperwork"
+ },
+ "chat": {
+  "text": [
+   "Here’s what the software does in your hospital, from the 7 PM round to the patient going home. Why each piece matters:"
+  ],
+  "bullets": [
+   "It starts at the evening round, because your doctors already decide then. Nothing new is asked of them.",
+   "It keeps the bill up to date all day, so billing stops waiting for the nurses to count supplies.",
+   "It sends the first bill to insurance overnight, so the morning isn’t spent waiting for approval."
+  ],
+  "invite": "Next is the changes on the wards: what each team does differently. Shall we go there?",
+  "note": "The papers are ready before the doctor signs.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Starting at the 7 PM round",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The bill kept up to date",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Insurance sent overnight",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Signing on a phone",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "What your IT team must do first",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Show me the changes on the wards",
+   "Our doctors don’t use voice notes",
+   "What does our IT team need to do?"
+  ]
+ },
+ "canvas": {
+  "theme": "sage",
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 1 of 5 · Automatic paperwork",
+    "title": "Papers ready before the doctor signs"
+   },
+   {
+    "type": "chain",
+    "label": "What the software does, from the evening round",
+    "steps": [
+     {
+      "title": "Doctor mentions going home",
+      "value": "7 PM",
+      "state": "start",
+      "point": 1
+     },
+     {
+      "title": "Papers and bill updated all day",
+      "point": 2
+     },
+     {
+      "title": "First bill sent to insurance",
+      "value": "Overnight",
+      "point": 3
+     },
+     {
+      "title": "Doctor signs on a phone",
+      "value": "Morning round",
+      "point": 4
+     },
+     {
+      "title": "Final bill sent, patient goes home",
+      "state": "outcome"
+     }
+    ],
+    "caption": "Each step happens by itself. Staff check and approve. Nobody writes it from scratch."
+   },
+   {
+    "type": "cards",
+    "items": [
+     {
+      "title": "What it keeps a record of",
+      "text": "Everything about the patient, from the day they arrive.",
+      "tag": "Records",
+      "more_label": "See the list",
+      "more_points": [
+       "Why they came in, their symptoms and what the doctors found.",
+       "Every test done, and what it showed, especially anything unusual.",
+       "Every procedure or operation, with the doctor’s notes.",
+       "Every medicine given or changed, and how much is left to return.",
+       "Every supply used, and what is left over.",
+       "The doctor’s daily notes, and the reason behind each decision."
+      ]
+     },
+     {
+      "title": "What it asks of your staff",
+      "text": "To check and approve, instead of writing everything by hand.",
+      "tag": "Staff",
+      "more_label": "See who does what",
+      "more_points": [
+       "Doctors: say who is going home on the evening round, then sign on a phone in the morning.",
+       "Nurses: check what the software has written down, instead of counting supplies first.",
+       "Billing and the insurance desk: check bills that are already made.",
+       "At first it only helps each person. It takes work away only once everyone trusts it."
+      ]
+     },
+     {
+      "title": "What must happen first",
+      "text": "Your IT team links the software to your hospital systems.",
+      "tag": "Needed first",
+      "state": "target",
+      "point": 5,
+      "more_label": "See why this matters",
+      "more_points": [
+       "The software can only record what it can read, so it needs your patient records, bills, lab reports and scans.",
+       "Without this link, nothing above works. It is the first job, before anything else.",
+       "Lab and scan teams need to put reports in on time, so the records stay complete."
+      ]
+     }
+    ]
+   },
+   {
+    "type": "stat-strip",
+    "stats": [
+     {
+      "label": "Hours each patient waits today",
+      "value": "5 hours",
+      "source": "yours",
+      "state": "target"
+     },
+     {
+      "label": "Yearly cost of the waiting",
+      "value": "₹10.3 crore",
+      "source": "derived",
+      "note": "the most it could be",
+      "state": "outcome"
+     }
+    ],
+    "caption": "This part is aimed at those 5 hours. How many it removes here, a short trial will show."
+   }
+  ],
+  "tone": "deep"
+ },
+ "review": {
+  "status": "draft",
+  "date": "2026-09-25",
+  "note": "Shade sample A (a shade darker) — awaiting approval."
+ }
+}

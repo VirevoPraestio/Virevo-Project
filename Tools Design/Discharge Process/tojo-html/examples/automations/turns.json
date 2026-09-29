@@ -1,0 +1,41 @@
+{
+ "note": "The turns of Automations, in conversation order. Only these are built.",
+ "turns": [
+  {
+   "file": "au-00-landing-arrival.json",
+   "note": "The landing page on a first visit, from the door in Solutions. Approved template B, the overnight arc, drawn from data."
+  },
+  {
+   "file": "au-01-night-shift.json",
+   "note": "Playbook §4: the daily automation as one production line. New block: nightshift (the invisible digital factory, the helping hand). Play the night."
+  },
+  {
+   "file": "au-02-record-writes-itself.json",
+   "note": "Playbook §5, first 'tell me more'. New block: brain (the digital brain and glowing network). Pick a day or play the stay."
+  },
+  {
+   "file": "au-03-three-steps.json",
+   "note": "Playbook §5, second 'tell me more'. New block: agent (the autonomous thinker, the holographic figure, the helping hand). Step through."
+  },
+  {
+   "file": "au-04-where-facts-come-from.json",
+   "note": "Playbook §5, third 'tell me more': which records, from where. New block: sources (drawn switches). Flip them."
+  },
+  {
+   "file": "au-05-one-question.json",
+   "note": "Playbook §7: one plain question about their systems, detail optional. New block: helper (the friendly desk helper)."
+  },
+  {
+   "file": "au-06-one-link.json",
+   "note": "The answer: billing and notes in one system. The sources board, set to their systems."
+  },
+  {
+   "file": "au-07-the-bed.json",
+   "note": "Beyond the playbook: the hand-over to Bed Management, each side checking the other. New block: relay."
+  },
+  {
+   "file": "au-08-landing-next-day.json",
+   "note": "The landing page the next morning, after the midnight refresh."
+  }
+ ]
+}

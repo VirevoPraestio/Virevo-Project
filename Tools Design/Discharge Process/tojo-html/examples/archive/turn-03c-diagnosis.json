@@ -1,0 +1,122 @@
+{
+ "turn": {
+  "id": "dp-03c",
+  "type": "diagnosis",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "context": "Tojo · 250-bed hospital, Bhubaneswar",
+  "subject": "diagnosis",
+  "user_tag": "@Point1 @Point2",
+  "user_message": "Revenue per bed is about ₹32,000. Most patients are fit by 10 and leave around 3, so roughly 5 hours. The doctors usually decide who’s going on the 7 PM round — they just don’t sign till morning."
+ },
+ "chat": {
+  "text": [
+   "Your real problem isn’t slow discharge. It’s unused time, and nobody owning it.",
+   "Let me explain. Your doctors already decide in the evening. But nothing moves until the morning round ends, and most of the discharge work could be done in that gap. Nobody uses it today because:"
+  ],
+  "bullets": [
+   "There’s no automation, so starting early means doing the work twice.",
+   "Nothing is coordinated until the doctor signs.",
+   "No one has ever been asked to use the evening."
+  ],
+  "invite": "The second cause is ownership: your own numbers put you past both lines where discharge needs one owner. Does this match what you see on the wards?",
+  "note": "The time is already there — nobody uses it.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Steps that could start in the evening",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Nobody owns discharge end to end",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Our doctors’ evening round",
+    "canvas": false
+   }
+  ],
+  "prompts": [
+   "Yes — show me what fixing it looks like",
+   "Why doesn’t anyone use the evening now?",
+   "Our doctors won’t sign in the evening"
+  ]
+ },
+ "canvas": {
+  "theme": "sage",
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Diagnosis · sample C",
+    "title": "Unused time, and no one owning it",
+    "deck": "Two causes behind the wait — both visible in your own answers."
+   },
+   {
+    "type": "two-flow",
+    "left_title": "Could start that evening",
+    "right_title": "Today",
+    "rows": [
+     {
+      "label": "Summary",
+      "left": "Drafted from the round notes",
+      "right": "Typed after the 11 AM round",
+      "right_state": "target",
+      "point": 1
+     },
+     {
+      "label": "Provisional bill",
+      "left": "Bill to date prepared",
+      "right": "Built after sign-off"
+     },
+     {
+      "label": "Insurance",
+      "left": "Pre-approval sent overnight",
+      "right": "Sent after the final bill"
+     },
+     {
+      "label": "Pharmacy returns",
+      "left": "Returns listed for the ward",
+      "right": "Counted after sign-off"
+     },
+     {
+      "label": "Family briefing",
+      "left": "Family told the evening before",
+      "right": "Told on the day"
+     }
+    ],
+    "caption": "5 of the 10 discharge steps could start in the evening window. My reading of your chain — not yet measured."
+   },
+   {
+    "type": "threshold-gauges",
+    "gauges": [
+     {
+      "label": "Occupancy",
+      "caption": "Your number · owner line 80%",
+      "min": 0,
+      "max": 100,
+      "value": 88,
+      "value_label": "you 88%",
+      "line": 80,
+      "line_label": "80%",
+      "point": 2
+     },
+     {
+      "label": "Discharges a day",
+      "caption": "Your number · owner line 40",
+      "min": 0,
+      "max": 60,
+      "value": 42.5,
+      "value_label": "40–45",
+      "band_low": 40,
+      "band_high": 45,
+      "line": 40,
+      "line_label": "40",
+      "point": 2
+     }
+    ]
+   }
+  ]
+ }
+}

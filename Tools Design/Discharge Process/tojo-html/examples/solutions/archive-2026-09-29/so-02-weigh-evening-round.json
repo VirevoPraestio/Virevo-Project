@@ -1,0 +1,134 @@
+{
+ "turn": {
+  "id": "so-02",
+  "tab": "Solutions",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Start with the evening round",
+  "user_tag": "@Point1"
+ },
+ "chat": {
+  "text": [
+   "Starting the going-home work on the evening round is the solution the other four lean on."
+  ],
+  "bullets": [
+   "It uses hours you already have. The decision is made at night, and today nothing moves until the morning signature.",
+   "It asks almost nothing new of your doctors. They already sign an early summary in the evening for cash patients.",
+   "It works less well where evening decisions come late. That is the open point to settle, and the trial starts there."
+  ],
+  "pointer": "Open any support to see what sits under it.",
+  "invite": "Next is who has to agree for all five to work. Shall we go there?",
+  "note": "The decision is already made at night. Only the work waits.",
+  "points": [
+   {
+    "n": 1,
+    "label": "What it costs",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Who changes what",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The software",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "What families get",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "When decisions come",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Our doctors don’t use voice notes",
+   "What would the insurance desk need?",
+   "Next, who has to agree?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Solution 1 · what it stands on",
+    "title": "Start the work the night before",
+    "deck": "Five things this solution depends on. Three are settled by what you told us; two are still open."
+   },
+   {
+    "type": "weigh",
+    "solution": "Start the going-home work on the evening round",
+    "rev": 0,
+    "lenses": [
+     {
+      "lens": "Cost",
+      "finding": "No new staff and no new system for a two-week trial",
+      "state": "settled",
+      "more_label": "See what it costs",
+      "more_points": [
+       "Doctors keep the round they already do",
+       "Nurses move the same work earlier",
+       "Nothing to buy for a trial on one ward"
+      ],
+      "point": 1
+     },
+     {
+      "lens": "People",
+      "finding": "Doctors already sign an early summary at night for cash patients",
+      "state": "settled",
+      "more_label": "See who changes what",
+      "more_points": [
+       "Doctors decide on the round, as today",
+       "Nurses start the discharge checklist that night",
+       "Billing draws up the bill before morning"
+      ],
+      "point": 2
+     },
+     {
+      "lens": "Systems",
+      "finding": "Works on paper at first. The software link comes later.",
+      "state": "open",
+      "more_label": "See what software adds",
+      "more_points": [
+       "The summary is drafted from the day’s notes",
+       "The bill stays up to date",
+       "The trial does not wait for it"
+      ],
+      "point": 3
+     },
+     {
+      "lens": "Patients",
+      "finding": "Families hear the night before, so transport is booked in time",
+      "state": "settled",
+      "more_label": "See what families get",
+      "more_points": [
+       "A call or message the same evening",
+       "A likely time to leave",
+       "What to bring and whom to see"
+      ],
+      "point": 4
+     },
+     {
+      "lens": "Timing",
+      "finding": "Decisions come any time from 6 to 9 PM, so some night work starts late",
+      "state": "open",
+      "more_label": "See why it matters",
+      "more_points": [
+       "A consultant deciding at 6 PM leaves three hours to act",
+       "A consultant deciding at 9 PM leaves almost none",
+       "The trial should start with the late deciders"
+      ],
+      "point": 5
+     }
+    ],
+    "condition": "Other hospitals saved 6 to 8 hours a discharge this way. Not yet measured here."
+   }
+  ]
+ }
+}

@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Processes landing C — The loop, desktop</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Caveat:wght@500;700&amp;display=swap">
+<style>
+
+.sh-app{display:flex;min-height:100vh;background:#DCE3DA;font-family:Poppins,system-ui,sans-serif;color:#10241a}
+.sh-rail{width:84px;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding-top:24px;border-right:1px solid rgba(16,36,26,.2)}
+.sh-rail .sh-home{width:52px;height:52px;margin:0 0 22px 16px;border-radius:50%;background:#10241a;display:flex;align-items:center;justify-content:center}
+.sh-rail a.tab{width:60px;border-radius:0 12px 12px 0;color:#10241a;writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.09em;text-transform:uppercase}
+.sh-mid{flex-grow:1;min-width:0;display:flex;flex-direction:column}
+.sh-bar{height:76px;flex-shrink:0;padding:0 36px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(16,36,26,.2)}
+.sh-bar .sh-t{font-family:'Bebas Neue',sans-serif;font-size:40px;line-height:1}
+.sh-bar small{font-size:13px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#44544A;margin-left:14px}
+.sh-btn-o{min-height:44px;padding:0 16px;background:transparent;border:1.5px solid #10241a;border-radius:22px;font:500 13px Poppins,sans-serif;color:#10241a}
+.sh-btn-g{min-height:44px;padding:0 16px;background:#d4a94f;border:none;border-radius:6px;font:600 13px Poppins,sans-serif;letter-spacing:.05em;text-transform:uppercase;color:#10241a}
+.sh-chat{width:420px;flex-shrink:0;padding:20px 20px 20px 0;display:flex}
+.sh-panel{flex-grow:1;background:#10241a;border-radius:18px;display:flex;flex-direction:column;overflow:hidden;color:#F3F1EA}
+.sh-ph{padding:18px 22px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(243,241,234,.12)}
+.sh-av{width:44px;height:44px;border-radius:50%;background:#d4a94f;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:24px;color:#10241a;flex-shrink:0}
+.sh-pb{flex-grow:1;padding:20px 22px;display:flex;flex-direction:column;gap:14px}
+.sh-um{align-self:flex-end;max-width:310px;background:#d4a94f;color:#10241a;padding:12px 14px;border-radius:16px 4px 16px 16px;font-size:14px;line-height:1.5}
+.sh-um b{display:inline-block;margin-right:6px;padding:1px 8px;border-radius:10px;background:#10241a;color:#d4a94f;font-size:12px}
+.sh-tm{align-self:flex-start;background:#F3F1EA;color:#2b2b2b;padding:14px 16px;border-radius:4px 16px 16px 16px;font-size:14px;line-height:1.55;display:flex;flex-direction:column;gap:8px}
+.sh-tm p{margin:0}.sh-tm ul{margin:0;padding-left:18px}.sh-tm li{margin:2px 0}
+.sh-lab{font-size:12px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#9CA9A1}
+.sh-note{margin:0;font-family:Caveat,cursive;font-size:31px;font-weight:700;line-height:1.1;color:#d4a94f}
+.sh-pt{min-height:44px;width:100%;display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;background:rgba(243,241,234,.06);color:#F3F1EA;border:1px solid rgba(243,241,234,.22);border-radius:10px;text-align:left;font:13px/1.35 Poppins,sans-serif;cursor:pointer}
+.sh-pt i{flex-shrink:0;min-width:32px;height:32px;border-radius:8px;border:1px solid rgba(243,241,234,.35);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:600}
+.sh-pt[aria-pressed=true]{background:#d4a94f;color:#10241a;border-color:#d4a94f;font-weight:600}.sh-pt[aria-pressed=true] i{background:#10241a;color:#d4a94f;border-color:#10241a}
+.sh-pr{min-height:44px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 14px;background:transparent;color:#F3F1EA;border:1px dashed rgba(212,169,79,.7);border-radius:22px;text-align:left;font:13px Poppins,sans-serif;cursor:pointer}
+.sh-opt{min-height:44px;padding:0 16px;background:#F3F1EA;color:#10241a;border:none;border-radius:22px;font:500 13px Poppins,sans-serif;cursor:pointer}
+.sh-col{display:flex;flex-direction:column;gap:6px}.sh-row{display:flex;flex-wrap:wrap;gap:8px}
+.sh-inp{padding:14px 18px 16px;background:#0b1712;display:flex;flex-direction:column;gap:8px}
+.sh-inp textarea{width:100%;box-sizing:border-box;resize:none;background:#F3F1EA;color:#2b2b2b;border:none;border-radius:10px;padding:12px 14px;font:14px/1.5 Poppins,sans-serif;outline:none}
+.sh-ib{width:44px;height:44px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.sh-send{width:48px;height:48px;border-radius:50%;background:#d4a94f;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.sh-m{width:390px;margin:0 auto;min-height:100vh;background:#DCE3DA;display:flex;flex-direction:column;font-family:Poppins,system-ui,sans-serif;color:#10241a}
+.sh-mt{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(16,36,26,.2)}
+.sh-mc{flex-grow:1;padding:16px 0 20px;display:flex;flex-direction:column;gap:14px}
+.sh-mc > .sh-um,.sh-mc > .sh-who{margin:0 14px}.sh-mc > .sh-mpanel{margin:0 14px;background:#10241a;color:#F3F1EA;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:14px}
+.sh-who{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#44544A}
+.sh-mi{padding:12px 14px;background:#0b1712;display:flex;align-items:center;gap:10px;position:sticky;bottom:64px}
+.sh-mi .sh-box{flex-grow:1;min-width:0;display:flex;align-items:center;gap:2px;background:#F3F1EA;border-radius:24px;padding:0 4px 0 16px}
+.sh-mi input{flex-grow:1;min-width:0;min-height:48px;border:none;background:transparent;font:14px Poppins,sans-serif;color:#2b2b2b;outline:none}
+.sh-mf{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));background:#0b1712;padding:0 8px 12px;border-top:1px solid rgba(243,241,234,.12);position:sticky;bottom:0}
+.sh-mf a{height:52px;display:flex;align-items:center;justify-content:center}
+.sh-m .tj{border-radius:0}
+
+
+.sh-rail a.sh-tab{width:60px;border-radius:0 12px 12px 0;color:#10241a;writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.09em;text-transform:uppercase}
+.sh-rail a.sh-tab[aria-current=page]{width:70px;font-weight:700}
+.sh-mf a[aria-current=page]{box-shadow:inset 0 3px 0 #d4a94f}
+.sh-mid main{flex-grow:1}
+body{margin:0}
+[data-lit="true"],.lp .is-lit{outline:4px solid #d4a94f !important;outline-offset:3px}
+
+
+.lp-host{container-type:inline-size;container-name:lp;width:100%}
+.lp{box-sizing:border-box;font-family:'Poppins','Segoe UI',system-ui,sans-serif}
+.lp *,.lp *::before,.lp *::after{box-sizing:border-box}
+.lp button{font:inherit;color:inherit;cursor:pointer}
+.lp :focus-visible{outline:3px solid #d4a94f;outline-offset:2px}
+.lp p{margin:0}
+.lp ul,.lp ol{margin:0;padding:0;list-style:none}
+.lp-refresh{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;flex-shrink:0}
+.lp-refresh.is-done svg{transform:rotate(360deg);transition:transform .6s ease}
+@media (prefers-reduced-motion:reduce){.lp *{animation:none !important;transition:none !important}}
+.lp-act{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;min-height:56px}
+.lp-act-k{font-weight:600}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+.lp-pr{--ground:#ECE8EE;--board:#FCFBFD;--ink:#2A1E30;--muted:#5A4D60;--plum:#6D4A77;--plum-l:#E9C8F0;--gold:#d4a94f;--amber:#8A5608;--green:#2F6B4F;--off:#9C92A1;
+  background:var(--ground);color:var(--ink);padding:18px 32px 22px;display:flex;flex-direction:column;gap:14px}
+.lp-pr .pr-label{font-size:13px;font-weight:600;color:var(--muted)}
+.lp-pr .pr-mast{display:flex;justify-content:space-between;align-items:center;gap:18px}
+.lp-pr .pr-id{display:flex;align-items:center;gap:14px}
+.lp-pr .pr-emblem{width:46px;height:46px;color:var(--ink)}
+.lp-pr .pr-eyebrow{font-size:13px;font-weight:500;color:var(--muted)}
+.lp-pr .pr-tab{margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:48px;line-height:.9;letter-spacing:.01em}
+.lp-pr .pr-subs{font-size:12px;color:var(--plum);font-weight:500;margin-top:2px;white-space:nowrap}
+.lp-pr .pr-stampw{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.lp-pr .lp-stamp{display:flex;align-items:center;gap:12px;background:var(--board);border:1.5px solid var(--ink);border-radius:24px;padding:5px 5px 5px 16px}
+.lp-pr .lp-stamp-txt{display:flex;flex-direction:column} .lp-pr .lp-stamp-at{font-size:13px;font-weight:600;white-space:nowrap} .lp-pr .lp-stamp-since{font-size:12px;color:var(--muted)}
+.lp-pr .lp-refresh{background:var(--plum);color:#fff;border:none;border-radius:20px;font-size:13px;font-weight:500}
+.lp-pr .pr-mid{font-size:11.5px;color:var(--muted)}
+.lp-pr .pr-claim{margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:37px;line-height:.95;letter-spacing:.01em}
+.lp-pr .pr-deck{margin-top:5px;font-size:14.5px;color:var(--muted);max-width:80ch;line-height:1.45}
+.lp-pr .pr-ico{width:22px;height:22px;flex-shrink:0;color:var(--plum)}
+.lp-pr .pr-flag{display:inline-block;margin-left:6px;font-size:10.5px;font-weight:600;padding:1px 7px;border:1.5px solid var(--amber);color:var(--amber);border-radius:10px;white-space:nowrap}
+.lp-pr .pr-pend ul{display:flex;flex-direction:column;gap:7px;margin-top:7px}
+.lp-pr .pr-pend-i{display:flex;gap:10px;font-size:14px;line-height:1.4}
+.lp-pr .pr-pm{flex-shrink:0;width:14px;height:14px;margin-top:4px;border-radius:4px;border:2px solid var(--ink)}
+.lp-pr .pr-who-you .pr-pm{border-style:dashed;border-color:var(--amber)}
+.lp-pr .pr-need{display:block;font-size:12px;font-weight:600;color:var(--amber)}
+.lp-pr .lp-acts{display:flex;gap:8px} .lp-pr .pr-acts-col{flex-direction:column}
+.lp-pr .lp-act{justify-content:center;padding:6px 16px;min-height:52px;background:var(--board);border:1.5px solid var(--ink);border-radius:26px;font-size:14px}
+.lp-pr .lp-act-d{font-size:12.5px;color:var(--muted)}
+.lp-pr .lp-act-go{background:var(--plum);border-color:var(--plum);color:#fff} .lp-pr .lp-act-go .lp-act-d{color:#EBDDF0}
+.lp-pr .lp-act-go{box-shadow:inset 6px 0 0 var(--gold)}
+.lp-pr .lp-act:hover{border-color:var(--plum)}
+.lp-pr .pr-foot{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:24px;align-items:start}
+.lp-pr .pr-dot{flex-shrink:0;width:14px;height:14px;border-radius:50%;background:var(--plum);box-shadow:inset -2px -2px 0 rgba(0,0,0,.25);margin-top:2px}
+.lp-pr .pr-s-new .pr-dot,.lp-pr .pr-m-new .pr-dot{background:var(--gold)}
+.lp-pr .pr-m-confirmed .pr-dot{background:var(--green)}
+.lp-pr .pr-ghost{border:1.5px dashed var(--off);border-radius:8px;padding:8px 10px;font-size:12.5px;color:var(--muted)}
+.lp-pr .pr-seats{display:inline-flex;gap:4px;flex-shrink:0}
+.lp-pr .pr-seat{width:22px;height:24px} .lp-pr .pr-seat path{fill:none;stroke:var(--plum);stroke-width:2;stroke-dasharray:3 2;stroke-linejoin:round}
+.lp-pr .pr-seat.on path{fill:var(--plum);stroke-dasharray:none}
+.lp-pr .pr-cost{font-size:12px;color:var(--muted);font-style:italic;border-top:1px dashed rgba(42,30,48,.3);padding-top:6px}
+.lp-pr .pr-ph{display:flex;align-items:center;gap:8px} .lp-pr .pr-ph h4{margin:0;font-size:15px;font-weight:600} .lp-pr .pr-ph span{margin-left:auto;font-size:12px;color:var(--muted)}
+/* A */
+.lp-pr-a .pr-board{background:var(--board);border:1.5px solid var(--ink);border-radius:14px;box-shadow:0 6px 0 rgba(42,30,48,.12);overflow:hidden}
+.lp-pr-a .pr-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.lp-pr-a .pr-col{padding:10px 14px 12px;border-right:1.5px solid rgba(42,30,48,.14)} .lp-pr-a .pr-col:last-child{border-right:none}
+.lp-pr-a .pr-col-h{display:flex;gap:9px;align-items:flex-start;padding-bottom:9px;margin-bottom:9px;border-bottom:2px solid var(--ink)}
+.lp-pr-a .pr-col-h h4{margin:0;font-size:15px;font-weight:600;line-height:1.2} .lp-pr-a .pr-col-h span{font-size:11.5px;color:var(--muted)}
+.lp-pr-a .pr-col ul{display:flex;flex-direction:column;gap:5px}
+.lp-pr-a .pr-mag{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;line-height:1.3;padding:4px 8px;background:#F4F0F6;border-radius:6px}
+.lp-pr-a .pr-mt{flex:1} .lp-pr-a .pr-mv{font-weight:600;font-size:12px;text-align:right;max-width:44%}
+.lp-pr-a .pr-m-new .pr-mv{font-weight:500;color:var(--amber)}
+.lp-pr-a .pr-role{flex-direction:column;gap:5px} .lp-pr-a .pr-role b{display:block;font-size:13px} .lp-pr-a .pr-rn{font-size:12px;color:var(--muted)}
+.lp-pr-a .pr-role > span:last-child{display:block}
+.lp-pr-a .pr-strip{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) auto;gap:16px;align-items:center;padding:9px 14px;background:var(--ink);color:#F3EEF5}
+.lp-pr-a .pr-strip div:first-child{display:flex;flex-direction:column} .lp-pr-a .pr-strip b{font-size:14px} .lp-pr-a .pr-strip span{font-size:12px;color:#CFC3D4}
+.lp-pr-a .pr-weeks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px} .lp-pr-a .pr-weeks i{font-style:normal;font-size:11px;text-align:center;padding:4px;border:1.5px dashed #9C92A1;border-radius:4px;color:#CFC3D4}
+.lp-pr-a .pr-trial-s{font-size:12px;font-weight:600;color:var(--gold) !important;border:1.5px solid var(--gold);border-radius:12px;padding:3px 10px;white-space:nowrap}
+/* B */
+.lp-pr-b .pr-panel{background:var(--board);border:1.5px solid var(--ink);border-radius:14px;padding:10px 14px 12px;display:flex;flex-direction:column;gap:9px}
+.lp-pr-b .pr-reads{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.lp-pr-b .pr-read{display:flex;flex-direction:column;gap:4px}
+.lp-pr-b .pr-rt{font-size:11.5px;font-weight:600;line-height:1.25;min-height:29px}
+.lp-pr-b .pr-win{font-family:'Bebas Neue',sans-serif;font-size:21px;line-height:1;padding:9px 8px 7px;background:var(--ink);color:#F3EEF5;border-radius:6px;box-shadow:inset 0 0 0 2px #4A3A52;min-height:40px;display:flex;align-items:center}
+.lp-pr-b .pr-m-new .pr-win{background:transparent;color:var(--muted);box-shadow:none;border:1.5px dashed var(--off)}
+.lp-pr-b .pr-rs{font-size:11px;color:var(--muted)} .lp-pr-b .pr-m-confirmed .pr-rs{color:var(--green);font-weight:600}
+.lp-pr-b .pr-b-row{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:14px}
+.lp-pr-b .pr-lane{display:flex;flex-direction:column;gap:0;position:relative;padding-left:16px}
+.lp-pr-b .pr-lane::before{content:'';position:absolute;left:5px;top:6px;bottom:6px;border-left:2px solid var(--plum)}
+.lp-pr-b .pr-ln{position:relative;font-size:12.5px;line-height:1.35;padding:3px 0}
+.lp-pr-b .pr-ln::before{content:'';position:absolute;left:-15px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--plum)}
+.lp-pr-b .pr-ln.pr-s-new::before{background:var(--gold)} .lp-pr-b .pr-ghost-ln{color:var(--muted)} .lp-pr-b .pr-ghost-ln::before{background:transparent;border:1.5px dashed var(--off)}
+.lp-pr-b .pr-trial{font-size:12.5px;padding:6px 10px;border-radius:8px;background:#F4F0F6;color:var(--muted)} .lp-pr-b .pr-trial b{color:var(--ink)}
+.lp-pr-b .pr-seatplan{display:flex;flex-direction:column;gap:9px}
+.lp-pr-b .pr-seatplan li{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:10px;align-items:center}
+.lp-pr-b .pr-seatplan li b{font-size:13px} .lp-pr-b .pr-seatplan li > span:last-child{grid-column:2;font-size:12px;color:var(--muted)}
+.lp-pr-b .pr-seatplan .pr-seats{grid-row:1/3} .lp-pr-b .pr-seatplan .pr-seat{width:28px;height:30px}
+.lp-pr-b .pr-seatplan .pr-cost,.lp-pr-b .pr-seatplan .pr-ghost{display:block}
+/* C */
+.lp-pr-c .pr-c-body{display:grid;grid-template-columns:270px minmax(0,1fr);gap:20px;align-items:start}
+.lp-pr-c .pr-c-left{display:flex;flex-direction:column;gap:8px}
+.lp-pr-c .pr-loop{width:270px;height:270px}
+.lp-pr-c .pr-arc{fill:none;stroke:var(--plum);stroke-width:3} .lp-pr-c .pr-ahp{fill:var(--plum)}
+.lp-pr-c .pr-node circle{fill:var(--board);stroke:var(--ink);stroke-width:2.5} .lp-pr-c .pr-node text{font:700 14px Poppins,sans-serif;fill:var(--ink);text-anchor:middle}
+.lp-pr-c .pr-node.is-at circle{fill:var(--gold);stroke:var(--ink)} .lp-pr-c .pr-node.is-done circle{fill:var(--ink)} .lp-pr-c .pr-node.is-done text{fill:#fff}
+.lp-pr-c .pr-loop-c{font-family:'Bebas Neue',sans-serif;font-size:30px;fill:var(--ink);text-anchor:middle}
+.lp-pr-c .pr-loop-s{font:500 12.5px Poppins,sans-serif;fill:var(--muted);text-anchor:middle}
+.lp-pr-c .pr-loop-names{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 12px;font-size:12px}
+.lp-pr-c .pr-loop-names li{display:flex;gap:6px;align-items:center} .lp-pr-c .pr-loop-names span{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700}
+.lp-pr-c .pr-loop-names .is-at span{background:var(--gold)} .lp-pr-c .pr-loop-names .is-at{font-weight:600}
+.lp-pr-c .pr-cards{display:flex;flex-direction:column;gap:8px}
+.lp-pr-c .pr-card{background:var(--board);border:1.5px solid var(--ink);border-radius:14px;padding:7px 14px 9px;display:flex;flex-direction:column;gap:3px;position:relative}
+.lp-pr-c .pr-card::before{content:'';position:absolute;left:-21px;top:18px;width:20px;border-top:2px dashed var(--plum)}
+.lp-pr-c .pr-card em{margin-left:auto;font-style:normal;font-size:11.5px;font-weight:600;color:var(--plum)}
+.lp-pr-c .pr-cs{font-size:11.5px;color:var(--muted)}
+.lp-pr-c .pr-card ul{display:flex;flex-direction:column;gap:3px}
+.lp-pr-c .pr-card li{font-size:12.5px;line-height:1.35;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.lp-pr-c .pr-card li b{font-weight:600} .lp-pr-c .pr-card .pr-m-new b{color:var(--amber);font-weight:500}
+.lp-pr-c .pr-card .pr-more{color:var(--muted);font-style:italic}
+.lp-pr-c .pr-card .pr-seat{width:18px;height:20px}
+/* first visit */
+.lp-pr[data-lp-state=empty] .pr-claim{color:var(--muted)}
+/* narrow */
+@container lp (max-width:699px){
+  .lp-pr{padding:16px 14px 22px;gap:16px}
+  .lp-pr .pr-mast{flex-direction:column;align-items:stretch;gap:12px}
+  .lp-pr .pr-stampw{align-items:stretch} .lp-pr .lp-stamp{justify-content:space-between}
+  .lp-pr .pr-tab{font-size:42px} .lp-pr .pr-claim{font-size:34px}
+  .lp-pr .pr-subs,.lp-pr .lp-stamp-at{white-space:normal}
+  .lp-pr .lp-acts{flex-direction:column} .lp-pr .pr-foot{grid-template-columns:minmax(0,1fr)}
+  .lp-pr-a .pr-cols{grid-template-columns:minmax(0,1fr)} .lp-pr-a .pr-col{border-right:none;border-bottom:1.5px solid rgba(42,30,48,.14)}
+  .lp-pr-a .pr-strip{grid-template-columns:minmax(0,1fr) auto} .lp-pr-a .pr-weeks{display:none}
+  .lp-pr-b .pr-reads{grid-template-columns:repeat(2,minmax(0,1fr))} .lp-pr-b .pr-b-row{grid-template-columns:minmax(0,1fr)}
+  .lp-pr-c .pr-c-body{grid-template-columns:minmax(0,1fr)} .lp-pr-c .pr-c-left{align-items:center} .lp-pr-c .pr-card::before{display:none}
+}
+
+</style>
+</helmet>
+<div class="sh-app" style="width:1440px;height:1099px;background:#ECE8EE"><nav class="sh-rail" aria-label="Sections"><a class="sh-home" href="Main.dc.html" aria-label="Home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d4a94f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></a><a class="sh-tab" href="#" style="height:136px;background:#E3E6DF">Resources</a><a class="sh-tab" href="#" style="height:124px;background:#EDE3CB">Diagnosis</a><a class="sh-tab" href="#" style="height:124px;background:#DDE3DE">Solutions</a><a class="sh-tab" href="#" style="height:140px;background:#E8E1D4">Automations</a><a class="sh-tab" href="#" aria-current="page" style="height:144px;background:#2A1E30;color:#E9C8F0">Processes</a></nav><div class="sh-mid"><header class="sh-bar"><div><span class="sh-t">Discharge Process</span><small>Processes tab</small></div><div style="display:flex;gap:10px"><button class="sh-btn-o">Guided tour</button><button class="sh-btn-g">Your tasks for the day</button></div></header><main><sc-if value="{{filled}}" hint-placeholder-val="{{ true }}"><div class="lp-host"><div class="lp lp-pr lp-pr-c" data-lp-state="filled"><header class="pr-mast"><div class="pr-id"><svg class="pr-emblem" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 20a14 14 0 0124-8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M34 5v8h-8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M38 28a14 14 0 01-24 8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M14 43v-8h8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="24" r="4" fill="#d4a94f"/></svg><div><div class="pr-eyebrow">Discharge Process</div><h2 class="pr-tab">Processes</h2><div class="pr-subs">Process changes · Measures we watch · Team and role changes</div></div></div><div class="pr-stampw"><div class="lp-stamp"><div class="lp-stamp-txt"><span class="lp-stamp-at">{{stamp}}</span><span class="lp-stamp-since">{{since}}</span></div><button class="lp-refresh" type="button" onClick="{{refresh}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 10-2.3 5.7"/><path d="M20 4v7h-7"/></svg><span>Refresh now</span></button></div><span class="pr-mid">Refreshed every night at midnight</span></div></header><div class="pr-stand"><h3 class="pr-claim">The trial is planned. Nothing has changed on the wards yet.</h3><p class="pr-deck">Changes, measures and new roles in one place. A two-week trial on one ward comes first.</p></div><div class="pr-c-body"><div class="pr-c-left" data-pt="1" data-lit="{{lit1}}"><svg viewBox="0 0 300 300" class="pr-loop" aria-hidden="true"><defs><marker id="pr-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="pr-ahp"/></marker></defs><path d="M176.1 45.2 A108 108 0 0 1 241.6 92.8" class="pr-arc" marker-end="url(#pr-ah)"/><path d="M257.7 142.5 A108 108 0 0 1 232.7 219.4" class="pr-arc" marker-end="url(#pr-ah)"/><path d="M190.5 250.1 A108 108 0 0 1 109.5 250.1" class="pr-arc" marker-end="url(#pr-ah)"/><path d="M67.3 219.4 A108 108 0 0 1 42.3 142.5" class="pr-arc" marker-end="url(#pr-ah)"/><path d="M58.4 92.8 A108 108 0 0 1 123.9 45.2" class="pr-arc" marker-end="url(#pr-ah)"/><g class="pr-node is-at"><circle cx="150.0" cy="42.0" r="17"/><text x="150.0" y="47.0">1</text></g><g class="pr-node "><circle cx="252.7" cy="116.6" r="17"/><text x="252.7" y="121.6">2</text></g><g class="pr-node "><circle cx="213.5" cy="237.4" r="17"/><text x="213.5" y="242.4">3</text></g><g class="pr-node "><circle cx="86.5" cy="237.4" r="17"/><text x="86.5" y="242.4">4</text></g><g class="pr-node "><circle cx="47.3" cy="116.6" r="17"/><text x="47.3" y="121.6">5</text></g><text x="150" y="146" class="pr-loop-c">Now: plan</text><text x="150" y="168" class="pr-loop-s">One ward, two weeks</text></svg><ol class="pr-loop-names"><li class="is-at"><span>1</span>Plan</li><li class=""><span>2</span>Try on one ward</li><li class=""><span>3</span>Measure</li><li class=""><span>4</span>Adjust</li><li class=""><span>5</span>Spread to all wards</li></ol></div><div class="pr-cards"><section class="pr-card pr-card-roles"><div class="pr-ph"><svg class="pr-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M15 14.5c3 0 5.5 2 5.5 5.5"/></svg><h4>Team and role changes</h4><em>At step 1, plan</em></div><span class="pr-cs">3 people to hire · ₹10 to 11.5 lakh a year</span><ul><li data-pt="4" data-lit="{{lit4}}"><span class="pr-seats" aria-label="0 of 1 filled"><svg viewBox="0 0 28 30" class="pr-seat " aria-hidden="true"><path d="M7 3h14v13H7z"/><path d="M4 16h20v5H4zM7 21v7M21 21v7"/></svg></span> Discharge Manager <b>1 to hire</b></li><li data-pt="5" data-lit="{{lit5}}"><span class="pr-seats" aria-label="0 of 2 filled"><svg viewBox="0 0 28 30" class="pr-seat " aria-hidden="true"><path d="M7 3h14v13H7z"/><path d="M4 16h20v5H4zM7 21v7M21 21v7"/></svg><svg viewBox="0 0 28 30" class="pr-seat " aria-hidden="true"><path d="M7 3h14v13H7z"/><path d="M4 16h20v5H4zM7 21v7M21 21v7"/></svg></span> Discharge Executives <b>2 to hire</b></li></ul></section><section class="pr-card pr-card-changes"><div class="pr-ph"><svg class="pr-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h11M11 3l4 4-4 4M20 17H9M13 13l-4 4 4 4"/></svg><h4>Process changes</h4><em>At step 2, try</em></div><span class="pr-cs">5 agreed on paper · 1 new · 0 tried</span><ul><li class="pr-s-agreed">The evening round starts the paperwork</li><li class="pr-s-agreed" data-pt="2" data-lit="{{lit2}}">Discharge papers drafted before signing <b class="pr-flag">Biggest hold-up</b></li><li class="pr-more">and 4 more</li></ul></section><section class="pr-card pr-card-measures"><div class="pr-ph"><svg class="pr-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17a8 8 0 0116 0"/><path d="M12 17l4-5"/><circle cx="12" cy="17" r="1.5"/></svg><h4>Measures we watch</h4><em>At step 3, measure</em></div><span class="pr-cs">3 with a starting number · 3 new</span><ul><li class="pr-m-confirmed" data-pt="3" data-lit="{{lit3}}">Hours from ready to home <b>5 hours 15 minutes</b></li><li class="pr-m-confirmed">Insurance approval time <b>About 1 hour</b></li><li class="pr-m-confirmed">Bed empty after the patient leaves <b>75 minutes</b></li><li class="pr-more">New, starting in the trial: patients home by 10 am, decisions made on the evening round, money won back each month</li></ul></section></div></div><div class="pr-foot"><section class="pr-pend"><div class="pr-label">What Tojo still has to do</div><ul><li class="pr-pend-i pr-who-tojo" data-pt="1" data-lit="{{lit1}}"><span class="pr-pm" aria-hidden="true"></span><span>Pick the trial ward with you, starting with the latest-deciding consultants.</span></li><li class="pr-pend-i pr-who-tojo" data-pt="4" data-lit="{{lit4}}"><span class="pr-pm" aria-hidden="true"></span><span>Write the job outline for the Discharge Manager.</span></li><li class="pr-pend-i pr-who-tojo" data-pt="3" data-lit="{{lit3}}"><span class="pr-pm" aria-hidden="true"></span><span>Set a goal for each measure after the first trial week.</span></li><li class="pr-pend-i pr-who-you"><span class="pr-pm" aria-hidden="true"></span><span>Name who will record the times on the trial ward.<span class="pr-need">Needs a name from you</span></span></li></ul></section><nav class="lp-acts pr-acts-col" aria-label="What to do next"><button class="lp-act lp-act-go" type="button" onClick="{{act_go}}"><span class="lp-act-k">Proceed with next step</span><span class="lp-act-d">Pick the trial ward</span></button><button class="lp-act lp-act-add" type="button" onClick="{{act_add}}"><span class="lp-act-k">Add more</span><span class="lp-act-d">Add a change, a measure or a role</span></button><button class="lp-act lp-act-jump" type="button" onClick="{{act_jump}}"><span class="lp-act-k">Jump to Diagnosis</span><span class="lp-act-d">Four stops still to walk</span></button></nav></div></div></div></sc-if><sc-if value="{{empty}}" hint-placeholder-val="{{ false }}"><div class="lp-host"><div class="lp lp-pr lp-pr-c" data-lp-state="empty"><header class="pr-mast"><div class="pr-id"><svg class="pr-emblem" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 20a14 14 0 0124-8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M34 5v8h-8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M38 28a14 14 0 01-24 8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M14 43v-8h8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="24" r="4" fill="#d4a94f"/></svg><div><div class="pr-eyebrow">Discharge Process</div><h2 class="pr-tab">Processes</h2><div class="pr-subs">Process changes · Measures we watch · Team and role changes</div></div></div><div class="pr-stampw"><div class="lp-stamp"><div class="lp-stamp-txt"><span class="lp-stamp-at">{{stamp}}</span><span class="lp-stamp-since">{{since}}</span></div><button class="lp-refresh" type="button" onClick="{{refresh}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 10-2.3 5.7"/><path d="M20 4v7h-7"/></svg><span>Refresh now</span></button></div><span class="pr-mid">Refreshed every night at midnight</span></div></header><div class="pr-stand"><h3 class="pr-claim">Nothing to change yet</h3><p class="pr-deck">Process changes, the measures we watch and any new roles appear here once solutions are agreed.</p></div><div class="pr-c-body"><div class="pr-c-left"><svg viewBox="0 0 300 300" class="pr-loop" aria-hidden="true"><defs><marker id="pr-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="pr-ahp"/></marker></defs><path d="M176.1 45.2 A108 108 0 0 1 241.6 92.8" class="pr-arc" marker-end="url(#pr-ah)"/><path d="M257.7 142.5 A108 108 0 0 1 232.7 219.4" class="pr-arc" marker-end="url(#pr-ah)"/><path d="M190.5 250.1 A108 108 0 0 1 109.5 250.1" class="pr-arc" marker-end="url(#pr-ah)"/><path d="M67.3 219.4 A108 108 0 0 1 42.3 142.5" class="pr-arc" marker-end="url(#pr-ah)"/><path d="M58.4 92.8 A108 108 0 0 1 123.9 45.2" class="pr-arc" marker-end="url(#pr-ah)"/><g class="pr-node "><circle cx="150.0" cy="42.0" r="17"/><text x="150.0" y="47.0">1</text></g><g class="pr-node "><circle cx="252.7" cy="116.6" r="17"/><text x="252.7" y="121.6">2</text></g><g class="pr-node "><circle cx="213.5" cy="237.4" r="17"/><text x="213.5" y="242.4">3</text></g><g class="pr-node "><circle cx="86.5" cy="237.4" r="17"/><text x="86.5" y="242.4">4</text></g><g class="pr-node "><circle cx="47.3" cy="116.6" r="17"/><text x="47.3" y="121.6">5</text></g><text x="150" y="146" class="pr-loop-c">Not started</text><text x="150" y="168" class="pr-loop-s">Starts once agreed</text></svg><ol class="pr-loop-names"><li class=""><span>1</span>Plan</li><li class=""><span>2</span>Try on one ward</li><li class=""><span>3</span>Measure</li><li class=""><span>4</span>Adjust</li><li class=""><span>5</span>Spread to all wards</li></ol></div><div class="pr-cards"><section class="pr-card pr-card-roles"><div class="pr-ph"><svg class="pr-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M15 14.5c3 0 5.5 2 5.5 5.5"/></svg><h4>Team and role changes</h4><em>At step 1, plan</em></div><span class="pr-cs">None yet</span><ul><li class="pr-ghost"><span>None yet</span></li></ul></section><section class="pr-card pr-card-changes"><div class="pr-ph"><svg class="pr-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h11M11 3l4 4-4 4M20 17H9M13 13l-4 4 4 4"/></svg><h4>Process changes</h4><em>At step 2, try</em></div><span class="pr-cs">None yet</span><ul><li class="pr-ghost"><span>None yet</span></li></ul></section><section class="pr-card pr-card-measures"><div class="pr-ph"><svg class="pr-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17a8 8 0 0116 0"/><path d="M12 17l4-5"/><circle cx="12" cy="17" r="1.5"/></svg><h4>Measures we watch</h4><em>At step 3, measure</em></div><span class="pr-cs">None yet</span><ul><li class="pr-ghost"><span>None yet</span></li></ul></section></div></div><div class="pr-foot"><section class="pr-pend"><div class="pr-label">What Tojo still has to do</div><ul><li class="pr-pend-i pr-who-tojo"><span class="pr-pm" aria-hidden="true"></span><span>Wait for Solutions to agree what should change.</span></li><li class="pr-pend-i pr-who-tojo"><span class="pr-pm" aria-hidden="true"></span><span>Pick the few measures that show whether it worked.</span></li><li class="pr-pend-i pr-who-tojo"><span class="pr-pm" aria-hidden="true"></span><span>Size any new roles to your busy hours, not your daily total.</span></li></ul></section><nav class="lp-acts pr-acts-col" aria-label="What to do next"><button class="lp-act lp-act-go" type="button" onClick="{{act_go}}"><span class="lp-act-k">Proceed with next step</span><span class="lp-act-d">Begin in Diagnosis</span></button><button class="lp-act lp-act-add" type="button" onClick="{{act_add}}"><span class="lp-act-k">Add more</span><span class="lp-act-d">Tell Tojo about a change already under way</span></button><button class="lp-act lp-act-jump" type="button" onClick="{{act_jump}}"><span class="lp-act-k">Jump to Diagnosis</span><span class="lp-act-d">Where it all starts</span></button></nav></div></div></div></sc-if></main></div><aside class="sh-chat" aria-label="Chat with Tojo"><div class="sh-panel"><div class="sh-ph"><div class="sh-av">T</div><div><div style="font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1">Tojo</div><div style="font-size:12px;color:#9CA9A1">250-bed hospital, Bhubaneswar</div></div></div><div class="sh-pb"><sc-if value="{{filled}}" hint-placeholder-val="{{ true }}"><div class="sh-tm"><p>Here’s where the processes stand. The changes are agreed on paper and the trial is planned, but nothing has been tried on a ward yet.</p><p>Three measures already have a starting number. The other three start in the trial.</p><p>Pick a point to add to it, or choose what to do next on the page.</p></div><div><div class="sh-lab" style="margin-bottom:4px">Tojo’s note</div><p class="sh-note">Prove it on one ward before changing them all.</p></div></sc-if><sc-if value="{{empty}}" hint-placeholder-val="{{ false }}"><div class="sh-tm"><p>This is your Processes page. It covers process changes, the measures we watch and changes to roles.</p><p>It fills in once solutions are agreed.</p></div><div><div class="sh-lab" style="margin-bottom:4px">Tojo’s note</div><p class="sh-note">Change how the work flows, then measure it.</p></div></sc-if><sc-if value="{{hasPoints}}" hint-placeholder-val="{{ true }}"><div class="sh-col"><div class="sh-lab">Add to a point — pick one or more</div><sc-for list="{{points}}" as="p" hint-placeholder-count="5"><button class="sh-pt" aria-pressed="{{p.pressed}}" onClick="{{p.toggle}}"><i>P{{p.n}}</i><span>{{p.label}}</span></button></sc-for></div></sc-if><div class="sh-col"><div class="sh-lab">Or ask next</div><sc-for list="{{prompts}}" as="q" hint-placeholder-count="3"><button class="sh-pr" onClick="{{q.use}}">{{q.t}}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d4a94f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button></sc-for></div></div><div class="sh-inp"><label for="tojo-input" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Message Tojo</label><textarea id="tojo-input" rows="2" placeholder="Write to Tojo…" value="{{draft}}" onChange="{{onDraft}}"></textarea><div style="display:flex;align-items:center"><button class="sh-ib" aria-label="Attach a file"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F3F1EA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11l-8.5 8.5a5 5 0 01-7-7L14 4a3.5 3.5 0 015 5l-8.5 8.5a2 2 0 01-3-3L15 7"/></svg></button><button class="sh-ib" aria-label="Attach a spreadsheet"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F3F1EA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 10h16"/><path d="M4 15h16"/><path d="M10 4v16"/></svg></button><button class="sh-ib" aria-label="Voice note"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F3F1EA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><path d="M12 18v3"/></svg></button><span style="flex-grow:1"></span><button class="sh-send" aria-label="Send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10241a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button></div></div></div></aside></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["In progress","First visit"],"default":"In progress"},"$preview":{"width":1440,"height":1099}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { pts: {}, draft: '', fresh: false }; }
+  renderVals() {
+    const ALL = {"filled": {"points": [{"n": 1, "label": "The trial ward"}, {"n": 2, "label": "Discharge papers, the biggest hold-up"}, {"n": 3, "label": "Hours from ready to home"}, {"n": 4, "label": "The Discharge Manager"}, {"n": 5, "label": "The two Discharge Executives"}], "prompts": ["Which ward should we start on?", "Why hire the manager before the trial?", "What will the trial cost us?"], "stamp": {"at": "Brought up to date at midnight, 28 September", "since": "1 conversation since then is not in yet", "fresh": "Brought up to date just now, 9:42 AM", "fresh_since": "Everything you have said is in"}, "actions": {"go": {"detail": "Pick the trial ward", "say": "Let’s pick the trial ward"}, "add": {"detail": "Add a change, a measure or a role", "say": "I want to add a change: "}, "jump": {"tab": "Diagnosis", "detail": "Four stops still to walk", "say": "Take me back to Diagnosis"}}}, "empty": {"points": [], "prompts": ["What usually changes first?", "Start with Diagnosis", "Which measures matter most?"], "stamp": {"at": "Nothing to bring up to date yet", "since": "This page fills in as solutions are agreed", "fresh": "Checked just now, 9:42 AM", "fresh_since": "Nothing agreed yet"}, "actions": {"go": {"detail": "Begin in Diagnosis", "say": "Take me to Diagnosis"}, "add": {"detail": "Tell Tojo about a change already under way", "say": "We have already started this change: "}, "jump": {"tab": "Diagnosis", "detail": "Where it all starts", "say": "Take me to Diagnosis"}}}};
+    const filled = (this.props.state ?? 'In progress') !== 'First visit';
+    const D = filled ? ALL.filled : ALL.empty;
+    const s = this.state;
+    const P = D.points;
+    const tags = (pts) => P.filter((p) => pts[p.n]).map((p) => '@Point' + p.n);
+    const say = (t) => { const g = tags(s.pts); this.setState({ draft: (g.length ? g.join(' ') + ' ' : '') + t }); };
+    const rest = (s.draft || '').replace(/@Point\d+\s*/g, '');
+    const out = {
+      filled: filled, empty: !filled, hasPoints: P.length > 0,
+      points: P.map((p) => ({ n: p.n, label: p.label, pressed: !!s.pts[p.n], toggle: () => {
+        const pts = { ...s.pts, [p.n]: !s.pts[p.n] }; const g = tags(pts);
+        this.setState({ pts: pts, draft: (g.length ? g.join(' ') + ' ' : '') + rest }); } })),
+      prompts: D.prompts.map((q) => ({ t: q, use: () => say(q) })),
+      stamp: s.fresh ? D.stamp.fresh : D.stamp.at,
+      since: s.fresh ? D.stamp.fresh_since : D.stamp.since,
+      refresh: () => this.setState({ fresh: true }),
+      act_go: () => say(D.actions.go.say), act_add: () => say(D.actions.add.say), act_jump: () => say(D.actions.jump.say),
+      draft: s.draft, onDraft: (ev) => this.setState({ draft: ev.target.value })
+    };
+    for (let n = 1; n <= 9; n++) out['lit' + n] = filled && !!s.pts[n];
+    return out;
+  }
+}
+</script>
+</body>
+</html>

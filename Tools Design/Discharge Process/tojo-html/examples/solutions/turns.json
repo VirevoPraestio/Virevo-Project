@@ -1,0 +1,37 @@
+{
+ "note": "The turns of Solutions, in conversation order. Only these are built. Earlier drafts: archive-2026-09-29/.",
+ "turns": [
+  {
+   "file": "so-00-landing-arrival.json",
+   "note": "The landing page on a first visit, after Diagnosis. Approved template B."
+  },
+  {
+   "file": "so-01-five-parts.json",
+   "note": "Playbook §3: the answer in five parts, shown as one picture. Approved 29 Sep. Block: puzzle (Solutions only)."
+  },
+  {
+   "file": "so-02-automations.json",
+   "note": "Playbook §4, part 1: what the automations do, briefly, on this hospital's real times. Block: untangle (Solutions only). Switch Today and With, and pick a thread."
+  },
+  {
+   "file": "so-03-new-layer.json",
+   "note": "Playbook §5: the voice-notes correction. Block: maze (Solutions only). Pick a route to walk it."
+  },
+  {
+   "file": "so-04-five-knots.json",
+   "note": "Playbook §6: which part saves the most, on the real times. Block: knots (Solutions only). Pick parts to undo the knots."
+  },
+  {
+   "file": "so-05-worth-it.json",
+   "note": "Playbook §7, points 2 and 3: the threshold, then cost against what is at stake. Block: stake (Solutions only). Move the slider."
+  },
+  {
+   "file": "so-06-first-steps.json",
+   "note": "Playbook §7, points 1 and 4: the trial first, then a choice. Block: route (Solutions only). Each door opens Automations or Processes. The last Solutions turn."
+  },
+  {
+   "file": "so-07-landing-next-day.json",
+   "note": "The landing page after the midnight refresh, the next morning. Approved template B."
+  }
+ ]
+}

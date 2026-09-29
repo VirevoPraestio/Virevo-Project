@@ -1,0 +1,106 @@
+{
+ "turn": {
+  "id": "so-04",
+  "tab": "Solutions",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Next, who has to agree?"
+ },
+ "chat": {
+  "text": [
+   "Four groups have to cooperate for these solutions to work. One of them has far more to give up than the rest."
+  ],
+  "bullets": [
+   "Typists lose the job of typing summaries each morning. Their work moves to checking drafts, and they need to hear that first.",
+   "Doctors are asked for nothing beyond the round they already do. If a new form or a second round appears, that promise is broken.",
+   "Your Head of Operations signs off but is not on the ward. Without that yes, the change fails on its first busy day."
+  ],
+  "pointer": "Each sheet shows what that group gives up and what we ask of them.",
+  "invite": "Next is what it costs, set against what is at stake. Shall we go there?",
+  "note": "The resistance sits with the typists, not the doctors.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Typists",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Doctors",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Nurses",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Billing and the insurance desk",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Head of Operations",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "How do we tell the typists?",
+   "Why won’t doctors object?",
+   "What does all this cost?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "People who must agree",
+    "title": "Who has to say yes",
+    "deck": "Four groups do the work. One person approves it."
+   },
+   {
+    "type": "signoff",
+    "doers": [
+     {
+      "role": "Typists",
+      "said": "Summaries are typed the next morning.",
+      "gives_up": "Typing every summary from the doctor’s notes",
+      "ask": "Check each draft instead: same hours, lighter work",
+      "resistance": "most",
+      "point": 1
+     },
+     {
+      "role": "Doctors",
+      "said": "We won’t sign a final summary at night, but will sign an early one.",
+      "gives_up": "Nothing. They decide on the round, as today.",
+      "ask": "No extra time beyond the round they already do",
+      "resistance": "little",
+      "point": 2
+     },
+     {
+      "role": "Nurses",
+      "gives_up": "Doing discharge work in the morning rush",
+      "ask": "Start the checklist that night, not next morning",
+      "resistance": "some",
+      "point": 3
+     },
+     {
+      "role": "Billing and insurance desk",
+      "gives_up": "Waiting for the morning to start the bill",
+      "ask": "Bill and insurance request done by 9 PM",
+      "resistance": "some",
+      "point": 4
+     }
+    ],
+    "approver": {
+     "role": "Head of Operations",
+     "why": "Owns the staff and the budget, not the daily ward work",
+     "fails": "The new hours are dropped the first time the wards get busy",
+     "point": 5
+    }
+   }
+  ]
+ }
+}

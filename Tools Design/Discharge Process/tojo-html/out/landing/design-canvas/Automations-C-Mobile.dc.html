@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Automations landing C — Signal bars, mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Caveat:wght@500;700&amp;display=swap">
+<style>
+
+.sh-app{display:flex;min-height:100vh;background:#DCE3DA;font-family:Poppins,system-ui,sans-serif;color:#10241a}
+.sh-rail{width:84px;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding-top:24px;border-right:1px solid rgba(16,36,26,.2)}
+.sh-rail .sh-home{width:52px;height:52px;margin:0 0 22px 16px;border-radius:50%;background:#10241a;display:flex;align-items:center;justify-content:center}
+.sh-rail a.tab{width:60px;border-radius:0 12px 12px 0;color:#10241a;writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.09em;text-transform:uppercase}
+.sh-mid{flex-grow:1;min-width:0;display:flex;flex-direction:column}
+.sh-bar{height:76px;flex-shrink:0;padding:0 36px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(16,36,26,.2)}
+.sh-bar .sh-t{font-family:'Bebas Neue',sans-serif;font-size:40px;line-height:1}
+.sh-bar small{font-size:13px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#44544A;margin-left:14px}
+.sh-btn-o{min-height:44px;padding:0 16px;background:transparent;border:1.5px solid #10241a;border-radius:22px;font:500 13px Poppins,sans-serif;color:#10241a}
+.sh-btn-g{min-height:44px;padding:0 16px;background:#d4a94f;border:none;border-radius:6px;font:600 13px Poppins,sans-serif;letter-spacing:.05em;text-transform:uppercase;color:#10241a}
+.sh-chat{width:420px;flex-shrink:0;padding:20px 20px 20px 0;display:flex}
+.sh-panel{flex-grow:1;background:#10241a;border-radius:18px;display:flex;flex-direction:column;overflow:hidden;color:#F3F1EA}
+.sh-ph{padding:18px 22px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(243,241,234,.12)}
+.sh-av{width:44px;height:44px;border-radius:50%;background:#d4a94f;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:24px;color:#10241a;flex-shrink:0}
+.sh-pb{flex-grow:1;padding:20px 22px;display:flex;flex-direction:column;gap:14px}
+.sh-um{align-self:flex-end;max-width:310px;background:#d4a94f;color:#10241a;padding:12px 14px;border-radius:16px 4px 16px 16px;font-size:14px;line-height:1.5}
+.sh-um b{display:inline-block;margin-right:6px;padding:1px 8px;border-radius:10px;background:#10241a;color:#d4a94f;font-size:12px}
+.sh-tm{align-self:flex-start;background:#F3F1EA;color:#2b2b2b;padding:14px 16px;border-radius:4px 16px 16px 16px;font-size:14px;line-height:1.55;display:flex;flex-direction:column;gap:8px}
+.sh-tm p{margin:0}.sh-tm ul{margin:0;padding-left:18px}.sh-tm li{margin:2px 0}
+.sh-lab{font-size:12px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#9CA9A1}
+.sh-note{margin:0;font-family:Caveat,cursive;font-size:31px;font-weight:700;line-height:1.1;color:#d4a94f}
+.sh-pt{min-height:44px;width:100%;display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;background:rgba(243,241,234,.06);color:#F3F1EA;border:1px solid rgba(243,241,234,.22);border-radius:10px;text-align:left;font:13px/1.35 Poppins,sans-serif;cursor:pointer}
+.sh-pt i{flex-shrink:0;min-width:32px;height:32px;border-radius:8px;border:1px solid rgba(243,241,234,.35);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:600}
+.sh-pt[aria-pressed=true]{background:#d4a94f;color:#10241a;border-color:#d4a94f;font-weight:600}.sh-pt[aria-pressed=true] i{background:#10241a;color:#d4a94f;border-color:#10241a}
+.sh-pr{min-height:44px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 14px;background:transparent;color:#F3F1EA;border:1px dashed rgba(212,169,79,.7);border-radius:22px;text-align:left;font:13px Poppins,sans-serif;cursor:pointer}
+.sh-opt{min-height:44px;padding:0 16px;background:#F3F1EA;color:#10241a;border:none;border-radius:22px;font:500 13px Poppins,sans-serif;cursor:pointer}
+.sh-col{display:flex;flex-direction:column;gap:6px}.sh-row{display:flex;flex-wrap:wrap;gap:8px}
+.sh-inp{padding:14px 18px 16px;background:#0b1712;display:flex;flex-direction:column;gap:8px}
+.sh-inp textarea{width:100%;box-sizing:border-box;resize:none;background:#F3F1EA;color:#2b2b2b;border:none;border-radius:10px;padding:12px 14px;font:14px/1.5 Poppins,sans-serif;outline:none}
+.sh-ib{width:44px;height:44px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.sh-send{width:48px;height:48px;border-radius:50%;background:#d4a94f;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.sh-m{width:390px;margin:0 auto;min-height:100vh;background:#DCE3DA;display:flex;flex-direction:column;font-family:Poppins,system-ui,sans-serif;color:#10241a}
+.sh-mt{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(16,36,26,.2)}
+.sh-mc{flex-grow:1;padding:16px 0 20px;display:flex;flex-direction:column;gap:14px}
+.sh-mc > .sh-um,.sh-mc > .sh-who{margin:0 14px}.sh-mc > .sh-mpanel{margin:0 14px;background:#10241a;color:#F3F1EA;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:14px}
+.sh-who{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#44544A}
+.sh-mi{padding:12px 14px;background:#0b1712;display:flex;align-items:center;gap:10px;position:sticky;bottom:64px}
+.sh-mi .sh-box{flex-grow:1;min-width:0;display:flex;align-items:center;gap:2px;background:#F3F1EA;border-radius:24px;padding:0 4px 0 16px}
+.sh-mi input{flex-grow:1;min-width:0;min-height:48px;border:none;background:transparent;font:14px Poppins,sans-serif;color:#2b2b2b;outline:none}
+.sh-mf{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));background:#0b1712;padding:0 8px 12px;border-top:1px solid rgba(243,241,234,.12);position:sticky;bottom:0}
+.sh-mf a{height:52px;display:flex;align-items:center;justify-content:center}
+.sh-m .tj{border-radius:0}
+
+
+.sh-rail a.sh-tab{width:60px;border-radius:0 12px 12px 0;color:#10241a;writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.09em;text-transform:uppercase}
+.sh-rail a.sh-tab[aria-current=page]{width:70px;font-weight:700}
+.sh-mf a[aria-current=page]{box-shadow:inset 0 3px 0 #d4a94f}
+.sh-mid main{flex-grow:1}
+body{margin:0}
+[data-lit="true"],.lp .is-lit{outline:4px solid #d4a94f !important;outline-offset:3px}
+
+
+.lp-host{container-type:inline-size;container-name:lp;width:100%}
+.lp{box-sizing:border-box;font-family:'Poppins','Segoe UI',system-ui,sans-serif}
+.lp *,.lp *::before,.lp *::after{box-sizing:border-box}
+.lp button{font:inherit;color:inherit;cursor:pointer}
+.lp :focus-visible{outline:3px solid #d4a94f;outline-offset:2px}
+.lp p{margin:0}
+.lp ul,.lp ol{margin:0;padding:0;list-style:none}
+.lp-refresh{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;flex-shrink:0}
+.lp-refresh.is-done svg{transform:rotate(360deg);transition:transform .6s ease}
+@media (prefers-reduced-motion:reduce){.lp *{animation:none !important;transition:none !important}}
+.lp-act{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;min-height:56px}
+.lp-act-k{font-weight:600}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+.lp-au{--ground:#E4E7EA;--panel:#F9FAFB;--ink:#1C2A33;--muted:#4B5963;--teal:#0F6E6B;--teal-l:#8FD3CD;--gold:#d4a94f;--amber:#8A5608;--off:#8C98A0;
+  background:var(--ground);color:var(--ink);padding:18px 32px 22px;display:flex;flex-direction:column;gap:14px}
+.lp-au .au-label{font-size:13px;font-weight:600;color:var(--muted)}
+.lp-au .au-mast{display:flex;justify-content:space-between;align-items:center;gap:18px}
+.lp-au .au-id{display:flex;align-items:center;gap:14px}
+.lp-au .au-emblem{width:46px;height:46px;color:var(--ink)}
+.lp-au .au-eyebrow{font-size:13px;font-weight:500;color:var(--muted)}
+.lp-au .au-tab{margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:48px;line-height:.9;letter-spacing:.01em}
+.lp-au .au-meter{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.lp-au .lp-stamp{display:flex;align-items:center;gap:12px;background:var(--ink);color:#EEF2F4;border-radius:12px;padding:6px 6px 6px 14px}
+.lp-au .lp-stamp-txt{display:flex;flex-direction:column}
+.lp-au .lp-stamp-at{font-size:13px;font-weight:600} .lp-au .lp-stamp-since{font-size:12px;color:#B7C2C8}
+.lp-au .lp-stamp-since::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gold);margin-right:6px;vertical-align:1px}
+.lp-au .lp-refresh{background:var(--teal-l);color:var(--ink);border:none;border-radius:8px;font-size:13px;font-weight:600}
+.lp-au .au-mid{font-size:11.5px;color:var(--muted)}
+.lp-au .au-claim{margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:37px;line-height:.95;letter-spacing:.01em}
+.lp-au .au-deck{margin-top:5px;font-size:14.5px;color:var(--muted);max-width:80ch;line-height:1.45}
+.lp-au .au-tag{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:12px;white-space:nowrap;border:1.5px solid var(--ink)}
+.lp-au .au-tag-live{background:var(--teal);border-color:var(--teal);color:#fff}
+.lp-au .au-tag-testing{border-color:var(--teal);color:var(--teal)}
+.lp-au .au-tag-designed{border-color:var(--ink)}
+.lp-au .au-tag-idea,.lp-au .au-tag-blank{border-style:dashed;border-color:var(--off);color:var(--muted)}
+.lp-au .au-tag-waiting{border-style:dashed;border-color:var(--amber);color:var(--amber)}
+.lp-au .au-pend ul{display:flex;flex-direction:column;gap:7px;margin-top:7px}
+.lp-au .au-pend-i{display:flex;gap:10px;font-size:14px;line-height:1.4}
+.lp-au .au-pm{flex-shrink:0;width:10px;height:10px;margin-top:6px;border-radius:50%;background:var(--ink);box-shadow:0 0 0 3px rgba(28,42,51,.15)}
+.lp-au .au-who-you .au-pm{background:transparent;border:2px dashed var(--amber);box-shadow:none;width:12px;height:12px}
+.lp-au .au-need{display:block;font-size:12px;font-weight:600;color:var(--amber)}
+.lp-au .lp-acts{display:flex;gap:8px}
+.lp-au .au-acts-col{flex-direction:column}
+.lp-au .lp-act{justify-content:center;padding:6px 16px;min-height:52px;background:var(--panel);border:1.5px solid rgba(28,42,51,.35);border-radius:12px;font-size:14px}
+.lp-au .lp-act-d{font-size:12.5px;color:var(--muted)}
+.lp-au .lp-act-go{background:var(--ink);border-color:var(--ink);color:#EEF2F4;padding-left:40px;position:relative}
+.lp-au .lp-act-go::before{content:'';position:absolute;left:14px;top:50%;margin-top:-8px;width:16px;height:16px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(212,169,79,.3)}
+.lp-au .lp-act-go .lp-act-d{color:#B7C2C8}
+.lp-au .lp-act:hover{border-color:var(--teal)}
+.lp-au .au-foot{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:24px;align-items:start}
+/* switches */
+.lp-au .au-sw{position:relative;flex-shrink:0;width:48px;height:26px;border-radius:13px;background:#CBD2D7;border:1.5px solid var(--ink)}
+.lp-au .au-knob{position:absolute;top:2px;left:2px;width:19px;height:19px;border-radius:50%;background:var(--panel);border:1.5px solid var(--ink)}
+.lp-au .au-sw-live{background:var(--teal)} .lp-au .au-sw-live .au-knob{left:24px}
+.lp-au .au-sw-testing{background:var(--teal-l)} .lp-au .au-sw-testing .au-knob{left:13px}
+.lp-au .au-sw-idea,.lp-au .au-sw-blank{border-style:dashed;border-color:var(--off);background:transparent} .lp-au .au-sw-idea .au-knob,.lp-au .au-sw-blank .au-knob{border-style:dashed;border-color:var(--off);background:transparent}
+/* A */
+.lp-au-a .au-board{display:grid;grid-template-columns:200px minmax(0,1fr) 150px;background:var(--panel);border:1.5px solid var(--ink);border-radius:16px;overflow:hidden}
+.lp-au-a .au-main{background:var(--ink);color:#EEF2F4;padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.lp-au-a .au-main .au-label{color:#B7C2C8} .lp-au-a .au-main-t{font-size:15px;font-weight:600;line-height:1.3;margin:2px 0 4px} .lp-au-a .au-main p{font-size:12.5px;color:#C9D2D7;line-height:1.4;margin-bottom:8px}
+.lp-au-a .au-main .au-tag-waiting{border-color:var(--gold);color:var(--gold)} .lp-au-a .au-main .au-tag-blank{border-color:#8C98A0;color:#C9D2D7}
+.lp-au-a .au-lever{width:44px;height:64px;border:2px solid #EEF2F4;border-radius:10px;position:relative}
+.lp-au-a .au-lever span{position:absolute;left:8px;right:8px;bottom:8px;height:22px;border-radius:5px;background:var(--gold)}
+.lp-au-a .au-bus{position:relative;padding:8px 18px 8px 34px}
+.lp-au-a .au-bus::before{content:'';position:absolute;left:18px;top:0;bottom:0;border-left:3px dashed var(--off)}
+.lp-au-a .au-row{position:relative;display:grid;grid-template-columns:48px minmax(0,1fr) auto;column-gap:12px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(28,42,51,.1)}
+.lp-au-a .au-row:last-child{border-bottom:none}
+.lp-au-a .au-tap{position:absolute;left:-16px;top:50%;width:16px;border-top:2px solid var(--off)}
+.lp-au-a .au-row-b{display:flex;flex-direction:column} .lp-au-a .au-row-t{font-size:13.5px;font-weight:600;line-height:1.3} .lp-au-a .au-row-w{font-size:12px;color:var(--muted)}
+.lp-au-a .au-side{border-left:1.5px solid rgba(28,42,51,.15);padding:14px;display:flex;flex-direction:column;gap:12px}
+.lp-au-a .au-tally{display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--muted)}
+.lp-au-a .au-tally b{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:26px;color:var(--ink);margin-right:8px;vertical-align:-3px}
+.lp-au-a .au-ev{font-size:12px;line-height:1.4;color:var(--muted);border-top:1px dashed rgba(28,42,51,.3);padding-top:10px;font-style:italic}
+/* B */
+.lp-au-b .au-clock{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:18px;align-items:start;background:var(--panel);border:1.5px solid var(--ink);border-radius:16px;padding:10px 16px 12px}
+.lp-au-b .au-arc{width:100%;height:auto;display:block;overflow:visible}
+.lp-au-b .au-night{fill:none;stroke:var(--ink);stroke-width:10} .lp-au-b .au-day{fill:none;stroke:#CBD2D7;stroke-width:10}
+.lp-au-b .au-tick{stroke:var(--ink);stroke-width:1.5} .lp-au-b .au-tl{font:500 12px Poppins,sans-serif;fill:var(--muted);text-anchor:middle}
+.lp-au-b .au-zone{font:600 12px Poppins,sans-serif;fill:var(--ink);text-anchor:middle}
+.lp-au-b .au-lead{stroke:var(--ink);stroke-width:1.5;stroke-dasharray:3 3}
+.lp-au-b .au-mk{fill:var(--panel);stroke:var(--ink);stroke-width:2} .lp-au-b .au-mk-live{fill:var(--teal);stroke:var(--teal)} .lp-au-b .au-mk-idea,.lp-au-b .au-mk-blank{stroke-dasharray:4 3;stroke:var(--off)}
+.lp-au-b .au-mkn{font:700 13px Poppins,sans-serif;fill:var(--ink);text-anchor:middle}
+.lp-au-b .au-clock-r{display:flex;flex-direction:column;gap:10px;padding-top:6px}
+.lp-au-b .au-gate{display:flex;gap:10px;align-items:center;padding:8px 10px;border-radius:10px;border:1.5px dashed var(--amber);background:#FBF6EC}
+.lp-au-b .au-main-blank.au-gate{border-color:var(--off);background:transparent}
+.lp-au-b .au-gate div{display:flex;flex-direction:column} .lp-au-b .au-gate b{font-size:13px;font-weight:600} .lp-au-b .au-gate span{font-size:12px;color:var(--muted)}
+.lp-au-b .au-lock{flex-shrink:0;width:16px;height:13px;border:2px solid var(--amber);border-radius:3px;position:relative;margin-top:6px}
+.lp-au-b .au-lock::before{content:'';position:absolute;left:2px;right:2px;top:-9px;height:9px;border:2px solid var(--amber);border-bottom:none;border-radius:6px 6px 0 0}
+.lp-au-b .au-key{display:flex;flex-direction:column;gap:5px}
+.lp-au-b .au-key li{display:flex;gap:9px;align-items:flex-start}
+.lp-au-b .au-kn{flex-shrink:0;width:24px;height:24px;border-radius:50%;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.lp-au-b .au-st-idea .au-kn,.lp-au-b .au-st-blank .au-kn{border-style:dashed;border-color:var(--off)}
+.lp-au-b .au-key div{display:flex;flex-direction:column} .lp-au-b .au-key b{font-size:13px;font-weight:600;line-height:1.3} .lp-au-b .au-key span{font-size:11.5px;color:var(--muted)}
+/* C */
+.lp-au-c .au-c-body{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px;align-items:start}
+.lp-au-c .au-ready{background:var(--ink);color:#EEF2F4;border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.lp-au-c .au-ready .au-label{color:#B7C2C8}
+.lp-au-c .au-ladder{display:flex;flex-direction:column-reverse;gap:8px}
+.lp-au-c .au-ladder li{display:grid;grid-template-columns:minmax(0,1fr) auto;row-gap:3px;font-size:12.5px}
+.lp-au-c .au-lad-bar{grid-column:1/-1;height:8px;border-radius:4px;background:rgba(238,242,244,.15);overflow:hidden} .lp-au-c .au-lad-bar span{display:block;height:100%;background:var(--teal-l)}
+.lp-au-c .au-ladder b{font-weight:600} .lp-au-c .au-ladder .is-zero{color:#9AA7AE}
+.lp-au-c .au-block{border:1.5px dashed var(--gold);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:2px;font-size:12px;color:#C9D2D7;line-height:1.4}
+.lp-au-c .au-block b{color:var(--gold);font-size:13px} .lp-au-c .au-main-blank.au-block{border-color:#8C98A0} .lp-au-c .au-main-blank.au-block b{color:#EEF2F4}
+.lp-au-c .au-sigs{background:var(--panel);border:1.5px solid var(--ink);border-radius:16px;padding:4px 16px}
+.lp-au-c .au-sig{display:grid;grid-template-columns:52px minmax(0,1fr) auto;column-gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(28,42,51,.1)}
+.lp-au-c .au-sig:last-child{border-bottom:none}
+.lp-au-c .au-bars{display:flex;align-items:flex-end;gap:3px;height:34px} .lp-au-c .au-bars i{width:7px;border-radius:2px;background:#D5DBDF;border:1px solid #B4BEC4}
+.lp-au-c .au-bars i.on{background:var(--ink);border-color:var(--ink)} .lp-au-c .au-st-live .au-bars i.on{background:var(--teal);border-color:var(--teal)}
+.lp-au-c .au-st-idea .au-bars i.on{background:var(--gold);border-color:var(--gold)}
+.lp-au-c .au-sig-b{display:flex;flex-direction:column} .lp-au-c .au-sig-b b{font-size:13.5px;font-weight:600;line-height:1.3} .lp-au-c .au-sig-b span{font-size:12px;color:var(--muted)}
+/* first visit */
+.lp-au[data-lp-state=empty] .au-claim{color:var(--muted)}
+.lp-au[data-lp-state=empty] .au-row-t,.lp-au[data-lp-state=empty] .au-sig-b b,.lp-au[data-lp-state=empty] .au-key b{color:var(--muted);font-weight:500}
+/* narrow */
+@container lp (max-width:699px){
+  .lp-au{padding:16px 14px 22px;gap:16px}
+  .lp-au .au-mast{flex-direction:column;align-items:stretch;gap:12px}
+  .lp-au .au-meter{align-items:stretch} .lp-au .lp-stamp{justify-content:space-between}
+  .lp-au .au-tab{font-size:42px} .lp-au .au-claim{font-size:34px}
+  .lp-au .lp-acts{flex-direction:column}
+  .lp-au .au-foot{grid-template-columns:minmax(0,1fr)}
+  .lp-au-a .au-board{grid-template-columns:minmax(0,1fr)}
+  .lp-au-a .au-main{flex-direction:row;align-items:flex-start}
+  .lp-au-a .au-side{border-left:none;border-top:1.5px solid rgba(28,42,51,.15)} .lp-au-a .au-tally{flex-direction:row;flex-wrap:wrap;gap:4px 14px}
+  .lp-au-a .au-row{grid-template-columns:48px minmax(0,1fr);row-gap:4px} .lp-au-a .au-row .au-tag{grid-column:2;justify-self:start}
+  .lp-au-b .au-clock{grid-template-columns:minmax(0,1fr);padding:8px 10px 12px}
+  .lp-au-c .au-c-body{grid-template-columns:minmax(0,1fr)}
+  .lp-au-c .au-sig{grid-template-columns:44px minmax(0,1fr);row-gap:4px} .lp-au-c .au-sig .au-tag{grid-column:2;justify-self:start}
+}
+
+</style>
+</helmet>
+<div class="sh-m" style="height:2725px;background:#E4E7EA"><div class="sh-mt"><div style="display:flex;align-items:center;gap:10px"><a href="#" aria-label="Home" style="width:44px;height:44px;border-radius:50%;background:#10241a;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d4a94f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></a><div><div style="font-family:'Bebas Neue',sans-serif;font-size:24px;line-height:1">Virevo</div><div style="font-size:12px;color:#44544A">Discharge Process · Automations</div></div></div><button class="sh-btn-o">Tour</button></div><div class="sh-mc"><div class="sh-who"><span class="sh-av" style="width:30px;height:30px;font-size:17px">T</span>Tojo</div><sc-if value="{{filled}}" hint-placeholder-val="{{ true }}"><div class="lp-host"><div class="lp lp-au lp-au-c" data-lp-state="filled"><header class="au-mast"><div class="au-id"><svg class="au-emblem" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="3"/><path d="M26.5 9L15 27h8l-2 12 12-18h-8z" fill="#8FD3CD" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></svg><div><div class="au-eyebrow">Discharge Process</div><h2 class="au-tab">Automations</h2></div></div><div class="au-meter"><div class="lp-stamp"><div class="lp-stamp-txt"><span class="lp-stamp-at">{{stamp}}</span><span class="lp-stamp-since">{{since}}</span></div><button class="lp-refresh" type="button" onClick="{{refresh}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 10-2.3 5.7"/><path d="M20 4v7h-7"/></svg><span>Refresh now</span></button></div><span class="au-mid">Updates itself every night at midnight</span></div></header><div class="au-stand"><h3 class="au-claim">Six automations designed. None switched on yet.</h3><p class="au-deck">All of them wait on one link: your IT team connecting the hospital software and the report system.</p></div><section class="au-c-body"><div class="au-ready"><div class="au-label">How far they have got</div><ol class="au-ladder"><li class=""><span class="au-lad-bar"><span style="width:100%"></span></span><span class="au-lad-l">Idea</span><b>6 of 6</b></li><li class=""><span class="au-lad-bar"><span style="width:83%"></span></span><span class="au-lad-l">Designed</span><b>5 of 6</b></li><li class="is-zero"><span class="au-lad-bar"><span style="width:0%"></span></span><span class="au-lad-l">Linked</span><b>0 of 6</b></li><li class="is-zero"><span class="au-lad-bar"><span style="width:0%"></span></span><span class="au-lad-l">Tested</span><b>0 of 6</b></li><li class="is-zero"><span class="au-lad-bar"><span style="width:0%"></span></span><span class="au-lad-l">Switched on</span><b>0 of 6</b></li></ol><div class="au-block au-main-waiting" data-pt="1" data-lit="{{lit1}}"><b>Holding everything at “Designed”</b><span>Link to the hospital software. Your IT team connects billing, the report system and clinical notes.</span></div></div><ol class="au-sigs"><li class="au-sig au-st-designed" data-pt="2" data-lit="{{lit2}}"><span class="au-bars" aria-hidden="true"><i class="on" style="height:8px"></i><i class="on" style="height:14px"></i><i class="" style="height:20px"></i><i class="" style="height:26px"></i><i class="" style="height:32px"></i></span><div class="au-sig-b"><b>Discharge summary written from the evening round</b><span>Evening round, 6 to 9 PM</span></div><span class="au-tag au-tag-designed">Designed</span></li><li class="au-sig au-st-designed"><span class="au-bars" aria-hidden="true"><i class="on" style="height:8px"></i><i class="on" style="height:14px"></i><i class="" style="height:20px"></i><i class="" style="height:26px"></i><i class="" style="height:32px"></i></span><div class="au-sig-b"><b>Running bill kept up to date</b><span>All through the stay</span></div><span class="au-tag au-tag-designed">Designed</span></li><li class="au-sig au-st-designed"><span class="au-bars" aria-hidden="true"><i class="on" style="height:8px"></i><i class="on" style="height:14px"></i><i class="" style="height:20px"></i><i class="" style="height:26px"></i><i class="" style="height:32px"></i></span><div class="au-sig-b"><b>Supply count worked out for the nurses</b><span>When the bill is drawn up</span></div><span class="au-tag au-tag-designed">Designed</span></li><li class="au-sig au-st-designed" data-pt="3" data-lit="{{lit3}}"><span class="au-bars" aria-hidden="true"><i class="on" style="height:8px"></i><i class="on" style="height:14px"></i><i class="" style="height:20px"></i><i class="" style="height:26px"></i><i class="" style="height:32px"></i></span><div class="au-sig-b"><b>Insurance request sent the evening before</b><span>About 9 PM</span></div><span class="au-tag au-tag-designed">Designed</span></li><li class="au-sig au-st-designed"><span class="au-bars" aria-hidden="true"><i class="on" style="height:8px"></i><i class="on" style="height:14px"></i><i class="" style="height:20px"></i><i class="" style="height:26px"></i><i class="" style="height:32px"></i></span><div class="au-sig-b"><b>Final summary signed on a phone</b><span>Morning round</span></div><span class="au-tag au-tag-designed">Designed</span></li><li class="au-sig au-st-idea" data-pt="4" data-lit="{{lit4}}"><span class="au-bars" aria-hidden="true"><i class="on" style="height:8px"></i><i class="" style="height:14px"></i><i class="" style="height:20px"></i><i class="" style="height:26px"></i><i class="" style="height:32px"></i></span><div class="au-sig-b"><b>Alerts to housekeeping and transport</b><span>When the patient leaves</span></div><span class="au-tag au-tag-idea">Idea</span></li></ol></section><div class="au-foot"><section class="au-pend"><div class="au-label">What Tojo still has to do</div><ul><li class="au-pend-i au-who-tojo" data-pt="1" data-lit="{{lit1}}"><span class="au-pm" aria-hidden="true"></span><span>List exactly what your IT team must link first.</span></li><li class="au-pend-i au-who-tojo" data-pt="2" data-lit="{{lit2}}"><span class="au-pm" aria-hidden="true"></span><span>Check which reports arrive late and would hold up the summary.</span></li><li class="au-pend-i au-who-tojo" data-pt="4" data-lit="{{lit4}}"><span class="au-pm" aria-hidden="true"></span><span>Design the alerts for the bed left empty.</span></li><li class="au-pend-i au-who-you" data-pt="3" data-lit="{{lit3}}"><span class="au-pm" aria-hidden="true"></span><span>Confirm the insurance desk will accept an evening request.<span class="au-need">Needs your insurance desk’s answer</span></span></li></ul></section><nav class="lp-acts au-acts-col" aria-label="What to do next"><button class="lp-act lp-act-go" type="button" onClick="{{act_go}}"><span class="lp-act-k">Proceed with next step</span><span class="lp-act-d">Map what your IT team must link</span></button><button class="lp-act lp-act-add" type="button" onClick="{{act_add}}"><span class="lp-act-k">Add more</span><span class="lp-act-d">Name a task you’d like done for you</span></button><button class="lp-act lp-act-jump" type="button" onClick="{{act_jump}}"><span class="lp-act-k">Jump to Processes</span><span class="lp-act-d">See what changes on the wards</span></button></nav></div></div></div></sc-if><sc-if value="{{empty}}" hint-placeholder-val="{{ false }}"><div class="lp-host"><div class="lp lp-au lp-au-c" data-lp-state="empty"><header class="au-mast"><div class="au-id"><svg class="au-emblem" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="3"/><path d="M26.5 9L15 27h8l-2 12 12-18h-8z" fill="#8FD3CD" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></svg><div><div class="au-eyebrow">Discharge Process</div><h2 class="au-tab">Automations</h2></div></div><div class="au-meter"><div class="lp-stamp"><div class="lp-stamp-txt"><span class="lp-stamp-at">{{stamp}}</span><span class="lp-stamp-since">{{since}}</span></div><button class="lp-refresh" type="button" onClick="{{refresh}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 10-2.3 5.7"/><path d="M20 4v7h-7"/></svg><span>Refresh now</span></button></div><span class="au-mid">Updates itself every night at midnight</span></div></header><div class="au-stand"><h3 class="au-claim">No automations yet</h3><p class="au-deck">Automations appear here once Solutions agree on work that should run without anyone typing it.</p></div><section class="au-c-body"><div class="au-ready"><div class="au-label">How far they have got</div><ol class="au-ladder"><li class="is-zero"><span class="au-lad-bar"><span style="width:0%"></span></span><span class="au-lad-l">Idea</span><b>0 of 0</b></li><li class="is-zero"><span class="au-lad-bar"><span style="width:0%"></span></span><span class="au-lad-l">Designed</span><b>0 of 0</b></li><li class="is-zero"><span class="au-lad-bar"><span style="width:0%"></span></span><span class="au-lad-l">Linked</span><b>0 of 0</b></li><li class="is-zero"><span class="au-lad-bar"><span style="width:0%"></span></span><span class="au-lad-l">Tested</span><b>0 of 0</b></li><li class="is-zero"><span class="au-lad-bar"><span style="width:0%"></span></span><span class="au-lad-l">Switched on</span><b>0 of 0</b></li></ol><div class="au-block au-main-blank"><b>Nothing to hold up yet</b><span>Checked once the first automation is agreed.</span></div></div><ol class="au-sigs"><li class="au-sig au-st-blank"><span class="au-bars" aria-hidden="true"><i class="" style="height:8px"></i><i class="" style="height:14px"></i><i class="" style="height:20px"></i><i class="" style="height:26px"></i><i class="" style="height:32px"></i></span><div class="au-sig-b"><b>Empty switch</b><span>—</span></div><span class="au-tag au-tag-blank">Empty</span></li><li class="au-sig au-st-blank"><span class="au-bars" aria-hidden="true"><i class="" style="height:8px"></i><i class="" style="height:14px"></i><i class="" style="height:20px"></i><i class="" style="height:26px"></i><i class="" style="height:32px"></i></span><div class="au-sig-b"><b>Empty switch</b><span>—</span></div><span class="au-tag au-tag-blank">Empty</span></li><li class="au-sig au-st-blank"><span class="au-bars" aria-hidden="true"><i class="" style="height:8px"></i><i class="" style="height:14px"></i><i class="" style="height:20px"></i><i class="" style="height:26px"></i><i class="" style="height:32px"></i></span><div class="au-sig-b"><b>Empty switch</b><span>—</span></div><span class="au-tag au-tag-blank">Empty</span></li></ol></section><div class="au-foot"><section class="au-pend"><div class="au-label">What Tojo still has to do</div><ul><li class="au-pend-i au-who-tojo"><span class="au-pm" aria-hidden="true"></span><span>Wait for Solutions to agree what should run on its own.</span></li><li class="au-pend-i au-who-tojo"><span class="au-pm" aria-hidden="true"></span><span>Check what your hospital software can share.</span></li><li class="au-pend-i au-who-tojo"><span class="au-pm" aria-hidden="true"></span><span>Plan the order in which to switch them on.</span></li></ul></section><nav class="lp-acts au-acts-col" aria-label="What to do next"><button class="lp-act lp-act-go" type="button" onClick="{{act_go}}"><span class="lp-act-k">Proceed with next step</span><span class="lp-act-d">Begin in Solutions</span></button><button class="lp-act lp-act-add" type="button" onClick="{{act_add}}"><span class="lp-act-k">Add more</span><span class="lp-act-d">Name a task you’d like done for you</span></button><button class="lp-act lp-act-jump" type="button" onClick="{{act_jump}}"><span class="lp-act-k">Jump to Processes</span><span class="lp-act-d">Fills in as solutions are agreed</span></button></nav></div></div></div></sc-if><div class="sh-mpanel"><sc-if value="{{filled}}" hint-placeholder-val="{{ true }}"><div class="sh-tm"><p>Here’s where the automations stand. Six are designed, and none are switched on, because they all wait on one link.</p><p>The quickest win is the summary written from the evening round.</p><p>Pick a point to add to it, or choose what to do next on the page.</p></div><div><div class="sh-lab" style="margin-bottom:4px">Tojo’s note</div><p class="sh-note">Nothing switches on until the software is linked.</p></div></sc-if><sc-if value="{{empty}}" hint-placeholder-val="{{ false }}"><div class="sh-tm"><p>This is your Automations page. Nothing is on it yet.</p><p>Automations appear once a solution needs work done without anyone typing it.</p></div><div><div class="sh-lab" style="margin-bottom:4px">Tojo’s note</div><p class="sh-note">Automate what people repeat, not what they decide.</p></div></sc-if><sc-if value="{{hasPoints}}" hint-placeholder-val="{{ true }}"><div class="sh-col"><div class="sh-lab">Add to a point — pick one or more</div><sc-for list="{{points}}" as="p" hint-placeholder-count="4"><button class="sh-pt" aria-pressed="{{p.pressed}}" onClick="{{p.toggle}}"><i>P{{p.n}}</i><span>{{p.label}}</span></button></sc-for></div></sc-if><div class="sh-col"><div class="sh-lab">Or ask next</div><sc-for list="{{prompts}}" as="q" hint-placeholder-count="3"><button class="sh-pr" onClick="{{q.use}}">{{q.t}}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d4a94f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button></sc-for></div></div></div><div class="sh-mi" style="position:static"><div class="sh-box"><label for="tojo-input" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Message Tojo</label><input id="tojo-input" placeholder="Write to Tojo…" value="{{draft}}" onChange="{{onDraft}}"><button class="sh-ib" style="width:40px;height:40px" aria-label="Attach a file"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#10241a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11l-8.5 8.5a5 5 0 01-7-7L14 4a3.5 3.5 0 015 5l-8.5 8.5a2 2 0 01-3-3L15 7"/></svg></button><button class="sh-ib" style="width:40px;height:40px;border-radius:50%;background:rgba(16,36,26,.08)" aria-label="Voice note"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#10241a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><path d="M12 18v3"/></svg></button></div><button class="sh-send" aria-label="Send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10241a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button></div><nav class="sh-mf" style="position:static" aria-label="Sections"><a href="#" aria-label="Resources"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F3F1EA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h6a3 3 0 013 3v12a2 2 0 00-2-2H3z"/><path d="M21 5h-6a3 3 0 00-3 3v12a2 2 0 012-2h7z"/></svg></a><a href="#" aria-label="Diagnosis"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F3F1EA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/><path d="M7.5 11h2l1-2 1.5 4 1-2h1.5"/></svg></a><a href="#" aria-label="Solutions"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F3F1EA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 00-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0012 3z"/></svg></a><a href="#" aria-label="Automations" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d4a94f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg></a><a href="#" aria-label="Processes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F3F1EA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.5 6H15a3 3 0 013 3v6.5"/><path d="M15.5 13l2.5 2.5 2.5-2.5"/></svg></a></nav></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["In progress","First visit"],"default":"In progress"},"$preview":{"width":390,"height":2725}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { pts: {}, draft: '', fresh: false }; }
+  renderVals() {
+    const ALL = {"filled": {"points": [{"n": 1, "label": "The link to the hospital software"}, {"n": 2, "label": "Summary from the evening round"}, {"n": 3, "label": "Insurance sent the evening before"}, {"n": 4, "label": "Alerts for the empty bed"}], "prompts": ["What exactly does our IT team need?", "Which one saves the most time?", "Can we test one without the link?"], "stamp": {"at": "Brought up to date at midnight, 28 September", "since": "1 conversation since then is not in yet", "fresh": "Brought up to date just now, 9:42 AM", "fresh_since": "Everything you have said is in"}, "actions": {"go": {"detail": "Map what your IT team must link", "say": "Let’s map what our IT team must link first"}, "add": {"detail": "Name a task you’d like done for you", "say": "I’d like this done automatically: "}, "jump": {"tab": "Processes", "detail": "See what changes on the wards", "say": "Take me to Processes"}}}, "empty": {"points": [], "prompts": ["What could we automate first?", "Start with Solutions", "Do we need new software?"], "stamp": {"at": "Nothing to bring up to date yet", "since": "This page fills in as solutions are agreed", "fresh": "Checked just now, 9:42 AM", "fresh_since": "No automations yet"}, "actions": {"go": {"detail": "Begin in Solutions", "say": "Take me to Solutions"}, "add": {"detail": "Name a task you’d like done for you", "say": "I’d like this done automatically: "}, "jump": {"tab": "Processes", "detail": "Fills in as solutions are agreed", "say": "Take me to Processes"}}}};
+    const filled = (this.props.state ?? 'In progress') !== 'First visit';
+    const D = filled ? ALL.filled : ALL.empty;
+    const s = this.state;
+    const P = D.points;
+    const tags = (pts) => P.filter((p) => pts[p.n]).map((p) => '@Point' + p.n);
+    const say = (t) => { const g = tags(s.pts); this.setState({ draft: (g.length ? g.join(' ') + ' ' : '') + t }); };
+    const rest = (s.draft || '').replace(/@Point\d+\s*/g, '');
+    const out = {
+      filled: filled, empty: !filled, hasPoints: P.length > 0,
+      points: P.map((p) => ({ n: p.n, label: p.label, pressed: !!s.pts[p.n], toggle: () => {
+        const pts = { ...s.pts, [p.n]: !s.pts[p.n] }; const g = tags(pts);
+        this.setState({ pts: pts, draft: (g.length ? g.join(' ') + ' ' : '') + rest }); } })),
+      prompts: D.prompts.map((q) => ({ t: q, use: () => say(q) })),
+      stamp: s.fresh ? D.stamp.fresh : D.stamp.at,
+      since: s.fresh ? D.stamp.fresh_since : D.stamp.since,
+      refresh: () => this.setState({ fresh: true }),
+      act_go: () => say(D.actions.go.say), act_add: () => say(D.actions.add.say), act_jump: () => say(D.actions.jump.say),
+      draft: s.draft, onDraft: (ev) => this.setState({ draft: ev.target.value })
+    };
+    for (let n = 1; n <= 9; n++) out['lit' + n] = filled && !!s.pts[n];
+    return out;
+  }
+}
+</script>
+</body>
+</html>

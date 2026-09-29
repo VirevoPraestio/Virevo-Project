@@ -1,0 +1,188 @@
+{
+ "turn": {
+  "id": "so-01",
+  "tab": "Solutions",
+  "type": "overview",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Show me the five solutions"
+ },
+ "chat": {
+  "text": [
+   "There are five solutions. Two causes sit under them: the hours nobody uses overnight, and nobody owning the whole discharge.",
+   "None needs a new hospital system on day one. Each sheet shows what it still depends on."
+  ],
+  "pointer": "Pick a sheet to work through it, starting wherever matters most to you.",
+  "note": "Every solution is only as good as what it depends on.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Starting on the evening round",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Papers and bill that prepare themselves",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "One person in charge",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Getting the bed ready sooner",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Separating discharge and admission work",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Start with the evening round",
+   "Which one saves the most time?",
+   "Do we need to hire anyone?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Solutions · all five",
+    "title": "Five solutions, two causes",
+    "deck": "Each is drawn from a cause Diagnosis found. Open any sheet to see what it involves."
+   },
+   {
+    "type": "sheets",
+    "items": [
+     {
+      "n": 1,
+      "title": "Start the going-home work on the evening round",
+      "status": "idea",
+      "rev": 0,
+      "from": "Hours nobody uses overnight",
+      "built_in": "Processes",
+      "cons": [
+       {
+        "text": "Doctors sign only an early summary at night",
+        "settled": false
+       },
+       {
+        "text": "Decisions come any time from 6 to 9 PM",
+        "settled": false
+       }
+      ],
+      "more_label": "See what changes",
+      "more_points": [
+       "The doctor’s evening decision starts the discharge that night",
+       "Nurses, billing and pharmacy begin their part before morning",
+       "The family is told the night before",
+       "The doctor signs the final summary on the morning round"
+      ],
+      "point": 1
+     },
+     {
+      "n": 2,
+      "title": "Papers and bill that prepare themselves",
+      "status": "idea",
+      "rev": 0,
+      "from": "Hours nobody uses overnight",
+      "built_in": "Automations",
+      "cons": [
+       {
+        "text": "Your IT team must link the hospital software",
+        "settled": false
+       },
+       {
+        "text": "Typists move from typing to checking",
+        "settled": false
+       }
+      ],
+      "more_label": "See what it does",
+      "more_points": [
+       "The discharge summary is drafted from the day’s notes",
+       "The bill is kept up to date from admission",
+       "The supply count is worked out for the nurses",
+       "The insurance request goes out the evening before"
+      ],
+      "point": 2
+     },
+     {
+      "n": 3,
+      "title": "One person in charge of discharge",
+      "status": "idea",
+      "rev": 0,
+      "from": "Nobody owns the whole discharge",
+      "built_in": "Processes",
+      "cons": [
+       {
+        "text": "Helpers sized to your busy hours",
+        "settled": false
+       },
+       {
+        "text": "Your Head of Operations must approve",
+        "settled": false
+       }
+      ],
+      "more_label": "See the roles",
+      "more_points": [
+       "One Discharge Manager owns every discharge, start to finish",
+       "Helpers are added for the busiest hours",
+       "They chase each step; they do not do each team’s work"
+      ],
+      "point": 3
+     },
+     {
+      "n": 4,
+      "title": "Get the bed ready sooner after the patient leaves",
+      "status": "new",
+      "rev": 0,
+      "from": "Bed empty for 75 minutes",
+      "built_in": "Processes",
+      "cons": [
+       {
+        "text": "Housekeeping staff on each shift",
+        "settled": false
+       },
+       {
+        "text": "The bed desk needs real times",
+        "settled": false
+       }
+      ],
+      "more_label": "See what it involves",
+      "more_points": [
+       "Housekeeping hears the moment the patient leaves",
+       "The bed desk sees cleaning start and finish",
+       "The next patient is called when the bed is ready"
+      ],
+      "point": 4
+     },
+     {
+      "n": 5,
+      "title": "Separate discharge work from admission work",
+      "status": "waiting",
+      "rev": 0,
+      "from": "A question still open",
+      "built_in": "Processes",
+      "cons": [
+       {
+        "text": "Only needed if one team does both today",
+        "settled": false
+       }
+      ],
+      "more_label": "See why it may matter",
+      "more_points": [
+       "New patients arrive in the same hours discharges peak",
+       "One team doing both makes both wait",
+       "If separate teams exist today, this one is dropped"
+      ],
+      "point": 5
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,158 @@
+{
+ "turn": {
+  "id": "au-00",
+  "tab": "Automations",
+  "type": "landing",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "",
+  "context": "The user opens Automations for the first time, from the door in Solutions so-06."
+ },
+ "chat": {
+  "text": [
+   "Solutions agreed what should run by itself. Here are the six automations, each placed at the hour it runs."
+  ],
+  "pointer": "Press Proceed to walk through the night, or pick a point to add to it.",
+  "note": "Nothing switches on until the software is linked.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The link to the hospital software",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Summary from the evening round",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Insurance sent the evening before",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Alerts for the empty bed",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Walk me through the daily automation",
+   "Which one saves the most time?",
+   "Can we test one without the link?"
+  ],
+  "moves": [
+   {
+    "prompt": "Which one saves the most time?",
+    "tab": "Solutions"
+   }
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "landing",
+    "stamp": {
+     "at": "Brought up to date at midnight, 30 September",
+     "since": "Your choice in Solutions this morning is not in yet",
+     "fresh": "Brought up to date just now, 9:46 AM",
+     "fresh_since": "Everything you have said is in"
+    },
+    "standing": "Six automations designed. None switched on yet.",
+    "deck": "They all wait on one link. Your IT team connects the hospital software.",
+    "main": {
+     "title": "Link to the hospital software",
+     "text": "Your IT team lets Tojo read billing, reports and notes.",
+     "status": "waiting",
+     "point": 1
+    },
+    "autos": [
+     {
+      "n": 1,
+      "title": "Summary drafted on the evening round",
+      "when": "Evening round, 6 to 9 PM",
+      "at": "19:30",
+      "status": "designed",
+      "point": 2
+     },
+     {
+      "n": 2,
+      "title": "Running bill kept up to date",
+      "when": "All through the stay",
+      "at": "22:00",
+      "status": "designed"
+     },
+     {
+      "n": 3,
+      "title": "Supply count worked out for the nurses",
+      "when": "When the bill is drawn up",
+      "at": "23:30",
+      "status": "designed"
+     },
+     {
+      "n": 4,
+      "title": "Insurance request sent the evening before",
+      "when": "About 9 PM",
+      "at": "21:00",
+      "status": "designed",
+      "point": 3
+     },
+     {
+      "n": 5,
+      "title": "Final summary signed on a phone",
+      "when": "Morning round",
+      "at": "08:30",
+      "status": "designed"
+     },
+     {
+      "n": 6,
+      "title": "Alerts to housekeeping and the bed desk",
+      "when": "When the patient leaves",
+      "at": "15:15",
+      "status": "idea",
+      "point": 4
+     }
+    ],
+    "evidence": "Other hospitals saved 6 to 8 hours a discharge. Not yet measured here.",
+    "pending": [
+     {
+      "text": "Walk you through the night, station by station.",
+      "who": "tojo",
+      "point": 2
+     },
+     {
+      "text": "List exactly what your IT team must link first.",
+      "who": "tojo",
+      "point": 1
+     },
+     {
+      "text": "Design the alerts for the bed left empty.",
+      "who": "tojo",
+      "point": 4
+     },
+     {
+      "text": "Confirm the insurance desk accepts an evening request.",
+      "who": "you",
+      "need": "Needs your insurance desk’s answer",
+      "point": 3
+     }
+    ],
+    "actions": {
+     "go": {
+      "detail": "Walk through the night",
+      "say": "Walk me through the daily automation"
+     },
+     "add": {
+      "detail": "Name a task to be done for you",
+      "say": "I’d like this done automatically: "
+     },
+     "jump": {
+      "tab": "Processes",
+      "detail": "See what changes on the wards",
+      "say": "Take me to Processes"
+     }
+    }
+   }
+  ]
+ }
+}

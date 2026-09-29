@@ -1,0 +1,148 @@
+{
+ "turn": {
+  "id": "dp-01",
+  "type": "question",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "context": "Tojo · 250-bed hospital, Bhubaneswar",
+  "subject": "discharge-chain",
+  "user_message": "Discharge delays. Our patients are medically fit by mid-morning but most don’t leave till late afternoon."
+ },
+ "chat": {
+  "text": [
+   "Before I suggest anything, I want to see how discharge really runs in your hospital. Most delays that look like discharge problems start further up the chain.",
+   "First stop, the doctors: who writes the discharge summary, who reviews it, who signs it — and when do rounds finish on your busiest wards?"
+  ],
+  "pointer": "The whole route is laid out for you — tap any stop to see what I’ll ask there.",
+  "note": "Most delays start long before the billing desk.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The doctors — who writes, reviews and signs",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Nurses — when they count used supplies",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Pharmacy — returns counted by hand or system",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Billing — bills reopened after closing",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Rounds finish around 11 AM",
+   "A junior doctor writes it, the consultant signs",
+   "Why start with the doctors?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Route map · stop 1 of 11",
+    "title": "The road to going home",
+    "deck": "Eleven stops, each run by a different team. We walk them one at a time."
+   },
+   {
+    "type": "route-map",
+    "start_label": "Doctor decides",
+    "end_label": "Bed ready",
+    "stations": [
+     {
+      "id": "A",
+      "name": "The doctors",
+      "status": "now",
+      "text": "The summary is drafted, reviewed and signed by different people. The round decides when any of it can start.",
+      "heard_as": "“discharges are just slow”",
+      "question": "Who writes the summary, who reviews it, who signs it — and when do rounds finish?",
+      "point": 1
+     },
+     {
+      "id": "B",
+      "name": "Supply count",
+      "status": "next",
+      "text": "The bill can’t be finished until nurses count the used supplies, and they count only when free.",
+      "heard_as": "“billing is slow”",
+      "question": "How long after the doctor signs do nurses start counting supplies?",
+      "point": 2
+     },
+     {
+      "id": "C",
+      "name": "Pharmacy returns",
+      "status": "later",
+      "text": "What was issued, used and can be credited back. Counted by hand, it forces a second pass on the bill.",
+      "heard_as": "“still waiting on pharmacy”",
+      "question": "Is the returnable balance worked out by the system or by a nurse?",
+      "point": 3
+     },
+     {
+      "id": "D",
+      "name": "Billing",
+      "status": "later",
+      "text": "A charge that lands after the bill is closed reopens it.",
+      "heard_as": "“bill revisions at the counter”",
+      "question": "How many bills were reopened after closing last month?",
+      "point": 4
+     },
+     {
+      "id": "E",
+      "name": "Insurance desk",
+      "status": "later",
+      "text": "The insurer’s approval window sits inside the family’s wait.",
+      "question": "Does your discharge time include the whole wait for insurance?"
+     },
+     {
+      "id": "F",
+      "name": "Bed desk",
+      "status": "later",
+      "text": "Discharge times can only be checked against when beds are given out.",
+      "question": "Can the bed desk tell me when those beds were given out?"
+     },
+     {
+      "id": "G",
+      "name": "Housekeeping",
+      "status": "later",
+      "text": "A bed turns from when housekeeping is told, not when the patient left.",
+      "question": "How long from the patient leaving to housekeeping being told?"
+     },
+     {
+      "id": "H",
+      "name": "Transport",
+      "status": "later",
+      "text": "Porters are shared with admissions and diagnostics at the same peak.",
+      "question": "How many porters are on duty at the discharge peak?"
+     },
+     {
+      "id": "I",
+      "name": "Operating theatre",
+      "status": "later",
+      "text": "A bed freed late can’t be used for a same-day operation.",
+      "question": "What’s the latest hour a freed bed can still be used for an operation that day?"
+     },
+     {
+      "id": "J",
+      "name": "Briefing chain",
+      "status": "later",
+      "text": "Dietitian, pharmacist and nurse must each see the patient, in no set order.",
+      "question": "Who has to see the patient before they leave?"
+     },
+     {
+      "id": "K",
+      "name": "Cash counter",
+      "status": "later",
+      "text": "Every discharge meets one counter in a two-hour window.",
+      "question": "Who can release a patient with a balance due?"
+     }
+    ]
+   }
+  ]
+ }
+}

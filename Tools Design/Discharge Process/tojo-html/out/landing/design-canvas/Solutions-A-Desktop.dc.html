@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Solutions landing A — Drawing sheets, desktop</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Caveat:wght@500;700&amp;display=swap">
+<style>
+
+.sh-app{display:flex;min-height:100vh;background:#DCE3DA;font-family:Poppins,system-ui,sans-serif;color:#10241a}
+.sh-rail{width:84px;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding-top:24px;border-right:1px solid rgba(16,36,26,.2)}
+.sh-rail .sh-home{width:52px;height:52px;margin:0 0 22px 16px;border-radius:50%;background:#10241a;display:flex;align-items:center;justify-content:center}
+.sh-rail a.tab{width:60px;border-radius:0 12px 12px 0;color:#10241a;writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.09em;text-transform:uppercase}
+.sh-mid{flex-grow:1;min-width:0;display:flex;flex-direction:column}
+.sh-bar{height:76px;flex-shrink:0;padding:0 36px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(16,36,26,.2)}
+.sh-bar .sh-t{font-family:'Bebas Neue',sans-serif;font-size:40px;line-height:1}
+.sh-bar small{font-size:13px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#44544A;margin-left:14px}
+.sh-btn-o{min-height:44px;padding:0 16px;background:transparent;border:1.5px solid #10241a;border-radius:22px;font:500 13px Poppins,sans-serif;color:#10241a}
+.sh-btn-g{min-height:44px;padding:0 16px;background:#d4a94f;border:none;border-radius:6px;font:600 13px Poppins,sans-serif;letter-spacing:.05em;text-transform:uppercase;color:#10241a}
+.sh-chat{width:420px;flex-shrink:0;padding:20px 20px 20px 0;display:flex}
+.sh-panel{flex-grow:1;background:#10241a;border-radius:18px;display:flex;flex-direction:column;overflow:hidden;color:#F3F1EA}
+.sh-ph{padding:18px 22px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(243,241,234,.12)}
+.sh-av{width:44px;height:44px;border-radius:50%;background:#d4a94f;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:24px;color:#10241a;flex-shrink:0}
+.sh-pb{flex-grow:1;padding:20px 22px;display:flex;flex-direction:column;gap:14px}
+.sh-um{align-self:flex-end;max-width:310px;background:#d4a94f;color:#10241a;padding:12px 14px;border-radius:16px 4px 16px 16px;font-size:14px;line-height:1.5}
+.sh-um b{display:inline-block;margin-right:6px;padding:1px 8px;border-radius:10px;background:#10241a;color:#d4a94f;font-size:12px}
+.sh-tm{align-self:flex-start;background:#F3F1EA;color:#2b2b2b;padding:14px 16px;border-radius:4px 16px 16px 16px;font-size:14px;line-height:1.55;display:flex;flex-direction:column;gap:8px}
+.sh-tm p{margin:0}.sh-tm ul{margin:0;padding-left:18px}.sh-tm li{margin:2px 0}
+.sh-lab{font-size:12px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#9CA9A1}
+.sh-note{margin:0;font-family:Caveat,cursive;font-size:31px;font-weight:700;line-height:1.1;color:#d4a94f}
+.sh-pt{min-height:44px;width:100%;display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;background:rgba(243,241,234,.06);color:#F3F1EA;border:1px solid rgba(243,241,234,.22);border-radius:10px;text-align:left;font:13px/1.35 Poppins,sans-serif;cursor:pointer}
+.sh-pt i{flex-shrink:0;min-width:32px;height:32px;border-radius:8px;border:1px solid rgba(243,241,234,.35);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:600}
+.sh-pt[aria-pressed=true]{background:#d4a94f;color:#10241a;border-color:#d4a94f;font-weight:600}.sh-pt[aria-pressed=true] i{background:#10241a;color:#d4a94f;border-color:#10241a}
+.sh-pr{min-height:44px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 14px;background:transparent;color:#F3F1EA;border:1px dashed rgba(212,169,79,.7);border-radius:22px;text-align:left;font:13px Poppins,sans-serif;cursor:pointer}
+.sh-opt{min-height:44px;padding:0 16px;background:#F3F1EA;color:#10241a;border:none;border-radius:22px;font:500 13px Poppins,sans-serif;cursor:pointer}
+.sh-col{display:flex;flex-direction:column;gap:6px}.sh-row{display:flex;flex-wrap:wrap;gap:8px}
+.sh-inp{padding:14px 18px 16px;background:#0b1712;display:flex;flex-direction:column;gap:8px}
+.sh-inp textarea{width:100%;box-sizing:border-box;resize:none;background:#F3F1EA;color:#2b2b2b;border:none;border-radius:10px;padding:12px 14px;font:14px/1.5 Poppins,sans-serif;outline:none}
+.sh-ib{width:44px;height:44px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.sh-send{width:48px;height:48px;border-radius:50%;background:#d4a94f;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.sh-m{width:390px;margin:0 auto;min-height:100vh;background:#DCE3DA;display:flex;flex-direction:column;font-family:Poppins,system-ui,sans-serif;color:#10241a}
+.sh-mt{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(16,36,26,.2)}
+.sh-mc{flex-grow:1;padding:16px 0 20px;display:flex;flex-direction:column;gap:14px}
+.sh-mc > .sh-um,.sh-mc > .sh-who{margin:0 14px}.sh-mc > .sh-mpanel{margin:0 14px;background:#10241a;color:#F3F1EA;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:14px}
+.sh-who{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#44544A}
+.sh-mi{padding:12px 14px;background:#0b1712;display:flex;align-items:center;gap:10px;position:sticky;bottom:64px}
+.sh-mi .sh-box{flex-grow:1;min-width:0;display:flex;align-items:center;gap:2px;background:#F3F1EA;border-radius:24px;padding:0 4px 0 16px}
+.sh-mi input{flex-grow:1;min-width:0;min-height:48px;border:none;background:transparent;font:14px Poppins,sans-serif;color:#2b2b2b;outline:none}
+.sh-mf{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));background:#0b1712;padding:0 8px 12px;border-top:1px solid rgba(243,241,234,.12);position:sticky;bottom:0}
+.sh-mf a{height:52px;display:flex;align-items:center;justify-content:center}
+.sh-m .tj{border-radius:0}
+
+
+.sh-rail a.sh-tab{width:60px;border-radius:0 12px 12px 0;color:#10241a;writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.09em;text-transform:uppercase}
+.sh-rail a.sh-tab[aria-current=page]{width:70px;font-weight:700}
+.sh-mf a[aria-current=page]{box-shadow:inset 0 3px 0 #d4a94f}
+.sh-mid main{flex-grow:1}
+body{margin:0}
+[data-lit="true"],.lp .is-lit{outline:4px solid #d4a94f !important;outline-offset:3px}
+
+
+.lp-host{container-type:inline-size;container-name:lp;width:100%}
+.lp{box-sizing:border-box;font-family:'Poppins','Segoe UI',system-ui,sans-serif}
+.lp *,.lp *::before,.lp *::after{box-sizing:border-box}
+.lp button{font:inherit;color:inherit;cursor:pointer}
+.lp :focus-visible{outline:3px solid #d4a94f;outline-offset:2px}
+.lp p{margin:0}
+.lp ul,.lp ol{margin:0;padding:0;list-style:none}
+.lp-refresh{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;flex-shrink:0}
+.lp-refresh.is-done svg{transform:rotate(360deg);transition:transform .6s ease}
+@media (prefers-reduced-motion:reduce){.lp *{animation:none !important;transition:none !important}}
+.lp-act{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;min-height:56px}
+.lp-act-k{font-weight:600}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+.lp-so{--ground:#E3EAF0;--sheet:#F8FAFC;--ink:#15304D;--muted:#4A5D72;--line:#2E5E8E;--grid:rgba(21,48,77,.07);--gold:#d4a94f;--gold-t:#6B4F16;--amber:#8A5608;--green:#2F6B4F;
+  background-color:var(--ground);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;
+  color:var(--ink);padding:18px 32px 22px;display:flex;flex-direction:column;gap:14px}
+.lp-so .so-label{font-size:13px;font-weight:600;color:var(--muted)}
+.lp-so .so-mast{display:flex;justify-content:space-between;align-items:stretch;gap:18px}
+.lp-so .so-id{display:flex;align-items:center;gap:14px}
+.lp-so .so-emblem{width:44px;height:44px;color:var(--ink)}
+.lp-so .so-eyebrow{font-size:13px;font-weight:500;color:var(--muted)}
+.lp-so .so-tab{margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:48px;line-height:.9;letter-spacing:.01em}
+.lp-so .so-block{border:1.5px solid var(--ink);background:var(--sheet);display:grid;grid-template-columns:auto auto;align-items:center;column-gap:14px;padding:5px 6px 6px 12px;position:relative}
+.lp-so .so-block-l{grid-column:1/-1;font-size:11px;font-weight:600;color:var(--muted);border-bottom:1px solid rgba(21,48,77,.25);padding-bottom:3px;margin-bottom:5px}
+.lp-so .so-block .lp-stamp{display:contents}
+.lp-so .lp-stamp-txt{display:flex;flex-direction:column}
+.lp-so .lp-stamp-at{font-size:13px;font-weight:600} .lp-so .lp-stamp-since{font-size:12px;color:var(--muted)}
+.lp-so .lp-refresh{background:var(--ink);color:#F8FAFC;border:none;border-radius:2px;font-size:13px;font-weight:500}
+.lp-so .lp-refresh:hover{background:var(--line)}
+.lp-so .so-claim{margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:37px;line-height:.95;letter-spacing:.01em}
+.lp-so .so-deck{margin-top:5px;font-size:14.5px;color:var(--muted);max-width:78ch;line-height:1.45}
+.lp-so .so-tri{position:relative;display:inline-flex;width:26px;height:23px;align-items:flex-end;justify-content:center;flex-shrink:0}
+.lp-so .so-tri svg{position:absolute;inset:0;width:100%;height:100%} .lp-so .so-tri path{fill:var(--sheet);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round}
+.lp-so .so-tri b{position:relative;font-size:11px;font-weight:700;line-height:1;padding-bottom:3px}
+.lp-so .so-chip{font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:12px;border:1.5px solid var(--ink);white-space:nowrap}
+.lp-so .so-chip.so-st-agreed{background:var(--ink);color:#F8FAFC}
+.lp-so .so-chip.so-st-shaping{border-color:var(--line);color:var(--line)}
+.lp-so .so-chip.so-st-new{background:var(--gold);border-color:var(--gold);color:#2b2008}
+.lp-so .so-chip.so-st-waiting{border-style:dashed;border-color:var(--amber);color:var(--amber)}
+.lp-so .so-chip.so-st-blank{border-style:dashed;color:var(--muted);border-color:rgba(21,48,77,.4)}
+.lp-so .so-cons{display:flex;flex-direction:column;gap:4px}
+.lp-so .so-cons li{display:flex;gap:8px;font-size:12.5px;line-height:1.35}
+.lp-so .so-cm{flex-shrink:0;width:13px;height:13px;margin-top:2px;border:1.6px solid var(--ink);border-radius:50%}
+.lp-so .so-c-ok .so-cm{background:var(--ink);box-shadow:inset 0 0 0 2.5px var(--sheet)}
+.lp-so .so-c-open .so-cm{border-style:dashed;border-color:var(--amber)}
+.lp-so .so-pend ul{display:flex;flex-direction:column;gap:7px;margin-top:7px}
+.lp-so .so-pend-i{display:flex;gap:10px;font-size:14px;line-height:1.4}
+.lp-so .so-pm{flex-shrink:0;width:14px;height:14px;margin-top:4px;border:1.8px solid var(--ink);transform:rotate(45deg)}
+.lp-so .so-who-you .so-pm{border-style:dashed;border-color:var(--amber)}
+.lp-so .so-need{display:block;font-size:12px;font-weight:600;color:var(--amber)}
+.lp-so .lp-acts{display:flex;gap:8px}
+.lp-so .so-acts-col{flex-direction:column}
+.lp-so .lp-act{justify-content:center;padding:6px 16px;min-height:52px;border:1.5px solid var(--ink);background:var(--sheet);border-radius:2px;font-size:14px;position:relative}
+.lp-so .lp-act-d{font-size:12.5px;color:var(--muted)}
+.lp-so .lp-act-go{background:var(--ink);color:#F8FAFC} .lp-so .lp-act-go .lp-act-d{color:#C9D6E3}
+.lp-so .lp-act-go::after{content:'';position:absolute;right:14px;top:50%;width:18px;border-top:2px solid var(--gold)}
+.lp-so .lp-act:hover{border-color:var(--line)}
+/* A: sheets */
+.lp-so-a .so-sheets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 16px}
+.lp-so-a .so-sheet{position:relative;margin:0 8px 8px 0}
+.lp-so-a .so-layer{position:absolute;inset:0;transform:translate(calc(var(--k) * 4px),calc(var(--k) * 4px));background:var(--sheet);border:1.2px solid rgba(21,48,77,.45)}
+.lp-so-a .so-sh-in{position:relative;background:var(--sheet);border:1.5px solid var(--ink);padding:8px 12px 10px;height:100%;display:flex;flex-direction:column;gap:4px}
+.lp-so-a .so-sh-in::before,.lp-so-a .so-sh-in::after{content:'';position:absolute;width:9px;height:9px;border:1.5px solid var(--line)}
+.lp-so-a .so-sh-in::before{top:3px;left:3px;border-right:none;border-bottom:none} .lp-so-a .so-sh-in::after{bottom:3px;right:3px;border-left:none;border-top:none}
+.lp-so-a .so-sh-head{display:flex;align-items:center;gap:8px} .lp-so-a .so-sh-n{font-size:12px;font-weight:600;color:var(--muted);margin-right:auto}
+.lp-so-a .so-sh-t{margin:0;font-size:14.5px;font-weight:600;line-height:1.3}
+.lp-so-a .so-from{font-size:11.5px;color:var(--line);font-style:italic}
+.lp-so-a .so-sheet.so-st-new .so-sh-in{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,169,79,.25)}
+.lp-so-a .so-sheet.so-st-blank .so-sh-in{border-style:dashed;background:transparent;min-height:110px} .lp-so-a .so-st-blank .so-sh-t{color:var(--muted);font-weight:500}
+.lp-so-a .so-tally{border:1.5px dashed var(--ink);padding:10px 12px;display:flex;flex-direction:column;gap:8px;margin:0 8px 8px 0;font-size:12.5px;color:var(--muted);line-height:1.4}
+.lp-so-a .so-dim{display:flex;gap:4px;position:relative;padding:0 8px}
+.lp-so-a .so-dim::before,.lp-so-a .so-dim::after{content:'';position:absolute;top:-4px;bottom:-4px;border-left:1.5px solid var(--ink)} .lp-so-a .so-dim::before{left:0} .lp-so-a .so-dim::after{right:0}
+.lp-so-a .so-dim span{font-size:12px;font-weight:600;text-align:center;padding:5px 4px;white-space:nowrap}
+.lp-so-a .so-dim-ok{background:var(--ink);color:#F8FAFC} .lp-so-a .so-dim-open{border:1.5px dashed var(--amber);color:var(--amber)}
+.lp-so-a .so-a-foot,.lp-so-b .so-b-foot{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:24px;align-items:start}
+/* B: tracks */
+.lp-so-b .so-tracks{background:var(--sheet);border:1.5px solid var(--ink);padding:6px 16px 8px}
+.lp-so-b .so-tk-head,.lp-so-b .so-tk{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr) 104px;column-gap:16px;align-items:center}
+.lp-so-b .so-tk-head{font-size:11.5px;font-weight:600;color:var(--muted);padding:6px 0;border-bottom:1.5px solid var(--ink)}
+.lp-so-b .so-tk-scale{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));text-align:center} .lp-so-b .so-tk-scale b{font-weight:600}
+.lp-so-b .so-tk{padding:7px 0;border-bottom:1px dashed rgba(21,48,77,.3)} .lp-so-b .so-tk:last-child{border-bottom:none}
+.lp-so-b .so-tk-name{display:grid;grid-template-columns:24px minmax(0,1fr);column-gap:8px;row-gap:3px;align-items:start}
+.lp-so-b .so-tk-n{width:24px;height:24px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.lp-so-b .so-tk-t{font-size:13.5px;font-weight:600;line-height:1.3}
+.lp-so-b .so-tk-rev{grid-column:2;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--line);line-height:1.3} .lp-so-b .so-tk-rev .so-tri{transform:scale(.85)}
+.lp-so-b .so-tk-line{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.lp-so-b .so-tk-line::before{content:'';position:absolute;left:12.5%;right:12.5%;top:8px;border-top:1.5px solid var(--ink)}
+.lp-so-b .so-tk-line::after{content:'';position:absolute;right:calc(12.5% - 6px);top:3px;border:6px solid transparent;border-left:9px solid var(--ink);border-right:none}
+.lp-so-b .so-tk-line li{display:flex;flex-direction:column;align-items:center;position:relative}
+.lp-so-b .so-tk-dot{width:17px;height:17px;border-radius:50%;background:var(--sheet);border:1.5px solid rgba(21,48,77,.45);position:relative;z-index:1}
+.lp-so-b .so-tk-l{display:none}
+.lp-so-b .is-done .so-tk-dot{background:var(--ink);border-color:var(--ink)}
+.lp-so-b .is-at .so-tk-dot{background:var(--gold);border:2px solid var(--ink);width:21px;height:21px;margin-top:-2px}
+.lp-so-b .so-st-agreed .is-at .so-tk-dot{background:var(--ink);box-shadow:0 0 0 4px rgba(212,169,79,.6)}
+.lp-so-b .so-st-waiting .is-at .so-tk-dot{background:var(--sheet);border-style:dashed;border-color:var(--amber)}
+.lp-so-b .so-tk-dep{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted)}
+.lp-so-b .so-marks{display:flex;gap:3px} .lp-so-b .so-marks i{width:12px;height:12px;border-radius:50%;border:1.6px solid var(--ink)}
+.lp-so-b .so-marks .so-m-ok{background:var(--ink)} .lp-so-b .so-marks .so-m-open{border-style:dashed;border-color:var(--amber)}
+/* C: log and register */
+.lp-so-c .so-c-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:22px;align-items:start}
+.lp-so-c .so-log ol{margin-top:8px;position:relative;display:flex;flex-direction:column;gap:10px;padding-left:4px}
+.lp-so-c .so-log ol::before{content:'';position:absolute;left:68px;top:8px;bottom:8px;border-left:1.5px dashed var(--line)}
+.lp-so-c .so-log li{display:grid;grid-template-columns:48px 34px minmax(0,1fr);column-gap:8px;align-items:start;position:relative}
+.lp-so-c .so-lg-when{font-size:11.5px;font-weight:600;color:var(--muted);padding-top:4px;white-space:nowrap}
+.lp-so-c .so-log li > div{background:var(--sheet);border:1.5px solid var(--ink);padding:7px 10px;display:flex;flex-direction:column;gap:2px}
+.lp-so-c .so-log b{font-size:13px;font-weight:600;line-height:1.3} .lp-so-c .so-log li span{font-size:12px;color:var(--muted);line-height:1.35}
+.lp-so-c .so-new{display:inline-flex;align-items:center;justify-content:center;height:22px;padding:0 5px;font-size:10.5px;font-weight:700;background:var(--gold);color:#2b2008 !important}
+.lp-so-c .so-lg-empty{grid-template-columns:minmax(0,1fr) !important} .lp-so-c .so-lg-empty > div{border-style:dashed !important;background:transparent !important}
+.lp-so-c .so-log:has(.so-lg-empty) ol::before{display:none}
+.lp-so-c .so-reg ol{margin-top:8px;background:var(--sheet);border:1.5px solid var(--ink)}
+.lp-so-c .so-rg{display:grid;grid-template-columns:28px minmax(0,1fr) auto;column-gap:10px;align-items:center;padding:8px 12px;border-bottom:1px solid rgba(21,48,77,.2)}
+.lp-so-c .so-rg:last-child{border-bottom:none}
+.lp-so-c .so-rg-n{font-family:'Bebas Neue',sans-serif;font-size:24px;line-height:1;color:var(--line)}
+.lp-so-c .so-rg-t{font-size:13.5px;font-weight:600;line-height:1.3} .lp-so-c .so-rg-l{font-size:11.5px;color:var(--muted)}
+.lp-so-c .so-rg-r{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.lp-so-c .so-rg-bar{width:84px;height:6px;border:1px solid var(--ink);display:block} .lp-so-c .so-rg-bar span{display:block;height:100%;background:var(--ink)}
+.lp-so-c .so-st-blank .so-rg-t{color:var(--muted);font-weight:500}
+.lp-so-c .so-c-foot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:22px;align-items:start}
+.lp-so-c .so-acts-row{flex-direction:column}
+/* first visit */
+.lp-so[data-lp-state=empty] .so-claim{color:var(--muted)}
+/* narrow */
+@container lp (max-width:699px){
+  .lp-so{padding:16px 14px 22px;gap:16px}
+  .lp-so .so-mast{flex-direction:column;align-items:stretch;gap:12px}
+  .lp-so .so-tab{font-size:42px} .lp-so .so-claim{font-size:34px}
+  .lp-so .lp-acts{flex-direction:column}
+  .lp-so-a .so-sheets{grid-template-columns:minmax(0,1fr)}
+  .lp-so-a .so-a-foot,.lp-so-b .so-b-foot,.lp-so-c .so-c-body,.lp-so-c .so-c-foot{grid-template-columns:minmax(0,1fr)}
+  .lp-so-b .so-tracks{padding:4px 12px}
+  .lp-so-b .so-tk-head{display:none}
+  .lp-so-b .so-tk{grid-template-columns:minmax(0,1fr);row-gap:8px;padding:12px 0}
+  .lp-so-b .so-tk-l{display:block;font-size:10.5px;color:var(--muted);margin-top:3px;text-align:center;line-height:1.2}
+  .lp-so-b .so-tk-dep{flex-direction:row;align-items:center;gap:8px}
+  .lp-so-c .so-rg{grid-template-columns:24px minmax(0,1fr);row-gap:6px} .lp-so-c .so-rg-r{grid-column:2;flex-direction:row;align-items:center;justify-content:space-between}
+}
+
+</style>
+</helmet>
+<div class="sh-app" style="width:1440px;height:1099px;background:#E3EAF0"><nav class="sh-rail" aria-label="Sections"><a class="sh-home" href="Main.dc.html" aria-label="Home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d4a94f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></a><a class="sh-tab" href="#" style="height:136px;background:#E3E6DF">Resources</a><a class="sh-tab" href="#" style="height:124px;background:#EDE3CB">Diagnosis</a><a class="sh-tab" href="#" aria-current="page" style="height:140px;background:#15304D;color:#F1D493">Solutions</a><a class="sh-tab" href="#" style="height:140px;background:#E8E1D4">Automations</a><a class="sh-tab" href="#" style="height:128px;background:#D9DDD6">Processes</a></nav><div class="sh-mid"><header class="sh-bar"><div><span class="sh-t">Discharge Process</span><small>Solutions tab</small></div><div style="display:flex;gap:10px"><button class="sh-btn-o">Guided tour</button><button class="sh-btn-g">Your tasks for the day</button></div></header><main><sc-if value="{{filled}}" hint-placeholder-val="{{ true }}"><div class="lp-host"><div class="lp lp-so lp-so-a" data-lp-state="filled"><header class="so-mast"><div class="so-id"><svg class="so-emblem" viewBox="0 0 48 48" aria-hidden="true"><path d="M17 36h14M19 42h10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M24 5a13 13 0 00-8 23.2c1.5 1.4 2 2.8 2 4.8h12c0-2 .5-3.4 2-4.8A13 13 0 0024 5z" fill="none" stroke="currentColor" stroke-width="3"/><path d="M24 12v6M24 18l-4 5M24 18l4 5" stroke="#d4a94f" stroke-width="2.4" stroke-linecap="round"/><circle cx="24" cy="18" r="2" fill="#d4a94f"/></svg><div><div class="so-eyebrow">Discharge Process</div><h2 class="so-tab">Solutions</h2></div></div><div class="so-block"><div class="so-block-l">Updated every night at midnight</div><div class="lp-stamp"><div class="lp-stamp-txt"><span class="lp-stamp-at">{{stamp}}</span><span class="lp-stamp-since">{{since}}</span></div><button class="lp-refresh" type="button" onClick="{{refresh}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 10-2.3 5.7"/><path d="M20 4v7h-7"/></svg><span>Refresh now</span></button></div></div></header><div class="so-stand"><h3 class="so-claim">Five solutions on the table. Two are agreed.</h3><p class="so-deck">Each comes from a cause Diagnosis found, is tested against what it depends on, and is redrawn when something changes.</p></div><div class="so-sheets"><article class="so-sheet so-st-agreed" data-pt="1" data-lit="{{lit1}}"><span class="so-layer" style="--k:2" aria-hidden="true"></span><span class="so-layer" style="--k:1" aria-hidden="true"></span><div class="so-sh-in"><div class="so-sh-head"><span class="so-sh-n">Solution 1</span><span class="so-tri " title="Revision 2"><svg viewBox="0 0 26 23" aria-hidden="true"><path d="M13 2L24.5 21.5H1.5z"/></svg><b>2</b><span class="sr">Revision 2</span></span><span class="so-chip so-st-agreed">Agreed</span></div><h4 class="so-sh-t">Start the going-home work on the evening round</h4><div class="so-from">From: Hours nobody uses overnight</div><ul class="so-cons"><li class="so-c-ok"><span class="so-cm" aria-hidden="true"></span><span>Doctors sign only an early summary in the evening</span><span class="sr">settled</span></li><li class="so-c-ok"><span class="so-cm" aria-hidden="true"></span><span>Decisions come anywhere from 6 to 9 PM</span><span class="sr">settled</span></li><li class="so-c-open"><span class="so-cm" aria-hidden="true"></span><span>Cash and insured patients leave at different times</span><span class="sr">still open</span></li></ul></div></article><article class="so-sheet so-st-shaping" data-pt="2" data-lit="{{lit2}}"><span class="so-layer" style="--k:1" aria-hidden="true"></span><div class="so-sh-in"><div class="so-sh-head"><span class="so-sh-n">Solution 2</span><span class="so-tri " title="Revision 1"><svg viewBox="0 0 26 23" aria-hidden="true"><path d="M13 2L24.5 21.5H1.5z"/></svg><b>1</b><span class="sr">Revision 1</span></span><span class="so-chip so-st-shaping">Being shaped</span></div><h4 class="so-sh-t">Papers and bill that prepare themselves</h4><div class="so-from">From: Hours nobody uses overnight</div><ul class="so-cons"><li class="so-c-open"><span class="so-cm" aria-hidden="true"></span><span>Your IT team must link the hospital software first</span><span class="sr">still open</span></li><li class="so-c-open"><span class="so-cm" aria-hidden="true"></span><span>Typists have the most to give up</span><span class="sr">still open</span></li><li class="so-c-ok"><span class="so-cm" aria-hidden="true"></span><span>Doctors sign on a phone</span><span class="sr">settled</span></li></ul></div></article><article class="so-sheet so-st-agreed" data-pt="3" data-lit="{{lit3}}"><span class="so-layer" style="--k:2" aria-hidden="true"></span><span class="so-layer" style="--k:1" aria-hidden="true"></span><div class="so-sh-in"><div class="so-sh-head"><span class="so-sh-n">Solution 3</span><span class="so-tri " title="Revision 2"><svg viewBox="0 0 26 23" aria-hidden="true"><path d="M13 2L24.5 21.5H1.5z"/></svg><b>2</b><span class="sr">Revision 2</span></span><span class="so-chip so-st-agreed">Agreed</span></div><h4 class="so-sh-t">One person in charge of discharge</h4><div class="so-from">From: Nobody in charge</div><ul class="so-cons"><li class="so-c-ok"><span class="so-cm" aria-hidden="true"></span><span>Costs ₹10 to 11.5 lakh a year</span><span class="sr">settled</span></li><li class="so-c-open"><span class="so-cm" aria-hidden="true"></span><span>Head of Operations must approve</span><span class="sr">still open</span></li></ul></div></article><article class="so-sheet so-st-new" data-pt="4" data-lit="{{lit4}}"><div class="so-sh-in"><div class="so-sh-head"><span class="so-sh-n">Solution 4</span><span class="so-tri " title="Revision 0"><svg viewBox="0 0 26 23" aria-hidden="true"><path d="M13 2L24.5 21.5H1.5z"/></svg><b>0</b><span class="sr">Revision 0</span></span><span class="so-chip so-st-new">New</span></div><h4 class="so-sh-t">Get the bed ready sooner after the patient leaves</h4><div class="so-from">From: Bed empty for 75 minutes</div><ul class="so-cons"><li class="so-c-open"><span class="so-cm" aria-hidden="true"></span><span>Housekeeping staff on each shift</span><span class="sr">still open</span></li><li class="so-c-open"><span class="so-cm" aria-hidden="true"></span><span>The bed desk needs real times</span><span class="sr">still open</span></li></ul></div></article><article class="so-sheet so-st-waiting" data-pt="5" data-lit="{{lit5}}"><div class="so-sh-in"><div class="so-sh-head"><span class="so-sh-n">Solution 5</span><span class="so-tri " title="Revision 0"><svg viewBox="0 0 26 23" aria-hidden="true"><path d="M13 2L24.5 21.5H1.5z"/></svg><b>0</b><span class="sr">Revision 0</span></span><span class="so-chip so-st-waiting">Waiting on you</span></div><h4 class="so-sh-t">Separate discharge work from admission work</h4><div class="so-from">From: A question still open</div><ul class="so-cons"><li class="so-c-open"><span class="so-cm" aria-hidden="true"></span><span>Only needed if one team does both today</span><span class="sr">still open</span></li></ul></div></article><div class="so-tally"><div class="so-label">What the solutions depend on</div><div class="so-dim"><span class="so-dim-ok" style="flex:4">4 settled</span><span class="so-dim-open" style="flex:7">7 still open</span></div><p>Settled points hold unless something changes. Open ones need you or Tojo.</p></div></div><div class="so-a-foot"><section class="so-pend"><div class="so-label">What Tojo still has to do</div><ul><li class="so-pend-i so-who-tojo" data-pt="1" data-lit="{{lit1}}"><span class="so-pm" aria-hidden="true"></span><span>Redraw the evening plan for consultants who decide after 8 PM.</span></li><li class="so-pend-i so-who-tojo" data-pt="1" data-lit="{{lit1}}"><span class="so-pm" aria-hidden="true"></span><span>Weigh cash and insured patients separately.</span></li><li class="so-pend-i so-who-tojo" data-pt="3" data-lit="{{lit3}}"><span class="so-pm" aria-hidden="true"></span><span>Draft the case for your Head of Operations.</span></li><li class="so-pend-i so-who-you" data-pt="5" data-lit="{{lit5}}"><span class="so-pm" aria-hidden="true"></span><span>Ask if one team does both discharges and admissions.<span class="so-need">Needs your answer</span></span></li></ul></section><nav class="lp-acts so-acts-col" aria-label="What to do next"><button class="lp-act lp-act-go" type="button" onClick="{{act_go}}"><span class="lp-act-k">Proceed with next step</span><span class="lp-act-d">Settle the open points on the paperwork</span></button><button class="lp-act lp-act-add" type="button" onClick="{{act_add}}"><span class="lp-act-k">Add more</span><span class="lp-act-d">Add a solution or a worry of your own</span></button><button class="lp-act lp-act-jump" type="button" onClick="{{act_jump}}"><span class="lp-act-k">Jump to Automations</span><span class="lp-act-d">Two solutions run as automations</span></button></nav></div></div></div></sc-if><sc-if value="{{empty}}" hint-placeholder-val="{{ false }}"><div class="lp-host"><div class="lp lp-so lp-so-a" data-lp-state="empty"><header class="so-mast"><div class="so-id"><svg class="so-emblem" viewBox="0 0 48 48" aria-hidden="true"><path d="M17 36h14M19 42h10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M24 5a13 13 0 00-8 23.2c1.5 1.4 2 2.8 2 4.8h12c0-2 .5-3.4 2-4.8A13 13 0 0024 5z" fill="none" stroke="currentColor" stroke-width="3"/><path d="M24 12v6M24 18l-4 5M24 18l4 5" stroke="#d4a94f" stroke-width="2.4" stroke-linecap="round"/><circle cx="24" cy="18" r="2" fill="#d4a94f"/></svg><div><div class="so-eyebrow">Discharge Process</div><h2 class="so-tab">Solutions</h2></div></div><div class="so-block"><div class="so-block-l">Updated every night at midnight</div><div class="lp-stamp"><div class="lp-stamp-txt"><span class="lp-stamp-at">{{stamp}}</span><span class="lp-stamp-since">{{since}}</span></div><button class="lp-refresh" type="button" onClick="{{refresh}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 10-2.3 5.7"/><path d="M20 4v7h-7"/></svg><span>Refresh now</span></button></div></div></header><div class="so-stand"><h3 class="so-claim">No solutions yet</h3><p class="so-deck">Solutions appear here as Diagnosis finds what causes the delay. You can also bring one of your own to test.</p></div><div class="so-sheets"><article class="so-sheet so-st-blank"><div class="so-sh-in"><div class="so-sh-head"><span class="so-sh-n">Empty sheet</span><span class="so-chip so-st-blank">Not started</span></div><h4 class="so-sh-t">Appears once Diagnosis names a cause</h4></div></article><article class="so-sheet so-st-blank"><div class="so-sh-in"><div class="so-sh-head"><span class="so-sh-n">Empty sheet</span><span class="so-chip so-st-blank">Not started</span></div><h4 class="so-sh-t">Appears once Diagnosis names a cause</h4></div></article><article class="so-sheet so-st-blank"><div class="so-sh-in"><div class="so-sh-head"><span class="so-sh-n">Empty sheet</span><span class="so-chip so-st-blank">Not started</span></div><h4 class="so-sh-t">Or one you bring yourself</h4></div></article></div><div class="so-a-foot"><section class="so-pend"><div class="so-label">What Tojo still has to do</div><ul><li class="so-pend-i so-who-tojo"><span class="so-pm" aria-hidden="true"></span><span>Wait for Diagnosis to name what causes the delay.</span></li><li class="so-pend-i so-who-tojo"><span class="so-pm" aria-hidden="true"></span><span>Turn each cause into one or more solutions.</span></li><li class="so-pend-i so-who-tojo"><span class="so-pm" aria-hidden="true"></span><span>Work through what each one depends on: cost, people, systems, patients and timing.</span></li></ul></section><nav class="lp-acts so-acts-col" aria-label="What to do next"><button class="lp-act lp-act-go" type="button" onClick="{{act_go}}"><span class="lp-act-k">Proceed with next step</span><span class="lp-act-d">Begin in Diagnosis</span></button><button class="lp-act lp-act-add" type="button" onClick="{{act_add}}"><span class="lp-act-k">Add more</span><span class="lp-act-d">Add a solution you already have in mind</span></button><button class="lp-act lp-act-jump" type="button" onClick="{{act_jump}}"><span class="lp-act-k">Jump to Automations</span><span class="lp-act-d">Fills in once solutions are agreed</span></button></nav></div></div></div></sc-if></main></div><aside class="sh-chat" aria-label="Chat with Tojo"><div class="sh-panel"><div class="sh-ph"><div class="sh-av">T</div><div><div style="font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1">Tojo</div><div style="font-size:12px;color:#9CA9A1">250-bed hospital, Bhubaneswar</div></div></div><div class="sh-pb"><sc-if value="{{filled}}" hint-placeholder-val="{{ true }}"><div class="sh-tm"><p>Here’s where the solutions stand. Two are agreed, two are being shaped, and your real times raised a new one.</p><p>Seven points are still open. The paperwork has the most of them.</p><p>Pick a point to add to it, or choose what to do next on the page.</p></div><div><div class="sh-lab" style="margin-bottom:4px">Tojo’s note</div><p class="sh-note">A solution is only as good as what it depends on.</p></div></sc-if><sc-if value="{{empty}}" hint-placeholder-val="{{ false }}"><div class="sh-tm"><p>This is your Solutions page. Nothing is on it yet.</p><p>Solutions appear as Diagnosis finds the causes. If you already have one in mind, add it and we’ll test it.</p></div><div><div class="sh-lab" style="margin-bottom:4px">Tojo’s note</div><p class="sh-note">Every solution starts with a cause.</p></div></sc-if><sc-if value="{{hasPoints}}" hint-placeholder-val="{{ true }}"><div class="sh-col"><div class="sh-lab">Add to a point — pick one or more</div><sc-for list="{{points}}" as="p" hint-placeholder-count="5"><button class="sh-pt" aria-pressed="{{p.pressed}}" onClick="{{p.toggle}}"><i>P{{p.n}}</i><span>{{p.label}}</span></button></sc-for></div></sc-if><div class="sh-col"><div class="sh-lab">Or ask next</div><sc-for list="{{prompts}}" as="q" hint-placeholder-count="3"><button class="sh-pr" onClick="{{q.use}}">{{q.t}}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d4a94f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button></sc-for></div></div><div class="sh-inp"><label for="tojo-input" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Message Tojo</label><textarea id="tojo-input" rows="2" placeholder="Write to Tojo…" value="{{draft}}" onChange="{{onDraft}}"></textarea><div style="display:flex;align-items:center"><button class="sh-ib" aria-label="Attach a file"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F3F1EA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11l-8.5 8.5a5 5 0 01-7-7L14 4a3.5 3.5 0 015 5l-8.5 8.5a2 2 0 01-3-3L15 7"/></svg></button><button class="sh-ib" aria-label="Attach a spreadsheet"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F3F1EA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 10h16"/><path d="M4 15h16"/><path d="M10 4v16"/></svg></button><button class="sh-ib" aria-label="Voice note"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F3F1EA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><path d="M12 18v3"/></svg></button><span style="flex-grow:1"></span><button class="sh-send" aria-label="Send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10241a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button></div></div></div></aside></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["In progress","First visit"],"default":"In progress"},"$preview":{"width":1440,"height":1099}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { pts: {}, draft: '', fresh: false }; }
+  renderVals() {
+    const ALL = {"filled": {"points": [{"n": 1, "label": "Starting on the evening round"}, {"n": 2, "label": "Papers and bill that prepare themselves"}, {"n": 3, "label": "One person in charge"}, {"n": 4, "label": "Getting the bed ready sooner"}, {"n": 5, "label": "Separating discharge and admission work"}], "prompts": ["Let’s settle the paperwork’s open points", "What if our IT team can’t link the systems?", "What changed since yesterday?"], "stamp": {"at": "Brought up to date at midnight, 28 September", "since": "1 conversation since then is not in yet", "fresh": "Brought up to date just now, 9:42 AM", "fresh_since": "Everything you have said is in"}, "actions": {"go": {"detail": "Settle the open points on the paperwork", "say": "Let’s settle the open points on the paperwork"}, "add": {"detail": "Add a solution or a worry of your own", "say": "I want to add a solution: "}, "jump": {"tab": "Automations", "detail": "Two solutions run as automations", "say": "Take me to Automations"}}}, "empty": {"points": [], "prompts": ["Start with the diagnosis", "I already have a solution in mind", "What kinds of solutions are there?"], "stamp": {"at": "Nothing to bring up to date yet", "since": "This page fills in as Diagnosis finds causes", "fresh": "Checked just now, 9:42 AM", "fresh_since": "No solutions yet"}, "actions": {"go": {"detail": "Begin in Diagnosis", "say": "Take me to Diagnosis"}, "add": {"detail": "Add a solution you already have in mind", "say": "I already have a solution in mind: "}, "jump": {"tab": "Automations", "detail": "Fills in once solutions are agreed", "say": "Take me to Automations"}}}};
+    const filled = (this.props.state ?? 'In progress') !== 'First visit';
+    const D = filled ? ALL.filled : ALL.empty;
+    const s = this.state;
+    const P = D.points;
+    const tags = (pts) => P.filter((p) => pts[p.n]).map((p) => '@Point' + p.n);
+    const say = (t) => { const g = tags(s.pts); this.setState({ draft: (g.length ? g.join(' ') + ' ' : '') + t }); };
+    const rest = (s.draft || '').replace(/@Point\d+\s*/g, '');
+    const out = {
+      filled: filled, empty: !filled, hasPoints: P.length > 0,
+      points: P.map((p) => ({ n: p.n, label: p.label, pressed: !!s.pts[p.n], toggle: () => {
+        const pts = { ...s.pts, [p.n]: !s.pts[p.n] }; const g = tags(pts);
+        this.setState({ pts: pts, draft: (g.length ? g.join(' ') + ' ' : '') + rest }); } })),
+      prompts: D.prompts.map((q) => ({ t: q, use: () => say(q) })),
+      stamp: s.fresh ? D.stamp.fresh : D.stamp.at,
+      since: s.fresh ? D.stamp.fresh_since : D.stamp.since,
+      refresh: () => this.setState({ fresh: true }),
+      act_go: () => say(D.actions.go.say), act_add: () => say(D.actions.add.say), act_jump: () => say(D.actions.jump.say),
+      draft: s.draft, onDraft: (ev) => this.setState({ draft: ev.target.value })
+    };
+    for (let n = 1; n <= 9; n++) out['lit' + n] = filled && !!s.pts[n];
+    return out;
+  }
+}
+</script>
+</body>
+</html>

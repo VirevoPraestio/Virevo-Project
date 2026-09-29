@@ -1,0 +1,72 @@
+{
+ "turn": {
+  "id": "so-03",
+  "tab": "Solutions",
+  "type": "challenge",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Our doctors don’t use voice notes, and we don’t record half of these details today."
+ },
+ "chat": {
+  "text": [
+   "Fair challenge. I described the evening round as if your doctors already recorded each decision. They don’t, and they don’t need to.",
+   "Tojo adds that step as a new layer. What must already exist at your hospital is much smaller."
+  ],
+  "pointer": "The two sheets show what Tojo adds and the little that must already be there.",
+  "note": "Tojo adds the recording. Your hospital only shares what it already keeps.",
+  "points": [
+   {
+    "n": 1,
+    "label": "What Tojo adds",
+    "canvas": false
+   },
+   {
+    "n": 2,
+    "label": "What must already be there",
+    "canvas": false
+   },
+   {
+    "n": 3,
+    "label": "Where the answer changes",
+    "canvas": false
+   }
+  ],
+  "prompts": [
+   "What does our IT team have to do?",
+   "What if our notes are on paper?",
+   "Next, who has to agree?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Solutions 1 and 2 · a correction",
+    "title": "A new layer, not a new habit",
+    "deck": "What Tojo adds to the evening round, and the little your hospital must already have."
+   },
+   {
+    "type": "split",
+    "said": "Our doctors don’t use voice notes, and we don’t record half of these details today.",
+    "supplied": {
+     "title": "A short record of each decision",
+     "items": [
+      "A one-tap form on the ward phone for each decision",
+      "The summary drafted from notes already in your files",
+      "A daily list of who goes home tomorrow",
+      "Reminders to the teams who act that night"
+     ]
+    },
+    "required": {
+     "title": "Three things you already have",
+     "items": [
+      "Doctors deciding on the evening round, as today",
+      "Notes and reports kept in your hospital software",
+      "One person in IT to give read-only access"
+     ]
+    },
+    "threshold": "If your notes are kept only on paper, the drafting waits. The one-tap form and the daily list still work from day one."
+   }
+  ]
+ }
+}

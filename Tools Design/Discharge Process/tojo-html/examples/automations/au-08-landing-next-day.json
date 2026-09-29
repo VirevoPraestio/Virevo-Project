@@ -1,0 +1,166 @@
+{
+ "turn": {
+  "id": "au-08",
+  "tab": "Automations",
+  "type": "landing",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "",
+  "context": "The user comes back the next morning. The page was brought up to date at midnight."
+ },
+ "chat": {
+  "text": [
+   "Overnight, this page caught up with our conversation. The order to switch the automations on is agreed."
+  ],
+  "pointer": "Press Proceed to draft the note for your IT team, or pick a point to add to it.",
+  "note": "One link first. The rest follows.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The link to the hospital software",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Summary from the evening round",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Insurance sent the evening before",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Alerts for the empty bed",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Draft the note for our IT team",
+   "Scope the two-week trial",
+   "I have a new worry to add"
+  ],
+  "moves": [
+   {
+    "prompt": "Scope the two-week trial",
+    "tab": "Processes"
+   }
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "landing",
+    "stamp": {
+     "at": "Brought up to date at midnight, 1 October",
+     "since": "Nothing new since then",
+     "fresh": "Brought up to date just now, 9:40 AM",
+     "fresh_since": "Everything you have said is in"
+    },
+    "standing": "Seven automations designed. The order to switch on is agreed.",
+    "deck": "The form needs no IT work. One link to the hospital software lights most of the rest.",
+    "main": {
+     "title": "Link to the hospital software",
+     "text": "Link 1 is the hospital software. Link 2 is the report system.",
+     "status": "waiting",
+     "point": 1
+    },
+    "autos": [
+     {
+      "n": 1,
+      "title": "Summary drafted on the evening round",
+      "when": "Evening round, 6 to 9 PM",
+      "at": "19:30",
+      "status": "designed",
+      "point": 2
+     },
+     {
+      "n": 2,
+      "title": "Running bill kept up to date",
+      "when": "All through the stay",
+      "at": "22:00",
+      "status": "designed"
+     },
+     {
+      "n": 3,
+      "title": "Supply count worked out for the nurses",
+      "when": "When the bill is drawn up",
+      "at": "23:30",
+      "status": "designed"
+     },
+     {
+      "n": 4,
+      "title": "Insurance request sent the evening before",
+      "when": "About 9 PM",
+      "at": "21:00",
+      "status": "designed",
+      "point": 3
+     },
+     {
+      "n": 5,
+      "title": "Final summary signed on a phone",
+      "when": "Morning round",
+      "at": "08:30",
+      "status": "designed"
+     },
+     {
+      "n": 6,
+      "title": "Alerts to housekeeping and the bed desk",
+      "when": "When the patient leaves",
+      "at": "15:15",
+      "status": "idea",
+      "point": 4
+     },
+     {
+      "n": 7,
+      "title": "Bed desk told the bed is ready",
+      "when": "The minute it is clean",
+      "at": "15:45",
+      "status": "idea"
+     }
+    ],
+    "evidence": "Other hospitals saved 6 to 8 hours a discharge. Not yet measured here.",
+    "pending": [
+     {
+      "text": "Draft the note for your IT team: one link first, reports second.",
+      "who": "tojo",
+      "point": 1
+     },
+     {
+      "text": "Design the alerts for housekeeping and the bed desk.",
+      "who": "tojo",
+      "point": 4
+     },
+     {
+      "text": "Say who in your IT team looks after the hospital software.",
+      "who": "you",
+      "need": "Needs your answer",
+      "point": 1
+     },
+     {
+      "text": "Confirm the insurance desk accepts an evening request.",
+      "who": "you",
+      "need": "Needs your insurance desk’s answer",
+      "point": 3
+     }
+    ],
+    "actions": {
+     "go": {
+      "detail": "Draft the note for your IT team",
+      "say": "Draft the note for our IT team"
+     },
+     "add": {
+      "detail": "Name a task to be done for you",
+      "say": "I’d like this done automatically: "
+     },
+     "jump": {
+      "tab": "Processes",
+      "detail": "Scope the two-week trial",
+      "say": "Scope the two-week trial"
+     }
+    }
+   }
+  ]
+ }
+}

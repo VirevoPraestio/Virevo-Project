@@ -1,0 +1,147 @@
+{
+ "turn": {
+  "id": "dp-06b",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "context": "Tojo · 250-bed hospital, Bhubaneswar",
+  "subject": "solution",
+  "user_message": "Show me the changes on the wards"
+ },
+ "chat": {
+  "text": [
+   "Most of the work stays the same. What changes is when it starts, and who writes it. Why these changes:"
+  ],
+  "bullets": [
+   "Starting in the evening only works if each team knows it has started, so the software tells them.",
+   "Staff approve instead of writing, so nobody does the same work twice.",
+   "The discharge papers are the biggest hold-up today, so they change the most."
+  ],
+  "invite": "Next is the people who must agree, and who has the most to give up. Shall we go there?",
+  "note": "Same steps. They just start the night before.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The evening round",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Discharge papers, the biggest hold-up",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The bill and the supply count",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Insurance",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Family and transport",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Show me the people who must agree",
+   "Why are the papers the biggest hold-up?",
+   "One team does both discharges and admissions"
+  ]
+ },
+ "canvas": {
+  "theme": "sage",
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 2 of 5 · Changes on the wards",
+    "title": "Same steps, started the night before"
+   },
+   {
+    "type": "two-flow",
+    "left_title": "Today",
+    "right_title": "With Virevo",
+    "rows": [
+     {
+      "label": "Evening round",
+      "left": "Doctor decides, nothing is written down",
+      "right": "Decision recorded, papers start",
+      "right_state": "start",
+      "point": 1
+     },
+     {
+      "label": "Discharge papers",
+      "left": "Typed after the morning round",
+      "left_value": "After 11 AM",
+      "flag": "Biggest hold-up",
+      "right": "Draft ready, doctor signs on a phone",
+      "right_state": "outcome",
+      "point": 2
+     },
+     {
+      "label": "Bill and supplies",
+      "left": "Nurses count supplies, then billing starts",
+      "right": "Bill kept up to date, nurses only check",
+      "point": 3
+     },
+     {
+      "label": "Signing off the bill",
+      "left": "Billing checks every line by hand",
+      "right": "Billing checks a bill that is already made"
+     },
+     {
+      "label": "Insurance",
+      "left": "Sent after the final bill",
+      "right": "First bill sent the evening before",
+      "point": 4
+     },
+     {
+      "label": "Family and transport",
+      "left": "Told once the bill is paid",
+      "right": "Told the evening before, ready by morning",
+      "point": 5
+     }
+    ],
+    "caption": "The steps stay the same. The times with Virevo are not yet measured here."
+   },
+   {
+    "type": "cards",
+    "items": [
+     {
+      "title": "One team for leaving and arriving",
+      "text": "The two jobs queue behind each other every morning.",
+      "tag": "Check this",
+      "state": "target",
+      "more_label": "Two ways to fix it",
+      "more_points": [
+       "Split the work into two teams, one for patients leaving and one for patients arriving.",
+       "Or run both at the same time, so admissions don’t wait for discharges to finish.",
+       "Either way it costs nothing but agreeing the new order. The Head of Operations signs it off."
+      ]
+     },
+     {
+      "title": "What other teams watch for",
+      "text": "The software tells each team when it is their turn.",
+      "tag": "Other teams",
+      "more_label": "See which teams",
+      "more_points": [
+       "The bed desk: when a bed will be free, and when the next patient arrives.",
+       "Pharmacy: which medicines are coming back.",
+       "The dietitian: which families need a diet talk before leaving.",
+       "Housekeeping and transport: when to clean the bed and bring the wheelchair."
+      ]
+     }
+    ]
+   }
+  ],
+  "tone": "mist"
+ },
+ "review": {
+  "status": "draft",
+  "date": "2026-09-25",
+  "note": "Shade sample B (a shade lighter) — awaiting approval."
+ }
+}

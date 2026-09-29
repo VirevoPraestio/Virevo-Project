@@ -1,0 +1,134 @@
+{
+ "turn": {
+  "id": "dp-03b",
+  "type": "diagnosis",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "context": "Tojo · 250-bed hospital, Bhubaneswar",
+  "subject": "diagnosis",
+  "user_tag": "@Point1 @Point2",
+  "user_message": "Revenue per bed is about ₹32,000. Most patients are fit by 10 and leave around 3, so roughly 5 hours. The doctors usually decide who’s going on the 7 PM round — they just don’t sign till morning."
+ },
+ "chat": {
+  "text": [
+   "Your real problem isn’t slow discharge. It’s unused time, and nobody owning it.",
+   "Let me explain. Your doctors already decide in the evening. But nothing moves until the morning round ends, and most of the discharge work could be done in that gap. Nobody uses it today because:"
+  ],
+  "bullets": [
+   "There’s no automation, so starting early means doing the work twice.",
+   "Nothing is coordinated until the doctor signs.",
+   "No one has ever been asked to use the evening."
+  ],
+  "invite": "The second cause is ownership: your own numbers put you past both lines where discharge needs one owner. Does this match what you see on the wards?",
+  "note": "The time is already there — nobody uses it.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The unused evening window",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Nobody owns discharge end to end",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "What the wait costs",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Yes — show me what fixing it looks like",
+   "Why doesn’t anyone use the evening now?",
+   "Our doctors won’t sign in the evening"
+  ]
+ },
+ "canvas": {
+  "theme": "sage",
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Diagnosis · sample B",
+    "title": "Unused time, and no one owning it",
+    "deck": "Two causes behind the wait — both visible in your own answers."
+   },
+   {
+    "type": "stat-strip",
+    "stats": [
+     {
+      "label": "Wait, fit to leaving",
+      "value": "5 h",
+      "source": "yours"
+     },
+     {
+      "label": "Bed-days lost a year",
+      "value": "3,232",
+      "source": "derived",
+      "note": "42.5 a day × 5 h × 365"
+     },
+     {
+      "label": "Revenue ceiling a year",
+      "value": "₹10.3 Cr",
+      "source": "derived",
+      "note": "at your ₹32,000 a bed",
+      "state": "outcome",
+      "point": 3
+     }
+    ],
+    "caption": "A ceiling: holds only if each freed bed is filled again the same day."
+   },
+   {
+    "type": "cards",
+    "label": "The two causes",
+    "items": [
+     {
+      "title": "About 16 unused hours",
+      "text": "Doctors decide at 7 PM. Nothing moves until the 11 AM round.",
+      "tag": "Cause 1",
+      "state": "target",
+      "point": 1,
+      "more": "Half the discharge steps — draft summary, provisional bill, insurance pre-approval, pharmacy returns, family briefing — could start in that window. Today none do, because starting early means doing the work twice."
+     },
+     {
+      "title": "Nobody owns discharge",
+      "text": "Each team finishes its step. No one owns the whole wait.",
+      "tag": "Cause 2",
+      "state": "target",
+      "point": 2,
+      "more": "Delays get blamed on ‘the process’. At your volume, coordination is the bottleneck, not effort — and coordination needs an owner."
+     }
+    ]
+   },
+   {
+    "type": "threshold-gauges",
+    "gauges": [
+     {
+      "label": "Occupancy",
+      "caption": "Your number · owner line 80%",
+      "min": 0,
+      "max": 100,
+      "value": 88,
+      "value_label": "you 88%",
+      "line": 80,
+      "line_label": "80%",
+      "point": 2
+     },
+     {
+      "label": "Discharges a day",
+      "caption": "Your number · owner line 40",
+      "min": 0,
+      "max": 60,
+      "value": 42.5,
+      "value_label": "40–45",
+      "band_low": 40,
+      "band_high": 45,
+      "line": 40,
+      "line_label": "40",
+      "point": 2
+     }
+    ]
+   }
+  ]
+ }
+}

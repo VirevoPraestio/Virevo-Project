@@ -1,0 +1,228 @@
+{
+ "turn": {
+  "id": "au-06",
+  "tab": "Automations",
+  "type": "data-back",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Yes, one system. Reports are separate.",
+  "context": "The answer to au-05. The same switchboard, now set to the hospital's own systems."
+ },
+ "chat": {
+  "text": [
+   "That helps. One link to the hospital software lights most of the board. The reports are a second, smaller link.",
+   "So the order is simple. The form first, then the hospital software, then the reports."
+  ],
+  "pointer": "The switches are set to your answer. Flip them to see what each link adds.",
+  "note": "Notes and bills in one place. Most of the work is one link.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The form, with no IT work",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The first link",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The report link",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "What waits on the pharmacy",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What about the bed after the patient leaves?",
+   "This is getting too technical",
+   "Scope the two-week trial"
+  ],
+  "moves": [
+   {
+    "prompt": "Scope the two-week trial",
+    "tab": "Processes"
+   }
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Your answer, on the board",
+    "title": "One link lights most of it",
+    "deck": "Billing and notes sit in one system, so one link covers both. Reports are the second link."
+   },
+   {
+    "type": "sources",
+    "default_on": [
+     "f",
+     "h"
+    ],
+    "presets": [
+     {
+      "label": "No IT work",
+      "on": [
+       "f"
+      ]
+     },
+     {
+      "label": "Link 1: the hospital software",
+      "on": [
+       "f",
+       "h"
+      ]
+     },
+     {
+      "label": "Link 2: add the reports",
+      "on": [
+       "f",
+       "h",
+       "r"
+      ]
+     },
+     {
+      "label": "Everything",
+      "on": [
+       "f",
+       "h",
+       "r",
+       "p"
+      ]
+     }
+    ],
+    "sources": [
+     {
+      "id": "f",
+      "name": "One-tap form on the ward phone",
+      "short": "the form",
+      "holds": "Each discharge decision from the round",
+      "no_it": true,
+      "records": [
+       {
+        "name": "Discharge decision",
+        "when": "On the round"
+       },
+       {
+        "name": "The doctor’s yes",
+        "when": "When signed"
+       }
+      ],
+      "point": 1
+     },
+     {
+      "id": "h",
+      "name": "Billing and notes, in one system",
+      "short": "the hospital software",
+      "holds": "Charges, doctors’ notes and medicines given",
+      "link": "waiting",
+      "records": [
+       {
+        "name": "Each charge",
+        "when": "As it happens"
+       },
+       {
+        "name": "Doctor’s daily notes",
+        "when": "Each round"
+       },
+       {
+        "name": "Medicines given",
+        "when": "Each dose"
+       },
+       {
+        "name": "Supplies used",
+        "when": "When issued"
+       }
+      ],
+      "point": 2
+     },
+     {
+      "id": "r",
+      "name": "The scan and lab report system",
+      "short": "the report system",
+      "holds": "Every test result and report",
+      "link": "waiting",
+      "records": [
+       {
+        "name": "Test results",
+        "when": "When signed off"
+       },
+       {
+        "name": "Scan reports",
+        "when": "When signed off"
+       }
+      ],
+      "point": 3
+     },
+     {
+      "id": "p",
+      "name": "The pharmacy stock list",
+      "short": "the pharmacy list",
+      "holds": "What was issued, and what is left",
+      "link": "needed",
+      "records": [
+       {
+        "name": "Strips and bottles issued",
+        "when": "When issued"
+       },
+       {
+        "name": "Returns",
+        "when": "When returned"
+       }
+      ],
+      "point": 4
+     }
+    ],
+    "automations": [
+     {
+      "name": "Family and pharmacy told that evening",
+      "needs": [
+       "f"
+      ]
+     },
+     {
+      "name": "Running bill kept up to date",
+      "needs": [
+       "h"
+      ]
+     },
+     {
+      "name": "Early insurance request",
+      "needs": [
+       "f",
+       "h"
+      ]
+     },
+     {
+      "name": "Summary drafted on the evening round",
+      "needs": [
+       "f",
+       "h",
+       "r"
+      ]
+     },
+     {
+      "name": "Final summary signed on a phone",
+      "needs": [
+       "f",
+       "h",
+       "r"
+      ]
+     },
+     {
+      "name": "Supply count for the nurses",
+      "needs": [
+       "h",
+       "p"
+      ]
+     }
+    ],
+    "condition": "Your answer: billing and notes are in one system. Reports come from a separate one."
+   }
+  ]
+ }
+}

@@ -1,0 +1,221 @@
+{
+ "turn": {
+  "id": "au-04",
+  "tab": "Automations",
+  "type": "elaboration",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "How would you record each decision?",
+  "context": "Playbook §5, the third 'tell me more': how the facts are recorded, and which records must be tracked as they happen."
+ },
+ "chat": {
+  "text": [
+   "Each fact comes from a place your hospital already keeps it. Here are those places, and what each one holds.",
+   "One of them needs no IT work at all. That is the one-tap form on the ward phone."
+  ],
+  "pointer": "Flip the switches, or pick a set. See which automations can switch on.",
+  "note": "Start with what needs no link. Add the links one at a time.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The one-tap form",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Billing and clinical notes",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Scan and lab reports",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The pharmacy list",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What exactly does our IT team need?",
+   "Can we test one without the link?",
+   "What if some notes are on paper?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Going deeper · the records",
+    "title": "Where every fact comes from",
+    "deck": "Four places hold the facts. Each automation lights only when every place it needs is switched on."
+   },
+   {
+    "type": "sources",
+    "default_on": [
+     "f"
+    ],
+    "presets": [
+     {
+      "label": "No IT work",
+      "on": [
+       "f"
+      ]
+     },
+     {
+      "label": "Link the hospital software",
+      "on": [
+       "f",
+       "h"
+      ]
+     },
+     {
+      "label": "Add the reports",
+      "on": [
+       "f",
+       "h",
+       "r"
+      ]
+     },
+     {
+      "label": "Everything",
+      "on": [
+       "f",
+       "h",
+       "r",
+       "p"
+      ]
+     }
+    ],
+    "sources": [
+     {
+      "id": "f",
+      "name": "One-tap form on the ward phone",
+      "short": "the form",
+      "holds": "Each discharge decision from the round",
+      "no_it": true,
+      "records": [
+       {
+        "name": "Discharge decision",
+        "when": "On the round"
+       },
+       {
+        "name": "The doctor’s yes",
+        "when": "When signed"
+       }
+      ],
+      "point": 1
+     },
+     {
+      "id": "h",
+      "name": "Hospital software: billing and notes",
+      "short": "the hospital software",
+      "holds": "Charges, doctors’ notes and medicines given",
+      "link": "waiting",
+      "records": [
+       {
+        "name": "Each charge",
+        "when": "As it happens"
+       },
+       {
+        "name": "Doctor’s daily notes",
+        "when": "Each round"
+       },
+       {
+        "name": "Medicines given",
+        "when": "Each dose"
+       },
+       {
+        "name": "Supplies used",
+        "when": "When issued"
+       }
+      ],
+      "point": 2
+     },
+     {
+      "id": "r",
+      "name": "The scan and lab report system",
+      "short": "the report system",
+      "holds": "Every test result and report",
+      "link": "waiting",
+      "records": [
+       {
+        "name": "Test results",
+        "when": "When signed off"
+       },
+       {
+        "name": "Scan reports",
+        "when": "When signed off"
+       }
+      ],
+      "point": 3
+     },
+     {
+      "id": "p",
+      "name": "The pharmacy stock list",
+      "short": "the pharmacy list",
+      "holds": "What was issued, and what is left",
+      "link": "needed",
+      "records": [
+       {
+        "name": "Strips and bottles issued",
+        "when": "When issued"
+       },
+       {
+        "name": "Returns",
+        "when": "When returned"
+       }
+      ],
+      "point": 4
+     }
+    ],
+    "automations": [
+     {
+      "name": "Family and pharmacy told that evening",
+      "needs": [
+       "f"
+      ]
+     },
+     {
+      "name": "Running bill kept up to date",
+      "needs": [
+       "h"
+      ]
+     },
+     {
+      "name": "Early insurance request",
+      "needs": [
+       "f",
+       "h"
+      ]
+     },
+     {
+      "name": "Summary drafted on the evening round",
+      "needs": [
+       "f",
+       "h",
+       "r"
+      ]
+     },
+     {
+      "name": "Final summary signed on a phone",
+      "needs": [
+       "f",
+       "h",
+       "r"
+      ]
+     },
+     {
+      "name": "Supply count for the nurses",
+      "needs": [
+       "h",
+       "p"
+      ]
+     }
+    ],
+    "condition": "Which systems your hospital uses is still to be checked. These are the usual ones."
+   }
+  ]
+ }
+}

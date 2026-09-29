@@ -1,0 +1,158 @@
+{
+ "turn": {
+  "id": "dp-04c",
+  "type": "overview",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "context": "Tojo · 250-bed hospital, Bhubaneswar",
+  "subject": "solution",
+  "user_message": "Yes — that’s exactly it. Show me what fixing it looks like."
+ },
+ "chat": {
+  "text": [
+   "Here’s what the fix is made of. It has five parts.",
+   "None of them needs a new hospital system on day one — they sit on top of how discharge runs today."
+  ],
+  "pointer": "Each part is shown with the question it answers. Pick the one you want to start with.",
+  "note": "Five parts, one aim: put the evening to work.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Automations",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Process changes",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Key people",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Team & roles",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "KPIs & targets",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Start with the automations",
+   "Which part saves the most time?",
+   "Do we need new hires for this?"
+  ]
+ },
+ "canvas": {
+  "theme": "sage",
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Solution · sample C",
+    "title": "What the fix is made of",
+    "deck": "Five parts. Pick one to open it — they don’t need to go in order."
+   },
+   {
+    "type": "progress-trail",
+    "steps": [
+     {
+      "id": "1",
+      "status": "done"
+     },
+     {
+      "id": "2",
+      "status": "done"
+     },
+     {
+      "id": "3",
+      "status": "done"
+     },
+     {
+      "id": "4",
+      "status": "now"
+     },
+     {
+      "id": "5",
+      "status": "later"
+     },
+     {
+      "id": "6",
+      "status": "later"
+     }
+    ],
+    "summary": "Practice, numbers and diagnosis done.",
+    "next": "Now: the fix. Then proof, then a plan."
+   },
+   {
+    "type": "agenda-grid",
+    "mode": "overview",
+    "parts": [
+     {
+      "title": "Automations",
+      "question": "What does the software do so nobody works twice?",
+      "status": "current",
+      "detail": "Captures the evening decision, drafts the summary, keeps a live bill and sends insurance pre-approval overnight.",
+      "point": 1
+     },
+     {
+      "title": "Process changes",
+      "question": "What changes on the ward, step by step?",
+      "status": "remaining",
+      "detail": "The same steps, started in the evening and run side by side instead of one after another.",
+      "point": 2
+     },
+     {
+      "title": "Key people",
+      "question": "Who has to agree, and what do they give up?",
+      "status": "remaining",
+      "detail": "Consultants, RMOs, nursing, billing, the TPA desk and housekeeping — with the COO approving the new order.",
+      "point": 3
+     },
+     {
+      "title": "Team & roles",
+      "question": "Do we need anyone new to own this?",
+      "status": "remaining",
+      "detail": "One owner for discharge end to end, sized against your own peak hours rather than a flat ratio.",
+      "point": 4
+     },
+     {
+      "title": "KPIs & targets",
+      "question": "How will we know it worked?",
+      "status": "remaining",
+      "detail": "A short list tied to your numbers. The ones nothing tracks today are marked as new.",
+      "point": 5
+     }
+    ]
+   },
+   {
+    "type": "stat-strip",
+    "stats": [
+     {
+      "label": "Wait, fit to leaving",
+      "value": "5 h",
+      "source": "yours",
+      "state": "target"
+     },
+     {
+      "label": "Revenue ceiling a year",
+      "value": "₹10.3 Cr",
+      "source": "derived",
+      "state": "outcome"
+     },
+     {
+      "label": "Average stay (ALOS)",
+      "value": "—",
+      "source": "needed",
+      "note": "the measure the pilot will settle"
+     }
+    ],
+    "caption": "What all five parts are judged against."
+   }
+  ]
+ }
+}

@@ -1,0 +1,82 @@
+{
+ "turn": {
+  "id": "so-05",
+  "tab": "Solutions",
+  "type": "data-back",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Here are our real times from a normal Tuesday."
+ },
+ "chat": {
+  "text": [
+   "Your real times change three of the five solutions and leave the other two as they were.",
+   "The biggest shift is in the first one: decisions are spread across the evening, so the night work cannot start at one fixed hour."
+  ],
+  "pointer": "Each sheet shows what the solution was, what it is now, and why it changed.",
+  "note": "Your real times moved three solutions. The plan still holds.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Starting on the evening round",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "One person in charge",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Getting the bed ready sooner",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Does this change the cost?",
+   "Why two helpers, not three?",
+   "What is still left to settle?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Redrawn with your real times",
+    "title": "Three solutions redrawn",
+    "deck": "What each one was, what it is now, and what caused the change."
+   },
+   {
+    "type": "revisions",
+    "entries": [
+     {
+      "n": 1,
+      "title": "Work starts on the evening round",
+      "rev": 1,
+      "was": "Night work starts at one fixed hour after the round",
+      "now": "Each discharge starts as soon as its decision is made, 6 to 9 PM",
+      "because": "Your decision times",
+      "point": 1
+     },
+     {
+      "n": 3,
+      "title": "One person in charge",
+      "rev": 1,
+      "was": "Helpers spread evenly across the day",
+      "now": "Two helpers: one for 8 to 11 AM, one for 6 to 9 PM",
+      "because": "Your busy hours",
+      "point": 2
+     },
+     {
+      "n": 4,
+      "title": "The bed ready sooner",
+      "rev": 1,
+      "was": "Housekeeping hears once the bill is paid",
+      "now": "Housekeeping hears the moment the patient leaves the ward",
+      "because": "The bed empty for 75 minutes",
+      "point": 3
+     }
+    ]
+   }
+  ]
+ }
+}

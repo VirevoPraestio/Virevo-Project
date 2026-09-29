@@ -1,0 +1,239 @@
+{
+ "turn": {
+  "id": "au-02",
+  "tab": "Automations",
+  "type": "elaboration",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "How is the summary drafted all through the stay?",
+  "context": "Playbook §5, the first 'tell me more': the summary drafted all through the stay, from the reference's list of what is tracked."
+ },
+ "chat": {
+  "text": [
+   "The night showed the summary appear on the evening round. It can, because it has been writing itself since admission.",
+   "Each day, Tojo records what happens to the patient. By the evening round, most of the summary is already there."
+  ],
+  "pointer": "Pick a day of the stay, or press Play the stay. Watch the summary fill.",
+  "note": "The summary is written a little each day, not all at once.",
+  "points": [
+   {
+    "n": 1,
+    "label": "What is recorded on arrival",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Tests and what they showed",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Medicines, counted in strips",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The doctor’s daily notes",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Explain the first three steps on the round",
+   "Won’t this take our nurses’ time?",
+   "What if a report comes in late?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Going deeper · the summary",
+    "title": "The record that writes itself",
+    "deck": "Seven kinds of fact, recorded as they happen, fill the summary day by day. Nothing is typed twice at the end."
+   },
+   {
+    "type": "brain",
+    "default_day": 4,
+    "kinds": [
+     {
+      "k": "a",
+      "name": "On arrival",
+      "example": "History, symptoms and diagnosis",
+      "point": 1
+     },
+     {
+      "k": "b",
+      "name": "Tests and findings",
+      "example": "Each result, with anything unusual marked",
+      "point": 2
+     },
+     {
+      "k": "c",
+      "name": "Procedures",
+      "example": "Each procedure or surgery, with its notes"
+     },
+     {
+      "k": "d",
+      "name": "Medicines",
+      "example": "Given, changed and left over, counted in strips",
+      "point": 3
+     },
+     {
+      "k": "e",
+      "name": "Supplies",
+      "example": "Used and left over, in whole units"
+     },
+     {
+      "k": "f",
+      "name": "Daily progress",
+      "example": "The doctor’s notes on each round",
+      "point": 4
+     },
+     {
+      "k": "g",
+      "name": "Reasons and outcomes",
+      "example": "Why each step was taken, and what happened"
+     }
+    ],
+    "sections": [
+     {
+      "name": "Reason for admission",
+      "from": [
+       "a"
+      ]
+     },
+     {
+      "name": "Tests and what they showed",
+      "from": [
+       "b"
+      ]
+     },
+     {
+      "name": "Treatment given",
+      "from": [
+       "c",
+       "g"
+      ]
+     },
+     {
+      "name": "Medicines to take home",
+      "from": [
+       "d"
+      ]
+     },
+     {
+      "name": "Supplies to return",
+      "from": [
+       "e"
+      ]
+     },
+     {
+      "name": "How the stay went",
+      "from": [
+       "f"
+      ]
+     }
+    ],
+    "days": [
+     {
+      "label": "Day 1",
+      "what": "Admitted",
+      "events": [
+       {
+        "k": "a",
+        "text": "Chest pain, admitted through Emergency"
+       },
+       {
+        "k": "b",
+        "text": "Blood tests and a heart tracing"
+       },
+       {
+        "k": "d",
+        "text": "Three medicines started"
+       },
+       {
+        "k": "g",
+        "text": "Tests ordered to rule out a heart attack"
+       }
+      ]
+     },
+     {
+      "label": "Day 2",
+      "what": "Tests",
+      "events": [
+       {
+        "k": "b",
+        "text": "Heart scan shows a narrowed vessel"
+       },
+       {
+        "k": "f",
+        "text": "Morning round notes"
+       },
+       {
+        "k": "d",
+        "text": "One medicine changed"
+       },
+       {
+        "k": "e",
+        "text": "Drip set and syringes used"
+       },
+       {
+        "k": "g",
+        "text": "Scan ordered because the pain came back"
+       }
+      ]
+     },
+     {
+      "label": "Day 3",
+      "what": "Procedure",
+      "events": [
+       {
+        "k": "c",
+        "text": "A stent placed in the narrowed vessel"
+       },
+       {
+        "k": "e",
+        "text": "Procedure supplies used"
+       },
+       {
+        "k": "d",
+        "text": "Blood thinner started"
+       },
+       {
+        "k": "f",
+        "text": "Stable after the procedure"
+       },
+       {
+        "k": "g",
+        "text": "Stent chosen to open the vessel"
+       }
+      ]
+     },
+     {
+      "label": "Day 4",
+      "what": "Evening round",
+      "events": [
+       {
+        "k": "f",
+        "text": "Doctor says the patient can go tomorrow"
+       },
+       {
+        "k": "d",
+        "text": "Two strips of one medicine left over"
+       },
+       {
+        "k": "b",
+        "text": "Final blood test normal"
+       },
+       {
+        "k": "f",
+        "text": "Discharge planned, the patient is stable"
+       }
+      ]
+     }
+    ],
+    "condition": "The patient here is an example only. Your records would fill the summary the same way."
+   }
+  ]
+ }
+}

@@ -1,0 +1,149 @@
+{
+ "turn": {
+  "id": "so-11",
+  "tab": "Solutions",
+  "type": "data-back",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "It varies. Two of our main insurers accept an early request. The rest want the final bill."
+ },
+ "chat": {
+  "text": [
+   "That settles Solution 1. It stands, with one change: insurance requests now go in two lanes instead of one queue.",
+   "Most of the going-home work now moves to the evening round. Only the final checks, and the insurers who want the final bill, wait for the morning."
+  ],
+  "pointer": "The first drawing shows the work knotted and then in two lanes. The second shows where all five solutions stand.",
+  "note": "One queue became two lanes. The first piece is in.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The evening lane",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The morning lane",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Where the five solutions stand",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Which insurers should we ask first?",
+   "Will the morning lane still run late?",
+   "Now separate discharge and admission work"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Solution 1 · settled with your answer",
+    "title": "From one knot to two lanes",
+    "deck": "Today every task waits for the morning signature. With your answer, most of it moves to the evening round."
+   },
+   {
+    "type": "tangle",
+    "threads": [
+     {
+      "text": "Doctor decides the patient can go",
+      "lane": 1,
+      "point": 1
+     },
+     {
+      "text": "Summary drafted",
+      "lane": 1,
+      "point": 1
+     },
+     {
+      "text": "Bill drawn up",
+      "lane": 1,
+      "point": 1
+     },
+     {
+      "text": "Insurance request, two main insurers",
+      "lane": 1,
+      "point": 1
+     },
+     {
+      "text": "Insurance request, other insurers",
+      "lane": 2,
+      "point": 2
+     },
+     {
+      "text": "Family told, transport booked",
+      "lane": 1,
+      "point": 1
+     },
+     {
+      "text": "Final checks and medicines",
+      "lane": 2,
+      "point": 2
+     }
+    ],
+    "before": {
+     "label": "Today: one knot",
+     "hub": "Everything waits for the morning signature",
+     "outcome": "Patients leave at about 3:15 PM",
+     "source": "yours"
+    },
+    "after_label": "With Solution 1: two lanes",
+    "lanes": [
+     {
+      "n": 1,
+      "label": "Evening round, 6 to 9 PM",
+      "outcome": "Done before the patient sleeps",
+      "source": "target"
+     },
+     {
+      "n": 2,
+      "label": "Morning, from 8 AM",
+      "outcome": "Only what must wait for the morning",
+      "source": "target"
+     }
+    ],
+    "condition": "Other hospitals saved 6 to 8 hours a discharge this way. Not yet measured here."
+   },
+   {
+    "type": "jigsaw",
+    "caption": "Two of five pieces are in. Solution 1 just fitted.",
+    "pieces": [
+     {
+      "n": 1,
+      "title": "Start on the evening round",
+      "status": "agreed",
+      "now": true,
+      "point": 3
+     },
+     {
+      "n": 2,
+      "title": "Papers and bill prepare themselves",
+      "status": "shaping",
+      "point": 3
+     },
+     {
+      "n": 3,
+      "title": "One person in charge",
+      "status": "agreed",
+      "point": 3
+     },
+     {
+      "n": 4,
+      "title": "Bed ready sooner",
+      "status": "new",
+      "point": 3
+     },
+     {
+      "n": 5,
+      "title": "Separate discharge and admission work",
+      "status": "waiting",
+      "point": 3
+     }
+    ]
+   }
+  ]
+ }
+}

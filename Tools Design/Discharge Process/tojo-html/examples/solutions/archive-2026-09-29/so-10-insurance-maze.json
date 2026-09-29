@@ -1,0 +1,99 @@
+{
+ "turn": {
+  "id": "so-10",
+  "tab": "Solutions",
+  "type": "question",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Let’s settle the insurance desk question",
+  "context": "From the landing page after the midnight refresh: Proceed with next step."
+ },
+ "chat": {
+  "text": [
+   "Solution 1 has one open point left: the insurance desk. Today the request waits for the final bill, so approval comes at about 2:30 PM."
+  ],
+  "pointer": "The maze shows the routes Tojo tried, and why three were ruled out.",
+  "note": "The bill is known the night before. The request can go then too.",
+  "question": {
+   "text": "Does your insurance desk ever send a request before the bill is final?",
+   "options": [
+    "Yes, for every insurer",
+    "Yes, for some insurers",
+    "No, only after the final bill",
+    "I’d need to check"
+   ],
+   "free_text": true
+  },
+  "points": [
+   {
+    "n": 1,
+    "label": "Asking insurers to approve faster",
+    "canvas": false
+   },
+   {
+    "n": 2,
+    "label": "Sending the request without a bill",
+    "canvas": false
+   },
+   {
+    "n": 3,
+    "label": "The early request at night",
+    "canvas": false
+   }
+  ],
+  "prompts": [
+   "It varies by insurer",
+   "Won’t insurers turn an early request back?",
+   "I’d need to ask our insurance desk"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Solution 1 · the last open point",
+    "title": "A way past the 2:30 PM wait",
+    "deck": "Every route Tojo tried to get insurance approval sooner. Three are walled off. One gets through."
+   },
+   {
+    "type": "maze",
+    "start": {
+     "text": "Insurance approves at about 2:30 PM",
+     "source": "yours"
+    },
+    "route": [
+     {
+      "kind": "dead",
+      "text": "Ask insurers to approve faster",
+      "why": "Their hours are not yours to change"
+     },
+     {
+      "kind": "step",
+      "text": "Look at what the request waits for",
+      "why": "The final bill, at about 1:30 PM"
+     },
+     {
+      "kind": "dead",
+      "text": "Send the request without a bill",
+      "why": "Insurers send it back, and the patient waits longer"
+     },
+     {
+      "kind": "step",
+      "text": "The bill is known the night before",
+      "why": "Solution 2 draws it up on the evening round"
+     },
+     {
+      "kind": "dead",
+      "text": "Finish the final bill an hour earlier",
+      "why": "Saves an hour at most. The same queue stays."
+     }
+    ],
+    "exit": {
+     "idea": "Send an early request at night, with the expected bill. The final bill follows in the morning.",
+     "note": "Works only where your insurers accept an early request"
+    },
+    "condition": "Approval times after an early request are not yet measured here. The trial ward will show them."
+   }
+  ]
+ }
+}
