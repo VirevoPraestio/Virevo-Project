@@ -1,0 +1,111 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "bm-dg-02",
+  "type": "agenda",
+  "user_message": "Yes, that’s our day. Ours is sometimes even longer. What happens next?",
+  "transcript": {
+   "label": "Transcript turn 8 · the questions, and the first one",
+   "said": "That’s worth holding on to — and most hospitals can’t say how much longer, because nobody measures that stretch end to end. Now I need to pin down how your hospital actually runs it. The graphic has the whole list so you can see where this is going; I’ll take them one at a time rather than dump them on you. First one: does the same team handle both your discharges and your admissions, or are those two separate teams?"
+  },
+  "note_for_review": "The user’s line is paraphrased in the transcript (confirms the case, theirs is sometimes longer, asks what next)."
+ },
+ "chat": {
+  "text": [
+   "That’s worth holding on to. Most hospitals can’t say how much longer, because nobody measures that stretch end to end.",
+   "Now I need to pin down how your hospital runs it. The clipboard has the whole list, so you can see where this is going.",
+   "I’ll take them one at a time. First one: does one team handle both discharges and admissions, or two separate teams?"
+  ],
+  "note": "Five areas. One question at a time.",
+  "question": {
+   "text": "Pick the closest",
+   "options": [
+    "One team does both",
+    "Two separate teams",
+    "It varies by ward. I’d need to check"
+   ]
+  },
+  "points": [
+   {
+    "n": 1,
+    "label": "Who runs what",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "How long an admission takes",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Tomorrow’s bed picture",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "When billing stops and starts again",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Who gets the bed ready again",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "One team does both",
+   "Why does that matter?",
+   "Can I answer some of these later?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "What I need to know",
+    "title": "Five areas, one question at a time",
+    "deck": "This is where the questions are going, so nothing comes as a surprise."
+   },
+   {
+    "type": "clipboard",
+    "title": "Questions for your hospital",
+    "footer": "No fixed order between them. I’ll ask one, then wait for your answer.",
+    "items": [
+     {
+      "key": "who",
+      "name": "Who runs what",
+      "now": true,
+      "point": 1,
+      "ask": "Does one team handle both discharges and admissions, or two separate teams?"
+     },
+     {
+      "key": "tat",
+      "name": "How long an admission takes",
+      "point": 2,
+      "ask": "The five steps of an admission, and a typical day’s clock time for each."
+     },
+     {
+      "key": "map",
+      "name": "Tomorrow’s bed picture",
+      "point": 3,
+      "ask": "Is there a set way to match tomorrow’s planned admissions against the beds you expect to free up?"
+     },
+     {
+      "key": "bill",
+      "name": "When billing stops and starts again",
+      "point": 4,
+      "ask": "When the leaving patient’s final bill closes, and when the next patient’s first charge appears."
+     },
+     {
+      "key": "turn",
+      "name": "Who gets the bed ready again",
+      "point": 5,
+      "ask": "Has anyone worked out how many beds housekeeping and transport can ready in the busiest hours?"
+     }
+    ]
+   }
+  ]
+ }
+}

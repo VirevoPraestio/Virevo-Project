@@ -1,0 +1,2666 @@
+{
+  "registry_version": 4,
+  "updated": "2026-09-26",
+  "budget": {
+    "wide_px": 824,
+    "narrow_px": 1500,
+    "max_blocks": 4,
+    "note": "wide = the canvas area actually visible in the 1440×900 desktop design (900 minus the 76px tool header). On a laptop browser with toolbars the window is shorter, so aim lower when you can. narrow = mobile canvas, about two phone screens. Heading excluded from max_blocks; collapsed detail is not counted."
+  },
+  "themes": {
+    "sage": {
+      "status": "approved",
+      "note": "light — Version 3"
+    },
+    "night": {
+      "status": "retired",
+      "note": "replaced by tones (shades of sage) — feedback F10"
+    }
+  },
+  "statuses": {
+    "approved": "use freely",
+    "draft": "usable; flag in review builds",
+    "changes_requested": "do not select until revised",
+    "retired": "never select"
+  },
+  "blocks": [
+    {
+      "id": "heading",
+      "version": 1,
+      "status": "approved",
+      "category": "frame",
+      "purpose": "Opens every canvas: eyebrow (where we are), title (the claim or question), one-line deck.",
+      "use_when": [
+        "always, as the first block"
+      ],
+      "avoid_when": [
+        "never omit; never use twice"
+      ],
+      "slots": {
+        "eyebrow": {
+          "type": "text",
+          "required": true,
+          "max_words": 8
+        },
+        "title": {
+          "type": "text",
+          "required": true,
+          "max_words": 10
+        },
+        "deck": {
+          "type": "text",
+          "required": false,
+          "max_words": 30
+        }
+      },
+      "cost": {
+        "wide": 98,
+        "narrow": 128
+      },
+      "feedback": [
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Version 3 (route map) chosen: one screen length, cleaner depiction, less text."
+        },
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Used in an approved turn (dp-03 or dp-04)."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "route-map",
+      "version": 1,
+      "status": "approved",
+      "category": "process",
+      "purpose": "A process walked stop by stop — the agenda for a set of questions, or a long chain whose stops each carry detail. Tap a stop to open it.",
+      "use_when": [
+        "question turns: show the agenda, ask one thing (05 §3)",
+        "a sequence of 6–14 stops where each stop has its own detail"
+      ],
+      "avoid_when": [
+        "fewer than 6 steps — use chain",
+        "steps that are not sequential — use cards"
+      ],
+      "slots": {
+        "start_label": {
+          "type": "text",
+          "required": true,
+          "max_words": 3
+        },
+        "end_label": {
+          "type": "text",
+          "required": true,
+          "max_words": 3
+        },
+        "selected": {
+          "type": "text",
+          "required": false
+        },
+        "legend": {
+          "type": "bool",
+          "required": false
+        },
+        "stations": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "id": {
+                "type": "text",
+                "required": true,
+                "max_words": 1,
+                "note": "1–2 characters"
+              },
+              "name": {
+                "type": "text",
+                "required": true,
+                "max_words": 3
+              },
+              "status": {
+                "type": "enum",
+                "values": [
+                  "now",
+                  "next",
+                  "done",
+                  "later",
+                  "flag"
+                ],
+                "required": true
+              },
+              "text": {
+                "type": "text",
+                "required": true,
+                "max_words": 35
+              },
+              "heard_as": {
+                "type": "text",
+                "required": false,
+                "max_words": 8
+              },
+              "question": {
+                "type": "text",
+                "required": false,
+                "max_words": 30
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N; the host highlights it when the user selects @PointN"
+              }
+            },
+            "required": true
+          },
+          "min": 3,
+          "max": 14,
+          "required": true
+        }
+      },
+      "mobile": "vertical line; the selected stop opens inline beneath itself",
+      "cost": {
+        "wide": -44,
+        "per_item_wide": 41,
+        "narrow": 264,
+        "per_item_narrow": 58,
+        "detail_wide": 210,
+        "detail_narrow": 330
+      },
+      "feedback": [
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Version 3 (route map) chosen: one screen length, cleaner depiction, less text."
+        },
+        {
+          "date": "2026-09-25",
+          "by": "rules",
+          "verdict": "changed",
+          "note": "“Heard as” renamed “What people usually say” (plain English, F7)."
+        }
+      ],
+      "scope": "Diagnosis"
+    },
+    {
+      "id": "chain",
+      "version": 1,
+      "status": "approved",
+      "category": "process",
+      "purpose": "A short sequence, 2–8 steps, final box = outcome. Optional hatched \"nothing can start\" zone before step 1 and keep/change badges per step.",
+      "use_when": [
+        "a sequence the user described",
+        "before/after verdict on each step (badges)"
+      ],
+      "avoid_when": [
+        "more than 8 steps — use route-map",
+        "non-sequential items — use cards"
+      ],
+      "slots": {
+        "label": {
+          "type": "text",
+          "required": false,
+          "max_words": 8
+        },
+        "zone": {
+          "type": "text",
+          "required": false,
+          "max_words": 6
+        },
+        "steps": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "title": {
+                "type": "text",
+                "required": true,
+                "max_words": 6
+              },
+              "value": {
+                "type": "text",
+                "required": false,
+                "max_words": 3
+              },
+              "state": {
+                "type": "enum",
+                "values": [
+                  "plain",
+                  "target",
+                  "outcome",
+                  "start",
+                  "dashed"
+                ],
+                "required": false,
+                "default": "plain"
+              },
+              "flag": {
+                "type": "text",
+                "required": false,
+                "max_words": 3
+              },
+              "badge": {
+                "type": "enum",
+                "values": [
+                  "keep",
+                  "change"
+                ],
+                "required": false
+              },
+              "badge_text": {
+                "type": "text",
+                "required": false,
+                "max_words": 8
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N; the host highlights it when the user selects @PointN"
+              }
+            },
+            "required": true
+          },
+          "min": 2,
+          "max": 8,
+          "required": true
+        },
+        "caption": {
+          "type": "text",
+          "required": false,
+          "max_words": 25
+        }
+      },
+      "mobile": "vertical stack, arrows turn downward",
+      "cost": {
+        "wide": 220,
+        "narrow": 153,
+        "per_item_narrow": 66
+      },
+      "feedback": [
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Used in an approved turn (dp-03 or dp-04)."
+        },
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Used again in approved turns dp-05 / dp-06."
+        },
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Used again in approved turns dp-07 to dp-10."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "two-flow",
+      "version": 2,
+      "status": "approved",
+      "category": "comparison",
+      "purpose": "Two genuinely parallel flows — today vs with Virevo — row for row, height-matched.",
+      "use_when": [
+        "process changes: function-by-function today vs proposed"
+      ],
+      "avoid_when": [
+        "flows of unequal length — use chain with badges"
+      ],
+      "slots": {
+        "left_title": {
+          "type": "text",
+          "required": true,
+          "max_words": 4
+        },
+        "right_title": {
+          "type": "text",
+          "required": true,
+          "max_words": 4
+        },
+        "rows": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "label": {
+                "type": "text",
+                "required": true,
+                "max_words": 4
+              },
+              "left": {
+                "type": "text",
+                "required": true,
+                "max_words": 10
+              },
+              "left_value": {
+                "type": "text",
+                "required": false,
+                "max_words": 3
+              },
+              "right": {
+                "type": "text",
+                "required": true,
+                "max_words": 10
+              },
+              "right_value": {
+                "type": "text",
+                "required": false,
+                "max_words": 3
+              },
+              "right_state": {
+                "type": "enum",
+                "values": [
+                  "plain",
+                  "target",
+                  "outcome",
+                  "start",
+                  "dashed"
+                ],
+                "required": false,
+                "default": "plain"
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N; the host highlights it when the user selects @PointN"
+              },
+              "left_state": {
+                "type": "enum",
+                "values": [
+                  "plain",
+                  "target",
+                  "outcome",
+                  "start",
+                  "dashed"
+                ],
+                "required": false,
+                "default": "plain"
+              },
+              "flag": {
+                "type": "text",
+                "required": false,
+                "max_words": 3
+              }
+            },
+            "required": true
+          },
+          "min": 2,
+          "max": 7,
+          "required": true
+        },
+        "caption": {
+          "type": "text",
+          "required": false,
+          "max_words": 25
+        }
+      },
+      "mobile": "one row at a time: label, then both cells stacked with their column name",
+      "cost": {
+        "wide": 168,
+        "per_item_wide": 46,
+        "narrow": 157,
+        "per_item_narrow": 104
+      },
+      "feedback": [
+        {
+          "date": "2026-09-25",
+          "by": "rules",
+          "verdict": "changed",
+          "note": "v2: a row can carry a flag (for example “Biggest hold-up”) on the today side, and a state for the left cell — the playbook’s amber biggest-leak box."
+        },
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Approved in turn dp-06 (changes on the wards)."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "compare-table",
+      "version": 1,
+      "status": "approved",
+      "category": "comparison",
+      "purpose": "2–3 options compared on the same attributes. One option may be highlighted.",
+      "use_when": [
+        "choosing between options or scenarios"
+      ],
+      "avoid_when": [
+        "a process — use two-flow"
+      ],
+      "slots": {
+        "options": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "name": {
+                "type": "text",
+                "required": true,
+                "max_words": 4
+              },
+              "tag": {
+                "type": "text",
+                "required": false,
+                "max_words": 2
+              }
+            },
+            "required": true
+          },
+          "min": 2,
+          "max": 3,
+          "required": true
+        },
+        "highlight": {
+          "type": "number",
+          "required": false
+        },
+        "rows": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "label": {
+                "type": "text",
+                "required": true,
+                "max_words": 4
+              },
+              "values": {
+                "type": "list",
+                "item": {
+                  "type": "text",
+                  "required": true,
+                  "max_words": 12
+                },
+                "min": 2,
+                "max": 3,
+                "required": true
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N"
+              }
+            },
+            "required": true
+          },
+          "min": 2,
+          "max": 7,
+          "required": true
+        },
+        "caption": {
+          "type": "text",
+          "required": false,
+          "max_words": 25
+        }
+      },
+      "mobile": "one card per option with the same attributes listed",
+      "cost": {
+        "wide": 207,
+        "per_item_wide": 48,
+        "narrow": 288,
+        "per_item_narrow": 90
+      },
+      "feedback": [
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Approved in turn dp-08."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "stat-strip",
+      "version": 1,
+      "status": "approved",
+      "category": "numbers",
+      "purpose": "2–4 headline figures, each tagged with where it came from.",
+      "use_when": [
+        "findings from their data",
+        "a summary of numbers already established"
+      ],
+      "avoid_when": [
+        "a figure produced by arithmetic — show the calculator/derivation instead"
+      ],
+      "slots": {
+        "stats": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "label": {
+                "type": "text",
+                "required": true,
+                "max_words": 6
+              },
+              "value": {
+                "type": "text",
+                "required": true,
+                "max_words": 5
+              },
+              "source": {
+                "type": "enum",
+                "values": [
+                  "yours",
+                  "derived",
+                  "illustrative",
+                  "estimate",
+                  "target",
+                  "needed"
+                ],
+                "required": true
+              },
+              "note": {
+                "type": "text",
+                "required": false,
+                "max_words": 12
+              },
+              "state": {
+                "type": "enum",
+                "values": [
+                  "plain",
+                  "target",
+                  "outcome",
+                  "start",
+                  "dashed"
+                ],
+                "required": false,
+                "default": "plain"
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N; the host highlights it when the user selects @PointN"
+              }
+            },
+            "required": true
+          },
+          "min": 1,
+          "max": 4,
+          "required": true
+        },
+        "caption": {
+          "type": "text",
+          "required": false,
+          "max_words": 25
+        }
+      },
+      "mobile": "2-column grid",
+      "cost": {
+        "wide": 149,
+        "narrow": 75,
+        "per_item_narrow": 84,
+        "per_item_wide": 9
+      },
+      "feedback": [
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Used in an approved turn (dp-03 or dp-04)."
+        },
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Used again in approved turns dp-05 / dp-06."
+        },
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Used again in approved turns dp-07 to dp-10."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "calculator",
+      "version": 3,
+      "status": "approved",
+      "category": "numbers",
+      "purpose": "A derivation shown as working: inputs (theirs, or asked for) and one box per step, live-recalculated. The condition the number holds on is mandatory.",
+      "use_when": [
+        "any quantity becoming a headline number (05 §4 show the working)",
+        "sizing: money/time impact of a change"
+      ],
+      "avoid_when": [
+        "to fill in a parameter the user has not given — mark it source \"needed\" instead"
+      ],
+      "slots": {
+        "inputs": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "id": {
+                "type": "text",
+                "required": true,
+                "max_words": 1
+              },
+              "label": {
+                "type": "text",
+                "required": true,
+                "max_words": 8
+              },
+              "source": {
+                "type": "enum",
+                "values": [
+                  "yours",
+                  "derived",
+                  "illustrative",
+                  "estimate",
+                  "target",
+                  "needed"
+                ],
+                "required": true
+              },
+              "value": {
+                "type": "number",
+                "required": false
+              },
+              "min": {
+                "type": "number",
+                "required": false
+              },
+              "max": {
+                "type": "number",
+                "required": false
+              },
+              "step": {
+                "type": "number",
+                "required": false
+              },
+              "format": {
+                "type": "enum",
+                "values": [
+                  "int",
+                  "dec1",
+                  "pct",
+                  "inr",
+                  "inr_l",
+                  "inr_cr",
+                  "days",
+                  "hours",
+                  "raw"
+                ],
+                "required": true,
+                "default": "raw"
+              },
+              "control": {
+                "type": "enum",
+                "values": [
+                  "slider",
+                  "field",
+                  "fixed"
+                ],
+                "required": true,
+                "default": "fixed"
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N; the host highlights it when the user selects @PointN"
+              }
+            },
+            "required": true
+          },
+          "min": 1,
+          "max": 4,
+          "required": true
+        },
+        "steps": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "id": {
+                "type": "text",
+                "required": true,
+                "max_words": 1
+              },
+              "label": {
+                "type": "text",
+                "required": true,
+                "max_words": 8
+              },
+              "note": {
+                "type": "text",
+                "required": false,
+                "max_words": 10
+              },
+              "formula": {
+                "type": "text",
+                "required": true
+              },
+              "format": {
+                "type": "enum",
+                "values": [
+                  "int",
+                  "dec1",
+                  "pct",
+                  "inr",
+                  "inr_l",
+                  "inr_cr",
+                  "days",
+                  "hours",
+                  "raw"
+                ],
+                "required": true,
+                "default": "raw"
+              },
+              "state": {
+                "type": "enum",
+                "values": [
+                  "plain",
+                  "target",
+                  "outcome",
+                  "start",
+                  "dashed"
+                ],
+                "required": false,
+                "default": "plain"
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N; the host highlights it when the user selects @PointN"
+              }
+            },
+            "required": true
+          },
+          "min": 1,
+          "max": 5,
+          "required": true
+        },
+        "condition": {
+          "type": "text",
+          "required": true,
+          "max_words": 35
+        },
+        "waiting": {
+          "type": "text",
+          "required": false,
+          "max_words": 12
+        }
+      },
+      "mobile": "inputs above, derivation below",
+      "cost": {
+        "wide": 111,
+        "per_item_wide": 70,
+        "narrow": 316,
+        "per_item_narrow": 95
+      },
+      "feedback": [
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Version 3 (route map) chosen: one screen length, cleaner depiction, less text."
+        },
+        {
+          "date": "2026-09-25",
+          "by": "rules",
+          "verdict": "changed",
+          "note": "v2: no invented defaults. Inputs the user has not given are source \"needed\", shown as an empty field; results wait. Condition made mandatory (05 §4)."
+        },
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Used in an approved turn (dp-03 or dp-04)."
+        },
+        {
+          "date": "2026-09-25",
+          "by": "rules",
+          "verdict": "changed",
+          "note": "v3: inputs you already have show as one compact line; totals are worked out when the page is built, so they show even without scripts."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "threshold-gauges",
+      "version": 1,
+      "status": "approved",
+      "category": "comparison",
+      "purpose": "Where the user's own numbers sit against a line that matters (a threshold, a target).",
+      "use_when": [
+        "diagnosis or recommendation turns"
+      ],
+      "avoid_when": [
+        "fact-collecting turns (question, data-ask): a crossed threshold is a recommendation — withhold it (05 §4)"
+      ],
+      "slots": {
+        "gauges": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "label": {
+                "type": "text",
+                "required": true,
+                "max_words": 6
+              },
+              "caption": {
+                "type": "text",
+                "required": true,
+                "max_words": 10
+              },
+              "min": {
+                "type": "number",
+                "required": true
+              },
+              "max": {
+                "type": "number",
+                "required": true
+              },
+              "value": {
+                "type": "number",
+                "required": false
+              },
+              "value_label": {
+                "type": "text",
+                "required": false,
+                "max_words": 3
+              },
+              "band_low": {
+                "type": "number",
+                "required": false
+              },
+              "band_high": {
+                "type": "number",
+                "required": false
+              },
+              "line": {
+                "type": "number",
+                "required": false
+              },
+              "line_label": {
+                "type": "text",
+                "required": false,
+                "max_words": 4
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N; the host highlights it when the user selects @PointN"
+              }
+            },
+            "required": true
+          },
+          "min": 1,
+          "max": 3,
+          "required": true
+        }
+      },
+      "mobile": "gauges stacked",
+      "cost": {
+        "wide": 147,
+        "narrow": -19,
+        "per_item_narrow": 150
+      },
+      "feedback": [
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Version 3 (route map) chosen: one screen length, cleaner depiction, less text."
+        },
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Used in an approved turn (dp-03 or dp-04)."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "balance",
+      "version": 1,
+      "status": "approved",
+      "category": "comparison",
+      "purpose": "What the fix costs set against what it returns — one quantity each side.",
+      "use_when": [
+        "recommendation turns: cost vs return (05 §3 step 5)"
+      ],
+      "avoid_when": [
+        "either side unquantified — say so in text instead"
+      ],
+      "slots": {
+        "left_label": {
+          "type": "text",
+          "required": true,
+          "max_words": 5
+        },
+        "left_value": {
+          "type": "text",
+          "required": true,
+          "max_words": 3
+        },
+        "right_label": {
+          "type": "text",
+          "required": true,
+          "max_words": 5
+        },
+        "right_value": {
+          "type": "text",
+          "required": true,
+          "max_words": 3
+        },
+        "heavier": {
+          "type": "enum",
+          "values": [
+            "left",
+            "right",
+            "even"
+          ],
+          "required": true
+        },
+        "caption": {
+          "type": "text",
+          "required": true,
+          "max_words": 20
+        }
+      },
+      "mobile": "narrower beam, same drawing",
+      "cost": {
+        "wide": 298,
+        "narrow": 294
+      },
+      "feedback": [
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Version 3 (route map) chosen: one screen length, cleaner depiction, less text."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "progress-trail",
+      "version": 1,
+      "status": "approved",
+      "category": "progress",
+      "purpose": "Compact \"where are we\" — small numbered dots, n of N, and what is next.",
+      "use_when": [
+        "every turn inside a multi-step sequence after the first"
+      ],
+      "avoid_when": [
+        "as a substitute for the progress view of a multi-part reveal — use agenda-grid mode progress"
+      ],
+      "slots": {
+        "steps": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "id": {
+                "type": "text",
+                "required": true,
+                "max_words": 1
+              },
+              "status": {
+                "type": "enum",
+                "values": [
+                  "now",
+                  "next",
+                  "done",
+                  "later",
+                  "flag"
+                ],
+                "required": true
+              }
+            },
+            "required": true
+          },
+          "min": 2,
+          "max": 14,
+          "required": true
+        },
+        "summary": {
+          "type": "text",
+          "required": true,
+          "max_words": 8
+        },
+        "next": {
+          "type": "text",
+          "required": true,
+          "max_words": 12
+        }
+      },
+      "mobile": "same, scaled to width",
+      "cost": {
+        "wide": 59,
+        "narrow": 80
+      },
+      "feedback": [
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Version 3 (route map) chosen: one screen length, cleaner depiction, less text."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "agenda-grid",
+      "version": 2,
+      "status": "draft",
+      "category": "progress",
+      "purpose": "Multi-part reveal overview (mode overview) or what is left (mode progress): one card per part, each labelled with the question it answers.",
+      "use_when": [
+        "5-part solution overview",
+        "user asks what is left"
+      ],
+      "avoid_when": [
+        "re-showing the overview when asked what is left — switch mode to progress"
+      ],
+      "slots": {
+        "mode": {
+          "type": "enum",
+          "values": [
+            "overview",
+            "progress"
+          ],
+          "required": true
+        },
+        "parts": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "title": {
+                "type": "text",
+                "required": true,
+                "max_words": 4
+              },
+              "question": {
+                "type": "text",
+                "required": true,
+                "max_words": 14
+              },
+              "status": {
+                "type": "enum",
+                "values": [
+                  "covered",
+                  "current",
+                  "remaining"
+                ],
+                "required": true
+              },
+              "detail": {
+                "type": "text",
+                "required": false,
+                "max_words": 25
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N; the host highlights it when the user selects @PointN"
+              },
+              "more_label": {
+                "type": "text",
+                "required": false,
+                "max_words": 5
+              },
+              "detail_points": {
+                "type": "list",
+                "item": {
+                  "type": "text",
+                  "required": true,
+                  "max_words": 22
+                },
+                "min": 2,
+                "max": 6,
+                "required": false
+              }
+            },
+            "required": true
+          },
+          "min": 2,
+          "max": 6,
+          "required": true
+        }
+      },
+      "mobile": "single column",
+      "cost": {
+        "wide": 48,
+        "per_item_wide": 45,
+        "narrow": -57,
+        "per_item_narrow": 110
+      },
+      "feedback": [
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "note",
+          "note": "“What it covers” opened to one thin line. Buttons now say what is inside and open to a list of real points (F8)."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "cards",
+      "version": 2,
+      "status": "approved",
+      "category": "items",
+      "purpose": "Independent items — findings, options, gaps. No arrows. Each can expand for more.",
+      "use_when": [
+        "a set of non-sequential items"
+      ],
+      "avoid_when": [
+        "anything sequential — use chain or route-map"
+      ],
+      "slots": {
+        "label": {
+          "type": "text",
+          "required": false,
+          "max_words": 8
+        },
+        "items": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "title": {
+                "type": "text",
+                "required": true,
+                "max_words": 6
+              },
+              "text": {
+                "type": "text",
+                "required": true,
+                "max_words": 20
+              },
+              "tag": {
+                "type": "text",
+                "required": false,
+                "max_words": 2
+              },
+              "state": {
+                "type": "enum",
+                "values": [
+                  "plain",
+                  "target",
+                  "outcome",
+                  "start",
+                  "dashed"
+                ],
+                "required": false,
+                "default": "plain"
+              },
+              "more": {
+                "type": "text",
+                "required": false,
+                "max_words": 25
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N; the host highlights it when the user selects @PointN"
+              },
+              "more_label": {
+                "type": "text",
+                "required": false,
+                "max_words": 5
+              },
+              "more_points": {
+                "type": "list",
+                "item": {
+                  "type": "text",
+                  "required": true,
+                  "max_words": 22
+                },
+                "min": 2,
+                "max": 6,
+                "required": false
+              }
+            },
+            "required": true
+          },
+          "min": 2,
+          "max": 6,
+          "required": true
+        }
+      },
+      "mobile": "single column",
+      "cost": {
+        "wide": 8,
+        "per_item_wide": 66,
+        "narrow": 4,
+        "per_item_narrow": 159
+      },
+      "feedback": [
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Approved in turn dp-04 (sample 4B). Expanders must hold the real detail, named on the button (F8): more_label + more_points added."
+        },
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Used again in approved turns dp-05 / dp-06."
+        },
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Used again in approved turns dp-07 to dp-10."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "role-cards",
+      "version": 1,
+      "status": "approved",
+      "category": "items",
+      "purpose": "Who has to cooperate: cards for the doers, a separate double-bordered box for the approver. Names where resistance concentrates.",
+      "use_when": [
+        "key people & buy-in part"
+      ],
+      "avoid_when": [
+        "no approver exists — use cards"
+      ],
+      "slots": {
+        "doers": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "role": {
+                "type": "text",
+                "required": true,
+                "max_words": 4
+              },
+              "ask": {
+                "type": "text",
+                "required": true,
+                "max_words": 16
+              },
+              "resistant": {
+                "type": "bool",
+                "required": false
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N; the host highlights it when the user selects @PointN"
+              }
+            },
+            "required": true
+          },
+          "min": 1,
+          "max": 6,
+          "required": true
+        },
+        "approver": {
+          "type": "object",
+          "fields": {
+            "role": {
+              "type": "text",
+              "required": true,
+              "max_words": 4
+            },
+            "approves": {
+              "type": "text",
+              "required": true,
+              "max_words": 12
+            },
+            "fails_if": {
+              "type": "text",
+              "required": true,
+              "max_words": 16
+            },
+            "point": {
+              "type": "number",
+              "required": false,
+              "note": "links this item to chat point N"
+            }
+          },
+          "required": true
+        },
+        "caption": {
+          "type": "text",
+          "required": false,
+          "max_words": 25
+        }
+      },
+      "mobile": "doers stacked, approver last",
+      "cost": {
+        "wide": 152,
+        "narrow": 212,
+        "per_item_narrow": 124,
+        "per_item_wide": 51
+      },
+      "feedback": [
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Approved in turn dp-07."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "fill-blank",
+      "version": 1,
+      "status": "draft",
+      "category": "process",
+      "purpose": "A structure handed over to complete with their numbers (mode blank) and its answered redraw (mode filled) — same geometry, same theme.",
+      "use_when": [
+        "data ask for stage-by-stage values"
+      ],
+      "avoid_when": [
+        "a plain list of figures — batch it in text + cards"
+      ],
+      "slots": {
+        "mode": {
+          "type": "enum",
+          "values": [
+            "blank",
+            "filled"
+          ],
+          "required": true
+        },
+        "steps": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "title": {
+                "type": "text",
+                "required": true,
+                "max_words": 5
+              },
+              "field": {
+                "type": "text",
+                "required": true,
+                "max_words": 5
+              },
+              "value": {
+                "type": "text",
+                "required": false,
+                "max_words": 3
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N; the host highlights it when the user selects @PointN"
+              }
+            },
+            "required": true
+          },
+          "min": 2,
+          "max": 8,
+          "required": true
+        },
+        "caption": {
+          "type": "text",
+          "required": false,
+          "max_words": 25
+        }
+      },
+      "mobile": "vertical stack",
+      "cost": {
+        "wide": -22,
+        "narrow": 72,
+        "per_item_narrow": 80,
+        "per_item_wide": 41
+      },
+      "scope": "all"
+    },
+    {
+      "id": "fork",
+      "version": 1,
+      "status": "draft",
+      "category": "items",
+      "purpose": "Two or three neutral patterns side by side so the user places themselves. Never draw only the expected one.",
+      "use_when": [
+        "finding out which pattern someone is in"
+      ],
+      "avoid_when": [
+        "a real recommendation — use compare-table"
+      ],
+      "slots": {
+        "question": {
+          "type": "text",
+          "required": true,
+          "max_words": 16
+        },
+        "options": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "title": {
+                "type": "text",
+                "required": true,
+                "max_words": 5
+              },
+              "text": {
+                "type": "text",
+                "required": true,
+                "max_words": 20
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N; the host highlights it when the user selects @PointN"
+              }
+            },
+            "required": true
+          },
+          "min": 2,
+          "max": 3,
+          "required": true
+        }
+      },
+      "mobile": "stacked with \"or\" between",
+      "cost": {
+        "wide": 142,
+        "narrow": 82,
+        "per_item_narrow": 130
+      },
+      "scope": "all"
+    },
+    {
+      "id": "handnote",
+      "version": 1,
+      "status": "approved",
+      "category": "frame",
+      "purpose": "One handwritten line on the canvas — a pointer or the intangible benefit. At most one per canvas.",
+      "use_when": [
+        "the point that spans the whole canvas"
+      ],
+      "avoid_when": [
+        "repeating Tojo's Note from the chat panel"
+      ],
+      "slots": {
+        "text": {
+          "type": "text",
+          "required": true,
+          "max_words": 16
+        }
+      },
+      "cost": {
+        "wide": 31,
+        "narrow": 52
+      },
+      "feedback": [
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Version 3 (route map) chosen: one screen length, cleaner depiction, less text."
+        },
+        {
+          "date": "2026-09-25",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Used in an approved turn (dp-03 or dp-04)."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "time-window",
+      "category": "process",
+      "purpose": "A stretch of the day on one line, with key moments marked and the unused hours shaded — the “time nobody uses” diagnosis.",
+      "use_when": [
+        "diagnosis: time that exists but nobody uses (playbook §2)",
+        "showing when things happen across a day or night"
+      ],
+      "avoid_when": [
+        "a sequence without real clock times — use chain"
+      ],
+      "slots": {
+        "label": {
+          "type": "text",
+          "required": false,
+          "max_words": 8
+        },
+        "axis_from": {
+          "type": "number",
+          "required": true
+        },
+        "axis_to": {
+          "type": "number",
+          "required": true
+        },
+        "tick": {
+          "type": "number",
+          "required": false
+        },
+        "events": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "time": {
+                "type": "number",
+                "required": true
+              },
+              "label": {
+                "type": "text",
+                "required": true,
+                "max_words": 4
+              },
+              "state": {
+                "type": "enum",
+                "values": [
+                  "plain",
+                  "target",
+                  "outcome",
+                  "start",
+                  "dashed"
+                ],
+                "required": false
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N"
+              }
+            },
+            "required": true
+          },
+          "min": 2,
+          "max": 8,
+          "required": true
+        },
+        "window": {
+          "type": "object",
+          "fields": {
+            "start": {
+              "type": "number",
+              "required": true
+            },
+            "end": {
+              "type": "number",
+              "required": true
+            },
+            "label": {
+              "type": "text",
+              "required": true,
+              "max_words": 4
+            },
+            "note": {
+              "type": "text",
+              "required": false,
+              "max_words": 14
+            },
+            "point": {
+              "type": "number",
+              "required": false,
+              "note": "links this item to chat point N"
+            }
+          },
+          "required": false
+        },
+        "share": {
+          "type": "object",
+          "fields": {
+            "value": {
+              "type": "text",
+              "required": true,
+              "max_words": 3
+            },
+            "label": {
+              "type": "text",
+              "required": true,
+              "max_words": 10
+            }
+          },
+          "required": false
+        },
+        "caption": {
+          "type": "text",
+          "required": false,
+          "max_words": 25
+        }
+      },
+      "mobile": "vertical timeline; the unused stretch is a shaded block between its two moments",
+      "cost": {
+        "wide": 384,
+        "narrow": 238,
+        "per_item_narrow": 48
+      },
+      "version": 1,
+      "status": "approved",
+      "feedback": [
+        {
+          "date": "2026-09-26",
+          "by": "rules",
+          "verdict": "draft",
+          "note": "New template from the conversation playbook, awaiting review."
+        },
+        {
+          "date": "2026-09-26",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Approved with the playbook template set (desktop and mobile)."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "hour-load",
+      "category": "numbers",
+      "purpose": "How much work lands in each hour, with the busy windows marked and the staff placed on each one — sizing to peaks, not averages.",
+      "use_when": [
+        "staffing: sizing a role against when the work actually happens (playbook §4)"
+      ],
+      "avoid_when": [
+        "a single total per day — use stat-strip"
+      ],
+      "slots": {
+        "label": {
+          "type": "text",
+          "required": false,
+          "max_words": 8
+        },
+        "unit": {
+          "type": "text",
+          "required": true,
+          "max_words": 4
+        },
+        "bars": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "label": {
+                "type": "text",
+                "required": true,
+                "max_words": 2
+              },
+              "value": {
+                "type": "number",
+                "required": true
+              }
+            },
+            "required": true
+          },
+          "min": 4,
+          "max": 16,
+          "required": true
+        },
+        "windows": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "start": {
+                "type": "number",
+                "required": true
+              },
+              "end": {
+                "type": "number",
+                "required": true
+              },
+              "label": {
+                "type": "text",
+                "required": true,
+                "max_words": 4
+              },
+              "staff": {
+                "type": "text",
+                "required": true,
+                "max_words": 4
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N"
+              }
+            },
+            "required": true
+          },
+          "min": 1,
+          "max": 3,
+          "required": true
+        },
+        "caption": {
+          "type": "text",
+          "required": false,
+          "max_words": 25
+        }
+      },
+      "mobile": "bars turn sideways, one row per hour, grouped under each busy window",
+      "cost": {
+        "wide": 347,
+        "narrow": 235,
+        "per_item_narrow": 30
+      },
+      "version": 1,
+      "status": "approved",
+      "feedback": [
+        {
+          "date": "2026-09-26",
+          "by": "rules",
+          "verdict": "draft",
+          "note": "New template from the conversation playbook, awaiting review."
+        },
+        {
+          "date": "2026-09-26",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Approved with the playbook template set (desktop and mobile)."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "was-now",
+      "category": "numbers",
+      "purpose": "What Tojo had assumed, what the real figure is, and what that changes further on — said plainly, figure by figure.",
+      "use_when": [
+        "real data replacing estimates (playbook §6)"
+      ],
+      "avoid_when": [
+        "nothing was estimated before — use stat-strip"
+      ],
+      "slots": {
+        "rows": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "label": {
+                "type": "text",
+                "required": true,
+                "max_words": 6
+              },
+              "was": {
+                "type": "text",
+                "required": true,
+                "max_words": 4
+              },
+              "now": {
+                "type": "text",
+                "required": true,
+                "max_words": 4
+              },
+              "change": {
+                "type": "text",
+                "required": false,
+                "max_words": 4
+              },
+              "direction": {
+                "type": "enum",
+                "values": [
+                  "up",
+                  "down",
+                  "same"
+                ],
+                "required": false
+              },
+              "knock_on": {
+                "type": "text",
+                "required": false,
+                "max_words": 16
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N"
+              }
+            },
+            "required": true
+          },
+          "min": 1,
+          "max": 5,
+          "required": true
+        },
+        "caption": {
+          "type": "text",
+          "required": false,
+          "max_words": 25
+        }
+      },
+      "mobile": "one card per figure",
+      "cost": {
+        "wide": 166,
+        "per_item_wide": 62,
+        "narrow": 208,
+        "per_item_narrow": 130
+      },
+      "version": 1,
+      "status": "approved",
+      "feedback": [
+        {
+          "date": "2026-09-26",
+          "by": "rules",
+          "verdict": "draft",
+          "note": "New template from the conversation playbook, awaiting review."
+        },
+        {
+          "date": "2026-09-26",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Approved with the playbook template set (desktop and mobile)."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "scorecard",
+      "category": "numbers",
+      "purpose": "The measures we will track: starting number, goal, and whether each is confirmed, a goal not yet measured, or new with no starting number.",
+      "use_when": [
+        "KPIs and targets (playbook §4) — curated to the few that matter"
+      ],
+      "avoid_when": [
+        "inventing a starting number — mark it new instead"
+      ],
+      "slots": {
+        "rows": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "measure": {
+                "type": "text",
+                "required": true,
+                "max_words": 7
+              },
+              "start": {
+                "type": "text",
+                "required": true,
+                "max_words": 4
+              },
+              "goal": {
+                "type": "text",
+                "required": true,
+                "max_words": 6
+              },
+              "status": {
+                "type": "enum",
+                "values": [
+                  "confirmed",
+                  "pending",
+                  "new"
+                ],
+                "required": true
+              },
+              "note": {
+                "type": "text",
+                "required": false,
+                "max_words": 10
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N"
+              }
+            },
+            "required": true
+          },
+          "min": 2,
+          "max": 7,
+          "required": true
+        },
+        "caption": {
+          "type": "text",
+          "required": false,
+          "max_words": 25
+        }
+      },
+      "mobile": "one card per measure",
+      "cost": {
+        "wide": 132,
+        "per_item_wide": 52,
+        "narrow": 327,
+        "per_item_narrow": 120
+      },
+      "version": 1,
+      "status": "approved",
+      "feedback": [
+        {
+          "date": "2026-09-26",
+          "by": "rules",
+          "verdict": "draft",
+          "note": "New template from the conversation playbook, awaiting review."
+        },
+        {
+          "date": "2026-09-26",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Approved with the playbook template set (desktop and mobile)."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "narrow-claim",
+      "category": "comparison",
+      "purpose": "Answering pushback: what they said, the part that is fair, what actually changes against what stays as it is, and the ask on the most resistant group with the condition that keeps it true.",
+      "use_when": [
+        "a challenge or a factual correction (playbook §5, 05 §6)"
+      ],
+      "avoid_when": [
+        "no pushback — do not invent one"
+      ],
+      "slots": {
+        "said": {
+          "type": "text",
+          "required": true,
+          "max_words": 22
+        },
+        "fair": {
+          "type": "text",
+          "required": true,
+          "max_words": 22
+        },
+        "change_title": {
+          "type": "text",
+          "required": false,
+          "max_words": 4
+        },
+        "changes": {
+          "type": "list",
+          "item": {
+            "type": "text",
+            "required": true,
+            "max_words": 14
+          },
+          "min": 1,
+          "max": 5,
+          "required": true
+        },
+        "keep_title": {
+          "type": "text",
+          "required": false,
+          "max_words": 5
+        },
+        "keeps": {
+          "type": "list",
+          "item": {
+            "type": "text",
+            "required": true,
+            "max_words": 14
+          },
+          "min": 1,
+          "max": 5,
+          "required": true
+        },
+        "ask": {
+          "type": "object",
+          "fields": {
+            "value": {
+              "type": "text",
+              "required": true,
+              "max_words": 3
+            },
+            "label": {
+              "type": "text",
+              "required": true,
+              "max_words": 8
+            },
+            "condition": {
+              "type": "text",
+              "required": true,
+              "max_words": 16
+            }
+          },
+          "required": false
+        }
+      },
+      "mobile": "stacked: their words, the fair part, what changes, what stays, the ask",
+      "cost": {
+        "wide": 400,
+        "narrow": 739
+      },
+      "version": 1,
+      "status": "approved",
+      "feedback": [
+        {
+          "date": "2026-09-26",
+          "by": "rules",
+          "verdict": "draft",
+          "note": "New template from the conversation playbook, awaiting review."
+        },
+        {
+          "date": "2026-09-26",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Approved with the playbook template set (desktop and mobile)."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "converge",
+      "category": "process",
+      "purpose": "Several sources feeding one result, joined on one rail with one arrow out.",
+      "use_when": [
+        "where a number or a document comes from several places"
+      ],
+      "avoid_when": [
+        "a sequence — use chain"
+      ],
+      "slots": {
+        "label": {
+          "type": "text",
+          "required": false,
+          "max_words": 8
+        },
+        "inputs": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "title": {
+                "type": "text",
+                "required": true,
+                "max_words": 5
+              },
+              "text": {
+                "type": "text",
+                "required": false,
+                "max_words": 10
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N"
+              }
+            },
+            "required": true
+          },
+          "min": 2,
+          "max": 6,
+          "required": true
+        },
+        "rail_label": {
+          "type": "text",
+          "required": false,
+          "max_words": 6
+        },
+        "output": {
+          "type": "object",
+          "fields": {
+            "title": {
+              "type": "text",
+              "required": true,
+              "max_words": 6
+            },
+            "value": {
+              "type": "text",
+              "required": false,
+              "max_words": 4
+            },
+            "text": {
+              "type": "text",
+              "required": false,
+              "max_words": 14
+            },
+            "point": {
+              "type": "number",
+              "required": false,
+              "note": "links this item to chat point N"
+            }
+          },
+          "required": true
+        },
+        "caption": {
+          "type": "text",
+          "required": false,
+          "max_words": 25
+        }
+      },
+      "mobile": "sources stacked on a rail down the left, arrow into the result",
+      "cost": {
+        "wide": 354,
+        "narrow": 363,
+        "per_item_narrow": 70
+      },
+      "version": 1,
+      "status": "approved",
+      "feedback": [
+        {
+          "date": "2026-09-26",
+          "by": "rules",
+          "verdict": "draft",
+          "note": "New template from the conversation playbook, awaiting review."
+        },
+        {
+          "date": "2026-09-26",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Approved with the playbook template set (desktop and mobile)."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "bands",
+      "category": "process",
+      "purpose": "When the answer is “it is not many things”: what goes in, the one thing doing the work, what comes out.",
+      "use_when": [
+        "explaining how a many-step thing gets built or run"
+      ],
+      "avoid_when": [
+        "a real sequence of steps — use chain"
+      ],
+      "slots": {
+        "inputs": {
+          "type": "object",
+          "fields": {
+            "title": {
+              "type": "text",
+              "required": true,
+              "max_words": 4
+            },
+            "items": {
+              "type": "list",
+              "item": {
+                "type": "text",
+                "required": true,
+                "max_words": 6
+              },
+              "min": 2,
+              "max": 6,
+              "required": true
+            }
+          },
+          "required": true
+        },
+        "engine": {
+          "type": "object",
+          "fields": {
+            "title": {
+              "type": "text",
+              "required": true,
+              "max_words": 5
+            },
+            "text": {
+              "type": "text",
+              "required": true,
+              "max_words": 18
+            },
+            "point": {
+              "type": "number",
+              "required": false,
+              "note": "links this item to chat point N"
+            }
+          },
+          "required": true
+        },
+        "outputs": {
+          "type": "object",
+          "fields": {
+            "title": {
+              "type": "text",
+              "required": true,
+              "max_words": 4
+            },
+            "items": {
+              "type": "list",
+              "item": {
+                "type": "text",
+                "required": true,
+                "max_words": 6
+              },
+              "min": 2,
+              "max": 6,
+              "required": true
+            }
+          },
+          "required": true
+        },
+        "caption": {
+          "type": "text",
+          "required": false,
+          "max_words": 25
+        }
+      },
+      "mobile": "stacked: in, the engine, out",
+      "cost": {
+        "wide": 230,
+        "narrow": 637
+      },
+      "version": 1,
+      "status": "approved",
+      "feedback": [
+        {
+          "date": "2026-09-26",
+          "by": "rules",
+          "verdict": "draft",
+          "note": "New template from the conversation playbook, awaiting review."
+        },
+        {
+          "date": "2026-09-26",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Approved with the playbook template set (desktop and mobile)."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "shared-flow",
+      "category": "process",
+      "purpose": "Two processes that are mostly the same: shared steps shown once, steps only one of them has drawn dashed with the other going round, different values stacked.",
+      "use_when": [
+        "two flows that turn out to be mostly one (04 merged shared flow)"
+      ],
+      "avoid_when": [
+        "two genuinely different flows — use two-flow"
+      ],
+      "slots": {
+        "flows": {
+          "type": "list",
+          "item": {
+            "type": "text",
+            "required": true,
+            "max_words": 3
+          },
+          "min": 2,
+          "max": 2,
+          "required": true
+        },
+        "steps": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "title": {
+                "type": "text",
+                "required": true,
+                "max_words": 6
+              },
+              "only": {
+                "type": "number",
+                "required": false
+              },
+              "values": {
+                "type": "list",
+                "item": {
+                  "type": "text",
+                  "required": true,
+                  "max_words": 3
+                },
+                "min": 2,
+                "max": 2,
+                "required": false
+              },
+              "state": {
+                "type": "enum",
+                "values": [
+                  "plain",
+                  "target",
+                  "outcome",
+                  "start",
+                  "dashed"
+                ],
+                "required": false
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N"
+              }
+            },
+            "required": true
+          },
+          "min": 3,
+          "max": 8,
+          "required": true
+        },
+        "caption": {
+          "type": "text",
+          "required": false,
+          "max_words": 25
+        }
+      },
+      "mobile": "vertical, the one-flow steps tagged with the flow they belong to",
+      "cost": {
+        "wide": 341,
+        "narrow": 497,
+        "per_item_narrow": 78
+      },
+      "version": 1,
+      "status": "approved",
+      "feedback": [
+        {
+          "date": "2026-09-26",
+          "by": "rules",
+          "verdict": "draft",
+          "note": "New template from the conversation playbook, awaiting review."
+        },
+        {
+          "date": "2026-09-26",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Approved with the playbook template set (desktop and mobile)."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "zoom-trail",
+      "category": "progress",
+      "purpose": "For “tell me more”: where this answer sits in the drill-down, from the first picture to this level.",
+      "use_when": [
+        "an elaboration turn that goes one level deeper (playbook §5)"
+      ],
+      "avoid_when": [
+        "the first time a subject is shown"
+      ],
+      "slots": {
+        "levels": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "title": {
+                "type": "text",
+                "required": true,
+                "max_words": 6
+              },
+              "ref": {
+                "type": "text",
+                "required": false,
+                "max_words": 3
+              }
+            },
+            "required": true
+          },
+          "min": 2,
+          "max": 5,
+          "required": true
+        }
+      },
+      "mobile": "indented list, one level per line",
+      "cost": {
+        "wide": 106,
+        "narrow": 83,
+        "per_item_narrow": 46
+      },
+      "version": 1,
+      "status": "approved",
+      "feedback": [
+        {
+          "date": "2026-09-26",
+          "by": "rules",
+          "verdict": "draft",
+          "note": "New template from the conversation playbook, awaiting review."
+        },
+        {
+          "date": "2026-09-26",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Approved with the playbook template set (desktop and mobile)."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "phases",
+      "category": "progress",
+      "purpose": "A plan across weeks: each phase as a bar on the same week scale, with the key decision points marked.",
+      "use_when": [
+        "next steps and pilots (playbook §7)"
+      ],
+      "avoid_when": [
+        "steps with no timing — use chain"
+      ],
+      "slots": {
+        "unit": {
+          "type": "text",
+          "required": true,
+          "max_words": 2
+        },
+        "span": {
+          "type": "number",
+          "required": true
+        },
+        "phases": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "title": {
+                "type": "text",
+                "required": true,
+                "max_words": 5
+              },
+              "start": {
+                "type": "number",
+                "required": true
+              },
+              "end": {
+                "type": "number",
+                "required": true
+              },
+              "text": {
+                "type": "text",
+                "required": false,
+                "max_words": 12
+              },
+              "state": {
+                "type": "enum",
+                "values": [
+                  "plain",
+                  "target",
+                  "outcome",
+                  "start",
+                  "dashed"
+                ],
+                "required": false
+              },
+              "point": {
+                "type": "number",
+                "required": false,
+                "note": "links this item to chat point N"
+              }
+            },
+            "required": true
+          },
+          "min": 2,
+          "max": 6,
+          "required": true
+        },
+        "marks": {
+          "type": "list",
+          "item": {
+            "type": "object",
+            "fields": {
+              "at": {
+                "type": "number",
+                "required": true
+              },
+              "label": {
+                "type": "text",
+                "required": true,
+                "max_words": 4
+              }
+            },
+            "required": true
+          },
+          "min": 1,
+          "max": 3,
+          "required": false
+        },
+        "caption": {
+          "type": "text",
+          "required": false,
+          "max_words": 25
+        }
+      },
+      "mobile": "one row per phase, each with its own bar across the full width",
+      "cost": {
+        "wide": 136,
+        "per_item_wide": 56,
+        "narrow": 193,
+        "per_item_narrow": 96
+      },
+      "version": 1,
+      "status": "approved",
+      "feedback": [
+        {
+          "date": "2026-09-26",
+          "by": "rules",
+          "verdict": "draft",
+          "note": "New template from the conversation playbook, awaiting review."
+        },
+        {
+          "date": "2026-09-26",
+          "by": "user",
+          "verdict": "approved",
+          "note": "Approved with the playbook template set (desktop and mobile)."
+        }
+      ],
+      "scope": "all"
+    }
+  ],
+  "plain_english": {
+    "rule": "Simple, plain English only. Every label and sentence must be understood by a ward nurse or a family member reading it cold. No abbreviations, no jargon, no made-up compound labels. A word here is refused unless the user used it first (list it in turn.user_words).",
+    "abbreviations": {
+      "ALOS": "average stay (days)",
+      "ARPOB": "what one bed earns in a day",
+      "TPA": "insurance desk",
+      "KPI": "the numbers we will track",
+      "RMO": "junior doctor",
+      "HIS": "hospital software",
+      "ERP": "hospital software",
+      "PACS": "scan system",
+      "TAT": "time taken",
+      "OT": "operating theatre",
+      "SOP": "usual steps",
+      "ETA": "expected time",
+      "ROI": "what you get back for what you spend",
+      "FTE": "full-time staff",
+      "YoY": "compared with last year"
+    },
+    "words": {
+      "bed-days": "days of bed time",
+      "bed-hours": "hours of bed time",
+      "derived": "worked out",
+      "provisional": "early",
+      "reconciliation": "matching up",
+      "reconcile": "match up",
+      "throughput": "how many",
+      "utilisation": "use",
+      "utilization": "use",
+      "utilise": "use",
+      "utilize": "use",
+      "ceiling": "the most it could be",
+      "stakeholder": "people involved",
+      "leverage": "use",
+      "optimise": "improve",
+      "optimize": "improve",
+      "bottleneck": "hold-up",
+      "workflow": "steps",
+      "granular": "detailed",
+      "cadence": "how often",
+      "synergy": "working together",
+      "holistic": "whole",
+      "seamless": "smooth",
+      "robust": "strong",
+      "scalable": "able to grow",
+      "actionable": "something you can act on",
+      "baseline": "starting number",
+      "benchmark": "compare",
+      "metric": "number",
+      "parameter": "number",
+      "quantify": "put a number on",
+      "mechanism": "how it works",
+      "dependency": "what it relies on",
+      "interdependency": "how teams rely on each other",
+      "serialisation": "one after another",
+      "transcriptionist": "typist",
+      "stock-take": "count of supplies",
+      "pre-approval": "insurance approval",
+      "turnaround": "time to get ready",
+      "headcount": "number of staff",
+      "onboard": "set up",
+      "integration": "linking",
+      "prerequisite": "what must come first",
+      "facilitate": "help",
+      "commence": "start",
+      "subsequently": "later",
+      "ascertain": "find out",
+      "going forward": "from now on",
+      "in order to": "to",
+      "fit to leaving": "ready to go home",
+      "capture": "record",
+      "downstream": "later steps",
+      "upstream": "earlier steps",
+      "escalate": "pass up"
+    },
+    "patterns": [
+      [
+        "~",
+        "write “about”"
+      ],
+      [
+        "\\b\\d+(?:\\.\\d+)?\\s?h\\b",
+        "write “hours”"
+      ],
+      [
+        "\\b\\d+(?:\\.\\d+)?\\s?(?:Cr|L)\\b",
+        "write “crore” or “lakh”"
+      ],
+      [
+        "\\be\\.g\\.|\\bi\\.e\\.|\\betc\\.",
+        "write it out"
+      ]
+    ]
+  },
+  "calibrated": "tests/calibrate.py against 38 renders",
+  "tones": {
+    "rule": "The colours never change; their shades do. The generator picks the tone from the turn number, in sets of three: turns 1–3 sage, 4–6 mist, 7–9 sage, and so on through `rotation`. Specs and templates store no colour — Claude never sets a tone. A fill-in-the-blank and its answered redraw keep the tone they started in (set canvas.tone on the redraw only for that).",
+    "rotation": [
+      "sage",
+      "mist"
+    ],
+    "list": {
+      "sage": {
+        "status": "approved",
+        "name": "Sage (base)",
+        "ground": "#DCE3DA",
+        "card": "#F7F9F5",
+        "ink": "#10241a",
+        "muted": "#44544A"
+      },
+      "deep": {
+        "status": "not chosen",
+        "name": "Deep sage — a shade darker",
+        "ground": "#C4CFC1",
+        "card": "#F3F1EA",
+        "ink": "#10241a",
+        "muted": "#37473C"
+      },
+      "mist": {
+        "status": "approved",
+        "name": "Light mist — a shade lighter",
+        "ground": "#EEF2EC",
+        "card": "#FFFFFF",
+        "ink": "#1C3A2B",
+        "muted": "#4E5F55"
+      }
+    }
+  },
+  "note": " scope \"all\": the pattern may be used by any tab, redrawn in its look by its own generator. scope \"<Tab>\": that tab only."
+}

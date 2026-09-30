@@ -1,0 +1,98 @@
+{
+ "turn": {
+  "id": "so-05",
+  "tab": "Solutions",
+  "type": "recommendation",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Is it worth what it costs?",
+  "context": "Playbook §7, points 2 and 3: the threshold recommendation, and cost against what is at stake."
+ },
+ "chat": {
+  "text": [
+   "Yes. Put one Discharge Manager in place now, and start the two-week trial.",
+   "At 40 to 45 discharges a day, this is not a maybe-someday. You are already there.",
+   "The team costs a small part of what the wait costs, even if the trial wins back very little."
+  ],
+  "pointer": "Move the slider to choose how much of the wait the trial wins back.",
+  "note": "The team costs about a hundredth of what the wait does.",
+  "points": [
+   {
+    "n": 1,
+    "label": "What the wait costs",
+    "canvas": false
+   },
+   {
+    "n": 2,
+    "label": "What the team costs",
+    "canvas": false
+   },
+   {
+    "n": 3,
+    "label": "Your discharges a day",
+    "canvas": false
+   }
+  ],
+  "prompts": [
+   "What would we do first?",
+   "Why the Manager before the trial?",
+   "Can we start with one person?"
+  ],
+  "moves": [
+   {
+    "prompt": "Why the Manager before the trial?",
+    "tab": "Processes"
+   },
+   {
+    "prompt": "Can we start with one person?",
+    "tab": "Processes"
+   }
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Cost against what is at stake",
+    "title": "A small team against a large wait",
+    "deck": "Both drawn to one scale. You choose how much of the wait the trial wins back."
+   },
+   {
+    "type": "stake",
+    "stake": {
+     "label": "Yearly cost of the wait",
+     "value": "₹10.9 crore",
+     "amount": 1090,
+     "source": "derived",
+     "note": "The most it could be, worked out from your figures"
+    },
+    "cost": {
+     "label": "One Discharge Manager and two Discharge Executives",
+     "value": "₹10 to 11.5 lakh",
+     "amount": 11.5,
+     "source": "estimate",
+     "note": "A year, at the top of the range"
+    },
+    "share": {
+     "label": "Share of the wait the trial wins back",
+     "min": 5,
+     "max": 50,
+     "step": 5,
+     "default": 10,
+     "presets": [
+      5,
+      10,
+      25,
+      50
+     ]
+    },
+    "trigger": {
+     "label": "Discharges a day",
+     "value": "40 to 45",
+     "line": "Enough work for one person in charge and two helpers"
+    },
+    "condition": "₹10.9 crore is the most the wait could cost. How much the trial wins back is not yet measured here."
+   }
+  ]
+ }
+}

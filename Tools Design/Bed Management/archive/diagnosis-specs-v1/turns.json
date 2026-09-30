@@ -1,0 +1,49 @@
+{
+ "note": "The turns of Bed Management Diagnosis, in conversation order. Only these are built.",
+ "turns": [
+  {
+   "file": "bm-dg-01.json",
+   "note": "The case reveal. Tap the numbered steps round the dial."
+  },
+  {
+   "file": "bm-dg-02.json",
+   "note": "The five areas on a clipboard, then the first question."
+  },
+  {
+   "file": "bm-dg-03.json",
+   "note": "Two neutral patterns side by side, so the question does not lead."
+  },
+  {
+   "file": "bm-dg-04.json",
+   "note": "The admission line with blank times. Tap a step, then add a time."
+  },
+  {
+   "file": "bm-dg-05.json",
+   "note": "The same line, filled (a redraw, so it keeps the first theme). Adds where the time goes, and the effect."
+  },
+  {
+   "file": "bm-dg-06.json",
+   "note": "Two blank bills on one bed."
+  },
+  {
+   "file": "bm-dg-07.json",
+   "note": "The same bills, filled (a redraw). Adds the gap on a ruler with a usual or worst day switch."
+  },
+  {
+   "file": "bm-dg-08.json",
+   "note": "Five money figures to fill in, 3 + 2 on desktop, 2 + 2 + 1 on a phone."
+  },
+  {
+   "file": "bm-dg-09.json",
+   "note": "The arithmetic as a staircase. Tap a step for the working."
+  },
+  {
+   "file": "bm-dg-10.json",
+   "note": "The five findings pinned to a notice board, in the order they were given."
+  },
+  {
+   "file": "bm-dg-11.json",
+   "note": "New: the diagnosis turn the transcript left out (playbook §2). The rule in the middle, the loop round it."
+  }
+ ]
+}

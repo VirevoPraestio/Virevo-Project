@@ -1,0 +1,175 @@
+{
+ "turn": {
+  "id": "pr-00",
+  "tab": "Processes",
+  "type": "landing",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "",
+  "context": "The user opens Processes for the first time, from the door in Automations au-08."
+ },
+ "chat": {
+  "text": [
+   "Solutions and Automations agreed what should change. Here it is on one board: the changes, the measures and the new roles."
+  ],
+  "pointer": "Press Proceed to scope the two-week trial, or pick a point to add to it.",
+  "note": "Prove it on one ward before changing them all.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The trial ward",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Discharge papers, the biggest hold-up",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Hours from ready to home",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The Discharge Manager",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Scope the two-week trial",
+   "Who has to agree to this?",
+   "Do we need to hire anyone?"
+  ]
+ },
+ "canvas": {
+  "state": "filled",
+  "blocks": [
+   {
+    "type": "landing",
+    "stamp": {
+     "at": "Brought up to date at midnight, 1 October",
+     "since": "Your choice in Automations is not in yet",
+     "fresh": "Brought up to date just now, 9:52 AM",
+     "fresh_since": "Everything you have said is in"
+    },
+    "standing": "The changes are agreed on paper. Nothing is tried yet.",
+    "deck": "Changes, measures and new roles in one place. A two-week trial on one ward comes first.",
+    "loop_at": 0,
+    "trial": {
+     "title": "Two-week trial on one ward",
+     "status": "Not started",
+     "note": "No new staff and no new system needed",
+     "point": 1
+    },
+    "changes": [
+     {
+      "title": "The evening round starts the paperwork",
+      "status": "agreed"
+     },
+     {
+      "title": "Discharge papers drafted before signing",
+      "status": "agreed",
+      "flag": "Biggest hold-up",
+      "point": 2
+     },
+     {
+      "title": "Bill and supply count kept up to date",
+      "status": "agreed"
+     },
+     {
+      "title": "Insurance asked the evening before",
+      "status": "agreed"
+     },
+     {
+      "title": "Family and transport told the night before",
+      "status": "agreed"
+     },
+     {
+      "title": "Bed made ready as the patient leaves",
+      "status": "new"
+     }
+    ],
+    "measures": [
+     {
+      "title": "Hours from ready to home",
+      "value": "5 hours 15 minutes",
+      "status": "confirmed",
+      "point": 3
+     },
+     {
+      "title": "Insurance approval time",
+      "value": "About 1 hour",
+      "status": "confirmed"
+     },
+     {
+      "title": "Bed empty after the patient leaves",
+      "value": "75 minutes",
+      "status": "confirmed"
+     },
+     {
+      "title": "Patients home by 10 AM",
+      "status": "new"
+     },
+     {
+      "title": "Decisions made on the evening round",
+      "status": "new"
+     },
+     {
+      "title": "Money won back each month",
+      "status": "new"
+     }
+    ],
+    "roles": [
+     {
+      "title": "Discharge Manager",
+      "seats": 1,
+      "filled": 0,
+      "note": "Recommended now, before the trial",
+      "point": 4
+     },
+     {
+      "title": "Discharge Executives",
+      "seats": 2,
+      "filled": 0,
+      "note": "Mornings 8 to 11, evenings 6 to 9"
+     }
+    ],
+    "roles_note": "₹10 to 11.5 lakh a year. Your Head of Operations approves.",
+    "roles_cost": "₹10 to 11.5 lakh a year",
+    "pending": [
+     {
+      "text": "Scope the trial with you, day by day.",
+      "who": "tojo",
+      "point": 1
+     },
+     {
+      "text": "Show who has to agree, and what changes for each.",
+      "who": "tojo"
+     },
+     {
+      "text": "Pick the trial ward.",
+      "who": "you",
+      "need": "Needs your choice",
+      "point": 1
+     }
+    ],
+    "actions": {
+     "go": {
+      "detail": "Scope the two-week trial",
+      "say": "Scope the two-week trial"
+     },
+     "add": {
+      "detail": "Add a change, a measure or a role",
+      "say": "I want to add a change: "
+     },
+     "jump": {
+      "tab": "Automations",
+      "detail": "The order to switch on",
+      "say": "Take me back to Automations"
+     }
+    }
+   }
+  ]
+ }
+}

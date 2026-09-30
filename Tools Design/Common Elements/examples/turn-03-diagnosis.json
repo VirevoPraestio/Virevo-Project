@@ -1,0 +1,178 @@
+{
+ "review": {
+  "status": "approved",
+  "date": "2026-09-25",
+  "note": "Approved as sample 3A; reworked in plain English with details from the discharge reference file."
+ },
+ "turn": {
+  "id": "dp-03",
+  "type": "diagnosis",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "context": "Tojo · 250-bed hospital, Bhubaneswar",
+  "subject": "diagnosis",
+  "user_tag": "@Point1 @Point2",
+  "user_message": "One bed earns about ₹32,000 a day. Most patients are ready by 10 and leave around 3, so they wait about 5 hours. The doctors usually decide who’s going home on the 7 PM round, but they don’t sign till morning."
+ },
+ "chat": {
+  "text": [
+   "Your real problem isn’t slow discharge. It’s time nobody uses, and nobody being in charge.",
+   "Here’s why. Your doctors already decide in the evening. But nothing happens until they sign the next morning. Most of the going-home work could be done overnight. Nobody does it today because:"
+  ],
+  "bullets": [
+   "Nothing is automatic, so starting early means doing the work twice.",
+   "No team moves until the doctor signs.",
+   "Nobody has ever been asked to use the evening."
+  ],
+  "invite": "The second reason: your own numbers show you now need one person in charge of discharge. Does this match what you see on the wards?",
+  "note": "The time is already there. Nobody uses it.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The hours nobody uses overnight",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Papers and bill made only after signing",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Needing one person in charge",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "What the waiting costs",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Yes — show me how to fix it",
+   "Why doesn’t anyone use the evening now?",
+   "Our doctors won’t sign at night"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "What is really wrong",
+    "title": "Unused hours, and nobody in charge"
+   },
+   {
+    "type": "chain",
+    "steps": [
+     {
+      "title": "Doctor decides",
+      "value": "7 PM",
+      "state": "start"
+     },
+     {
+      "title": "Nothing happens overnight",
+      "value": "16 hours",
+      "state": "target",
+      "flag": "Time unused",
+      "point": 1
+     },
+     {
+      "title": "Doctor signs",
+      "value": "11 AM"
+     },
+     {
+      "title": "Papers and bill made",
+      "point": 2
+     },
+     {
+      "title": "Patient goes home",
+      "value": "About 3 PM",
+      "state": "outcome"
+     }
+    ],
+    "caption": "Ready by 10 AM, home by 3 PM: about 5 hours of waiting. All times are yours."
+   },
+   {
+    "type": "threshold-gauges",
+    "gauges": [
+     {
+      "label": "Beds in use",
+      "caption": "Over 80% needs one person in charge",
+      "min": 0,
+      "max": 100,
+      "value": 88,
+      "value_label": "You: 88%",
+      "line": 80,
+      "line_label": "80%",
+      "point": 3
+     },
+     {
+      "label": "Patients going home each day",
+      "caption": "Over 40 a day needs the same",
+      "min": 0,
+      "max": 60,
+      "value": 42.5,
+      "value_label": "40 to 45",
+      "band_low": 40,
+      "band_high": 45,
+      "line": 40,
+      "line_label": "40",
+      "point": 3
+     }
+    ]
+   },
+   {
+    "type": "calculator",
+    "inputs": [
+     {
+      "id": "d",
+      "label": "Patients going home each day",
+      "source": "derived",
+      "value": 42.5,
+      "format": "dec1",
+      "control": "fixed"
+     },
+     {
+      "id": "w",
+      "label": "Hours each one waits to leave",
+      "source": "yours",
+      "value": 5,
+      "format": "hours",
+      "control": "fixed"
+     },
+     {
+      "id": "a",
+      "label": "What one bed earns in a day",
+      "source": "yours",
+      "value": 32000,
+      "format": "inr",
+      "control": "fixed"
+     }
+    ],
+    "steps": [
+     {
+      "id": "bh",
+      "label": "Hours beds sit waiting each day",
+      "formula": "d * w",
+      "format": "int"
+     },
+     {
+      "id": "bd",
+      "label": "Full days of bed time lost each year",
+      "formula": "bh * 365 / 24",
+      "format": "int"
+     },
+     {
+      "id": "v",
+      "label": "Money those beds could earn",
+      "note": "the most it could be, not a promise",
+      "formula": "bd * a",
+      "format": "inr_cr",
+      "point": 4
+     }
+    ],
+    "condition": "True only if each freed bed gets a new patient that day. 42.5 is the middle of your 40 to 45."
+   }
+  ]
+ }
+}

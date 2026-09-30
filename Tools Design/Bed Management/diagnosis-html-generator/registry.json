@@ -1,0 +1,48 @@
+{
+ "registry": "Bed Management · Diagnosis",
+ "registry_version": 2,
+ "updated": "2026-09-30",
+ "note": "Bed Management Diagnosis draws with the approved Tojo block library (blocks/registry.json, rendered by diagnosis_html.py and tojo.css), redrawn in Bed Management's own look (07 §1.1, §9.3). Only blocks whose scope is 'all' and status 'approved' may be used. This file adds, per block, the Bed Management picking layer (sheets) and inline entries, plus the few Bed Management blocks of its own.",
+ "library": "../../blocks/registry.json",
+ "budget": {"max_blocks": 4},
+ "theme": {
+  "id": "bm",
+  "name": "Bed Management · Diagnosis: the morning count",
+  "tokens": {"ground": "#E1E7EF", "card": "#FAFCFE", "ink": "#1A2B45", "muted": "#475672", "faint": "rgba(26,43,69,0.14)", "gold_text": "#6B4F16",
+             "red": "#8E2F1C", "green": "#2F6B4F", "later": "#8B96AA", "paper": "#FAFCFE", "target": "#8A5608", "accent": "#2F5E9E", "shadow": "rgba(26,43,69,0.13)"}
+ },
+ "tones": {
+  "rule": "The colours never change; the background theme does, from the turn number in sets of four: turns 1–4 count, 5–8 lamp, 9–12 count. Specs store no colour. A fill-in-the-blank redraw keeps the theme of the turn it redraws (turn.redraw_of plus canvas.tone).",
+  "set_size": 4,
+  "rotation": ["count", "lamp"],
+  "list": {
+   "count": {"status": "approved", "name": "The morning count (base)"},
+   "lamp": {"status": "draft", "name": "The lamp-lit sheet", "ground": "#F2EDE3", "card": "#FFFDF8", "muted": "#4F5870", "faint": "rgba(26,43,69,0.12)"}
+  }
+ },
+ "layers": {
+  "note": "Extra slots Bed Management adds to a library block. sheets[i] belongs to the block's i-th item (event, step or row), in order.",
+  "sheets": {"type": "list", "min": 2, "max": 8, "required": false, "item": {"type": "object", "fields": {
+    "key": {"type": "text", "max_words": 1},
+    "when": {"type": "text", "max_words": 5},
+    "title": {"type": "text", "max_words": 7},
+    "text": {"type": "text", "max_words": 36},
+    "bed": {"type": "enum", "values": ["in", "leaving", "empty", "next"]},
+    "bed_line": {"type": "text", "max_words": 8},
+    "bill_line": {"type": "text", "max_words": 8},
+    "bill": {"type": "enum", "values": ["on", "off", "new"]},
+    "entry": {"type": "text", "max_words": 10, "required": false},
+    "entry_hint": {"type": "text", "max_words": 12, "required": false}}}},
+  "ask_more": {"type": "object", "required": false, "fields": {"label": {"type": "text", "max_words": 12}, "hint": {"type": "text", "max_words": 12}}},
+  "applies_to": ["time-window", "chain", "two-flow"]
+ },
+ "variety": {
+  "rule": "Every turn looks different. The main block (the first after the heading) is used by one turn only in a place, and no block but heading and effect appears in two turns in a row. A fill-in-the-blank and its answered redraw share one block by rule and must add one of their own."
+ },
+ "blocks": [
+  {"id": "effect", "status": "draft", "scope": "Bed Management only", "category": "numbers",
+   "purpose": "The quantity a turn names: a label, the figure and one line, in the effect-box fill (07 §5.2) with a small bed-and-bill mark.",
+   "use_when": ["naming the quantity a turn arrives at"], "avoid_when": ["more than two in a turn"],
+   "slots": {"label": {"type": "text", "max_words": 6}, "value": {"type": "text", "max_words": 9}, "sub": {"type": "text", "max_words": 26}, "state": {"type": "enum", "values": ["plain", "outcome"], "required": false}}}
+ ]
+}

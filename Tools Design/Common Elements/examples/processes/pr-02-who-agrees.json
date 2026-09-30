@@ -1,0 +1,152 @@
+{
+ "turn": {
+  "id": "pr-02",
+  "tab": "Processes",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Who has to agree to this?",
+  "context": "Playbook §4, key people: narrowed to the roles this talk touched, tied to what the hospital said."
+ },
+ "chat": {
+  "text": [
+   "Nine teams are touched, but only one approves the flow. Your Head of Operations signs off the new order of work, not the daily tasks.",
+   "Doctors matter most. You said they do not use voice notes, so the trial asks them for one tap, not a new habit."
+  ],
+  "pointer": "Filter the board, or pick a name badge to see what changes for that person.",
+  "invite": "Next, we can walk through each change on the ward.",
+  "note": "Help with each job first. Fewer hours come later.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Head of Operations",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Doctors",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Billing",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The IT team",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What changes on the ward, step by step?",
+   "How do we win over the doctors?",
+   "Do we need to hire anyone?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Key people",
+    "title": "Who has to say yes",
+    "deck": "Grouped by what they do. Each badge shows what changes for them and what they gain."
+   },
+   {
+    "type": "people",
+    "rule": "Tojo comes in as help with each job, not a threat to it. Any fall in staff hours comes later, once it is trusted.",
+    "groups": [
+     {
+      "name": "Approves the flow",
+      "people": [
+       {
+        "name": "Head of Operations",
+        "status": "to_ask",
+        "trial": true,
+        "change": "Signs off the new order of work across departments. Takes no part in the daily tasks.",
+        "gain": "One Discharge Manager reports the numbers every week.",
+        "point": 1
+       }
+      ]
+     },
+     {
+      "name": "Works on the trial ward",
+      "people": [
+       {
+        "name": "Doctors",
+        "status": "worried",
+        "trial": true,
+        "change": "Mark likely discharges on the evening round with one tap. Sign the early summary.",
+        "gain": "The summary is ready to check, not to write.",
+        "said": "“Our doctors don’t use voice notes right now.” So the trial uses a tap, not voice.",
+        "point": 2
+       },
+       {
+        "name": "Nurses",
+        "status": "to_ask",
+        "trial": true,
+        "change": "Record the ready and leaving times. Start the papers after the evening round.",
+        "gain": "No rush for medicines and papers at noon."
+       },
+       {
+        "name": "Billing",
+        "status": "to_ask",
+        "trial": true,
+        "change": "Checks a bill kept up to date all stay, instead of building it at the end.",
+        "gain": "No pile of bills at noon.",
+        "point": 3
+       },
+       {
+        "name": "Insurance desk",
+        "status": "to_ask",
+        "trial": true,
+        "change": "Sends the early request the evening before.",
+        "gain": "Fewer calls chasing the insurer the next day."
+       }
+      ]
+     },
+     {
+      "name": "Watches for updates",
+      "people": [
+       {
+        "name": "Housekeeping",
+        "status": "to_ask",
+        "trial": true,
+        "change": "Hears the moment a patient leaves, with the bed number.",
+        "gain": "No waiting for a phone call."
+       },
+       {
+        "name": "Pharmacy and diet",
+        "status": "to_ask",
+        "trial": true,
+        "change": "Told that evening who goes home tomorrow.",
+        "gain": "Medicines packed before the morning rush."
+       },
+       {
+        "name": "Bed desk",
+        "status": "to_ask",
+        "trial": false,
+        "change": "Sees each bed turn ready without a call.",
+        "gain": "The next patient is placed sooner."
+       }
+      ]
+     },
+     {
+      "name": "After the trial",
+      "people": [
+       {
+        "name": "IT team",
+        "status": "to_ask",
+        "trial": false,
+        "change": "Lets Tojo read the hospital software. Nothing can be changed or deleted.",
+        "gain": "One clear list, asked for once.",
+        "point": 4
+       }
+      ]
+     }
+    ],
+    "default": "Doctors"
+   }
+  ]
+ }
+}

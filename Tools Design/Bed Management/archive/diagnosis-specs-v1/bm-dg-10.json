@@ -1,0 +1,113 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "bm-dg-10",
+  "type": "findings",
+  "user_message": "No — sized by habit, assumed adequate",
+  "transcript": {
+   "label": "Transcript turn 16 · everything you told me, in one place",
+   "said": "That’s the last of them — and “sized by habit” is the same answer you gave for housekeeping, which means nobody has ever tested whether the people doing this work can keep up when it matters. The graphic is everything you’ve told me, in one place. Nothing in it is mine. What I’d propose responds to all five of those, not just the timing. Shall I walk you through it?"
+  }
+ },
+ "chat": {
+  "text": [
+   "That’s the last of them. “Sized by habit” is the same answer you gave for housekeeping.",
+   "So nobody has ever tested whether the people doing this work can keep up when it matters.",
+   "The board is everything you’ve told me, in one place. Nothing on it is mine."
+  ],
+  "note": "Five findings, all in your own words.",
+  "invite": "What I’d propose answers all five, not just the timing. Shall I walk you through it?",
+  "question": {
+   "text": "Your answer",
+   "options": [
+    "Yes, show me",
+    "Not yet. I have questions about the numbers first"
+   ]
+  },
+  "points": [
+   {
+    "n": 1,
+    "label": "One team does both jobs",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Admission time about 3½ hours",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "No set way to match tomorrow’s beds",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Dead bed time 4 to 5 hours",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "No team has ever been sized",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Yes, show me",
+   "Can we check the numbers first?",
+   "Which of these matters most?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "What you’ve told me",
+    "title": "Five findings, in the order you gave them",
+    "deck": "Every card is your own answer, or simple arithmetic on your own figures."
+   },
+   {
+    "type": "pin-board",
+    "banner": "Nothing on this board is mine",
+    "cards": [
+     {
+      "key": "team",
+      "text": "One team does both jobs",
+      "from": "Your answer on who runs what",
+      "detail": "Discharges and admissions sit with the same team.",
+      "point": 1
+     },
+     {
+      "key": "tat",
+      "text": "Admission time about 3½ hours",
+      "from": "Your five clock times",
+      "detail": "From arrival at 1 PM to the bed at 4:30 PM, on a good day.",
+      "point": 2
+     },
+     {
+      "key": "map",
+      "text": "No set way to match tomorrow’s beds",
+      "from": "You said “it happens, but informally”",
+      "detail": "The bed picture comes together as the day goes.",
+      "point": 3
+     },
+     {
+      "key": "dead",
+      "text": "Dead bed time 4 to 5 hours",
+      "from": "Your two billing times",
+      "detail": "Bill closed at 12 to 1 PM, first new charge at 5 PM or later.",
+      "point": 4
+     },
+     {
+      "key": "size",
+      "text": "No team has ever been sized",
+      "from": "Housekeeping “not sure”, the desk “sized by habit”",
+      "detail": "Nobody has tested whether these teams keep up at the busiest times.",
+      "point": 5
+     }
+    ]
+   }
+  ]
+ }
+}

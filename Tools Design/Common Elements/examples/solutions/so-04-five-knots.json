@@ -1,0 +1,201 @@
+{
+ "turn": {
+  "id": "so-04",
+  "tab": "Solutions",
+  "type": "findings",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Which part saves the most time?",
+  "context": "Playbook §6: the answer checked against the real times Diagnosis collected."
+ },
+ "chat": {
+  "text": [
+   "No single part. The wait is five knots, and most need two parts to undo them.",
+   "Parts 1 and 2 together undo three of the five. Add Part 3 and Part 4, and the last two come undone."
+  ],
+  "pointer": "Pick parts on the rope drawing to see which knots they undo. Pick a knot for its detail.",
+  "note": "No part works alone. Most knots need two hands.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Waiting for the summary",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Waiting for the bill",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Waiting for insurance",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Final checks and the family",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "The empty bed",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Is it worth what it costs?",
+   "Tell me more about the automations",
+   "What changes on the wards?"
+  ],
+  "moves": [
+   {
+    "prompt": "Tell me more about the automations",
+    "tab": "Automations"
+   },
+   {
+    "prompt": "What changes on the wards?",
+    "tab": "Processes"
+   }
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "The answer · which part saves most",
+    "title": "Five knots in one wait",
+    "deck": "Your real times, from ready to leaving and the empty bed after. Each knot is held by one or two parts."
+   },
+   {
+    "type": "knots",
+    "default_on": [],
+    "parts": [
+     {
+      "n": 1,
+      "name": "Automations"
+     },
+     {
+      "n": 2,
+      "name": "Changes on the wards"
+     },
+     {
+      "n": 3,
+      "name": "People who must agree"
+     },
+     {
+      "n": 4,
+      "name": "Team and roles"
+     },
+     {
+      "n": 5,
+      "name": "Measures"
+     }
+    ],
+    "segments": [
+     {
+      "name": "Waiting for the summary",
+      "from": "10:00",
+      "to": "12:00",
+      "source": "estimate",
+      "today": "The summary is typed next morning, then waits for the doctor to sign.",
+      "undone_by": [
+       1,
+       2
+      ],
+      "how": [
+       {
+        "part": 1,
+        "how": "Drafts the summary from notes already in your files"
+       },
+       {
+        "part": 2,
+        "how": "The doctor signs an early summary on the evening round"
+       }
+      ],
+      "point": 1
+     },
+     {
+      "name": "Waiting for the bill",
+      "from": "12:00",
+      "to": "13:30",
+      "source": "yours",
+      "today": "The bill is drawn up only after the signature.",
+      "undone_by": [
+       1,
+       3
+      ],
+      "how": [
+       {
+        "part": 1,
+        "how": "Adds each charge to the bill as it happens"
+       },
+       {
+        "part": 3,
+        "how": "Billing agrees to check the bill, not build it"
+       }
+      ],
+      "point": 2
+     },
+     {
+      "name": "Waiting for insurance",
+      "from": "13:30",
+      "to": "14:30",
+      "source": "yours",
+      "today": "The insurer is asked only once the bill is final.",
+      "undone_by": [
+       1
+      ],
+      "how": [
+       {
+        "part": 1,
+        "how": "Sends an early request the evening before"
+       }
+      ],
+      "point": 3
+     },
+     {
+      "name": "Final checks and the family",
+      "from": "14:30",
+      "to": "15:15",
+      "source": "yours",
+      "today": "Medicines are packed and the family called only at the end.",
+      "undone_by": [
+       2
+      ],
+      "how": [
+       {
+        "part": 2,
+        "how": "Medicines listed and the family told on the evening round"
+       }
+      ],
+      "point": 4
+     },
+     {
+      "name": "The empty bed",
+      "from": "15:15",
+      "to": "16:30",
+      "source": "yours",
+      "today": "Housekeeping hears late, so the bed stays empty 75 minutes.",
+      "undone_by": [
+       2,
+       4
+      ],
+      "how": [
+       {
+        "part": 2,
+        "how": "Housekeeping hears the moment the patient leaves"
+       },
+       {
+        "part": 4,
+        "how": "One person owns the bed until the next patient"
+       }
+      ],
+      "point": 5
+     }
+    ],
+    "condition": "Part 5 undoes no knot. It measures every one. How much each knot shrinks is not yet measured here.",
+    "times_note": "Every time is your number from one normal Tuesday, except noon. Noon is Tojo’s guess for the signed summary."
+   }
+  ]
+ }
+}

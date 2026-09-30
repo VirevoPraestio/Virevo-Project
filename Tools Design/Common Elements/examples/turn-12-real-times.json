@@ -1,0 +1,168 @@
+{
+ "review": {
+  "status": "draft",
+  "date": "2026-09-26",
+  "note": "New turn — awaiting approval."
+ },
+ "turn": {
+  "id": "dp-12",
+  "type": "findings",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "context": "Tojo · 250-bed hospital, Bhubaneswar",
+  "subject": "trial-times",
+  "user_tag": "@Point1",
+  "user_message": "A normal Tuesday: doctors decide anywhere from 6 to 9 PM, depending on the consultant. They sign around 11. Papers ready 12:30, bill final 1:30, insurance approves around 2:30, patient leaves 3:15, bed ready 4:30."
+ },
+ "chat": {
+  "text": [
+   "Your real times change the picture a little, and mostly in a useful way. Two of my guesses held up. One was wrong in a way that helps.",
+   "The decision time isn’t fixed. It moves with each consultant. So the trial should start with the consultants who decide latest, because their patients lose the most of the evening."
+  ],
+  "invite": "Shall I update the trial plan with these times?",
+  "note": "The latest decisions lose the most time.",
+  "points": [
+   {
+    "n": 1,
+    "label": "When doctors decide",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The wait from ready to home",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Papers after signing",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The bed after the patient leaves",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Yes — update the trial plan",
+   "Why is the bed ready so late?",
+   "Can consultants decide earlier?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "The trial · your starting times",
+    "title": "One normal day, step by step"
+   },
+   {
+    "type": "fill-blank",
+    "mode": "filled",
+    "steps": [
+     {
+      "title": "Doctor decides",
+      "field": "time",
+      "value": "6–9 PM",
+      "point": 1
+     },
+     {
+      "title": "Doctor signs",
+      "field": "time",
+      "value": "11 AM"
+     },
+     {
+      "title": "Papers ready",
+      "field": "time",
+      "value": "12:30 PM",
+      "point": 3
+     },
+     {
+      "title": "Bill final",
+      "field": "time",
+      "value": "1:30 PM"
+     },
+     {
+      "title": "Insurance approves",
+      "field": "time, if insured",
+      "value": "2:30 PM"
+     },
+     {
+      "title": "Patient leaves",
+      "field": "time",
+      "value": "3:15 PM",
+      "point": 2
+     },
+     {
+      "title": "Bed ready again",
+      "field": "time",
+      "value": "4:30 PM",
+      "point": 4
+     }
+    ],
+    "caption": "Your normal Tuesday, on the same timeline."
+   },
+   {
+    "type": "cards",
+    "items": [
+     {
+      "title": "Doctors decide 6 to 9 PM",
+      "text": "Not a fixed 7 PM. It depends on the consultant.",
+      "tag": "Changed",
+      "state": "target",
+      "point": 1,
+      "more_label": "See what this changes",
+      "more_points": [
+       "The unused hours overnight are 14 to 17, not 16.",
+       "Patients of late deciders get the least time to prepare.",
+       "The trial should start with those consultants."
+      ]
+     },
+     {
+      "title": "Papers take 1½ hours",
+      "text": "Signed at 11 AM, ready at 12:30.",
+      "tag": "Confirmed",
+      "point": 3,
+      "more_label": "See why it matters",
+      "more_points": [
+       "This is the typing step the software removes.",
+       "It was the biggest hold-up I expected, and your times agree."
+      ]
+     },
+     {
+      "title": "Bed ready 75 minutes later",
+      "text": "New: the bed sits empty after leaving.",
+      "tag": "New",
+      "state": "target",
+      "point": 4,
+      "more_label": "See what we’ll check",
+      "more_points": [
+       "Part of this may be waiting for housekeeping to be told.",
+       "The trial will time when housekeeping is told, not just the cleaning."
+      ]
+     }
+    ]
+   },
+   {
+    "type": "stat-strip",
+    "stats": [
+     {
+      "label": "Hours each patient waits",
+      "value": "5 hours 15 minutes",
+      "source": "yours",
+      "note": "I had 5 hours",
+      "state": "target",
+      "point": 2
+     },
+     {
+      "label": "Yearly cost of the waiting",
+      "value": "₹10.9 crore",
+      "source": "derived",
+      "note": "I had ₹10.3 crore",
+      "state": "outcome"
+     }
+    ]
+   }
+  ]
+ }
+}

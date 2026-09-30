@@ -1,0 +1,1979 @@
+{
+  "registry": "solutions",
+  "registry_version": 1,
+  "updated": "2026-09-29",
+  "note": "Solutions tab blocks. Slot rules as in blocks/registry.json. plain_english is shared with the Diagnosis registry and merged in at load time.",
+  "budget": {
+    "wide_px": 824,
+    "narrow_px": 1500,
+    "max_blocks": 4
+  },
+  "tones": {
+    "list": {
+      "blueprint": {
+        "status": "approved",
+        "note": "base"
+      },
+      "pale": {
+        "status": "draft",
+        "note": "a shade lighter: ground #EEF3F7, sheets white"
+      }
+    },
+    "rotation": [
+      "blueprint",
+      "blueprint",
+      "blueprint",
+      "pale",
+      "pale",
+      "pale"
+    ]
+  },
+  "turn_recipes": {
+    "landing": [
+      "landing"
+    ],
+    "overview": [
+      "puzzle",
+      "sheets"
+    ],
+    "part": [
+      "untangle",
+      "weigh",
+      "signoff",
+      "sheets"
+    ],
+    "challenge": [
+      "maze",
+      "split",
+      "weigh"
+    ],
+    "elaboration": [
+      "maze",
+      "untangle",
+      "split",
+      "weigh"
+    ],
+    "data-back": [
+      "revisions",
+      "tracks"
+    ],
+    "recommendation": [
+      "stake",
+      "route",
+      "scales",
+      "plan",
+      "tracks"
+    ],
+    "progress": [
+      "register",
+      "tracks"
+    ],
+    "findings": [
+      "knots",
+      "sheets",
+      "tracks"
+    ],
+    "question": [
+      "sheets",
+      "tracks"
+    ]
+  },
+  "withheld_in_fact_turns": [
+    "scales"
+  ],
+  "blocks": [
+    {
+      "id": "heading",
+      "version": 1,
+      "status": "approved",
+      "category": "frame",
+      "purpose": "Eyebrow, title and one-line deck at the top of every Solutions canvas.",
+      "use_when": [
+        "every turn"
+      ],
+      "avoid_when": [
+        "never twice"
+      ],
+      "slots": {
+        "eyebrow": {
+          "type": "text",
+          "max_words": 6
+        },
+        "title": {
+          "type": "text",
+          "max_words": 8
+        },
+        "deck": {
+          "type": "text",
+          "max_words": 24,
+          "required": false
+        }
+      },
+      "mobile": "same, title 44px",
+      "cost": {
+        "wide": 150,
+        "narrow": 165
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Same fonts as the Diagnosis heading; blueprint colours."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "sheets",
+      "version": 1,
+      "status": "draft",
+      "category": "set",
+      "purpose": "Each solution as a drawing sheet: number, revision, status, where it came from, where it is built, and what it depends on. Earlier revisions sit behind it.",
+      "use_when": [
+        "an overview of all solutions",
+        "a set of options, each with open points"
+      ],
+      "avoid_when": [
+        "one solution in depth (use weigh)",
+        "a sequence (use plan)"
+      ],
+      "slots": {
+        "items": {
+          "type": "list",
+          "min": 2,
+          "max": 6,
+          "item": {
+            "type": "object",
+            "fields": {
+              "n": {
+                "type": "number"
+              },
+              "title": {
+                "type": "text",
+                "max_words": 9
+              },
+              "status": {
+                "type": "enum",
+                "values": [
+                  "idea",
+                  "shaping",
+                  "tested",
+                  "agreed",
+                  "new",
+                  "waiting",
+                  "parked"
+                ]
+              },
+              "rev": {
+                "type": "number"
+              },
+              "from": {
+                "type": "text",
+                "max_words": 7
+              },
+              "built_in": {
+                "type": "enum",
+                "values": [
+                  "Solutions",
+                  "Automations",
+                  "Processes"
+                ],
+                "required": false
+              },
+              "cons": {
+                "type": "list",
+                "min": 0,
+                "max": 4,
+                "item": {
+                  "type": "object",
+                  "fields": {
+                    "text": {
+                      "type": "text",
+                      "max_words": 10
+                    },
+                    "settled": {
+                      "type": "bool"
+                    }
+                  }
+                },
+                "required": false
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              },
+              "more_label": {
+                "type": "text",
+                "max_words": 5,
+                "required": false
+              },
+              "more_points": {
+                "type": "list",
+                "min": 2,
+                "max": 6,
+                "item": {
+                  "type": "text",
+                  "max_words": 16
+                },
+                "required": false
+              }
+            }
+          }
+        }
+      },
+      "mobile": "one sheet per row",
+      "cost": {
+        "wide": 250,
+        "narrow": 150,
+        "per_item_wide": 55,
+        "per_item_narrow": 150
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "From the Solutions landing sample A (drawing sheets). Promoted to a turn block."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "tracks",
+      "version": 1,
+      "status": "approved",
+      "category": "progress",
+      "purpose": "Each solution on a track from idea to agreed, with its latest revision and dots for settled and open points.",
+      "use_when": [
+        "where every solution stands",
+        "after a change moves several solutions"
+      ],
+      "avoid_when": [
+        "one solution"
+      ],
+      "slots": {
+        "stages": {
+          "type": "list",
+          "min": 3,
+          "max": 5,
+          "item": {
+            "type": "text",
+            "max_words": 3
+          },
+          "required": false
+        },
+        "items": {
+          "type": "list",
+          "min": 2,
+          "max": 7,
+          "item": {
+            "type": "object",
+            "fields": {
+              "n": {
+                "type": "number"
+              },
+              "title": {
+                "type": "text",
+                "max_words": 9
+              },
+              "status": {
+                "type": "enum",
+                "values": [
+                  "idea",
+                  "shaping",
+                  "tested",
+                  "agreed",
+                  "new",
+                  "waiting",
+                  "parked"
+                ]
+              },
+              "rev": {
+                "type": "number"
+              },
+              "changed": {
+                "type": "text",
+                "max_words": 12
+              },
+              "settled": {
+                "type": "number"
+              },
+              "total": {
+                "type": "number"
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        }
+      },
+      "mobile": "one track per solution, stage names under the stops",
+      "cost": {
+        "wide": 70,
+        "narrow": 40,
+        "per_item_wide": 58,
+        "per_item_narrow": 150
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved as part of the Solutions landing page (B)."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "weigh",
+      "version": 1,
+      "status": "draft",
+      "category": "depth",
+      "purpose": "One solution and what it stands on: up to five considerations (cost, people, systems, patients, timing), each settled, open or a risk.",
+      "use_when": [
+        "one solution in depth",
+        "checking what a solution depends on"
+      ],
+      "avoid_when": [
+        "comparing solutions (use sheets or tracks)"
+      ],
+      "slots": {
+        "solution": {
+          "type": "text",
+          "max_words": 10
+        },
+        "rev": {
+          "type": "number"
+        },
+        "lenses": {
+          "type": "list",
+          "min": 3,
+          "max": 5,
+          "item": {
+            "type": "object",
+            "fields": {
+              "lens": {
+                "type": "enum",
+                "values": [
+                  "Cost",
+                  "People",
+                  "Systems",
+                  "Patients",
+                  "Timing"
+                ]
+              },
+              "finding": {
+                "type": "text",
+                "max_words": 16
+              },
+              "state": {
+                "type": "enum",
+                "values": [
+                  "settled",
+                  "open",
+                  "risk"
+                ]
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              },
+              "more_label": {
+                "type": "text",
+                "max_words": 5,
+                "required": false
+              },
+              "more_points": {
+                "type": "list",
+                "min": 2,
+                "max": 6,
+                "item": {
+                  "type": "text",
+                  "max_words": 16
+                },
+                "required": false
+              }
+            }
+          }
+        },
+        "condition": {
+          "type": "text",
+          "max_words": 26
+        }
+      },
+      "mobile": "beam on top, supports stacked down a spine",
+      "cost": {
+        "wide": 420,
+        "narrow": 300,
+        "per_item_narrow": 125
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "New for the Solutions tab. The solution is a beam; each consideration is a support under it."
+        },
+        {
+          "date": "2026-09-29",
+          "verdict": "changes made",
+          "note": "so-02 chat softened so it no longer says the solution \"fails\" while Timing is only \"still open\"."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "signoff",
+      "version": 1,
+      "status": "draft",
+      "category": "people",
+      "purpose": "Who has to cooperate for the solutions to work: each group, what they told us, what they give up, the ask on them, and how much they have to lose; the approver in a box of its own.",
+      "use_when": [
+        "the people and buy-in part",
+        "resistance comes up"
+      ],
+      "avoid_when": [
+        "listing every role in the hospital"
+      ],
+      "slots": {
+        "doers": {
+          "type": "list",
+          "min": 2,
+          "max": 4,
+          "item": {
+            "type": "object",
+            "fields": {
+              "role": {
+                "type": "text",
+                "max_words": 4
+              },
+              "said": {
+                "type": "text",
+                "max_words": 18,
+                "required": false
+              },
+              "gives_up": {
+                "type": "text",
+                "max_words": 12
+              },
+              "ask": {
+                "type": "text",
+                "max_words": 10
+              },
+              "resistance": {
+                "type": "enum",
+                "values": [
+                  "most",
+                  "some",
+                  "little"
+                ]
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "approver": {
+          "type": "object",
+          "fields": {
+            "role": {
+              "type": "text",
+              "max_words": 4
+            },
+            "why": {
+              "type": "text",
+              "max_words": 14
+            },
+            "fails": {
+              "type": "text",
+              "max_words": 16
+            },
+            "point": {
+              "type": "number",
+              "required": false
+            }
+          }
+        }
+      },
+      "mobile": "doers stacked, approver last",
+      "cost": {
+        "wide": 430,
+        "narrow": 260,
+        "per_item_narrow": 200
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "New. Blueprint version of role cards: a meter for how much each group gives up, and a stamp for the approver."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "split",
+      "version": 1,
+      "status": "draft",
+      "category": "depth",
+      "purpose": "A capability question or a correction: what Tojo adds, set against what must already be there, and the point where the answer changes.",
+      "use_when": [
+        "'do we need X?'",
+        "the user corrects something Tojo assumed"
+      ],
+      "avoid_when": [
+        "pushback on the whole approach (use weigh or narrow the claim in chat)"
+      ],
+      "slots": {
+        "said": {
+          "type": "text",
+          "max_words": 22,
+          "required": false
+        },
+        "supplied": {
+          "type": "object",
+          "fields": {
+            "title": {
+              "type": "text",
+              "max_words": 6
+            },
+            "items": {
+              "type": "list",
+              "min": 2,
+              "max": 5,
+              "item": {
+                "type": "text",
+                "max_words": 12
+              }
+            }
+          }
+        },
+        "required": {
+          "type": "object",
+          "fields": {
+            "title": {
+              "type": "text",
+              "max_words": 6
+            },
+            "items": {
+              "type": "list",
+              "min": 1,
+              "max": 4,
+              "item": {
+                "type": "text",
+                "max_words": 12
+              }
+            }
+          }
+        },
+        "threshold": {
+          "type": "text",
+          "max_words": 26
+        }
+      },
+      "mobile": "the two sheets stacked, the dimension line turns downward",
+      "cost": {
+        "wide": 400,
+        "narrow": 560
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "New. Two sheets joined by a dimension line; the side the hospital must supply is dashed amber."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "revisions",
+      "version": 1,
+      "status": "draft",
+      "category": "change",
+      "purpose": "What was redrawn and why: each solution's revision, what it was, what it is now, and what caused the change.",
+      "use_when": [
+        "real numbers arrive",
+        "'what changed?'"
+      ],
+      "avoid_when": [
+        "the first time solutions are shown"
+      ],
+      "slots": {
+        "entries": {
+          "type": "list",
+          "min": 2,
+          "max": 5,
+          "item": {
+            "type": "object",
+            "fields": {
+              "n": {
+                "type": "number"
+              },
+              "title": {
+                "type": "text",
+                "max_words": 9
+              },
+              "rev": {
+                "type": "number"
+              },
+              "was": {
+                "type": "text",
+                "max_words": 14
+              },
+              "now": {
+                "type": "text",
+                "max_words": 14
+              },
+              "because": {
+                "type": "text",
+                "max_words": 8
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        }
+      },
+      "mobile": "same log, narrower",
+      "cost": {
+        "wide": 40,
+        "narrow": 40,
+        "per_item_wide": 105,
+        "per_item_narrow": 175
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "From the Solutions landing sample C (revision log), with was and now."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "scales",
+      "version": 1,
+      "status": "draft",
+      "category": "money",
+      "purpose": "What a solution costs set against what is at stake, drawn to the same scale, with the condition the figures rest on.",
+      "use_when": [
+        "recommendation turns only"
+      ],
+      "avoid_when": [
+        "question or data-ask turns (a cost set against a return is a recommendation)"
+      ],
+      "slots": {
+        "cost": {
+          "type": "object",
+          "fields": {
+            "label": {
+              "type": "text",
+              "max_words": 9
+            },
+            "value": {
+              "type": "text",
+              "max_words": 5
+            },
+            "amount": {
+              "type": "number"
+            },
+            "source": {
+              "type": "enum",
+              "values": [
+                "yours",
+                "derived",
+                "estimate",
+                "illustrative",
+                "target",
+                "needed"
+              ]
+            },
+            "note": {
+              "type": "text",
+              "max_words": 12,
+              "required": false
+            }
+          }
+        },
+        "stake": {
+          "type": "object",
+          "fields": {
+            "label": {
+              "type": "text",
+              "max_words": 9
+            },
+            "value": {
+              "type": "text",
+              "max_words": 5
+            },
+            "amount": {
+              "type": "number"
+            },
+            "source": {
+              "type": "enum",
+              "values": [
+                "yours",
+                "derived",
+                "estimate",
+                "illustrative",
+                "target",
+                "needed"
+              ]
+            },
+            "note": {
+              "type": "text",
+              "max_words": 12,
+              "required": false
+            }
+          }
+        },
+        "trigger": {
+          "type": "object",
+          "fields": {
+            "label": {
+              "type": "text",
+              "max_words": 10
+            },
+            "value": {
+              "type": "text",
+              "max_words": 6
+            },
+            "line": {
+              "type": "text",
+              "max_words": 12
+            }
+          },
+          "required": false
+        },
+        "condition": {
+          "type": "text",
+          "max_words": 28
+        }
+      },
+      "mobile": "same drawing, bars full width",
+      "cost": {
+        "wide": 330,
+        "narrow": 480
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "New. Two dimension lines drawn to one scale, so the size difference is seen, not told."
+        },
+        {
+          "date": "2026-09-29",
+          "verdict": "changes made",
+          "note": "Fixed: a line under 6% of the scale now gets a pointer and label (\"← ₹10 to 11.5 lakh, drawn to the same scale\"). Answers the open question."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "plan",
+      "version": 1,
+      "status": "draft",
+      "category": "sequence",
+      "purpose": "Next steps in order, each with what it needs and what it measures, ending in a choice between two ways on.",
+      "use_when": [
+        "recommendation turns that land on next steps"
+      ],
+      "avoid_when": [
+        "a list of unrelated ideas"
+      ],
+      "slots": {
+        "steps": {
+          "type": "list",
+          "min": 2,
+          "max": 4,
+          "item": {
+            "type": "object",
+            "fields": {
+              "title": {
+                "type": "text",
+                "max_words": 8
+              },
+              "what": {
+                "type": "text",
+                "max_words": 16
+              },
+              "needs": {
+                "type": "text",
+                "max_words": 10
+              },
+              "measure": {
+                "type": "text",
+                "max_words": 10
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "fork": {
+          "type": "object",
+          "fields": {
+            "question": {
+              "type": "text",
+              "max_words": 10
+            },
+            "options": {
+              "type": "list",
+              "min": 2,
+              "max": 2,
+              "item": {
+                "type": "object",
+                "fields": {
+                  "label": {
+                    "type": "text",
+                    "max_words": 6
+                  },
+                  "what": {
+                    "type": "text",
+                    "max_words": 12
+                  }
+                }
+              }
+            }
+          },
+          "required": false
+        }
+      },
+      "mobile": "steps down a vertical line, the two ways on stacked with 'or'",
+      "cost": {
+        "wide": 430,
+        "narrow": 620
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "New. A drafted route of steps that ends in a fork."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "register",
+      "version": 1,
+      "status": "draft",
+      "category": "set",
+      "purpose": "Every solution in one list: number, name, what it depends on, status and how much is settled.",
+      "use_when": [
+        "'what is left?'",
+        "a compact status of everything"
+      ],
+      "avoid_when": [
+        "one solution"
+      ],
+      "slots": {
+        "items": {
+          "type": "list",
+          "min": 2,
+          "max": 7,
+          "item": {
+            "type": "object",
+            "fields": {
+              "n": {
+                "type": "number"
+              },
+              "title": {
+                "type": "text",
+                "max_words": 9
+              },
+              "lenses": {
+                "type": "list",
+                "min": 1,
+                "max": 5,
+                "item": {
+                  "type": "enum",
+                  "values": [
+                    "Cost",
+                    "People",
+                    "Systems",
+                    "Patients",
+                    "Timing"
+                  ]
+                }
+              },
+              "status": {
+                "type": "enum",
+                "values": [
+                  "idea",
+                  "shaping",
+                  "tested",
+                  "agreed",
+                  "new",
+                  "waiting",
+                  "parked"
+                ]
+              },
+              "settled": {
+                "type": "number"
+              },
+              "total": {
+                "type": "number"
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        }
+      },
+      "mobile": "status and bar move under the name",
+      "cost": {
+        "wide": 40,
+        "narrow": 40,
+        "per_item_wide": 52,
+        "per_item_narrow": 82
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "From the Solutions landing sample C (register)."
+        },
+        {
+          "date": "2026-09-29",
+          "verdict": "changes made",
+          "note": "Fixed: validator now refuses \"agreed\" unless every area is settled, and refuses a list of areas that does not match the count. so-08 data brought into line."
+        }
+      ],
+      "scope": "all"
+    },
+    {
+      "id": "landing",
+      "version": 1,
+      "status": "approved",
+      "category": "landing",
+      "purpose": "The Solutions landing page (template B, iteration tracks), drawn from data.",
+      "use_when": [
+        "landing turns only"
+      ],
+      "avoid_when": [
+        "any other turn"
+      ],
+      "slots": {
+        "stamp": {
+          "type": "object",
+          "fields": {
+            "at": {
+              "type": "text",
+              "max_words": 10
+            },
+            "since": {
+              "type": "text",
+              "max_words": 10
+            },
+            "fresh": {
+              "type": "text",
+              "max_words": 10
+            },
+            "fresh_since": {
+              "type": "text",
+              "max_words": 8
+            }
+          }
+        },
+        "standing": {
+          "type": "text",
+          "max_words": 12
+        },
+        "deck": {
+          "type": "text",
+          "max_words": 24
+        },
+        "solutions": {
+          "type": "list",
+          "min": 0,
+          "max": 7,
+          "item": {
+            "type": "object",
+            "fields": {
+              "n": {
+                "type": "number"
+              },
+              "title": {
+                "type": "text",
+                "max_words": 9
+              },
+              "status": {
+                "type": "enum",
+                "values": [
+                  "idea",
+                  "shaping",
+                  "tested",
+                  "agreed",
+                  "new",
+                  "waiting",
+                  "parked"
+                ]
+              },
+              "rev": {
+                "type": "number"
+              },
+              "changed": {
+                "type": "text",
+                "max_words": 12
+              },
+              "settled": {
+                "type": "number"
+              },
+              "total": {
+                "type": "number"
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "pending": {
+          "type": "list",
+          "min": 2,
+          "max": 4,
+          "item": {
+            "type": "object",
+            "fields": {
+              "text": {
+                "type": "text",
+                "max_words": 16
+              },
+              "who": {
+                "type": "enum",
+                "values": [
+                  "tojo",
+                  "you"
+                ]
+              },
+              "need": {
+                "type": "text",
+                "max_words": 8,
+                "required": false
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "actions": {
+          "type": "object",
+          "fields": {
+            "go": {
+              "type": "object",
+              "fields": {
+                "detail": {
+                  "type": "text",
+                  "max_words": 8
+                },
+                "say": {
+                  "type": "text",
+                  "max_words": 12
+                }
+              }
+            },
+            "add": {
+              "type": "object",
+              "fields": {
+                "detail": {
+                  "type": "text",
+                  "max_words": 8
+                },
+                "say": {
+                  "type": "text",
+                  "max_words": 12
+                }
+              }
+            },
+            "jump": {
+              "type": "object",
+              "fields": {
+                "tab": {
+                  "type": "enum",
+                  "values": [
+                    "Diagnosis",
+                    "Solutions",
+                    "Automations",
+                    "Processes"
+                  ]
+                },
+                "detail": {
+                  "type": "text",
+                  "max_words": 8
+                },
+                "say": {
+                  "type": "text",
+                  "max_words": 10
+                }
+              }
+            }
+          }
+        }
+      },
+      "mobile": "the landing template's own narrow layout",
+      "cost": {
+        "wide": 800,
+        "narrow": 1500
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved 28 Sep 2026 as the Solutions landing page."
+        }
+      ],
+      "scope": "Solutions"
+    },
+    {
+      "id": "puzzle",
+      "version": 1,
+      "status": "approved",
+      "category": "thinking",
+      "scope": "Solutions",
+      "purpose": "The whole solution as one jigsaw picture: the idea in the middle, lit, and five parts that lock into it. Pick a piece to lift it and read what it does, what it answers, what it needs first and which pieces it relies on.",
+      "use_when": [
+        "presenting the solution for the first time (overview)",
+        "showing how the parts depend on each other"
+      ],
+      "avoid_when": [
+        "one part in depth",
+        "more or fewer than five parts"
+      ],
+      "slots": {
+        "idea": {
+          "type": "object",
+          "fields": {
+            "title": {
+              "type": "text",
+              "max_words": 7
+            },
+            "line": {
+              "type": "text",
+              "max_words": 18
+            },
+            "causes": {
+              "type": "list",
+              "min": 1,
+              "max": 3,
+              "item": {
+                "type": "text",
+                "max_words": 9
+              }
+            },
+            "how": {
+              "type": "text",
+              "max_words": 28
+            }
+          }
+        },
+        "pieces": {
+          "type": "list",
+          "min": 5,
+          "max": 5,
+          "item": {
+            "type": "object",
+            "fields": {
+              "n": {
+                "type": "number"
+              },
+              "name": {
+                "type": "text",
+                "max_words": 4
+              },
+              "line": {
+                "type": "text",
+                "max_words": 12
+              },
+              "answers": {
+                "type": "text",
+                "max_words": 9
+              },
+              "needs_first": {
+                "type": "text",
+                "max_words": 9
+              },
+              "relies_on": {
+                "type": "list",
+                "min": 0,
+                "max": 4,
+                "item": {
+                  "type": "number"
+                }
+              },
+              "where": {
+                "type": "text",
+                "max_words": 4
+              },
+              "changes": {
+                "type": "list",
+                "min": 2,
+                "max": 4,
+                "item": {
+                  "type": "text",
+                  "max_words": 12
+                }
+              },
+              "ask": {
+                "type": "text",
+                "max_words": 8
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "default": {
+          "type": "number",
+          "required": false
+        },
+        "hint": {
+          "type": "text",
+          "max_words": 14,
+          "required": false
+        }
+      },
+      "mobile": "the pieces stack into one column that still locks together; the detail sheet sits under it",
+      "cost": {
+        "wide": 560,
+        "narrow": 1150
+      },
+      "interaction": "Pick a piece: it lifts, the pieces it relies on are outlined, and the sheet under the picture shows its detail. 'Ask Tojo about this part' writes the message into the chat box with that point attached.",
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "New for the restarted Solutions tab (playbook §3, the five-part overview). Replaces the maze, tangle and jigsaw drafts, which were rejected."
+        },
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "so-01 approved. Review page: the ResizeObserver loop error is fixed."
+        }
+      ]
+    },
+    {
+      "id": "untangle",
+      "version": 1,
+      "status": "approved",
+      "category": "thinking",
+      "scope": "Solutions",
+      "purpose": "The threads of going-home work drawn across one night, 6 PM to 4 PM. Today they hang slack through the unused hours and knot at the morning signature. Switch to the solution and each thread pulls straight from the evening round.",
+      "use_when": [
+        "a part that moves work into hours nobody uses",
+        "showing a before and after on real times"
+      ],
+      "avoid_when": [
+        "no times to draw",
+        "more than six threads"
+      ],
+      "slots": {
+        "decided": {
+          "type": "text",
+          "max_words": 2
+        },
+        "work_starts": {
+          "type": "text",
+          "max_words": 2
+        },
+        "knot": {
+          "type": "object",
+          "fields": {
+            "at": {
+              "type": "text",
+              "max_words": 2
+            },
+            "label": {
+              "type": "text",
+              "max_words": 5
+            }
+          }
+        },
+        "unused": {
+          "type": "object",
+          "fields": {
+            "from": {
+              "type": "text",
+              "max_words": 2
+            },
+            "to": {
+              "type": "text",
+              "max_words": 2
+            },
+            "label": {
+              "type": "text",
+              "max_words": 5
+            },
+            "label_with": {
+              "type": "text",
+              "max_words": 5
+            }
+          }
+        },
+        "leaves_today": {
+          "type": "object",
+          "fields": {
+            "at": {
+              "type": "text",
+              "max_words": 2
+            },
+            "label": {
+              "type": "text",
+              "max_words": 5
+            },
+            "source": {
+              "type": "enum",
+              "values": [
+                "yours",
+                "derived",
+                "estimate",
+                "illustrative",
+                "target",
+                "needed"
+              ]
+            }
+          }
+        },
+        "leaves_with": {
+          "type": "object",
+          "fields": {
+            "at": {
+              "type": "text",
+              "max_words": 2
+            },
+            "label": {
+              "type": "text",
+              "max_words": 5
+            },
+            "source": {
+              "type": "enum",
+              "values": [
+                "yours",
+                "derived",
+                "estimate",
+                "illustrative",
+                "target",
+                "needed"
+              ]
+            }
+          }
+        },
+        "with_label": {
+          "type": "text",
+          "max_words": 4
+        },
+        "captions": {
+          "type": "object",
+          "fields": {
+            "today": {
+              "type": "text",
+              "max_words": 18
+            },
+            "with": {
+              "type": "text",
+              "max_words": 18
+            }
+          }
+        },
+        "threads": {
+          "type": "list",
+          "min": 3,
+          "max": 6,
+          "item": {
+            "type": "object",
+            "fields": {
+              "name": {
+                "type": "text",
+                "max_words": 4
+              },
+              "today": {
+                "type": "text",
+                "max_words": 10
+              },
+              "today_end": {
+                "type": "text",
+                "max_words": 2
+              },
+              "today_source": {
+                "type": "enum",
+                "values": [
+                  "yours",
+                  "derived",
+                  "estimate",
+                  "illustrative",
+                  "target",
+                  "needed"
+                ]
+              },
+              "with": {
+                "type": "text",
+                "max_words": 10
+              },
+              "with_start": {
+                "type": "text",
+                "max_words": 2
+              },
+              "with_end": {
+                "type": "text",
+                "max_words": 2
+              },
+              "with_source": {
+                "type": "enum",
+                "values": [
+                  "yours",
+                  "derived",
+                  "estimate",
+                  "illustrative",
+                  "target",
+                  "needed"
+                ]
+              },
+              "tojo_does": {
+                "type": "text",
+                "max_words": 14
+              },
+              "removes": {
+                "type": "text",
+                "max_words": 10
+              },
+              "needs": {
+                "type": "text",
+                "max_words": 9
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "default": {
+          "type": "number",
+          "required": false
+        },
+        "condition": {
+          "type": "text",
+          "max_words": 26,
+          "required": false
+        }
+      },
+      "mobile": "thread names narrow to the left; every other hour mark is dropped; the detail sheet stacks",
+      "cost": {
+        "wide": 470,
+        "narrow": 900
+      },
+      "interaction": "A Today / With switch: the knot and slack wires give way to straight threads drawn from the evening round. Pick a thread name to light its wire and open its sheet (today, with, what Tojo does, the hold-up it removes, what it needs).",
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "New for so-02 (Automations). Times are drawn to scale; every end time carries its source."
+        },
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with the Solutions turns so-00 to so-07."
+        }
+      ]
+    },
+    {
+      "id": "maze",
+      "version": 2,
+      "status": "approved",
+      "category": "thinking",
+      "scope": "Solutions",
+      "purpose": "The routes Tojo tried, as a real labyrinth. Two or three routes end at walls (ruled out, with the reason). One reaches the bulb (the way through, with what the hospital must already have).",
+      "use_when": [
+        "a challenge or correction that changes how a part works",
+        "'why not just...?'"
+      ],
+      "avoid_when": [
+        "only one option was ever possible",
+        "more than three routes ruled out"
+      ],
+      "slots": {
+        "start": {
+          "type": "text",
+          "max_words": 10
+        },
+        "goal": {
+          "type": "text",
+          "max_words": 12
+        },
+        "routes": {
+          "type": "list",
+          "min": 3,
+          "max": 4,
+          "item": {
+            "type": "object",
+            "fields": {
+              "kind": {
+                "type": "enum",
+                "values": [
+                  "dead",
+                  "way"
+                ]
+              },
+              "name": {
+                "type": "text",
+                "max_words": 9
+              },
+              "why": {
+                "type": "text",
+                "max_words": 22
+              },
+              "needs": {
+                "type": "list",
+                "min": 2,
+                "max": 4,
+                "item": {
+                  "type": "text",
+                  "max_words": 10
+                },
+                "required": false
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "default": {
+          "type": "number",
+          "required": false
+        },
+        "hint": {
+          "type": "text",
+          "max_words": 14,
+          "required": false
+        }
+      },
+      "mobile": "the maze scales down; the route list and sheet sit under it",
+      "cost": {
+        "wide": 450,
+        "narrow": 1000
+      },
+      "interaction": "Pick a route: its trail walks through the corridors, a dead end lights its pin, the way through lights the bulb. The sheet shows why it fails or works.",
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "Redrawn from scratch as a real labyrinth, with routes to pick. The first maze was rejected."
+        },
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with the Solutions turns so-00 to so-07."
+        }
+      ]
+    },
+    {
+      "id": "knots",
+      "version": 1,
+      "status": "approved",
+      "category": "thinking",
+      "scope": "Solutions",
+      "purpose": "The wait as one rope on real times, each hold-up a knot. Each knot says which parts undo it. The user picks parts, and a knot comes undone only when every part it needs is picked.",
+      "use_when": [
+        "'which part saves the most?'",
+        "showing that the parts only work together"
+      ],
+      "avoid_when": [
+        "no real times yet",
+        "one part only"
+      ],
+      "slots": {
+        "segments": {
+          "type": "list",
+          "min": 3,
+          "max": 6,
+          "item": {
+            "type": "object",
+            "fields": {
+              "name": {
+                "type": "text",
+                "max_words": 5
+              },
+              "from": {
+                "type": "text",
+                "max_words": 2
+              },
+              "to": {
+                "type": "text",
+                "max_words": 2
+              },
+              "source": {
+                "type": "enum",
+                "values": [
+                  "yours",
+                  "derived",
+                  "estimate",
+                  "illustrative",
+                  "target",
+                  "needed"
+                ]
+              },
+              "today": {
+                "type": "text",
+                "max_words": 18
+              },
+              "undone_by": {
+                "type": "list",
+                "min": 1,
+                "max": 3,
+                "item": {
+                  "type": "number"
+                }
+              },
+              "how": {
+                "type": "list",
+                "min": 1,
+                "max": 3,
+                "item": {
+                  "type": "object",
+                  "fields": {
+                    "part": {
+                      "type": "number"
+                    },
+                    "how": {
+                      "type": "text",
+                      "max_words": 12
+                    }
+                  }
+                }
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "parts": {
+          "type": "list",
+          "min": 2,
+          "max": 6,
+          "item": {
+            "type": "object",
+            "fields": {
+              "n": {
+                "type": "number"
+              },
+              "name": {
+                "type": "text",
+                "max_words": 4
+              }
+            }
+          }
+        },
+        "default_on": {
+          "type": "list",
+          "min": 0,
+          "max": 6,
+          "item": {
+            "type": "number"
+          },
+          "required": false
+        },
+        "condition": {
+          "type": "text",
+          "max_words": 26
+        },
+        "times_note": {
+          "type": "text",
+          "max_words": 24
+        }
+      },
+      "mobile": "the rope runs down the page; times on the left, names on the right",
+      "cost": {
+        "wide": 430,
+        "narrow": 1000
+      },
+      "interaction": "Toggle parts (or All five / Clear). Knots whose parts are all picked come undone and turn green; half-met knots turn amber. The count and the hours they cover update. Pick a knot for its sheet.",
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "New for so-02: which part saves the most time."
+        },
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with the Solutions turns so-00 to so-07."
+        }
+      ]
+    },
+    {
+      "id": "stake",
+      "version": 1,
+      "status": "approved",
+      "category": "money",
+      "scope": "Solutions",
+      "purpose": "Cost against what is at stake, drawn to one scale, with a drafting balance. The user sets how much of the wait the trial wins back; the green bar, the balance and the 'covers the team N times' line follow.",
+      "use_when": [
+        "recommendation turns: is it worth it?"
+      ],
+      "avoid_when": [
+        "question or data-ask turns (a cost set against a return is held back)"
+      ],
+      "slots": {
+        "stake": {
+          "type": "object",
+          "fields": {
+            "label": {
+              "type": "text",
+              "max_words": 6
+            },
+            "value": {
+              "type": "text",
+              "max_words": 4
+            },
+            "amount": {
+              "type": "number"
+            },
+            "source": {
+              "type": "enum",
+              "values": [
+                "yours",
+                "derived",
+                "estimate",
+                "illustrative",
+                "target",
+                "needed"
+              ]
+            },
+            "note": {
+              "type": "text",
+              "max_words": 12
+            }
+          }
+        },
+        "cost": {
+          "type": "object",
+          "fields": {
+            "label": {
+              "type": "text",
+              "max_words": 8
+            },
+            "value": {
+              "type": "text",
+              "max_words": 5
+            },
+            "amount": {
+              "type": "number"
+            },
+            "source": {
+              "type": "enum",
+              "values": [
+                "yours",
+                "derived",
+                "estimate",
+                "illustrative",
+                "target",
+                "needed"
+              ]
+            },
+            "note": {
+              "type": "text",
+              "max_words": 12
+            }
+          }
+        },
+        "share": {
+          "type": "object",
+          "fields": {
+            "label": {
+              "type": "text",
+              "max_words": 10
+            },
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            },
+            "step": {
+              "type": "number"
+            },
+            "default": {
+              "type": "number"
+            },
+            "presets": {
+              "type": "list",
+              "min": 2,
+              "max": 5,
+              "item": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "trigger": {
+          "type": "object",
+          "required": false,
+          "fields": {
+            "label": {
+              "type": "text",
+              "max_words": 6
+            },
+            "value": {
+              "type": "text",
+              "max_words": 4
+            },
+            "line": {
+              "type": "text",
+              "max_words": 14
+            }
+          }
+        },
+        "condition": {
+          "type": "text",
+          "max_words": 26
+        }
+      },
+      "mobile": "the balance sits above the bars; the slider and its buttons stack",
+      "cost": {
+        "wide": 430,
+        "narrow": 820
+      },
+      "interaction": "A slider and preset buttons for the share won back. Amounts are in lakh (1 crore = 100 lakh).",
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "New for so-03. Replaces scales, adding the share the user controls and the pointer on the tiny team bar."
+        },
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with the Solutions turns so-00 to so-07."
+        }
+      ]
+    },
+    {
+      "id": "route",
+      "version": 1,
+      "status": "approved",
+      "category": "plan",
+      "scope": "Solutions",
+      "purpose": "The first steps in order on one trail, ending at a bulb and two doors. Each door opens another tab, and says which.",
+      "use_when": [
+        "next steps",
+        "the last Solutions turn before the conversation moves to Automations or Processes"
+      ],
+      "avoid_when": [
+        "more than four steps"
+      ],
+      "slots": {
+        "steps": {
+          "type": "list",
+          "min": 2,
+          "max": 4,
+          "item": {
+            "type": "object",
+            "fields": {
+              "title": {
+                "type": "text",
+                "max_words": 8
+              },
+              "what": {
+                "type": "text",
+                "max_words": 16
+              },
+              "needs": {
+                "type": "text",
+                "max_words": 9
+              },
+              "measure": {
+                "type": "text",
+                "max_words": 8
+              },
+              "when": {
+                "type": "text",
+                "max_words": 6
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "fork": {
+          "type": "object",
+          "fields": {
+            "question": {
+              "type": "text",
+              "max_words": 10
+            },
+            "options": {
+              "type": "list",
+              "min": 2,
+              "max": 2,
+              "item": {
+                "type": "object",
+                "fields": {
+                  "label": {
+                    "type": "text",
+                    "max_words": 5
+                  },
+                  "what": {
+                    "type": "text",
+                    "max_words": 12
+                  },
+                  "tab": {
+                    "type": "enum",
+                    "values": [
+                      "Automations",
+                      "Processes",
+                      "Diagnosis",
+                      "Solutions"
+                    ]
+                  },
+                  "say": {
+                    "type": "text",
+                    "max_words": 8
+                  }
+                }
+              }
+            }
+          }
+        },
+        "default": {
+          "type": "number",
+          "required": false
+        }
+      },
+      "mobile": "the trail runs down the page; the doors stack",
+      "cost": {
+        "wide": 420,
+        "narrow": 900
+      },
+      "interaction": "Pick a step for its sheet (needs, what we measure, how long). A door writes its message into the chat box; the answer opens in the tab the door names.",
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "New for so-04. Replaces plan; the fork now leads into the next tabs."
+        },
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with the Solutions turns so-00 to so-07."
+        }
+      ]
+    }
+  ],
+  "scope_note": "scope \"all\": the pattern may be used by any tab, redrawn in that tab's look. scope \"Solutions\": this tab only."
+}

@@ -1,0 +1,178 @@
+{
+ "turn": {
+  "id": "so-01",
+  "tab": "Solutions",
+  "type": "overview",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Show me the five parts",
+  "context": "From the landing page: Proceed with next step. Playbook §3, the five-part overview."
+ },
+ "chat": {
+  "text": [
+   "Here is the answer. It has five parts, and they only work together.",
+   "None of them needs a new hospital system on day one."
+  ],
+  "pointer": "Pick any piece of the picture to see what it does and what it relies on.",
+  "invite": "Choose a part to start with. You can take them in any order.",
+  "note": "Five parts, one picture. Take one away and there is a hole.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Automations",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Changes on the wards",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "People who must agree",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Team and roles",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Measures we will watch",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Start with the automations",
+   "Which part saves the most time?",
+   "Do we need to hire anyone?"
+  ],
+  "moves": [
+   {
+    "prompt": "Start with the automations",
+    "tab": "Automations"
+   },
+   {
+    "prompt": "Do we need to hire anyone?",
+    "tab": "Processes"
+   }
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "The answer · all five parts",
+    "title": "Five parts, one picture",
+    "deck": "Each part answers a cause Diagnosis found. Each one also leans on the others."
+   },
+   {
+    "type": "puzzle",
+    "default": 1,
+    "idea": {
+     "title": "Use the evening, give it an owner",
+     "line": "Start the going-home work on the evening round, with one person in charge of every discharge.",
+     "causes": [
+      "Hours nobody uses overnight",
+      "Nobody in charge of the whole discharge"
+     ],
+     "how": "Parts 1 and 2 use the evening hours. Parts 3 and 4 give the discharge one owner. Part 5 shows us if it works."
+    },
+    "pieces": [
+     {
+      "n": 1,
+      "name": "Automations",
+      "line": "Papers and the bill start on the evening round, by themselves.",
+      "answers": "Hours nobody uses overnight",
+      "needs_first": "Your IT team lets Tojo read your records",
+      "relies_on": [
+       2,
+       3
+      ],
+      "where": "Automations",
+      "changes": [
+       "The summary is drafted from notes already in your files",
+       "The bill stays up to date through the stay",
+       "The insurance request can go the evening before"
+      ],
+      "ask": "Tell me about the automations",
+      "point": 1
+     },
+     {
+      "n": 2,
+      "name": "Changes on the wards",
+      "line": "The going-home work moves to the night before the patient leaves.",
+      "answers": "Hours nobody uses overnight",
+      "needs_first": "A two-week trial on one ward",
+      "relies_on": [
+       3,
+       4
+      ],
+      "where": "Processes",
+      "changes": [
+       "Nurses start the checklist after the evening round",
+       "Families hear that same evening",
+       "Admission work stops waiting behind discharges"
+      ],
+      "ask": "Tell me about the changes on the wards",
+      "point": 2
+     },
+     {
+      "n": 3,
+      "name": "People who must agree",
+      "line": "Who has to say yes, and what each group gives up.",
+      "answers": "Nobody in charge of the whole discharge",
+      "needs_first": "A yes from your Head of Operations",
+      "relies_on": [],
+      "where": "Here, in Solutions",
+      "changes": [
+       "Typists check drafts instead of typing them",
+       "Doctors sign an early summary, as they do for cash patients",
+       "Billing finishes the bill by 9 PM"
+      ],
+      "ask": "Tell me about the people who must agree",
+      "point": 3
+     },
+     {
+      "n": 4,
+      "name": "Team and roles",
+      "line": "One person owns every discharge, with helpers for the two busy times.",
+      "answers": "Nobody in charge of the whole discharge",
+      "needs_first": "The trial shows your two busy times",
+      "relies_on": [
+       3
+      ],
+      "where": "Processes",
+      "changes": [
+       "A Discharge Manager owns each discharge from start to end",
+       "One helper for the morning, one for the evening round",
+       "Each helper sized to your busiest hours"
+      ],
+      "ask": "Tell me about the team and roles",
+      "point": 4
+     },
+     {
+      "n": 5,
+      "name": "Measures we will watch",
+      "line": "The numbers that tell us, week by week, if it is working.",
+      "answers": "Both causes",
+      "needs_first": "Real times from one normal week",
+      "relies_on": [
+       1,
+       2
+      ],
+      "where": "Processes",
+      "changes": [
+       "Hours from ready to home",
+       "Patients home before noon",
+       "Minutes a bed stays empty after the patient leaves"
+      ],
+      "ask": "Tell me about the measures",
+      "point": 5
+     }
+    ]
+   }
+  ]
+ }
+}

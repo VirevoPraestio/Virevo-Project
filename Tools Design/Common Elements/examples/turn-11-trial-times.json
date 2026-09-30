@@ -1,0 +1,59 @@
+{
+ "review": {"status": "draft", "date": "2026-09-26", "note": "New turn — awaiting approval."},
+ "turn": {
+  "id": "dp-11",
+  "type": "data-ask",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "context": "Tojo · 250-bed hospital, Bhubaneswar",
+  "subject": "trial-times",
+  "user_message": "Let’s plan the two-week trial"
+ },
+ "chat": {
+  "text": [
+   "Before the trial starts, I need your real times for one normal weekday. They become the starting numbers the trial is measured against.",
+   "Rough times are fine. If nobody writes a step down today, just say so."
+  ],
+  "pointer": "The blank timeline shows every time I need. Type them to me in one message, in any order.",
+  "note": "Rough times now beat perfect times never.",
+  "points": [
+   {"n": 1, "label": "When doctors decide", "canvas": true},
+   {"n": 2, "label": "When doctors sign", "canvas": true},
+   {"n": 3, "label": "When the bill is final", "canvas": true},
+   {"n": 4, "label": "When insurance approves", "canvas": true},
+   {"n": 5, "label": "When the bed is ready again", "canvas": true}
+  ],
+  "prompts": ["Here are the times for a normal Tuesday", "We don’t write down when doctors decide", "Can the Discharge Manager collect these?"]
+ },
+ "canvas": {
+  "blocks": [
+   {"type": "heading", "eyebrow": "The trial · your starting times", "title": "One normal day, step by step"},
+   {"type": "fill-blank", "mode": "blank", "steps": [
+    {"title": "Doctor decides", "field": "time", "point": 1},
+    {"title": "Doctor signs", "field": "time", "point": 2},
+    {"title": "Papers ready", "field": "time"},
+    {"title": "Bill final", "field": "time", "point": 3},
+    {"title": "Insurance approves", "field": "time, if insured", "point": 4},
+    {"title": "Patient leaves", "field": "time"},
+    {"title": "Bed ready again", "field": "time", "point": 5}
+   ], "caption": "A normal weekday on the trial ward. Rough is fine. Leave a box empty if nobody records it."},
+   {"type": "cards", "items": [
+    {"title": "Week 1: watch", "text": "Run discharge the usual way, and write down every time above.", "tag": "Week 1", "state": "start",
+     "more_label": "See what happens",
+     "more_points": ["Nothing changes on the ward yet.",
+                     "The Discharge Manager, or a nurse you choose, writes down the times for each patient.",
+                     "At the end of the week we have your real starting numbers."]},
+    {"title": "Week 2: the new order", "text": "Start the papers, the bill and insurance on the evening round, by hand.", "tag": "Week 2",
+     "more_label": "See what changes",
+     "more_points": ["Doctors say who is going home on the evening round, as they already do.",
+                     "Papers and the bill are started that evening, not the next morning.",
+                     "The first bill goes to insurance before the night ends.",
+                     "The same times are written down, so the two weeks can be compared."]},
+    {"title": "Week 3: decide", "text": "Compare the two weeks, and decide what to link first.", "tag": "Week 3",
+     "more_label": "See how we decide",
+     "more_points": ["If the wait dropped, we know how much the software can add.",
+                     "If it didn’t, the times show exactly which step held it up."]}
+   ]}
+  ]
+ }
+}

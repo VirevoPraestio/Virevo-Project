@@ -1,0 +1,160 @@
+{
+ "turn": {
+  "id": "dp-08",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "context": "Tojo · 250-bed hospital, Bhubaneswar",
+  "subject": "solution",
+  "user_message": "Show me who is in charge"
+ },
+ "chat": {
+  "text": [
+   "You need one person to own discharge, and two people to run it day to day. Why:"
+  ],
+  "bullets": [
+   "Nobody owns the whole wait today, and your own numbers are past the lines where one owner is needed.",
+   "Two helpers, not three, because your work comes in two busy times of day, not spread across 24 hours.",
+   "Every other team only records and approves a little more. Their jobs don’t change."
+  ],
+  "invite": "Last part: how we’ll know it worked. Shall we go there?",
+  "note": "One owner, two helpers, sized to your busy hours.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The Discharge Manager",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The Discharge Executives",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Why two helpers, not three",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "What the roles cost",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Show me how we’ll know it worked",
+   "Can one of our nurses become the manager?",
+   "Our busy hours change at weekends"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 4 of 5 · Who is in charge",
+    "title": "One owner, two helpers"
+   },
+   {
+    "type": "cards",
+    "items": [
+     {
+      "title": "Discharge Manager",
+      "text": "Owns the whole process, from the evening decision to the empty bed.",
+      "tag": "Owner",
+      "state": "start",
+      "point": 1,
+      "more_label": "See the role",
+      "more_points": [
+       "One person answers for every delay, instead of each team blaming the process.",
+       "Works with the bed desk manager as an equal. Both report to the Head of Operations.",
+       "Needed above 80% of beds full, 40 patients a day, or regular delays. Two of these apply to you.",
+       "About ₹4 to 4.5 lakh a year."
+      ]
+     },
+     {
+      "title": "Discharge Executives",
+      "text": "Look after each patient going home, and chase every delay.",
+      "tag": "Daily",
+      "point": 2,
+      "more_label": "See the role",
+      "more_points": [
+       "Take over each patient from the moment the doctor decides on the evening round.",
+       "Spot delays as they happen, and chase the team holding things up.",
+       "About ₹3 to 3.5 lakh a year each."
+      ]
+     }
+    ]
+   },
+   {
+    "type": "compare-table",
+    "options": [
+     {
+      "name": "The usual rule"
+     },
+     {
+      "name": "Your busy hours",
+      "tag": "Use this"
+     }
+    ],
+    "highlight": 1,
+    "rows": [
+     {
+      "label": "How it is sized",
+      "values": [
+       "One helper for every 15 patients a day",
+       "One helper for each busy time of day"
+      ]
+     },
+     {
+      "label": "Your numbers",
+      "values": [
+       "42.5 patients divided by 15",
+       "7 PM round, then 11 AM to about 3 PM"
+      ]
+     },
+     {
+      "label": "Helpers needed",
+      "values": [
+       "About 3",
+       "2"
+      ],
+      "point": 3
+     },
+     {
+      "label": "Cost a year",
+      "values": [
+       "₹9 to 10.5 lakh",
+       "₹6 to 7 lakh"
+      ]
+     }
+    ],
+    "caption": "My working from your times. Check it against your staff rota before hiring."
+   },
+   {
+    "type": "stat-strip",
+    "stats": [
+     {
+      "label": "New roles, cost a year",
+      "value": "₹10 to 11.5 lakh",
+      "source": "derived",
+      "note": "one manager and two helpers",
+      "point": 4
+     },
+     {
+      "label": "Enough to pay for the roles",
+      "value": "About 1%",
+      "source": "derived",
+      "note": "of the waiting won back (₹10.3 crore a year)",
+      "state": "outcome",
+      "point": 4
+     }
+    ]
+   }
+  ]
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-09-25",
+  "note": "Approved."
+ }
+}

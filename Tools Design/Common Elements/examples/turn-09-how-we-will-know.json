@@ -1,0 +1,161 @@
+{
+ "review": {
+  "status": "approved",
+  "date": "2026-09-25",
+  "note": "Approved."
+ },
+ "turn": {
+  "id": "dp-09",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "context": "Tojo · 250-bed hospital, Bhubaneswar",
+  "subject": "solution",
+  "user_message": "Show me how we’ll know it worked"
+ },
+ "chat": {
+  "text": [
+   "We’ll watch a short list of numbers, week by week. Where you already gave me a number, that is where we start. Why these:"
+  ],
+  "bullets": [
+   "They measure the wait itself, not how busy people are, so a busy week can’t hide a slow one.",
+   "They start from your own numbers, so progress is measured against you, not against other hospitals.",
+   "Nothing tracks some of them today. Those are marked new, and the first week of the trial gives their starting number."
+  ],
+  "invite": "That’s all five parts. Shall I put them into a plan, starting with a short trial?",
+  "note": "Measure the wait, not the effort.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Hours from ready to home",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Patients home by 10 AM",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Decisions made on the evening round",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Insurance approval time",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Money won back",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Yes — put it into a plan",
+   "Who reports these numbers each week?",
+   "What counts as a good result?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 5 of 5 · Knowing it worked",
+    "title": "The numbers we will watch"
+   },
+   {
+    "type": "cards",
+    "items": [
+     {
+      "title": "Hours from ready to home",
+      "text": "Starting number: 5 hours, from you.",
+      "tag": "Yours",
+      "point": 1,
+      "more_label": "How we measure it",
+      "more_points": [
+       "From the doctor saying the patient can go, to the patient leaving the building.",
+       "Counted for every patient, not a sample.",
+       "Reported every week, ward by ward."
+      ]
+     },
+     {
+      "title": "Home by 10 AM",
+      "text": "Goal: patients paying themselves home by 10 AM, 11 at the latest. Insured patients by 1 PM.",
+      "tag": "Goal",
+      "state": "target",
+      "point": 2,
+      "more_label": "How we measure it",
+      "more_points": [
+       "The share of each day’s patients who have left by those times.",
+       "No starting number yet. The first week of the trial sets it."
+      ]
+     },
+     {
+      "title": "Decided on the evening round",
+      "text": "The share of going-home decisions made at 7 PM.",
+      "tag": "New",
+      "state": "target",
+      "point": 3,
+      "more_label": "Why it matters",
+      "more_points": [
+       "It shows whether the evening is really being used. That is the heart of the fix.",
+       "The software records it by itself, so nobody fills in a form."
+      ]
+     },
+     {
+      "title": "Insurance approval time",
+      "text": "How long the insurer takes, in the evening and in the morning.",
+      "tag": "New",
+      "state": "target",
+      "point": 4,
+      "more_label": "Why it matters",
+      "more_points": [
+       "It shows whether sending the first bill overnight is working.",
+       "The insurer is outside your control, so this is kept apart from your own delays."
+      ]
+     },
+     {
+      "title": "Bed ready for the next patient",
+      "text": "Time from the patient leaving to the bed being ready again.",
+      "tag": "New",
+      "state": "target",
+      "more_label": "How we measure it",
+      "more_points": [
+       "Includes the wait before housekeeping is told, not only the cleaning.",
+       "Checked against the bed desk’s own times."
+      ]
+     },
+     {
+      "title": "Money won back",
+      "text": "Freed beds given to new patients, against the ₹10.3 crore a year at stake.",
+      "tag": "Yours",
+      "point": 5,
+      "more_label": "How we measure it",
+      "more_points": [
+       "Only beds that are really filled again count, not beds that are just freed.",
+       "The new roles pay for themselves at about 1% of this."
+      ]
+     }
+    ]
+   },
+   {
+    "type": "stat-strip",
+    "stats": [
+     {
+      "label": "Hours each patient waits today",
+      "value": "5 hours",
+      "source": "yours",
+      "state": "target"
+     },
+     {
+      "label": "Measures with a starting number",
+      "value": "2 of 6",
+      "source": "derived",
+      "note": "the trial’s first week sets the rest"
+     }
+    ]
+   }
+  ]
+ }
+}

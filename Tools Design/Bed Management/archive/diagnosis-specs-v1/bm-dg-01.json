@@ -1,0 +1,99 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "bm-dg-01",
+  "type": "reveal",
+  "user_message": "Beds. That’s the problem I want to work on.",
+  "transcript": {
+   "label": "Transcript turn 7 · case reveal",
+   "said": "Beds it is — and what you’ve described lines up closely with a hospital we worked with. Let me show you their day rather than describe it. One thing to watch as you read it: that bed stopped earning hours before it was empty. Does that look like your day? And is there anything about your own setup you’d add to what’s there?"
+  },
+  "note_for_review": "The user’s line is paraphrased in the transcript (“commits to the bed problem”)."
+ },
+ "chat": {
+  "text": [
+   "Beds it is. What you’ve described lines up closely with a hospital we worked with.",
+   "Let me show you their day rather than describe it. One thing to watch: that bed stopped earning hours before it was empty.",
+   "Does that look like your day? Is there anything about your own setup you’d add?"
+  ],
+  "note": "The bed stops earning long before it is empty.",
+  "prompts": [
+   "Yes, that looks like our day",
+   "Ours is sometimes even longer",
+   "What happens next?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "A hospital much like yours",
+    "title": "The bed that stopped earning",
+    "deck": "One bed through one day. Watch where the bill stops, and how long it stays stopped."
+   },
+   {
+    "type": "revenue-dial",
+    "stops_billing_at": 11,
+    "starts_billing_at": 22,
+    "labels": {
+     "billing": "Billing",
+     "dead": "Nothing bills on this bed",
+     "again": "Billing again"
+    },
+    "stops": [
+     {
+      "key": "a",
+      "at": 11,
+      "when": "Late morning",
+      "title": "Final bill closed",
+      "line": "Sent for insurance approval.",
+      "bed": "in",
+      "detail": "The leaving patient’s final bill is closed and sent for insurance approval. The patient is still in the bed.",
+      "bill": "The bill stops here. Nothing more is charged to this bed."
+     },
+     {
+      "key": "b",
+      "at": 14,
+      "when": "Afternoon",
+      "title": "Approval, payment, family briefing",
+      "line": "The patient is still in the bed.",
+      "bed": "in",
+      "detail": "Approval comes through, the family pays and is told what happens at home. All this time the patient is still in the bed.",
+      "bill": "Still nothing billing, with the bed still in use."
+     },
+     {
+      "key": "c",
+      "at": 19,
+      "when": "Evening",
+      "title": "Patient leaves, bed made ready",
+      "line": "Housekeeping cleans and readies it.",
+      "bed": "empty",
+      "detail": "The patient finally leaves. Housekeeping cleans the bed and gets it ready for the next patient.",
+      "bill": "The bed is empty now. Still nothing billing."
+     },
+     {
+      "key": "d",
+      "at": 22,
+      "when": "Later still",
+      "title": "Next patient admitted",
+      "line": "Only now does a new bill open.",
+      "bed": "next",
+      "outcome": true,
+      "detail": "The next patient is admitted. Only now does a new bill open against this bed.",
+      "bill": "The bed starts earning again."
+     }
+    ],
+    "caption": "Nothing bills on this bed across this whole stretch. That includes pharmacy, tests, scans and procedures."
+   },
+   {
+    "type": "effect",
+    "label": "Dead bed time",
+    "value": "Last bill closed to next bill opened",
+    "outcome": true,
+    "sub": "Often half a day or more on one bed. Most hospitals have never measured it on its own."
+   }
+  ]
+ }
+}

@@ -1,0 +1,181 @@
+{
+ "turn": {
+  "id": "so-02",
+  "tab": "Solutions",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Start with the automations",
+  "user_tag": "@Point1",
+  "context": "Playbook §4, part 1 at the level of the answer: what the automations do, briefly, on this hospital's real times. The detail of how they work is for Automations."
+ },
+ "chat": {
+  "text": [
+   "Automations are the part that puts the unused night hours to work."
+  ],
+  "bullets": [
+   "The decision is already made on the evening round. Today nothing moves until the morning signature.",
+   "Your staff write the same facts twice. Once in the notes, then again in the summary and the bill.",
+   "An early insurance request stops the insurer from setting the time a patient leaves."
+  ],
+  "pointer": "Switch between Today and With the automations to see the knot come undone. Pick a thread for its detail.",
+  "invite": "Next is the changes on the wards. This part leans on them.",
+  "note": "The work is not slow. It just waits all night.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The discharge summary",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The final bill",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The insurance approval",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Medicines to take home",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Family and transport",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Our doctors don’t use voice notes",
+   "What does our IT team have to do?",
+   "Next, the changes on the wards"
+  ],
+  "moves": [
+   {
+    "prompt": "What does our IT team have to do?",
+    "tab": "Automations"
+   },
+   {
+    "prompt": "Next, the changes on the wards",
+    "tab": "Processes"
+   }
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 1 · Automations",
+    "title": "The knot that forms overnight",
+    "deck": "Five threads of going-home work, drawn on your real times. Today they wait all night, then knot at the morning signature."
+   },
+   {
+    "type": "untangle",
+    "default": 1,
+    "decided": "19:00",
+    "work_starts": "09:00",
+    "knot": {
+     "at": "11:00",
+     "label": "Morning signature"
+    },
+    "unused": {
+     "from": "21:00",
+     "to": "08:00",
+     "label": "Hours nobody uses today",
+     "label_with": "Now put to work"
+    },
+    "leaves_today": {
+     "at": "15:15",
+     "label": "Patient leaves",
+     "source": "yours"
+    },
+    "leaves_with": {
+     "at": "12:00",
+     "label": "Goal: home by",
+     "source": "target"
+    },
+    "with_label": "With the automations",
+    "captions": {
+     "today": "Every thread waits for the morning signature. The patient leaves at about 3:15 PM.",
+     "with": "Each thread starts on the evening round. Only the final checks wait for the morning."
+    },
+    "threads": [
+     {
+      "name": "Discharge summary",
+      "today": "Typed the next morning, from the doctor’s notes",
+      "today_end": "12:00",
+      "today_source": "estimate",
+      "with": "Drafted on the round, then signed that night",
+      "with_start": "19:00",
+      "with_end": "21:00",
+      "with_source": "target",
+      "tojo_does": "Drafts the summary from notes already in your files",
+      "removes": "The morning typing queue",
+      "needs": "Your IT team lets Tojo read your records",
+      "point": 1
+     },
+     {
+      "name": "Final bill",
+      "today": "Drawn up after the signature",
+      "today_end": "13:30",
+      "today_source": "yours",
+      "with": "Kept up to date through the stay, final first thing",
+      "with_start": "19:00",
+      "with_end": "09:00",
+      "with_source": "target",
+      "tojo_does": "Adds each charge to the bill as it happens",
+      "removes": "The count of supplies before billing",
+      "needs": "Billing agrees to check, not build, the bill",
+      "point": 2
+     },
+     {
+      "name": "Insurance approval",
+      "today": "Asked for only once the bill is final",
+      "today_end": "14:30",
+      "today_source": "yours",
+      "with": "An early request goes the evening before",
+      "with_start": "20:00",
+      "with_end": "11:00",
+      "with_source": "target",
+      "tojo_does": "Sends an early request with the expected bill",
+      "removes": "Waiting for the final bill to ask",
+      "needs": "Your insurers accept an early request",
+      "point": 3
+     },
+     {
+      "name": "Medicines to take home",
+      "today": "Listed after the signature, then packed",
+      "today_end": "12:30",
+      "today_source": "estimate",
+      "with": "Listed on the round, packed before the morning",
+      "with_start": "19:30",
+      "with_end": "08:30",
+      "with_source": "target",
+      "tojo_does": "Sends the pharmacy the list that evening",
+      "removes": "The pharmacy rush after the signature",
+      "needs": "The pharmacy sees the list at night",
+      "point": 4
+     },
+     {
+      "name": "Family and transport",
+      "today": "Called in the morning, arrive in the afternoon",
+      "today_end": "14:00",
+      "today_source": "estimate",
+      "with": "Told the same evening, transport booked",
+      "with_start": "19:30",
+      "with_end": "21:00",
+      "with_source": "target",
+      "tojo_does": "Sends the family a message with a likely time",
+      "removes": "Families arriving late in the day",
+      "needs": "A phone number for each family",
+      "point": 5
+     }
+    ],
+    "condition": "The green times are goals. Other hospitals saved 6 to 8 hours a discharge. Not yet measured here."
+   }
+  ]
+ }
+}

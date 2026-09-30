@@ -1,0 +1,6 @@
+{
+ "note": "The approved turns of Bed Management Diagnosis, in conversation order. Samples not chosen stay beside them for reference.",
+ "turns": [
+  {"file": "bm-dg-01-A.json", "note": "Transcript turn 7, the case reveal. Approved 30 Sep 2026: Sample A, the day on one line (time-window with the Bed Management layer)."}
+ ]
+}

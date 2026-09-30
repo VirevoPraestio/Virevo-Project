@@ -1,0 +1,105 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "bm-dg-08",
+  "type": "data-ask",
+  "user_message": "not sure",
+  "transcript": {
+   "label": "Transcript turn 14 · the money figures",
+   "said": "“Not sure” is itself the answer — if nobody has run it, nobody knows whether the people doing the physical turnaround can keep up at peak. I’ll come back to that. We now have hours. Hours on their own don’t move anyone, so before we go further I need the figures that turn them into money — they’re listed in the graphic. Once those are in, there’s one more staffing question, on the admissions desk itself."
+  }
+ },
+ "chat": {
+  "text": [
+   "“Not sure” is itself the answer. If nobody has worked it out, nobody knows whether the people who ready beds keep up at peak. I’ll come back to that.",
+   "We now have hours. Hours on their own don’t move anyone. Before we go further, I need the figures that turn them into money.",
+   "Once those are in, there’s one more staffing question, on the admissions desk itself."
+  ],
+  "pointer": "The five figures are on the cards.",
+  "note": "Five figures turn hours into money.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Average earning of one occupied bed a day",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Average stay, in days",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Average daily revenue of the hospital",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "How full the beds are, and the ICU alone",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Operating theatre use, and its daily revenue",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "I’ll send all five now",
+   "I only have some of these",
+   "Why the ICU on its own?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Turning hours into money",
+    "title": "Five figures I need from you",
+    "deck": "Each one turns something we already have into rupees."
+   },
+   {
+    "type": "figure-cards",
+    "items": [
+     {
+      "key": "arpob",
+      "name": "Average earning of one occupied bed a day",
+      "unit": "₹ a day",
+      "turns_into": "Turns each lost hour of bed time into rupees.",
+      "point": 1
+     },
+     {
+      "key": "stay",
+      "name": "Average stay, in days",
+      "unit": "days",
+      "turns_into": "Tells us how often each bed changes patient.",
+      "point": 2
+     },
+     {
+      "key": "rev",
+      "name": "Average daily revenue of the hospital",
+      "unit": "₹ a day",
+      "turns_into": "Lets us check the bed figure against the whole hospital.",
+      "point": 3
+     },
+     {
+      "key": "occ",
+      "name": "How full the beds are, and the ICU alone",
+      "unit": "% of beds",
+      "turns_into": "Tells us how many beds change patient each day, and where the pressure is.",
+      "point": 4
+     },
+     {
+      "key": "ot",
+      "name": "Operating theatre use, and its daily revenue",
+      "unit": "% and ₹ a day",
+      "turns_into": "Shows whether a late bed can cost you an operation.",
+      "point": 5
+     }
+    ]
+   }
+  ]
+ }
+}

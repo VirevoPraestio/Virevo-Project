@@ -1,0 +1,95 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "bm-dg-11",
+  "type": "diagnosis",
+  "user_message": "Yes, show me",
+  "transcript": {
+   "label": "Not in the transcript · the diagnosis turn the playbook (§2) says belongs here",
+   "said": "Playbook §2: The hospital allocates a bed only once it has been confirmed physically ready, or about to be. So allocation cannot happen until the bed is nearly free. So there is nothing to call a patient in against until late in the day. So the patient arrives at 1 PM and is in the bed at 4:30 PM — and the assumption that beds would not be free earlier has made itself true."
+  },
+  "note_for_review": "The one turn written new: the transcript went straight to the solution here. Wording follows the playbook §2."
+ },
+ "chat": {
+  "text": [
+   "Before the fix, here is why it happens. It comes down to one rule, and you told me it yourself.",
+   "You give a bed only once it is confirmed ready. Follow that rule through a day, and each step leads to the next.",
+   "By evening, the belief that beds could not free earlier has made itself true. Everything I’ll propose is built to break this loop."
+  ],
+  "invite": "Next is the fix, in five parts.",
+  "note": "The wait makes itself true.",
+  "points": [
+   {
+    "n": 1,
+    "label": "A bed can’t be given early",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Nobody to call in",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Arrive 1 PM, in bed 4:30 PM",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The wait proves itself",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Show me the five parts",
+   "Can’t we just drop the rule?",
+   "Is this common in other hospitals?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Why it happens",
+    "title": "One rule, and the loop it starts",
+    "deck": "Your own rule, followed through a day, with your own clock times against it."
+   },
+   {
+    "type": "rule-loop",
+    "rule": "A bed is given only once it is confirmed ready, or about to be.",
+    "rule_from": "Your words, when you gave your times",
+    "steps": [
+     {
+      "key": "a",
+      "text": "A bed can’t be given until it is nearly free",
+      "point": 1,
+      "detail": "No bed is put against a patient ahead of time, even when you know it will free up."
+     },
+     {
+      "key": "b",
+      "text": "Nobody can be called in early",
+      "point": 2,
+      "detail": "Without a bed to give, there is nothing to call a patient in against. Calls wait until late in the day."
+     },
+     {
+      "key": "c",
+      "text": "Patients arrive and wait",
+      "clock": "1 PM in, 4:30 PM in bed",
+      "point": 3,
+      "detail": "Your own times. The patient arrives in the early afternoon and reaches the bed late afternoon."
+     },
+     {
+      "key": "d",
+      "text": "Beds never seem ready earlier",
+      "outcome": true,
+      "point": 4,
+      "detail": "Because no bed is given early, nobody plans for one to free early. So they don’t, and the rule seems right."
+     }
+    ],
+    "back": "And the next morning, the same rule starts it again"
+   }
+  ]
+ }
+}

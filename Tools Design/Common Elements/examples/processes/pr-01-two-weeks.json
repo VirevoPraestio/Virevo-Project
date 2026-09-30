@@ -1,0 +1,124 @@
+{
+ "turn": {
+  "id": "pr-01",
+  "tab": "Processes",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Scope the two-week trial",
+  "context": "Playbook §7: the low-commitment trial first. Scoped day by day."
+ },
+ "chat": {
+  "text": [
+   "Here is the trial, day by day. Nothing changes for the first three days, so we get the ward’s own starting times.",
+   "Then the changes come in two steps. On days 12 to 14 we read the numbers together."
+  ],
+  "pointer": "Pick a day, or play the two weeks. The board shows who acts and what is recorded.",
+  "invite": "Next, we can see who has to agree before day 1.",
+  "note": "Three quiet days first. Then we know what changed.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The trial ward",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Days 1 to 3, today’s times",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The evening round",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Reading the numbers",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Who has to agree to this?",
+   "What changes on the ward, step by step?",
+   "Which ward should we start on?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "The two-week trial",
+    "title": "Fourteen days on one ward",
+    "deck": "No new staff and no new system. The ward phone and a one-tap form are enough."
+   },
+   {
+    "type": "trial",
+    "default": 1,
+    "ward": {
+     "label": "The ward whose consultants decide latest",
+     "status": "needed",
+     "note": "They gain the most, so the change shows fastest. You pick the ward.",
+     "point": 1
+    },
+    "needs": [
+     "No new staff",
+     "No new system",
+     "The one-tap form on a ward phone",
+     "One person to record the times"
+    ],
+    "phases": [
+     {
+      "from": 1,
+      "to": 3,
+      "title": "Record today’s times",
+      "what": "Nothing changes yet. The ward records when each patient is ready to go and when they leave.",
+      "who": "Ward nurse in charge",
+      "records": [
+       "Ready to go home",
+       "Left the ward",
+       "Bed ready again"
+      ],
+      "point": 2
+     },
+     {
+      "from": 4,
+      "to": 7,
+      "title": "The evening round starts it",
+      "what": "Doctors mark likely discharges on the evening round. The night nurse starts the papers and the bill.",
+      "who": "Doctors and the night nurse",
+      "records": [
+       "Decided on the evening round",
+       "Papers ready by the morning round"
+      ],
+      "point": 3
+     },
+     {
+      "from": 8,
+      "to": 11,
+      "title": "Insurance and family the night before",
+      "what": "The insurance desk sends its request the evening before. The family hears the leaving time that night.",
+      "who": "Insurance desk and ward nurse",
+      "records": [
+       "Insurance approval time",
+       "Family told the night before"
+      ]
+     },
+     {
+      "from": 12,
+      "to": 14,
+      "title": "Read the numbers",
+      "what": "Compare the trial days with days 1 to 3. Then choose: adjust and try again, or spread to more wards.",
+      "who": "You, the ward and Tojo",
+      "records": [
+       "Hours from ready to home",
+       "Patients home by 10 AM"
+      ],
+      "point": 4
+     }
+    ],
+    "condition": "Goals for each measure are set on day 3, from the ward’s own times. None are guessed now."
+   }
+  ]
+ }
+}

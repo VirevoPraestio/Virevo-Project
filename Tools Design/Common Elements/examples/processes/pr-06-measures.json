@@ -1,0 +1,154 @@
+{
+ "turn": {
+  "id": "pr-06",
+  "tab": "Processes",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Which measures show it worked?",
+  "context": "Playbook §4, KPIs: curated to the ones with real numbers, the rest marked new. Discharge §8."
+ },
+ "chat": {
+  "text": [
+   "Nine measures, not all sixteen. Five already have your starting number.",
+   "The other four are new. They get no number until the trial records one, so none is made up."
+  ],
+  "pointer": "Filter the windows, or flip to see what the trial will fill in. Pick one for how it is measured.",
+  "invite": "Next, we can see what happens after the two weeks.",
+  "note": "Measure what you already know first.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Hours from ready to home",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Patients home by 10 AM",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The empty bed",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Family told before leaving",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What happens after the two weeks?",
+   "Who records the times?",
+   "Can we add a measure?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Measures we watch",
+    "title": "Nine windows to watch",
+    "deck": "Your starting numbers where you gave them. Blank windows for the new ones, filled by the trial."
+   },
+   {
+    "type": "readouts",
+    "default": 0,
+    "condition": "Goals are set on day 3 of the trial, from the ward’s own times.",
+    "measures": [
+     {
+      "name": "Hours from ready to home",
+      "value": "5 hours 15 min",
+      "state": "confirmed",
+      "source": "yours",
+      "when": "trial",
+      "how": "From the doctor’s go-ahead to the patient leaving the ward.",
+      "who": "Ward nurse",
+      "goal": "Set on day 3",
+      "point": 1
+     },
+     {
+      "name": "Patients home by 10 AM",
+      "state": "new",
+      "source": "new",
+      "when": "trial",
+      "how": "Share of patients without insurance home by 10 AM. Insured patients by 1 PM.",
+      "who": "Ward nurse",
+      "goal": "Set on day 3",
+      "point": 2
+     },
+     {
+      "name": "Decided on the evening round",
+      "state": "new",
+      "source": "new",
+      "when": "trial",
+      "how": "Share of discharges first marked on the evening round, not the same morning.",
+      "who": "The one-tap form",
+      "goal": "Set on day 3"
+     },
+     {
+      "name": "Bed empty after leaving",
+      "value": "75 min",
+      "state": "confirmed",
+      "source": "yours",
+      "when": "trial",
+      "how": "From the patient leaving to the bed ready for the next one.",
+      "who": "Housekeeping",
+      "goal": "Under 30 minutes",
+      "point": 3
+     },
+     {
+      "name": "Time to finish the bill",
+      "value": "90 min",
+      "state": "confirmed",
+      "source": "yours",
+      "when": "trial",
+      "how": "From the doctor’s signature to the final bill.",
+      "who": "Billing",
+      "goal": "Set on day 3"
+     },
+     {
+      "name": "Insurance approval time",
+      "value": "About 1 hour",
+      "state": "confirmed",
+      "source": "yours",
+      "when": "trial",
+      "how": "From the request to the insurer’s yes, evening and morning apart.",
+      "who": "Insurance desk",
+      "goal": "Set on day 3"
+     },
+     {
+      "name": "Family told before leaving",
+      "state": "new",
+      "source": "new",
+      "when": "trial",
+      "how": "Share of patients whose family got diet, medicine and follow-up advice before leaving.",
+      "who": "Ward nurse",
+      "goal": "Every patient",
+      "point": 4
+     },
+     {
+      "name": "Money won back",
+      "state": "new",
+      "source": "new",
+      "when": "later",
+      "how": "Revenue from freed bed days, against the most it could be.",
+      "who": "Billing",
+      "goal": "Set after the trial"
+     },
+     {
+      "name": "Discharges a day",
+      "value": "40 to 45",
+      "state": "confirmed",
+      "source": "yours",
+      "when": "later",
+      "how": "Checked each month against the line for the Discharge Manager.",
+      "who": "Discharge Manager",
+      "goal": "Watch, no goal"
+     }
+    ]
+   }
+  ]
+ }
+}
