@@ -27,7 +27,9 @@ Set up 30 Sep 2026 from the Discharge Process repo (`Tools Design/Discharge Proc
 cd library && python3 build_block_library.py
 ```
 
-It draws, in this order: how to use the library (which block when, how a turn is built, which generator draws which place); the universal patterns and every Discharge Process template, drawn by the old library's own code, unchanged; then Bed Management (its look, its five approved landing pages with their first-visit state, its approved turn templates with the samples not chosen as variations, its own blocks and the tool layer).
+It draws, in this order: how to use the library (which block when, how a turn is built, which generator draws which place); the universal patterns and every Discharge Process template, drawn by the old library's own code, unchanged; then Bed Management (its look, its five approved landing pages with their first-visit state, its twelve approved Diagnosis turn templates with the samples not chosen as variations, its 11 own drawings with the turn each first appears in, and the tool layer).
+
+**Library updated only on request.** New turns are delivered first; the library is rebuilt only after they are approved and the user asks.
 
 **Blocks only.** Every template is drawn inline as its canvas at 864px and 362px. No app interface, no frames, no whole pages. The Bed Management page CSS is scoped under `.bmx` so it cannot change any other template. This is what fixes the earlier failure: the library stopped opening for anyone but its owner only when twenty framed whole-interface pages (6.6 MB) were added; the blocks-only version always opened. See `rules/08` §7.
 

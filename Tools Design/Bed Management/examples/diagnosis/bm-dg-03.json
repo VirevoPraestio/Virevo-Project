@@ -1,0 +1,130 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "bm-dg-03",
+  "type": "question",
+  "user_message": "one team does both",
+  "transcript": {
+   "label": "Transcript turn 9 · the follow-up to “one team”",
+   "said": "One team — that’s the more common of the two answers. So the follow-up matters: which of the two patterns in the graphic is closer to how that team’s day actually runs?"
+  }
+ },
+ "chat": {
+  "text": [
+   "One team. That’s the more common of the two answers.",
+   "So the follow-up matters. Which of the two patterns is closer to how that team’s day really runs?"
+  ],
+  "note": "The same team can run two very different days.",
+  "question": {
+   "text": "Which is closer?",
+   "options": [
+    "Pattern A: one after the other",
+    "Pattern B: both at once",
+    "Somewhere between the two"
+   ]
+  },
+  "prompts": [
+   "Pattern B, both at once",
+   "It changes from day to day",
+   "Why does the order matter?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "One team, two ways to run the day",
+    "title": "Which day is closer to yours?",
+    "deck": "The same three moments of the day, run two ways. Read across each row."
+   },
+   {
+    "type": "day-strips",
+    "slots": [
+     "8 AM",
+     "10 AM",
+     "Noon",
+     "2 PM",
+     "4 PM",
+     "6 PM"
+    ],
+    "hint": "Tap a pattern to read it, moment by moment.",
+    "patterns": [
+     {
+      "name": "Pattern A",
+      "tag": "One after the other",
+      "cells": [
+       "out",
+       "out",
+       "none",
+       "in",
+       "in",
+       "in"
+      ]
+     },
+     {
+      "name": "Pattern B",
+      "tag": "Both at once",
+      "cells": [
+       "both",
+       "both",
+       "in",
+       "both",
+       "in",
+       "none"
+      ]
+     }
+    ],
+    "caption": "Two neutral patterns, so you can place your own day. Neither one is the answer I expect.",
+    "sheets": [
+     {
+      "key": "a",
+      "when": "Pattern A",
+      "title": "Discharges first, admissions later",
+      "text": "The team finishes one job before it starts the other. New patients wait for the switch.",
+      "lines": [
+       {
+        "label": "Morning",
+        "value": "Discharges first, through the morning"
+       },
+       {
+        "label": "Midday",
+        "value": "The team switches to admissions"
+       },
+       {
+        "label": "Afternoon and evening",
+        "value": "Admissions land late in the day"
+       }
+      ]
+     },
+     {
+      "key": "b",
+      "when": "Pattern B",
+      "title": "Both jobs side by side",
+      "text": "The team works both jobs together. New patients are called in before their bed is free.",
+      "lines": [
+       {
+        "label": "Morning",
+        "value": "Discharges and admissions worked together"
+       },
+       {
+        "label": "Midday",
+        "value": "Patients already called in for beds due to free"
+       },
+       {
+        "label": "Afternoon and evening",
+        "value": "Admissions land across the day"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved by Avishek with the second Diagnosis set (one drawing per turn)."
+ }
+}

@@ -1,0 +1,127 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "bm-dg-11",
+  "type": "diagnosis",
+  "user_message": "Yes, show me",
+  "transcript": {
+   "label": "Not in the transcript · the diagnosis turn the playbook (§2) says belongs here",
+   "said": "Playbook §2: The hospital allocates a bed only once it has been confirmed physically ready, or about to be. So allocation cannot happen until the bed is nearly free. So there is nothing to call a patient in against until late in the day. So the patient arrives at 1 PM and is in the bed at 4:30 PM — and the assumption that beds would not be free earlier has made itself true."
+  },
+  "note_for_review": "Written new from the playbook §2: the practice run went straight from the findings to the five parts."
+ },
+ "chat": {
+  "text": [
+   "Before the fix, here is why it happens. Your five findings come back to one rule, and you told me it yourself.",
+   "You give a bed only once it is confirmed ready. Follow that rule through a day, and each step leads to the next.",
+   "By evening, the belief that beds could not free earlier has made itself true. What I’ll propose is built to break this loop."
+  ],
+  "invite": "Next is the fix, in five parts.",
+  "note": "The wait makes itself true.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Bed given only when nearly free",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Nobody called in early",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Patients arrive and wait",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Beds never seem ready sooner",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Show me the five parts",
+   "Can’t we just drop the rule?",
+   "Is this common in other hospitals?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Why it happens",
+    "title": "One rule, and the loop it starts",
+    "deck": "Your five findings come back to one rule. Follow it round once and it starts itself again."
+   },
+   {
+    "type": "rule-loop",
+    "feeds_label": "Your five findings lead back to one rule",
+    "hint": "Tap a step to follow the loop.",
+    "feeds": [
+     "One team does both jobs",
+     "Admission time about 3½ hours",
+     "No set way to match beds",
+     "Beds idle 4 to 5 hours",
+     "No team ever sized"
+    ],
+    "rule": "A bed is given only once it is confirmed ready, or about to be.",
+    "rule_from": "Your own words, with your times",
+    "steps": [
+     {
+      "text": "Bed given only when nearly free",
+      "point": 1
+     },
+     {
+      "text": "Nobody called in early",
+      "point": 2
+     },
+     {
+      "text": "Patients arrive and wait",
+      "point": 3,
+      "clock": "1 to 4:30 PM"
+     },
+     {
+      "text": "Beds never seem ready sooner",
+      "point": 4,
+      "outcome": true
+     }
+    ],
+    "back": "And the next morning, the same rule starts the loop again.",
+    "sheets": [
+     {
+      "key": "a",
+      "when": "Then 1 of 4",
+      "title": "Bed given only when nearly free",
+      "text": "No bed is put against a patient ahead of time, even when you know it will free up."
+     },
+     {
+      "key": "b",
+      "when": "Then 2 of 4",
+      "title": "Nobody called in early",
+      "text": "Without a bed to give, there is nothing to call a patient in against. Calls wait until late."
+     },
+     {
+      "key": "c",
+      "when": "Then 3 of 4",
+      "title": "Patients arrive and wait",
+      "text": "Your own times. Patients arrive in the early afternoon and wait for the bed to catch up."
+     },
+     {
+      "key": "d",
+      "when": "Then 4 of 4",
+      "title": "Beds never seem ready sooner",
+      "text": "Because no bed is given early, nobody plans for one to free early. So they don’t, and the rule looks right."
+     }
+    ]
+   }
+  ]
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved by Avishek with the second Diagnosis set (one drawing per turn)."
+ }
+}

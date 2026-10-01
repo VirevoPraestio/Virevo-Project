@@ -1,0 +1,653 @@
+{
+ "registry": "Bed Management · Solutions",
+ "registry_version": 1,
+ "updated": "2026-10-01",
+ "note": "Bed Management Solutions draws on the Solutions part of the Tojo block library (Common Elements/solutions-html-generator: solutions_html.py renderers, solutions.css, the lightbulb, jigsaw, route and drafting-sheet motifs), redrawn in Bed Management's Solutions look (the fit-out, from the approved landing page) through the library's colour variables. Every drawing carries the common tool layer (Common Elements/tool-layer). Blocks marked layered are library blocks with the layer on; the rest are Bed Management drawings built from the library's motifs.",
+ "library": "../../Common Elements/solutions-html-generator/registry.json",
+ "budget": {
+  "max_blocks": 4
+ },
+ "theme": {
+  "id": "bm",
+  "name": "Bed Management · Solutions: the fit-out",
+  "tokens": {
+   "ground": "#E2EAE7",
+   "card": "#FAFCFB",
+   "ink": "#173B38",
+   "muted": "#46605C",
+   "line": "#B1C6C0",
+   "soft": "#E7F0EC",
+   "grey": "#8A9E99",
+   "accent": "#2C7266"
+  }
+ },
+ "tones": {
+  "rule": "The background changes every four turns: turns 1–4 fit-out, 5–8 plan paper, 9–12 fit-out. Specs store no colour. A redraw keeps the theme of the turn it redraws.",
+  "set_size": 4,
+  "rotation": [
+   "fitout",
+   "paper"
+  ],
+  "list": {
+   "fitout": {
+    "status": "approved",
+    "name": "The fit-out (base)"
+   },
+   "paper": {
+    "status": "draft",
+    "name": "Plan paper",
+    "ground": "#EFEEE6",
+    "card": "#FFFEF9",
+    "muted": "#4D605B"
+   }
+  }
+ },
+ "variety": {
+  "rule": "Every turn looks different (rules/08 §2). The main block is used by one turn only in Solutions; no block but heading and effect in two turns in a row."
+ },
+ "blocks": [
+  {
+   "id": "heading",
+   "status": "approved",
+   "scope": "all",
+   "from": "library heading",
+   "category": "frame",
+   "purpose": "Eyebrow, title and deck, with the door plate from the Solutions landing page: which part this is and where it stands (idea, shaped, tested with you, agreed).",
+   "use_when": [
+    "every turn"
+   ],
+   "avoid_when": [
+    "never twice"
+   ],
+   "slots": {
+    "eyebrow": {
+     "type": "text",
+     "max_words": 6
+    },
+    "title": {
+     "type": "text",
+     "max_words": 8
+    },
+    "deck": {
+     "type": "text",
+     "max_words": 26,
+     "required": false
+    },
+    "plate": {
+     "type": "object",
+     "required": false,
+     "fields": {
+      "part": {
+       "type": "number"
+      },
+      "of": {
+       "type": "number"
+      },
+      "name": {
+       "type": "text",
+       "max_words": 4
+      },
+      "stage": {
+       "type": "enum",
+       "values": [
+        "Idea",
+        "Shaped",
+        "Tested with you",
+        "Agreed"
+       ]
+      }
+     }
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "circuit",
+   "status": "draft",
+   "scope": "Bed Management Solutions",
+   "from": "library motif: the lightbulb; the chain wrapped three and three with an elbow",
+   "category": "drawing",
+   "purpose": "The steps of one part as switches on one wire, from where the data starts to a bulb that lights only when every switch is on.",
+   "use_when": [
+    "a part that is a sequence of steps, each needing the one before",
+    "showing that the outcome only arrives at the end of the chain"
+   ],
+   "avoid_when": [
+    "parts that do not depend on each other"
+   ],
+   "interaction": "Pick a switch: it is raised and its sheet opens, the current runs from the plug to it, and the bulb lights at the last switch.",
+   "slots": {
+    "source": {
+     "type": "object",
+     "fields": {
+      "label": {
+       "type": "text",
+       "max_words": 4
+      },
+      "line": {
+       "type": "text",
+       "max_words": 8
+      }
+     }
+    },
+    "goal": {
+     "type": "object",
+     "fields": {
+      "label": {
+       "type": "text",
+       "max_words": 6
+      },
+      "line": {
+       "type": "text",
+       "max_words": 10
+      }
+     }
+    },
+    "steps": {
+     "type": "list",
+     "min": 4,
+     "max": 6,
+     "item": {
+      "type": "object",
+      "fields": {
+       "when": {
+        "type": "text",
+        "max_words": 4
+       },
+       "title": {
+        "type": "text",
+        "max_words": 6
+       },
+       "line": {
+        "type": "text",
+        "max_words": 14
+       },
+       "state": {
+        "type": "enum",
+        "values": [
+         "plain",
+         "target",
+         "outcome",
+         "start"
+        ],
+        "required": false
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "readout": {
+     "type": "text",
+     "max_words": 22
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 14
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "ask": {
+        "type": "object",
+        "required": false,
+        "fields": {
+         "label": {
+          "type": "text",
+          "max_words": 6
+         },
+         "say": {
+          "type": "text",
+          "max_words": 16
+         }
+        }
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 18,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "jigsaw",
+   "status": "draft",
+   "scope": "Bed Management Solutions",
+   "from": "library motif: the jigsaw (puzzle piece geometry from solutions_html.py)",
+   "category": "drawing",
+   "purpose": "The steps of one part as jigsaw pieces locked together. Picking a piece lifts it and outlines the pieces it relies on.",
+   "use_when": [
+    "showing that the steps only work together",
+    "one step makes another worth anything"
+   ],
+   "avoid_when": [
+    "the overview of the five parts (use the library puzzle)"
+   ],
+   "interaction": "Pick a piece: it lifts, the pieces it relies on are outlined, and its sheet opens. On a phone the sheet opens under the piece.",
+   "slots": {
+    "pieces": {
+     "type": "list",
+     "min": 4,
+     "max": 6,
+     "item": {
+      "type": "object",
+      "fields": {
+       "when": {
+        "type": "text",
+        "max_words": 4
+       },
+       "title": {
+        "type": "text",
+        "max_words": 6
+       },
+       "line": {
+        "type": "text",
+        "max_words": 12
+       },
+       "relies_on": {
+        "type": "list",
+        "min": 0,
+        "max": 5,
+        "required": false,
+        "item": {
+         "type": "number"
+        }
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "condition": {
+     "type": "text",
+     "max_words": 24,
+     "required": false
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 14
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "ask": {
+        "type": "object",
+        "required": false,
+        "fields": {
+         "label": {
+          "type": "text",
+          "max_words": 6
+         },
+         "say": {
+          "type": "text",
+          "max_words": 16
+         }
+        }
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 18,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "route",
+   "status": "draft",
+   "scope": "all",
+   "from": "library route (Solutions), layered",
+   "category": "drawing",
+   "purpose": "The library route: stations on a trail, each opening its sheet, then a fork under the bulb with doors to what comes next.",
+   "use_when": [
+    "steps in order that end in a choice of where to go next"
+   ],
+   "avoid_when": [
+    "no choice at the end"
+   ],
+   "interaction": "Pick a station to raise it and open its sheet. A door writes its line into the chat message.",
+   "slots": {
+    "steps": {
+     "type": "list",
+     "min": 3,
+     "max": 6,
+     "item": {
+      "type": "object",
+      "fields": {
+       "title": {
+        "type": "text",
+        "max_words": 6
+       },
+       "what": {
+        "type": "text",
+        "max_words": 12
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "fork": {
+     "type": "object",
+     "fields": {
+      "question": {
+       "type": "text",
+       "max_words": 16
+      },
+      "options": {
+       "type": "list",
+       "min": 2,
+       "max": 4,
+       "item": {
+        "type": "object",
+        "fields": {
+         "tag": {
+          "type": "text",
+          "max_words": 3
+         },
+         "label": {
+          "type": "text",
+          "max_words": 7
+         },
+         "what": {
+          "type": "text",
+          "max_words": 12
+         },
+         "say": {
+          "type": "text",
+          "max_words": 16
+         }
+        }
+       }
+      }
+     }
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 14
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "ask": {
+        "type": "object",
+        "required": false,
+        "fields": {
+         "label": {
+          "type": "text",
+          "max_words": 6
+         },
+         "say": {
+          "type": "text",
+          "max_words": 16
+         }
+        }
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 18,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "effect",
+   "status": "draft",
+   "scope": "Bed Management Solutions",
+   "from": "07 §5.2 effect box",
+   "category": "quantity",
+   "purpose": "The quantity the part is aimed at, named once. Its look changes from turn to turn: door plate, stamp, ticket, banner, meter.",
+   "use_when": [
+    "the part has one number it moves"
+   ],
+   "avoid_when": [
+    "more than two in a turn"
+   ],
+   "slots": {
+    "label": {
+     "type": "text",
+     "max_words": 5
+    },
+    "value": {
+     "type": "text",
+     "max_words": 6
+    },
+    "sub": {
+     "type": "text",
+     "max_words": 26
+    },
+    "state": {
+     "type": "enum",
+     "values": [
+      "plain",
+      "target",
+      "outcome",
+      "start"
+     ],
+     "required": false
+    },
+    "look": {
+     "type": "enum",
+     "values": [
+      "plate",
+      "stamp",
+      "ticket",
+      "banner",
+      "meter"
+     ],
+     "required": false
+    }
+   },
+   "feedback": []
+  }
+ ]
+}

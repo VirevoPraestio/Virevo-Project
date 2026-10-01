@@ -1,0 +1,144 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "bm-dg-08",
+  "type": "data-ask",
+  "user_message": "not sure",
+  "transcript": {
+   "label": "Transcript turn 14 · the money figures",
+   "said": "“Not sure” is itself the answer — if nobody has run it, nobody knows whether the people doing the physical turnaround can keep up at peak. I’ll come back to that. We now have hours. Hours on their own don’t move anyone, so before we go further I need the figures that turn them into money — they’re listed in the graphic. Once those are in, there’s one more staffing question, on the admissions desk itself."
+  }
+ },
+ "chat": {
+  "text": [
+   "“Not sure” is itself the answer. If nobody has worked it out, nobody knows whether the people who ready beds keep up at peak. I’ll come back to that.",
+   "We now have hours. Hours on their own don’t move anyone. Before we go further, I need the figures that turn them into money.",
+   "Once those are in, there’s one more staffing question, on the admissions desk itself."
+  ],
+  "pointer": "Type the five figures straight onto the bill. Each one goes into your message.",
+  "note": "Five figures turn hours into money.",
+  "points": [
+   {
+    "n": 1,
+    "label": "What one occupied bed earns",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Average stay in days",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Average daily revenue",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Beds full, ICU separately",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Operating theatre use and revenue",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "I’ll send all five now",
+   "I only have some of these",
+   "Why the ICU on its own?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Turning hours into money",
+    "title": "Five figures I need from you",
+    "deck": "Each one turns something we already have into rupees."
+   },
+   {
+    "type": "receipt",
+    "title": "Figures for Tojo",
+    "subtitle": "Your hospital · turning hours into rupees",
+    "hint": "Type each figure on its line. Tap a line to see what it turns into.",
+    "lines": [
+     {
+      "label": "What one occupied bed earns",
+      "unit": "a day, in rupees",
+      "placeholder": "Type it here",
+      "point": 1
+     },
+     {
+      "label": "Average stay in days",
+      "unit": "across the hospital",
+      "placeholder": "Type it here",
+      "point": 2
+     },
+     {
+      "label": "Average daily revenue",
+      "unit": "for the whole hospital",
+      "placeholder": "Type it here",
+      "point": 3
+     },
+     {
+      "label": "Beds full, ICU separately",
+      "unit": "as a share of beds",
+      "placeholder": "Type it here",
+      "point": 4
+     },
+     {
+      "label": "Operating theatre use and revenue",
+      "unit": "use, and rupees a day",
+      "placeholder": "Type it here",
+      "point": 5
+     }
+    ],
+    "total_label": "Dead bed time in rupees",
+    "waiting": "Waiting on your figures",
+    "done": "All five in. Send to Tojo.",
+    "caption": "Nothing here is my guess. Every figure comes from you.",
+    "sheets": [
+     {
+      "key": "arpob",
+      "when": "Figure 1 of 5",
+      "title": "What one occupied bed earns",
+      "text": "Turns each lost hour of bed time into rupees."
+     },
+     {
+      "key": "stay",
+      "when": "Figure 2 of 5",
+      "title": "Average stay in days",
+      "text": "Tells us how often each bed changes patient."
+     },
+     {
+      "key": "rev",
+      "when": "Figure 3 of 5",
+      "title": "Average daily revenue",
+      "text": "Lets us check the bed figure against the whole hospital."
+     },
+     {
+      "key": "occ",
+      "when": "Figure 4 of 5",
+      "title": "Beds full, ICU separately",
+      "text": "Tells us how many beds change patient each day, and where the pressure sits."
+     },
+     {
+      "key": "ot",
+      "when": "Figure 5 of 5",
+      "title": "Operating theatre use and revenue",
+      "text": "Shows whether a late bed can cost you an operation."
+     }
+    ]
+   }
+  ]
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved by Avishek with the second Diagnosis set (one drawing per turn)."
+ }
+}

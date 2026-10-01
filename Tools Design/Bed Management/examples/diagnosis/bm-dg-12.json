@@ -1,0 +1,203 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "bm-dg-12",
+  "type": "overview",
+  "user_message": "Show me the five parts",
+  "transcript": {
+   "label": "Transcript turn 17 · the overview (the five parts named, none opened yet)",
+   "said": "Right — this is what I’d build for you, and it’s the full design rather than a trimmed version, because your admissions run ahead of the beds that free up overnight: about 41 a day against about 33. The effects don’t stop at beds either — discharge, ICU step-down and OT scheduling all move with it. Five parts, in the graphic, along with what this is worth and the one thing it will not do. Click any of the five and I’ll take you through what it actually involves."
+  },
+  "note_for_review": "Still Diagnosis: the five parts are only named here. Picking one of them opens Solutions."
+ },
+ "chat": {
+  "text": [
+   "This is what I’d build for you. It is the full design, not a trimmed one. Your admissions run ahead of the beds that free up overnight.",
+   "About 41 admissions a day, against about 33 beds free overnight. The effects don’t stop at beds either. Discharge, ICU step-down and the operating theatre list all move with it.",
+   "Five parts, with what this is worth and the one thing it will not do. Pick any of the five and I’ll take you through it."
+  ],
+  "note": "Five parts, one aim: the bed earning again sooner.",
+  "question": {
+   "text": "Which part first?",
+   "options": [
+    "Automations I can build for you",
+    "Changes to current processes",
+    "The people key to success",
+    "Changes to teams and roles",
+    "The numbers and targets we set"
+   ]
+  },
+  "points": [
+   {
+    "n": 1,
+    "label": "Automations I can build for you",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Changes to current processes",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The people key to success",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Changes to teams and roles",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "The numbers and targets we set",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Start with the automations",
+   "Why not just add beds?",
+   "What will it not do?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "What I’d build for you",
+    "title": "Five parts, the full design",
+    "deck": "The full design, because your admissions run ahead of the beds that free up overnight."
+   },
+   {
+    "type": "scale",
+    "left": {
+     "value": "41",
+     "label": "Admissions a day",
+     "note": "Planned and emergency, your average"
+    },
+    "right": {
+     "value": "33",
+     "label": "Beds free overnight",
+     "note": "On an average night"
+    },
+    "verdict_label": "So the answer is",
+    "verdict": "The full design",
+    "text": "Admissions run ahead of the beds that free up overnight. A trimmed version would not keep up."
+   },
+   {
+    "type": "corridor",
+    "label": "The five parts, none opened yet",
+    "hint": "Tap a door to look in. Pick one in the chat to go into it.",
+    "doors": [
+     {
+      "name": "Automations I can build for you",
+      "text": "The bed picture for tomorrow, worked out and shared, and call-in times for each bed.",
+      "point": 1
+     },
+     {
+      "name": "Changes to current processes",
+      "text": "The steps that change on the wards, at the desk and with housekeeping.",
+      "point": 2
+     },
+     {
+      "name": "The people key to success",
+      "text": "Who has to agree, and how we get each of them on board.",
+      "point": 3
+     },
+     {
+      "name": "Changes to teams and roles",
+      "text": "Who does what differently, and which teams need sizing for the busy hours.",
+      "point": 4
+     },
+     {
+      "name": "The numbers and targets we set",
+      "text": "What we measure each week, so we know it is working.",
+      "point": 5
+     }
+    ],
+    "sheets": [
+     {
+      "key": "auto",
+      "when": "Part 1 of 5",
+      "title": "Automations I can build for you",
+      "text": "The bed picture for tomorrow, worked out and shared, and call-in times for each bed.",
+      "lines": [
+       {
+        "label": "Answers",
+        "value": "Finding 3, no set way to match beds"
+       }
+      ]
+     },
+     {
+      "key": "proc",
+      "when": "Part 2 of 5",
+      "title": "Changes to current processes",
+      "text": "The steps that change on the wards, at the desk and with housekeeping.",
+      "lines": [
+       {
+        "label": "Answers",
+        "value": "Findings 1 and 2, the team and the wait"
+       }
+      ]
+     },
+     {
+      "key": "ppl",
+      "when": "Part 3 of 5",
+      "title": "The people key to success",
+      "text": "Who has to agree, and how we get each of them on board.",
+      "lines": [
+       {
+        "label": "Answers",
+        "value": "Everyone the rule touches"
+       }
+      ]
+     },
+     {
+      "key": "team",
+      "when": "Part 4 of 5",
+      "title": "Changes to teams and roles",
+      "text": "Who does what differently, and which teams need sizing for the busy hours.",
+      "lines": [
+       {
+        "label": "Answers",
+        "value": "Finding 5, no team ever sized"
+       }
+      ]
+     },
+     {
+      "key": "kpi",
+      "when": "Part 5 of 5",
+      "title": "The numbers and targets we set",
+      "text": "What we measure each week, so we know it is working.",
+      "lines": [
+       {
+        "label": "Answers",
+        "value": "All five, week by week"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Revenue at stake",
+    "value": "₹1.5 to 2 crore a year",
+    "state": "outcome",
+    "sub": "What all five parts are aimed at, from your own figures."
+   },
+   {
+    "type": "effect",
+    "label": "Not an occupancy play",
+    "value": "Occupancy stays where it is",
+    "sub": "Your 89% is set by demand and length of stay, not by scheduling. The gain is the bed earning again sooner."
+   }
+  ]
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved by Avishek with the second Diagnosis set (one drawing per turn)."
+ }
+}

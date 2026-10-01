@@ -6,7 +6,8 @@ Rules settled in the Bed Management review, 30 Sep 2026. They add to 06 (respons
 - **Through the generator only.** Claude writes one JSON spec per turn. The tool's generator validates it and draws it. Nobody writes or edits turn HTML by hand.
 - **The spec records the conversation:** `turn.user_message` (the user's message), the chat parts (text, Tojo's Note, @points, one question with its options, the three prompts), and the canvas blocks with their words. `turn.transcript` keeps the source wording when a turn comes from a worked transcript.
 - **Draw from the block library.** Use the approved universal patterns first (scope `all`), redrawn in the tool's colours through the library's colour variables. A tool writes a new block only when no library block can carry the content, and adds it to the library as `draft`.
-- **One turn at a time.** Show a turn in three samples; the user picks one; then the next turn.
+- **One turn at a time.** Show a turn in three samples; the user picks one; then the next turn. Once a turn's look is set, the rest of a place may be delivered together, all through the generator.
+- **Variety beats boxes.** A turn of cards and strips only is not enough; each turn needs a drawing that pictures its idea (a route, a scale, a loop, a receipt).
 
 ## 2. Every turn looks different
 - A place's main block (the first after the heading) is used by one turn only.
@@ -27,6 +28,8 @@ Rules settled in the Bed Management review, 30 Sep 2026. They add to 06 (respons
 - The first item of a drawing loads **raised**: lifted, gold edge, a solid and a soft shadow, a colour change, with its sheet open.
 - Tapping another item raises it and opens its sheet; the rest drop back and close.
 - **Desktop:** one shared sheet under the drawing. **Phone:** each sheet opens right under its item, with a small pointer.
+- **Phone: pickable items are always stacked one above the other, never side by side**, whatever the drawing does on a desktop.
+- **No text may run outside its box** on either layout (picks, sheets, cards, callouts). Long words wrap. The browser check fails a turn that breaks this.
 
 ## 6. Entries (the common tool layer)
 - Where a turn asks for data, the user types it **in the drawing**: a placeholder or an "Add yours" button opens a field right there.
@@ -38,4 +41,6 @@ Rules settled in the Bed Management review, 30 Sep 2026. They add to 06 (respons
 - **One library for every tool** (`Common Elements/library/build_block_library.py`).
 - **Blocks only.** Each template is drawn inline as its canvas, at the desktop canvas width (864px) and the phone width (362px). Never the app interface (rail, header, chat panel), never frames, never whole pages.
 - Why: the Discharge library published as blocks only stayed shareable. The version that added twenty framed whole-interface pages (6.6 MB, each a full page inside a frame) stopped opening for anyone but its owner. Restoring the blocks-only version fixed it at once.
+- **Updated only when asked.** Turns are delivered and approved first; the library is rebuilt only when the user asks for it.
+- A tool's own drawings go in the library with the turn each first appears in.
 - Each template carries its badge (universal pattern, or one place or tool only), its status (approved, variation, draft), when to use it and when to avoid it.

@@ -1,0 +1,125 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "bm-dg-07",
+  "type": "data-back",
+  "user_message": "Final bill closed typically 12–1 PM. First billable entry for the next patient: we try for 5 pm but could go up to 7–8 pm.",
+  "transcript": {
+   "label": "Transcript turn 13 · dead bed time, worked out",
+   "said": "That is the number this whole conversation has been circling, and it is now yours rather than borrowed from anyone else. Both times are in the graphic, with the gap between them worked out. Last area, and it is a different kind of question: has anyone at the hospital ever actually calculated how many bed turnovers your housekeeping and transport staff can handle in the peak hours — or is that staffing assumed adequate because it has not caused a visible crisis?"
+  },
+  "redraw_of": "bm-dg-06"
+ },
+ "chat": {
+  "text": [
+   "That is the number this whole conversation has been circling. It is now yours, not borrowed from anyone else.",
+   "Both times are on the two bill tags, with the gap between them worked out.",
+   "Last area, and a different kind of question. How many beds can your housekeeping and transport staff get ready in the busiest hours?"
+  ],
+  "invite": "Has anyone worked that out? Or is the staffing taken to be enough, because nothing has gone badly wrong?",
+  "note": "Four to five hours, every time a bed changes patient.",
+  "question": {
+   "text": "Pick the closest",
+   "options": [
+    "Yes, we have worked it out",
+    "No, it is taken to be enough",
+    "Not sure. I would need to check"
+   ]
+  },
+  "prompts": [
+   "Not sure, I’d need to check",
+   "Is 4 to 5 hours a lot?",
+   "That matches what our billing shows"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "When billing stops and starts again",
+    "title": "Your two times, and the gap",
+    "deck": "Worked out from your own two times. One bed, one change of patient."
+   },
+   {
+    "type": "bed-bills",
+    "mode": "filled",
+    "gap_label": "4 to 5 hours unbilled",
+    "hint": "Tap a tag to see it in full.",
+    "tags": [
+     {
+      "who": "Patient going home",
+      "label": "Final bill closed",
+      "value": "12 to 1 PM"
+     },
+     {
+      "who": "Next patient, same bed",
+      "label": "First charge for the next patient",
+      "value": "5 PM, the goal",
+      "worst": "Worst 7 to 8 PM",
+      "outcome": true
+     }
+    ],
+    "sheets": [
+     {
+      "key": "out",
+      "when": "Patient going home",
+      "title": "Final bill closed",
+      "text": "The leaving patient’s final bill is closed. From here nothing more is charged to this bed.",
+      "lines": [
+       {
+        "label": "Your time",
+        "value": "12 to 1 PM",
+        "state": "start"
+       }
+      ]
+     },
+     {
+      "key": "in",
+      "when": "Next patient, same bed",
+      "title": "First charge for the next patient",
+      "text": "The first charge of any kind appears against the next patient in that same bed.",
+      "lines": [
+       {
+        "label": "Your goal",
+        "value": "5 PM"
+       },
+       {
+        "label": "On the worst days",
+        "value": "7 to 8 PM",
+        "state": "outcome"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "was-now",
+    "rows": [
+     {
+      "label": "Dead bed time on one bed",
+      "was": "Half a day",
+      "now": "4 to 5 hours",
+      "change": "Up to 8 hours",
+      "direction": "same",
+      "knock_on": "The hospital like yours, set against your own two times."
+     }
+    ],
+    "caption": "Your number replaces the example from the hospital like yours."
+   },
+   {
+    "type": "effect",
+    "label": "Dead bed time",
+    "value": "About 4 to 5 hours, every change of patient",
+    "state": "outcome",
+    "sub": "Up to 8 hours on the days it stretches. Simple arithmetic on your own two times."
+   }
+  ]
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved by Avishek with the second Diagnosis set (one drawing per turn)."
+ }
+}

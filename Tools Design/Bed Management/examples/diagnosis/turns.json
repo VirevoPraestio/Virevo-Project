@@ -1,6 +1,53 @@
 {
- "note": "The approved turns of Bed Management Diagnosis, in conversation order. Samples not chosen stay beside them for reference.",
+ "note": "The turns of Bed Management Diagnosis, in conversation order. Only these are built.",
  "turns": [
-  {"file": "bm-dg-01-A.json", "note": "Transcript turn 7, the case reveal. Approved 30 Sep 2026: Sample A, the day on one line (time-window with the Bed Management layer)."}
+  {
+   "file": "bm-dg-01-A.json",
+   "note": "Transcript turn 7, the case reveal. Approved 30 Sep 2026: Sample A, the day on one line."
+  },
+  {
+   "file": "bm-dg-02.json",
+   "note": "Transcript turn 8. The five areas on the rim of a lens; the one asked now is marked."
+  },
+  {
+   "file": "bm-dg-03.json",
+   "note": "Transcript turn 9. Two days drawn bed by bed, hour by hour, so the question does not lead."
+  },
+  {
+   "file": "bm-dg-04.json",
+   "note": "Transcript turn 10. The way from the door to the bed with blank clock times: tap a stop and type its time."
+  },
+  {
+   "file": "bm-dg-05.json",
+   "note": "Transcript turn 11. The same way, filled, with the wait between stops (a redraw, so it keeps the first theme). Adds the stopwatch."
+  },
+  {
+   "file": "bm-dg-06.json",
+   "note": "Transcript turn 12. Two bill tags tied to one bed, times blank: type both."
+  },
+  {
+   "file": "bm-dg-07.json",
+   "note": "Transcript turn 13. The same tags, filled (a redraw). Adds the example set against your number, and the dead bed time."
+  },
+  {
+   "file": "bm-dg-08.json",
+   "note": "Transcript turn 14. A paper bill with five lines: type each figure on its line."
+  },
+  {
+   "file": "bm-dg-09.json",
+   "note": "Transcript turn 15. The 41 beds that change patient each day, and what the hours are worth. Move the slider."
+  },
+  {
+   "file": "bm-dg-10.json",
+   "note": "Transcript turn 16. The five findings pinned on one thread, in the order you gave them, each with your words."
+  },
+  {
+   "file": "bm-dg-11.json",
+   "note": "New, from the playbook §2. Your findings feed one rule; the rule starts a loop that comes back round."
+  },
+  {
+   "file": "bm-dg-12.json",
+   "note": "Transcript turn 17. Demand against supply on a balance, then the five parts as closed doors. The last Diagnosis turn."
+  }
  ]
 }

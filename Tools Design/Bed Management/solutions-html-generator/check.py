@@ -1,4 +1,4 @@
-"""Browser checks for Bed Management Diagnosis pages: no sideways scroll, no "tab", first item raised with its sheet open,
+"""Browser checks for Bed Management Solutions pages: no sideways scroll, no "tab", first item raised with its sheet open,
 tapping another switches, phone order, and entries: two entries both land in the chat message. --shots DIR for screenshots."""
 import glob, os, sys
 from playwright.sync_api import sync_playwright
@@ -27,7 +27,7 @@ with sync_playwright() as p:
           if(mob){g.forEach(k=>{const els=[...document.querySelectorAll('.tl-pick[data-grp="'+k+'"]')].filter(x=>x.offsetParent).map(x=>x.getBoundingClientRect());
             for(let i=1;i<els.length;i++){ if(els[i].top < els[i-1].bottom-2) {out.push(k+': items side by side on the phone');break;} }});}
           /* nothing sticks out of its box: every open sheet, every pickable item */
-          const boxes=[...document.querySelectorAll('.bx,.tl-pick,.tj-callout,.tj-card')].filter(x=>x.offsetParent);
+          const boxes=[...document.querySelectorAll('.bx,.tl-pick:not(.jg-p),.so-sheet,.so-plate,.so-eff')].filter(x=>x.offsetParent);
           boxes.forEach(bx=>{const R=bx.getBoundingClientRect();[...bx.querySelectorAll('*')].forEach(d=>{if(d.closest('svg')||!d.offsetParent||d.classList.contains('sr')||d.closest('[aria-hidden=true]')||(!d.textContent.trim()&&!d.children.length))return;const r=d.getBoundingClientRect();
             if(r.width&&(r.right>R.right+1.5||r.left<R.left-1.5)) out.push('text sticks out of '+(bx.className.split(' ').slice(0,3).join('.'))+': '+(d.className||d.tagName)+' '+(d.textContent||'').trim().slice(0,30));
             if(d.scrollWidth>d.clientWidth+2&&getComputedStyle(d).overflow!=='visible'&&d.tagName!=='TEXTAREA'&&d.tagName!=='INPUT') out.push('clipped text: '+(d.className||d.tagName));});});
@@ -39,7 +39,7 @@ with sync_playwright() as p:
           document.querySelector('.sh-pr').click();
           const v=document.getElementById('tojo-input').value;
           if(ents.length>=2&&!(v.includes('test entry 1')&&v.includes('test entry 2'))) out.push('entries do not both reach the message: '+v);
-          if(mob){const seq=['.sh-um','.bm-mt','.tj','.bm-mr'].map(s=>document.querySelector('.sh-mc '+s));
+          if(mob){const seq=['.sh-um','.bm-mt','.sx-host','.bm-mr'].map(s=>document.querySelector('.sh-mc '+s));
             for(let i=1;i<seq.length;i++) if(!seq[i]||seq[i-1].compareDocumentPosition(seq[i])!==4) out.push('phone order wrong');}
           return {out:[...new Set(out)].slice(0,8), msg:v};}''', mob)
         print('%-26s %s' % (name, 'ok' if not r['out'] else '; '.join(r['out'])))

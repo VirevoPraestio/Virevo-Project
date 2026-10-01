@@ -1,0 +1,146 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "bm-dg-10",
+  "type": "findings",
+  "user_message": "No — sized by habit, assumed adequate",
+  "transcript": {
+   "label": "Transcript turn 16 · everything you told me, in one place",
+   "said": "That’s the last of them — and “sized by habit” is the same answer you gave for housekeeping, which means nobody has ever tested whether the people doing this work can keep up when it matters. The graphic is everything you’ve told me, in one place. Nothing in it is mine. What I’d propose responds to all five of those, not just the timing. Shall I walk you through it?"
+  }
+ },
+ "chat": {
+  "text": [
+   "That’s the last of them. “Sized by habit” is the same answer you gave for housekeeping.",
+   "So nobody has ever tested whether the people doing this work can keep up when it matters.",
+   "The board is everything you’ve told me, in one place, in the order you told me. Nothing on it is mine."
+  ],
+  "invite": "What I’d propose answers all five, not just the timing. Shall I walk you through it?",
+  "note": "Five findings, all in your own words.",
+  "question": {
+   "text": "Your answer",
+   "options": [
+    "Yes, show me",
+    "Not yet. I have questions about the numbers first"
+   ]
+  },
+  "points": [
+   {
+    "n": 1,
+    "label": "One team does both jobs",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Admission time about 3½ hours",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "No set way to match tomorrow’s beds",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Dead bed time 4 to 5 hours",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "No team has ever been sized",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Yes, show me",
+   "Can we check the numbers first?",
+   "Which of these matters most?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "What you’ve told me",
+    "title": "Five findings, all your answers",
+    "deck": "In the order you gave them. Every stop is your own answer, or simple arithmetic on your own figures."
+   },
+   {
+    "type": "evidence-board",
+    "banner": "Nothing on this board is mine",
+    "hint": "Tap a card to see where it came from.",
+    "cards": [
+     {
+      "finding": "One team does both jobs",
+      "quote": "“one team does both”",
+      "from": "who runs what",
+      "point": 1
+     },
+     {
+      "finding": "Admission time about 3½ hours",
+      "quote": "“1 PM, in the bed 4:30”",
+      "from": "your five times",
+      "point": 2
+     },
+     {
+      "finding": "No set way to match beds",
+      "quote": "“it happens, but informally”",
+      "from": "tomorrow’s beds",
+      "point": 3
+     },
+     {
+      "finding": "Dead bed time 4 to 5 hours",
+      "quote": "“12 to 1, then 5 PM”",
+      "from": "your billing times",
+      "point": 4
+     },
+     {
+      "finding": "No team ever sized",
+      "quote": "“not sure”, “sized by habit”",
+      "from": "who readies beds",
+      "point": 5
+     }
+    ],
+    "sheets": [
+     {
+      "key": "e0",
+      "when": "Finding 1 · who runs what",
+      "title": "One team does both jobs",
+      "text": "Discharges and admissions sit with the same team. You placed it nearer both at once, and your times said afternoon."
+     },
+     {
+      "key": "e1",
+      "when": "Finding 2 · your five times",
+      "title": "Admission time about 3½ hours",
+      "text": "About 3½ hours on a good day, 5½ at worst. About an hour of it is paperwork. The rest is waiting."
+     },
+     {
+      "key": "e2",
+      "when": "Finding 3 · tomorrow’s beds",
+      "title": "No set way to match beds",
+      "text": "Nothing matches tomorrow’s admissions against the beds due to free. The picture comes together as the day goes."
+     },
+     {
+      "key": "e3",
+      "when": "Finding 4 · your billing times",
+      "title": "Dead bed time 4 to 5 hours",
+      "text": "On every change of patient, up to 8 hours on bad days. About ₹1.5 to 2 crore a year."
+     },
+     {
+      "key": "e4",
+      "when": "Finding 5 · who readies beds",
+      "title": "No team ever sized",
+      "text": "Nobody has worked out whether housekeeping, transport or the admissions desk keep up at the busiest times."
+     }
+    ]
+   }
+  ]
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved by Avishek with the second Diagnosis set (one drawing per turn)."
+ }
+}

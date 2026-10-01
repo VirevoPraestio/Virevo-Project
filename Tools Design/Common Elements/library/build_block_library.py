@@ -131,18 +131,27 @@ def bed_management():
         cv = '<div class="bmx">%s</div>' % g.render_canvas(spec, greg)
         types = [b['type'] for b in spec['canvas']['blocks'][1:]]
         meta = ('<p><b>%s · %s.</b> %s</p><p class="g-small"><b>Turn:</b> %s · <b>Blocks:</b> %s · <b>Review:</b> %s</p>') % (
-            e(spec['turn']['id']), e(sm.get('name', '')), e(sm.get('what', '')), e(spec['turn'].get('transcript', {}).get('label', '')), e(', '.join(types)), e(rv.get('note', 'draft')))
+            e(spec['turn']['id']), e(sm.get('name') or spec['canvas']['blocks'][0]['title']), e(sm.get('what') or spec['turn'].get('note_for_review', '')), e(spec['turn'].get('transcript', {}).get('label', '')), e(', '.join(types)), e(rv.get('note', 'Draft: awaiting review')))
         badge = BADGE_OK if rv.get('status') == 'approved' else (BADGE_VAR if rv.get('status') == 'not chosen' else BADGE_DRAFT)
-        rid = '%s-%s' % (spec['turn']['id'], sm.get('letter', '').lower())
-        rows.append(old.row(rid, '%s · Sample %s' % (spec['turn']['id'], sm.get('letter', '')), 'turn', badge, dh.scope_badge('Bed Management', '') + meta, cv, cv))
+        rid = spec['turn']['id'] + ('-' + sm['letter'].lower() if sm.get('letter') else '')
+        name = ('Sample %s' % sm['letter']) if sm.get('letter') else spec['canvas']['blocks'][0]['title']
+        rows.append(old.row(rid, '%s · %s' % (spec['turn']['id'], name), 'turn', badge, dh.scope_badge('Bed Management', '') + meta, cv, cv))
         toc.append('<a href="#%s">%s</a>' % (rid, rid))
     # own blocks and the tool layer
-    rows.append('<h3 class="g-h3" id="bm-own">Bed Management blocks and the tool layer</h3>')
+    rows.append('<h3 class="g-h3" id="bm-own">Bed Management drawings and the tool layer</h3><p class="g-lead">The drawings Bed Management Diagnosis uses, one per turn, so no two turns look alike. '
+                'Each is drawn by <code>Bed Management/diagnosis-html-generator/bm_blocks.py</code>. On a phone every pickable item is stacked, one above the other, and its sheet opens under it.</p>')
+    first_use = {}
+    for fn_ in sorted(f for f in os.listdir(ex) if f.startswith('bm-dg-') and f.endswith('.json')):
+        sp = json.load(open(os.path.join(ex, fn_), encoding='utf-8'))
+        for bl in sp['canvas']['blocks']:
+            first_use.setdefault(bl['type'], sp['turn']['id'])
     for b in greg['blocks']:
-        rows.append('<section class="g-row"><div class="g-meta"><div class="g-id">%s <span>block</span></div><span class="g-status" style="background:%s">%s</span>%s'
-                    '<p><b>%s.</b> %s</p><p class="g-small"><b>Use when:</b> %s<br><b>Avoid when:</b> %s</p></div></section>' % (
-                        e(b['id']), '#B8862B', e(b['status']), dh.scope_badge(b['scope'] if b['scope'] != 'universal' else 'all', 'Bed Management'),
-                        e(b.get('category', '').capitalize()), e(b['purpose']), e('; '.join(b['use_when'])), e('; '.join(b['avoid_when']))))
+        col = '#2f7350' if b['status'] == 'approved' else '#B8862B'
+        rows.append('<section class="g-row" id="bm-block-%s"><div class="g-meta"><div class="g-id">%s <span>Bed Management drawing</span></div><span class="g-status" style="background:%s">%s</span>%s'
+                    '<p><b>%s.</b> %s</p><p class="g-small"><b>Use when:</b> %s<br><b>Avoid when:</b> %s%s<br><b>Drawn in:</b> %s, shown above</p></div></section>' % (
+                        e(b['id']), e(b['id']), col, e(b['status']), dh.scope_badge(b['scope'] if b['scope'] != 'universal' else 'all', 'Bed Management'),
+                        e(b.get('category', '').capitalize()), e(b['purpose']), e('; '.join(b['use_when'])), e('; '.join(b['avoid_when'])),
+                        ('<br><b>Interaction:</b> ' + e(b['interaction'])) if b.get('interaction') else '', e(first_use.get(b['id'], 'not used yet'))))
     lay = greg['layers']
     rows.append('<section class="g-row"><div class="g-meta"><div class="g-id">tool layer <span>picking and entries</span></div><span class="g-status" style="background:#2f7350">approved</span>%s'
                 '<p><b>Common.</b> Any generator can add it to %s. Each item of the drawing gets a sheet; the first is raised with its sheet open; on a phone the sheet opens under its item. '
@@ -150,8 +159,8 @@ def bed_management():
                 'Code: <code>Common Elements/tool-layer/tojo_layer.py</code>.</p><p class="g-small">Slots it adds: sheets (one per item, in order: key, when, title, text, and each tool’s own lines), ask_more (one closing entry).</p></div></section>' % (
                     dh.scope_badge('all', 'Bed Management'), e(', '.join(lay['applies_to']))))
     toc.append('<a href="#bm-own">bm blocks</a>')
-    css = scope_css('\n'.join(dict.fromkeys(css_parts)) + C.BASE_CSS + C.SEL_CSS, '.bmx') + g.theme_css(greg) + scope_css(g.LAYER_CSS, '.bmx')
-    js = C.SEL_JS + g.RUNTIME
+    css = scope_css('\n'.join(dict.fromkeys(css_parts)) + C.BASE_CSS + C.SEL_CSS, '.bmx') + g.theme_css(greg) + scope_css(g.LAYER_CSS + g.bm_blocks.CSS, '.bmx')
+    js = C.SEL_JS + g.RUNTIME + g.bm_blocks.BC_JS
     return ''.join(rows), ''.join(toc), css, js
 
 # ------------------------------------------------------------------------------------------ the guide
