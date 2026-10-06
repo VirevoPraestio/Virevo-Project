@@ -1,0 +1,242 @@
+{
+ "turn": {
+  "id": "bm-pr-04",
+  "tab": "Processes",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "What does a doctor have to do?",
+  "context": "Prompt 2 of bm-pr-03. bed-management.md §7.4.3: doctors speak on the round, and the agent shows a predicted date and summary for each patient. Transcript 23 and 27: show a date to confirm or correct, never ask for one.",
+  "transcript": {
+   "label": "After transcript turn 31 · Processes, turn 4 (the record stops at 31)"
+  }
+ },
+ "chat": {
+  "text": [
+   "On the round the doctor speaks as usual. Tojo writes it down and shows a likely date for each patient."
+  ],
+  "bullets": [
+   "The doctor confirms the date or changes it. Checking a date is quick. Making one up a day early is not.",
+   "A changed date is fine. It is not a rule broken, it just goes into the next plan.",
+   "If the round gets longer, something is wrong, and we change it."
+  ],
+  "invite": "Next, we can see what happens when a doctor will not confirm.",
+  "note": "Ask a doctor to check a date, never to make one up.",
+  "points": [
+   {
+    "n": 1,
+    "label": "A knee patient",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "A short surgical stay",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "A stay that may change",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What if a doctor will not confirm a date?",
+   "Where do planned admissions come from?",
+   "Will this slow the round?"
+  ],
+  "pointer": "Confirm a date, or change it and type the new one. Pick a patient to see where the date comes from."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · the doctor’s round",
+    "title": "Check a date, do not make one",
+    "deck": "One round, six patients. Each card shows the likely date. The doctor confirms or changes it.",
+    "plate": {
+     "column": "People",
+     "name": "The doctor’s round"
+    }
+   },
+   {
+    "type": "round-cards",
+    "round_label": "Speak on the round.",
+    "round_line": "Tojo writes it down. The doctor only checks each date.",
+    "predicted_label": "Likely home",
+    "confirm": "Confirm",
+    "change": "Change",
+    "stamp": "Confirmed",
+    "patients": [
+     {
+      "bed": "3-12",
+      "what": "Knee replacement",
+      "doctor": "Orthopaedics team",
+      "day": 4,
+      "of": 5,
+      "predicted": "Tomorrow, 11 AM",
+      "basis": "Knee patients here stay about 5 days",
+      "point": 1
+     },
+     {
+      "bed": "3-14",
+      "what": "Gall bladder removal",
+      "doctor": "Surgery team",
+      "day": 2,
+      "of": 3,
+      "predicted": "Tomorrow, 10 AM",
+      "basis": "Usual stay 3 days, notes normal",
+      "point": 2
+     },
+     {
+      "bed": "3-03",
+      "what": "Chest infection",
+      "doctor": "Medicine team",
+      "day": 5,
+      "of": 7,
+      "predicted": "In two days",
+      "basis": "No fever for one day"
+     },
+     {
+      "bed": "3-08",
+      "what": "Angioplasty",
+      "doctor": "Cardiology team",
+      "day": 2,
+      "of": 3,
+      "predicted": "Tomorrow, noon",
+      "basis": "Usual stay 3 days after the procedure"
+     },
+     {
+      "bed": "3-17",
+      "what": "Hip fracture",
+      "doctor": "Orthopaedics team",
+      "day": 6,
+      "of": 8,
+      "predicted": "In two days",
+      "basis": "Walking check due tomorrow",
+      "point": 3
+     },
+     {
+      "bed": "3-05",
+      "what": "Diabetes control",
+      "doctor": "Medicine team",
+      "day": 3,
+      "of": 4,
+      "predicted": "Tomorrow, 4 PM",
+      "basis": "Sugar steady for two days"
+     }
+    ],
+    "rule": "The clinical call stays with the treating doctor. A changed date is logged, not a rule broken.",
+    "caption": "Example patients, to show the round. Your own patients show once read access is in.",
+    "sheets": [
+     {
+      "key": "p1",
+      "when": "Bed 3-12",
+      "title": "Knee replacement",
+      "text": "The date comes from your own past knee patients and this patient’s notes. The doctor only checks it.",
+      "lines": [
+       {
+        "label": "Based on",
+        "value": "Past stays, today’s notes"
+       }
+      ],
+      "entry": "Is this how your knee patients go?"
+     },
+     {
+      "key": "p2",
+      "when": "Bed 3-14",
+      "title": "Gall bladder removal",
+      "text": "A short, regular stay. These are the dates most often confirmed with one word.",
+      "lines": [
+       {
+        "label": "Based on",
+        "value": "Past stays, today’s notes"
+       }
+      ],
+      "entry": "Which stays are most regular for you?"
+     },
+     {
+      "key": "p3",
+      "when": "Bed 3-03",
+      "title": "Chest infection",
+      "text": "Medical stays move more. A date that is changed is still useful. It goes into the next plan.",
+      "lines": [
+       {
+        "label": "Often",
+        "value": "Changed once, then confirmed"
+       }
+      ],
+      "entry": "Which wards have the longest stays?"
+     },
+     {
+      "key": "p4",
+      "when": "Bed 3-08",
+      "title": "Angioplasty",
+      "text": "Planned procedures give the steadiest dates. They are where the plan gets most of its beds.",
+      "lines": [
+       {
+        "label": "Based on",
+        "value": "Past stays, today’s notes"
+       }
+      ],
+      "entry": "How many angioplasties in a usual week?"
+     },
+     {
+      "key": "p5",
+      "when": "Bed 3-17",
+      "title": "Hip fracture",
+      "text": "If the walking check is not passed, the doctor changes the date. The bed plan moves with it.",
+      "lines": [
+       {
+        "label": "If changed",
+        "value": "The plan runs again",
+        "state": "start"
+       }
+      ],
+      "entry": "Who does the walking check?"
+     },
+     {
+      "key": "p6",
+      "when": "Bed 3-05",
+      "title": "Diabetes control",
+      "text": "A late date still helps. The bed can be planned for an evening patient instead of left to chance.",
+      "lines": [
+       {
+        "label": "Based on",
+        "value": "Readings and past stays"
+       }
+      ],
+      "entry": "Are evening admissions common here?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Extra time on the round",
+    "value": "None",
+    "sub": "The round already happens. If it takes longer, that is a fault to fix, not a cost to accept.",
+    "state": "start",
+    "look": "ticket"
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: when a doctor will not confirm",
+    "say": "What if a doctor will not confirm a date?"
+   },
+   "add": {
+    "detail": "Tell me how your rounds run",
+    "say": "Our rounds run like this: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the Bed Management Processes turns."
+ }
+}

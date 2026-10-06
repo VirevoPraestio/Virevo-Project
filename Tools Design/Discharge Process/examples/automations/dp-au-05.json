@@ -1,0 +1,246 @@
+{
+ "turn": {
+  "id": "dp-au-05",
+  "type": "deeper",
+  "tool": "Discharge Process",
+  "tab": "Automations",
+  "register": "advisory",
+  "user_message": "How would you record each decision?",
+  "was": "au-04 (sources)",
+  "context": "Automations place, turn 4 (where each fact comes from, and what needs no IT work).",
+  "transcript": {
+   "label": "Automations · where the facts come from"
+  }
+ },
+ "chat": {
+  "text": [
+   "Each fact comes from a place your hospital already keeps it. Here are those places, and what each one holds.",
+   "One of them needs no IT work at all. That is the one-tap form on the ward phone."
+  ],
+  "note": "Start with what needs no link. Add the links one at a time.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The one-tap form",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Billing and clinical notes",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Scan and lab reports",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The pharmacy list",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What exactly does our IT team need?",
+   "Can we test one without the link?",
+   "What if some notes are on paper?"
+  ],
+  "pointer": "Try a setting, or flip the switches. Each lamp lights when everything it needs is linked."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Automations · where facts come from",
+    "title": "Four places, one at a time",
+    "deck": "Each automation lights only when every place it reads from is linked. The form needs no IT work.",
+    "plate": {
+     "tag": "Automations",
+     "name": "The switchboard",
+     "stage": "Built"
+    }
+   },
+   {
+    "type": "sources",
+    "src_label": "Where the facts are kept",
+    "auto_label": "What can switch on",
+    "hint": "Try a setting or flip a switch. Pick a place to see what it holds.",
+    "main": {
+     "id": "f",
+     "tag": "Start here",
+     "name": "One-tap form on the ward phone",
+     "short": "the form",
+     "line": "Needs no IT work. Each decision from the round",
+     "point": 1
+    },
+    "sources": [
+     {
+      "id": "h",
+      "name": "Hospital software: billing and notes",
+      "short": "the hospital software",
+      "holds": "Charges, doctors’ notes and medicines given",
+      "link": "waiting",
+      "point": 2
+     },
+     {
+      "id": "r",
+      "name": "The scan and lab report system",
+      "short": "the report system",
+      "holds": "Every test result and report",
+      "link": "waiting",
+      "point": 3
+     },
+     {
+      "id": "p",
+      "name": "The pharmacy stock list",
+      "short": "the pharmacy list",
+      "holds": "What was issued, and what is left",
+      "link": "needed",
+      "point": 4
+     }
+    ],
+    "automations": [
+     {
+      "name": "Family and pharmacy told that evening",
+      "needs": [
+       "f"
+      ]
+     },
+     {
+      "name": "Running bill kept up to date",
+      "needs": [
+       "h"
+      ]
+     },
+     {
+      "name": "Early insurance request",
+      "needs": [
+       "f",
+       "h"
+      ]
+     },
+     {
+      "name": "Summary drafted on the evening round",
+      "needs": [
+       "f",
+       "h",
+       "r"
+      ]
+     },
+     {
+      "name": "Final summary signed on a phone",
+      "needs": [
+       "f",
+       "h",
+       "r"
+      ]
+     },
+     {
+      "name": "Supply count for the nurses",
+      "needs": [
+       "h",
+       "p"
+      ]
+     }
+    ],
+    "default_on": [
+     "f"
+    ],
+    "presets": [
+     {
+      "label": "No IT work",
+      "on": [
+       "f"
+      ]
+     },
+     {
+      "label": "Link the hospital software",
+      "on": [
+       "f",
+       "h"
+      ]
+     },
+     {
+      "label": "Add the reports",
+      "on": [
+       "f",
+       "h",
+       "r"
+      ]
+     },
+     {
+      "label": "Everything",
+      "on": [
+       "f",
+       "h",
+       "r",
+       "p"
+      ]
+     }
+    ],
+    "condition": "Which systems your hospital uses is still to be checked. These are the usual ones.",
+    "sheets": [
+     {
+      "key": "h",
+      "when": "Read-only link",
+      "title": "Hospital software: billing and notes",
+      "text": "Charges, the doctor’s daily notes, medicines given and supplies used. One read-only link.",
+      "lines": [
+       {
+        "label": "Holds",
+        "value": "Charges, doctors’ notes and medicines given"
+       }
+      ],
+      "entry": "Which software holds your bills and notes?"
+     },
+     {
+      "key": "r",
+      "when": "Read-only link",
+      "title": "The scan and lab report system",
+      "text": "Every test result and scan report, the moment it is signed off. So the summary never waits for a report.",
+      "lines": [
+       {
+        "label": "Holds",
+        "value": "Every test result and report"
+       }
+      ],
+      "entry": "Do reports come from a separate system?"
+     },
+     {
+      "key": "p",
+      "when": "Read-only link",
+      "title": "The pharmacy stock list",
+      "text": "Strips and bottles issued and returned. Needed only for the supply count.",
+      "lines": [
+       {
+        "label": "Holds",
+        "value": "What was issued, and what is left"
+       }
+      ],
+      "entry": "Is the pharmacy stock kept on a system?"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: what your IT team needs",
+    "say": "What exactly does our IT team need?"
+   },
+   "add": {
+    "detail": "Tell me which systems you run",
+    "say": "Our hospital runs these systems: "
+   },
+   "jump": {
+    "tab": "Processes",
+    "detail": "How the day changes on the wards",
+    "say": "Take me to Processes"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

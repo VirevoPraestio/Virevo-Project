@@ -136,7 +136,22 @@
      }
     ]
    }
-  ]
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: the reason behind it",
+    "say": "Yes, show me"
+   },
+   "add": {
+    "detail": "Tell me what I missed",
+    "say": "One more thing about our beds: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
  },
  "review": {
   "status": "approved",

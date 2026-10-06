@@ -1,0 +1,229 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "rc-02",
+  "type": "question",
+  "user_message": "We have 300 beds and they are always full. Which bed management software would you recommend?",
+  "note_for_review": "Miss 1: the user skips the question and changes the subject to software. Run 1, medium. Tojo does not say so. He answers the software question in one line and carries on with the agenda."
+ },
+ "chat": {
+  "text": [
+   "Software is part of the answer, and we will come to it. Which one fits depends on how your beds move today, so I need that first.",
+   "The five areas are under the glass, so you can see where this is going. I’ll take them one at a time.",
+   "First one: does the same team handle both your discharges and your admissions, or are those two separate teams?"
+  ],
+  "note": "Five areas. One question at a time.",
+  "question": {
+   "text": "Pick the closest",
+   "options": [
+    "One team does both",
+    "Two separate teams",
+    "It varies by ward. I’d need to check"
+   ]
+  },
+  "points": [
+   {
+    "n": 1,
+    "label": "Who runs what",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "How long an admission takes",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Tomorrow’s bed picture",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "When billing stops and starts again",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Who gets the bed ready again",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "One team does both",
+   "Why not start with the software?",
+   "Two separate teams"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "What I need to know",
+    "title": "Five areas, one question at a time",
+    "deck": "This is where the questions are going, so nothing comes as a surprise. They are separate areas, not steps in a row."
+   },
+   {
+    "type": "lens",
+    "centre": {
+     "kicker": "Under the glass",
+     "title": "Five areas",
+     "sub": "One question at a time"
+    },
+    "hint": "Tap an area to see the question I’ll ask there.",
+    "areas": [
+     {
+      "name": "Who runs what",
+      "status": "Asking now",
+      "state": "now",
+      "point": 1
+     },
+     {
+      "name": "How long an admission takes",
+      "status": "Later",
+      "state": "later",
+      "point": 2
+     },
+     {
+      "name": "Tomorrow’s bed picture",
+      "status": "Later",
+      "state": "later",
+      "point": 3
+     },
+     {
+      "name": "When billing stops and starts again",
+      "status": "Later",
+      "state": "later",
+      "point": 4
+     },
+     {
+      "name": "Who gets the bed ready again",
+      "status": "Later",
+      "state": "later",
+      "point": 5
+     }
+    ],
+    "caption": "Separate areas, not steps in a row. The order between them does not matter.",
+    "sheets": [
+     {
+      "key": "who",
+      "when": "Area 1 · Asking now",
+      "title": "Who runs what",
+      "text": "Does one team handle both discharges and admissions, or are there two teams?",
+      "lines": [
+       {
+        "label": "When",
+        "value": "I’m asking this one now.",
+        "state": "start"
+       }
+      ]
+     },
+     {
+      "key": "tat",
+      "when": "Area 2 · Later",
+      "title": "How long an admission takes",
+      "text": "The five steps of an admission, and a typical day’s clock time for each.",
+      "lines": [
+       {
+        "label": "When",
+        "value": "After the one before it is answered.",
+        "state": "plain"
+       }
+      ]
+     },
+     {
+      "key": "map",
+      "when": "Area 3 · Later",
+      "title": "Tomorrow’s bed picture",
+      "text": "Is there a set way to match tomorrow’s planned admissions against the beds you expect to free up?",
+      "lines": [
+       {
+        "label": "When",
+        "value": "After the one before it is answered.",
+        "state": "plain"
+       }
+      ]
+     },
+     {
+      "key": "bill",
+      "when": "Area 4 · Later",
+      "title": "When billing stops and starts again",
+      "text": "When the leaving patient’s final bill closes, and when the next patient’s first charge appears.",
+      "lines": [
+       {
+        "label": "When",
+        "value": "After the one before it is answered.",
+        "state": "plain"
+       }
+      ]
+     },
+     {
+      "key": "turn",
+      "when": "Area 5 · Later",
+      "title": "Who gets the bed ready again",
+      "text": "Has anyone worked out how many beds housekeeping and transport can ready in the busiest hours?",
+      "lines": [
+       {
+        "label": "When",
+        "value": "After the one before it is answered.",
+        "state": "plain"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: who runs discharges and admissions",
+    "say": "One team does both"
+   },
+   "add": {
+    "detail": "Tell me about your teams",
+    "say": "Our teams work like this: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved by Avishek with the second Diagnosis set (one drawing per turn)."
+ },
+ "reply_check": {
+  "chat_id": "test-chat-1",
+  "turn_id": "rc-02",
+  "user_ref": "u-test",
+  "tool": "Bed Management",
+  "place": "diagnosis",
+  "counted_turn": 2,
+  "run": 1,
+  "action": "answer",
+  "last_reply": {
+   "class": "changed_subject",
+   "quote": "We have 300 beds and they are always full. Which bed management software would you recommend?",
+   "why": "Skips “does that look like your day” and starts on software.",
+   "cause": "missed_the_ask",
+   "priority": "medium"
+  },
+  "ask": {
+   "kind": "question",
+   "text": "Does the same team handle both your discharges and your admissions?"
+  },
+  "sources": {
+   "rules": [
+    "06 §3.3",
+    "06 §6 question"
+   ],
+   "playbook_step": "bed-management-conversation-playbook.md §1, stage 2: dependency verification",
+   "references": [
+    "bed-management.md §7.2"
+   ]
+  }
+ }
+}

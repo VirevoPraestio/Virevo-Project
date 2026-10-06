@@ -23,6 +23,7 @@ v2/
     samples/                       thirteen worked examples, both ratios
   rules/
     always-on/00-core.md           resident, in the cached prefix
+    always-on/09-reply-check-rules.md  resident: reading replies, rating, reset, daily report
     on-demand/01-response-rules.md
     on-demand/02-image-creation-rules.md
     on-demand/04-layout-patterns.md
@@ -33,6 +34,9 @@ v2/
     index/POINT-INDEX.md           524 named points, retriever-side only
     index/points/*.points.md       the per-file extracts it merges
     references/*.md                the five chunked reference files
+  schema/
+    reply-check-report.schema.json   per-turn reply_check record + end-of-day report
+    reply-check-report.sample.json   a valid sample report
   publish/
     lint_chunks.py                 the whole-library chunk lint
     lint_points.py                 the point-index lint

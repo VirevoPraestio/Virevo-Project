@@ -1,0 +1,196 @@
+{
+ "turn": {
+  "id": "dp-au-06",
+  "type": "question",
+  "tool": "Discharge Process",
+  "tab": "Automations",
+  "register": "advisory",
+  "user_message": "What exactly does our IT team need?",
+  "was": "au-05 (helper)",
+  "context": "Automations place, turn 5 (playbook §7: one plain question first, the technical detail only if asked).",
+  "transcript": {
+   "label": "Automations · one question for IT"
+  }
+ },
+ "chat": {
+  "text": [
+   "One question first, before any list. The answer decides what your IT team has to link.",
+   "Are your billing and your doctors’ notes in one system, or in separate ones?"
+  ],
+  "invite": "Anything more technical can wait. Say so, and I will park it until you are ready.",
+  "note": "One question now. The rest can wait.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Read-only access",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Reports as they are signed",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "A test copy first",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Yes, one system. Reports are separate.",
+   "This is too technical for now",
+   "I’d need to check with our IT team"
+  ],
+  "pointer": "Pick an ask to see why it is needed and who does it."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Automations · your IT team",
+    "title": "Five asks, nothing changed",
+    "deck": "Each ask only reads, or is a one-off. Your IT team changes nothing in your systems.",
+    "plate": {
+     "tag": "Automations",
+     "name": "The IT links",
+     "stage": "Idea"
+    }
+   },
+   {
+    "type": "helper",
+    "says": "One question for you first. Then these five things for your IT team. None of it is needed today.",
+    "label": "What I would ask IT",
+    "asks": [
+     {
+      "title": "Read-only access to billing and notes",
+      "who": "Your IT team, once",
+      "tag": "Needed",
+      "tag_state": "needed",
+      "point": 1
+     },
+     {
+      "title": "Each report, as it is signed",
+      "who": "Your IT team, with the lab",
+      "tag": "Needed",
+      "tag_state": "needed",
+      "point": 2
+     },
+     {
+      "title": "The list of charges and their prices",
+      "who": "Billing, with IT",
+      "tag": "A list",
+      "tag_state": "waiting"
+     },
+     {
+      "title": "A test copy of one ward’s records",
+      "who": "Your IT team, once",
+      "tag": "For testing",
+      "tag_state": "waiting",
+      "point": 3
+     },
+     {
+      "title": "One named person in your IT team",
+      "who": "Your Head of IT",
+      "tag": "One person",
+      "tag_state": "ours"
+     }
+    ],
+    "park": "Anything more technical can wait. Say so, and Tojo will park it until you are ready.",
+    "sheets": [
+     {
+      "key": "a1",
+      "when": "Ask 1 of 5",
+      "title": "Read-only access to billing and notes",
+      "text": "Tojo only reads. Nothing can be changed or deleted.",
+      "lines": [
+       {
+        "label": "Who does it",
+        "value": "Your IT team, once"
+       }
+      ],
+      "entry": "Who could give read-only access?"
+     },
+     {
+      "key": "a2",
+      "when": "Ask 2 of 5",
+      "title": "Each report, as it is signed",
+      "text": "So the summary never waits for a report.",
+      "lines": [
+       {
+        "label": "Who does it",
+        "value": "Your IT team, with the lab"
+       }
+      ],
+      "entry": "How do reports reach doctors today?"
+     },
+     {
+      "key": "a3",
+      "when": "Ask 3 of 5",
+      "title": "The list of charges and their prices",
+      "text": "So the bill can be kept up to date, charge by charge.",
+      "lines": [
+       {
+        "label": "Who does it",
+        "value": "Billing, with IT"
+       }
+      ],
+      "entry": "Where is your price list kept?"
+     },
+     {
+      "key": "a4",
+      "when": "Ask 4 of 5",
+      "title": "A test copy of one ward’s records",
+      "text": "With the patient names hidden. So we can try it before any real patient.",
+      "lines": [
+       {
+        "label": "Who does it",
+        "value": "Your IT team, once"
+       }
+      ],
+      "entry": "Which ward could we copy?"
+     },
+     {
+      "key": "a5",
+      "when": "Ask 5 of 5",
+      "title": "One named person in your IT team",
+      "text": "One contact, so questions do not wait.",
+      "lines": [
+       {
+        "label": "Who does it",
+        "value": "Your Head of IT"
+       }
+      ],
+      "entry": "Who looks after your hospital software?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Changed in your systems",
+    "value": "Nothing",
+    "state": "start",
+    "sub": "Every link only reads. Your records stay as they are, and your teams keep working in them."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: answer the one question",
+    "say": "Yes, one system. Reports are separate."
+   },
+   "add": {
+    "detail": "Tell me about your systems",
+    "say": "Our billing and notes are kept like this: "
+   },
+   "jump": {
+    "tab": "Processes",
+    "detail": "How the day changes on the wards",
+    "say": "Take me to Processes"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

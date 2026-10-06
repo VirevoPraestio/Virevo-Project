@@ -2,7 +2,7 @@
  "$schema": "https://json-schema.org/draft/2020-12/schema",
  "$id": "tojo-response.schema.json",
  "title": "Tojo response spec",
- "description": "The single JSON object Claude returns for every Tojo turn. Chat parts are rendered by the app; canvas blocks are validated against blocks/registry.json and rendered offline by generator/tojo_html.py.",
+ "description": "The single JSON object Claude returns for every Tojo turn. Chat parts are rendered by the app; canvas blocks are validated against blocks/registry.json and rendered offline by generator/tojo_html.py. Every live turn also carries reply_check (rule 09, rules/08 §11).",
  "type": "object",
  "required": [
   "turn",
@@ -236,6 +236,10 @@
      "type": "string"
     }
    }
+  },
+  "reply_check": {
+   "$ref": "../../../tojo-v2%20-%20Regular%20Chat/schema/reply-check-report.schema.json#/$defs/turn_record",
+   "description": "The reply-check record of rule 09 §9 (tojo-v2 - Regular Chat/rules/always-on/09-reply-check-rules.md). On every live turn; checked by tool-layer/reply_check.py; stored by the app and never shown. See rules/08 §11."
   }
  }
 }

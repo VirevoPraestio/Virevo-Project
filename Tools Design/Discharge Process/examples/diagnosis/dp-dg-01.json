@@ -1,0 +1,265 @@
+{
+ "turn": {
+  "id": "dp-dg-01",
+  "type": "question",
+  "tool": "Discharge Process",
+  "tab": "Diagnosis",
+  "register": "advisory",
+  "user_message": "Discharge delays. Our patients are medically fit by mid-morning but most don’t leave till late afternoon.",
+  "was": "turn-01 (dp-01), route-map",
+  "context": "Discharge sample conversation, turn 1 (playbook §1: check how the work really runs before proposing anything).",
+  "transcript": {
+   "label": "Sample conversation · turn 1 · walk the road"
+  }
+ },
+ "chat": {
+  "text": [
+   "Before I suggest anything, I want to see how discharge really runs at your hospital. Most delays that look like discharge problems start further up the road.",
+   "First stop, the doctors. Who writes the discharge summary, who checks it, and who signs it? And when do rounds finish on your busiest wards?"
+  ],
+  "pointer": "The whole road is drawn as rooms on one path. Tap any room to see what I will ask there.",
+  "note": "Most delays start long before the billing desk.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The doctors: who writes, checks and signs",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Nurses: when they count used supplies",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Pharmacy: medicines going back",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Billing: bills opened again",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Rounds finish around 11 AM",
+   "A junior doctor writes it, the consultant signs",
+   "Why start with the doctors?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "The road home · stop 1 of 11",
+    "title": "The road to going home",
+    "deck": "Eleven stops, each run by a different team. We walk them one at a time."
+   },
+   {
+    "type": "ward-map",
+    "start_label": "Doctor decides",
+    "end_label": "Bed ready",
+    "stops": [
+     {
+      "name": "The doctors",
+      "status": "now",
+      "tag": "A",
+      "heard": "“Discharges are just slow”",
+      "point": 1
+     },
+     {
+      "name": "Supply count",
+      "status": "next",
+      "tag": "B",
+      "heard": "“Billing is slow”",
+      "point": 2
+     },
+     {
+      "name": "Pharmacy returns",
+      "status": "later",
+      "tag": "C",
+      "heard": "“Still waiting on pharmacy”",
+      "point": 3
+     },
+     {
+      "name": "Billing",
+      "status": "later",
+      "tag": "D",
+      "heard": "“Bills changed at the counter”",
+      "point": 4
+     },
+     {
+      "name": "Insurance desk",
+      "status": "later",
+      "tag": "E"
+     },
+     {
+      "name": "Bed desk",
+      "status": "later",
+      "tag": "F"
+     },
+     {
+      "name": "Housekeeping",
+      "status": "later",
+      "tag": "G"
+     },
+     {
+      "name": "Transport",
+      "status": "later",
+      "tag": "H"
+     },
+     {
+      "name": "Operating theatre",
+      "status": "later",
+      "tag": "I"
+     },
+     {
+      "name": "Last checks",
+      "status": "later",
+      "tag": "J"
+     },
+     {
+      "name": "Cash counter",
+      "status": "later",
+      "tag": "K"
+     }
+    ],
+    "sheets": [
+     {
+      "key": "a",
+      "when": "Stop 1 of 11",
+      "title": "The doctors",
+      "text": "The summary is drafted, checked and signed by different people. The round decides when any of it can start.",
+      "lines": [
+       {
+        "label": "What we often hear",
+        "value": "Discharges are just slow"
+       }
+      ],
+      "entry": "Who writes, checks and signs the summary?",
+      "entry_hint": "Type a rough answer. It goes into your message."
+     },
+     {
+      "key": "b",
+      "when": "Stop 2 of 11",
+      "title": "Supply count",
+      "text": "The bill cannot be finished until nurses count the used supplies. They count only when they are free.",
+      "lines": [
+       {
+        "label": "What we often hear",
+        "value": "Billing is slow"
+       }
+      ],
+      "entry": "How long after signing do nurses start counting?",
+      "entry_hint": "Type a rough answer. It goes into your message."
+     },
+     {
+      "key": "c",
+      "when": "Stop 3 of 11",
+      "title": "Pharmacy returns",
+      "text": "What was given, what was used and what goes back. Counted by hand, it means a second pass on the bill.",
+      "lines": [
+       {
+        "label": "What we often hear",
+        "value": "Still waiting on pharmacy"
+       }
+      ],
+      "entry": "Who works out the medicines going back?",
+      "entry_hint": "Type a rough answer. It goes into your message."
+     },
+     {
+      "key": "d",
+      "when": "Stop 4 of 11",
+      "title": "Billing",
+      "text": "A charge that arrives after the bill is closed opens it again.",
+      "lines": [
+       {
+        "label": "What we often hear",
+        "value": "Bills changed at the counter"
+       }
+      ],
+      "entry": "How many bills were reopened last month?",
+      "entry_hint": "Type a rough answer. It goes into your message."
+     },
+     {
+      "key": "e",
+      "when": "Stop 5 of 11",
+      "title": "Insurance desk",
+      "text": "The insurer’s approval sits inside the family’s wait.",
+      "entry": "Does your discharge time include the insurance wait?",
+      "entry_hint": "Type a rough answer. It goes into your message."
+     },
+     {
+      "key": "f",
+      "when": "Stop 6 of 11",
+      "title": "Bed desk",
+      "text": "Discharge times can only be checked against when beds were given out.",
+      "entry": "Can the bed desk say when beds were given?",
+      "entry_hint": "Type a rough answer. It goes into your message."
+     },
+     {
+      "key": "g",
+      "when": "Stop 7 of 11",
+      "title": "Housekeeping",
+      "text": "A bed is cleaned from when housekeeping hears, not from when the patient left.",
+      "entry": "How long until housekeeping hears a bed is free?",
+      "entry_hint": "Type a rough answer. It goes into your message."
+     },
+     {
+      "key": "h",
+      "when": "Stop 8 of 11",
+      "title": "Transport",
+      "text": "Porters are shared with admissions and scans, at the same busy hour.",
+      "entry": "How many porters work at the busy hour?",
+      "entry_hint": "Type a rough answer. It goes into your message."
+     },
+     {
+      "key": "i",
+      "when": "Stop 9 of 11",
+      "title": "Operating theatre",
+      "text": "A bed freed late cannot be used for an operation that same day.",
+      "entry": "What is the latest a freed bed helps?",
+      "entry_hint": "Type a rough answer. It goes into your message."
+     },
+     {
+      "key": "j",
+      "when": "Stop 10 of 11",
+      "title": "Last checks",
+      "text": "The dietitian, the pharmacist and the nurse must each see the patient, in no set order.",
+      "entry": "Who must see the patient before they leave?",
+      "entry_hint": "Type a rough answer. It goes into your message."
+     },
+     {
+      "key": "k",
+      "when": "Stop 11 of 11",
+      "title": "Cash counter",
+      "text": "Every patient going home meets one counter, in the same two hours.",
+      "entry": "Who can let a patient go with money owed?",
+      "entry_hint": "Type a rough answer. It goes into your message."
+     }
+    ],
+    "caption": "Each stop is a team. The question in each room is the one I will ask when we get there."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: answer the first stop",
+    "say": "Rounds finish around 11 AM"
+   },
+   "add": {
+    "detail": "Tell me about your doctors",
+    "say": "About our doctors and the summary: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the wait could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

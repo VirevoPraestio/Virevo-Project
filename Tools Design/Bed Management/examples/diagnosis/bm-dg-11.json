@@ -117,7 +117,22 @@
      }
     ]
    }
-  ]
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: the five parts",
+    "say": "Show me the five parts"
+   },
+   "add": {
+    "detail": "Tell me about the rule",
+    "say": "About the ready-bed rule: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
  },
  "review": {
   "status": "approved",

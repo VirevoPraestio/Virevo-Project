@@ -1,0 +1,338 @@
+{
+ "turn": {
+  "id": "dp-pr-07",
+  "type": "findings",
+  "tool": "Discharge Process",
+  "tab": "Processes",
+  "register": "advisory",
+  "user_message": "A normal Tuesday: doctors decide anywhere from 6 to 9 PM, depending on the consultant. They sign around 11. Papers ready 12:30, bill final 1:30, insurance approves around 2:30, patient leaves 3:15, bed ready 4:30.",
+  "was": "turn-12 (dp-12), fill-blank filled + cards + stat-strip",
+  "context": "Discharge sample conversation, turn 12 (playbook §6: say what shifted, recompute, name what holds).",
+  "transcript": {
+   "label": "Sample conversation · turn 12 · your real times"
+  },
+  "redraw_of": "dp-pr-06"
+ },
+ "chat": {
+  "text": [
+   "Your real times change the picture a little, and mostly in a useful way. Two of my guesses held up. One was wrong in a way that helps.",
+   "The decision time is not fixed. It moves with each consultant. So the trial should start with the consultants who decide latest, because their patients lose the most of the evening."
+  ],
+  "invite": "Shall I update the trial plan with these times?",
+  "note": "The latest decisions lose the most time.",
+  "points": [
+   {
+    "n": 1,
+    "label": "When doctors decide",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The wait from ready to home",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Papers after signing",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The bed after the patient leaves",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Yes, update the trial plan",
+   "Why is the bed ready so late?",
+   "Can consultants decide earlier?"
+  ],
+  "pointer": "Your normal Tuesday, on the same line. Pick a step or a finding to open it."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "The trial · your starting times",
+    "title": "One normal day, step by step",
+    "deck": "Your normal Tuesday on the same line, with the time between each step.",
+    "plate": {
+     "column": "The trial",
+     "name": "Your starting times"
+    }
+   },
+   {
+    "type": "timesheet",
+    "mode": "filled",
+    "label": "Your times",
+    "day": "A normal Tuesday",
+    "steps": [
+     {
+      "title": "Doctor decides",
+      "field": "time",
+      "value": "6–9 PM",
+      "state": "target",
+      "point": 1
+     },
+     {
+      "title": "Doctor signs",
+      "field": "time",
+      "value": "11 AM",
+      "state": "plain",
+      "gap": "about 14 hours"
+     },
+     {
+      "title": "Papers ready",
+      "field": "time",
+      "value": "12:30 PM",
+      "state": "plain",
+      "gap": "1½ hours",
+      "point": 3
+     },
+     {
+      "title": "Bill final",
+      "field": "time",
+      "value": "1:30 PM",
+      "state": "plain",
+      "gap": "1 hour"
+     },
+     {
+      "title": "Insurance approves",
+      "field": "time, if insured",
+      "value": "2:30 PM",
+      "state": "plain",
+      "gap": "1 hour"
+     },
+     {
+      "title": "Patient leaves",
+      "field": "time",
+      "value": "3:15 PM",
+      "state": "outcome",
+      "gap": "45 minutes",
+      "point": 2
+     },
+     {
+      "title": "Bed ready again",
+      "field": "time",
+      "value": "4:30 PM",
+      "state": "target",
+      "gap": "75 minutes",
+      "point": 4
+     }
+    ],
+    "caption": "All seven times are yours. The gaps are worked out from them.",
+    "sheets": [
+     {
+      "key": "s1",
+      "when": "Step 1 of 7",
+      "title": "Doctor decides",
+      "text": "The decision starts everything. If nobody writes it down, say so.",
+      "lines": [
+       {
+        "label": "Your time",
+        "value": "6–9 PM",
+        "state": "target"
+       }
+      ]
+     },
+     {
+      "key": "s2",
+      "when": "Step 2 of 7",
+      "title": "Doctor signs",
+      "text": "The morning signature. Today every paper waits for it.",
+      "lines": [
+       {
+        "label": "Your time",
+        "value": "11 AM",
+        "state": "start"
+       },
+       {
+        "label": "Since the step before",
+        "value": "about 14 hours"
+       }
+      ]
+     },
+     {
+      "key": "s3",
+      "when": "Step 3 of 7",
+      "title": "Papers ready",
+      "text": "When the summary is ready to hand over.",
+      "lines": [
+       {
+        "label": "Your time",
+        "value": "12:30 PM",
+        "state": "start"
+       },
+       {
+        "label": "Since the step before",
+        "value": "1½ hours"
+       }
+      ]
+     },
+     {
+      "key": "s4",
+      "when": "Step 4 of 7",
+      "title": "Bill final",
+      "text": "When the final bill is closed.",
+      "lines": [
+       {
+        "label": "Your time",
+        "value": "1:30 PM",
+        "state": "start"
+       },
+       {
+        "label": "Since the step before",
+        "value": "1 hour"
+       }
+      ]
+     },
+     {
+      "key": "s5",
+      "when": "Step 5 of 7",
+      "title": "Insurance approves",
+      "text": "For insured patients only. When the insurer says yes.",
+      "lines": [
+       {
+        "label": "Your time",
+        "value": "2:30 PM",
+        "state": "start"
+       },
+       {
+        "label": "Since the step before",
+        "value": "1 hour"
+       }
+      ]
+     },
+     {
+      "key": "s6",
+      "when": "Step 6 of 7",
+      "title": "Patient leaves",
+      "text": "When the patient leaves the ward.",
+      "lines": [
+       {
+        "label": "Your time",
+        "value": "3:15 PM",
+        "state": "outcome"
+       },
+       {
+        "label": "Since the step before",
+        "value": "45 minutes"
+       }
+      ]
+     },
+     {
+      "key": "s7",
+      "when": "Step 7 of 7",
+      "title": "Bed ready again",
+      "text": "When the bed is clean and ready for the next patient.",
+      "lines": [
+       {
+        "label": "Your time",
+        "value": "4:30 PM",
+        "state": "target"
+       },
+       {
+        "label": "Since the step before",
+        "value": "75 minutes"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "findings",
+    "label": "What your times changed",
+    "items": [
+     {
+      "tag": "Changed",
+      "value": "Decided 6 to 9 PM",
+      "line": "Not a fixed 7 PM. It depends on the consultant.",
+      "point": 1
+     },
+     {
+      "tag": "Confirmed",
+      "value": "Papers take 1½ hours",
+      "line": "Signed at 11 AM, ready at 12:30.",
+      "point": 3
+     },
+     {
+      "tag": "New",
+      "value": "Bed ready 75 minutes later",
+      "line": "The bed sits empty after the patient leaves.",
+      "point": 4
+     }
+    ],
+    "caption": "Muted, because these are your facts. Nothing in this row is my proposal.",
+    "sheets": [
+     {
+      "key": "f1",
+      "when": "Changed",
+      "title": "Doctors decide 6 to 9 PM",
+      "text": "The unused hours overnight are 14 to 17, not 16. Patients of late deciders get the least time, so the trial starts with those consultants.",
+      "lines": [
+       {
+        "label": "Was",
+        "value": "A fixed 7 PM, my guess"
+       }
+      ],
+      "entry": "Which consultants decide latest?"
+     },
+     {
+      "key": "f2",
+      "when": "Confirmed",
+      "title": "Papers take 1½ hours",
+      "text": "This is the typing step the software removes. It was the biggest hold-up I expected, and your times agree.",
+      "lines": [
+       {
+        "label": "Held up",
+        "value": "The biggest hold-up",
+        "state": "start"
+       }
+      ]
+     },
+     {
+      "key": "f3",
+      "when": "New",
+      "title": "Bed ready 75 minutes later",
+      "text": "Part of this may be waiting for housekeeping to hear. We will check it in the trial.",
+      "lines": [
+       {
+        "label": "Goal",
+        "value": "Under 30 minutes",
+        "state": "target"
+       }
+      ],
+      "entry": "How does housekeeping hear today?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Hours each patient waits",
+    "value": "5 hours 15 minutes",
+    "state": "outcome",
+    "sub": "Your times. I had 5 hours. The yearly cost moves from ₹10.3 crore to ₹10.9 crore, the most it could be."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: update the trial plan",
+    "say": "Yes, update the trial plan"
+   },
+   "add": {
+    "detail": "Tell me about one of the times",
+    "say": "About one of our times: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

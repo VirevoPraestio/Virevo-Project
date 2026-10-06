@@ -1,0 +1,170 @@
+{
+ "turn": {
+  "id": "dp-so-07",
+  "type": "recommendation",
+  "tool": "Discharge Process",
+  "tab": "Solutions",
+  "register": "advisory",
+  "user_message": "What would we do first?",
+  "was": "so-06 (route)",
+  "context": "Solutions place, turn 6 (playbook §7: a low-commitment trial first, then a choice).",
+  "transcript": {
+   "label": "Solutions · next steps"
+  }
+ },
+ "chat": {
+  "text": [
+   "Start with a two-week trial on one ward. Begin with the consultants who decide latest, because they gain the most.",
+   "It needs no new staff and no new system. It turns our biggest guess into a measured fact."
+  ],
+  "invite": "Which would you like to go into first?",
+  "note": "Prove it on one ward, then decide on the rest.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The two-week trial",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The person in charge",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Linking the hospital software",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Walk me through the daily automation",
+   "Scope the two-week trial",
+   "I’d need to check with my team"
+  ],
+  "pointer": "Three steps on one path. At the end, pick a door."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Next steps",
+    "title": "Try it on one ward first",
+    "deck": "Three steps in order. The first needs nothing new from you."
+   },
+   {
+    "type": "route",
+    "hint": "Pick a step to open it. Then choose a door.",
+    "steps": [
+     {
+      "title": "Two-week trial on one ward",
+      "what": "Night work starts for the consultants who decide latest.",
+      "point": 1
+     },
+     {
+      "title": "Put one person in charge",
+      "what": "One Discharge Manager now. Two helpers after the trial.",
+      "point": 2
+     },
+     {
+      "title": "Link the hospital software",
+      "what": "Your IT team lets Tojo read your records, so drafting can start.",
+      "point": 3
+     }
+    ],
+    "sheets": [
+     {
+      "key": "r1",
+      "when": "Two weeks",
+      "title": "Two-week trial on one ward",
+      "text": "The new order of work runs by hand on one ward. No new staff and no new system.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "No new staff, no new system",
+        "state": "start"
+       },
+       {
+        "label": "We measure",
+        "value": "Hours from ready to home"
+       }
+      ],
+      "entry": "Which ward has the latest deciders?"
+     },
+     {
+      "key": "r2",
+      "when": "During the trial",
+      "title": "Put one person in charge",
+      "text": "One Discharge Manager now, to run the trial. Two helpers once the trial shows your busy hours.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "A yes from your Head of Operations",
+        "state": "target"
+       },
+       {
+        "label": "We measure",
+        "value": "Patients home by noon"
+       }
+      ],
+      "entry": "Who could run the trial here?"
+     },
+     {
+      "key": "r3",
+      "when": "After the trial",
+      "title": "Link the hospital software",
+      "text": "Your IT team lets Tojo read your records. Then drafting and the running bill can start.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "One person in your IT team",
+        "state": "target"
+       },
+       {
+        "label": "We measure",
+        "value": "Summaries ready before the round ends"
+       }
+      ],
+      "entry": "Who looks after your hospital software?"
+     }
+    ],
+    "fork": {
+     "question": "Which do you want to go into first?",
+     "options": [
+      {
+       "tab": "Automations",
+       "label": "The daily automation",
+       "what": "What runs by itself, from the evening round to going home",
+       "say": "Walk me through the daily automation"
+      },
+      {
+       "tab": "Processes",
+       "label": "Scoping the trial",
+       "what": "Which ward, who records the times, what we measure",
+       "say": "Scope the two-week trial"
+      }
+     ]
+    }
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: the daily automation",
+    "say": "Walk me through the daily automation"
+   },
+   "add": {
+    "detail": "Tell me what your team thinks",
+    "say": "My team’s view is: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "What runs by itself, night and day",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

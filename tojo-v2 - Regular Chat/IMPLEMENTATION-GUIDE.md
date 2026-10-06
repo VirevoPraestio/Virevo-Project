@@ -24,6 +24,7 @@ which step.
 ┌─────────────────────────────────────────────────────────────────────┐
 │ 2  BUILD THE CACHED PREFIX        identical every turn, fixed order  │
 │    USES:  rules/always-on/00-core.md                                │
+│           rules/always-on/09-reply-check-rules.md                   │
 │           rules/always-on/00a-register-sales.md    ── exactly ONE    │
 │              OR  00b-register-advisor.md           ──                │
 │           skill/.../index/GROUP-CATALOGUE.md                        │
@@ -104,7 +105,8 @@ which step.
 │ 11 LOG                                                              │
 │    tokens by block · cache read vs write · chunks retrieved and why │
 │    · figures stubbed · freehand escapes · queries that matched      │
-│    nothing (the gap register)                                       │
+│    nothing (the gap register) · the turn's `reply_check` record     │
+│    USES:  schema/reply-check-report.schema.json  ($defs.turn_record)│
 └───────────────────────────────┬─────────────────────────────────────┘
                                 ▼
                           RESPONSE + 2 SVG FILES
@@ -117,6 +119,8 @@ which step.
 | File | Loaded | Purpose |
 |---|---|---|
 | `rules/always-on/00-core.md` | every call, cached | persona, source discipline, response and image trigger rules |
+| `rules/always-on/09-reply-check-rules.md` | every call, cached | reading each reply, the opening line, the rating every 10th turn, the reset after two misses, the per-turn record and the end-of-day report |
+| `schema/reply-check-report.schema.json` | log step, and the midnight report job | the per-turn `reply_check` record and the end-of-day report the back-end agent reads |
 | `rules/always-on/00a` / `00b` | every call, one only | the register. Never both — the model cannot blend two voices it cannot both see |
 | `index/GROUP-CATALOGUE.md` | every call, cached | twelve function groups. Does not grow as the library does |
 | `index/POINT-INDEX.md` | **never in the prompt** | 524 named points → chunk ids. Retriever-side lookup only |
@@ -129,6 +133,16 @@ which step.
 | `image/DESIGN-TOKENS.md` | never at runtime | the visual spec, for whoever maintains the renderers |
 | `publish/lint_chunks.py` | CI | front-matter, ids, `needs`/`see`, maintainer leakage |
 | `publish/lint_points.py` | CI | point ids resolve, no orphans, chunk coverage |
+
+---
+
+## 2a. The reply check (rule 09)
+
+Three things around the model, none of them inside it:
+
+1. **The three fixed lines live in the app,** not in the prompt. When the turn's `reply_check.say` is `opening`, `rating` or `reset`, show that line as its own message: the opening and reset lines before the turn, and the rating question on its own, holding the user's message until it is answered. The exact words are in 09 §2.2, §4.2 and §5.2.
+2. **Store every `reply_check` record** at the log step, keyed by chat and turn. Validate it against `$defs.turn_record`. Strip it from what the user sees.
+3. **At midnight India time, run the report job.** Give the model rule 09, the schema and the day's records. It returns one report. Validate it against the schema, then send it to the back-end agent (`Backend Agent/skills/reply-check-review`). Changes the back-end agent applies after approval go live at the next midnight, never part-way through a day.
 
 ---
 

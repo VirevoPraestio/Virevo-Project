@@ -193,7 +193,22 @@
     "value": "Occupancy stays where it is",
     "sub": "Your 89% is set by demand and length of stay, not by scheduling. The gain is the bed earning again sooner."
    }
-  ]
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: start with the automations",
+    "say": "Start with the automations"
+   },
+   "add": {
+    "detail": "Tell me which part matters most",
+    "say": "The part that matters most to us is: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
  },
  "review": {
   "status": "approved",

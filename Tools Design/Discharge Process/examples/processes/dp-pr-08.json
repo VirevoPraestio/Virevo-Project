@@ -1,0 +1,202 @@
+{
+ "turn": {
+  "id": "dp-pr-08",
+  "type": "part",
+  "tool": "Discharge Process",
+  "tab": "Processes",
+  "register": "advisory",
+  "user_message": "Scope the two-week trial",
+  "was": "pr-01 (trial)",
+  "context": "Processes place, turn 1 (the trial, day by day: three quiet days first, then the changes in two steps).",
+  "transcript": {
+   "label": "Processes · the two weeks"
+  }
+ },
+ "chat": {
+  "text": [
+   "Here is the trial, day by day. Nothing changes for the first three days, so we get the ward’s own starting times.",
+   "Then the changes come in two steps. On days 12 to 14 we read the numbers together."
+  ],
+  "invite": "Next, we can see who has to agree before day 1.",
+  "note": "Three quiet days first. Then we know what changed.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The trial ward",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Days 1 to 3, today’s times",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The evening round",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Reading the numbers",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Who has to agree to this?",
+   "What changes on the ward, step by step?",
+   "Which ward should we start on?"
+  ],
+  "pointer": "Play the two weeks, or pick a part of the trial to open it."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · the trial",
+    "title": "Two weeks on one ward",
+    "deck": "Fourteen days, in four parts. Nothing changes in the first three.",
+    "plate": {
+     "column": "The trial",
+     "name": "The two weeks"
+    }
+   },
+   {
+    "type": "trial",
+    "ward": {
+     "label": "The ward whose consultants decide latest",
+     "status": "needed",
+     "note": "They gain the most, so the change shows fastest. You pick the ward.",
+     "ask": "Which ward would you start on?",
+     "ask_hint": "Type the ward’s name",
+     "point": 1
+    },
+    "needs": [
+     "No new staff",
+     "No new system",
+     "The one-tap form on a ward phone",
+     "One person to record the times"
+    ],
+    "phases": [
+     {
+      "from": 1,
+      "to": 3,
+      "title": "Record today’s times",
+      "who": "Ward nurse in charge",
+      "point": 2
+     },
+     {
+      "from": 4,
+      "to": 7,
+      "title": "The evening round starts it",
+      "who": "Doctors and the night nurse",
+      "point": 3
+     },
+     {
+      "from": 8,
+      "to": 11,
+      "title": "Insurance and family the night before",
+      "who": "Insurance desk and ward nurse"
+     },
+     {
+      "from": 12,
+      "to": 14,
+      "title": "Read the numbers",
+      "who": "You, the ward and Tojo",
+      "point": 4
+     }
+    ],
+    "condition": "Goals for each measure are set on day 3, from the ward’s own times. None are guessed now.",
+    "sheets": [
+     {
+      "key": "p1",
+      "when": "Days 1 to 3",
+      "title": "Record today’s times",
+      "text": "Nothing changes yet. The ward records when each patient is ready to go and when they leave.",
+      "lines": [
+       {
+        "label": "Who acts",
+        "value": "Ward nurse in charge"
+       },
+       {
+        "label": "Recorded",
+        "value": "Ready to go home, Left the ward"
+       }
+      ],
+      "entry": "What would get in the way on these days?"
+     },
+     {
+      "key": "p2",
+      "when": "Days 4 to 7",
+      "title": "The evening round starts it",
+      "text": "Doctors mark likely discharges on the evening round. The night nurse starts the papers and the bill.",
+      "lines": [
+       {
+        "label": "Who acts",
+        "value": "Doctors and the night nurse"
+       },
+       {
+        "label": "Recorded",
+        "value": "Decided on the evening round, Papers ready by the morning round"
+       }
+      ],
+      "entry": "What would get in the way on these days?"
+     },
+     {
+      "key": "p3",
+      "when": "Days 8 to 11",
+      "title": "Insurance and family the night before",
+      "text": "The insurance desk sends its request the evening before. The family hears the leaving time that night.",
+      "lines": [
+       {
+        "label": "Who acts",
+        "value": "Insurance desk and ward nurse"
+       },
+       {
+        "label": "Recorded",
+        "value": "Insurance approval time, Family told the night before"
+       }
+      ],
+      "entry": "What would get in the way on these days?"
+     },
+     {
+      "key": "p4",
+      "when": "Days 12 to 14",
+      "title": "Read the numbers",
+      "text": "Compare the trial days with days 1 to 3. Then choose: adjust and try again, or spread to more wards.",
+      "lines": [
+       {
+        "label": "Who acts",
+        "value": "You, the ward and Tojo"
+       },
+       {
+        "label": "Recorded",
+        "value": "Hours from ready to home, Patients home by 10 AM"
+       }
+      ],
+      "entry": "What would get in the way on these days?"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: who has to agree",
+    "say": "Who has to agree to this?"
+   },
+   "add": {
+    "detail": "Tell me which ward to start on",
+    "say": "The ward we would start on is: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

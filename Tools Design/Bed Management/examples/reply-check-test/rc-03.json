@@ -1,0 +1,180 @@
+{
+ "turn": {
+  "id": "rc-03",
+  "type": "diagnosis",
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "advisory",
+  "user_message": "No, you are not getting it. I don’t need a questionnaire. I need to know why our beds sit empty for hours.",
+  "note_for_review": "Miss 2 in a row (not understood, high). The app shows the reset line. Tojo rechecks, then answers what was asked: why beds earn nothing for hours. One question only, with Something else."
+ },
+ "chat": {
+  "text": [
+   "Then let’s start with the why. In most hospitals your size, the bed stops earning long before it is empty, for four usual reasons.",
+   "They feed each other. One of them is usually a rule nobody wrote down: a bed is given only once it is ready. So nobody is called in until late, and the late arrival seems to prove the rule.",
+   "Which of the four sounds most like your hospital?"
+  ],
+  "pointer": "Tap each reason to see how it keeps a bed from earning.",
+  "note": "The bed stops earning when the bill closes, not when it empties.",
+  "question": {
+   "text": "Which sounds most like you?",
+   "options": [
+    "A bed is given only once it is ready",
+    "One team does discharges and admissions",
+    "Patients stay in bed long after the bill",
+    "Cleaning starts late",
+    "Something else"
+   ]
+  },
+  "points": [
+   {
+    "n": 1,
+    "label": "Bed given only once ready",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "One team for both jobs",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Bill closed, patient still in bed",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Cleaning told late",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "A bed is given only once it is ready",
+   "All four, honestly",
+   "How much is this costing us?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Why a bed earns nothing for hours",
+    "title": "Four reasons, one loop",
+    "deck": "The usual reasons in hospitals your size. Not yet checked against yours."
+   },
+   {
+    "type": "cards",
+    "label": "What usually keeps a bed from earning",
+    "items": [
+     {
+      "title": "Bed given only once ready",
+      "text": "Nobody can be called in against a bed until it is nearly free. So arrivals drift to the afternoon.",
+      "tag": "Most common",
+      "point": 1,
+      "more_label": "See how it plays out",
+      "more_points": [
+       "The bed is put against a name only after the ward says it is ready.",
+       "So the next patient is called late.",
+       "The late arrival then seems to prove beds were never free earlier."
+      ]
+     },
+     {
+      "title": "One team for both jobs",
+      "text": "The same team does discharges in the morning and admissions after. The job with a deadline wins.",
+      "point": 2,
+      "more_label": "See how it plays out",
+      "more_points": [
+       "Discharges take the morning, until about noon to 2 PM.",
+       "Admissions are then booked for later in the day.",
+       "Two jobs that should overlap run one after the other."
+      ]
+     },
+     {
+      "title": "Bill closed, patient still in bed",
+      "text": "Billing stops when the final bill closes, late morning. The patient often stays until evening.",
+      "point": 3,
+      "more_label": "See how it plays out",
+      "more_points": [
+       "Insurance approval, payment and the family briefing all happen with the patient in the bed.",
+       "Nothing is charged to that bed all this time."
+      ]
+     },
+     {
+      "title": "Cleaning told late",
+      "text": "Housekeeping hears only once the patient has left, and may be short at the busy hour.",
+      "point": 4,
+      "more_label": "See how it plays out",
+      "more_points": [
+       "The clock for cleaning starts when someone tells housekeeping, not when the patient leaves.",
+       "Nobody has usually worked out how many beds they can ready at the busiest hour."
+      ]
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Dead bed time",
+    "value": "Last bill closed to next bill opened",
+    "state": "outcome",
+    "sub": "Often half a day or more on one bed. Most hospitals have never measured it on its own."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: which reason fits your hospital",
+    "say": "The one that fits us best is: "
+   },
+   "add": {
+    "detail": "Tell me what happens with your beds",
+    "say": "With our beds, what happens is: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
+ },
+ "reply_check": {
+  "chat_id": "test-chat-1",
+  "turn_id": "rc-03",
+  "user_ref": "u-test",
+  "tool": "Bed Management",
+  "place": "diagnosis",
+  "counted_turn": 3,
+  "run": 2,
+  "action": "reset",
+  "last_reply": {
+   "class": "not_understood",
+   "quote": "No, you are not getting it. I don’t need a questionnaire. I need to know why our beds sit empty for hours.",
+   "why": "Says plainly Tojo has missed the point.",
+   "cause": "off_playbook",
+   "priority": "high"
+  },
+  "say": "reset",
+  "ask": {
+   "kind": "question",
+   "text": "Which of the four sounds most like your hospital?"
+  },
+  "sources": {
+   "rules": [
+    "09 §5",
+    "09 §6",
+    "06 §6 diagnosis",
+    "08 §2"
+   ],
+   "playbook_step": "bed-management-conversation-playbook.md §2: the diagnosis as its own turn",
+   "references": [
+    "bed-management.md §6"
+   ]
+  },
+  "recheck": {
+   "user_wants": "To understand why beds earn nothing for hours, before answering more questions.",
+   "playbook": "Tojo kept to the verification agenda after the user asked twice for the cause. Playbook §2 says the mechanism is its own turn and the bill-to-bill loss is the point to make.",
+   "reference": "bed-management.md §6 gives the four usual reasons and says the loss starts when the bill closes, not when the bed empties.",
+   "rules": "The agenda turn answered nothing the user asked. One question at a time still holds; the rework asks one, with Something else.",
+   "cause": "off_playbook",
+   "fix_in_chat": "Name the four usual reasons and the dead bed time first, marked as not yet checked, then ask which fits."
+  }
+ }
+}

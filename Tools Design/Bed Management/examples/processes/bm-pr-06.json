@@ -1,0 +1,231 @@
+{
+ "turn": {
+  "id": "bm-pr-06",
+  "tab": "Processes",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "Where do planned admissions come from?",
+  "context": "Prompt 2 of bm-pr-04 and bm-pr-05. bed-management.md §7.4.2: OPD prescriptions become the intake point for planned-admission data (date, procedure, likely stay, theatre need); the desk confirms back with a tentative bed. The slip is an example.",
+  "transcript": {
+   "label": "After transcript turn 31 · Processes, turn 6 (the record stops at 31)"
+  }
+ },
+ "chat": {
+  "text": [
+   "From the OPD slip. When a doctor advises admission, the slip already holds most of what the bed plan needs."
+  ],
+  "bullets": [
+   "Today those details stay on paper in OPD. The bed is found on the day the patient comes.",
+   "Written down once, they let the plan hold a bed days ahead. The theatre and insurance can start early too.",
+   "When the patient books at the desk, the date is confirmed back. A bed number is attached at once."
+  ],
+  "invite": "Next, we can see who needs to agree to all this.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The procedure",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The admission day",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The likely stay",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "ICU after or not",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Who needs to agree to this?",
+   "Who would write this down in OPD?",
+   "What if the patient does not come?"
+  ],
+  "pointer": "Pick a line of the slip to see what it feeds. Then pull the slip into the bed plan."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · where it starts",
+    "title": "The bed plan starts in OPD",
+    "deck": "One OPD slip, and what each line gives the bed plan. Pull it across to see.",
+    "plate": {
+     "column": "Changes",
+     "name": "The OPD slip"
+    }
+   },
+   {
+    "type": "slip",
+    "slip_title": "OPD prescription · Orthopaedics",
+    "slip_sub": "An example slip, written in OPD on Tuesday",
+    "slip_foot": "OPD doctor",
+    "pull": "Pull into the bed plan",
+    "fields": [
+     {
+      "label": "Procedure",
+      "value": "Knee replacement",
+      "feeds": "Which kind of bed",
+      "point": 1
+     },
+     {
+      "label": "Admit on",
+      "value": "Thursday, 10 AM",
+      "feeds": "Which day",
+      "point": 2
+     },
+     {
+      "label": "Likely stay",
+      "value": "5 days",
+      "feeds": "When the bed frees again",
+      "point": 3
+     },
+     {
+      "label": "Operation theatre",
+      "value": "Friday morning",
+      "feeds": "Theatre slot held"
+     },
+     {
+      "label": "ICU after?",
+      "value": "No",
+      "feeds": "ICU bed or not",
+      "point": 4
+     },
+     {
+      "label": "Paid by",
+      "value": "Insurance",
+      "feeds": "Approval started early"
+     }
+    ],
+    "plan": {
+     "label": "Bed plan · Thursday",
+     "title": "One planned admission",
+     "bed_label": "Bed held",
+     "bed": "3-12",
+     "bed_note": "Held for now. Confirmed when the patient books in."
+    },
+    "rule": "The details are written once, in OPD. The plan, the theatre and the insurance desk all read the same slip.",
+    "sheets": [
+     {
+      "key": "f1",
+      "when": "Line 1",
+      "title": "Procedure",
+      "text": "The procedure tells the plan which ward and which kind of bed.",
+      "lines": [
+       {
+        "label": "Feeds",
+        "value": "Ward and bed type"
+       }
+      ],
+      "entry": "Which procedures fill most of your beds?"
+     },
+     {
+      "key": "f2",
+      "when": "Line 2",
+      "title": "Admit on",
+      "text": "The day lets the bed be held days ahead, not found on the morning.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Found on the day"
+       },
+       {
+        "label": "New",
+        "value": "Held days ahead",
+        "state": "start"
+       }
+      ],
+      "entry": "How far ahead are admissions booked?"
+     },
+     {
+      "key": "f3",
+      "when": "Line 3",
+      "title": "Likely stay",
+      "text": "The likely stay tells the plan when this bed will be free for the next patient.",
+      "lines": [
+       {
+        "label": "Feeds",
+        "value": "The next free time"
+       }
+      ],
+      "entry": "Do OPD doctors write a likely stay today?"
+     },
+     {
+      "key": "f4",
+      "when": "Line 4",
+      "title": "Operation theatre",
+      "text": "A theatre slot booked with the bed, so the stay does not start with a wait.",
+      "lines": [
+       {
+        "label": "Feeds",
+        "value": "The theatre list"
+       }
+      ],
+      "entry": "Who books theatre slots today?"
+     },
+     {
+      "key": "f5",
+      "when": "Line 5",
+      "title": "ICU after?",
+      "text": "If an ICU bed is needed after the procedure, it is planned with the ward bed.",
+      "lines": [
+       {
+        "label": "Feeds",
+        "value": "The ICU plan"
+       }
+      ],
+      "entry": "How often do planned patients need ICU?"
+     },
+     {
+      "key": "f6",
+      "when": "Line 6",
+      "title": "Paid by",
+      "text": "Insurance approval can start before the patient arrives, not on the day.",
+      "lines": [
+       {
+        "label": "Feeds",
+        "value": "The insurance desk"
+       }
+      ],
+      "entry": "How long do approvals take here?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Planned admissions with a slip",
+    "value": "Measured from day one",
+    "sub": "Nobody counts this today. Without it, the bed plan has nothing to plan from.",
+    "state": "target",
+    "look": "meter"
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: who needs to agree",
+    "say": "Who needs to agree to this?"
+   },
+   "add": {
+    "detail": "Tell me how OPD books admissions",
+    "say": "In our OPD, admissions are booked like this: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the Bed Management Processes turns."
+ }
+}

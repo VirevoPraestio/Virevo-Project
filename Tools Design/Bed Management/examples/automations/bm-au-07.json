@@ -1,0 +1,300 @@
+{
+ "turn": {
+  "id": "bm-au-07",
+  "tab": "Automations",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "Which automation do we switch on first?",
+  "context": "From transcript 31 (the first step: read access, then four weeks of measuring) and bed-management.md §7.4.1 and §7.4.2. The last Automations turn: the day on the wards, the people, the team and the measures are only named here.",
+  "transcript": {
+   "label": "After transcript turn 31 · Automations, turn 7 (the record stops at 31)"
+  }
+ },
+ "chat": {
+  "text": [
+   "Two automations switch on first. They need only read access and one billing report."
+  ],
+  "bullets": [
+   "Admission steps timed. Each of the five steps is stamped, so paperwork shows apart from waiting.",
+   "Dead bed time measured. Bill close against bill open, bed by bed. Your own number, before anything changes.",
+   "Then discharge is built, and the bed map on top. That step also changes how the day runs on the wards."
+  ],
+  "invite": "When you are ready, we can look at how the day changes on the wards.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Admission steps timed",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Dead bed time measured",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Discharge built",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The bed map",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "How does the day change on the wards?",
+   "Who needs to agree to this?",
+   "How would we know it is working?"
+  ],
+  "pointer": "Step through the build. Pick a row to see when it switches on."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Automations · what comes first",
+    "plate": {
+     "tag": "Automations",
+     "name": "The build panel",
+     "stage": "Idea"
+    },
+    "title": "Two lamps first, then the rest",
+    "deck": "Each row is one automation. Step through the build and watch which lights first."
+   },
+   {
+    "type": "panel",
+    "hint": "Step through the build. Pick a row to see when it switches on.",
+    "phases_label": "The four steps",
+    "rows_label": "Automation",
+    "foot": "Nurses’ station · build panel",
+    "phases": [
+     {
+      "when": "About two weeks",
+      "name": "Read access"
+     },
+     {
+      "when": "Four weeks",
+      "name": "Measure what happens now"
+     },
+     {
+      "when": "Step 3",
+      "name": "Discharge built"
+     },
+     {
+      "when": "Step 4",
+      "name": "The bed map on top"
+     }
+    ],
+    "mains": [
+     {
+      "tag": "Main switch 1",
+      "name": "Read access from IT",
+      "line": "The systems you already run",
+      "on_at": 0
+     },
+     {
+      "tag": "Main switch 2",
+      "name": "Discharge, automated",
+      "line": "The bed plan runs on its times",
+      "on_at": 2
+     }
+    ],
+    "automations": [
+     {
+      "name": "Admission steps timed",
+      "line": "Switched on first",
+      "stages": [
+       1,
+       3,
+       3,
+       3
+      ],
+      "point": 1
+     },
+     {
+      "name": "Dead bed time, measured",
+      "line": "Switched on first",
+      "stages": [
+       1,
+       3,
+       3,
+       3
+      ],
+      "point": 2
+     },
+     {
+      "name": "Discharge times checked",
+      "line": "Comes with discharge",
+      "stages": [
+       0,
+       0,
+       3,
+       3
+      ],
+      "point": 3
+     },
+     {
+      "name": "Who frees a bed, predicted",
+      "line": "Learns from the four weeks",
+      "stages": [
+       0,
+       1,
+       2,
+       3
+      ]
+     },
+     {
+      "name": "Tomorrow’s bed map",
+      "line": "Built on discharge",
+      "stages": [
+       0,
+       0,
+       1,
+       3
+      ],
+      "point": 4
+     },
+     {
+      "name": "Call-in times, bed by bed",
+      "line": "The last to switch on",
+      "stages": [
+       0,
+       0,
+       1,
+       3
+      ]
+     }
+    ],
+    "sheets": [
+     {
+      "key": "steps",
+      "when": "On in step 2",
+      "title": "Admission steps timed",
+      "text": "Each of the five admission steps is stamped. You see your real 3½ hours, step by step, before anything changes.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "Read access only"
+       },
+       {
+        "label": "Makes",
+        "value": "Your own admission times",
+        "state": "start"
+       }
+      ],
+      "entry": "Which admission step feels slowest to you?"
+     },
+     {
+      "key": "dbt",
+      "when": "On in step 2",
+      "title": "Dead bed time, measured",
+      "text": "One report joins bill close and bill open against the same bed. Your 4 to 5 hours becomes a number you track weekly.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "One billing report"
+       },
+       {
+        "label": "Makes",
+        "value": "Dead bed time, bed by bed",
+        "state": "start"
+       }
+      ],
+      "entry": "Has anyone measured this before?"
+     },
+     {
+      "key": "dis",
+      "when": "On in step 3",
+      "title": "Discharge times checked",
+      "text": "Comes with discharge itself. From here on, the bed side plans on real times.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "Discharge, automated",
+        "state": "target"
+       }
+      ],
+      "entry": "Who records discharge times today?"
+     },
+     {
+      "key": "pred",
+      "when": "Learns from step 2",
+      "title": "Who frees a bed, predicted",
+      "text": "The four weeks of measuring give it your own stays. It is tested before the bed map uses it.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "Inpatient notes, past stays"
+       }
+      ],
+      "entry": "How many procedures make up most of your admissions?"
+     },
+     {
+      "key": "map",
+      "when": "On in step 4",
+      "title": "Tomorrow’s bed map",
+      "text": "Built on top of discharge. A first pass at 2 PM and a freeze at 6 PM, every day.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "Discharge, predictions, OPD advice"
+       }
+      ],
+      "entry": "How many planned admissions on a usual day?",
+      "hand": {
+       "who": "the Bed Manager",
+       "does": "Checks the 6 PM freeze before it goes out."
+      }
+     },
+     {
+      "key": "call",
+      "when": "On in step 4",
+      "title": "Call-in times, bed by bed",
+      "text": "The last lamp. It needs everything above, because it tells real patients when to come.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "The bed map and discharge times"
+       },
+       {
+        "label": "Makes",
+        "value": "One call-in time per bed",
+        "state": "target"
+       }
+      ],
+      "entry": "Who should check call-in times at first?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Switched on first",
+    "value": "Two automations",
+    "state": "outcome",
+    "sub": "Both run on read access and one report. Each gives your own number before anything else changes."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: how the day changes on the wards",
+    "say": "How does the day change on the wards?"
+   },
+   "add": {
+    "detail": "Tell me what to measure first",
+    "say": "We would like to measure this first: "
+   },
+   "jump": {
+    "tab": "Processes",
+    "detail": "How the day changes on the wards",
+    "say": "Take me to Processes"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the Bed Management Automations turns."
+ }
+}

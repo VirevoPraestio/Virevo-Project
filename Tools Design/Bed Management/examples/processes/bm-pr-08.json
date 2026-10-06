@@ -1,0 +1,249 @@
+{
+ "turn": {
+  "id": "bm-pr-08",
+  "tab": "Processes",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "Do we need to hire anyone?",
+  "context": "Prompt 1 of bm-pr-07 (and bm-so-04). bed-management.md §7.4.4: the Bed Manager on any one of three triggers (₹4 to 4.5 lakh), Admissions Executives sized by the peak hour (₹3 to 3.5 lakh each), scope added for everyone else. Transcript 22 and 28: two managers as peers, three on the afternoon desk, ₹17 to 19.5 lakh, Discharge Executives not yet sized.",
+  "transcript": {
+   "label": "After transcript turn 31 · Processes, turn 8 (the record stops at 31)"
+  }
+ },
+ "chat": {
+  "text": [
+   "Two managers, and three people on the afternoon desk. The discharge desk is sized once we have your times."
+  ],
+  "bullets": [
+   "A Bed Manager owns the plan from the OPD slip to the bed. Two of the three triggers are met on your numbers.",
+   "A Discharge Manager owns each discharge, so the plan runs on real times. Neither manager reports to the other.",
+   "Three Admissions Executives cover your afternoon peak. One person handles about 5 admissions an hour."
+  ],
+  "invite": "Next, we can see how you would know it is working.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The Bed Manager",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Its triggers",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The Discharge Manager",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Admissions Executives",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "How would we know it is working?",
+   "Can someone we already have do this?",
+   "Why not one manager for both?"
+  ],
+  "pointer": "Pick a role to open it. Its lamps show which triggers your numbers meet."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · the roles",
+    "title": "Two managers, one desk sized",
+    "deck": "The new roles as chairs at the station. Lamps show which triggers your own numbers meet.",
+    "plate": {
+     "column": "Roles",
+     "name": "Who runs it"
+    }
+   },
+   {
+    "type": "seats",
+    "hint": "Pick a role to open it. The lamps show which triggers your numbers meet.",
+    "reports_to": {
+     "name": "Head of Operations",
+     "does": "Both managers report here, as peers."
+    },
+    "roles": [
+     {
+      "name": "Bed Manager",
+      "seats": 1,
+      "cost_low": 4,
+      "cost_high": 4.5,
+      "state": "needed",
+      "does": "Owns the bed plan, from OPD slip to bed. Runs the 2 PM and 6 PM plans.",
+      "rule": "Any one is enough",
+      "point": 1,
+      "triggers": [
+       {
+        "label": "More admissions than empty beds",
+        "value": "41 to about 33",
+        "state": "met",
+        "source": "derived",
+        "point": 2
+       },
+       {
+        "label": "Beds more than 80% full",
+        "value": "89%",
+        "state": "met",
+        "source": "yours"
+       },
+       {
+        "label": "Over half of admissions run late",
+        "state": "unknown",
+        "source": "needed"
+       }
+      ]
+     },
+     {
+      "name": "Discharge Manager",
+      "seats": 1,
+      "cost_low": 4,
+      "cost_high": 4.5,
+      "state": "needed",
+      "does": "Owns each discharge, so the bed plan runs on real times, not guesses.",
+      "rule": "Any one is enough",
+      "point": 3,
+      "triggers": [
+       {
+        "label": "More than 40 discharges a day",
+        "value": "About 41",
+        "state": "met",
+        "source": "derived"
+       },
+       {
+        "label": "Beds more than 80% full",
+        "value": "89%",
+        "state": "met",
+        "source": "yours"
+       }
+      ]
+     },
+     {
+      "name": "Admissions Executives",
+      "seats": 3,
+      "cost_low": 3,
+      "cost_high": 3.5,
+      "each": true,
+      "state": "needed",
+      "does": "Run the desk through the afternoon peak. One person handles about 5 an hour.",
+      "note": "Sized on your busiest hour, not the minimum cover.",
+      "point": 4
+     },
+     {
+      "name": "Discharge Executives",
+      "seats": 2,
+      "cost_low": 3,
+      "cost_high": 3.5,
+      "each": true,
+      "state": "check",
+      "does": "Sized once we know when your discharges happen through the day.",
+      "note": "Not in the cost yet, on purpose."
+     }
+    ],
+    "others": "OPD, Medical Supervisory, the desk and Billing each record a little more. That is a wider job, not a new one.",
+    "sheets": [
+     {
+      "key": "bm",
+      "when": "Needed now",
+      "title": "Bed Manager",
+      "text": "Owns the whole bed plan, end to end. Any one trigger is enough, and two are met on your numbers.",
+      "lines": [
+       {
+        "label": "Cost",
+        "value": "About ₹4 to 4.5 lakh a year"
+       },
+       {
+        "label": "Triggers met",
+        "value": "Two of three",
+        "state": "start"
+       }
+      ],
+      "entry": "Could someone you have take this role?"
+     },
+     {
+      "key": "dm",
+      "when": "Needed now",
+      "title": "Discharge Manager",
+      "text": "Makes discharge times something the bed plan can trust. A peer of the Bed Manager, not under it.",
+      "lines": [
+       {
+        "label": "Cost",
+        "value": "About ₹4 to 4.5 lakh a year"
+       },
+       {
+        "label": "Reports to",
+        "value": "Head of Operations"
+       }
+      ],
+      "entry": "Who runs discharges today?"
+     },
+     {
+      "key": "ae",
+      "when": "Needed now",
+      "title": "Admissions Executives",
+      "text": "About 41 admissions a day, arriving over a short window. The busiest hour needs three people at 5 an hour each.",
+      "lines": [
+       {
+        "label": "Cost",
+        "value": "About ₹3 to 3.5 lakh each a year"
+       },
+       {
+        "label": "Sized by",
+        "value": "Your busiest hour"
+       }
+      ],
+      "entry": "How many people are on the desk at 2 PM?"
+     },
+     {
+      "key": "de",
+      "when": "Needs your numbers",
+      "title": "Discharge Executives",
+      "text": "The usual rule says one for every 15 discharges a day. At another hospital the real answer was lower, once its busy hours were known.",
+      "lines": [
+       {
+        "label": "Need from you",
+        "value": "When discharges happen in a day",
+        "state": "target"
+       }
+      ],
+      "entry": "When do most discharges happen here?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Cost of the new roles",
+    "value": "₹17 to 19.5 lakh yearly",
+    "sub": "Two managers and three Admissions Executives. This is the full cost, not the extra cost, until we know who is on each desk today.",
+    "state": "target",
+    "look": "ticket"
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: how we would know it works",
+    "say": "How would we know it is working?"
+   },
+   "add": {
+    "detail": "Tell me who is on the desk now",
+    "say": "On our desk today we have: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the Bed Management Processes turns."
+ }
+}

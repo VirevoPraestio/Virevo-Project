@@ -193,7 +193,22 @@
     ],
     "worst": "5½ hours at worst, and up to 7 on the days it stretches to 8 PM."
    }
-  ]
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: is the morning kept for discharges",
+    "say": "It happens, but informally"
+   },
+   "add": {
+    "detail": "Tell me more about the wait",
+    "say": "About the wait for a bed: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
  },
  "review": {
   "status": "approved",

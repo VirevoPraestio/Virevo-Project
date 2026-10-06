@@ -67,6 +67,9 @@ BASE = {
         'points': [{'n': i + 1, 'label': x, 'canvas': True} for i, x in enumerate(POINTS)],
         'prompts': ['How would all of this be done?', 'What if we don’t have such systems?', 'Take me to part 2, the process changes']},
 }
+ACTIONS = {'go': {'detail': 'Next: how all of this would be done', 'say': 'How would all of this be done?'},
+           'add': {'detail': 'Add something about your hospital', 'say': 'Here is something to add about our hospital: '},
+           'jump': {'tab': 'Automations', 'detail': 'How the automations are built and run', 'say': 'Take me to Automations'}}
 PLATE = {'part': 1, 'of': 5, 'name': 'Automations', 'stage': 'Shaped'}
 EFFECT = {'type': 'effect', 'label': 'Time to a bed', 'value': 'Under 30 minutes', 'state': 'outcome',
           'sub': 'From about 3½ hours today. Paperwork is the one step that cannot be made shorter.'}
@@ -75,7 +78,9 @@ def sample(letter, name, what, pointer, heading, block):
     s = copy.deepcopy(BASE)
     s['turn']['sample'] = {'letter': letter, 'name': name, 'what': what}
     s['chat']['pointer'] = pointer
-    s['canvas'] = {'blocks': [dict({'type': 'heading', 'eyebrow': 'Part 1 · Automations', 'plate': PLATE}, **heading), block, copy.deepcopy(EFFECT)]}
+    s['review'] = {'status': 'approved', 'date': '2026-10-01', 'note': ('Approved 1 Oct: the turn (Avishek’s preference).' if letter == 'A' else 'Approved 1 Oct as a template; Sample A is the turn.')}
+    s['canvas'] = {'blocks': [dict({'type': 'heading', 'eyebrow': 'Part 1 · Automations', 'plate': PLATE}, **heading), block, copy.deepcopy(EFFECT)],
+                   'actions': copy.deepcopy(ACTIONS)}
     return s
 
 A = sample('A', 'Six switches, one bulb',

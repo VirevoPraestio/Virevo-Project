@@ -17,7 +17,7 @@ Every turn has its own drawing (rules/08 §2), redrawn 30 Sep 2026 after the box
 Tojo's wording is the transcript's, in the plain English the rules require; the transcript's own words are kept in
 turn.transcript.said. Run once; afterwards edit the JSON files.
 """
-import copy, json, os
+import dg_actions, copy, json, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 BASE = {'tool': 'Bed Management', 'tab': 'Diagnosis', 'register': 'guided'}
 
@@ -366,6 +366,7 @@ man = {'note': 'The turns of Bed Management Diagnosis, in conversation order. On
        'turns': [{'file': 'bm-dg-01-A.json', 'note': 'Transcript turn 7, the case reveal. Approved 30 Sep 2026: Sample A, the day on one line.'}]}  # bm-dg-02 to 12 approved 1 Oct 2026
 for s in SPECS:
     s['review'] = {'status': 'approved', 'date': '2026-10-01', 'note': 'Approved by Avishek with the second Diagnosis set (one drawing per turn).'}
+    dg_actions.add(s)
     fn = s['turn']['id'] + '.json'
     json.dump(s, open(os.path.join(HERE, fn), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     man['turns'].append({'file': fn, 'note': NOTES[s['turn']['id']]})

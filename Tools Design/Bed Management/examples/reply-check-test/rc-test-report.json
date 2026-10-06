@@ -1,0 +1,195 @@
+{
+ "report_id": "rc-2026-10-06-test-nagpur-300",
+ "day": "2026-10-06",
+ "deployment": "test-nagpur-300",
+ "written_at": "2026-10-07T00:02:00+05:30",
+ "files_read": [
+  {
+   "file": "tojo-v2 - Regular Chat/rules/always-on/00-core.md",
+   "version": "v2"
+  },
+  {
+   "file": "tojo-v2 - Regular Chat/rules/always-on/09-reply-check-rules.md",
+   "version": "v1 2026-10-06"
+  },
+  {
+   "file": "Tools Design/Common Elements/rules/06-html-response-rules.md",
+   "version": "v2 with F12, 2026-10-06"
+  },
+  {
+   "file": "Tools Design/Common Elements/rules/08-shared-turn-rules.md",
+   "version": "2026-10-06"
+  },
+  {
+   "file": "tojo-v2 - Regular Chat/skill/virevo-hospital-ops/references/bed-management-conversation-playbook.md",
+   "version": "2026-10-01"
+  },
+  {
+   "file": "tojo-v2 - Regular Chat/skill/virevo-hospital-ops/references/bed-management.md",
+   "version": "2026-09-09"
+  }
+ ],
+ "totals": {
+  "chats": 1,
+  "counted_turns": 20,
+  "ratings": {
+   "good": 1,
+   "fine": 1,
+   "bad": 0,
+   "skipped": 0
+  },
+  "misses": {
+   "ignored": 0,
+   "not_understood": 1,
+   "changed_subject": 1,
+   "rating_fine": 1,
+   "rating_bad": 0,
+   "unsure": 0
+  },
+  "resets": 2,
+  "reworks_recovered": 2,
+  "ask_directly": 0,
+  "findings": {
+   "high": 1,
+   "medium": 1,
+   "low": 0
+  },
+  "by_tool": [
+   {
+    "tool": "Bed Management",
+    "place": "diagnosis",
+    "counted_turns": 20,
+    "misses": 3,
+    "resets": 2
+   }
+  ]
+ },
+ "findings": [
+  {
+   "finding_id": "f-2026-10-06-01",
+   "priority": "high",
+   "cause": "off_playbook",
+   "tool": "Bed Management",
+   "place": "diagnosis",
+   "section_at_fault": "bed-management-conversation-playbook.md §1, stage 2",
+   "title": "Kept to the question agenda when the user wanted the cause first",
+   "what_happened": "After the case reveal the user jumped to software, then said plainly Tojo was not getting it: they wanted to know why beds sit empty. Tojo had gone straight into the five areas of questions. The rework named the four usual reasons first, and the user then answered.",
+   "chats": 1,
+   "misses": 2,
+   "history": [
+    {
+     "chat_id": "test-chat-1",
+     "turn_id": "rc-02",
+     "counted_turn": 2,
+     "user_ref": "u-test",
+     "tojo_said": "question turn: Five areas, one question at a time",
+     "user_reply": "We have 300 beds and they are always full. Which bed management software would you recommend?",
+     "reply_class": "changed_subject",
+     "action": "answer",
+     "sources": {
+      "rules": [
+       "06 §3.3",
+       "06 §6 question"
+      ],
+      "playbook_step": "bed-management-conversation-playbook.md §1, stage 2: dependency verification",
+      "references": [
+       "bed-management.md §7.2"
+      ]
+     },
+     "tojo_asked": "Does the same team handle both your discharges and your admissions?"
+    },
+    {
+     "chat_id": "test-chat-1",
+     "turn_id": "rc-03",
+     "counted_turn": 3,
+     "user_ref": "u-test",
+     "tojo_said": "diagnosis turn: Four reasons, one loop",
+     "user_reply": "No, you are not getting it. I don’t need a questionnaire. I need to know why our beds sit empty for hours.",
+     "reply_class": "not_understood",
+     "action": "reset",
+     "sources": {
+      "rules": [
+       "09 §5",
+       "09 §6",
+       "06 §6 diagnosis",
+       "08 §2"
+      ],
+      "playbook_step": "bed-management-conversation-playbook.md §2: the diagnosis as its own turn",
+      "references": [
+       "bed-management.md §6"
+      ]
+     },
+     "tojo_asked": "Which of the four sounds most like your hospital?",
+     "recheck_found": "Tojo kept to the verification agenda after the user asked twice for the cause. Playbook §2 says the mechanism is its own turn and the bill-to-bill loss is the point to make.",
+     "recovered": true
+    }
+   ],
+   "suggested_changes": [
+    {
+     "change_id": "ch-2026-10-06-01",
+     "file": "tojo-v2 - Regular Chat/skill/virevo-hospital-ops/references/bed-management-conversation-playbook.md",
+     "file_version": "2026-10-01",
+     "section": "§1, stage 2",
+     "kind": "add",
+     "words_today": "2. **Dependency verification** (`bed-management.md` §7.2) — five areas, agenda shown as a graphic, questions put one at a time.",
+     "words_suggested": "   If the hospital asks why its beds sit empty before the five areas are done, answer that first. Show the usual reasons from `bed-management.md` §6, marked as not yet checked against theirs. Then ask which one fits, and come back to the five areas from there.",
+     "reason": "off_playbook. The playbook gives no move for a user who wants the cause before the questions, so Tojo kept to the agenda twice. With this line he would have shown the four reasons at the first sign, one turn earlier, and kept the user.",
+     "reach": "this_subject",
+     "confidence": "medium"
+    }
+   ]
+  },
+  {
+   "finding_id": "f-2026-10-06-02",
+   "priority": "medium",
+   "cause": "too_long",
+   "tool": "Bed Management",
+   "place": "diagnosis",
+   "section_at_fault": "06 §5.1",
+   "title": "Rated Fine after three long turns in a row",
+   "what_happened": "The rating at the 20th turn came back Fine. The three turns before it ran over 150 words each, with three drawings under the heading. The rework was two short paragraphs and the five parts only, and the user picked a part.",
+   "chats": 1,
+   "misses": 1,
+   "history": [
+    {
+     "chat_id": "test-chat-1",
+     "turn_id": "rc-20",
+     "counted_turn": 20,
+     "user_ref": "u-test",
+     "tojo_said": "overview turn: Five parts, the full design",
+     "user_reply": "Okay. So what do we actually do about it?",
+     "reply_class": "rating_fine",
+     "action": "reset",
+     "sources": {
+      "rules": [
+       "09 §4.3",
+       "09 §6",
+       "06 §10.1"
+      ],
+      "playbook_step": "bed-management-conversation-playbook.md §3: five-part solution overview",
+      "references": [
+       "bed-management.md §7.4"
+      ]
+     },
+     "tojo_asked": "Which part first?",
+     "rating": "fine",
+     "recheck_found": "The diagnosis is done; playbook §3 says the next turn is the five-part overview, one part per turn after.",
+     "recovered": true
+    }
+   ],
+   "no_change_reason": "06 §5.1 already says most turns stay under about 150 words. The rule was right; Tojo broke it. No change suggested; watch for repeats."
+  }
+ ],
+ "user_notes": [
+  {
+   "user_ref": "u-test",
+   "note": "Wants the reason first, then the questions.",
+   "turns": [
+    "rc-02",
+    "rc-03"
+   ],
+   "priority": "low"
+  }
+ ],
+ "repeats": []
+}

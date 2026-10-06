@@ -1,0 +1,184 @@
+{
+ "turn": {
+  "id": "dp-so-04",
+  "type": "challenge",
+  "tool": "Discharge Process",
+  "tab": "Solutions",
+  "register": "advisory",
+  "user_message": "Our doctors don’t use voice notes, and we don’t record half these details today.",
+  "was": "so-03 (maze)",
+  "context": "Solutions place, turn 3 (playbook §5: a factual correction is new information. Reframe the capability as a new layer).",
+  "transcript": {
+   "label": "Solutions · a correction"
+  }
+ },
+ "chat": {
+  "text": [
+   "Fair challenge. I described your rounds as if each decision was already recorded. It isn’t, and it doesn’t need to be.",
+   "Tojo adds the recording as a new layer. Your hospital only shares what it already keeps."
+  ],
+  "invite": "Or we can look at which part saves the most time.",
+  "note": "Tojo adds the recording. Your hospital only shares what it already keeps.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Voice notes on the round",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Typing every summary at night",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Waiting for new software",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The one-tap form",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What if some notes are on paper?",
+   "What does our IT team have to do?",
+   "Which part saves the most time?"
+  ],
+  "pointer": "Pick a route through the maze. Three hit a wall. One gets through."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 1 · a correction",
+    "title": "A new layer, not a new habit",
+    "deck": "Four ways to record each decision on the evening round. Three hit a wall. One gets through with what you already have.",
+    "plate": {
+     "part": 1,
+     "of": 5,
+     "name": "Automations",
+     "stage": "Shaped"
+    }
+   },
+   {
+    "type": "maze",
+    "start": "Record each decision on the evening round",
+    "goal": "Every decision recorded, nothing new to learn",
+    "routes": [
+     {
+      "kind": "dead",
+      "name": "Voice notes on the round",
+      "why": "Your doctors don’t use them. Asking for them adds work to a busy round.",
+      "point": 1
+     },
+     {
+      "kind": "dead",
+      "name": "Type every summary at night",
+      "why": "Your typists work in the morning. The queue moves to the night, but the work stays.",
+      "point": 2
+     },
+     {
+      "kind": "dead",
+      "name": "Wait for new hospital software",
+      "why": "It takes months. The two-week trial does not need it.",
+      "point": 3
+     },
+     {
+      "kind": "way",
+      "name": "A one-tap form, and notes you keep",
+      "why": "The doctor taps once on the ward phone for each decision. Tojo drafts the rest from your files.",
+      "needs": [
+       "Doctors deciding on the evening round, as today",
+       "Notes and reports kept in your software",
+       "Your IT team lets Tojo read your records"
+      ],
+      "point": 4
+     }
+    ],
+    "sheets": [
+     {
+      "key": "voice",
+      "when": "Ruled out",
+      "title": "Voice notes on the round",
+      "text": "You told me your doctors don’t use voice notes. A new habit on a busy round would not last.",
+      "lines": [
+       {
+        "label": "Why it fails",
+        "value": "Adds work to the round",
+        "state": "outcome"
+       }
+      ]
+     },
+     {
+      "key": "night",
+      "when": "Ruled out",
+      "title": "Type every summary at night",
+      "text": "Moving the typing to the night only moves the queue. Somebody still types every summary.",
+      "lines": [
+       {
+        "label": "Why it fails",
+        "value": "The work stays the same",
+        "state": "outcome"
+       }
+      ]
+     },
+     {
+      "key": "wait",
+      "when": "Ruled out",
+      "title": "Wait for new hospital software",
+      "text": "New software takes months to choose and set up. The trial can start in weeks without it.",
+      "lines": [
+       {
+        "label": "Why it fails",
+        "value": "Months before anything changes",
+        "state": "outcome"
+       }
+      ]
+     },
+     {
+      "key": "tap",
+      "when": "The way through",
+      "title": "A one-tap form, and notes you keep",
+      "text": "One tap on the ward phone for each decision. Everything else is drafted from what your software already holds.",
+      "lines": [
+       {
+        "label": "Asks of doctors",
+        "value": "One tap a patient",
+        "state": "start"
+       },
+       {
+        "label": "Asks of IT",
+        "value": "Read-only access",
+        "state": "target"
+       }
+      ],
+      "entry": "Which details are not recorded anywhere today?",
+      "entry_hint": "For example: why a test was ordered"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: which part saves the most time",
+    "say": "Which part saves the most time?"
+   },
+   "add": {
+    "detail": "Tell me what you record today",
+    "say": "Today we record these on the ward: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "What runs by itself, night and day",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

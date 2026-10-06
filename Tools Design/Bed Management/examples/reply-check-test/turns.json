@@ -1,0 +1,25 @@
+{
+ "note": "Test turns for rule 09, the reply check. One practice chat, Bed Management Diagnosis.",
+ "turns": [
+  {
+   "file": "rc-01.json",
+   "note": "First message of a new chat. The app shows the opening line as its own message, then the case reveal (approved bm-dg-01, Sample B)."
+  },
+  {
+   "file": "rc-02.json",
+   "note": "Miss 1: the user skips the question and changes the subject to software. Run 1, medium. Tojo does not say so. He answers the software question in one line and carries on with the agenda."
+  },
+  {
+   "file": "rc-03.json",
+   "note": "Miss 2 in a row (not understood, high). The app shows the reset line. Tojo rechecks, then answers what was asked: why beds earn nothing for hours. One question only, with Something else."
+  },
+  {
+   "file": "rc-10.json",
+   "note": "The 10th counted turn. The rating is asked first and the user’s message is held. Good: one short line, then the answer (approved bm-dg-05)."
+  },
+  {
+   "file": "rc-20.json",
+   "note": "The 20th counted turn. Rating first; the user says Fine, so the app shows the reset line. Recheck: the user wants the fix; the last turns ran long. Rework: shorter, the five parts named, nothing else to read."
+  }
+ ]
+}

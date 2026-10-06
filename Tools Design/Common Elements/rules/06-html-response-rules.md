@@ -11,6 +11,7 @@ This file is complete on its own. It holds the method (how an answer is worked o
 - `blocks/registry.json`: which Diagnosis blocks exist, with their slots and status.
 - `landing-common/landing-registry.json`: the approved landing page of each tab.
 - **The tool's domain reference file,** for example `references/discharge-process.md`. It supplies the facts. Where it says what something contains, that content wins over anything inferred.
+- `tojo-v2 - Regular Chat/rules/always-on/09-reply-check-rules.md`: the checks Tojo runs on every user message before he answers (the opening line, the rating every 10th turn, the reset after two misses), and the record every turn carries. How a tool carries it out is in 08 §11.
 
 ---
 
@@ -28,7 +29,8 @@ This file is complete on its own. It holds the method (how an answer is worked o
 | F8 | **Expanders hold real detail.** A button says what it opens ("See what it does") and opens to 2–6 concrete points. A button that opens to one thin line is not allowed. | §7 step 5. `more_label` and `more_points` slots. |
 | F9 | **Fill in the detail from the domain reference file** whenever a turn touches it (for discharge: §7.4 for the solution parts, §8 for the measures). Never leave a part generic when the file already says what it contains. | §7 step 5. |
 | F10 | **Every third turn, the shade changes.** Same colours, one step lighter, so sets of turns can be told apart. Colour is a rule, not stored content: the generator applies it from the turn number. | §10. Registry `tones`. |
-| F11 | **Every tab has a landing page** showing progress so far and what Tojo still has to do, with three buttons: Proceed with next step, Add more, Jump to the next tab. It refreshes every night at midnight and whenever the user presses Refresh now. | §11. |
+| F11 | **Every tab has a landing page** showing progress so far and what Tojo still has to do, with three buttons: Proceed with next step, Add more, Jump to the next tab. It refreshes every night at midnight and whenever the user presses Refresh now. **From 1 Oct 2026 the three buttons also close every turn** (rules/08 §8). | §11. rules/08 §8. |
+| F12 | **Tojo checks every reply before he answers.** He reads how the user answered his last turn, asks for a rating every 10th turn, resets after two misses in a row or a Fine or Bad rating, and records every turn for the end-of-day report. | Rule 09 (always on, in `tojo-v2 - Regular Chat`). Every spec carries `reply_check` (08 §11). |
 
 New feedback gets the next number here, and a note in the registry entry of the block or template it concerns (§13).
 

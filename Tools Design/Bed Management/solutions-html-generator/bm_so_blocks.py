@@ -101,6 +101,7 @@ def r_jigsaw(b, ctx):
         cells.append(('<div class="jg-cell" style="--r:%d;--c:%d"><button type="button"%s data-rel="%s" data-n="%d" data-state="%s"%s>%s<span class="jg-face">%s<span class="jg-tx"><small>Piece %d · %s</small>'
                       '<b>%s</b><em>%s</em></span></span></button></div>') % (
             r + 1, c + 1, pick(grp, sh['key'], first, 'jg-p'), rel, i + 1, 'outcome' if last else 'plain', pt(p), ''.join(svgs), bulb, i + 1, e(p['when']), e(p['title']), e(p['line'])))
+        if p.get('label'): cells[-1] = cells[-1].replace('<small>Piece %d · %s</small>' % (i + 1, e(p['when'])), '<small>%s</small>' % e(p['label']))
         rel_names = ', '.join('Piece %d, %s' % (x, names[x]) for x in p.get('relies_on', [])) or 'Nothing before it'
         sh2 = dict(sh); sh2['lines'] = [{'label': 'Relies on', 'value': rel_names, 'state': 'target'}] + list(sh.get('lines', []))
         cells.append(sheet(sh2, grp, first, 'mob'))
@@ -114,12 +115,13 @@ def r_route(b, ctx):
     grp = ctx.uid('sort'); st, sheets = b['steps'], b['sheets']; items, boxes = [], []
     for i, s in enumerate(st):
         sh = sheets[i]; first = i == 0
-        items.append('<li><button type="button"%s%s><span class="rt-n">%d</span><span><small class="rt-when">%s</small><b>%s</b><em>%s</em></span></button>%s</li>' % (
+        items.append((('<li class="rt-muted">' if s.get('muted') else '<li>') + '<button type="button"%s%s><span class="rt-n">%d</span><span><small class="rt-when">%s</small><b>%s</b><em>%s</em></span></button>%s</li>') % (
             pick(grp, sh['key'], first, 'rt-s'), pt(s), i + 1, e(sh['when']), e(s['title']), e(s['what']), sheet(sh, grp, first, 'mob')))
         boxes.append(sheet(sh, grp, first, 'desk'))
     f = b['fork']
-    doors = ''.join('<button type="button" class="rt-door rt-so" data-say-lead data-text="%s"><span class="rt-tab">%s</span><b>%s</b><em>%s</em></button>' % (
-        e(o['say']), e(o['tag']), e(o['label']), e(o['what'])) for o in f['options'])
+    TK = {'Automations': 'au', 'Processes': 'pr'}
+    doors = ''.join('<button type="button" class="rt-door rt-%s" data-say-lead data-text="%s"><span class="rt-tab">%s</span><b>%s</b><em>%s</em></button>' % (
+        TK.get(o.get('tab'), 'so'), e(o['say']), e(('Opens ' + o['tab']) if o.get('tab') else o['tag']), e(o['label']), e(o['what'])) for o in f['options'])
     return ('<section class="sx-block sx-route so-route" data-block="route">%s<ol class="rt-line" style="--n:%d">%s</ol>%s'
             '<div class="rt-fork"><div class="rt-q"><span class="rt-bulb">%s</span><b>%s</b></div><div class="rt-doors">%s</div></div></section>') % (
         hint(b.get('hint') or 'Pick a station to open it.'), len(st), ''.join(items), desk(boxes), G['so'].BULB, e(f['question']), doors)
@@ -130,7 +132,7 @@ CLOCK = ('<svg class="so-eff-clock" viewBox="0 0 40 40" aria-hidden="true"><circ
 
 def r_effect(b, ctx):
     n = getattr(ctx, 'turn', 1); k = getattr(ctx, 'eff', 0); ctx.eff = k + 1
-    style = b.get('look') or EFFECT_STYLES[(n // 2 + k + getattr(ctx, 'sample', 0)) % len(EFFECT_STYLES)]
+    style = b.get('look') or EFFECT_STYLES[(n + k + getattr(ctx, 'sample', 0)) % len(EFFECT_STYLES)]
     mark = '<span class="so-eff-mk" aria-hidden="true"><span class="bm-bed">%s</span>%s</span>' % (G['C'].bed_svg(30), CLOCK)
     return ('<section class="sx-block so-eff so-eff-%s" data-block="effect" data-state="%s">%s<div class="so-eff-b"><div class="sx-label">%s</div><div class="so-eff-v">%s</div>'
             '<p>%s</p></div></section>') % (style, e(b.get('state', 'plain')), mark, e(b['label']), e(b['value']), e(b['sub']))
@@ -265,6 +267,8 @@ CSS = r'''
 .rt-when{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--line)}
 .so-route .rt-line>li:last-child .rt-n{border-color:var(--red);color:var(--red)}
 .so-route .rt-door{font:inherit}
+.so-route .rt-muted .rt-s>span:last-child{background:#ECEFEC;border-color:var(--wire)}.so-route .rt-muted .rt-n{border-color:var(--wire);color:var(--muted);background:#ECEFEC}
+.so-route .rt-muted .rt-s b{color:var(--muted)}
 .rt-so .rt-tab{background:var(--soft);color:var(--line);border:1px solid var(--line)}
 .so-route .rt-door.is-said{background:#FBF1D2;border-color:var(--gold-t)}
 .so-route .rt-q .sx-bulb{width:40px;height:50px}

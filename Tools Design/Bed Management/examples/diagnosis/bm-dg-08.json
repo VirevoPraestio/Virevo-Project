@@ -134,7 +134,22 @@
      }
     ]
    }
-  ]
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: send the five figures",
+    "say": "I’ll send all five now"
+   },
+   "add": {
+    "detail": "Send the figures you have",
+    "say": "Here are the figures I have: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
  },
  "review": {
   "status": "approved",

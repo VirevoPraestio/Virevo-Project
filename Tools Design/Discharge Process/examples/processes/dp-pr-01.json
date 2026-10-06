@@ -1,0 +1,326 @@
+{
+ "turn": {
+  "id": "dp-pr-01",
+  "type": "part",
+  "tool": "Discharge Process",
+  "tab": "Processes",
+  "register": "advisory",
+  "user_message": "Show me the changes on the wards",
+  "was": "turn-06 (dp-06), two-flow + cards",
+  "context": "Discharge sample conversation, turn 6 (playbook §4: function by function, today against with Virevo).",
+  "transcript": {
+   "label": "Sample conversation · turn 6 · the changes on the wards"
+  }
+ },
+ "chat": {
+  "text": [
+   "Most of the work stays the same. What changes is when it starts, and who writes it. Why these changes:"
+  ],
+  "bullets": [
+   "Starting in the evening only works if each team knows it has started, so the software tells them.",
+   "Staff approve instead of writing, so nobody does the same work twice.",
+   "The discharge papers are the biggest hold-up today, so they change the most."
+  ],
+  "invite": "Next is the people who must agree, and who has the most to give up.",
+  "note": "Same steps. They just start the night before.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The evening round",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Discharge papers, the biggest hold-up",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The bill and the supply count",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Insurance",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Family and transport",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Show me the people who must agree",
+   "Why are the papers the biggest hold-up?",
+   "One team does both discharges and admissions"
+  ],
+  "pointer": "Switch between today and with the changes. Pick a job to open it."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 2 · Changes on the wards",
+    "title": "Same steps, started the night before",
+    "deck": "Each job on one clock, from the evening round to the next afternoon.",
+    "plate": {
+     "column": "Changes",
+     "name": "The ward’s day"
+    }
+   },
+   {
+    "type": "night-lanes",
+    "from": "18:00",
+    "to": "16:00",
+    "night": {
+     "from": "23:00",
+     "to": "07:00",
+     "label": "The night"
+    },
+    "switch": {
+     "today": "Today",
+     "with": "With the changes",
+     "cap_today": "Everything waits for the 11 AM signature. The patient leaves about 3 PM.",
+     "cap_with": "Most of the work moves to the evening before. The morning only checks and signs."
+    },
+    "lanes": [
+     {
+      "name": "Evening round",
+      "who": "Doctors",
+      "today": {
+       "from": "19:00",
+       "to": "19:45",
+       "label": "Decided, not written down",
+       "state": "plain"
+      },
+      "with": {
+       "from": "19:00",
+       "to": "19:45",
+       "label": "Decision recorded, papers start",
+       "state": "start"
+      },
+      "point": 1
+     },
+     {
+      "name": "Discharge papers",
+      "who": "Doctors, typists",
+      "today": {
+       "from": "11:00",
+       "to": "12:30",
+       "label": "Typed after the round",
+       "state": "outcome"
+      },
+      "with": {
+       "from": "19:30",
+       "to": "21:00",
+       "label": "Drafted, signed on a phone",
+       "state": "start"
+      },
+      "flag": "Biggest hold-up",
+      "point": 2
+     },
+     {
+      "name": "Bill and supplies",
+      "who": "Nurses, billing",
+      "today": {
+       "from": "12:00",
+       "to": "13:30",
+       "label": "Counted, then billed",
+       "state": "plain"
+      },
+      "with": {
+       "from": "19:00",
+       "to": "23:00",
+       "label": "Kept up to date",
+       "state": "start"
+      },
+      "point": 3
+     },
+     {
+      "name": "Insurance",
+      "who": "Insurance desk",
+      "today": {
+       "from": "13:30",
+       "to": "14:30",
+       "label": "Sent after the bill",
+       "state": "plain"
+      },
+      "with": {
+       "from": "21:00",
+       "to": "22:00",
+       "label": "First bill sent that night",
+       "state": "start"
+      },
+      "point": 4
+     },
+     {
+      "name": "Family and transport",
+      "who": "Ward nurse",
+      "today": {
+       "from": "13:00",
+       "to": "15:00",
+       "label": "Called on the day",
+       "state": "plain"
+      },
+      "with": {
+       "from": "20:00",
+       "to": "21:00",
+       "label": "Told the night before",
+       "state": "start"
+      },
+      "point": 5
+     },
+     {
+      "name": "Admissions",
+      "who": "The same team",
+      "today": {
+       "from": "12:00",
+       "to": "16:00",
+       "label": "Wait behind discharges",
+       "state": "target"
+      },
+      "with": {
+       "from": "09:00",
+       "to": "12:00",
+       "label": "Run at the same time",
+       "state": "start"
+      },
+      "flag": "Check this"
+     }
+    ],
+    "caption": "The 7 PM round and the 11 AM signature are your times. The other times are my estimate.",
+    "sheets": [
+     {
+      "key": "l1",
+      "when": "Doctors",
+      "title": "Evening round",
+      "text": "Doctors already decide on the 7 PM round. Today nothing is written down, so no team can start.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Decided, not written down"
+       },
+       {
+        "label": "With the change",
+        "value": "Decision recorded, papers start",
+        "state": "start"
+       }
+      ],
+      "entry": "Who hears the decision on the round today?"
+     },
+     {
+      "key": "l2",
+      "when": "Doctors, typists",
+      "title": "Discharge papers",
+      "text": "The papers are the biggest hold-up today, so they change the most. A ready draft is checked and signed.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Typed after the round"
+       },
+       {
+        "label": "With the change",
+        "value": "Drafted, signed on a phone",
+        "state": "start"
+       }
+      ],
+      "entry": "How long does one summary take to type?"
+     },
+     {
+      "key": "l3",
+      "when": "Nurses, billing",
+      "title": "Bill and supplies",
+      "text": "Today nurses count supplies before billing can start. With the change, the bill is kept up to date and nurses only check.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Counted, then billed"
+       },
+       {
+        "label": "With the change",
+        "value": "Kept up to date",
+        "state": "start"
+       }
+      ],
+      "entry": "Who counts the supplies today?"
+     },
+     {
+      "key": "l4",
+      "when": "Insurance desk",
+      "title": "Insurance",
+      "text": "Today the insurer is asked only once the bill is final. With the change, a first bill goes the evening before.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Sent after the bill"
+       },
+       {
+        "label": "With the change",
+        "value": "First bill sent that night",
+        "state": "start"
+       }
+      ],
+      "entry": "Which insurers take longest?"
+     },
+     {
+      "key": "l5",
+      "when": "Ward nurse",
+      "title": "Family and transport",
+      "text": "Today the family is called late and arrives in the afternoon. With the change, they hear the leaving time that evening.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Called on the day"
+       },
+       {
+        "label": "With the change",
+        "value": "Told the night before",
+        "state": "start"
+       }
+      ],
+      "entry": "When does the family hear today?"
+     },
+     {
+      "key": "l6",
+      "when": "The same team",
+      "title": "Admissions",
+      "text": "One team runs leaving and arriving, so admissions queue behind discharges. Split the team, or run both at once. It costs nothing but the new order.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Wait behind discharges"
+       },
+       {
+        "label": "With the change",
+        "value": "Run at the same time",
+        "state": "start"
+       }
+      ],
+      "entry": "Is it one team, or two?"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: the people who must agree",
+    "say": "Show me the people who must agree"
+   },
+   "add": {
+    "detail": "Tell me how your wards run",
+    "say": "On our wards today: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

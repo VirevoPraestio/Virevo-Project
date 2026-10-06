@@ -1,0 +1,222 @@
+{
+ "turn": {
+  "id": "bm-pr-11",
+  "tab": "Processes",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "What do you need from us to start?",
+  "context": "Prompt 1 of bm-pr-10. Transcript 31 (to start: read access from IT and one name to own this) and the four numbers still missing in the record (desk roster per shift, hour-by-hour arrivals, internal transfers, the discharge pattern). The last Processes turn; the jump goes back to Diagnosis.",
+  "transcript": {
+   "label": "After transcript turn 31 · Processes, turn 11 (the record stops at 31)"
+  }
+ },
+ "chat": {
+  "text": [
+   "Two things to start, and four numbers to finish the picture. Type them straight into the clipboard."
+  ],
+  "bullets": [
+   "To start: one name to own this, and who in IT gives read access.",
+   "The four numbers turn the cost into a difference and size both desks on your real hours.",
+   "At the end of step 2 you have your own dead bed time. If it is smaller than we said, you will know first."
+  ],
+  "invite": "Send what you have. Rough answers are fine.",
+  "points": [
+   {
+    "n": 1,
+    "label": "An owner",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Read access",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The desk roster",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Discharge times",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Here are our answers",
+   "Who else should see this plan?",
+   "Can we start step 1 now?"
+  ],
+  "pointer": "Type on each line of the clipboard. Every line you fill is added to your message."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · to start",
+    "title": "What we need from you",
+    "deck": "Six lines on a clipboard. Each one you fill goes into your message.",
+    "plate": {
+     "column": "The trial",
+     "name": "To start"
+    }
+   },
+   {
+    "type": "clipboard",
+    "title": "What we need to start",
+    "sub": "Rough answers are fine. Leave a line empty if you do not know yet.",
+    "asks": [
+     {
+      "title": "One name to own this",
+      "who": "Until the managers join",
+      "placeholder": "Name and role",
+      "point": 1
+     },
+     {
+      "title": "Who in IT gives read access",
+      "who": "Step 1, about two weeks",
+      "placeholder": "Name in IT",
+      "point": 2
+     },
+     {
+      "title": "Desk roster on each shift",
+      "who": "Admissions and discharge desks",
+      "placeholder": "Like 2 morning, 3 afternoon",
+      "point": 3
+     },
+     {
+      "title": "When patients arrive, by hour",
+      "who": "A normal weekday",
+      "placeholder": "Busiest hours"
+     },
+     {
+      "title": "Bed moves inside the hospital",
+      "who": "Transfers on a normal day",
+      "placeholder": "About how many a day"
+     },
+     {
+      "title": "When discharges happen",
+      "who": "Through a normal day",
+      "placeholder": "Busiest hours",
+      "point": 4
+     }
+    ],
+    "count_label": "Lines filled",
+    "waiting": "None filled yet",
+    "done": "All in. Send to Tojo.",
+    "have_label": "Already given in this chat",
+    "have": [
+     "Your admission times",
+     "When billing stops and starts",
+     "What a bed earns a day",
+     "Beds, occupancy and stay"
+    ],
+    "sheets": [
+     {
+      "key": "a1",
+      "when": "Until the managers join",
+      "title": "One name to own this",
+      "text": "Someone has to own the plan until the managers join. It can be a person you already have.",
+      "lines": [
+       {
+        "label": "Needed for",
+        "value": "Step 1"
+       }
+      ]
+     },
+     {
+      "key": "a2",
+      "when": "Step 1, about two weeks",
+      "title": "Who in IT gives read access",
+      "text": "Read access to admissions, discharges, billing and the bed board. Nothing is changed in your systems.",
+      "lines": [
+       {
+        "label": "Needed for",
+        "value": "Step 1"
+       }
+      ]
+     },
+     {
+      "key": "a3",
+      "when": "Admissions and discharge desks",
+      "title": "Desk roster on each shift",
+      "text": "Turns the cost from a total into a difference. Today we count every seat as new.",
+      "lines": [
+       {
+        "label": "Changes",
+        "value": "The cost of the roles",
+        "state": "target"
+       }
+      ]
+     },
+     {
+      "key": "a4",
+      "when": "A normal weekday",
+      "title": "When patients arrive, by hour",
+      "text": "Checks the three Admissions Executives against your real busiest hour.",
+      "lines": [
+       {
+        "label": "Changes",
+        "value": "The desk size"
+       }
+      ]
+     },
+     {
+      "key": "a5",
+      "when": "Transfers on a normal day",
+      "title": "Bed moves inside the hospital",
+      "text": "The desk also handles moves between wards. They count in the busiest hour.",
+      "lines": [
+       {
+        "label": "Changes",
+        "value": "The desk size"
+       }
+      ]
+     },
+     {
+      "key": "a6",
+      "when": "Through a normal day",
+      "title": "When discharges happen",
+      "text": "Sizes the discharge desk. The usual rule may give too many, so we wait for your times.",
+      "lines": [
+       {
+        "label": "Changes",
+        "value": "Discharge Executives",
+        "state": "target"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "After step 2",
+    "value": "Your own dead bed time",
+    "sub": "Measured, not guessed. If it is smaller than we said, you know before spending anything on people or process.",
+    "state": "start",
+    "look": "stamp"
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Send what we have",
+    "say": "Here are our answers"
+   },
+   "add": {
+    "detail": "Add something else we should know",
+    "say": "Something else you should know: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the Bed Management Processes turns."
+ }
+}

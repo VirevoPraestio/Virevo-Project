@@ -2048,5 +2048,58 @@
     }
    ]
   }
- ]
+ ],
+ "actions": {
+  "rule": "rules/08 §8: the three buttons on every turn. Diagnosis jumps to Solutions.",
+  "slots": {
+   "type": "object",
+   "fields": {
+    "go": {
+     "type": "object",
+     "fields": {
+      "detail": {
+       "type": "text",
+       "max_words": 10
+      },
+      "say": {
+       "type": "text",
+       "max_words": 16
+      }
+     }
+    },
+    "add": {
+     "type": "object",
+     "fields": {
+      "detail": {
+       "type": "text",
+       "max_words": 10
+      },
+      "say": {
+       "type": "text",
+       "max_words": 16
+      }
+     }
+    },
+    "jump": {
+     "type": "object",
+     "fields": {
+      "tab": {
+       "type": "enum",
+       "values": [
+        "Solutions"
+       ]
+      },
+      "detail": {
+       "type": "text",
+       "max_words": 10
+      },
+      "say": {
+       "type": "text",
+       "max_words": 16
+      }
+     }
+    }
+   }
+  }
+ }
 }

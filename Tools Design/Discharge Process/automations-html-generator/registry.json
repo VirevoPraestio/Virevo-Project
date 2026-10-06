@@ -1,0 +1,1905 @@
+{
+ "registry": "Discharge Process · Automations",
+ "registry_version": 1,
+ "updated": "2026-10-05",
+ "note": "Discharge Process Automations is drawn by the latest Automations generator (Bed Management/automations-html-generator/bm_automations_html.py, loaded as a copy) with the library’s switch-room motifs layered with the tool layer, in the Discharge Automations look: the switch room (steel ground, charcoal ink, teal = running by itself), from the approved Automations landing page. Its own drawing (file) is in dp_au_blocks.py.",
+ "library": "../../Common Elements/automations-html-generator/registry.json",
+ "budget": {
+  "max_blocks": 4
+ },
+ "theme": {
+  "id": "dp",
+  "name": "Discharge Process · Automations: the switch room",
+  "tokens": {
+   "ground": "#E4E7EA",
+   "card": "#F9FAFB",
+   "ink": "#1C2A33",
+   "muted": "#4B5963",
+   "line": "#BCC5CC",
+   "soft": "#EDF0F2",
+   "grey": "#8C98A0",
+   "accent": "#0F6E6B"
+  }
+ },
+ "tones": {
+  "rule": "The background changes every four turns: turns 1–4 the switch room (dot grid), 5–8 the night shift (fine grid), 9–12 the switch room. Specs store no colour.",
+  "set_size": 4,
+  "rotation": [
+   "station",
+   "night"
+  ],
+  "list": {
+   "station": {
+    "status": "approved",
+    "name": "The switch room (base)"
+   },
+   "night": {
+    "status": "approved",
+    "name": "The night shift",
+    "ground": "#DCE1E5",
+    "card": "#FCFDFD",
+    "muted": "#4B5963"
+   }
+  }
+ },
+ "variety": {
+  "rule": "Every turn looks different (rules/08 §2)."
+ },
+ "actions": {
+  "rule": "rules/08 §8: the three buttons on every turn. Automations jumps to Processes.",
+  "slots": {
+   "type": "object",
+   "fields": {
+    "go": {
+     "type": "object",
+     "fields": {
+      "detail": {
+       "type": "text",
+       "max_words": 10
+      },
+      "say": {
+       "type": "text",
+       "max_words": 16
+      }
+     }
+    },
+    "add": {
+     "type": "object",
+     "fields": {
+      "detail": {
+       "type": "text",
+       "max_words": 10
+      },
+      "say": {
+       "type": "text",
+       "max_words": 16
+      }
+     }
+    },
+    "jump": {
+     "type": "object",
+     "fields": {
+      "tab": {
+       "type": "enum",
+       "values": [
+        "Processes"
+       ]
+      },
+      "detail": {
+       "type": "text",
+       "max_words": 10
+      },
+      "say": {
+       "type": "text",
+       "max_words": 16
+      }
+     }
+    }
+   }
+  }
+ },
+ "blocks": [
+  {
+   "id": "heading",
+   "status": "approved",
+   "scope": "all",
+   "from": "library heading",
+   "category": "frame",
+   "purpose": "Eyebrow, title and deck, with the station plate from the Automations landing page: four lamps (idea, built, testing, switched on).",
+   "use_when": [
+    "every turn"
+   ],
+   "avoid_when": [
+    "never twice"
+   ],
+   "slots": {
+    "eyebrow": {
+     "type": "text",
+     "max_words": 6
+    },
+    "title": {
+     "type": "text",
+     "max_words": 8
+    },
+    "deck": {
+     "type": "text",
+     "max_words": 26,
+     "required": false
+    },
+    "plate": {
+     "type": "object",
+     "fields": {
+      "tag": {
+       "type": "text",
+       "max_words": 4
+      },
+      "name": {
+       "type": "text",
+       "max_words": 5
+      },
+      "stage": {
+       "type": "enum",
+       "values": [
+        "Idea",
+        "Built",
+        "Testing",
+        "Switched on"
+       ]
+      }
+     },
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "sources",
+   "status": "approved",
+   "scope": "all",
+   "from": "library sources (Automations), layered, with the landing page’s main switch",
+   "category": "drawing",
+   "purpose": "The records as switches, the main switch every automation waits on, and the automations as lamps that light only when every record they need is linked.",
+   "use_when": [
+    "how an automation is built",
+    "what has to be linked first"
+   ],
+   "avoid_when": [
+    "nothing to link"
+   ],
+   "interaction": "Flip a switch to link a record. Pick a record to open what your IT team gives. Lamps light when all their records are on.",
+   "slots": {
+    "src_label": {
+     "type": "text",
+     "max_words": 6
+    },
+    "auto_label": {
+     "type": "text",
+     "max_words": 6
+    },
+    "main": {
+     "type": "object",
+     "fields": {
+      "id": {
+       "type": "text",
+       "max_words": 1
+      },
+      "tag": {
+       "type": "text",
+       "max_words": 4
+      },
+      "name": {
+       "type": "text",
+       "max_words": 6
+      },
+      "short": {
+       "type": "text",
+       "max_words": 3
+      },
+      "line": {
+       "type": "text",
+       "max_words": 14
+      },
+      "point": {
+       "type": "number",
+       "required": false
+      }
+     }
+    },
+    "sources": {
+     "type": "list",
+     "min": 3,
+     "max": 7,
+     "item": {
+      "type": "object",
+      "fields": {
+       "id": {
+        "type": "text",
+        "max_words": 1
+       },
+       "name": {
+        "type": "text",
+        "max_words": 6
+       },
+       "short": {
+        "type": "text",
+        "max_words": 3
+       },
+       "holds": {
+        "type": "text",
+        "max_words": 14
+       },
+       "link": {
+        "type": "enum",
+        "values": [
+         "waiting",
+         "needed",
+         "ours",
+         "linked"
+        ]
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "automations": {
+     "type": "list",
+     "min": 3,
+     "max": 7,
+     "item": {
+      "type": "object",
+      "fields": {
+       "name": {
+        "type": "text",
+        "max_words": 7
+       },
+       "needs": {
+        "type": "list",
+        "min": 1,
+        "max": 7,
+        "item": {
+         "type": "text",
+         "max_words": 1
+        }
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "default_on": {
+     "type": "list",
+     "min": 0,
+     "max": 8,
+     "item": {
+      "type": "text",
+      "max_words": 1
+     },
+     "required": false
+    },
+    "presets": {
+     "type": "list",
+     "min": 1,
+     "max": 4,
+     "item": {
+      "type": "object",
+      "fields": {
+       "label": {
+        "type": "text",
+        "max_words": 5
+       },
+       "on": {
+        "type": "list",
+        "min": 0,
+        "max": 8,
+        "item": {
+         "type": "text",
+         "max_words": 1
+        }
+       }
+      }
+     },
+     "required": false
+    },
+    "condition": {
+     "type": "text",
+     "max_words": 26,
+     "required": false
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 14
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "ask": {
+        "type": "object",
+        "required": false,
+        "fields": {
+         "label": {
+          "type": "text",
+          "max_words": 6
+         },
+         "say": {
+          "type": "text",
+          "max_words": 16
+         }
+        }
+       },
+       "hand": {
+        "type": "object",
+        "fields": {
+         "who": {
+          "type": "text",
+          "max_words": 5
+         },
+         "does": {
+          "type": "text",
+          "max_words": 14
+         }
+        },
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 18,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "brain",
+   "status": "approved",
+   "scope": "all",
+   "from": "library brain (Automations), layered: one day instead of one stay",
+   "category": "drawing",
+   "purpose": "The engine on a screen: the day’s records flow in, pass by pass, and its answers fill.",
+   "use_when": [
+    "what the engine reads and makes, over a day"
+   ],
+   "avoid_when": [
+    "no flow of records"
+   ],
+   "interaction": "Pick a time of day or play the day. The records light as they arrive and the answers fill.",
+   "slots": {
+    "passes_label": {
+     "type": "text",
+     "max_words": 6
+    },
+    "play": {
+     "type": "text",
+     "max_words": 4
+    },
+    "in_label": {
+     "type": "text",
+     "max_words": 6
+    },
+    "out_label": {
+     "type": "text",
+     "max_words": 6
+    },
+    "count_label": {
+     "type": "text",
+     "max_words": 6
+    },
+    "kinds": {
+     "type": "list",
+     "min": 3,
+     "max": 7,
+     "item": {
+      "type": "object",
+      "fields": {
+       "k": {
+        "type": "text",
+        "max_words": 1
+       },
+       "name": {
+        "type": "text",
+        "max_words": 5
+       },
+       "example": {
+        "type": "text",
+        "max_words": 10
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "outputs": {
+     "type": "list",
+     "min": 3,
+     "max": 7,
+     "item": {
+      "type": "object",
+      "fields": {
+       "name": {
+        "type": "text",
+        "max_words": 6
+       },
+       "from": {
+        "type": "list",
+        "min": 1,
+        "max": 7,
+        "item": {
+         "type": "text",
+         "max_words": 1
+        }
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "passes": {
+     "type": "list",
+     "min": 3,
+     "max": 6,
+     "item": {
+      "type": "object",
+      "fields": {
+       "label": {
+        "type": "text",
+        "max_words": 3
+       },
+       "what": {
+        "type": "text",
+        "max_words": 6
+       },
+       "brings": {
+        "type": "list",
+        "min": 0,
+        "max": 8,
+        "item": {
+         "type": "text",
+         "max_words": 1
+        }
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "start_full": {
+     "type": "bool",
+     "required": false
+    },
+    "condition": {
+     "type": "text",
+     "max_words": 26,
+     "required": false
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 14
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "ask": {
+        "type": "object",
+        "required": false,
+        "fields": {
+         "label": {
+          "type": "text",
+          "max_words": 6
+         },
+         "say": {
+          "type": "text",
+          "max_words": 16
+         }
+        }
+       },
+       "hand": {
+        "type": "object",
+        "fields": {
+         "who": {
+          "type": "text",
+          "max_words": 5
+         },
+         "does": {
+          "type": "text",
+          "max_words": 14
+         }
+        },
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 18,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "panel",
+   "status": "approved",
+   "scope": "Bed Management Automations",
+   "from": "the Automations landing page: the station panel, main switches and four lamps",
+   "category": "drawing",
+   "purpose": "One row per automation with four lamps, under the main switches. Step through the build and the lamps light as each one moves on.",
+   "use_when": [
+    "the order of the build",
+    "where each automation stands"
+   ],
+   "avoid_when": [
+    "a single automation"
+   ],
+   "interaction": "Step through the phases; lamps light to each row’s stage. Pick a row to open it.",
+   "slots": {
+    "phases_label": {
+     "type": "text",
+     "max_words": 5
+    },
+    "phases": {
+     "type": "list",
+     "min": 2,
+     "max": 5,
+     "item": {
+      "type": "object",
+      "fields": {
+       "when": {
+        "type": "text",
+        "max_words": 4
+       },
+       "name": {
+        "type": "text",
+        "max_words": 6
+       }
+      }
+     }
+    },
+    "mains": {
+     "type": "list",
+     "min": 1,
+     "max": 2,
+     "item": {
+      "type": "object",
+      "fields": {
+       "tag": {
+        "type": "text",
+        "max_words": 4
+       },
+       "name": {
+        "type": "text",
+        "max_words": 6
+       },
+       "line": {
+        "type": "text",
+        "max_words": 12
+       },
+       "on_at": {
+        "type": "number"
+       }
+      }
+     }
+    },
+    "rows_label": {
+     "type": "text",
+     "max_words": 4
+    },
+    "automations": {
+     "type": "list",
+     "min": 3,
+     "max": 7,
+     "item": {
+      "type": "object",
+      "fields": {
+       "name": {
+        "type": "text",
+        "max_words": 7
+       },
+       "line": {
+        "type": "text",
+        "max_words": 12
+       },
+       "stages": {
+        "type": "list",
+        "min": 2,
+        "max": 5,
+        "item": {
+         "type": "number"
+        }
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "foot": {
+     "type": "text",
+     "max_words": 8
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 14
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "ask": {
+        "type": "object",
+        "required": false,
+        "fields": {
+         "label": {
+          "type": "text",
+          "max_words": 6
+         },
+         "say": {
+          "type": "text",
+          "max_words": 16
+         }
+        }
+       },
+       "hand": {
+        "type": "object",
+        "fields": {
+         "who": {
+          "type": "text",
+          "max_words": 5
+         },
+         "does": {
+          "type": "text",
+          "max_words": 14
+         }
+        },
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 18,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "helper",
+   "status": "approved",
+   "scope": "all",
+   "from": "library helper (Automations), layered",
+   "category": "drawing",
+   "purpose": "Tojo as a desk helper listing what it asks your IT team for, each ask opening why and who does it.",
+   "use_when": [
+    "what the IT team does"
+   ],
+   "avoid_when": [
+    "nothing asked of IT"
+   ],
+   "interaction": "Pick an ask to open why it is needed and who in IT does it.",
+   "slots": {
+    "says": {
+     "type": "text",
+     "max_words": 24
+    },
+    "label": {
+     "type": "text",
+     "max_words": 6
+    },
+    "asks": {
+     "type": "list",
+     "min": 3,
+     "max": 7,
+     "item": {
+      "type": "object",
+      "fields": {
+       "title": {
+        "type": "text",
+        "max_words": 8
+       },
+       "who": {
+        "type": "text",
+        "max_words": 8
+       },
+       "tag": {
+        "type": "text",
+        "max_words": 3,
+        "required": false
+       },
+       "tag_state": {
+        "type": "enum",
+        "values": [
+         "waiting",
+         "needed",
+         "ours",
+         "linked"
+        ],
+        "required": false
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "park": {
+     "type": "text",
+     "max_words": 24
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 14
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "ask": {
+        "type": "object",
+        "required": false,
+        "fields": {
+         "label": {
+          "type": "text",
+          "max_words": 6
+         },
+         "say": {
+          "type": "text",
+          "max_words": 16
+         }
+        }
+       },
+       "hand": {
+        "type": "object",
+        "fields": {
+         "who": {
+          "type": "text",
+          "max_words": 5
+         },
+         "does": {
+          "type": "text",
+          "max_words": 14
+         }
+        },
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 20,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "relay",
+   "status": "approved",
+   "scope": "all",
+   "from": "library relay (Automations), layered",
+   "category": "drawing",
+   "purpose": "A hand-over between two sides in legs, today and with both linked, each leg checked by the other side.",
+   "use_when": [
+    "why one part is built before another",
+    "double control"
+   ],
+   "avoid_when": [
+    "one side only"
+   ],
+   "interaction": "Switch between today and linked. Pick a leg to open it.",
+   "slots": {
+    "legs": {
+     "type": "list",
+     "min": 3,
+     "max": 7,
+     "item": {
+      "type": "object",
+      "fields": {
+       "side": {
+        "type": "enum",
+        "values": [
+         "dis",
+         "bed"
+        ]
+       },
+       "who": {
+        "type": "text",
+        "max_words": 4
+       },
+       "name": {
+        "type": "text",
+        "max_words": 6
+       },
+       "today": {
+        "type": "text",
+        "max_words": 6
+       },
+       "with": {
+        "type": "text",
+        "max_words": 6
+       },
+       "checked": {
+        "type": "bool",
+        "required": false
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "with_label": {
+     "type": "text",
+     "max_words": 4
+    },
+    "gap": {
+     "type": "object",
+     "fields": {
+      "label": {
+       "type": "text",
+       "max_words": 5
+      },
+      "today": {
+       "type": "text",
+       "max_words": 5
+      },
+      "with": {
+       "type": "text",
+       "max_words": 5
+      }
+     }
+    },
+    "lane_dis": {
+     "type": "text",
+     "max_words": 4
+    },
+    "lane_bed": {
+     "type": "text",
+     "max_words": 4
+    },
+    "condition": {
+     "type": "text",
+     "max_words": 26,
+     "required": false
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 14
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "ask": {
+        "type": "object",
+        "required": false,
+        "fields": {
+         "label": {
+          "type": "text",
+          "max_words": 6
+         },
+         "say": {
+          "type": "text",
+          "max_words": 16
+         }
+        }
+       },
+       "hand": {
+        "type": "object",
+        "fields": {
+         "who": {
+          "type": "text",
+          "max_words": 5
+         },
+         "does": {
+          "type": "text",
+          "max_words": 14
+         }
+        },
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 20,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "agent",
+   "status": "approved",
+   "scope": "all",
+   "from": "library thinker (Automations), layered",
+   "category": "drawing",
+   "purpose": "The loop an automation runs (notice, gather, check, draft, ask), with what it never does.",
+   "use_when": [
+    "how an automation decides what to show"
+   ],
+   "avoid_when": [
+    "no loop"
+   ],
+   "interaction": "Pick a step. The loop lights where it is and the sheet opens.",
+   "slots": {
+    "loop": {
+     "type": "list",
+     "min": 3,
+     "max": 6,
+     "item": {
+      "type": "object",
+      "fields": {
+       "id": {
+        "type": "text",
+        "max_words": 1
+       },
+       "name": {
+        "type": "text",
+        "max_words": 1
+       }
+      }
+     }
+    },
+    "steps": {
+     "type": "list",
+     "min": 3,
+     "max": 6,
+     "item": {
+      "type": "object",
+      "fields": {
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 8
+       },
+       "stages": {
+        "type": "list",
+        "min": 1,
+        "max": 6,
+        "item": {
+         "type": "text",
+         "max_words": 1
+        }
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "caption": {
+     "type": "text",
+     "max_words": 18
+    },
+    "steps_label": {
+     "type": "text",
+     "max_words": 6
+    },
+    "never": {
+     "type": "list",
+     "min": 1,
+     "max": 4,
+     "item": {
+      "type": "text",
+      "max_words": 14
+     }
+    },
+    "never_label": {
+     "type": "text",
+     "max_words": 5
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 14
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "ask": {
+        "type": "object",
+        "required": false,
+        "fields": {
+         "label": {
+          "type": "text",
+          "max_words": 6
+         },
+         "say": {
+          "type": "text",
+          "max_words": 16
+         }
+        }
+       },
+       "hand": {
+        "type": "object",
+        "fields": {
+         "who": {
+          "type": "text",
+          "max_words": 5
+         },
+         "does": {
+          "type": "text",
+          "max_words": 14
+         }
+        },
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 20,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "nightshift",
+   "status": "approved",
+   "scope": "all",
+   "from": "library night shift (Automations), layered",
+   "category": "drawing",
+   "purpose": "A line through the evening and night with stations, a clock you can play, and what is ready by morning.",
+   "use_when": [
+    "what runs overnight",
+    "a timed sequence"
+   ],
+   "avoid_when": [
+    "daytime only"
+   ],
+   "interaction": "Play the night or move the clock. Pick a station to open it.",
+   "slots": {
+    "stations": {
+     "type": "list",
+     "min": 3,
+     "max": 7,
+     "item": {
+      "type": "object",
+      "fields": {
+       "at": {
+        "type": "text",
+        "max_words": 2
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "makes": {
+        "type": "text",
+        "max_words": 10
+       },
+       "hand": {
+        "type": "bool",
+        "required": false
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "from": {
+     "type": "text",
+     "max_words": 2
+    },
+    "to": {
+     "type": "text",
+     "max_words": 2
+    },
+    "start_at": {
+     "type": "text",
+     "max_words": 2
+    },
+    "clock": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "item": {
+      "type": "text",
+      "max_words": 2
+     }
+    },
+    "night": {
+     "type": "object",
+     "fields": {
+      "from": {
+       "type": "text",
+       "max_words": 2
+      },
+      "to": {
+       "type": "text",
+       "max_words": 2
+      },
+      "label": {
+       "type": "text",
+       "max_words": 4
+      }
+     }
+    },
+    "goal": {
+     "type": "object",
+     "fields": {
+      "at": {
+       "type": "text",
+       "max_words": 2
+      },
+      "label": {
+       "type": "text",
+       "max_words": 4
+      },
+      "source": {
+       "type": "text",
+       "max_words": 4
+      }
+     }
+    },
+    "play": {
+     "type": "text",
+     "max_words": 4
+    },
+    "ready_label": {
+     "type": "text",
+     "max_words": 6
+    },
+    "condition": {
+     "type": "text",
+     "max_words": 26,
+     "required": false
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 14
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "ask": {
+        "type": "object",
+        "required": false,
+        "fields": {
+         "label": {
+          "type": "text",
+          "max_words": 6
+         },
+         "say": {
+          "type": "text",
+          "max_words": 16
+         }
+        }
+       },
+       "hand": {
+        "type": "object",
+        "fields": {
+         "who": {
+          "type": "text",
+          "max_words": 5
+         },
+         "does": {
+          "type": "text",
+          "max_words": 14
+         }
+        },
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 20,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "file",
+   "status": "approved",
+   "scope": "Discharge Process",
+   "from": "the library switch room, with the drafting sheet; Discharge’s own",
+   "category": "drawing",
+   "purpose": "The papers a patient needs to leave, as sheets on a desk. Switch between today, when each starts after the morning signature, and with the automation, when each has filled in by then.",
+   "use_when": [
+    "what an automation makes, paper by paper",
+    "before and after for a set of documents"
+   ],
+   "avoid_when": [
+    "a single document"
+   ],
+   "interaction": "Switch today or with the automation. Pick a paper to open its sheet and add your own.",
+   "slots": {
+    "label": {
+     "type": "text",
+     "max_words": 6
+    },
+    "hand_key": {
+     "type": "text",
+     "max_words": 5,
+     "required": false
+    },
+    "switch": {
+     "type": "object",
+     "fields": {
+      "today": {
+       "type": "text",
+       "max_words": 3
+      },
+      "with": {
+       "type": "text",
+       "max_words": 4
+      },
+      "cap_today": {
+       "type": "text",
+       "max_words": 22
+      },
+      "cap_with": {
+       "type": "text",
+       "max_words": 22
+      }
+     }
+    },
+    "docs": {
+     "type": "list",
+     "min": 3,
+     "max": 6,
+     "item": {
+      "type": "object",
+      "fields": {
+       "title": {
+        "type": "text",
+        "max_words": 5
+       },
+       "at_today": {
+        "type": "text",
+        "max_words": 3
+       },
+       "today": {
+        "type": "text",
+        "max_words": 7
+       },
+       "at_with": {
+        "type": "text",
+        "max_words": 3
+       },
+       "with": {
+        "type": "text",
+        "max_words": 7
+       },
+       "hand": {
+        "type": "bool",
+        "required": false
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "condition": {
+     "type": "text",
+     "max_words": 26,
+     "required": false
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 14
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "ask": {
+        "type": "object",
+        "required": false,
+        "fields": {
+         "label": {
+          "type": "text",
+          "max_words": 6
+         },
+         "say": {
+          "type": "text",
+          "max_words": 16
+         }
+        }
+       },
+       "hand": {
+        "type": "object",
+        "fields": {
+         "who": {
+          "type": "text",
+          "max_words": 5
+         },
+         "does": {
+          "type": "text",
+          "max_words": 14
+         }
+        },
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 18,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "effect",
+   "status": "approved",
+   "scope": "Bed Management Automations",
+   "from": "07 §5.2 effect box",
+   "category": "quantity",
+   "purpose": "The quantity named once, in five looks that change with the turn.",
+   "use_when": [
+    "one number or one condition"
+   ],
+   "avoid_when": [
+    "more than two in a turn"
+   ],
+   "slots": {
+    "label": {
+     "type": "text",
+     "max_words": 5
+    },
+    "value": {
+     "type": "text",
+     "max_words": 6
+    },
+    "sub": {
+     "type": "text",
+     "max_words": 26
+    },
+    "state": {
+     "type": "enum",
+     "values": [
+      "plain",
+      "target",
+      "outcome",
+      "start"
+     ],
+     "required": false
+    }
+   },
+   "feedback": []
+  }
+ ]
+}

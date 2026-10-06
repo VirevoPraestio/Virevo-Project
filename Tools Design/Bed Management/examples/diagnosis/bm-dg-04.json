@@ -115,7 +115,22 @@
      }
     ]
    }
-  ]
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: fill in the times",
+    "say": "Arrival about 1 PM, in the bed by 4:30 PM"
+   },
+   "add": {
+    "detail": "Tell me your times",
+    "say": "Our admission times are: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
  },
  "review": {
   "status": "approved",

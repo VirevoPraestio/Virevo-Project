@@ -1,0 +1,272 @@
+{
+ "turn": {
+  "id": "dp-pr-10",
+  "type": "part",
+  "tool": "Discharge Process",
+  "tab": "Processes",
+  "register": "advisory",
+  "user_message": "What changes on the ward, step by step?",
+  "was": "pr-03 (swap)",
+  "context": "Processes place, turn 3 (seven changes, one for each step of the day).",
+  "transcript": {
+   "label": "Processes · the changes, step by step"
+  }
+ },
+ "chat": {
+  "text": [
+   "Seven changes, one for each step of the day. The work itself stays the same. Only its timing moves.",
+   "The biggest hold-up is the summary. Moving it to the evening round frees most of the morning."
+  ],
+  "invite": "Next, we can size the team that keeps this running.",
+  "note": "Same work. Earlier in the day.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The evening round",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The summary, the biggest hold-up",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Insurance the evening before",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The empty bed",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Do we need to hire anyone?",
+   "Who at the bed desk would see this?",
+   "Which measures show it worked?"
+  ],
+  "pointer": "Move each magnet across, or move them all. Pick a step to open it."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · the changes",
+    "title": "Seven magnets, moved across",
+    "deck": "Each step of the day. Move its magnet to see what it becomes.",
+    "plate": {
+     "column": "Changes",
+     "name": "Step by step"
+    }
+   },
+   {
+    "type": "swap",
+    "with_label": "With the changes",
+    "keeps": "The flow of work stays the same. The new timing sits on top of it, and costs nothing but order.",
+    "rows": [
+     {
+      "name": "Evening round",
+      "who": "Doctors",
+      "today": "Discharges decided the next morning",
+      "with": "Likely discharges marked with one tap",
+      "with_at": "6 to 9 PM",
+      "point": 1
+     },
+     {
+      "name": "Discharge summary",
+      "who": "Doctors, night nurse",
+      "today": "Typed next morning, waits for a signature",
+      "today_at": "10 AM to noon",
+      "with": "Drafted overnight, signed on the morning round",
+      "flag": "Biggest hold-up",
+      "point": 2
+     },
+     {
+      "name": "Supplies and bill",
+      "who": "Nurses, billing",
+      "today": "Counted and drawn up after signing",
+      "with": "Kept up to date all through the stay"
+     },
+     {
+      "name": "Bill sign-off",
+      "who": "Billing",
+      "today": "Built from the start at the end",
+      "today_at": "90 minutes",
+      "with": "Checked, not built"
+     },
+     {
+      "name": "Insurance",
+      "who": "Insurance desk",
+      "today": "Asked once the bill is final",
+      "today_at": "About 1 hour",
+      "with": "Early request sent the evening before",
+      "point": 3
+     },
+     {
+      "name": "Family and transport",
+      "who": "Ward nurse",
+      "today": "Called at the end of the day",
+      "with": "Told the leaving time the night before"
+     },
+     {
+      "name": "The bed",
+      "who": "Housekeeping",
+      "today": "Hears late, so cleaning starts late",
+      "today_at": "75 minutes",
+      "with": "Told the moment the patient leaves",
+      "point": 4
+     }
+    ],
+    "sheets": [
+     {
+      "key": "w1",
+      "when": "Doctors",
+      "title": "Evening round",
+      "text": "Today: discharges decided the next morning. With the change: likely discharges marked with one tap.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Discharges decided the next morning"
+       },
+       {
+        "label": "With the change",
+        "value": "Likely discharges marked with one tap, 6 to 9 PM",
+        "state": "start"
+       }
+      ],
+      "entry": "Who marks discharges on your round?"
+     },
+     {
+      "key": "w2",
+      "when": "Doctors, night nurse",
+      "title": "Discharge summary",
+      "text": "Today: typed next morning, waits for a signature. With the change: drafted overnight, signed on the morning round.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Typed next morning, waits for a signature, 10 AM to noon"
+       },
+       {
+        "label": "With the change",
+        "value": "Drafted overnight, signed on the morning round",
+        "state": "start"
+       }
+      ],
+      "entry": "Who types summaries today?"
+     },
+     {
+      "key": "w3",
+      "when": "Nurses, billing",
+      "title": "Supplies and bill",
+      "text": "Today: counted and drawn up after signing. With the change: kept up to date all through the stay.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Counted and drawn up after signing"
+       },
+       {
+        "label": "With the change",
+        "value": "Kept up to date all through the stay",
+        "state": "start"
+       }
+      ],
+      "entry": "Who counts supplies today?"
+     },
+     {
+      "key": "w4",
+      "when": "Billing",
+      "title": "Bill sign-off",
+      "text": "Today: built from the start at the end. With the change: checked, not built.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Built from the start at the end, 90 minutes"
+       },
+       {
+        "label": "With the change",
+        "value": "Checked, not built",
+        "state": "start"
+       }
+      ],
+      "entry": "How long does sign-off take?"
+     },
+     {
+      "key": "w5",
+      "when": "Insurance desk",
+      "title": "Insurance",
+      "text": "Today: asked once the bill is final. With the change: early request sent the evening before.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Asked once the bill is final, About 1 hour"
+       },
+       {
+        "label": "With the change",
+        "value": "Early request sent the evening before",
+        "state": "start"
+       }
+      ],
+      "entry": "Which insurers take longest?"
+     },
+     {
+      "key": "w6",
+      "when": "Ward nurse",
+      "title": "Family and transport",
+      "text": "Today: called at the end of the day. With the change: told the leaving time the night before.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Called at the end of the day"
+       },
+       {
+        "label": "With the change",
+        "value": "Told the leaving time the night before",
+        "state": "start"
+       }
+      ],
+      "entry": "When does the family hear today?"
+     },
+     {
+      "key": "w7",
+      "when": "Housekeeping",
+      "title": "The bed",
+      "text": "Today: hears late, so cleaning starts late. With the change: told the moment the patient leaves.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Hears late, so cleaning starts late, 75 minutes"
+       },
+       {
+        "label": "With the change",
+        "value": "Told the moment the patient leaves",
+        "state": "start"
+       }
+      ],
+      "entry": "How does housekeeping hear today?"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: do we need to hire anyone",
+    "say": "Do we need to hire anyone?"
+   },
+   "add": {
+    "detail": "Tell me which change worries you",
+    "say": "The change that worries me is: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

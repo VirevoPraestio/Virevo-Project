@@ -1,0 +1,281 @@
+{
+ "turn": {
+  "id": "bm-so-07",
+  "tab": "Solutions",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "No. tell me more about why it is needed",
+  "context": "Why the Discharge Manager exists, explained before it is priced. No rupee figure in the drawing: the role is priced in part 4. The close hands over to the next part by name.",
+  "transcript": {
+   "label": "Transcript turn 26 · “Tell me more about why a Discharge Manager is needed”"
+  }
+ },
+ "chat": {
+  "text": [
+   "Fair question. Here it is in one picture."
+  ],
+  "bullets": [
+   "A discharge is not one job. It is a chain. Every step has someone. None of the gaps between them do.",
+   "So each step waits until somebody notices it. Whoever is free that day does the chasing.",
+   "That is why it hits your bed plan. Every time in the plan comes from a discharge time. With an owner, those become commitments."
+  ],
+  "pointer": "Pick a gap to see who waits there. Then switch to the chain with an owner.",
+  "invite": "The role costs about ₹4 to 4.5 lakhs a year. We set it against the revenue in part 4. Next is part 3, the key people. Shall we go there?",
+  "note": "Nothing is broken. The waiting is in the gaps.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The gaps",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Who chases today",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "What an owner does",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "A time you can trust",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Yes, let us discuss the key people",
+   "Can someone we already have do this?",
+   "How is this different from a ward in charge?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 2 · Process changes",
+    "title": "The waiting is in the gaps",
+    "plate": {
+     "part": 2,
+     "of": 5,
+     "name": "Process changes",
+     "stage": "Shaped"
+    },
+    "deck": "A discharge today, step by step. No step is broken. Nobody owns the gaps between them."
+   },
+   {
+    "type": "gap-knots",
+    "steps": [
+     {
+      "title": "The doctor’s word",
+      "line": "On the round"
+     },
+     {
+      "title": "Ward and pharmacy",
+      "line": "Medicines returned"
+     },
+     {
+      "title": "Bill and insurance",
+      "line": "Final bill, then approval"
+     },
+     {
+      "title": "Payment and exit",
+      "line": "Briefing, then the patient leaves"
+     },
+     {
+      "title": "Bed cleaned and free",
+      "line": "Hours after billing stopped"
+     }
+    ],
+    "gaps": [
+     {
+      "title": "Who tells the ward?",
+      "point": 1
+     },
+     {
+      "title": "Who starts the bill?",
+      "point": 1
+     },
+     {
+      "title": "Who chases the insurer?",
+      "point": 2
+     },
+     {
+      "title": "Who calls housekeeping?",
+      "point": 2
+     }
+    ],
+    "switch": {
+     "today": "Today",
+     "owner": "With an owner",
+     "cap_today": "Each gap waits until somebody notices it.",
+     "cap_owner": "One owner chases every gap the moment it opens."
+    },
+    "caption": "No step is broken. The waiting is in the gaps, and nobody owns a gap.",
+    "sheets": [
+     {
+      "key": "g1",
+      "when": "Gap 1",
+      "title": "Who tells the ward?",
+      "text": "The doctor has decided. The ward hears when someone passes it on. Until then nothing moves.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Whoever is free passes it on"
+       },
+       {
+        "label": "With an owner",
+        "value": "Passed on the moment it is said",
+        "state": "start"
+       }
+      ],
+      "entry": "How does the ward hear today?"
+     },
+     {
+      "key": "g2",
+      "when": "Gap 2",
+      "title": "Who starts the bill?",
+      "text": "Medicines are back, but billing waits to be told. The bill starts when someone notices.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Billing waits to be told"
+       },
+       {
+        "label": "With an owner",
+        "value": "Started as the ward finishes",
+        "state": "start"
+       }
+      ],
+      "entry": "Who tells billing at your hospital?"
+     },
+     {
+      "key": "g3",
+      "when": "Gap 3",
+      "title": "Who chases the insurer?",
+      "text": "The bill is sent for approval. Then it sits. Somebody chases it if they have time that day.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Chased if someone has time"
+       },
+       {
+        "label": "With an owner",
+        "value": "Chased on a clock",
+        "state": "start"
+       }
+      ],
+      "entry": "Who follows up with insurers today?"
+     },
+     {
+      "key": "g4",
+      "when": "Gap 4",
+      "title": "Who calls housekeeping?",
+      "text": "The patient has left. The bed waits until housekeeping hears. Billing on that bed stopped hours ago.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Called when someone notices"
+       },
+       {
+        "label": "With an owner",
+        "value": "Called as the patient leaves",
+        "state": "start"
+       }
+      ],
+      "entry": "How does housekeeping hear a bed is free?"
+     }
+    ]
+   },
+   {
+    "type": "notes",
+    "label": "What an owner does",
+    "items": [
+     {
+      "title": "Sees one chain",
+      "text": "Every discharge, from the doctor’s word to the free bed.",
+      "point": 3
+     },
+     {
+      "title": "Chases each gap",
+      "text": "The moment it opens, not when someone notices.",
+      "point": 3
+     },
+     {
+      "title": "Gives a time you can trust",
+      "text": "The bed plan is built on it.",
+      "point": 4
+     }
+    ],
+    "sheets": [
+     {
+      "key": "chain",
+      "when": "What an owner does",
+      "title": "Sees one chain",
+      "text": "Today each step belongs to a different team. The owner is the one person who sees the whole discharge.",
+      "lines": [
+       {
+        "label": "Reports to",
+        "value": "The Head of Operations"
+       }
+      ]
+     },
+     {
+      "key": "chase",
+      "when": "What an owner does",
+      "title": "Chases each gap",
+      "text": "Nobody chases a gap today unless they are free. The owner chases every gap as it opens.",
+      "lines": [
+       {
+        "label": "Instead of",
+        "value": "Whoever is free that day"
+       }
+      ]
+     },
+     {
+      "key": "trust",
+      "when": "What an owner does",
+      "title": "Gives a time you can trust",
+      "text": "Every time in the bed plan comes from a discharge time. With an owner, those times are commitments, not guesses.",
+      "lines": [
+       {
+        "label": "Changes",
+        "value": "The plan is not rebuilt every afternoon",
+        "state": "start"
+       }
+      ],
+      "entry": "How often is your bed plan rebuilt in a day?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "What the role changes",
+    "value": "A time you can trust",
+    "sub": "A discharge time the bed side can plan on. Today those times are guesses, so the plan is rebuilt every afternoon."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: part 3, the key people",
+    "say": "Yes, let us discuss the key people"
+   },
+   "add": {
+    "detail": "Add something about your hospital",
+    "say": "Here is something to add about our hospital: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "How the automations are built and run",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved 1 Oct with the Bed Management Solutions turns."
+ }
+}

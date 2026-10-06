@@ -1,0 +1,228 @@
+{
+ "turn": {
+  "id": "dp-so-01",
+  "type": "overview",
+  "tool": "Discharge Process",
+  "tab": "Solutions",
+  "register": "advisory",
+  "user_message": "Yes, that’s exactly it. Show me how to fix it.",
+  "was": "turn-04 (dp-04), cards + handnote + stat-strip",
+  "context": "Discharge sample conversation, turn 4 (playbook §3: a short intro, the five parts as options, one overview drawing).",
+  "transcript": {
+   "label": "Sample conversation · turn 4 · the fix"
+  }
+ },
+ "chat": {
+  "text": [
+   "Here is what the fix is made of. It has five parts.",
+   "None of them needs a new hospital system on day one. They sit on top of how you work today."
+  ],
+  "invite": "Open any door to see what is behind it. Or tell me which part worries you most.",
+  "note": "Five parts, one aim: put the evening to work.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Automatic paperwork",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Changes on the wards",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "People who must agree",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Who is in charge",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "How we will know it worked",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Start with the automatic paperwork",
+   "Which part saves the most time?",
+   "Do we need to hire anyone?"
+  ],
+  "pointer": "Five doors off one corridor. Open any one to see what it answers."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "The fix",
+    "title": "What the fix is made of",
+    "deck": "Five parts. Each door says the question its part answers."
+   },
+   {
+    "type": "doors",
+    "default": 1,
+    "corridor": "One corridor. Open the doors in any order.",
+    "doors": [
+     {
+      "n": 1,
+      "title": "Automatic paperwork",
+      "question": "What the software does, so nobody does the work twice",
+      "state": "closed",
+      "tag": "Start",
+      "point": 1
+     },
+     {
+      "n": 2,
+      "title": "Changes on the wards",
+      "question": "What each team does differently, and when it starts",
+      "state": "closed",
+      "point": 2
+     },
+     {
+      "n": 3,
+      "title": "People who must agree",
+      "question": "Who has to say yes, and who gives up the most",
+      "state": "closed",
+      "point": 3
+     },
+     {
+      "n": 4,
+      "title": "Who is in charge",
+      "question": "Whether you need anyone new, sized on your own numbers",
+      "state": "closed",
+      "point": 4
+     },
+     {
+      "n": 5,
+      "title": "How we will know",
+      "question": "The few numbers we watch, week by week",
+      "state": "closed",
+      "point": 5
+     }
+    ],
+    "sheets": [
+     {
+      "key": "p1",
+      "when": "Part 1",
+      "title": "Automatic paperwork",
+      "text": "The papers and the bill start on the evening round, by themselves. Other hospitals saved 6 to 8 hours for each patient. Not yet measured here.",
+      "lines": [
+       {
+        "label": "It answers",
+        "value": "Hours nobody uses overnight"
+       },
+       {
+        "label": "Other hospitals",
+        "value": "6 to 8 hours saved",
+        "state": "target"
+       }
+      ],
+      "entry": "Which paperwork takes longest on your wards?",
+      "ask": {
+       "label": "Open part 1",
+       "say": "Start with the automatic paperwork"
+      }
+     },
+     {
+      "key": "p2",
+      "when": "Part 2",
+      "title": "Changes on the wards",
+      "text": "Most of the work stays the same. What changes is when it starts, and who writes it.",
+      "lines": [
+       {
+        "label": "It answers",
+        "value": "Hours nobody uses overnight"
+       }
+      ],
+      "entry": "What would you most like to change on the ward?",
+      "ask": {
+       "label": "Open part 2",
+       "say": "Show me the changes on the wards"
+      }
+     },
+     {
+      "key": "p3",
+      "when": "Part 3",
+      "title": "People who must agree",
+      "text": "Several teams touch discharge, but only a few change much. One person has to approve the new order.",
+      "lines": [
+       {
+        "label": "It answers",
+        "value": "Nobody in charge of the whole discharge"
+       }
+      ],
+      "entry": "Who would push back hardest?",
+      "ask": {
+       "label": "Open part 3",
+       "say": "Show me the people who must agree"
+      }
+     },
+     {
+      "key": "p4",
+      "when": "Part 4",
+      "title": "Who is in charge",
+      "text": "One person owns discharge, with helpers for the busy hours. Sized on your numbers, not a rule of thumb.",
+      "lines": [
+       {
+        "label": "It answers",
+        "value": "Nobody in charge of the whole discharge"
+       }
+      ],
+      "entry": "Who owns discharge today, if anyone?",
+      "ask": {
+       "label": "Open part 4",
+       "say": "Show me who is in charge"
+      }
+     },
+     {
+      "key": "p5",
+      "when": "Part 5",
+      "title": "How we will know",
+      "text": "A short list of numbers, watched week by week, starting from your own.",
+      "lines": [
+       {
+        "label": "It answers",
+        "value": "Whether any of it is working"
+       }
+      ],
+      "entry": "Which numbers do you look at each week now?",
+      "ask": {
+       "label": "Open part 5",
+       "say": "Show me how we’ll know it worked"
+      }
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "The aim of all five",
+    "value": "Put the evening to work",
+    "state": "target",
+    "sub": "Your doctors sign in the morning what they already decided the night before."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: start with the automatic paperwork",
+    "say": "Start with the automatic paperwork"
+   },
+   "add": {
+    "detail": "Tell me which part worries you",
+    "say": "The part that worries me most is: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "What runs by itself, night and day",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

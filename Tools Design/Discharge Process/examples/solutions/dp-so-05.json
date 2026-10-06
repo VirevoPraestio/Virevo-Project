@@ -1,0 +1,235 @@
+{
+ "turn": {
+  "id": "dp-so-05",
+  "type": "part",
+  "tool": "Discharge Process",
+  "tab": "Solutions",
+  "register": "advisory",
+  "user_message": "Which part saves the most time?",
+  "was": "so-04 (knots)",
+  "context": "Solutions place, turn 4 (the wait as knots, each held by one or two parts).",
+  "transcript": {
+   "label": "Solutions · which part saves most"
+  }
+ },
+ "chat": {
+  "text": [
+   "No single part. The wait is five knots, and most need two parts to undo them.",
+   "Parts 1 and 2 together undo three of the five. Add parts 3 and 4, and the last two come undone."
+  ],
+  "note": "No part works alone. Most knots need two hands.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Waiting for the summary",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Waiting for the bill",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Waiting for insurance",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Final checks and the family",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "The empty bed",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Is it worth what it costs?",
+   "Tell me more about the automations",
+   "What changes on the wards?"
+  ],
+  "pointer": "Pick a knot to see which parts undo it. Switch to see them all come undone."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "The answer · which part saves most",
+    "title": "Five knots in one wait",
+    "deck": "Your real times, from ready to leaving and the empty bed after. Each knot sits between two steps."
+   },
+   {
+    "type": "gap-knots",
+    "steps": [
+     {
+      "title": "Patient ready",
+      "line": "10 AM"
+     },
+     {
+      "title": "Summary signed",
+      "line": "About noon"
+     },
+     {
+      "title": "Bill final",
+      "line": "1:30 PM"
+     },
+     {
+      "title": "Insurance approves",
+      "line": "2:30 PM"
+     },
+     {
+      "title": "Patient leaves",
+      "line": "3:15 PM"
+     },
+     {
+      "title": "Bed ready again",
+      "line": "4:30 PM"
+     }
+    ],
+    "gaps": [
+     {
+      "title": "Waiting for the summary",
+      "point": 1
+     },
+     {
+      "title": "Waiting for the bill",
+      "point": 2
+     },
+     {
+      "title": "Waiting for insurance",
+      "point": 3
+     },
+     {
+      "title": "Final checks, the family",
+      "point": 4
+     },
+     {
+      "title": "The empty bed",
+      "point": 5
+     }
+    ],
+    "switch": {
+     "today": "Today",
+     "owner": "With all five",
+     "cap_today": "Five knots, one after another. The patient leaves at 3:15 PM.",
+     "cap_owner": "Each knot is undone by the parts that hold it."
+    },
+    "caption": "Times from your normal Tuesday. The summary wait is my estimate.",
+    "sheets": [
+     {
+      "key": "k1",
+      "when": "Knot 1 · about 2 hours",
+      "title": "Waiting for the summary",
+      "text": "The summary is typed next morning, then waits for the doctor to sign.",
+      "lines": [
+       {
+        "label": "Undone by",
+        "value": "Parts 1 and 2",
+        "state": "start"
+       },
+       {
+        "label": "How",
+        "value": "Drafted overnight, signed on the round"
+       }
+      ],
+      "entry": "How long do summaries wait to be signed?"
+     },
+     {
+      "key": "k2",
+      "when": "Knot 2 · 90 minutes",
+      "title": "Waiting for the bill",
+      "text": "The bill is drawn up only after the signature.",
+      "lines": [
+       {
+        "label": "Undone by",
+        "value": "Parts 1 and 3",
+        "state": "start"
+       },
+       {
+        "label": "How",
+        "value": "Kept up to date, billing checks it"
+       }
+      ],
+      "entry": "What holds the bill up most?"
+     },
+     {
+      "key": "k3",
+      "when": "Knot 3 · 1 hour",
+      "title": "Waiting for insurance",
+      "text": "The insurer is asked only once the bill is final.",
+      "lines": [
+       {
+        "label": "Undone by",
+        "value": "Part 1",
+        "state": "start"
+       },
+       {
+        "label": "How",
+        "value": "An early request the evening before"
+       }
+      ],
+      "entry": "Which insurer is slowest?"
+     },
+     {
+      "key": "k4",
+      "when": "Knot 4 · 45 minutes",
+      "title": "Final checks, the family",
+      "text": "Medicines are packed and the family called only at the end.",
+      "lines": [
+       {
+        "label": "Undone by",
+        "value": "Part 2",
+        "state": "start"
+       },
+       {
+        "label": "How",
+        "value": "Told on the evening round"
+       }
+      ],
+      "entry": "When does the family hear today?"
+     },
+     {
+      "key": "k5",
+      "when": "Knot 5 · 75 minutes",
+      "title": "The empty bed",
+      "text": "Housekeeping hears late, so the bed stays empty 75 minutes.",
+      "lines": [
+       {
+        "label": "Undone by",
+        "value": "Parts 2 and 4",
+        "state": "start"
+       },
+       {
+        "label": "How",
+        "value": "Housekeeping hears at once, one owner"
+       }
+      ],
+      "entry": "How does housekeeping hear a bed is free?"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: is it worth what it costs",
+    "say": "Is it worth what it costs?"
+   },
+   "add": {
+    "detail": "Tell me about one of the knots",
+    "say": "About one of the knots: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "What runs by itself, night and day",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

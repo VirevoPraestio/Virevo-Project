@@ -2,7 +2,7 @@
 Same chat in all three; only the drawing changes. Each drawing is an approved library block (scope all)
 with the Bed Management layer: the four moments as sheets, each with an "Add yours" entry, and one more entry
 for anything else about the hospital's setup (the turn's own question)."""
-import copy, json, os
+import dg_actions, copy, json, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 SAID = ('Beds it is — and what you’ve described lines up closely with a hospital we worked with. Let me show you their day rather than describe it. '
@@ -79,5 +79,6 @@ A['review'] = {'status': 'approved', 'date': '2026-09-30', 'note': 'Sample A app
 B['review'] = {'status': 'not chosen', 'date': '2026-09-30', 'note': 'Kept as a variation: the chain with the Bed Management layer.'}
 C['review'] = {'status': 'not chosen', 'date': '2026-09-30', 'note': 'Kept as a variation: the two-flow with the Bed Management layer.'}
 for s in (A, B, C):
+    dg_actions.add(s)
     fn = os.path.join(HERE, 'bm-dg-01-%s.json' % s['turn']['sample']['letter'])
     json.dump(s, open(fn, 'w', encoding='utf-8'), ensure_ascii=False, indent=1); print('wrote', os.path.basename(fn))

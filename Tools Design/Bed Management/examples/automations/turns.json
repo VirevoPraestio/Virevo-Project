@@ -1,0 +1,33 @@
+{
+ "place": "Automations",
+ "turns": [
+  {
+   "file": "bm-au-01-B.json",
+   "note": "Approved 1 Oct 2026: Sample B is the turn (the engine through one day). A and C are kept as templates."
+  },
+  {
+   "file": "bm-au-02.json",
+   "note": "Prompt 1 of bm-au-01. The library helper: the five asks of your IT team."
+  },
+  {
+   "file": "bm-au-03.json",
+   "note": "The library relay: the hand-over from discharge to the bed, today and linked."
+  },
+  {
+   "file": "bm-au-04.json",
+   "note": "The library thinker: how the engine predicts which beds free up. The doctor decides."
+  },
+  {
+   "file": "bm-au-05.json",
+   "note": "The library switchboard with three settings for paper. The night background starts here."
+  },
+  {
+   "file": "bm-au-06.json",
+   "note": "The library night shift: from the 6 PM freeze to a bed by noon."
+  },
+  {
+   "file": "bm-au-07.json",
+   "note": "The station panel: what switches on first. The last Automations turn. Wards, people, team and measures are only named."
+  }
+ ]
+}

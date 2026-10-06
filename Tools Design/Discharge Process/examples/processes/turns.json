@@ -1,0 +1,62 @@
+{
+ "place": "Processes",
+ "tool": "Discharge Process",
+ "turns": [
+  {
+   "file": "dp-pr-01.json",
+   "note": "Was turn-06 (sample conversation). Each job on one clock from the evening round, today and with the changes."
+  },
+  {
+   "file": "dp-pr-02.json",
+   "note": "Was turn-07. The six teams as rooms, the one approver and the two peers under them."
+  },
+  {
+   "file": "dp-pr-03.json",
+   "note": "Was turn-08. The roles, and the two ways to size the helpers: the usual rule and your busy hours."
+  },
+  {
+   "file": "dp-pr-04.json",
+   "note": "Was turn-09. The measures as six dials; the new ones dashed."
+  },
+  {
+   "file": "dp-pr-05.json",
+   "note": "Was turn-10. The plan as four switches to the bulb. The night-board background starts here."
+  },
+  {
+   "file": "dp-pr-06.json",
+   "note": "Was turn-11. The blank day: type each time straight into the drawing. The trial week by week."
+  },
+  {
+   "file": "dp-pr-07.json",
+   "note": "Was turn-12. The same day filled with the real times and the gaps (a redraw), and what they changed."
+  },
+  {
+   "file": "dp-pr-08.json",
+   "note": "Was pr-01. The two weeks: play the day strip, pick a part, type the ward."
+  },
+  {
+   "file": "dp-pr-09.json",
+   "note": "Was pr-02. Nine name badges, grouped by what each person does. The ward-board background is back."
+  },
+  {
+   "file": "dp-pr-10.json",
+   "note": "Was pr-03. Seven magnets moved from today to with the changes."
+  },
+  {
+   "file": "dp-pr-11.json",
+   "note": "Was pr-04. The chairs, their triggers and the busy-hours slider."
+  },
+  {
+   "file": "dp-pr-12.json",
+   "note": "Was pr-05. Two peers under one head, and what passes between the desks."
+  },
+  {
+   "file": "dp-pr-13.json",
+   "note": "Was pr-06. Nine instrument windows. The night-board background is back."
+  },
+  {
+   "file": "dp-pr-14.json",
+   "note": "Was pr-07. The loop after the trial, with the yes-or-no check."
+  }
+ ]
+}

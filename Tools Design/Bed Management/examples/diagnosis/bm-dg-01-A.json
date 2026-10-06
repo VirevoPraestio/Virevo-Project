@@ -164,7 +164,22 @@
     "state": "outcome",
     "sub": "Often half a day or more on one bed. Most hospitals have never measured it on its own."
    }
-  ]
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: what happens next",
+    "say": "Yes, that’s our day. What happens next?"
+   },
+   "add": {
+    "detail": "Tell me about your day",
+    "say": "Our day with beds looks like this: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
  },
  "review": {
   "status": "approved",

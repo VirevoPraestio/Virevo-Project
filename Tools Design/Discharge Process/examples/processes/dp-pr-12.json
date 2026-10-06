@@ -1,0 +1,228 @@
+{
+ "turn": {
+  "id": "dp-pr-12",
+  "type": "part",
+  "tool": "Discharge Process",
+  "tab": "Processes",
+  "register": "advisory",
+  "user_message": "Who at the bed desk would see this?",
+  "was": "pr-05 (seats, with what passes between)",
+  "context": "Processes place, turn 5 (two peers under one head, and what passes between the two desks).",
+  "transcript": {
+   "label": "Processes · the bed desk"
+  }
+ },
+ "chat": {
+  "text": [
+   "The bed desk sees it through its own Bed Manager, a peer of the Discharge Manager. Both report to your Head of Operations.",
+   "Whether you need a Bed Manager depends on three numbers we do not have yet. So that chair stays open for now."
+  ],
+  "bullets": [
+   "Likely discharges reach the bed desk a day ahead.",
+   "A 5 PM round confirms tomorrow’s leavers.",
+   "Each bill is held against the bed, so the empty time can be measured."
+  ],
+  "note": "The bed desk plans from the discharge desk’s times.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Head of Operations",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The Bed Manager",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "A day ahead",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "One team doing both",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "One team does both",
+   "Two separate teams",
+   "Which measures show it worked?"
+  ],
+  "pointer": "Pick a desk, or something that passes between them, to open it."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · the bed desk",
+    "title": "Two desks, one head",
+    "deck": "The Discharge Manager and the Bed Manager as peers, and what passes between them.",
+    "plate": {
+     "column": "Roles",
+     "name": "The two desks"
+    }
+   },
+   {
+    "type": "owners",
+    "label": "Two desks under the Head of Operations",
+    "link": "Peers. Neither reports to the other.",
+    "line": "The bed desk can only plan from times the discharge desk sends it.",
+    "owners": [
+     {
+      "tag": "Needed now",
+      "title": "Discharge Manager",
+      "line": "Owns discharges. Sends likely leavers to the bed desk a day ahead.",
+      "point": 1
+     },
+     {
+      "tag": "Open chair",
+      "title": "Bed Manager",
+      "line": "Owns bed planning. Places each admission in a bed before it is free.",
+      "point": 2
+     }
+    ],
+    "sheets": [
+     {
+      "key": "dm",
+      "when": "Needed now",
+      "title": "Discharge Manager",
+      "text": "More than 40 discharges a day already calls for this role. Your number is 40 to 45.",
+      "lines": [
+       {
+        "label": "Cost",
+        "value": "About ₹4 to 4.5 lakh a year"
+       },
+       {
+        "label": "Reports to",
+        "value": "The Head of Operations"
+       }
+      ],
+      "entry": "Who would the two managers report to?"
+     },
+     {
+      "key": "bm",
+      "when": "Needs your numbers",
+      "title": "Bed Manager",
+      "text": "Needed if any one of three is true. More admissions than free beds the night before. Beds over 80% full. Or more than half of admissions late.",
+      "lines": [
+       {
+        "label": "Cost",
+        "value": "About ₹4 to 4.5 lakh a year"
+       },
+       {
+        "label": "Still needed",
+        "value": "Three of your bed numbers",
+        "state": "target"
+       }
+      ],
+      "entry": "How many admissions come in late?"
+     }
+    ]
+   },
+   {
+    "type": "notes",
+    "label": "What passes between the two desks",
+    "items": [
+     {
+      "tag": "New",
+      "title": "Likely leavers, a day ahead",
+      "text": "Ward patients flagged 24 hours ahead, intensive care by 1 PM.",
+      "state": "start",
+      "point": 3
+     },
+     {
+      "tag": "New",
+      "title": "A 5 PM round",
+      "text": "Senior doctors check tomorrow’s leavers. The plan is fixed at 6 PM."
+     },
+     {
+      "tag": "Agreed",
+      "title": "Bed ready, once clean",
+      "text": "The bed desk sees it at once, with no phone call."
+     },
+     {
+      "tag": "Answer",
+      "title": "One team, or two?",
+      "text": "If one team does both, they must run side by side.",
+      "state": "target",
+      "point": 4
+     }
+    ],
+    "sheets": [
+     {
+      "key": "n1",
+      "when": "New",
+      "title": "Likely leavers, a day ahead",
+      "text": "The bed desk maps tomorrow’s beds from this list. Without it, the plan is built on the day.",
+      "lines": [
+       {
+        "label": "Sent by",
+        "value": "The Discharge Manager"
+       }
+      ]
+     },
+     {
+      "key": "n2",
+      "when": "New",
+      "title": "A 5 PM round",
+      "text": "The senior doctors check tomorrow’s likely leavers by 5 PM. The bed desk then fixes its plan at 6 PM.",
+      "lines": [
+       {
+        "label": "Fixed at",
+        "value": "6 PM"
+       }
+      ]
+     },
+     {
+      "key": "n3",
+      "when": "Agreed",
+      "title": "Bed ready, once clean",
+      "text": "Housekeeping marks the bed clean. The bed desk sees it at once.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "A phone call, when someone remembers"
+       }
+      ]
+     },
+     {
+      "key": "n4",
+      "when": "Needs your answer",
+      "title": "One team, or two?",
+      "text": "If one team runs discharges and admissions, the two must run side by side, not one after the other.",
+      "lines": [
+       {
+        "label": "We need",
+        "value": "Your answer",
+        "state": "target"
+       }
+      ],
+      "entry": "Is it one team, or two?"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: the measures that show it worked",
+    "say": "Which measures show it worked?"
+   },
+   "add": {
+    "detail": "Tell me about your bed desk",
+    "say": "Our bed desk works like this: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

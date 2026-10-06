@@ -1,0 +1,201 @@
+{
+ "turn": {
+  "id": "dp-au-04",
+  "type": "deeper",
+  "tool": "Discharge Process",
+  "tab": "Automations",
+  "register": "advisory",
+  "user_message": "Explain the first three steps on the round",
+  "was": "au-03 (agent)",
+  "context": "Automations place, turn 3 (the loop on the evening round, and who says yes).",
+  "transcript": {
+   "label": "Automations · three steps on the round"
+  }
+ },
+ "chat": {
+  "text": [
+   "The summary was already filling in. Here are the three steps on the evening round, and who says yes at each.",
+   "Tojo gathers, checks and drafts. People make every decision."
+  ],
+  "note": "Tojo drafts. The doctor decides.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Hearing the decision",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Putting the draft together",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The doctor’s yes",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "How would you record each decision?",
+   "What if the doctor changes their mind?",
+   "Does it work for insured patients?"
+  ],
+  "pointer": "Pick a step. The loop lights where Tojo is."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Automations · on the round",
+    "title": "Three steps, one yes each",
+    "deck": "What happens between the doctor’s word and the draft on their phone.",
+    "plate": {
+     "tag": "Automations",
+     "name": "The evening round",
+     "stage": "Built"
+    }
+   },
+   {
+    "type": "agent",
+    "hint": "Pick a step. The loop lights where Tojo is, and its sheet opens.",
+    "loop": [
+     {
+      "id": "n",
+      "name": "Notice"
+     },
+     {
+      "id": "g",
+      "name": "Gather"
+     },
+     {
+      "id": "c",
+      "name": "Check"
+     },
+     {
+      "id": "d",
+      "name": "Draft"
+     },
+     {
+      "id": "a",
+      "name": "Ask"
+     }
+    ],
+    "steps": [
+     {
+      "when": "On the evening round",
+      "title": "Hear the decision",
+      "stages": [
+       "n",
+       "c"
+      ],
+      "point": 1
+     },
+     {
+      "when": "Within minutes",
+      "title": "Put the draft together",
+      "stages": [
+       "g",
+       "c",
+       "d"
+      ],
+      "point": 2
+     },
+     {
+      "when": "Before the round ends",
+      "title": "Ask for the yes",
+      "stages": [
+       "a"
+      ],
+      "point": 3
+     }
+    ],
+    "caption": "Tojo’s loop: it notices, gathers, checks, drafts, then asks a person.",
+    "steps_label": "On the evening round",
+    "never_label": "What it never does",
+    "never": [
+     "It never decides who goes home.",
+     "It never signs for a doctor.",
+     "It never guesses a missing result.",
+     "It never changes a patient’s record."
+    ],
+    "sheets": [
+     {
+      "key": "hear",
+      "when": "On the evening round",
+      "title": "Hear the decision",
+      "text": "The doctor taps once on the ward phone to say the patient can likely go tomorrow. Tojo takes that as its signal.",
+      "lines": [
+       {
+        "label": "Checks first",
+        "value": "It is the patient’s own doctor"
+       },
+       {
+        "label": "And",
+        "value": "The patient is not waiting on a test"
+       }
+      ],
+      "entry": "What would stop a patient going tomorrow?",
+      "hand": {
+       "who": "the doctor",
+       "does": "Taps once to say the patient can likely go."
+      }
+     },
+     {
+      "key": "draft",
+      "when": "Within minutes",
+      "title": "Put the draft together",
+      "text": "Tojo gathers the facts recorded since admission. It writes the draft summary, the expected bill and the medicines to take home.",
+      "lines": [
+       {
+        "label": "Checks first",
+        "value": "Every test result is in"
+       },
+       {
+        "label": "And",
+        "value": "The bill matches what was used"
+       }
+      ],
+      "entry": "Which part of the summary is hardest to write?"
+     },
+     {
+      "key": "yes",
+      "when": "Before the round ends",
+      "title": "Ask for the yes",
+      "text": "The draft is on the doctor’s phone. Anything missing or unclear is marked for the doctor to look at.",
+      "lines": [
+       {
+        "label": "Checks first",
+        "value": "Late reports are named, never guessed"
+       }
+      ],
+      "entry": "Who else should see the draft?",
+      "hand": {
+       "who": "the doctor",
+       "does": "Reads the early summary, then signs or corrects it."
+      }
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: how each decision is recorded",
+    "say": "How would you record each decision?"
+   },
+   "add": {
+    "detail": "Tell me about your rounds",
+    "say": "On our evening round: "
+   },
+   "jump": {
+    "tab": "Processes",
+    "detail": "How the day changes on the wards",
+    "say": "Take me to Processes"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

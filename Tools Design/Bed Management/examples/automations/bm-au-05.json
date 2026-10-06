@@ -1,0 +1,332 @@
+{
+ "turn": {
+  "id": "bm-au-05",
+  "tab": "Automations",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "What if some records are on paper?",
+  "context": "From transcript 20 (we bring this, this has to be there, and “if almost nothing is digital”) and bed-management.md §7.2 and §7.4.2.",
+  "transcript": {
+   "label": "After transcript turn 31 · Automations, turn 5 (the record stops at 31)"
+  }
+ },
+ "chat": {
+  "text": [
+   "Some paper is fine. What we bring already reads from people, not from systems."
+  ],
+  "bullets": [
+   "OPD advice is read from the prescription as written. Voice notes on rounds need no system at all.",
+   "Admissions, billing and the bed board are usually on a system already. Those need only read access.",
+   "If almost nothing is on a system, it is a different project, not a slower one. Better said now."
+  ],
+  "invite": "Tell me which of your records are still on paper.",
+  "points": [
+   {
+    "n": 1,
+    "label": "What we bring",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Read access",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Almost nothing on a system",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What happens after the 6 PM freeze?",
+   "Which automation do we switch on first?",
+   "What does Tojo build itself?"
+  ],
+  "pointer": "Try the three settings, or flip the records yourself. The lamps show what still switches on."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Automations · records on paper",
+    "plate": {
+     "tag": "Automations",
+     "name": "Records on paper",
+     "stage": "Idea"
+    },
+    "title": "Paper or system: what still works",
+    "deck": "Each record is on a system or on paper. Each lamp lights only when everything it needs is on a system."
+   },
+   {
+    "type": "sources",
+    "hint": "Try a setting or flip a record. Pick a record to see what paper changes.",
+    "src_label": "Your records",
+    "auto_label": "What can switch on",
+    "main": {
+     "id": "dis",
+     "tag": "Main switch",
+     "name": "Discharge, automated",
+     "short": "discharge",
+     "line": "Built first, so its times are real"
+    },
+    "sources": [
+     {
+      "id": "opd",
+      "name": "OPD prescriptions",
+      "short": "OPD advice",
+      "holds": "Read from the page as written, paper or not",
+      "link": "ours",
+      "point": 1
+     },
+     {
+      "id": "voice",
+      "name": "Voice notes on rounds",
+      "short": "round notes",
+      "holds": "The doctor speaks. Our recorder writes the note",
+      "link": "ours",
+      "point": 1
+     },
+     {
+      "id": "adt",
+      "name": "Admissions and discharges",
+      "short": "admissions",
+      "holds": "Who came in, who left, which bed, and when",
+      "link": "needed",
+      "point": 2
+     },
+     {
+      "id": "bed",
+      "name": "Bed board",
+      "short": "bed board",
+      "holds": "Which beds are empty, being cleaned or ready",
+      "link": "needed",
+      "point": 2
+     },
+     {
+      "id": "bill",
+      "name": "Billing",
+      "short": "billing",
+      "holds": "When each bill closes and the next opens",
+      "link": "needed",
+      "point": 2
+     },
+     {
+      "id": "ip",
+      "name": "Inpatient notes",
+      "short": "inpatient notes",
+      "holds": "The stay so far, for each patient",
+      "link": "needed"
+     }
+    ],
+    "automations": [
+     {
+      "name": "Admission steps timed",
+      "needs": [
+       "adt"
+      ]
+     },
+     {
+      "name": "Dead bed time, measured",
+      "needs": [
+       "bill",
+       "adt"
+      ]
+     },
+     {
+      "name": "Tomorrow’s bed map",
+      "needs": [
+       "dis",
+       "adt",
+       "opd",
+       "ip"
+      ]
+     },
+     {
+      "name": "Who frees a bed, predicted",
+      "needs": [
+       "ip",
+       "voice"
+      ]
+     },
+     {
+      "name": "Call-in times, bed by bed",
+      "needs": [
+       "dis",
+       "adt",
+       "bed",
+       "opd"
+      ]
+     },
+     {
+      "name": "Emergency beds held back",
+      "needs": [
+       "adt"
+      ],
+      "point": 3
+     }
+    ],
+    "default_on": [
+     "opd",
+     "voice",
+     "adt",
+     "bed",
+     "bill"
+    ],
+    "presets": [
+     {
+      "label": "Mostly on a system",
+      "on": [
+       "opd",
+       "voice",
+       "adt",
+       "bed",
+       "bill",
+       "ip",
+       "dis"
+      ]
+     },
+     {
+      "label": "Notes on paper",
+      "on": [
+       "opd",
+       "voice",
+       "adt",
+       "bed",
+       "bill",
+       "dis"
+      ]
+     },
+     {
+      "label": "Almost all on paper",
+      "on": [
+       "opd",
+       "voice"
+      ]
+     }
+    ],
+    "condition": "Paper notes do not stop the build. They make the part we bring bigger, and the timeline longer.",
+    "sheets": [
+     {
+      "key": "opd",
+      "when": "We bring this",
+      "title": "OPD prescriptions",
+      "text": "The advice to admit is read from the prescription as written. Paper or screen makes no difference to this part.",
+      "lines": [
+       {
+        "label": "If on paper",
+        "value": "Still works",
+        "state": "start"
+       }
+      ],
+      "entry": "Are your OPD prescriptions written by hand?"
+     },
+     {
+      "key": "voice",
+      "when": "We bring this",
+      "title": "Voice notes on rounds",
+      "text": "The doctor speaks on the round they already do. Our recorder turns it into a note. No system is needed on the ward.",
+      "lines": [
+       {
+        "label": "If on paper",
+        "value": "Still works",
+        "state": "start"
+       }
+      ],
+      "entry": "Do your doctors write round notes by hand today?",
+      "hand": {
+       "who": "the treating doctor",
+       "does": "Speaks the note on the round."
+      }
+     },
+     {
+      "key": "adt",
+      "when": "Has to be there",
+      "title": "Admissions and discharges",
+      "text": "Almost every lamp needs this record. If it is kept in a register, we would have to build the record first.",
+      "lines": [
+       {
+        "label": "If on paper",
+        "value": "Most lamps stay dark",
+        "state": "target"
+       }
+      ],
+      "entry": "Is admission and discharge kept on a system or a register?"
+     },
+     {
+      "key": "bed",
+      "when": "Has to be there",
+      "title": "Bed board",
+      "text": "Call-in times need to see which beds are ready. A whiteboard cannot be read by the engine.",
+      "lines": [
+       {
+        "label": "If on paper",
+        "value": "No call-in times",
+        "state": "target"
+       }
+      ],
+      "entry": "Is your bed board a system, a sheet or a whiteboard?"
+     },
+     {
+      "key": "bill",
+      "when": "Has to be there",
+      "title": "Billing",
+      "text": "Billing is almost always on a system. The report joins bill close and bill open against the same bed.",
+      "lines": [
+       {
+        "label": "If on paper",
+        "value": "Dead bed time cannot be measured",
+        "state": "target"
+       }
+      ],
+      "entry": "Is your billing on a system?"
+     },
+     {
+      "key": "ip",
+      "when": "Has to be there",
+      "title": "Inpatient notes",
+      "text": "If these are on paper, voice notes on rounds can fill much of the gap. That is more for us to build.",
+      "lines": [
+       {
+        "label": "If on paper",
+        "value": "We build more of it"
+       },
+       {
+        "label": "Prediction",
+        "value": "Coarser at first"
+       }
+      ],
+      "entry": "Which parts of the inpatient file are on paper?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Almost nothing on a system",
+    "value": "A different project",
+    "state": "start",
+    "sub": "Not a slower one. The part we bring gets much bigger, and the timeline changes with it."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: what happens after the 6 PM freeze",
+    "say": "What happens after the 6 PM freeze?"
+   },
+   "add": {
+    "detail": "Tell me what is on paper",
+    "say": "These records are still on paper with us: "
+   },
+   "jump": {
+    "tab": "Processes",
+    "detail": "How the day changes on the wards",
+    "say": "Take me to Processes"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the Bed Management Automations turns."
+ }
+}

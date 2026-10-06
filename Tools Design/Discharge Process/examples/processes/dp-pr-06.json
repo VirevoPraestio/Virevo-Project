@@ -1,0 +1,240 @@
+{
+ "turn": {
+  "id": "dp-pr-06",
+  "type": "data-ask",
+  "tool": "Discharge Process",
+  "tab": "Processes",
+  "register": "advisory",
+  "user_message": "Let’s plan the two-week trial",
+  "was": "turn-11 (dp-11), fill-blank + cards",
+  "context": "Discharge sample conversation, turn 11 (playbook §6: the blank day to fill in, then redrawn with the real times).",
+  "transcript": {
+   "label": "Sample conversation · turn 11 · the trial times"
+  }
+ },
+ "chat": {
+  "text": [
+   "Before the trial starts, I need your real times for one normal weekday. They become the starting numbers the trial is measured against.",
+   "Rough times are fine. If nobody writes a step down today, just say so."
+  ],
+  "note": "Rough times now beat perfect times never.",
+  "points": [
+   {
+    "n": 1,
+    "label": "When doctors decide",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "When doctors sign",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "When the bill is final",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "When insurance approves",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "When the bed is ready again",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Here are the times for a normal Tuesday",
+   "We don’t write down when doctors decide",
+   "Can the Discharge Manager collect these?"
+  ],
+  "pointer": "Type a rough time on each step. Each one goes into your message."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "The trial · your starting times",
+    "title": "One normal day, step by step",
+    "deck": "Seven steps. Type a rough time on each one, straight into the drawing.",
+    "plate": {
+     "column": "The trial",
+     "name": "Your starting times"
+    }
+   },
+   {
+    "type": "timesheet",
+    "mode": "blank",
+    "label": "Times for Tojo",
+    "day": "A normal weekday",
+    "count_label": "Times typed in",
+    "waiting": "None typed yet",
+    "done": "All seven in. Send to Tojo.",
+    "steps": [
+     {
+      "title": "Doctor decides",
+      "field": "time",
+      "point": 1
+     },
+     {
+      "title": "Doctor signs",
+      "field": "time",
+      "point": 2
+     },
+     {
+      "title": "Papers ready",
+      "field": "time"
+     },
+     {
+      "title": "Bill final",
+      "field": "time",
+      "point": 3
+     },
+     {
+      "title": "Insurance approves",
+      "field": "time, if insured",
+      "point": 4
+     },
+     {
+      "title": "Patient leaves",
+      "field": "time"
+     },
+     {
+      "title": "Bed ready again",
+      "field": "time",
+      "point": 5
+     }
+    ],
+    "caption": "The trial ward on a normal weekday. Rough is fine. Leave a box empty if nobody records it.",
+    "sheets": [
+     {
+      "key": "s1",
+      "when": "Step 1 of 7",
+      "title": "Doctor decides",
+      "text": "The decision starts everything. If nobody writes it down, say so."
+     },
+     {
+      "key": "s2",
+      "when": "Step 2 of 7",
+      "title": "Doctor signs",
+      "text": "The morning signature. Today every paper waits for it."
+     },
+     {
+      "key": "s3",
+      "when": "Step 3 of 7",
+      "title": "Papers ready",
+      "text": "When the summary is ready to hand over."
+     },
+     {
+      "key": "s4",
+      "when": "Step 4 of 7",
+      "title": "Bill final",
+      "text": "When the final bill is closed."
+     },
+     {
+      "key": "s5",
+      "when": "Step 5 of 7",
+      "title": "Insurance approves",
+      "text": "For insured patients only. When the insurer says yes."
+     },
+     {
+      "key": "s6",
+      "when": "Step 6 of 7",
+      "title": "Patient leaves",
+      "text": "When the patient leaves the ward."
+     },
+     {
+      "key": "s7",
+      "when": "Step 7 of 7",
+      "title": "Bed ready again",
+      "text": "When the bed is clean and ready for the next patient."
+     }
+    ]
+   },
+   {
+    "type": "notes",
+    "label": "The trial, week by week",
+    "items": [
+     {
+      "tag": "Week 1",
+      "title": "Watch",
+      "text": "Run discharge the usual way. Write down every time.",
+      "state": "start"
+     },
+     {
+      "tag": "Week 2",
+      "title": "The new order",
+      "text": "Start the papers, the bill and insurance on the evening round."
+     },
+     {
+      "tag": "Week 3",
+      "title": "Decide",
+      "text": "Compare the two weeks, then choose.",
+      "state": "target"
+     }
+    ],
+    "sheets": [
+     {
+      "key": "n1",
+      "when": "Week 1",
+      "title": "Watch",
+      "text": "Nothing changes on the ward yet. The Discharge Manager, or a nurse you choose, writes down the times for each patient.",
+      "lines": [
+       {
+        "label": "At the end",
+        "value": "Your real starting numbers",
+        "state": "start"
+       }
+      ]
+     },
+     {
+      "key": "n2",
+      "when": "Week 2",
+      "title": "The new order",
+      "text": "Doctors say who is going home on the evening round, as they already do. Papers and the bill start that evening.",
+      "lines": [
+       {
+        "label": "Records",
+        "value": "The same times, to compare"
+       }
+      ]
+     },
+     {
+      "key": "n3",
+      "when": "Week 3",
+      "title": "Decide",
+      "text": "We read the two weeks side by side and choose: spread it, or adjust and try again.",
+      "lines": [
+       {
+        "label": "We read",
+        "value": "Hours from ready to home"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: send the times",
+    "say": "Here are the times for a normal Tuesday"
+   },
+   "add": {
+    "detail": "Tell me what you do not record",
+    "say": "Nobody records these steps today: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

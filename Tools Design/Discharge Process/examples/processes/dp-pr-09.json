@@ -1,0 +1,279 @@
+{
+ "turn": {
+  "id": "dp-pr-09",
+  "type": "part",
+  "tool": "Discharge Process",
+  "tab": "Processes",
+  "register": "advisory",
+  "user_message": "Who has to agree to this?",
+  "was": "pr-02 (people)",
+  "context": "Processes place, turn 2 (who agrees, team by team, and the one approver of the flow).",
+  "transcript": {
+   "label": "Processes · who agrees"
+  }
+ },
+ "chat": {
+  "text": [
+   "Nine teams are touched, but only one approves the flow. Your Head of Operations signs off the new order of work, not the daily tasks.",
+   "Doctors matter most. You said they do not use voice notes, so the trial asks them for one tap, not a new habit."
+  ],
+  "invite": "Next, we can walk through each change on the ward.",
+  "note": "Help with each job first. Fewer hours come later.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Head of Operations",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Doctors",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Billing",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The IT team",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What changes on the ward, step by step?",
+   "How do we win over the doctors?",
+   "Do we need to hire anyone?"
+  ],
+  "pointer": "Pick a name badge to see what changes for that person."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · who agrees",
+    "title": "Nine badges, one approver",
+    "deck": "Each badge says where that person stands. Most are still to ask.",
+    "plate": {
+     "column": "People",
+     "name": "Who agrees"
+    }
+   },
+   {
+    "type": "badges",
+    "rule": "Tojo comes in as help with each job, not a threat to it. Any fall in staff hours comes later, once it is trusted.",
+    "people": [
+     {
+      "name": "Head of Operations",
+      "group": "Approves the flow",
+      "status": "to_ask",
+      "trial": true,
+      "point": 1
+     },
+     {
+      "name": "Doctors",
+      "group": "Works on the trial ward",
+      "status": "worried",
+      "trial": true,
+      "point": 2
+     },
+     {
+      "name": "Nurses",
+      "group": "Works on the trial ward",
+      "status": "to_ask",
+      "trial": true
+     },
+     {
+      "name": "Billing",
+      "group": "Works on the trial ward",
+      "status": "to_ask",
+      "trial": true,
+      "point": 3
+     },
+     {
+      "name": "Insurance desk",
+      "group": "Works on the trial ward",
+      "status": "to_ask",
+      "trial": true
+     },
+     {
+      "name": "Housekeeping",
+      "group": "Watches for updates",
+      "status": "to_ask",
+      "trial": true
+     },
+     {
+      "name": "Pharmacy and diet",
+      "group": "Watches for updates",
+      "status": "to_ask",
+      "trial": true
+     },
+     {
+      "name": "Bed desk",
+      "group": "Watches for updates",
+      "status": "to_ask"
+     },
+     {
+      "name": "IT team",
+      "group": "After the trial",
+      "status": "to_ask",
+      "point": 4
+     }
+    ],
+    "sheets": [
+     {
+      "key": "b1",
+      "when": "Approves the flow",
+      "title": "Head of Operations",
+      "text": "Signs off the new order of work across departments. Takes no part in the daily tasks.",
+      "lines": [
+       {
+        "label": "What they gain",
+        "value": "One Discharge Manager reports the numbers every week.",
+        "state": "start"
+       }
+      ],
+      "entry": "What would your Head of Operations say?"
+     },
+     {
+      "key": "b2",
+      "when": "Works on the trial ward",
+      "title": "Doctors",
+      "text": "Mark likely discharges on the evening round with one tap. Sign the early summary.",
+      "lines": [
+       {
+        "label": "What they gain",
+        "value": "The summary is ready to check, not to write.",
+        "state": "start"
+       },
+       {
+        "label": "What you told us",
+        "value": "“Our doctors don’t use voice notes.” So the trial uses a tap."
+       }
+      ],
+      "entry": "What would doctors say?"
+     },
+     {
+      "key": "b3",
+      "when": "Works on the trial ward",
+      "title": "Nurses",
+      "text": "Record the ready and leaving times. Start the papers after the evening round.",
+      "lines": [
+       {
+        "label": "What they gain",
+        "value": "No rush for medicines and papers at noon.",
+        "state": "start"
+       }
+      ],
+      "entry": "What would nurses say?"
+     },
+     {
+      "key": "b4",
+      "when": "Works on the trial ward",
+      "title": "Billing",
+      "text": "Checks a bill kept up to date all stay, instead of building it at the end.",
+      "lines": [
+       {
+        "label": "What they gain",
+        "value": "No pile of bills at noon.",
+        "state": "start"
+       }
+      ],
+      "entry": "What would billing say?"
+     },
+     {
+      "key": "b5",
+      "when": "Works on the trial ward",
+      "title": "Insurance desk",
+      "text": "Sends the early request the evening before.",
+      "lines": [
+       {
+        "label": "What they gain",
+        "value": "Fewer calls chasing the insurer the next day.",
+        "state": "start"
+       }
+      ],
+      "entry": "What would insurance desk say?"
+     },
+     {
+      "key": "b6",
+      "when": "Watches for updates",
+      "title": "Housekeeping",
+      "text": "Hears the moment a patient leaves, with the bed number.",
+      "lines": [
+       {
+        "label": "What they gain",
+        "value": "No waiting for a phone call.",
+        "state": "start"
+       }
+      ],
+      "entry": "What would housekeeping say?"
+     },
+     {
+      "key": "b7",
+      "when": "Watches for updates",
+      "title": "Pharmacy and diet",
+      "text": "Told that evening who goes home tomorrow.",
+      "lines": [
+       {
+        "label": "What they gain",
+        "value": "Medicines packed before the morning rush.",
+        "state": "start"
+       }
+      ],
+      "entry": "What would pharmacy and diet say?"
+     },
+     {
+      "key": "b8",
+      "when": "Watches for updates",
+      "title": "Bed desk",
+      "text": "Sees each bed turn ready without a call.",
+      "lines": [
+       {
+        "label": "What they gain",
+        "value": "The next patient is placed sooner.",
+        "state": "start"
+       }
+      ],
+      "entry": "What would bed desk say?"
+     },
+     {
+      "key": "b9",
+      "when": "After the trial",
+      "title": "IT team",
+      "text": "Lets Tojo read the hospital software. Nothing can be changed or deleted.",
+      "lines": [
+       {
+        "label": "What they gain",
+        "value": "One clear list, asked for once.",
+        "state": "start"
+       }
+      ],
+      "entry": "What would your IT team say?"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: each change on the ward",
+    "say": "What changes on the ward, step by step?"
+   },
+   "add": {
+    "detail": "Tell me who has already agreed",
+    "say": "These people have already agreed: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

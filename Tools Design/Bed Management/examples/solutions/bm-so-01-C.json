@@ -75,6 +75,11 @@
   ],
   "pointer": "The six steps are stations on one route. Pick one to open it, or pick a door at the end."
  },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved 1 Oct as a template; Sample A is the turn."
+ },
  "canvas": {
   "blocks": [
    {
@@ -299,6 +304,21 @@
     "state": "outcome",
     "sub": "From about 3½ hours today. Paperwork is the one step that cannot be made shorter."
    }
-  ]
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: how all of this would be done",
+    "say": "How would all of this be done?"
+   },
+   "add": {
+    "detail": "Add something about your hospital",
+    "say": "Here is something to add about our hospital: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "How the automations are built and run",
+    "say": "Take me to Automations"
+   }
+  }
  }
 }

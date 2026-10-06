@@ -1,0 +1,49 @@
+{
+ "place": "Processes",
+ "turns": [
+  {
+   "file": "bm-pr-01.json",
+   "note": "Prompt 1 of bm-au-07. New drawing: the day-dial, the ward’s day on a wall clock. Today against the new day."
+  },
+  {
+   "file": "bm-pr-02.json",
+   "note": "New drawing: ward-pins, from the approved Processes landing page B (the trial ward from above)."
+  },
+  {
+   "file": "bm-pr-03.json",
+   "note": "The library swap (magnets): the one rule that keeps the day late, and the new order."
+  },
+  {
+   "file": "bm-pr-04.json",
+   "note": "New drawing: round-cards. Confirm or change a likely date; a changed date is typed in and added to the message."
+  },
+  {
+   "file": "bm-pr-05.json",
+   "note": "The library loop with a yes-or-no check: a date not given. The evening background starts here."
+  },
+  {
+   "file": "bm-pr-06.json",
+   "note": "New drawing: the OPD slip, pulled into the bed plan."
+  },
+  {
+   "file": "bm-pr-07.json",
+   "note": "The library name badges: everyone this touches, grouped and filtered."
+  },
+  {
+   "file": "bm-pr-08.json",
+   "note": "The library chairs and lamps: the two managers and the desks, with the triggers your numbers meet."
+  },
+  {
+   "file": "bm-pr-09.json",
+   "note": "The library instrument windows: the eight weekly measures. The day background returns."
+  },
+  {
+   "file": "bm-pr-10.json",
+   "note": "The library trial strip: two weeks on one ward, playable."
+  },
+  {
+   "file": "bm-pr-11.json",
+   "note": "New drawing: the clipboard, typed into. The last Processes turn; the jump goes back to Diagnosis."
+  }
+ ]
+}

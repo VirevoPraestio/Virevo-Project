@@ -1,0 +1,237 @@
+{
+ "turn": {
+  "id": "dp-pr-04",
+  "type": "part",
+  "tool": "Discharge Process",
+  "tab": "Processes",
+  "register": "advisory",
+  "user_message": "Show me how we’ll know it worked",
+  "was": "turn-09 (dp-09), cards + stat-strip",
+  "context": "Discharge sample conversation, turn 9 (playbook §4: only the measures with a number or a goal; new ones marked new).",
+  "transcript": {
+   "label": "Sample conversation · turn 9 · the measures"
+  }
+ },
+ "chat": {
+  "text": [
+   "We will watch a short list of numbers, week by week. Where you already gave me a number, that is where we start. Why these:"
+  ],
+  "bullets": [
+   "They measure the wait itself, not how busy people are, so a busy week cannot hide a slow one.",
+   "They start from your own numbers, so progress is measured against you, not other hospitals.",
+   "Nothing tracks some of them today. Those are marked new, and the trial’s first week gives their starting number."
+  ],
+  "invite": "That is all five parts. Shall I put them into a plan, starting with a short trial?",
+  "note": "Measure the wait, not the effort.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Hours from ready to home",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Patients home by 10 AM",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Decisions made on the evening round",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Insurance approval time",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Money won back",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Yes, put it into a plan",
+   "Who reports these numbers each week?",
+   "What counts as a good result?"
+  ],
+  "pointer": "Pick a dial to see how it is measured. Dashed dials have no number yet."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 5 · Knowing it worked",
+    "title": "The numbers we will watch",
+    "deck": "Six dials. Two already have your number. The rest get theirs from the trial’s first week.",
+    "plate": {
+     "column": "Measures",
+     "name": "The six dials"
+    }
+   },
+   {
+    "type": "gauges",
+    "filters": {
+     "all": "All six",
+     "lead": "Early warnings",
+     "result": "Results"
+    },
+    "key_line": "Dashed dials: nobody measures these today.",
+    "new_tag": "New",
+    "tracked_tag": "Yours",
+    "measures": [
+     {
+      "title": "Hours from ready to home",
+      "reading": "Starting number 5 hours, from you",
+      "kind": "result",
+      "new": false,
+      "needle": 0.5,
+      "point": 1
+     },
+     {
+      "title": "Home by 10 AM",
+      "reading": "Goal: 10 AM, insured patients by 1 PM",
+      "kind": "result",
+      "new": true,
+      "point": 2
+     },
+     {
+      "title": "Decided on the evening round",
+      "reading": "Share of decisions made at 7 PM",
+      "kind": "lead",
+      "new": true,
+      "point": 3
+     },
+     {
+      "title": "Insurance approval time",
+      "reading": "From the first bill to the yes",
+      "kind": "lead",
+      "new": true,
+      "point": 4
+     },
+     {
+      "title": "Money won back",
+      "reading": "Bed days freed, in rupees",
+      "kind": "result",
+      "new": true,
+      "point": 5
+     },
+     {
+      "title": "Patients going home a day",
+      "reading": "40 to 45 today, from you",
+      "kind": "lead",
+      "new": false,
+      "needle": 0.71
+     }
+    ],
+    "caption": "A number nobody has measured is marked new, never guessed.",
+    "sheets": [
+     {
+      "key": "m1",
+      "when": "Result",
+      "title": "Hours from ready to home",
+      "text": "From the doctor saying the patient can go, to the patient leaving. Counted for every patient, reported every week, ward by ward.",
+      "lines": [
+       {
+        "label": "Starting number",
+        "value": "5 hours, yours",
+        "state": "start"
+       }
+      ],
+      "entry": "Who could record the leaving time?"
+     },
+     {
+      "key": "m2",
+      "when": "Result · new",
+      "title": "Home by 10 AM",
+      "text": "The share of each day’s patients who have left by those times. The first week of the trial sets the starting number.",
+      "lines": [
+       {
+        "label": "Starting number",
+        "value": "None yet. The trial sets it",
+        "state": "target"
+       }
+      ],
+      "entry": "How many leave before noon today?"
+     },
+     {
+      "key": "m3",
+      "when": "Early warning · new",
+      "title": "Decided on the evening round",
+      "text": "The earlier the decision is recorded, the more of the night can be used. This warns early when it slips.",
+      "lines": [
+       {
+        "label": "Starting number",
+        "value": "None yet. The trial sets it",
+        "state": "target"
+       }
+      ],
+      "entry": "Do any wards decide later than 7 PM?"
+     },
+     {
+      "key": "m4",
+      "when": "Early warning · new",
+      "title": "Insurance approval time",
+      "text": "With the first bill sent the evening before, this should fall first. Read for insured patients only.",
+      "lines": [
+       {
+        "label": "Starting number",
+        "value": "None yet. The trial sets it",
+        "state": "target"
+       }
+      ],
+      "entry": "How long do approvals take today?"
+     },
+     {
+      "key": "m5",
+      "when": "Result · new",
+      "title": "Money won back",
+      "text": "What the freed bed time earns, against the most it could be. Read after the trial.",
+      "lines": [
+       {
+        "label": "The most it could be",
+        "value": "₹10.3 crore a year",
+        "state": "outcome"
+       }
+      ],
+      "entry": "Who in finance would check it?"
+     },
+     {
+      "key": "m6",
+      "when": "Early warning",
+      "title": "Patients going home a day",
+      "text": "Watched each month against the line for the Discharge Manager. No goal, only a watch.",
+      "lines": [
+       {
+        "label": "Starting number",
+        "value": "40 to 45, yours",
+        "state": "start"
+       }
+      ],
+      "entry": "Does this change by season?"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: put it into a plan",
+    "say": "Yes, put it into a plan"
+   },
+   "add": {
+    "detail": "Tell me what you track today",
+    "say": "Each week we already look at: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

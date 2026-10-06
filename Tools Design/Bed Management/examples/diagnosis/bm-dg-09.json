@@ -140,7 +140,22 @@
     "value": "Counted once, inside this",
     "sub": "A shorter stay frees the same days of bed time. Adding it on top would count them twice."
    }
-  ]
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: how the team is sized",
+    "say": "No, sized by habit"
+   },
+   "add": {
+    "detail": "Tell me about your team size",
+    "say": "Our admissions team is sized like this: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
  },
  "review": {
   "status": "approved",

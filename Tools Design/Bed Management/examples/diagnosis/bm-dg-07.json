@@ -115,7 +115,22 @@
     "state": "outcome",
     "sub": "Up to 8 hours on the days it stretches. Simple arithmetic on your own two times."
    }
-  ]
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: the money figures",
+    "say": "Not sure, I’d need to check"
+   },
+   "add": {
+    "detail": "Tell me what billing shows",
+    "say": "Our billing team says: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
  },
  "review": {
   "status": "approved",

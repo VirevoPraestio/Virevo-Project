@@ -35,6 +35,7 @@ import diagnosis_html as dh                    # noqa: E402  the approved block 
 import bm_common as C                          # noqa: E402  the Bed Management app shell and bed mark
 from preview import chat_parts                 # noqa: E402
 import tojo_layer as L                         # noqa: E402  the common tool layer: picking and entries
+import reply_check as RC                       # noqa: E402  rule 09: the reply-check record and the lines the app shows
 import bm_blocks                               # noqa: E402  Bed Management's own drawings
 
 REG_PATH = os.path.join(HERE, 'registry.json')
@@ -314,6 +315,8 @@ def validate(spec, reg=None):
             errs.append('%s: %d sheets for %d items; one sheet per item, in order' % (path, len(b['sheets']), len(items)))
         if t == 'time-window' and b.get('sheets') and [x['time'] for x in items] != sorted(x['time'] for x in items):
             errs.append('%s: list the events in time order' % path)
+    if not canvas.get('actions'): errs.append('canvas.actions: the three buttons are on every turn (Proceed with next step, Add more, Jump to the next place)')
+    else: dh.check_fields('canvas.actions', reg['actions']['slots']['fields'], canvas['actions'], errs, warns)
     s2 = copy.deepcopy(spec); s2['turn'].pop('user_message', None)
     errs += ['plain English: ' + p for p in dh.plain_check(s2, reg)]
     errs += ['simple English: ' + x for x in simple_check(spec)]
@@ -322,6 +325,7 @@ def validate(spec, reg=None):
         if p.get('n') != i + 1: errs.append('chat.points[%d].n must be %d' % (i, i + 1))
     for k in ('pointer', 'invite'):
         if chat.get(k) and re.search(r'\b(left|right|above|below|sidebar)\b', chat[k], re.I): errs.append('chat.%s: name the drawing, not where it is' % k)
+    rc_errs, rc_warns = RC.check(spec); errs += rc_errs; warns += rc_warns
     return errs, warns
 
 def book_check(specs, reg):
@@ -461,10 +465,27 @@ LAYER_CSS = L.CSS + r'''
 .sh-box #tojo-input{border:0;outline:0;background:transparent;font:inherit;font-size:15px;flex:1;padding:10px 4px;min-height:24px;max-height:260px}
 '''
 
+# ============================================================================================ the three buttons (rules/08 §8)
+def actions(a):
+    btn = lambda k, head, d: '<button type="button" class="dg-act dg-act-%s" data-say-lead data-text="%s"><span class="dg-act-k">%s</span><span class="dg-act-d">%s</span></button>' % (
+        k, e(d['say']), e(head), e(d['detail']))
+    return '<nav class="dg-acts" aria-label="What to do next">%s%s%s</nav>' % (
+        btn('go', 'Proceed with next step', a['go']), btn('add', 'Add more', a['add']), btn('jump', 'Jump to ' + a['jump']['tab'], a['jump']))
+
+ACTIONS_CSS = r'''
+.tj .dg-acts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:6px;padding-top:16px;border-top:1.5px solid var(--ink)}
+.tj .dg-act{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:3px;min-height:64px;padding:10px 16px;text-align:left;font:inherit;color:var(--ink);background:var(--card);border:1.5px solid var(--ink);border-radius:6px;cursor:pointer}
+.tj .dg-act-k{font-weight:600;font-size:15px}.tj .dg-act-d{font-size:12.5px;color:var(--muted);line-height:1.35}
+.tj .dg-act-go{background:var(--ink);color:var(--card);box-shadow:inset 6px 0 0 #d4a94f;padding-left:22px}.tj .dg-act-go .dg-act-d{color:inherit;opacity:.85}
+.tj .dg-act:hover{transform:translate(-1px,-1px)}.tj .dg-act.is-said{outline:3px solid #d4a94f;outline-offset:2px}
+@container tj (max-width:699px){.tj .dg-acts{grid-template-columns:minmax(0,1fr);gap:10px}}
+@media (max-width:699px){.tj .dg-acts{grid-template-columns:minmax(0,1fr);gap:10px}}
+'''
+
 # ============================================================================================ pages
 def render_canvas(spec, reg):
     ctx = dh.Ctx(); ctx.turn = turn_no(spec); ctx.eff = 0
-    inner = ''.join(RENDER[b['type']](b, ctx) for b in spec['canvas']['blocks'])
+    inner = ''.join(RENDER[b['type']](b, ctx) for b in spec['canvas']['blocks']) + actions(spec['canvas']['actions'])
     return '<div class="tj" data-theme="bm" data-tone="%s" data-turn="%s" data-generator="%s"><div class="tj-stack">%s</div></div>' % (
         tone_of(spec, reg), e(spec['turn']['id']), GEN, inner)
 
@@ -474,7 +495,7 @@ def split_chat(chat):
 
 def user_bubble(spec):
     t = spec['turn']
-    return '<div class="sh-um">%s%s</div>' % ('<b>%s</b>' % e(t['user_tag']) if t.get('user_tag') else '', e(t['user_message']))
+    return '<div class="sh-um">%s%s</div>' % ('<b>%s</b>' % e(t['user_tag']) if t.get('user_tag') else '', e(t['user_message'])) + RC.lead_in(spec)   # rule 09: opening, rating, reset
 
 def render_page(spec, view, reg, fonts=True):
     tone = tone_of(spec, reg); th = shell_theme(reg, tone)
@@ -488,7 +509,7 @@ def render_page(spec, view, reg, fonts=True):
         body = body.replace('@@CANVAS@@<div class="sh-mpanel">@@CHAT@@</div>',
                             '<div class="sh-mpanel bm-mt">%s</div>%s<div class="sh-mpanel bm-mr">%s</div>' % (text, canvas, rest))
         body = re.sub(r'<input id="tojo-input"[^>]*>', '<textarea id="tojo-input" rows="1" placeholder="Write to Tojo…"></textarea>', body)
-    css = dh.asset('tojo.css') + theme_css(reg) + LAYER_CSS + bm_blocks.CSS
+    css = dh.asset('tojo.css') + theme_css(reg) + LAYER_CSS + bm_blocks.CSS + ACTIONS_CSS
     return ('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             '<title>%s · %s %s</title><style>%s</style><style>%s%s%s.bm-app .sh-bar{background:%s}%s</style></head><body>%s<script>%s</script><script>%s</script></body></html>') % (
         e(spec['turn']['id']), TOOL, PLACE, dh.font_css() if fonts else '', C.SHELL_CSS, C.shell_css(th), C.SHELL_V3_CSS, th['ground'], css,

@@ -1,0 +1,209 @@
+{
+ "turn": {
+  "id": "bm-so-04",
+  "tab": "Solutions",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "understood. other than these automations, what else would you/we be doing?",
+  "context": "A progress view, not a replay: one part covered, four to go, each door carrying the question its part answers. No arrows: the parts are independent.",
+  "transcript": {
+   "label": "Transcript turn 21 · “Other than these automations, what else would you be doing?”"
+  }
+ },
+ "chat": {
+  "text": [
+   "One part covered, four to go. Each door carries the question its part answers.",
+   "You can take them in any order."
+  ],
+  "pointer": "Pick a door to see what that part covers.",
+  "invite": "Which part would you like next?",
+  "note": "Four questions left. Take them in any order.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Process changes",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "People and buy-in",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Teams and roles",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Measures",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Let us start with the process changes",
+   "Who needs to agree to all this?",
+   "Do we need to hire anyone?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "The five parts",
+    "title": "One part covered, four to go",
+    "deck": "Each closed door carries the question its part answers. The covered one stands open."
+   },
+   {
+    "type": "doors",
+    "default": 2,
+    "corridor": "One corridor. The doors open in any order.",
+    "doors": [
+     {
+      "n": 1,
+      "title": "Automations",
+      "question": "What we build, and what it needs from you",
+      "state": "covered",
+      "tag": "Covered"
+     },
+     {
+      "n": 2,
+      "title": "Process changes",
+      "question": "What changes in how the day is run, and what that change costs you",
+      "state": "closed",
+      "point": 1
+     },
+     {
+      "n": 3,
+      "title": "People and buy-in",
+      "question": "Whose help this needs, and who signs it off",
+      "state": "closed",
+      "point": 2
+     },
+     {
+      "n": 4,
+      "title": "Teams and roles",
+      "question": "Whether you need to hire, who, and how many, on your own numbers",
+      "state": "closed",
+      "point": 3
+     },
+     {
+      "n": 5,
+      "title": "Measures",
+      "question": "How you would know, week to week, whether any of it is working",
+      "state": "closed",
+      "point": 4
+     }
+    ],
+    "sheets": [
+     {
+      "key": "p1",
+      "when": "Part 1 · covered",
+      "title": "Automations",
+      "text": "Covered in the last three answers. Six steps, one engine, and read access from your IT team.",
+      "lines": [
+       {
+        "label": "Where it stands",
+        "value": "Shaped",
+        "state": "start"
+       }
+      ],
+      "ask": {
+       "label": "Go back to part 1",
+       "say": "Take me back to part 1, the automations"
+      }
+     },
+     {
+      "key": "p2",
+      "when": "Part 2",
+      "title": "Process changes",
+      "text": "What changes in how the day is run. The biggest change costs nothing but the order work is done in.",
+      "lines": [
+       {
+        "label": "It answers",
+        "value": "What changes in how the day is run, and what that change costs you"
+       }
+      ],
+      "entry": "What would you most like to change in your day?",
+      "ask": {
+       "label": "Open part 2",
+       "say": "Let us start with the process changes"
+      }
+     },
+     {
+      "key": "p3",
+      "when": "Part 3",
+      "title": "People and buy-in",
+      "text": "Whose help this needs, where the resistance sits, and who signs the new flows off.",
+      "lines": [
+       {
+        "label": "It answers",
+        "value": "Whose help this needs, and who signs it off"
+       }
+      ],
+      "entry": "Who would push back hardest at your hospital?",
+      "ask": {
+       "label": "Open part 3",
+       "say": "Take me through part 3, the people and their buy-in"
+      }
+     },
+     {
+      "key": "p4",
+      "when": "Part 4",
+      "title": "Teams and roles",
+      "text": "Whether you need to hire, who, and how many. Sized on your own numbers, not a rule of thumb.",
+      "lines": [
+       {
+        "label": "It answers",
+        "value": "Whether you need to hire, who, and how many, on your own numbers"
+       }
+      ],
+      "entry": "How many people run your admissions desk today?",
+      "ask": {
+       "label": "Open part 4",
+       "say": "Take me through part 4, the teams and roles"
+      }
+     },
+     {
+      "key": "p5",
+      "when": "Part 5",
+      "title": "Measures",
+      "text": "The few numbers you would check every week, and which of them nobody measures today.",
+      "lines": [
+       {
+        "label": "It answers",
+        "value": "How you would know, week to week, whether any of it is working"
+       }
+      ],
+      "entry": "Which numbers do you look at each week now?",
+      "ask": {
+       "label": "Open part 5",
+       "say": "Take me through part 5, the measures"
+      }
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: part 2, the process changes",
+    "say": "Let us start with the process changes"
+   },
+   "add": {
+    "detail": "Add something about your hospital",
+    "say": "Here is something to add about our hospital: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "How the automations are built and run",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved 1 Oct with the Bed Management Solutions turns."
+ }
+}

@@ -1,0 +1,263 @@
+{
+ "turn": {
+  "id": "bm-au-06",
+  "tab": "Automations",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "What happens after the 6 PM freeze?",
+  "context": "From bed-management.md §7.4.1: the 6 PM freeze, (d) beds held for emergencies, (e) call-in timing, Admission TAT under 30 minutes and admitted by about noon; Nagpur arrival and in-bed times.",
+  "transcript": {
+   "label": "After transcript turn 31 · Automations, turn 6 (the record stops at 31)"
+  }
+ },
+ "chat": {
+  "text": [
+   "After the freeze the engine keeps watch overnight. By morning everyone knows which bed frees when."
+  ],
+  "bullets": [
+   "At 6 PM the plan freezes. Each patient coming in gets one bed and a call-in time.",
+   "Emergencies at night use the beds held back. The planned beds stay as they are.",
+   "In the morning, real discharge times come in. Patients arrive and finish paperwork before the bed frees."
+  ],
+  "invite": "Tell me what a usual night looks like for emergencies.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The freeze",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Beds held back",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Paperwork done early",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Which automation do we switch on first?",
+   "How many beds are held for emergencies?",
+   "How does the day change on the wards?"
+  ],
+  "pointer": "Play the night, or move the clock. Pick a station to open it."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Automations · after the freeze",
+    "plate": {
+     "tag": "Automations",
+     "name": "The night shift",
+     "stage": "Idea"
+    },
+    "title": "From the freeze to a bed by noon",
+    "deck": "What runs between 6 PM and noon the next day, and what is ready by morning."
+   },
+   {
+    "type": "nightshift",
+    "hint": "Play the night or move the clock. Pick a station to open it.",
+    "from": "18:00",
+    "to": "17:00",
+    "start_at": "18:00",
+    "play": "Play the night",
+    "ready_label": "Ready by",
+    "clock": [
+     "18:00",
+     "02:00",
+     "08:00",
+     "10:00",
+     "12:00",
+     "14:00"
+    ],
+    "night": {
+     "from": "21:00",
+     "to": "07:00",
+     "label": "The night"
+    },
+    "goal": {
+     "at": "12:00",
+     "label": "In bed by",
+     "source": "target"
+    },
+    "stations": [
+     {
+      "at": "18:00",
+      "title": "The plan is frozen",
+      "makes": "One bed per planned admission",
+      "point": 1
+     },
+     {
+      "at": "18:30",
+      "title": "Call-in times go out",
+      "makes": "A time for each patient coming in",
+      "hand": true
+     },
+     {
+      "at": "02:00",
+      "title": "An emergency comes in",
+      "makes": "A held bed is used, planned beds untouched",
+      "point": 2
+     },
+     {
+      "at": "08:00",
+      "title": "Morning discharges confirmed",
+      "makes": "Real times, logged as they happen",
+      "hand": true
+     },
+     {
+      "at": "10:00",
+      "title": "Bills close, beds are cleaned",
+      "makes": "Each bed’s free time, checked"
+     },
+     {
+      "at": "11:00",
+      "title": "Patients arrive and do paperwork",
+      "makes": "Paperwork done before the bed frees",
+      "hand": true,
+      "point": 3
+     }
+    ],
+    "condition": "Today your patient arrives at 1 PM and is in bed at 4:30 PM. The goal is in bed by noon.",
+    "sheets": [
+     {
+      "key": "freeze",
+      "when": "6 PM",
+      "title": "The plan is frozen",
+      "text": "Tomorrow’s plan is fixed. Every planned patient has one bed. What is still without a bed is shared with everyone.",
+      "lines": [
+       {
+        "label": "Makes",
+        "value": "One bed per planned admission",
+        "state": "start"
+       },
+       {
+        "label": "Also makes",
+        "value": "The list still without a bed"
+       }
+      ],
+      "entry": "How many planned admissions do you take on a usual day?"
+     },
+     {
+      "key": "call",
+      "when": "6:30 PM",
+      "title": "Call-in times go out",
+      "text": "Each patient is told when to come. The time is worked back from when their bed will be free.",
+      "lines": [
+       {
+        "label": "Makes",
+        "value": "One call-in time per patient"
+       }
+      ],
+      "entry": "How do you reach planned patients today?",
+      "hand": {
+       "who": "the admissions desk",
+       "does": "Calls or messages each patient their time."
+      }
+     },
+     {
+      "key": "er",
+      "when": "2 AM",
+      "title": "An emergency comes in",
+      "text": "A number of beds is held back for emergencies, from two to three years of your own trend. The emergency takes one of those.",
+      "lines": [
+       {
+        "label": "Uses",
+        "value": "A bed held back"
+       },
+       {
+        "label": "Planned beds",
+        "value": "Untouched"
+       }
+      ],
+      "entry": "How many emergencies come in on a usual night?"
+     },
+     {
+      "key": "dis",
+      "when": "8 AM",
+      "title": "Morning discharges confirmed",
+      "text": "Each discharge is confirmed on the morning round and logged as it happens. The engine checks the times against the plan.",
+      "lines": [
+       {
+        "label": "Reads",
+        "value": "Real discharge times"
+       }
+      ],
+      "entry": "When do your first discharges usually happen?",
+      "hand": {
+       "who": "the treating doctor",
+       "does": "Confirms each discharge on the morning round."
+      }
+     },
+     {
+      "key": "clean",
+      "when": "10 AM",
+      "title": "Bills close, beds are cleaned",
+      "text": "As bills close and beds are cleaned, each bed’s free time is checked against the call-in times.",
+      "lines": [
+       {
+        "label": "Checks",
+        "value": "Free time against call-in time"
+       }
+      ],
+      "entry": "Who tells the desk a bed is cleaned?"
+     },
+     {
+      "key": "arrive",
+      "when": "11 AM",
+      "title": "Patients arrive and do paperwork",
+      "text": "The patient comes before the bed is free. Paperwork is done while the bed is cleaned. In bed by noon, not 4:30 PM.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "In bed at 4:30 PM",
+        "state": "start"
+       },
+       {
+        "label": "Goal",
+        "value": "In bed by noon",
+        "state": "target"
+       }
+      ],
+      "entry": "Where do patients wait while paperwork is done?",
+      "hand": {
+       "who": "the admissions desk",
+       "does": "Finishes the paperwork while the bed is cleaned."
+      }
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Admission time, the goal",
+    "value": "About 30 minutes",
+    "state": "target",
+    "sub": "Today about 3½ hours, 1 hour of it paperwork. With call-in times, paperwork is the only step left."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: which automation switches on first",
+    "say": "Which automation do we switch on first?"
+   },
+   "add": {
+    "detail": "Tell me about your nights",
+    "say": "On a usual night with us: "
+   },
+   "jump": {
+    "tab": "Processes",
+    "detail": "How the day changes on the wards",
+    "say": "Take me to Processes"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the Bed Management Automations turns."
+ }
+}

@@ -177,7 +177,22 @@
      }
     ]
    }
-  ]
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: who runs discharges and admissions",
+    "say": "One team does both"
+   },
+   "add": {
+    "detail": "Tell me about your teams",
+    "say": "Our teams work like this: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
  },
  "review": {
   "status": "approved",

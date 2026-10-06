@@ -1,0 +1,119 @@
+{
+ "report_id": "rc-2026-10-07-nagpur-300",
+ "day": "2026-10-07",
+ "deployment": "nagpur-300",
+ "written_at": "2026-10-08T00:02:00+05:30",
+ "files_read": [
+  {
+   "file": "tojo-v2 - Regular Chat/rules/always-on/00-core.md",
+   "version": "v2"
+  },
+  {
+   "file": "tojo-v2 - Regular Chat/rules/always-on/09-reply-check-rules.md",
+   "version": "v1 2026-10-06"
+  },
+  {
+   "file": "tojo-v2 - Regular Chat/skill/virevo-hospital-ops/references/bed-management-conversation-playbook.md",
+   "version": "2026-10-01"
+  }
+ ],
+ "totals": {
+  "chats": 3,
+  "counted_turns": 41,
+  "ratings": {
+   "good": 2,
+   "fine": 1,
+   "bad": 0,
+   "skipped": 1
+  },
+  "misses": {
+   "ignored": 2,
+   "not_understood": 1,
+   "changed_subject": 0,
+   "rating_fine": 1,
+   "rating_bad": 0,
+   "unsure": 1
+  },
+  "resets": 2,
+  "reworks_recovered": 1,
+  "ask_directly": 0,
+  "findings": {
+   "high": 1,
+   "medium": 0,
+   "low": 0
+  }
+ },
+ "findings": [
+  {
+   "finding_id": "f-2026-10-07-01",
+   "priority": "high",
+   "cause": "off_playbook",
+   "tool": "Bed Management",
+   "place": "diagnosis",
+   "section_at_fault": "bed-management playbook, diagnosis stage: pricing the wait",
+   "title": "Asked for money figures before the wait was agreed",
+   "what_happened": "Tojo asked for what one bed earns in a day while the user was still describing the admissions wait. The user said Tojo had misunderstood, then rated the chat Fine.",
+   "chats": 1,
+   "misses": 2,
+   "history": [
+    {
+     "chat_id": "c1",
+     "turn_id": "bm-dg-09",
+     "counted_turn": 9,
+     "tojo_said": "data-ask turn, calculator with two needed inputs",
+     "tojo_asked": "What does one occupied bed earn in a day?",
+     "user_reply": "No, I was still telling you about the 4:30 wait.",
+     "reply_class": "not_understood",
+     "action": "answer",
+     "sources": {
+      "rules": [
+       "00-core §4"
+      ],
+      "playbook_step": "diagnosis stage: pricing the wait",
+      "references": [
+       "bed-management.md §7.3"
+      ]
+     }
+    },
+    {
+     "chat_id": "c1",
+     "turn_id": "bm-dg-10",
+     "counted_turn": 10,
+     "tojo_asked": "Before I answer, a quick check. How am I doing in this chat so far?",
+     "user_reply": "Fine",
+     "reply_class": "rating_fine",
+     "rating": "fine",
+     "action": "reset",
+     "recheck_found": "The playbook asks for money figures only after the wait is agreed. Tojo ran one step ahead.",
+     "recovered": true
+    }
+   ],
+   "suggested_changes": [
+    {
+     "change_id": "ch-2026-10-07-01",
+     "file": "tojo-v2 - Regular Chat/skill/virevo-hospital-ops/references/bed-management-conversation-playbook.md",
+     "file_version": "2026-10-01",
+     "section": "§2, pricing the wait",
+     "kind": "add",
+     "words_today": "Ask for the figures in one batch.",
+     "words_suggested": "Ask for money figures only once the user agrees the wait as drawn.",
+     "reason": "off_playbook. Had this line been there, Tojo would have confirmed the wait first and asked for money figures one turn later.",
+     "reach": "this_subject",
+     "confidence": "medium"
+    }
+   ]
+  }
+ ],
+ "user_notes": [
+  {
+   "user_ref": "u-17",
+   "note": "Wants the figure first, then the reasoning.",
+   "turns": [
+    "bm-dg-04",
+    "bm-dg-07"
+   ],
+   "priority": "low"
+  }
+ ],
+ "repeats": []
+}

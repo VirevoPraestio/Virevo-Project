@@ -71,7 +71,22 @@
      }
     ]
    }
-  ]
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: when the bill closes",
+    "say": "The bill closes about 12 to 1 PM"
+   },
+   "add": {
+    "detail": "Tell me about your billing",
+    "say": "Our billing on a bed works like this: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
  },
  "review": {
   "status": "approved",

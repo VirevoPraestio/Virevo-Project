@@ -1,0 +1,318 @@
+{
+ "turn": {
+  "id": "dp-pr-13",
+  "type": "part",
+  "tool": "Discharge Process",
+  "tab": "Processes",
+  "register": "advisory",
+  "user_message": "Which measures show it worked?",
+  "was": "pr-06 (readouts)",
+  "context": "Processes place, turn 6 (nine measures, not all sixteen; new ones get no number until the trial records one).",
+  "transcript": {
+   "label": "Processes · the measures"
+  }
+ },
+ "chat": {
+  "text": [
+   "Nine measures, not all sixteen. Five already have your starting number.",
+   "The other four are new. They get no number until the trial records one, so none is made up."
+  ],
+  "invite": "Next, we can see what happens after the two weeks.",
+  "note": "Measure what you already know first.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Hours from ready to home",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Patients home by 10 AM",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The empty bed",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Family told before leaving",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What happens after the two weeks?",
+   "Who records the times?",
+   "Can we add a measure?"
+  ],
+  "pointer": "Pick a window to see how it is measured. Flip to after the trial."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · the measures",
+    "title": "Nine windows on the board",
+    "deck": "Five show your starting number. Four are new, and stay dashed until the trial reads them.",
+    "plate": {
+     "column": "Measures",
+     "name": "Nine windows"
+    }
+   },
+   {
+    "type": "readouts",
+    "condition": "Goals are set on day 3 of the trial, from the ward’s own times.",
+    "measures": [
+     {
+      "name": "Hours from ready to home",
+      "state": "confirmed",
+      "source": "yours",
+      "when": "trial",
+      "value": "5 hours 15 min",
+      "point": 1
+     },
+     {
+      "name": "Patients home by 10 AM",
+      "state": "new",
+      "source": "new",
+      "when": "trial",
+      "point": 2
+     },
+     {
+      "name": "Decided on the evening round",
+      "state": "new",
+      "source": "new",
+      "when": "trial"
+     },
+     {
+      "name": "Bed empty after leaving",
+      "state": "confirmed",
+      "source": "yours",
+      "when": "trial",
+      "value": "75 min",
+      "point": 3
+     },
+     {
+      "name": "Time to finish the bill",
+      "state": "confirmed",
+      "source": "yours",
+      "when": "trial",
+      "value": "90 min"
+     },
+     {
+      "name": "Insurance approval time",
+      "state": "confirmed",
+      "source": "yours",
+      "when": "trial",
+      "value": "About 1 hour"
+     },
+     {
+      "name": "Family told before leaving",
+      "state": "new",
+      "source": "new",
+      "when": "trial",
+      "point": 4
+     },
+     {
+      "name": "Money won back",
+      "state": "new",
+      "source": "new",
+      "when": "later"
+     },
+     {
+      "name": "Discharges a day",
+      "state": "confirmed",
+      "source": "yours",
+      "when": "later",
+      "value": "40 to 45"
+     }
+    ],
+    "sheets": [
+     {
+      "key": "r1",
+      "when": "Read in the trial",
+      "title": "Hours from ready to home",
+      "text": "From the doctor’s go-ahead to the patient leaving the ward.",
+      "lines": [
+       {
+        "label": "Who records it",
+        "value": "Ward nurse"
+       },
+       {
+        "label": "Goal",
+        "value": "Set on day 3",
+        "state": "target"
+       }
+      ],
+      "entry": "Who records this today, if anyone?"
+     },
+     {
+      "key": "r2",
+      "when": "Read in the trial",
+      "title": "Patients home by 10 AM",
+      "text": "Share of patients without insurance home by 10 AM. Insured patients by 1 PM.",
+      "lines": [
+       {
+        "label": "Who records it",
+        "value": "Ward nurse"
+       },
+       {
+        "label": "Goal",
+        "value": "Set on day 3",
+        "state": "target"
+       }
+      ],
+      "entry": "Who records this today, if anyone?"
+     },
+     {
+      "key": "r3",
+      "when": "Read in the trial",
+      "title": "Decided on the evening round",
+      "text": "Share of discharges first marked on the evening round, not the same morning.",
+      "lines": [
+       {
+        "label": "Who records it",
+        "value": "The one-tap form"
+       },
+       {
+        "label": "Goal",
+        "value": "Set on day 3",
+        "state": "target"
+       }
+      ],
+      "entry": "Who records this today, if anyone?"
+     },
+     {
+      "key": "r4",
+      "when": "Read in the trial",
+      "title": "Bed empty after leaving",
+      "text": "From the patient leaving to the bed ready for the next one.",
+      "lines": [
+       {
+        "label": "Who records it",
+        "value": "Housekeeping"
+       },
+       {
+        "label": "Goal",
+        "value": "Under 30 minutes",
+        "state": "target"
+       }
+      ],
+      "entry": "Who records this today, if anyone?"
+     },
+     {
+      "key": "r5",
+      "when": "Read in the trial",
+      "title": "Time to finish the bill",
+      "text": "From the doctor’s signature to the final bill.",
+      "lines": [
+       {
+        "label": "Who records it",
+        "value": "Billing"
+       },
+       {
+        "label": "Goal",
+        "value": "Set on day 3",
+        "state": "target"
+       }
+      ],
+      "entry": "Who records this today, if anyone?"
+     },
+     {
+      "key": "r6",
+      "when": "Read in the trial",
+      "title": "Insurance approval time",
+      "text": "From the request to the insurer’s yes, evening and morning apart.",
+      "lines": [
+       {
+        "label": "Who records it",
+        "value": "Insurance desk"
+       },
+       {
+        "label": "Goal",
+        "value": "Set on day 3",
+        "state": "target"
+       }
+      ],
+      "entry": "Who records this today, if anyone?"
+     },
+     {
+      "key": "r7",
+      "when": "Read in the trial",
+      "title": "Family told before leaving",
+      "text": "Share of patients whose family got diet, medicine and follow-up advice before leaving.",
+      "lines": [
+       {
+        "label": "Who records it",
+        "value": "Ward nurse"
+       },
+       {
+        "label": "Goal",
+        "value": "Every patient",
+        "state": "target"
+       }
+      ],
+      "entry": "Who records this today, if anyone?"
+     },
+     {
+      "key": "r8",
+      "when": "Read after the trial",
+      "title": "Money won back",
+      "text": "Revenue from freed bed days, against the most it could be.",
+      "lines": [
+       {
+        "label": "Who records it",
+        "value": "Billing"
+       },
+       {
+        "label": "Goal",
+        "value": "Set after the trial",
+        "state": "target"
+       }
+      ],
+      "entry": "Who records this today, if anyone?"
+     },
+     {
+      "key": "r9",
+      "when": "Read after the trial",
+      "title": "Discharges a day",
+      "text": "Checked each month against the line for the Discharge Manager.",
+      "lines": [
+       {
+        "label": "Who records it",
+        "value": "Discharge Manager"
+       },
+       {
+        "label": "Goal",
+        "value": "Watch, no goal",
+        "state": "target"
+       }
+      ],
+      "entry": "Who records this today, if anyone?"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: what happens after the two weeks",
+    "say": "What happens after the two weeks?"
+   },
+   "add": {
+    "detail": "Tell me a measure to add",
+    "say": "One measure I would add is: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

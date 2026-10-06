@@ -120,7 +120,22 @@
      }
     ]
    }
-  ]
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: when each team does what",
+    "say": "Pattern B, both at once"
+   },
+   "add": {
+    "detail": "Tell me how your day runs",
+    "say": "Our discharges and admissions run like this: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
  },
  "review": {
   "status": "approved",
