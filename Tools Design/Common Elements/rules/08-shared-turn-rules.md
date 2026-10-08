@@ -73,3 +73,17 @@ Rules settled in the Bed Management review, 30 Sep 2026, and added to since. The
 - **A rework after a reset is a normal turn of the place,** through the generator, with the three buttons. Its main block is never the main block of the turn that was missed (§2), and it never shows the same drawing again (09 §5.3).
 - **Landing pages, the opening line, the rating question and the reset line are not counted turns** (09 §1).
 
+## 12. Domains (8 Oct 2026)
+- **Two groups of tools.** Operations Tools: Discharge Process, Bed Management, OPD Diagnostic Leak. Financial Tools: Supply Chain and Procurement, Revenue & EBITDA, Length of Stay. New tools join a group, or start a new one.
+- **A domain has its own identity, never only its own colours** (07 §1.1): shapes, paper, frame dress, marks, the raised state and the kind of drawing. The Virevo type and type scale never change.
+- **The response templates are shared by every tool in every domain.** A tool redraws a universal pattern in its own look; it never copies another domain's look.
+- **The block library:** see §13 for the layout from version 14.
+
+## 13. Every template is open to every tool (Avishek, 8 Oct 2026)
+- **No template belongs to one tool.** Every response template (universal patterns, landing elements and shared parts, worked turns, drawing blocks) is open to every tool and every place. A tool redraws it in its own look and colours, with its own words. Example words in a template come from the tool it was first drawn for; they are not a limit.
+- **Only landing pages are tool-specific:** by tool and by place (home, Diagnosis, Solutions, Automations, Processes).
+- **Templates are grouped by what they show:** Logical (sides of an argument), Process flow, Time flows, Selection (pick one or a few), Financial (money effects), Numbers and measures, People and ownership, Universal elements. A template may name a second group ("also useful here").
+- **Every template has a "How to use this template" card** (`library/template_uses.json`): what it shows, key uses in order, the logic it can show, the responses it is best for, and, when its drawing carries a picture (beds, clocks, timelines, money, people, routes), a note to use it whenever the response is about that thing.
+- **A new template is not added without its card.** `library/reorganise.py` stops if one is missing.
+- **Layout:** `out/block-library.source.html` keeps the build order (tool injectors write to it); `library/reorganise.py` lays it out as the published library (`out/block-library.artifact.html`), which is always published to the original link.
+
