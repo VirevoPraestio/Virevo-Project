@@ -1,0 +1,264 @@
+{
+ "turn": {
+  "id": "bm-so-08",
+  "tab": "Solutions",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "yes, let us discuss about the Key People",
+  "context": "The version of record for part 3 (turn 24 was superseded). Six teams on the same footing, the reporting shape drawn: Head of Operations signs off, two managers as peers.",
+  "transcript": {
+   "label": "Transcript turn 27 · Part 3: Key people, rebuilt for both sides"
+  }
+ },
+ "chat": {
+  "text": [
+   "Six teams touch this, plus two managers and one person who signs it off."
+  ],
+  "bullets": [
+   "Nobody’s job changes. What changes is when they confirm something the system has already worked out.",
+   "The resistance sits in one place. It is being asked to name a discharge date a day early. Show the doctor a date to check, and it holds.",
+   "Both managers report to the Head of Operations. It is the only level that can tell both sides to work to one plan."
+  ],
+  "pointer": "Pick a team to see what changes for them.",
+  "invite": "Shall we move on to part 4, the teams and the numbers?",
+  "note": "Ask a doctor to check a date, not to produce one.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Doctors",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Medical Supervisory",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Admissions desk",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Discharge team",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Billing",
+    "canvas": true
+   },
+   {
+    "n": 6,
+    "label": "Head of Operations",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Yes, let us move on to part 4",
+   "What if the doctors still refuse?",
+   "Why not have one manager report to the other?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 3 · People and buy-in",
+    "title": "Six teams, one sign-off",
+    "plate": {
+     "part": 3,
+     "of": 5,
+     "name": "People and buy-in",
+     "stage": "Shaped"
+    },
+    "deck": "Nobody’s job changes. Each team confirms something the system has already worked out."
+   },
+   {
+    "type": "people",
+    "teams_label": "The six teams, and what each one receives",
+    "resist_tag": "Resistance sits here",
+    "teams": [
+     {
+      "title": "Doctors",
+      "gets": "Speak on the round. Tap to confirm a predicted date.",
+      "resist": true,
+      "point": 1
+     },
+     {
+      "title": "Medical Supervisory",
+      "gets": "One round at 5 PM, only for beds expected to free",
+      "point": 2
+     },
+     {
+      "title": "Admissions desk",
+      "gets": "Told when to call each patient in",
+      "point": 3
+     },
+     {
+      "title": "Discharge team",
+      "gets": "A release deadline for each bed, instead of a surprise",
+      "point": 4
+     },
+     {
+      "title": "Billing",
+      "gets": "One new report: bill close and open, against the bed",
+      "point": 5
+     },
+     {
+      "title": "IT",
+      "gets": "Read access to systems you already run, given once"
+     }
+    ],
+    "approver": {
+     "tag": "Sign-off",
+     "title": "Head of Operations",
+     "line": "Approves the new flows. Takes no part in the daily work."
+    },
+    "managers": [
+     {
+      "tag": "New role",
+      "title": "Bed Manager",
+      "line": "Runs tomorrow’s bed plan"
+     },
+     {
+      "tag": "New role",
+      "title": "Discharge Manager",
+      "line": "Runs every discharge to the free bed"
+     }
+    ],
+    "tree_note": "Same level, same size. Neither reports to the other.",
+    "sheets": [
+     {
+      "key": "doc",
+      "when": "Doctors",
+      "title": "Speak on the round",
+      "text": "A spoken note on the round they already do. The system shows a predicted discharge date. The doctor confirms or corrects it with a tap.",
+      "lines": [
+       {
+        "label": "What is asked",
+        "value": "A date a day early",
+        "state": "target"
+       },
+       {
+        "label": "Extra time",
+        "value": "None beyond the round",
+        "state": "start"
+       }
+      ],
+      "entry": "Which doctors would you ask first?"
+     },
+     {
+      "key": "ms",
+      "when": "Medical Supervisory",
+      "title": "One round at 5 PM",
+      "text": "One fixed round, only for beds expected to free tomorrow. They confirm or correct by 5 PM, so the plan freezes at 6 PM.",
+      "lines": [
+       {
+        "label": "What changes",
+        "value": "The time, not the job"
+       }
+      ],
+      "entry": "Who leads Medical Supervisory today?"
+     },
+     {
+      "key": "desk",
+      "when": "Admissions desk",
+      "title": "Told when to call",
+      "text": "The desk stops guessing. It is told when to call each patient in, bed by bed.",
+      "lines": [
+       {
+        "label": "What changes",
+        "value": "Fewer calls, made at the right time",
+        "state": "start"
+       }
+      ],
+      "entry": "Who runs your admissions desk today?"
+     },
+     {
+      "key": "dis",
+      "when": "Discharge team",
+      "title": "A release deadline per bed",
+      "text": "The discharge team gets a deadline for each bed it is releasing, instead of a surprise in the afternoon.",
+      "lines": [
+       {
+        "label": "What changes",
+        "value": "A deadline they can plan to"
+       }
+      ],
+      "entry": "Who leads your discharge team today?"
+     },
+     {
+      "key": "bill",
+      "when": "Billing",
+      "title": "One new report",
+      "text": "Bill close and bill open, read against the same bed. Both facts already exist in your system.",
+      "lines": [
+       {
+        "label": "What changes",
+        "value": "One report, run weekly"
+       }
+      ],
+      "entry": "Who runs billing reports today?"
+     },
+     {
+      "key": "it",
+      "when": "IT",
+      "title": "Read access, once",
+      "text": "Your IT team gives read access to the systems you already run. After that, nothing more is asked.",
+      "lines": [
+       {
+        "label": "What changes",
+        "value": "One piece of work at the start"
+       }
+      ],
+      "entry": "Who in IT would we work with?"
+     }
+    ]
+   },
+   {
+    "type": "pair",
+    "items": [
+     {
+      "label": "Where the resistance sits",
+      "value": "A date a day early",
+      "state": "target",
+      "point": 1,
+      "sub": "Naming a discharge date a day ahead is a clinical call. Checking a predicted date is not.",
+      "ask": {
+       "label": "Ask about this",
+       "say": "What if the doctors still refuse?"
+      }
+     },
+     {
+      "label": "Extra clinical time",
+      "value": "None beyond the round",
+      "state": "start",
+      "sub": "This claim is wrong if the round gets longer to give the date. We would measure that from the first week."
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: part 4, the teams and the numbers",
+    "say": "Yes, let us move on to part 4"
+   },
+   "add": {
+    "detail": "Add something about your hospital",
+    "say": "Here is something to add about our hospital: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "How the automations are built and run",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved 1 Oct with the Bed Management Solutions turns."
+ }
+}

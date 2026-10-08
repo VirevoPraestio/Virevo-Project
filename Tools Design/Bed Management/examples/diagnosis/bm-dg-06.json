@@ -1,0 +1,96 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "bm-dg-06",
+  "type": "data-ask",
+  "user_message": "it happens but informally",
+  "transcript": {
+   "label": "Transcript turn 12 · when billing stops and starts again",
+   "said": "Informally is the most common of the three answers. Next one, and it is the one that puts a number on what all of this costs: what time does the outgoing patient’s final bill actually get closed, and what time does the first billable entry appear against the next patient in that same bed? Both are blank in the graphic below — same idea as the last one."
+  }
+ },
+ "chat": {
+  "text": [
+   "Informally is the most common of the three answers.",
+   "The next one puts a number on what all this costs. What time does the leaving patient’s final bill close? And when does the first charge appear against the next patient in that same bed?",
+   "Both are blank on the two bill tags. Same idea as the last one: type them in."
+  ],
+  "note": "Two times from your billing desk.",
+  "prompts": [
+   "The bill closes about 12 to 1 PM",
+   "I’d have to ask our billing team",
+   "Why the bill, and not the empty bed?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "When billing stops and starts again",
+    "title": "Two times on one bed",
+    "deck": "The leaving patient’s last bill, and the next patient’s first charge, on the same bed."
+   },
+   {
+    "type": "bed-bills",
+    "mode": "blank",
+    "gap_label": "Nothing bills in between",
+    "hint": "Tap a tag and type its time. Both go into your message.",
+    "tags": [
+     {
+      "who": "Patient going home",
+      "label": "Final bill closed"
+     },
+     {
+      "who": "Next patient, same bed",
+      "label": "First charge for the next patient"
+     }
+    ],
+    "caption": "Everything between these two times bills nothing. That gap is the dead bed time.",
+    "sheets": [
+     {
+      "key": "out",
+      "when": "Patient going home",
+      "title": "Final bill closed",
+      "text": "The leaving patient’s final bill is closed. From here nothing more is charged to this bed. Both times almost surely sit in your billing system already.",
+      "entry": "Your typical time for this",
+      "entry_hint": "For example: 12 to 1 PM",
+      "entry_open": true,
+      "entry_label": "Final bill closed"
+     },
+     {
+      "key": "in",
+      "when": "Next patient, same bed",
+      "title": "First charge for the next patient",
+      "text": "The first charge of any kind appears against the next patient in that same bed. Both times almost surely sit in your billing system already.",
+      "entry": "Your typical time for this",
+      "entry_hint": "For example: 12 to 1 PM",
+      "entry_open": true,
+      "entry_label": "First charge for the next patient"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: when the bill closes",
+    "say": "The bill closes about 12 to 1 PM"
+   },
+   "add": {
+    "detail": "Tell me about your billing",
+    "say": "Our billing on a bed works like this: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved by Avishek with the second Diagnosis set (one drawing per turn)."
+ }
+}

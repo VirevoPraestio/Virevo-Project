@@ -1,0 +1,140 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "bm-dg-04",
+  "type": "data-ask",
+  "user_message": "pattern b",
+  "transcript": {
+   "label": "Transcript turn 10 · admission time, as a blank chain",
+   "said": "Pattern B is the better of the two, and less common than you’d think. Which makes the next one worth getting precise, because it’s what shows the pattern is actually landing: every admission runs through five steps, and the gap between the first and the last is your Admission TAT. The graphic has that chain with the times left blank. Fill in a typical day’s clock times and we’ll see exactly where the time goes."
+  }
+ },
+ "chat": {
+  "text": [
+   "Pattern B is the better of the two, and less common than you’d think.",
+   "That makes the next one worth getting exact. It shows whether the pattern is really landing.",
+   "Every admission runs through five steps. The gap between the first and the last is your admission time. Type a typical day’s clock times onto each stop. Then we’ll see where the time goes."
+  ],
+  "note": "Clock times settle it.",
+  "prompts": [
+   "Arrival about 1 PM, in the bed by 4:30 PM",
+   "Our times change a lot from day to day",
+   "Do the times need to be exact?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "How long an admission takes",
+    "title": "Five steps, times left blank",
+    "deck": "A typical day’s clock times are enough. They do not have to be exact."
+   },
+   {
+    "type": "admission-route",
+    "mode": "blank",
+    "start_label": "Arrival",
+    "end_label": "In the bed",
+    "hint": "Tap a step and type its time. Each one you add goes into your message.",
+    "stops": [
+     {
+      "name": "Patient arrives, or Emergency says admit",
+      "point": 1
+     },
+     {
+      "name": "Paperwork done",
+      "point": 2
+     },
+     {
+      "name": "Bed given in the system",
+      "point": 3
+     },
+     {
+      "name": "Ward or ICU confirms bed ready",
+      "point": 4
+     },
+     {
+      "name": "Patient in the bed",
+      "point": 5,
+      "outcome": true
+     }
+    ],
+    "caption": "The gap between the first step and the last is your admission time.",
+    "sheets": [
+     {
+      "key": "arr",
+      "when": "Step 1 of 5",
+      "title": "Patient arrives, or Emergency says admit",
+      "text": "The clock starts when the patient arrives, or when Emergency decides to admit.",
+      "entry": "Your typical clock time for this step",
+      "entry_hint": "For example: around 2 PM, sometimes 3",
+      "entry_open": true,
+      "entry_label": "Step 1, patient arrives"
+     },
+     {
+      "key": "doc",
+      "when": "Step 2 of 5",
+      "title": "Paperwork done",
+      "text": "Registration and admission papers are complete.",
+      "entry": "Your typical clock time for this step",
+      "entry_hint": "For example: around 2 PM, sometimes 3",
+      "entry_open": true,
+      "entry_label": "Step 2, paperwork done"
+     },
+     {
+      "key": "bed",
+      "when": "Step 3 of 5",
+      "title": "Bed given in the system",
+      "text": "A bed is put against the patient’s name in your hospital software.",
+      "entry": "Your typical clock time for this step",
+      "entry_hint": "For example: around 2 PM, sometimes 3",
+      "entry_open": true,
+      "entry_label": "Step 3, bed given"
+     },
+     {
+      "key": "rdy",
+      "when": "Step 4 of 5",
+      "title": "Ward or ICU confirms bed ready",
+      "text": "The ward or ICU says the bed is clean and ready to take the patient.",
+      "entry": "Your typical clock time for this step",
+      "entry_hint": "For example: around 2 PM, sometimes 3",
+      "entry_open": true,
+      "entry_label": "Step 4, bed confirmed ready"
+     },
+     {
+      "key": "in",
+      "when": "Step 5 of 5",
+      "title": "Patient in the bed",
+      "text": "The patient is physically in the bed. The clock stops here.",
+      "entry": "Your typical clock time for this step",
+      "entry_hint": "For example: around 2 PM, sometimes 3",
+      "entry_open": true,
+      "entry_label": "Step 5, patient in the bed"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: fill in the times",
+    "say": "Arrival about 1 PM, in the bed by 4:30 PM"
+   },
+   "add": {
+    "detail": "Tell me your times",
+    "say": "Our admission times are: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved by Avishek with the second Diagnosis set (one drawing per turn)."
+ }
+}

@@ -1,0 +1,325 @@
+{
+ "turn": {
+  "id": "bm-pr-01",
+  "tab": "Processes",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "How does the day change on the wards?",
+  "context": "Prompt 1 of bm-au-07. bed-management.md §7.4.2 (allocate forward, admissions alongside discharges, 24-hour signal, 1 PM ICU signal, 5 PM round) and §7.4.1 (2 PM pass, 6 PM freeze, call-in times). Nagpur times from transcript 9 to 13.",
+  "transcript": {
+   "label": "After transcript turn 31 · Processes, turn 1 (the record stops at 31)"
+  }
+ },
+ "chat": {
+  "text": [
+   "The work stays the same. What changes is when things are decided, so a bed is given before it is free."
+  ],
+  "bullets": [
+   "Today a bed is given out only once it is clean. Your patients reach a bed between 4:30 and 8 PM.",
+   "In the new day, admissions run alongside the morning discharges. Each patient is called in for a set time.",
+   "Six times are fixed each day. They fix when a decision is made, never what the doctor decides."
+  ],
+  "invite": "Next, we can see where on the ward each change happens.",
+  "note": "Same people, same beds. A different order.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Admissions start at 9 AM",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Admissions done by noon",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "ICU signal by 1 PM",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "First bed plan, 2 PM",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "The 5 PM round",
+    "canvas": true
+   },
+   {
+    "n": 6,
+    "label": "The 6 PM freeze",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Where on the ward does each change happen?",
+   "Why do our patients still get in so late?",
+   "What does a doctor have to do?"
+  ],
+  "pointer": "Switch between today and the new day. Pick a time to move the clock hand."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · the ward’s day",
+    "title": "Same work, a different clock",
+    "deck": "The ward’s day from 8 AM to 8 PM. Switch to set today’s admissions against the new ones.",
+    "plate": {
+     "column": "Changes",
+     "name": "The ward’s day"
+    }
+   },
+   {
+    "type": "day-dial",
+    "switch": {
+     "today": "Today",
+     "with": "The new day",
+     "cap_today": "Bills close by noon. Patients arrive at 1 PM and reach a bed from 4:30 PM.",
+     "cap_with": "Admissions run with the morning discharges. Patients reach a bed by about noon."
+    },
+    "windows": [
+     {
+      "side": "today",
+      "from": "09:00",
+      "to": "12:30",
+      "label": "Discharges",
+      "state": "plain",
+      "inner": true
+     },
+     {
+      "side": "today",
+      "from": "13:00",
+      "to": "20:00",
+      "label": "Admissions",
+      "state": "outcome"
+     },
+     {
+      "side": "with",
+      "from": "09:00",
+      "to": "12:30",
+      "label": "Discharges",
+      "state": "plain",
+      "inner": true
+     },
+     {
+      "side": "with",
+      "from": "09:00",
+      "to": "12:00",
+      "label": "Admissions",
+      "state": "start"
+     }
+    ],
+    "times_label": "Fixed times of the new day",
+    "times": [
+     {
+      "at": "09:00",
+      "name": "Admissions start with discharges",
+      "who": "Admissions desk",
+      "new": true,
+      "point": 1
+     },
+     {
+      "at": "10:00",
+      "name": "Dates checked on the round",
+      "who": "Doctors",
+      "new": true
+     },
+     {
+      "at": "12:00",
+      "name": "Admissions done",
+      "who": "Admissions desk",
+      "new": true,
+      "point": 2
+     },
+     {
+      "at": "13:00",
+      "name": "ICU step-down signal",
+      "who": "ICU doctors",
+      "new": true,
+      "point": 3
+     },
+     {
+      "at": "14:00",
+      "name": "First bed plan",
+      "who": "Tojo and the Bed Manager",
+      "new": true,
+      "point": 4
+     },
+     {
+      "at": "17:00",
+      "name": "The 5 PM round",
+      "who": "Medical Supervisory team",
+      "new": true,
+      "point": 5
+     },
+     {
+      "at": "18:00",
+      "name": "Bed plan frozen",
+      "who": "Bed Manager",
+      "new": true,
+      "point": 6
+     }
+    ],
+    "caption": "Arrival at 1 PM and a bed from 4:30 PM are your times. The new times are the plan, not yet tried.",
+    "sheets": [
+     {
+      "key": "t1",
+      "when": "At 9 AM",
+      "title": "Admissions start with discharges",
+      "text": "The desk starts admitting while the morning discharges run. It admits into beds that will be free, not beds already free.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Admissions start after 1 PM"
+       },
+       {
+        "label": "New",
+        "value": "From 9 AM",
+        "state": "start"
+       }
+      ],
+      "entry": "Who works the desk at 9 AM today?"
+     },
+     {
+      "key": "t2",
+      "when": "At 10 AM",
+      "title": "Dates checked on the round",
+      "text": "On the morning round the doctor sees a likely discharge date for each patient. They confirm it or change it, a day ahead.",
+      "lines": [
+       {
+        "label": "Asked of doctors",
+        "value": "Check a date, by voice"
+       },
+       {
+        "label": "Extra time",
+        "value": "None, the round already happens",
+        "state": "start"
+       }
+      ],
+      "entry": "When does your morning round end?"
+     },
+     {
+      "key": "t3",
+      "when": "At noon",
+      "title": "Admissions done",
+      "text": "Patients called in for a set time are in bed by about noon. The bill on their bed opens hours earlier.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "In bed 4:30 PM, up to 8 PM",
+        "state": "outcome"
+       },
+       {
+        "label": "Goal",
+        "value": "In bed by about noon",
+        "state": "target"
+       }
+      ],
+      "entry": "What time do most patients reach a bed today?"
+     },
+     {
+      "key": "t4",
+      "when": "At 1 PM",
+      "title": "ICU step-down signal",
+      "text": "ICU patients likely to move to a ward are named by 1 PM. That lets the 2 PM plan count their ICU beds.",
+      "lines": [
+       {
+        "label": "Who",
+        "value": "ICU in-charge and the treating doctor"
+       },
+       {
+        "label": "Feeds",
+        "value": "The 2 PM plan"
+       }
+      ],
+      "entry": "Who decides step-downs in your ICU today?"
+     },
+     {
+      "key": "t5",
+      "when": "At 2 PM",
+      "title": "First bed plan",
+      "text": "The first pass matches tomorrow’s planned patients to beds. Teams are told at once what still has no bed.",
+      "lines": [
+       {
+        "label": "Made by",
+        "value": "Tojo, checked by the Bed Manager"
+       },
+       {
+        "label": "Goes to",
+        "value": "Discharge team, Medical Supervisory"
+       }
+      ],
+      "entry": "How many planned admissions on a usual day?"
+     },
+     {
+      "key": "t6",
+      "when": "At 5 PM",
+      "title": "The 5 PM round",
+      "text": "One round of the beds likely to free tomorrow. Each date is confirmed or corrected by 5 PM.",
+      "lines": [
+       {
+        "label": "Who",
+        "value": "Medical Supervisory team"
+       },
+       {
+        "label": "Feeds",
+        "value": "The 6 PM freeze"
+       }
+      ],
+      "entry": "Who does evening rounds today?"
+     },
+     {
+      "key": "t7",
+      "when": "At 6 PM",
+      "title": "Bed plan frozen",
+      "text": "Tomorrow’s plan is frozen and sent to everyone. Each planned patient gets a call-in time for their bed.",
+      "lines": [
+       {
+        "label": "Goes to",
+        "value": "Every ward, the desk, Billing"
+       },
+       {
+        "label": "Gives",
+        "value": "A call-in time per bed",
+        "state": "start"
+       }
+      ],
+      "entry": "Who should get the 6 PM plan?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Patient in bed",
+    "value": "From 4:30 PM to noon",
+    "sub": "Each bed starts earning about four hours earlier. Nothing else about the stay changes.",
+    "state": "start",
+    "look": "stamp"
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: where each change happens",
+    "say": "Where on the ward does each change happen?"
+   },
+   "add": {
+    "detail": "Tell me how your day runs",
+    "say": "On our wards today: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the Bed Management Processes turns."
+ }
+}

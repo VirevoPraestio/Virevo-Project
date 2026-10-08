@@ -1,0 +1,175 @@
+{
+ "review": {
+  "status": "approved",
+  "date": "2026-09-25",
+  "note": "Approved as sample 4B; reworked in plain English with details from the discharge reference file."
+ },
+ "turn": {
+  "id": "dp-04",
+  "type": "overview",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "context": "Tojo · 250-bed hospital, Bhubaneswar",
+  "subject": "solution",
+  "user_message": "Yes, that’s exactly it. Show me how to fix it."
+ },
+ "chat": {
+  "text": [
+   "Here’s what the fix is made of. It has five parts.",
+   "None of them needs a new hospital system on day one. They sit on top of how you work today."
+  ],
+  "pointer": "Each part opens to show what’s in it. Pick the one you want to start with.",
+  "note": "Five parts, one aim: put the evening to work.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Automatic paperwork",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Changes on the wards",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "People who must agree",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Who is in charge",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "How we’ll know it worked",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Start with the automatic paperwork",
+   "Which part saves the most time?",
+   "Do we need to hire anyone?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "The fix",
+    "title": "What the fix is made of",
+    "deck": "Five parts. Open any one to see what’s in it."
+   },
+   {
+    "type": "cards",
+    "items": [
+     {
+      "title": "Automatic paperwork",
+      "text": "What the software does, so nobody does the work twice.",
+      "tag": "Start here",
+      "state": "start",
+      "more_label": "See what it does",
+      "more": "Other hospitals saved 6 to 8 hours for each patient. Not yet measured here.",
+      "more_points": [
+       "Starts the going-home papers when a doctor first mentions it, even on the evening round.",
+       "Keeps a record of every test, medicine and procedure from the day the patient arrives.",
+       "Keeps the bill up to date all the time, so it is ready the moment the doctor signs.",
+       "Works out which unused medicines go back to pharmacy, so nurses don’t count them first.",
+       "Sends a first bill to the insurance company the evening before.",
+       "Lets the doctor check and sign on a phone or tablet during the morning round."
+      ],
+      "point": 1
+     },
+     {
+      "title": "Changes on the wards",
+      "text": "What each team does differently, step by step.",
+      "tag": "Part 2",
+      "more_label": "See the changes",
+      "more_points": [
+       "The steps stay the same. They start earlier and run side by side.",
+       "Staff approve what the software prepares, instead of writing it by hand.",
+       "Your IT team connects the software to your hospital systems, reports and notes.",
+       "Pharmacy, diet, housekeeping and transport teams are told exactly when they’re needed.",
+       "If one team does both discharges and admissions, the two jobs are split or run together.",
+       "The bed desk writes down when each bed is given out and when the next patient arrives."
+      ],
+      "point": 2
+     },
+     {
+      "title": "People who must agree",
+      "text": "Who has to say yes, and what each is asked to do.",
+      "tag": "Part 3",
+      "more_label": "See who and why",
+      "more": "Each team is told the software takes work off them. It does not replace them.",
+      "more_points": [
+       "Doctors: start the going-home papers in the evening, then sign on a phone next morning.",
+       "Nurses: check what the software writes down from the doctors’ notes.",
+       "Billing and the insurance desk: check bills that are already made.",
+       "IT, lab and scan teams: keep reports up to date in the system.",
+       "Admissions, housekeeping, the dietitian and the ward manager: act when the software tells them.",
+       "Head of Operations: approves the new order of steps. Without this, the change won’t last."
+      ],
+      "point": 3
+     },
+     {
+      "title": "Who is in charge",
+      "text": "Whether you need someone new to run this.",
+      "tag": "Part 4",
+      "more_label": "See the roles",
+      "more_points": [
+       "Most teams only record and approve a little more in the system.",
+       "A Discharge Manager runs the whole process and works with the other departments. About ₹4 to 4.5 lakh a year.",
+       "Discharge Executives look after each patient going home. About ₹3 to 3.5 lakh a year each.",
+       "How many executives you need depends on your busiest hours. We work that out together."
+      ],
+      "point": 4
+     },
+     {
+      "title": "How we’ll know it worked",
+      "text": "The few numbers we will watch, week by week.",
+      "tag": "Part 5",
+      "more_label": "See what we’ll track",
+      "more_points": [
+       "Time from the doctor saying ‘go home’ to the patient leaving.",
+       "How many patients paying themselves leave by 10 AM (11 AM at the latest), and insured patients by 1 PM.",
+       "How many going-home decisions start on the evening round.",
+       "How long insurance approval takes, in the evening and in the morning.",
+       "How long a bed takes to be ready for the next patient.",
+       "Whether every family hears about diet, medicines and follow-up before leaving."
+      ],
+      "point": 5
+     }
+    ]
+   },
+   {
+    "type": "handnote",
+    "text": "your doctors sign in the morning what they already decided the night before"
+   },
+   {
+    "type": "stat-strip",
+    "stats": [
+     {
+      "label": "Hours each patient waits to leave",
+      "value": "5 hours",
+      "source": "yours",
+      "state": "target"
+     },
+     {
+      "label": "Yearly cost of the waiting",
+      "value": "₹10.3 crore",
+      "source": "derived",
+      "note": "the most it could be",
+      "state": "outcome"
+     },
+     {
+      "label": "Days a patient stays, on average",
+      "value": "—",
+      "source": "needed",
+      "note": "a short trial will tell us"
+     }
+    ]
+   }
+  ]
+ }
+}

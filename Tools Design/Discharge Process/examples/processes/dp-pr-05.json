@@ -1,0 +1,191 @@
+{
+ "turn": {
+  "id": "dp-pr-05",
+  "type": "recommendation",
+  "tool": "Discharge Process",
+  "tab": "Processes",
+  "register": "advisory",
+  "user_message": "Yes — put it into a plan",
+  "was": "turn-10 (dp-10), chain + cards + stat-strip",
+  "context": "Discharge sample conversation, turn 10 (playbook §7: a low-commitment trial, a threshold already met, a choice).",
+  "transcript": {
+   "label": "Sample conversation · turn 10 · the plan"
+  }
+ },
+ "chat": {
+  "text": [
+   "Start with a two-week trial on one ward. It needs no new staff and no new system. It tells us how much of the 5 hours comes back.",
+   "Hire the Discharge Manager now, not after the trial. Your own numbers are past both lines, so this is not a maybe-someday. They can run the trial."
+  ],
+  "invite": "Would you like me to plan the two-week trial, or first walk through what the full software does each day?",
+  "note": "Prove it on one ward, then grow it.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The two-week trial",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Hiring the Discharge Manager now",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Linking the software",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Cost against what is at stake",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Let’s plan the two-week trial",
+   "Why hire the manager before the trial ends?",
+   "What will the trial cost us?"
+  ],
+  "pointer": "Pick a switch. The current runs to it, and the bulb lights at the last one."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "The plan",
+    "title": "Try it on one ward first",
+    "deck": "Four switches, in order. Patients go home sooner only when every one is on.",
+    "plate": {
+     "column": "The trial",
+     "name": "The plan"
+    }
+   },
+   {
+    "type": "circuit",
+    "source": {
+     "label": "Today",
+     "line": "Ready at 10 AM, home at 3 PM"
+    },
+    "goal": {
+     "label": "Home hours sooner",
+     "line": "How many hours, the trial will show"
+    },
+    "steps": [
+     {
+      "when": "Week 1",
+      "title": "Start the trial on one ward",
+      "line": "The new order of steps, by hand. No new system.",
+      "state": "start",
+      "point": 1
+     },
+     {
+      "when": "Weeks 1 and 2",
+      "title": "Measure the wait every day",
+      "line": "One person writes down the times for each patient.",
+      "point": 1
+     },
+     {
+      "when": "Week 3",
+      "title": "Decide using the numbers",
+      "line": "Spread it, or adjust and try again."
+     },
+     {
+      "when": "After that",
+      "title": "Link the software, ward by ward",
+      "line": "Your IT team gives read-only access.",
+      "point": 3
+     }
+    ],
+    "readout": "The trial turns the biggest guess, how many hours come back, into a measured fact.",
+    "sheets": [
+     {
+      "key": "w1",
+      "when": "Week 1",
+      "title": "Start the trial on one ward",
+      "text": "The trial runs the new order of steps by hand, so it needs no new system. One ward with a usual mix of patients.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "One ward, the doctors’ yes",
+        "state": "target"
+       },
+       {
+        "label": "Cost",
+        "value": "No new staff, no new system",
+        "state": "start"
+       }
+      ],
+      "entry": "Which ward would you pick?"
+     },
+     {
+      "key": "w2",
+      "when": "Weeks 1 and 2",
+      "title": "Measure the wait every day",
+      "text": "Week 1 runs as usual and records the times. Week 2 runs the new order and records the same times.",
+      "lines": [
+       {
+        "label": "Who records",
+        "value": "The Discharge Manager, or a nurse"
+       }
+      ],
+      "entry": "Who could write the times down?"
+     },
+     {
+      "key": "w3",
+      "when": "Week 3",
+      "title": "Decide using the numbers",
+      "text": "We read the two weeks side by side. If the hours fell, we spread it. If not, we adjust and try again.",
+      "lines": [
+       {
+        "label": "We read",
+        "value": "Hours from ready to home"
+       }
+      ],
+      "entry": "Who should be in the room to decide?"
+     },
+     {
+      "key": "it",
+      "when": "After that",
+      "title": "Link the software, ward by ward",
+      "text": "Once the order works by hand, the software takes over the writing. Your IT team gives read-only access.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "One person in your IT team",
+        "state": "target"
+       }
+      ],
+      "entry": "Who looks after your hospital software?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Hire the manager now",
+    "value": "Not a maybe-someday",
+    "state": "target",
+    "sub": "88% of beds in use against a line of 80%. 40 to 45 a day against a line of 40. Both are your numbers."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: plan the two-week trial",
+    "say": "Let’s plan the two-week trial"
+   },
+   "add": {
+    "detail": "Tell me what worries you",
+    "say": "What worries me about the plan is: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

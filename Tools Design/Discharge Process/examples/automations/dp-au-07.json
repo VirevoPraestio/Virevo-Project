@@ -1,0 +1,277 @@
+{
+ "turn": {
+  "id": "dp-au-07",
+  "type": "findings",
+  "tool": "Discharge Process",
+  "tab": "Automations",
+  "register": "advisory",
+  "user_message": "Yes, one system. Reports are separate.",
+  "was": "au-06 (sources, redrawn)",
+  "context": "Automations place, turn 6 (the answer sets the order: the form, then one link, then the reports).",
+  "transcript": {
+   "label": "Automations · the order of switching on"
+  }
+ },
+ "chat": {
+  "text": [
+   "That helps. One link to the hospital software lights most of the board. The reports are a second, smaller link.",
+   "So the order is simple. The form first, then the hospital software, then the reports."
+  ],
+  "note": "Notes and bills in one place. Most of the work is one link.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The form, with no IT work",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The first link",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The report link",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "What waits on the pharmacy",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What about the bed after the patient leaves?",
+   "This is getting too technical",
+   "Scope the two-week trial"
+  ],
+  "pointer": "Step through the links. The lamps light as each automation can switch on."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Automations · the order",
+    "title": "The form first, then two links",
+    "deck": "Your answer sets the order. Step through it and watch which automations light.",
+    "plate": {
+     "tag": "Automations",
+     "name": "The build panel",
+     "stage": "Built"
+    }
+   },
+   {
+    "type": "panel",
+    "phases_label": "The order",
+    "rows_label": "Automation",
+    "foot": "Discharge desk · build panel",
+    "hint": "Step through the order. Pick a row to see when it switches on.",
+    "phases": [
+     {
+      "when": "Day 1",
+      "name": "The form, no IT work"
+     },
+     {
+      "when": "Link 1",
+      "name": "Billing and notes"
+     },
+     {
+      "when": "Link 2",
+      "name": "The reports"
+     },
+     {
+      "when": "Later",
+      "name": "The pharmacy list"
+     }
+    ],
+    "mains": [
+     {
+      "tag": "Main switch 1",
+      "name": "The one-tap form",
+      "line": "On the ward phone, from day 1",
+      "on_at": 0
+     },
+     {
+      "tag": "Main switch 2",
+      "name": "The hospital software link",
+      "line": "Billing and notes, in one system",
+      "on_at": 1
+     }
+    ],
+    "automations": [
+     {
+      "name": "Family and pharmacy told",
+      "line": "Works from the form alone",
+      "stages": [
+       3,
+       3,
+       3,
+       3
+      ],
+      "point": 1
+     },
+     {
+      "name": "Running bill kept up to date",
+      "line": "Needs the hospital software",
+      "stages": [
+       0,
+       3,
+       3,
+       3
+      ],
+      "point": 2
+     },
+     {
+      "name": "Early insurance request",
+      "line": "The form and the software",
+      "stages": [
+       0,
+       3,
+       3,
+       3
+      ]
+     },
+     {
+      "name": "Summary drafted on the round",
+      "line": "Needs the reports too",
+      "stages": [
+       0,
+       1,
+       3,
+       3
+      ],
+      "point": 3
+     },
+     {
+      "name": "Final summary signed on a phone",
+      "line": "Needs the reports too",
+      "stages": [
+       0,
+       1,
+       3,
+       3
+      ]
+     },
+     {
+      "name": "Supply count for the nurses",
+      "line": "Waits on the pharmacy list",
+      "stages": [
+       0,
+       1,
+       1,
+       3
+      ],
+      "point": 4
+     }
+    ],
+    "sheets": [
+     {
+      "key": "r1",
+      "when": "On from day 1",
+      "title": "Family and pharmacy told",
+      "text": "The family gets a likely leaving time, the pharmacy its list. Needs only the form.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "Works from the form alone"
+       }
+      ],
+      "entry": "How do families hear today?"
+     },
+     {
+      "key": "r2",
+      "when": "On with link 1",
+      "title": "Running bill kept up to date",
+      "text": "Each charge is added as it happens. The first link lights it.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "Needs the hospital software"
+       }
+      ],
+      "entry": "Who builds the bill today?"
+     },
+     {
+      "key": "r3",
+      "when": "On with link 1",
+      "title": "Early insurance request",
+      "text": "The expected bill goes to the insurer the evening before.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "The form and the software"
+       }
+      ],
+      "entry": "Which insurers take early requests?"
+     },
+     {
+      "key": "r4",
+      "when": "On with link 2",
+      "title": "Summary drafted on the round",
+      "text": "Drafted from notes and reports. Built after link 1, switched on with link 2.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "Needs the reports too"
+       }
+      ],
+      "entry": "Which reports come in late?"
+     },
+     {
+      "key": "r5",
+      "when": "On with link 2",
+      "title": "Final summary signed on a phone",
+      "text": "The doctor signs the final summary on the morning round.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "Needs the reports too"
+       }
+      ],
+      "entry": "Would your consultants sign on a phone?"
+     },
+     {
+      "key": "r6",
+      "when": "On last",
+      "title": "Supply count for the nurses",
+      "text": "Works out what goes back. Waits for the pharmacy stock list.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "Waits on the pharmacy list"
+       }
+      ],
+      "entry": "Is the pharmacy stock on a system?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Lit by the first link",
+    "value": "4 of 6",
+    "state": "outcome",
+    "sub": "With the form and the hospital software link, four of the six automations can switch on."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: the bed after the patient leaves",
+    "say": "What about the bed after the patient leaves?"
+   },
+   "add": {
+    "detail": "Tell me about your reports",
+    "say": "Our reports reach the doctors like this: "
+   },
+   "jump": {
+    "tab": "Processes",
+    "detail": "How the day changes on the wards",
+    "say": "Take me to Processes"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

@@ -1,0 +1,797 @@
+{
+ "registry": "Bed Management · Diagnosis canvas blocks",
+ "registry_version": 1,
+ "updated": "2026-09-30",
+ "note": "The block database for Bed Management Diagnosis turns. Claude writes only the JSON spec; bm_diagnosis_html.py validates it against this file and draws the canvas. Every block is Bed Management only unless marked universal.",
+ "budget": {
+  "max_blocks": 4,
+  "note": "Heading excluded. Pages are roomy: a desktop canvas may run to 1.5–2 screens."
+ },
+ "tones": {
+  "rule": "The colours never change between turns; the background theme does. The generator picks it from the turn number in sets of four: turns 1–4 the morning count, 5–8 the lamp-lit sheet, 9–12 the morning count, and so on. Specs store no colour. The one exception: a fill-in-the-blank and its answered redraw keep the theme they started in, so the redraw names redraw_of and sets canvas.tone to that turn's theme.",
+  "set_size": 4,
+  "rotation": [
+   "count",
+   "lamp"
+  ],
+  "list": {
+   "count": {
+    "status": "approved",
+    "name": "The morning count (base)",
+    "ground": "#E1E7EF",
+    "card": "#FAFCFE",
+    "ink": "#1A2B45",
+    "muted": "#475672",
+    "line": "#B2BED0",
+    "soft": "#E9EFF7",
+    "grey": "#8B96AA",
+    "paper": "none"
+   },
+   "lamp": {
+    "status": "draft",
+    "name": "The lamp-lit sheet (warm paper, every other set of four)",
+    "ground": "#F2EDE3",
+    "card": "#FFFDF8",
+    "ink": "#1A2B45",
+    "muted": "#4F5870",
+    "line": "#CFC7B6",
+    "soft": "#EAE3D5",
+    "grey": "#8B96AA",
+    "paper": "dots"
+   }
+  }
+ },
+ "variety": {
+  "rule": "Every turn in the place looks different. The main block (the first after the heading) is used by one turn only. No block other than heading and effect appears in two turns in a row. The one exception is a fill-in-the-blank and its answered redraw (06 §10.2): the redraw names redraw_of and reuses that turn's main block, and must add at least one block the blank turn did not have.",
+  "repeatable": [
+   "heading",
+   "effect"
+  ],
+  "effect_styles": [
+   "tag",
+   "stamp",
+   "ticket",
+   "banner",
+   "meter"
+  ]
+ },
+ "turn_recipes": {
+  "reveal": [
+   "revenue-dial",
+   "effect"
+  ],
+  "agenda": [
+   "clipboard"
+  ],
+  "question": [
+   "pattern-pair",
+   "clipboard"
+  ],
+  "data-ask": [
+   "admission-line",
+   "bill-slips",
+   "figure-cards"
+  ],
+  "data-back": [
+   "admission-line",
+   "bill-slips",
+   "time-split",
+   "gap-ruler",
+   "effect"
+  ],
+  "sizing": [
+   "step-ledger",
+   "effect"
+  ],
+  "findings": [
+   "pin-board"
+  ],
+  "diagnosis": [
+   "rule-loop"
+  ]
+ },
+ "withheld_in_fact_turns": [
+  "step-ledger"
+ ],
+ "blocks": [
+  {
+   "id": "heading",
+   "status": "approved",
+   "scope": "universal",
+   "purpose": "Opens every canvas: a small eyebrow, the title, one line of deck.",
+   "use_when": [
+    "always, first"
+   ],
+   "avoid_when": [
+    "never skip it"
+   ],
+   "slots": {
+    "eyebrow": {
+     "type": "text",
+     "max_words": 8
+    },
+    "title": {
+     "type": "text",
+     "max_words": 9
+    },
+    "deck": {
+     "type": "text",
+     "max_words": 30,
+     "required": false
+    }
+   }
+  },
+  {
+   "id": "revenue-dial",
+   "status": "draft",
+   "scope": "Bed Management only",
+   "purpose": "One bed through one day on a clock face: where the bill stops, and how long the bed earns nothing. Each stop is tapped for its story.",
+   "use_when": [
+    "the case reveal: a comparable hospital's day as a revenue clock"
+   ],
+   "avoid_when": [
+    "the hospital's own times (use admission-line or bill-slips)"
+   ],
+   "slots": {
+    "stops": {
+     "type": "list",
+     "min": 3,
+     "max": 5,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "at": {
+        "type": "number"
+       },
+       "when": {
+        "type": "text",
+        "max_words": 3
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "line": {
+        "type": "text",
+        "max_words": 10
+       },
+       "detail": {
+        "type": "text",
+        "max_words": 40
+       },
+       "bill": {
+        "type": "text",
+        "max_words": 14
+       },
+       "bed": {
+        "type": "enum",
+        "values": [
+         "in",
+         "empty",
+         "next"
+        ]
+       },
+       "outcome": {
+        "type": "bool",
+        "required": false
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "stops_billing_at": {
+     "type": "number"
+    },
+    "starts_billing_at": {
+     "type": "number"
+    },
+    "labels": {
+     "type": "object",
+     "fields": {
+      "billing": {
+       "type": "text",
+       "max_words": 3
+      },
+      "dead": {
+       "type": "text",
+       "max_words": 6
+      },
+      "again": {
+       "type": "text",
+       "max_words": 3
+      }
+     }
+    },
+    "caption": {
+     "type": "text",
+     "max_words": 30
+    }
+   }
+  },
+  {
+   "id": "clipboard",
+   "status": "draft",
+   "scope": "Bed Management only",
+   "purpose": "The list of areas Tojo will ask about, on a ward clipboard. The one being asked now is ticked in gold. Tap a line to see its question.",
+   "use_when": [
+    "showing where the questions are going, then asking the first"
+   ],
+   "avoid_when": [
+    "findings (use pin-board)"
+   ],
+   "slots": {
+    "title": {
+     "type": "text",
+     "max_words": 6
+    },
+    "footer": {
+     "type": "text",
+     "max_words": 16
+    },
+    "items": {
+     "type": "list",
+     "min": 3,
+     "max": 6,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "name": {
+        "type": "text",
+        "max_words": 7
+       },
+       "ask": {
+        "type": "text",
+        "max_words": 26
+       },
+       "now": {
+        "type": "bool",
+        "required": false
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "pattern-pair",
+   "status": "draft",
+   "scope": "Bed Management only",
+   "purpose": "Two neutral ways a day could run, side by side, rows matched moment for moment. Tap a pattern to see what it means. Never draws only one candidate day.",
+   "use_when": [
+    "testing a claim without leading the witness"
+   ],
+   "avoid_when": [
+    "one pattern only"
+   ],
+   "slots": {
+    "rows": {
+     "type": "list",
+     "min": 3,
+     "max": 3,
+     "item": {
+      "type": "text",
+      "max_words": 4
+     }
+    },
+    "patterns": {
+     "type": "list",
+     "min": 2,
+     "max": 2,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "name": {
+        "type": "text",
+        "max_words": 3
+       },
+       "tag": {
+        "type": "text",
+        "max_words": 5
+       },
+       "steps": {
+        "type": "list",
+        "min": 3,
+        "max": 3,
+        "item": {
+         "type": "text",
+         "max_words": 10
+        }
+       },
+       "detail": {
+        "type": "text",
+        "max_words": 30
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "admission-line",
+   "status": "draft",
+   "scope": "Bed Management only",
+   "purpose": "The five steps of an admission as stations on one line, three then two with an elbow on desktop. Blank mode shows dashed time fields; filled mode shows the typical time above the worst.",
+   "use_when": [
+    "asking for, then showing, the hospital's admission clock times"
+   ],
+   "avoid_when": [
+    "billing times (use bill-slips)"
+   ],
+   "slots": {
+    "mode": {
+     "type": "enum",
+     "values": [
+      "blank",
+      "filled"
+     ]
+    },
+    "caption": {
+     "type": "text",
+     "max_words": 24,
+     "required": false
+    },
+    "stages": {
+     "type": "list",
+     "min": 5,
+     "max": 5,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "name": {
+        "type": "text",
+        "max_words": 9
+       },
+       "what": {
+        "type": "text",
+        "max_words": 22
+       },
+       "typical": {
+        "type": "text",
+        "max_words": 5,
+        "required": false
+       },
+       "worst": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "outcome": {
+        "type": "bool",
+        "required": false
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "time-split",
+   "status": "draft",
+   "scope": "Bed Management only",
+   "purpose": "One bar of hours cut into work and waiting, so the reader sees how little of the time is work.",
+   "use_when": [
+    "after a filled chain, to show where the time goes"
+   ],
+   "avoid_when": [
+    "before the hospital's own times are in"
+   ],
+   "slots": {
+    "title": {
+     "type": "text",
+     "max_words": 8
+    },
+    "parts": {
+     "type": "list",
+     "min": 2,
+     "max": 4,
+     "item": {
+      "type": "object",
+      "fields": {
+       "label": {
+        "type": "text",
+        "max_words": 6
+       },
+       "hours": {
+        "type": "number"
+       },
+       "kind": {
+        "type": "enum",
+        "values": [
+         "work",
+         "wait"
+        ]
+       },
+       "detail": {
+        "type": "text",
+        "max_words": 24
+       }
+      }
+     }
+    },
+    "caption": {
+     "type": "text",
+     "max_words": 24
+    }
+   }
+  },
+  {
+   "id": "bill-slips",
+   "status": "draft",
+   "scope": "Bed Management only",
+   "purpose": "Two bills on one bed, the leaving patient's and the next patient's, joined by an arrow. Blank mode leaves the times as dashed fields; filled mode shows them, the second red.",
+   "use_when": [
+    "asking for, then showing, bill closed and first charge times"
+   ],
+   "avoid_when": [
+    "admission steps (use admission-line)"
+   ],
+   "slots": {
+    "mode": {
+     "type": "enum",
+     "values": [
+      "blank",
+      "filled"
+     ]
+    },
+    "arrow": {
+     "type": "text",
+     "max_words": 6
+    },
+    "slips": {
+     "type": "list",
+     "min": 2,
+     "max": 2,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "who": {
+        "type": "text",
+        "max_words": 5
+       },
+       "label": {
+        "type": "text",
+        "max_words": 8
+       },
+       "detail": {
+        "type": "text",
+        "max_words": 26
+       },
+       "value": {
+        "type": "text",
+        "max_words": 5,
+        "required": false
+       },
+       "worst": {
+        "type": "text",
+        "max_words": 6,
+        "required": false
+       },
+       "outcome": {
+        "type": "bool",
+        "required": false
+       }
+      }
+     }
+    },
+    "captions": {
+     "type": "list",
+     "min": 1,
+     "max": 2,
+     "required": false,
+     "item": {
+      "type": "text",
+      "max_words": 24
+     }
+    }
+   }
+  },
+  {
+   "id": "gap-ruler",
+   "status": "draft",
+   "scope": "Bed Management only",
+   "purpose": "A ruler across the day from the bill closing to the first new charge, with a switch between a usual day and the worst day.",
+   "use_when": [
+    "the dead bed time from the hospital's own two times"
+   ],
+   "avoid_when": [
+    "times the hospital has not given"
+   ],
+   "slots": {
+    "from": {
+     "type": "text",
+     "max_words": 2
+    },
+    "to": {
+     "type": "text",
+     "max_words": 2
+    },
+    "worst_to": {
+     "type": "text",
+     "max_words": 2
+    },
+    "from_label": {
+     "type": "text",
+     "max_words": 5
+    },
+    "to_label": {
+     "type": "text",
+     "max_words": 5
+    },
+    "usual": {
+     "type": "text",
+     "max_words": 8
+    },
+    "worst": {
+     "type": "text",
+     "max_words": 10
+    }
+   }
+  },
+  {
+   "id": "figure-cards",
+   "status": "draft",
+   "scope": "Bed Management only",
+   "purpose": "The figures Tojo needs, one card each, with an empty field and a line saying what each figure turns into. 3 + 2 on desktop, 2 + 2 + 1 on a phone.",
+   "use_when": [
+    "the batched ask for money figures, the moment a quantity lands"
+   ],
+   "avoid_when": [
+    "figures already given"
+   ],
+   "slots": {
+    "items": {
+     "type": "list",
+     "min": 3,
+     "max": 6,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "name": {
+        "type": "text",
+        "max_words": 9
+       },
+       "unit": {
+        "type": "text",
+        "max_words": 5
+       },
+       "turns_into": {
+        "type": "text",
+        "max_words": 16
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "step-ledger",
+   "status": "draft",
+   "scope": "Bed Management only",
+   "purpose": "The arithmetic as a staircase: each step one line of working, the last one red. Tap a step to see the sum.",
+   "use_when": [
+    "turning a duration into money from the hospital's own figures"
+   ],
+   "avoid_when": [
+    "fact-collecting turns"
+   ],
+   "slots": {
+    "steps": {
+     "type": "list",
+     "min": 3,
+     "max": 5,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "label": {
+        "type": "text",
+        "max_words": 7
+       },
+       "value": {
+        "type": "text",
+        "max_words": 8
+       },
+       "how": {
+        "type": "text",
+        "max_words": 30
+       },
+       "source": {
+        "type": "enum",
+        "values": [
+         "yours",
+         "derived",
+         "estimate"
+        ]
+       },
+       "outcome": {
+        "type": "bool",
+        "required": false
+       }
+      }
+     }
+    },
+    "condition": {
+     "type": "text",
+     "max_words": 30
+    }
+   }
+  },
+  {
+   "id": "pin-board",
+   "status": "draft",
+   "scope": "Bed Management only",
+   "purpose": "The findings pinned to the ward notice board in the order they were collected, each card saying which of the user's answers it came from.",
+   "use_when": [
+    "consolidation before the diagnosis"
+   ],
+   "avoid_when": [
+    "causal order (that is the diagnosis)"
+   ],
+   "slots": {
+    "banner": {
+     "type": "text",
+     "max_words": 10
+    },
+    "cards": {
+     "type": "list",
+     "min": 3,
+     "max": 6,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "text": {
+        "type": "text",
+        "max_words": 8
+       },
+       "from": {
+        "type": "text",
+        "max_words": 12
+       },
+       "detail": {
+        "type": "text",
+        "max_words": 26
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "rule-loop",
+   "status": "draft",
+   "scope": "Bed Management only",
+   "purpose": "The diagnosis: the hospital's own rule in the middle, and the consequences it sets off going round in a loop back to the start, with the hospital's clock times on it.",
+   "use_when": [
+    "the diagnosis turn, between consolidation and the solution"
+   ],
+   "avoid_when": [
+    "before the evidence is in"
+   ],
+   "slots": {
+    "rule": {
+     "type": "text",
+     "max_words": 16
+    },
+    "rule_from": {
+     "type": "text",
+     "max_words": 10
+    },
+    "steps": {
+     "type": "list",
+     "min": 3,
+     "max": 4,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "text": {
+        "type": "text",
+        "max_words": 10
+       },
+       "detail": {
+        "type": "text",
+        "max_words": 30
+       },
+       "clock": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "outcome": {
+        "type": "bool",
+        "required": false
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "back": {
+     "type": "text",
+     "max_words": 10
+    }
+   }
+  },
+  {
+   "id": "effect",
+   "status": "draft",
+   "scope": "universal",
+   "purpose": "The quantity named: a label, the figure, one line under it. Its look changes with the turn number, so two effects never look alike.",
+   "use_when": [
+    "naming the quantity a turn arrives at"
+   ],
+   "avoid_when": [
+    "more than two in a turn"
+   ],
+   "slots": {
+    "label": {
+     "type": "text",
+     "max_words": 6
+    },
+    "value": {
+     "type": "text",
+     "max_words": 9
+    },
+    "sub": {
+     "type": "text",
+     "max_words": 26
+    },
+    "outcome": {
+     "type": "bool",
+     "required": false
+    }
+   }
+  }
+ ]
+}

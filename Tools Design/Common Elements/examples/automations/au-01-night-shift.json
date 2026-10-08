@@ -1,0 +1,182 @@
+{
+ "turn": {
+  "id": "au-01",
+  "tab": "Automations",
+  "type": "overview",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Walk me through the daily automation",
+  "context": "From the landing page, or the door in Solutions so-06. Playbook §4, Automations: the reference's automation, on this hospital's night."
+ },
+ "chat": {
+  "text": [
+   "Here is one night on one ward, from the evening round to the patient going home.",
+   "Eight stations run by themselves. A person steps in at three of them, only to approve."
+  ],
+  "pointer": "Press Play the night, or move the clock. Pick a station to see what it reads and makes.",
+  "invite": "Pick any station to go deeper. The summary is the best place to start.",
+  "note": "The machines work all night. People only say yes.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The summary on the evening round",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The running bill",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The early insurance request",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The morning sign-off",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "The empty bed alert",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "How is the summary drafted all through the stay?",
+   "What does the doctor have to do?",
+   "Which reports come in late?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "The daily automation",
+    "title": "The night shift that runs by itself",
+    "deck": "Eight stations on one line, from the evening round to going home. A hand marks where a person says yes."
+   },
+   {
+    "type": "nightshift",
+    "from": "18:00",
+    "to": "16:00",
+    "start_at": "09:00",
+    "default": 1,
+    "clock": [
+     "18:00",
+     "19:30",
+     "21:00",
+     "00:00",
+     "06:00",
+     "08:30",
+     "09:00",
+     "12:00",
+     "15:00"
+    ],
+    "night": {
+     "from": "21:45",
+     "to": "08:00",
+     "label": "The night: nothing waits now"
+    },
+    "stations": [
+     {
+      "n": 1,
+      "at": "19:30",
+      "title": "Summary drafted",
+      "does": "The doctor says on the round that the patient can likely go. Tojo drafts the summary from notes already in your files.",
+      "reads": "Notes, reports and medicines",
+      "makes": "A draft summary",
+      "status": "designed",
+      "hand": {
+       "who": "the doctor",
+       "does": "Reads the early summary on the ward phone and signs it"
+      },
+      "point": 1
+     },
+     {
+      "n": 2,
+      "at": "20:00",
+      "title": "Bill brought up to date",
+      "does": "Every charge of the stay is already on the bill. Tojo adds what the patient will use before leaving.",
+      "reads": "Billing records",
+      "makes": "The expected bill",
+      "status": "designed",
+      "point": 2
+     },
+     {
+      "n": 3,
+      "at": "20:30",
+      "title": "Supply count worked out",
+      "does": "Tojo works out which unused medicines and supplies can go back to the pharmacy.",
+      "reads": "Medicines given and supplies used",
+      "makes": "The return list for the nurses",
+      "status": "designed"
+     },
+     {
+      "n": 4,
+      "at": "21:00",
+      "title": "Early insurance request",
+      "does": "The expected bill goes to the insurance desk that evening, for first approval.",
+      "reads": "The expected bill and the summary",
+      "makes": "An early insurance request",
+      "status": "designed",
+      "point": 3
+     },
+     {
+      "n": 5,
+      "at": "21:30",
+      "title": "Family and pharmacy told",
+      "does": "The family gets a likely time to leave. The pharmacy gets the list of medicines to pack.",
+      "reads": "The draft summary",
+      "makes": "A message to the family",
+      "status": "designed"
+     },
+     {
+      "n": 6,
+      "at": "08:30",
+      "title": "Morning sign-off",
+      "does": "The final summary appears on the doctor’s phone on the morning round.",
+      "reads": "The overnight notes",
+      "makes": "The signed final summary",
+      "status": "designed",
+      "hand": {
+       "who": "the doctor",
+       "does": "Confirms the discharge and signs in one tap"
+      },
+      "point": 4
+     },
+     {
+      "n": 7,
+      "at": "09:00",
+      "title": "Final bill and insurance",
+      "does": "The signed summary sends the final bill and the reports to the insurance desk by itself.",
+      "reads": "The signed summary",
+      "makes": "The final bill",
+      "status": "designed",
+      "hand": {
+       "who": "billing",
+       "does": "Checks the final bill before it goes out"
+      }
+     },
+     {
+      "n": 8,
+      "at": "12:00",
+      "title": "Empty bed alert",
+      "does": "The moment the patient leaves, housekeeping and the bed desk hear, with the bed number.",
+      "reads": "The leaving time on the ward",
+      "makes": "A cleaning alert",
+      "status": "idea",
+      "point": 5
+     }
+    ],
+    "leaves": {
+     "at": "12:00",
+     "label": "Goal: home by",
+     "source": "target"
+    },
+    "condition": "Every station is designed, not switched on. The times are goals. Not yet measured here."
+   }
+  ]
+ }
+}

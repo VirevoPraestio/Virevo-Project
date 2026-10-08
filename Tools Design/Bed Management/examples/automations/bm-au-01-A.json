@@ -1,0 +1,366 @@
+{
+ "turn": {
+  "id": "bm-au-01",
+  "tab": "Automations",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "How would the build work?",
+  "context": "The first Automations turn: how the build works. From bed-management.md §7.4.1 (the engine, a to e, and the 2 PM and 6 PM passes), §7.2 (the records) and §7.4.2 (discharge first, read access), with the transcript’s own facts.",
+  "transcript": {
+   "label": "After transcript turn 31 · “How would the build work?” (the record stops at 31)"
+  },
+  "sample": {
+   "letter": "A",
+   "name": "Link the records, light the lamps",
+   "what": "The library switchboard (sources), layered. Records are switches, discharge is the main switch from the landing page, and each automation is a lamp that lights only when every record it needs is linked."
+  }
+ },
+ "chat": {
+  "text": [
+   "Here is the build, in the order it happens."
+  ],
+  "bullets": [
+   "First, read access. Your IT team links the systems that already hold admissions, discharges, inpatient notes and billing. We write nothing back.",
+   "Second, discharge. The bed plan runs on discharge times, so discharge is built and linked before the bed mapping.",
+   "Then one engine does five jobs. It maps tomorrow’s beds and ICU beds, checks discharge times, holds emergency beds back and sets call-in times."
+  ],
+  "invite": "Pick any part to see what it reads and what it makes. Or tell me which systems your hospital runs.",
+  "note": "Read access and discharge first. The engine comes after.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Read access",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Discharge first",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Tomorrow’s bed map",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Emergency beds",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Call-in times",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What exactly would our IT team do?",
+   "Why must discharge be built first?",
+   "What if some records are on paper?"
+  ],
+  "pointer": "Flip the switches to link each record. A lamp lights when everything it needs is on. Pick a record to see what your IT team gives."
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved 1 Oct as a template; Sample B is the turn."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Automations · how it is built",
+    "plate": {
+     "tag": "Automations",
+     "name": "The bed engine",
+     "stage": "Idea"
+    },
+    "title": "Link the records, light the lamps",
+    "deck": "Each automation lights only when every record it needs is linked. Discharge is the main switch."
+   },
+   {
+    "type": "sources",
+    "src_label": "Where the records come from",
+    "auto_label": "Automations that can switch on",
+    "main": {
+     "id": "dis",
+     "tag": "Main switch",
+     "name": "Discharge, automated",
+     "short": "discharge",
+     "point": 2,
+     "line": "The bed plan runs on real discharge times, not reported ones"
+    },
+    "sources": [
+     {
+      "id": "adt",
+      "name": "Admissions and discharges",
+      "short": "admissions",
+      "holds": "Who came in, who left, which bed, and when",
+      "link": "waiting",
+      "point": 1
+     },
+     {
+      "id": "ip",
+      "name": "Inpatient records",
+      "short": "inpatient notes",
+      "holds": "The stay so far, for each patient and procedure",
+      "link": "waiting",
+      "point": 1
+     },
+     {
+      "id": "bed",
+      "name": "Bed board",
+      "short": "bed board",
+      "holds": "Which beds are empty, being cleaned or ready",
+      "link": "waiting",
+      "point": 1
+     },
+     {
+      "id": "bill",
+      "name": "Billing",
+      "short": "billing",
+      "holds": "When each bill closes and the next opens, bed by bed",
+      "link": "waiting",
+      "point": 1
+     },
+     {
+      "id": "opd",
+      "name": "OPD prescriptions",
+      "short": "OPD advice",
+      "holds": "The advice to admit, the procedure and the date",
+      "link": "ours"
+     },
+     {
+      "id": "voice",
+      "name": "Voice notes on rounds",
+      "short": "round notes",
+      "holds": "The doctor’s spoken note and the confirmed date",
+      "link": "ours"
+     }
+    ],
+    "automations": [
+     {
+      "name": "Tomorrow’s bed map",
+      "needs": [
+       "dis",
+       "adt",
+       "opd",
+       "ip"
+      ],
+      "point": 3
+     },
+     {
+      "name": "ICU bed map",
+      "needs": [
+       "adt",
+       "ip",
+       "voice"
+      ]
+     },
+     {
+      "name": "Discharge times checked",
+      "needs": [
+       "dis",
+       "adt",
+       "bed"
+      ]
+     },
+     {
+      "name": "Emergency beds held back",
+      "needs": [
+       "adt"
+      ],
+      "point": 4
+     },
+     {
+      "name": "Call-in times, bed by bed",
+      "needs": [
+       "dis",
+       "adt",
+       "bed",
+       "opd"
+      ],
+      "point": 5
+     },
+     {
+      "name": "Dead bed time, measured",
+      "needs": [
+       "bill",
+       "adt"
+      ]
+     }
+    ],
+    "default_on": [
+     "opd",
+     "voice"
+    ],
+    "presets": [
+     {
+      "label": "Only what we bring",
+      "on": [
+       "opd",
+       "voice"
+      ]
+     },
+     {
+      "label": "Add your IT links",
+      "on": [
+       "opd",
+       "voice",
+       "adt",
+       "ip",
+       "bed",
+       "bill"
+      ]
+     },
+     {
+      "label": "Everything, discharge too",
+      "on": [
+       "opd",
+       "voice",
+       "adt",
+       "ip",
+       "bed",
+       "bill",
+       "dis"
+      ]
+     }
+    ],
+    "condition": "Discharge is the main switch. Three of the six lamps stay dark until discharge is automated.",
+    "sheets": [
+     {
+      "key": "adt",
+      "when": "Read access · your IT team",
+      "title": "Admissions and discharges",
+      "text": "The engine reads who came in, who left, which bed and when. It writes nothing back to your system.",
+      "lines": [
+       {
+        "label": "Who gives it",
+        "value": "Your IT team, once"
+       },
+       {
+        "label": "Used by",
+        "value": "Five of the six automations",
+        "state": "start"
+       }
+      ],
+      "entry": "Which system holds admissions today?",
+      "entry_hint": "For example, the hospital system"
+     },
+     {
+      "key": "ip",
+      "when": "Read access · your IT team",
+      "title": "Inpatient records",
+      "text": "The stay so far for each patient. It lets the engine see who is near the usual stay for their procedure.",
+      "lines": [
+       {
+        "label": "Who gives it",
+        "value": "Your IT team, once"
+       },
+       {
+        "label": "Used by",
+        "value": "The bed map and the ICU map"
+       }
+      ],
+      "entry": "Are inpatient notes kept on a system?"
+     },
+     {
+      "key": "bed",
+      "when": "Read access · your IT team",
+      "title": "Bed board",
+      "text": "Which beds are empty, being cleaned or ready. The engine checks it against what the wards report.",
+      "lines": [
+       {
+        "label": "Who gives it",
+        "value": "Your IT team, once"
+       },
+       {
+        "label": "Used by",
+        "value": "Discharge checks and call-in times"
+       }
+      ],
+      "entry": "How does your desk see bed status today?"
+     },
+     {
+      "key": "bill",
+      "when": "Read access · your IT team",
+      "title": "Billing",
+      "text": "Both times already sit in your billing system. One report joins them against the same bed. That gives dead bed time.",
+      "lines": [
+       {
+        "label": "Who gives it",
+        "value": "Billing, with IT"
+       },
+       {
+        "label": "It is",
+        "value": "A report, not new records"
+       }
+      ],
+      "entry": "Which billing system do you run?"
+     },
+     {
+      "key": "opd",
+      "when": "We bring this",
+      "title": "OPD prescriptions",
+      "text": "The advice to admit is read from the prescription as it is written. Nobody fills in a form.",
+      "lines": [
+       {
+        "label": "Who does it",
+        "value": "We do"
+       },
+       {
+        "label": "Used by",
+        "value": "The bed map and call-in times"
+       }
+      ],
+      "entry": "Are OPD prescriptions on paper or on a system?"
+     },
+     {
+      "key": "voice",
+      "when": "We bring this",
+      "title": "Voice notes on rounds",
+      "text": "The doctor speaks on the round they already do. Our recorder turns it into a note and a confirmed date.",
+      "lines": [
+       {
+        "label": "Who does it",
+        "value": "We do"
+       },
+       {
+        "label": "Used by",
+        "value": "The ICU map and the 5 PM round"
+       }
+      ],
+      "entry": "Do your doctors record notes on rounds?",
+      "hand": {
+       "who": "the treating doctor",
+       "does": "Speaks the note and confirms the date with a tap."
+      }
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Your IT team’s part",
+    "value": "Read access, once",
+    "state": "target",
+    "sub": "About two weeks. We read the records you already hold, and we write nothing back."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: what your IT team would do",
+    "say": "What exactly would our IT team do?"
+   },
+   "add": {
+    "detail": "Tell me about your systems",
+    "say": "Here is what we run today: "
+   },
+   "jump": {
+    "tab": "Processes",
+    "detail": "How the day changes on the wards",
+    "say": "Take me to Processes"
+   }
+  }
+ }
+}

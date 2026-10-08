@@ -1,0 +1,823 @@
+{
+ "heading": {
+  "eyebrow": "Route map · stop 1 of 11",
+  "title": "From the doctor’s decision to an empty bed",
+  "deck": "Eleven stops, each run by a different team. Tap any stop to open it."
+ },
+ "handnote": {
+  "text": "your doctors sign in the morning what they already decided the night before"
+ },
+ "route-map": {
+  "start_label": "Doctor decides",
+  "end_label": "Bed ready",
+  "stations": [
+   {
+    "id": "A",
+    "name": "The doctors",
+    "status": "now",
+    "text": "The summary is drafted, reviewed and signed by different people. The round decides when any of it can start.",
+    "heard_as": "“discharges are just slow”",
+    "question": "Who writes the summary, who reviews it, who signs it — and when do rounds finish?",
+    "point": 1
+   },
+   {
+    "id": "B",
+    "name": "Supply count",
+    "status": "next",
+    "text": "The bill can’t be finished until nurses count the used supplies, and they count only when free.",
+    "heard_as": "“billing is slow”",
+    "question": "How long after the doctor signs do nurses start counting supplies?",
+    "point": 2
+   },
+   {
+    "id": "C",
+    "name": "Pharmacy returns",
+    "status": "later",
+    "text": "What was issued, used and can be credited back. Counted by hand, it forces a second pass on the bill.",
+    "heard_as": "“still waiting on pharmacy”",
+    "question": "Is the returnable balance worked out by the system or by a nurse?",
+    "point": 3
+   },
+   {
+    "id": "D",
+    "name": "Billing",
+    "status": "later",
+    "text": "A charge that lands after the bill is closed reopens it.",
+    "heard_as": "“bill revisions at the counter”",
+    "question": "How many bills were reopened after closing last month?",
+    "point": 4
+   },
+   {
+    "id": "E",
+    "name": "Insurance desk",
+    "status": "later",
+    "text": "The insurer’s approval window sits inside the family’s wait.",
+    "question": "Does your discharge time include the whole wait for insurance?"
+   },
+   {
+    "id": "F",
+    "name": "Bed desk",
+    "status": "later",
+    "text": "Discharge times can only be checked against when beds are given out.",
+    "question": "Can the bed desk tell me when those beds were given out?"
+   },
+   {
+    "id": "G",
+    "name": "Housekeeping",
+    "status": "later",
+    "text": "A bed turns from when housekeeping is told, not when the patient left.",
+    "question": "How long from the patient leaving to housekeeping being told?"
+   },
+   {
+    "id": "H",
+    "name": "Transport",
+    "status": "later",
+    "text": "Porters are shared with admissions and diagnostics at the same peak.",
+    "question": "How many porters are on duty at the discharge peak?"
+   }
+  ]
+ },
+ "chain": {
+  "label": "One patient going home, as you described it",
+  "steps": [
+   {
+    "title": "Doctor decides on evening round",
+    "value": "7 PM",
+    "state": "start"
+   },
+   {
+    "title": "Nothing happens overnight",
+    "value": "16 hours",
+    "state": "target",
+    "flag": "Time unused",
+    "point": 1
+   },
+   {
+    "title": "Doctor signs next morning",
+    "value": "11 AM"
+   },
+   {
+    "title": "Papers typed, bill made",
+    "point": 2
+   },
+   {
+    "title": "Patient goes home",
+    "value": "About 3 PM",
+    "state": "outcome"
+   }
+  ],
+  "caption": "Ready by 10 AM, home by 3 PM: about 5 hours of waiting for each patient. All times are yours."
+ },
+ "two-flow": {
+  "left_title": "Today",
+  "right_title": "With Virevo",
+  "rows": [
+   {
+    "label": "Evening round",
+    "left": "Discharge mentioned, nothing recorded",
+    "right": "Doctor’s words recorded, papers started",
+    "right_state": "start"
+   },
+   {
+    "label": "Summary",
+    "left": "Typed next morning after the round",
+    "left_value": "11:00+",
+    "right": "Doctor reviews a ready draft",
+    "right_value": "08:30",
+    "right_state": "outcome"
+   },
+   {
+    "label": "Billing",
+    "left": "Starts after nurses count supplies",
+    "right": "Bill to date kept live; closes on confirmation"
+   }
+  ],
+  "caption": "Same steps, started the evening before. Illustrative times — not yet measured."
+ },
+ "compare-table": {
+  "options": [
+   {
+    "name": "Two-week pilot",
+    "tag": "Start here"
+   },
+   {
+    "name": "Full rollout"
+   }
+  ],
+  "highlight": 0,
+  "rows": [
+   {
+    "label": "New hires",
+    "values": [
+     "None",
+     "Discharge Manager"
+    ]
+   },
+   {
+    "label": "Systems touched",
+    "values": [
+     "None, it works alongside",
+     "Hospital and billing software"
+    ]
+   },
+   {
+    "label": "Proves",
+    "values": [
+     "Whether patients really go home sooner",
+     "The full gain, hospital-wide"
+    ]
+   }
+  ],
+  "caption": "The pilot turns the biggest assumption into a measured fact."
+ },
+ "stat-strip": {
+  "stats": [
+   {
+    "label": "Hours each patient waits to leave",
+    "value": "5 hours",
+    "source": "yours",
+    "state": "target"
+   },
+   {
+    "label": "Yearly cost of the waiting",
+    "value": "₹10.3 crore",
+    "source": "derived",
+    "note": "the most it could be",
+    "state": "outcome"
+   },
+   {
+    "label": "Days a patient stays, on average",
+    "value": "—",
+    "source": "needed",
+    "note": "a short trial will tell us"
+   }
+  ]
+ },
+ "calculator": {
+  "inputs": [
+   {
+    "id": "d",
+    "label": "Patients going home each day",
+    "source": "derived",
+    "value": 42.5,
+    "format": "dec1",
+    "control": "fixed"
+   },
+   {
+    "id": "w",
+    "label": "Hours each one waits to leave",
+    "source": "yours",
+    "value": 5,
+    "format": "hours",
+    "control": "fixed"
+   },
+   {
+    "id": "a",
+    "label": "What one bed earns in a day",
+    "source": "yours",
+    "value": 32000,
+    "format": "inr",
+    "control": "fixed"
+   }
+  ],
+  "steps": [
+   {
+    "id": "bh",
+    "label": "Hours beds sit waiting each day",
+    "formula": "d * w",
+    "format": "int"
+   },
+   {
+    "id": "bd",
+    "label": "Full days of bed time lost each year",
+    "formula": "bh * 365 / 24",
+    "format": "int"
+   },
+   {
+    "id": "v",
+    "label": "Money those beds could earn",
+    "note": "the most it could be, not a promise",
+    "formula": "bd * a",
+    "format": "inr_cr",
+    "point": 4
+   }
+  ],
+  "condition": "Only true if each freed bed gets a new patient the same day. 42.5 is the middle of your 40 to 45."
+ },
+ "threshold-gauges": {
+  "gauges": [
+   {
+    "label": "Beds in use",
+    "caption": "Above 80%, discharge needs one person in charge",
+    "min": 0,
+    "max": 100,
+    "value": 88,
+    "value_label": "You: 88%",
+    "line": 80,
+    "line_label": "80%",
+    "point": 3
+   },
+   {
+    "label": "Patients going home each day",
+    "caption": "Above 40 a day, the same is true",
+    "min": 0,
+    "max": 60,
+    "value": 42.5,
+    "value_label": "40 to 45",
+    "band_low": 40,
+    "band_high": 45,
+    "line": 40,
+    "line_label": "40",
+    "point": 3
+   }
+  ]
+ },
+ "balance": {
+  "left_label": "An owner, a year",
+  "left_value": "₹4 to 4.5 lakh",
+  "right_label": "Beds freed, a year",
+  "right_value": "₹— crore",
+  "heavier": "right",
+  "caption": "sized once your revenue per bed is in"
+ },
+ "progress-trail": {
+  "steps": [
+   {
+    "id": "A",
+    "status": "done"
+   },
+   {
+    "id": "B",
+    "status": "next"
+   },
+   {
+    "id": "C",
+    "status": "later"
+   },
+   {
+    "id": "D",
+    "status": "later"
+   },
+   {
+    "id": "E",
+    "status": "later"
+   },
+   {
+    "id": "F",
+    "status": "later"
+   },
+   {
+    "id": "G",
+    "status": "later"
+   },
+   {
+    "id": "H",
+    "status": "later"
+   },
+   {
+    "id": "I",
+    "status": "later"
+   },
+   {
+    "id": "J",
+    "status": "later"
+   },
+   {
+    "id": "K",
+    "status": "later"
+   }
+  ],
+  "summary": "1 of 11 stops walked.",
+  "next": "Next: B, the nurses’ supply count."
+ },
+ "agenda-grid": {
+  "mode": "progress",
+  "parts": [
+   {
+    "title": "Automations",
+    "question": "What does the software do for us?",
+    "status": "covered"
+   },
+   {
+    "title": "Process changes",
+    "question": "What changes on the ward, step by step?",
+    "status": "current",
+    "detail": "Function by function: evening round, summary, billing, insurance, family and transport."
+   },
+   {
+    "title": "Key people",
+    "question": "Who has to agree, and what do they give up?",
+    "status": "remaining"
+   },
+   {
+    "title": "Team & roles",
+    "question": "Do we need anyone new?",
+    "status": "remaining"
+   },
+   {
+    "title": "How we’ll know",
+    "question": "How will we know it worked?",
+    "status": "remaining"
+   }
+  ]
+ },
+ "cards": {
+  "items": [
+   {
+    "title": "Automatic paperwork",
+    "text": "What the software does, so nobody does the work twice.",
+    "tag": "Start here",
+    "state": "start",
+    "more_label": "See what it does",
+    "more": "Other hospitals saved 6 to 8 hours for each patient. Not yet measured here.",
+    "more_points": [
+     "Starts the going-home papers when a doctor first mentions it, even on the evening round.",
+     "Keeps a record of every test, medicine and procedure from the day the patient arrives.",
+     "Keeps the bill up to date all the time, so it is ready the moment the doctor signs.",
+     "Works out which unused medicines go back to pharmacy, so nurses don’t count them first.",
+     "Sends a first bill to the insurance company the evening before.",
+     "Lets the doctor check and sign on a phone or tablet during the morning round."
+    ],
+    "point": 1
+   },
+   {
+    "title": "Changes on the wards",
+    "text": "What each team does differently, step by step.",
+    "tag": "Part 2",
+    "more_label": "See the changes",
+    "more_points": [
+     "The steps stay the same. They start earlier and run side by side.",
+     "Staff approve what the software prepares, instead of writing it by hand.",
+     "Your IT team connects the software to your hospital systems, reports and notes.",
+     "Pharmacy, diet, housekeeping and transport teams are told exactly when they’re needed.",
+     "If one team does both discharges and admissions, the two jobs are split or run together.",
+     "The bed desk writes down when each bed is given out and when the next patient arrives."
+    ],
+    "point": 2
+   },
+   {
+    "title": "People who must agree",
+    "text": "Who has to say yes, and what each is asked to do.",
+    "tag": "Part 3",
+    "more_label": "See who and why",
+    "more": "Each team is told the software takes work off them. It does not replace them.",
+    "more_points": [
+     "Doctors: start the going-home papers in the evening, then sign on a phone next morning.",
+     "Nurses: check what the software writes down from the doctors’ notes.",
+     "Billing and the insurance desk: check bills that are already made.",
+     "IT, lab and scan teams: keep reports up to date in the system.",
+     "Admissions, housekeeping, the dietitian and the ward manager: act when the software tells them.",
+     "Head of Operations: approves the new order of steps. Without this, the change won’t last."
+    ],
+    "point": 3
+   }
+  ]
+ },
+ "role-cards": {
+  "doers": [
+   {
+    "role": "Consultants",
+    "ask": "Approve a ready draft on the round. No extra time beyond what they already do.",
+    "resistant": true,
+    "point": 1
+   },
+   {
+    "role": "Junior doctors",
+    "ask": "Check the draft instead of writing it."
+   },
+   {
+    "role": "Billing",
+    "ask": "Close a live bill instead of building one."
+   }
+  ],
+  "approver": {
+   "role": "COO",
+   "approves": "The new sequence and who owns it",
+   "fails_if": "the first busy Monday sends everyone back to the old order"
+  },
+  "caption": "Holds only while no separate round, form or login is added for doctors."
+ },
+ "fill-blank": {
+  "mode": "blank",
+  "steps": [
+   {
+    "title": "Round ends",
+    "field": "time"
+   },
+   {
+    "title": "Summary signed",
+    "field": "time"
+   },
+   {
+    "title": "Bill final",
+    "field": "time"
+   },
+   {
+    "title": "Patient leaves",
+    "field": "time"
+   }
+  ],
+  "caption": "Typical times on a normal weekday — rough is fine."
+ },
+ "fork": {
+  "question": "Which is closer to how your evening rounds run?",
+  "options": [
+   {
+    "title": "Discharge is called the evening before",
+    "text": "Doctors say who can go tomorrow; it is confirmed on the morning round."
+   },
+   {
+    "title": "Discharge is called on the morning round",
+    "text": "Nobody commits until they have seen the patient that day."
+   }
+  ]
+ },
+ "time-window": {
+  "label": "One night, evening round to leaving",
+  "axis_from": 17,
+  "axis_to": 41,
+  "tick": 3,
+  "events": [
+   {
+    "time": 19,
+    "label": "Doctor decides",
+    "state": "start",
+    "point": 1
+   },
+   {
+    "time": 35,
+    "label": "Doctor signs"
+   },
+   {
+    "time": 36.5,
+    "label": "Papers ready"
+   },
+   {
+    "time": 39.25,
+    "label": "Patient leaves",
+    "state": "outcome"
+   }
+  ],
+  "window": {
+   "start": 19,
+   "end": 35,
+   "label": "Nobody uses this",
+   "note": "About half of the going-home work could be done in these hours.",
+   "point": 2
+  },
+  "share": {
+   "value": "5 of 10",
+   "label": "steps could move into this window"
+  },
+  "caption": "Times from you. The share of steps is my reading, not yet measured."
+ },
+ "hour-load": {
+  "label": "Patients going home, hour by hour",
+  "unit": "Patients each hour",
+  "bars": [
+   {
+    "label": "6 AM",
+    "value": 0
+   },
+   {
+    "label": "8 AM",
+    "value": 1
+   },
+   {
+    "label": "10 AM",
+    "value": 3
+   },
+   {
+    "label": "11 AM",
+    "value": 7
+   },
+   {
+    "label": "Noon",
+    "value": 9
+   },
+   {
+    "label": "1 PM",
+    "value": 8
+   },
+   {
+    "label": "2 PM",
+    "value": 6
+   },
+   {
+    "label": "3 PM",
+    "value": 3
+   },
+   {
+    "label": "5 PM",
+    "value": 1
+   },
+   {
+    "label": "7 PM",
+    "value": 5
+   },
+   {
+    "label": "8 PM",
+    "value": 6
+   },
+   {
+    "label": "9 PM",
+    "value": 2
+   }
+  ],
+  "windows": [
+   {
+    "start": 3,
+    "end": 6,
+    "label": "Morning: signing to leaving",
+    "staff": "1 helper",
+    "point": 1
+   },
+   {
+    "start": 9,
+    "end": 10,
+    "label": "Evening round",
+    "staff": "1 helper",
+    "point": 2
+   }
+  ],
+  "caption": "Two busy times, not one long day. One helper for each, instead of spreading three across the day."
+ },
+ "was-now": {
+  "rows": [
+   {
+    "label": "When doctors decide",
+    "was": "7 PM",
+    "now": "6 to 9 PM",
+    "change": "moves",
+    "direction": "same",
+    "knock_on": "The unused hours are 14 to 17, not 16. Late deciders lose the most.",
+    "point": 1
+   },
+   {
+    "label": "Wait from ready to home",
+    "was": "5 hours",
+    "now": "5 hours 15 minutes",
+    "change": "15 minutes",
+    "direction": "up",
+    "point": 2
+   },
+   {
+    "label": "Yearly cost of the waiting",
+    "was": "₹10.3 crore",
+    "now": "₹10.9 crore",
+    "change": "₹0.6 crore",
+    "direction": "up",
+    "knock_on": "The new roles still pay for themselves at about 1% of this."
+   }
+  ],
+  "caption": "Everything that used my guesses has been worked out again with your numbers."
+ },
+ "scorecard": {
+  "rows": [
+   {
+    "measure": "Hours from ready to home",
+    "start": "5¼ hours",
+    "goal": "Under 2 hours",
+    "status": "pending",
+    "note": "goal to agree after the trial",
+    "point": 1
+   },
+   {
+    "measure": "Patients paying themselves home by 10 AM",
+    "start": "—",
+    "goal": "Most, 11 AM at the latest",
+    "status": "new"
+   },
+   {
+    "measure": "Insured patients home by 1 PM",
+    "start": "—",
+    "goal": "Most",
+    "status": "new"
+   },
+   {
+    "measure": "Beds in use",
+    "start": "88%",
+    "goal": "Kept above 85%",
+    "status": "confirmed"
+   },
+   {
+    "measure": "Going-home decisions on the evening round",
+    "start": "—",
+    "goal": "Nine in ten",
+    "status": "new"
+   }
+  ],
+  "caption": "Goals not measured yet are proposals until the trial gives a real starting number."
+ },
+ "narrow-claim": {
+  "said": "We don’t write all of this down, and our doctors don’t use voice notes.",
+  "fair": "True. I described it as if your rounds already work that way. They don’t, and they don’t need to.",
+  "changes": [
+   "The software reads what is already in your records: tests, medicines, bills.",
+   "Doctors say who is going home, the way they already do on the round."
+  ],
+  "keeps": [
+   "How doctors run their rounds.",
+   "Who signs the discharge papers.",
+   "No voice notes, forms or new logins for doctors."
+  ],
+  "ask": {
+   "value": "0 minutes",
+   "label": "Extra time asked of each doctor",
+   "condition": "True only while nothing new is added to the round. If it is, this number changes."
+  }
+ },
+ "converge": {
+  "label": "Where the draft discharge papers come from",
+  "inputs": [
+   {
+    "title": "Doctor’s notes",
+    "text": "What was found and decided each day"
+   },
+   {
+    "title": "Lab and scan reports",
+    "text": "Every test and its result"
+   },
+   {
+    "title": "Medicines given",
+    "text": "From the pharmacy records"
+   },
+   {
+    "title": "Procedures",
+    "text": "From the operating theatre list"
+   }
+  ],
+  "rail_label": "Gathered as they happen",
+  "output": {
+   "title": "Draft discharge papers",
+   "value": "Ready at 7 PM",
+   "text": "The doctor checks and signs next morning."
+  },
+  "caption": "Nothing is typed from scratch. Every line comes from a record that already exists."
+ },
+ "bands": {
+  "inputs": {
+   "title": "What goes in",
+   "items": [
+    "Doctor’s decision",
+    "Patient records",
+    "Pharmacy and supply records",
+    "Insurance details"
+   ]
+  },
+  "engine": {
+   "title": "One discharge record",
+   "text": "Kept up to date from the first day, so papers, bill and insurance are always ready."
+  },
+  "outputs": {
+   "title": "What comes out",
+   "items": [
+    "Discharge papers",
+    "Final bill",
+    "First bill for insurance",
+    "Alerts to housekeeping and transport"
+   ]
+  },
+  "caption": "It looks like many systems. It is one record, read in different ways."
+ },
+ "shared-flow": {
+  "flows": [
+   "Patients paying themselves",
+   "Insured patients"
+  ],
+  "steps": [
+   {
+    "title": "Doctor decides",
+    "state": "start"
+   },
+   {
+    "title": "Papers and bill made",
+    "values": [
+     "1 hour",
+     "1 hour"
+    ]
+   },
+   {
+    "title": "Insurance approves",
+    "only": 1,
+    "values": [
+     "—",
+     "About 1 hour"
+    ]
+   },
+   {
+    "title": "Payment at the counter"
+   },
+   {
+    "title": "Patient leaves",
+    "state": "outcome"
+   }
+  ],
+  "caption": "The two are the same process except one step. Fix the shared steps once and both get faster."
+ },
+ "zoom-trail": {
+  "levels": [
+   {
+    "title": "The five-part fix",
+    "ref": "Turn 4"
+   },
+   {
+    "title": "Automatic paperwork",
+    "ref": "Turn 5"
+   },
+   {
+    "title": "How the draft is built",
+    "ref": "Earlier"
+   },
+   {
+    "title": "Where each line comes from"
+   }
+  ]
+ },
+ "phases": {
+  "unit": "Week",
+  "span": 8,
+  "phases": [
+   {
+    "title": "Hire Discharge Manager",
+    "start": 1,
+    "end": 2,
+    "state": "start",
+    "text": "Starts before the trial"
+   },
+   {
+    "title": "Watch the usual way",
+    "start": 2,
+    "end": 2,
+    "text": "Write down every time"
+   },
+   {
+    "title": "New order, by hand",
+    "start": 3,
+    "end": 3,
+    "state": "target",
+    "text": "Evening start, one ward"
+   },
+   {
+    "title": "Link the software",
+    "start": 4,
+    "end": 6,
+    "text": "Your IT team and ours"
+   },
+   {
+    "title": "Ward by ward",
+    "start": 6,
+    "end": 8,
+    "state": "outcome",
+    "text": "Grow what worked"
+   }
+  ],
+  "marks": [
+   {
+    "at": 4,
+    "label": "Decide"
+   }
+  ],
+  "caption": "The decision in week 4 uses the trial’s own numbers. Nothing after it is fixed until then."
+ }
+}

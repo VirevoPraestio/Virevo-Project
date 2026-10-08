@@ -1,0 +1,181 @@
+{
+ "turn": {
+  "id": "dp-02",
+  "type": "data-ask",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "context": "Tojo · 250-bed hospital, Bhubaneswar",
+  "subject": "sizing",
+  "user_tag": "@Point1",
+  "user_message": "Consultants finish rounds by about 11. The RMO drafts the summary, the consultant signs, and a transcriptionist types it up. We’re 250 beds, around 88% full, 40–45 discharges a day."
+ },
+ "chat": {
+  "text": [
+   "Thank you — that’s the first stop done. Three people handle every summary, and none of it starts before 11.",
+   "To put a price on the wait, I need two numbers: what one bed earns in a day, and how long a patient waits to leave once they’re ready."
+  ],
+  "pointer": "Type your two numbers into the empty boxes and the sums fill themselves.",
+  "note": "A delay only moves people once it has a price.",
+  "points": [
+   {
+    "n": 1,
+    "label": "What one bed earns in a day",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Hours each patient waits to leave",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Your 250 beds, 88% in use",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "One bed earns about ₹35,000 a day",
+   "Where do I find the wait time?",
+   "I’d need to check with finance"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Route map · pricing the wait",
+    "title": "What is the wait costing you?",
+    "deck": "Your numbers are in. Two more and the sums fill themselves."
+   },
+   {
+    "type": "progress-trail",
+    "steps": [
+     {
+      "id": "A",
+      "status": "done"
+     },
+     {
+      "id": "B",
+      "status": "next"
+     },
+     {
+      "id": "C",
+      "status": "later"
+     },
+     {
+      "id": "D",
+      "status": "later"
+     },
+     {
+      "id": "E",
+      "status": "later"
+     },
+     {
+      "id": "F",
+      "status": "later"
+     },
+     {
+      "id": "G",
+      "status": "later"
+     },
+     {
+      "id": "H",
+      "status": "later"
+     },
+     {
+      "id": "I",
+      "status": "later"
+     },
+     {
+      "id": "J",
+      "status": "later"
+     },
+     {
+      "id": "K",
+      "status": "later"
+     }
+    ],
+    "summary": "Stop A walked.",
+    "next": "Before stop B: two numbers to price the wait."
+   },
+   {
+    "type": "stat-strip",
+    "stats": [
+     {
+      "label": "Beds",
+      "value": "250",
+      "source": "yours",
+      "point": 3
+     },
+     {
+      "label": "Beds in use",
+      "value": "88%",
+      "source": "yours",
+      "point": 3
+     },
+     {
+      "label": "Patients going home each day",
+      "value": "40–45",
+      "source": "yours"
+     },
+     {
+      "label": "Summary can start",
+      "value": "About 11 AM",
+      "source": "yours"
+     }
+    ]
+   },
+   {
+    "type": "calculator",
+    "inputs": [
+     {
+      "id": "d",
+      "label": "Patients going home each day",
+      "source": "derived",
+      "value": 42.5,
+      "format": "dec1",
+      "control": "fixed"
+     },
+     {
+      "id": "w",
+      "label": "Hours each patient waits to leave",
+      "source": "needed",
+      "format": "hours",
+      "control": "field",
+      "point": 2
+     },
+     {
+      "id": "a",
+      "label": "What one bed earns in a day",
+      "source": "needed",
+      "format": "inr",
+      "control": "field",
+      "point": 1
+     }
+    ],
+    "steps": [
+     {
+      "id": "bh",
+      "label": "Hours beds sit waiting each day",
+      "formula": "d * w",
+      "format": "int"
+     },
+     {
+      "id": "bd",
+      "label": "Days of bed time lost each year",
+      "formula": "bh * 365 / 24",
+      "format": "int"
+     },
+     {
+      "id": "v",
+      "label": "Money those beds could earn",
+      "note": "the most it could be, not a promise",
+      "formula": "bd * a",
+      "format": "inr_cr"
+     }
+    ],
+    "condition": "Only true if each freed bed gets a new patient the same day. 42.5 is the middle of your 40 to 45. Nothing here is a guess."
+   }
+  ]
+ }
+}

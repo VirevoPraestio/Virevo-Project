@@ -1,0 +1,1130 @@
+{
+  "registry": "automations",
+  "registry_version": 1,
+  "updated": "2026-09-29",
+  "note": "Automations tab blocks. Slot rules as in blocks/registry.json. plain_english is shared and merged in at load time. scope \"all\": the pattern may be used by any tab, redrawn in its look. scope \"Automations\": this tab only.",
+  "budget": {
+    "wide_px": 824,
+    "narrow_px": 1500,
+    "max_blocks": 3
+  },
+  "tones": {
+    "list": {
+      "steel": {
+        "status": "approved",
+        "note": "base"
+      }
+    },
+    "rotation": [
+      "steel"
+    ]
+  },
+  "turn_recipes": {
+    "landing": [
+      "landing"
+    ],
+    "overview": [
+      "nightshift"
+    ],
+    "elaboration": [
+      "brain",
+      "agent",
+      "sources"
+    ],
+    "part": [
+      "agent",
+      "nightshift",
+      "relay"
+    ],
+    "question": [
+      "helper"
+    ],
+    "data-ask": [
+      "helper"
+    ],
+    "data-back": [
+      "sources"
+    ],
+    "challenge": [
+      "agent",
+      "sources"
+    ],
+    "findings": [
+      "sources",
+      "relay"
+    ],
+    "recommendation": [
+      "nightshift",
+      "sources"
+    ],
+    "progress": [
+      "sources"
+    ]
+  },
+  "withheld_in_fact_turns": [],
+  "blocks": [
+    {
+      "id": "heading",
+      "version": 1,
+      "status": "approved",
+      "category": "frame",
+      "scope": "all",
+      "purpose": "Eyebrow, title and one-line deck at the top of every Automations canvas.",
+      "use_when": [
+        "every turn"
+      ],
+      "avoid_when": [
+        "never twice"
+      ],
+      "slots": {
+        "eyebrow": {
+          "type": "text",
+          "max_words": 6
+        },
+        "title": {
+          "type": "text",
+          "max_words": 8
+        },
+        "deck": {
+          "type": "text",
+          "max_words": 24,
+          "required": false
+        }
+      },
+      "mobile": "same, title 44px",
+      "cost": {
+        "wide": 150,
+        "narrow": 165
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Same fonts as every tab; switch-room colours."
+        }
+      ]
+    },
+    {
+      "id": "landing",
+      "version": 1,
+      "status": "approved",
+      "category": "landing",
+      "scope": "Automations",
+      "purpose": "The approved landing template (Automations B, the overnight arc), drawn from data.",
+      "use_when": [
+        "landing turns only"
+      ],
+      "avoid_when": [
+        "any other turn"
+      ],
+      "slots": {
+        "stamp": {
+          "type": "object",
+          "fields": {
+            "at": {
+              "type": "text",
+              "max_words": 10
+            },
+            "since": {
+              "type": "text",
+              "max_words": 10
+            },
+            "fresh": {
+              "type": "text",
+              "max_words": 10
+            },
+            "fresh_since": {
+              "type": "text",
+              "max_words": 10
+            }
+          }
+        },
+        "standing": {
+          "type": "text",
+          "max_words": 12
+        },
+        "deck": {
+          "type": "text",
+          "max_words": 24
+        },
+        "main": {
+          "type": "object",
+          "fields": {
+            "title": {
+              "type": "text",
+              "max_words": 8
+            },
+            "text": {
+              "type": "text",
+              "max_words": 16
+            },
+            "status": {
+              "type": "enum",
+              "values": [
+                "waiting",
+                "blank"
+              ]
+            },
+            "point": {
+              "type": "number",
+              "required": false
+            }
+          }
+        },
+        "autos": {
+          "type": "list",
+          "min": 1,
+          "max": 8,
+          "item": {
+            "type": "object",
+            "fields": {
+              "n": {
+                "type": "number"
+              },
+              "title": {
+                "type": "text",
+                "max_words": 9
+              },
+              "when": {
+                "type": "text",
+                "max_words": 6
+              },
+              "at": {
+                "type": "text",
+                "max_words": 2
+              },
+              "status": {
+                "type": "enum",
+                "values": [
+                  "idea",
+                  "designed",
+                  "linked",
+                  "testing",
+                  "live"
+                ]
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "evidence": {
+          "type": "text",
+          "max_words": 20,
+          "required": false
+        },
+        "pending": {
+          "type": "list",
+          "min": 1,
+          "max": 5,
+          "item": {
+            "type": "object",
+            "fields": {
+              "text": {
+                "type": "text",
+                "max_words": 14
+              },
+              "who": {
+                "type": "enum",
+                "values": [
+                  "tojo",
+                  "you"
+                ]
+              },
+              "need": {
+                "type": "text",
+                "max_words": 6,
+                "required": false
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "actions": {
+          "type": "object",
+          "fields": {
+            "go": {
+              "type": "object",
+              "fields": {
+                "detail": {
+                  "type": "text",
+                  "max_words": 8
+                },
+                "say": {
+                  "type": "text",
+                  "max_words": 10
+                }
+              }
+            },
+            "add": {
+              "type": "object",
+              "fields": {
+                "detail": {
+                  "type": "text",
+                  "max_words": 8
+                },
+                "say": {
+                  "type": "text",
+                  "max_words": 10
+                }
+              }
+            },
+            "jump": {
+              "type": "object",
+              "fields": {
+                "tab": {
+                  "type": "enum",
+                  "values": [
+                    "Diagnosis",
+                    "Solutions",
+                    "Processes"
+                  ]
+                },
+                "detail": {
+                  "type": "text",
+                  "max_words": 8
+                },
+                "say": {
+                  "type": "text",
+                  "max_words": 8
+                }
+              }
+            }
+          }
+        }
+      },
+      "mobile": "the arc sits above its key",
+      "cost": {
+        "wide": 780,
+        "narrow": 1450
+      },
+      "feedback": [
+        {
+          "date": "2026-09-28",
+          "verdict": "approved",
+          "note": "Landing B approved 28 Sep; drawn from data from 29 Sep."
+        },
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with all nine Automations turns (au-00 to au-08)."
+        }
+      ]
+    },
+    {
+      "id": "nightshift",
+      "version": 1,
+      "status": "approved",
+      "category": "factory",
+      "scope": "Automations",
+      "purpose": "The invisible digital factory: every automation as a station on one line that runs from the evening round to going home. A clock moves along the line and lights each station as its time passes. A hand marks the stations where a person approves.",
+      "use_when": [
+        "walking through the daily automation",
+        "what runs by itself, and when"
+      ],
+      "avoid_when": [
+        "one automation in depth"
+      ],
+      "slots": {
+        "from": {
+          "type": "text",
+          "max_words": 2
+        },
+        "to": {
+          "type": "text",
+          "max_words": 2
+        },
+        "clock": {
+          "type": "list",
+          "min": 3,
+          "max": 10,
+          "item": {
+            "type": "text",
+            "max_words": 2
+          }
+        },
+        "start_at": {
+          "type": "text",
+          "max_words": 2
+        },
+        "night": {
+          "type": "object",
+          "fields": {
+            "from": {
+              "type": "text",
+              "max_words": 2
+            },
+            "to": {
+              "type": "text",
+              "max_words": 2
+            },
+            "label": {
+              "type": "text",
+              "max_words": 6
+            }
+          }
+        },
+        "stations": {
+          "type": "list",
+          "min": 3,
+          "max": 9,
+          "item": {
+            "type": "object",
+            "fields": {
+              "n": {
+                "type": "number"
+              },
+              "at": {
+                "type": "text",
+                "max_words": 2
+              },
+              "title": {
+                "type": "text",
+                "max_words": 7
+              },
+              "does": {
+                "type": "text",
+                "max_words": 22
+              },
+              "reads": {
+                "type": "text",
+                "max_words": 10
+              },
+              "makes": {
+                "type": "text",
+                "max_words": 8
+              },
+              "status": {
+                "type": "enum",
+                "values": [
+                  "idea",
+                  "designed",
+                  "linked",
+                  "testing",
+                  "live"
+                ]
+              },
+              "hand": {
+                "type": "object",
+                "fields": {
+                  "who": {
+                    "type": "text",
+                    "max_words": 4
+                  },
+                  "does": {
+                    "type": "text",
+                    "max_words": 12
+                  }
+                },
+                "required": false
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "leaves": {
+          "type": "object",
+          "fields": {
+            "at": {
+              "type": "text",
+              "max_words": 2
+            },
+            "label": {
+              "type": "text",
+              "max_words": 4
+            },
+            "source": {
+              "type": "enum",
+              "values": [
+                "yours",
+                "derived",
+                "estimate",
+                "illustrative",
+                "target",
+                "needed"
+              ]
+            }
+          }
+        },
+        "default": {
+          "type": "number",
+          "required": false
+        },
+        "condition": {
+          "type": "text",
+          "max_words": 26,
+          "required": false
+        }
+      },
+      "mobile": "the line runs down the page as a list; the tray and sheet stack",
+      "cost": {
+        "wide": 560,
+        "narrow": 1150
+      },
+      "interaction": "Play the night, drag the clock or jump to a time: stations light as their time passes and the tray lists what is ready. Pick a station for its sheet (what it reads, makes, stage, and the person's hand).",
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "New. The Invisible Digital Factory and the Helping Hand."
+        },
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with all nine Automations turns (au-00 to au-08)."
+        }
+      ]
+    },
+    {
+      "id": "brain",
+      "version": 1,
+      "status": "approved",
+      "category": "machine",
+      "scope": "Automations",
+      "purpose": "A digital brain on a charcoal screen: the facts of the stay flow in day by day, and the discharge summary fills itself, so nothing is typed twice at the end.",
+      "use_when": [
+        "how the summary is drafted continuously",
+        "what the system keeps track of from admission"
+      ],
+      "avoid_when": [
+        "no stay to walk through"
+      ],
+      "slots": {
+        "kinds": {
+          "type": "list",
+          "min": 3,
+          "max": 8,
+          "item": {
+            "type": "object",
+            "fields": {
+              "k": {
+                "type": "text",
+                "max_words": 1
+              },
+              "name": {
+                "type": "text",
+                "max_words": 5
+              },
+              "example": {
+                "type": "text",
+                "max_words": 10
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "sections": {
+          "type": "list",
+          "min": 3,
+          "max": 8,
+          "item": {
+            "type": "object",
+            "fields": {
+              "name": {
+                "type": "text",
+                "max_words": 5
+              },
+              "from": {
+                "type": "list",
+                "min": 1,
+                "max": 4,
+                "item": {
+                  "type": "text",
+                  "max_words": 1
+                }
+              }
+            }
+          }
+        },
+        "days": {
+          "type": "list",
+          "min": 2,
+          "max": 6,
+          "item": {
+            "type": "object",
+            "fields": {
+              "label": {
+                "type": "text",
+                "max_words": 4
+              },
+              "what": {
+                "type": "text",
+                "max_words": 6
+              },
+              "events": {
+                "type": "list",
+                "min": 1,
+                "max": 8,
+                "item": {
+                  "type": "object",
+                  "fields": {
+                    "k": {
+                      "type": "text",
+                      "max_words": 1
+                    },
+                    "text": {
+                      "type": "text",
+                      "max_words": 12
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "default_day": {
+          "type": "number",
+          "required": false
+        },
+        "condition": {
+          "type": "text",
+          "max_words": 26,
+          "required": false
+        }
+      },
+      "mobile": "the kinds sit above the brain, the summary below",
+      "cost": {
+        "wide": 520,
+        "narrow": 1200
+      },
+      "interaction": "Pick a day of the stay, or play it: the kinds of fact light and count up, the brain pulses, and each section of the summary fills. The day-by-day log opens underneath.",
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "New. The digital brain and glowing neural network, on a charcoal screen."
+        },
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with all nine Automations turns (au-00 to au-08)."
+        }
+      ]
+    },
+    {
+      "id": "agent",
+      "version": 1,
+      "status": "approved",
+      "category": "machine",
+      "scope": "Automations",
+      "purpose": "The autonomous thinker: a holographic figure inside its loop (notice, gather, check, draft, ask). Step through what it does, what it checks first, and where it hands to a person. A strip lists what it never does.",
+      "use_when": [
+        "how an automation works step by step",
+        "what the agent decides and what it leaves to people"
+      ],
+      "avoid_when": [
+        "the whole night (use nightshift)"
+      ],
+      "slots": {
+        "loop": {
+          "type": "list",
+          "min": 3,
+          "max": 6,
+          "item": {
+            "type": "object",
+            "fields": {
+              "id": {
+                "type": "text",
+                "max_words": 1
+              },
+              "name": {
+                "type": "text",
+                "max_words": 1
+              }
+            }
+          }
+        },
+        "steps": {
+          "type": "list",
+          "min": 2,
+          "max": 5,
+          "item": {
+            "type": "object",
+            "fields": {
+              "title": {
+                "type": "text",
+                "max_words": 8
+              },
+              "when": {
+                "type": "text",
+                "max_words": 5
+              },
+              "does": {
+                "type": "text",
+                "max_words": 24
+              },
+              "checks": {
+                "type": "list",
+                "min": 1,
+                "max": 3,
+                "item": {
+                  "type": "text",
+                  "max_words": 12
+                }
+              },
+              "stages": {
+                "type": "list",
+                "min": 1,
+                "max": 3,
+                "item": {
+                  "type": "text",
+                  "max_words": 1
+                }
+              },
+              "hand": {
+                "type": "object",
+                "fields": {
+                  "who": {
+                    "type": "text",
+                    "max_words": 4
+                  },
+                  "does": {
+                    "type": "text",
+                    "max_words": 12
+                  }
+                },
+                "required": false
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "caption": {
+          "type": "text",
+          "max_words": 12
+        },
+        "never": {
+          "type": "list",
+          "min": 2,
+          "max": 4,
+          "item": {
+            "type": "text",
+            "max_words": 8
+          }
+        }
+      },
+      "mobile": "the figure and its loop sit above the steps",
+      "cost": {
+        "wide": 470,
+        "narrow": 1000
+      },
+      "interaction": "Next step and Back, or the numbered dots: the loop lights the stages each step uses, the card shows what it does and checks, and where a person's hand takes over.",
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "New. The Autonomous Thinker (agentic AI), the holographic silhouette and the Helping Hand."
+        },
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with all nine Automations turns (au-00 to au-08)."
+        }
+      ]
+    },
+    {
+      "id": "sources",
+      "version": 1,
+      "status": "approved",
+      "category": "switches",
+      "scope": "Automations",
+      "purpose": "The switchboard of records: each source is a drawn switch with the records it holds; each automation is a lamp that lights only when every source it needs is on. Presets show what works with no IT work, with one link, and with all.",
+      "use_when": [
+        "which records are tracked, and from where",
+        "what can be tested before the IT link"
+      ],
+      "avoid_when": [
+        "no automations named yet"
+      ],
+      "slots": {
+        "sources": {
+          "type": "list",
+          "min": 2,
+          "max": 6,
+          "item": {
+            "type": "object",
+            "fields": {
+              "id": {
+                "type": "text",
+                "max_words": 1
+              },
+              "name": {
+                "type": "text",
+                "max_words": 6
+              },
+              "short": {
+                "type": "text",
+                "max_words": 3
+              },
+              "holds": {
+                "type": "text",
+                "max_words": 12
+              },
+              "no_it": {
+                "type": "bool",
+                "required": false
+              },
+              "link": {
+                "type": "enum",
+                "values": [
+                  "waiting",
+                  "linked",
+                  "needed"
+                ],
+                "required": false
+              },
+              "records": {
+                "type": "list",
+                "min": 1,
+                "max": 6,
+                "item": {
+                  "type": "object",
+                  "fields": {
+                    "name": {
+                      "type": "text",
+                      "max_words": 6
+                    },
+                    "when": {
+                      "type": "text",
+                      "max_words": 5
+                    }
+                  }
+                }
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "automations": {
+          "type": "list",
+          "min": 2,
+          "max": 8,
+          "item": {
+            "type": "object",
+            "fields": {
+              "name": {
+                "type": "text",
+                "max_words": 8
+              },
+              "needs": {
+                "type": "list",
+                "min": 1,
+                "max": 4,
+                "item": {
+                  "type": "text",
+                  "max_words": 1
+                }
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "presets": {
+          "type": "list",
+          "min": 0,
+          "max": 4,
+          "item": {
+            "type": "object",
+            "fields": {
+              "label": {
+                "type": "text",
+                "max_words": 5
+              },
+              "on": {
+                "type": "list",
+                "min": 0,
+                "max": 6,
+                "item": {
+                  "type": "text",
+                  "max_words": 1
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "default_on": {
+          "type": "list",
+          "min": 0,
+          "max": 6,
+          "item": {
+            "type": "text",
+            "max_words": 1
+          },
+          "required": false
+        },
+        "condition": {
+          "type": "text",
+          "max_words": 26,
+          "required": false
+        }
+      },
+      "mobile": "sources above, lamps below",
+      "cost": {
+        "wide": 520,
+        "narrow": 1250
+      },
+      "interaction": "Flip any source switch, or pick a preset: lamps light when all their sources are on, and each unlit lamp says what it waits on. The count updates.",
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "New. Drawn switches (a switch-room signature element) for the records and their sources."
+        },
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with all nine Automations turns (au-00 to au-08)."
+        }
+      ]
+    },
+    {
+      "id": "helper",
+      "version": 1,
+      "status": "approved",
+      "category": "ask",
+      "scope": "Automations",
+      "purpose": "The friendly desk helper: a small drawn bot that says what it would ask your IT team. A switch shows the list in plain words, or with the detail for those who want it. One line parks the rest for later.",
+      "use_when": [
+        "the first question about the hospital's systems",
+        "keeping technical detail optional"
+      ],
+      "avoid_when": [
+        "the answer is already known"
+      ],
+      "slots": {
+        "says": {
+          "type": "object",
+          "fields": {
+            "plain": {
+              "type": "text",
+              "max_words": 18
+            },
+            "detail": {
+              "type": "text",
+              "max_words": 18
+            }
+          }
+        },
+        "plain": {
+          "type": "list",
+          "min": 2,
+          "max": 5,
+          "item": {
+            "type": "text",
+            "max_words": 14
+          }
+        },
+        "detail": {
+          "type": "list",
+          "min": 2,
+          "max": 6,
+          "item": {
+            "type": "object",
+            "fields": {
+              "ask": {
+                "type": "text",
+                "max_words": 10
+              },
+              "why": {
+                "type": "text",
+                "max_words": 14
+              }
+            }
+          }
+        },
+        "park": {
+          "type": "text",
+          "max_words": 20
+        }
+      },
+      "mobile": "the helper sits above the list",
+      "cost": {
+        "wide": 330,
+        "narrow": 760
+      },
+      "interaction": "Switch between In plain words and With the detail (optional).",
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "New. The Friendly Desktop Mascot, drawn in the switch-room palette."
+        },
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with all nine Automations turns (au-00 to au-08)."
+        }
+      ]
+    },
+    {
+      "id": "relay",
+      "version": 1,
+      "status": "approved",
+      "category": "handover",
+      "scope": "Automations",
+      "purpose": "The hand-over from discharge to the bed desk as a relay on two lanes. Each leg says who acts and who checks it. A switch shows today and with both sides linked, and a gap bar shows the bed's empty time against the 30-minute line.",
+      "use_when": [
+        "automations that reach Bed Management or another team",
+        "the bed left empty after the patient leaves"
+      ],
+      "avoid_when": [
+        "one team only"
+      ],
+      "slots": {
+        "with_label": {
+          "type": "text",
+          "max_words": 4
+        },
+        "gap": {
+          "type": "object",
+          "fields": {
+            "label": {
+              "type": "text",
+              "max_words": 8
+            },
+            "today": {
+              "type": "number"
+            },
+            "with": {
+              "type": "number"
+            },
+            "scale": {
+              "type": "number"
+            },
+            "line": {
+              "type": "number"
+            },
+            "line_label": {
+              "type": "text",
+              "max_words": 4
+            },
+            "today_text": {
+              "type": "text",
+              "max_words": 4
+            },
+            "today_source": {
+              "type": "enum",
+              "values": [
+                "yours",
+                "derived",
+                "estimate",
+                "illustrative",
+                "target",
+                "needed"
+              ]
+            },
+            "with_text": {
+              "type": "text",
+              "max_words": 4
+            },
+            "with_source": {
+              "type": "enum",
+              "values": [
+                "yours",
+                "derived",
+                "estimate",
+                "illustrative",
+                "target",
+                "needed"
+              ]
+            }
+          }
+        },
+        "legs": {
+          "type": "list",
+          "min": 3,
+          "max": 6,
+          "item": {
+            "type": "object",
+            "fields": {
+              "side": {
+                "type": "enum",
+                "values": [
+                  "dis",
+                  "bed"
+                ]
+              },
+              "who": {
+                "type": "text",
+                "max_words": 4
+              },
+              "name": {
+                "type": "text",
+                "max_words": 6
+              },
+              "today": {
+                "type": "text",
+                "max_words": 6
+              },
+              "with": {
+                "type": "text",
+                "max_words": 6
+              },
+              "how": {
+                "type": "text",
+                "max_words": 20
+              },
+              "checked_by": {
+                "type": "text",
+                "max_words": 6,
+                "required": false
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "default": {
+          "type": "number",
+          "required": false
+        },
+        "condition": {
+          "type": "text",
+          "max_words": 26,
+          "required": false
+        }
+      },
+      "mobile": "the legs stack down one line",
+      "cost": {
+        "wide": 460,
+        "narrow": 1000
+      },
+      "interaction": "Today / With both linked switch; pick a leg for its sheet.",
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "draft",
+          "note": "New. Automations reaching into Bed Management, as the discharge reference asks."
+        },
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with all nine Automations turns (au-00 to au-08)."
+        }
+      ]
+    }
+  ]
+}

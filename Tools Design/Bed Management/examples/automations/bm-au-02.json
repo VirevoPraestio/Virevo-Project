@@ -1,0 +1,229 @@
+{
+ "turn": {
+  "id": "bm-au-02",
+  "tab": "Automations",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "What exactly would our IT team do?",
+  "context": "From bed-management.md §7.2 (read access) and §7.4.2 (IP extraction, the bill-close and bill-open join, the admissions desk link), with transcript 19 and 20.",
+  "transcript": {
+   "label": "After transcript turn 31 · Automations, turn 2 (the record stops at 31)"
+  }
+ },
+ "chat": {
+  "text": [
+   "Your IT team gives five things. Four are read access or a report. One is a link at the admissions desk."
+  ],
+  "bullets": [
+   "Read access to admissions, discharges and the bed board. Your systems already hold these.",
+   "Inpatient notes, pulled out. This lets the engine see who is near the usual stay for their procedure.",
+   "One billing report. It sets bill close against bill open on the same bed. That gives dead bed time."
+  ],
+  "invite": "Tell me which systems you run, and I will name the exact asks.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Admissions and discharges",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Inpatient notes",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Billing report",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Admissions desk link",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Why must discharge be built first?",
+   "What if some records are on paper?",
+   "What does Tojo build itself?"
+  ],
+  "pointer": "Pick an ask to see why it is needed and who in IT does it.",
+  "note": "Read access and one report. We build everything else."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Automations · your IT team",
+    "plate": {
+     "tag": "Automations",
+     "name": "The IT links",
+     "stage": "Idea"
+    },
+    "title": "Five asks, nothing written back",
+    "deck": "Each ask is read access or a report. Your teams keep working in the systems they have."
+   },
+   {
+    "type": "helper",
+    "hint": "Pick an ask to see why it is needed and who in IT does it.",
+    "says": "These are the five things I would ask your IT team for. Each one only reads. Nothing is written back to your systems.",
+    "label": "What I ask your IT team",
+    "asks": [
+     {
+      "title": "Read access to admissions and discharges",
+      "who": "Your IT team, once",
+      "tag": "Needed",
+      "tag_state": "needed",
+      "point": 1
+     },
+     {
+      "title": "Inpatient notes, pulled out",
+      "who": "Your IT team, once",
+      "tag": "Needed",
+      "tag_state": "needed",
+      "point": 2
+     },
+     {
+      "title": "Read access to the bed board",
+      "who": "Your IT team, once",
+      "tag": "Needed",
+      "tag_state": "needed"
+     },
+     {
+      "title": "One billing report, bill to bill",
+      "who": "Billing, with IT",
+      "tag": "A report",
+      "tag_state": "waiting",
+      "point": 3
+     },
+     {
+      "title": "A live link at the admissions desk",
+      "who": "IT, with the admissions desk",
+      "tag": "Later",
+      "tag_state": "waiting",
+      "point": 4
+     }
+    ],
+    "park": "We bring the rest ourselves: voice notes on rounds, reading OPD prescriptions and timing each admission step. Your IT team does none of these.",
+    "sheets": [
+     {
+      "key": "adt",
+      "when": "Read access · once",
+      "title": "Admissions and discharges",
+      "text": "The engine reads who came in, who left, which bed and when. It is the record five of the engine’s jobs start from.",
+      "lines": [
+       {
+        "label": "Who does it",
+        "value": "Your IT team"
+       },
+       {
+        "label": "It writes back",
+        "value": "Nothing",
+        "state": "start"
+       }
+      ],
+      "entry": "Which system holds admissions and discharges today?",
+      "entry_hint": "For example, the hospital system"
+     },
+     {
+      "key": "ip",
+      "when": "Pulled out · once",
+      "title": "Inpatient notes",
+      "text": "The stay so far for each patient. Without it the engine sees only who came and went, not who is near the usual stay.",
+      "lines": [
+       {
+        "label": "Who does it",
+        "value": "Your IT team"
+       },
+       {
+        "label": "Used for",
+        "value": "Predicting who frees a bed"
+       }
+      ],
+      "entry": "Are inpatient notes kept on a system?"
+     },
+     {
+      "key": "bed",
+      "when": "Read access · once",
+      "title": "The bed board",
+      "text": "Which beds are empty, being cleaned or ready. The engine checks it against what the wards say.",
+      "lines": [
+       {
+        "label": "Who does it",
+        "value": "Your IT team"
+       },
+       {
+        "label": "Used for",
+        "value": "Checking a bed is really free"
+       }
+      ],
+      "entry": "How does your desk see bed status today?"
+     },
+     {
+      "key": "bill",
+      "when": "A report · once",
+      "title": "One billing report, bill to bill",
+      "text": "Both times already sit in your billing system. The report joins them against the same bed. That gives dead bed time, bed by bed.",
+      "lines": [
+       {
+        "label": "Who does it",
+        "value": "Billing, with IT"
+       },
+       {
+        "label": "It is",
+        "value": "A report, not new records",
+        "state": "start"
+       }
+      ],
+      "entry": "Which billing system do you run?"
+     },
+     {
+      "key": "desk",
+      "when": "A link · later",
+      "title": "A live link at the admissions desk",
+      "text": "When a planned patient completes formalities, the desk sees a free mapped bed. Once a date is set, it shows on the bed plan with a bed number.",
+      "lines": [
+       {
+        "label": "Who does it",
+        "value": "IT, with the admissions desk"
+       },
+       {
+        "label": "Comes",
+        "value": "After the bed map is built"
+       }
+      ],
+      "entry": "How does your admissions desk book a planned patient today?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Written back to your systems",
+    "value": "Nothing",
+    "state": "start",
+    "sub": "Every link only reads. Your records stay as they are, and your teams keep working in them."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: why discharge comes first",
+    "say": "Why must discharge be built first?"
+   },
+   "add": {
+    "detail": "Tell me what systems you run",
+    "say": "Our IT team runs these systems: "
+   },
+   "jump": {
+    "tab": "Processes",
+    "detail": "How the day changes on the wards",
+    "say": "Take me to Processes"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the Bed Management Automations turns."
+ }
+}

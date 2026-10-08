@@ -1,0 +1,235 @@
+{
+ "turn": {
+  "id": "bm-au-03",
+  "tab": "Automations",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "Why must discharge be built first?",
+  "context": "From bed-management.md §7.4.1 (c) the discharge linkage as a double control and (e) call-in timing, and §7.4.2 (discharge is a prerequisite), with the Nagpur bill and dead bed time figures.",
+  "transcript": {
+   "label": "After transcript turn 31 · Automations, turn 3 (the record stops at 31)"
+  }
+ },
+ "chat": {
+  "text": [
+   "The bed plan runs on discharge times. If those times are guesses, the plan is a guess too."
+  ],
+  "bullets": [
+   "Discharge is built first so its times are real. They are logged as they happen, not reported later.",
+   "The bed side then works backwards. It calls each patient in to arrive as their bed frees.",
+   "Once linked, each side checks the other. A reported time that does not match the bed shows at once."
+  ],
+  "invite": "Tell me how a discharge is confirmed on your wards today.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Discharge confirmed",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Patient called in",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "How does it know which beds will free up?",
+   "What if some records are on paper?",
+   "What happens after the 6 PM freeze?"
+  ],
+  "pointer": "Switch between today and both sides linked. Pick a step to open it."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Automations · the hand-over",
+    "plate": {
+     "tag": "Automations",
+     "name": "Discharge, then beds",
+     "stage": "Idea"
+    },
+    "title": "One hand-over, two sides",
+    "deck": "Discharge hands the bed over. The bed side can only plan on times that are real."
+   },
+   {
+    "type": "relay",
+    "hint": "Pick a step of the hand-over. Switch to see it with both sides linked.",
+    "with_label": "Both sides linked",
+    "lane_dis": "The discharge side",
+    "lane_bed": "The bed side",
+    "gap": {
+     "label": "Dead bed time",
+     "today": "4 to 5 hours, yours",
+     "with": "Shrinks from both ends"
+    },
+    "legs": [
+     {
+      "side": "dis",
+      "who": "Treating doctor",
+      "name": "Discharge confirmed",
+      "today": "Said on rounds",
+      "with": "Logged the moment it is confirmed",
+      "point": 1
+     },
+     {
+      "side": "bed",
+      "who": "Bed engine",
+      "name": "Bed marked as freeing",
+      "today": "Seen once the patient leaves",
+      "with": "Seen hours before",
+      "checked": true
+     },
+     {
+      "side": "dis",
+      "who": "Billing",
+      "name": "Final bill closed",
+      "today": "Around 12 to 1 PM",
+      "with": "Time held against the bed"
+     },
+     {
+      "side": "bed",
+      "who": "Bed engine",
+      "name": "Next patient called in",
+      "today": "After the bed is free",
+      "with": "To arrive as it frees",
+      "point": 2,
+      "checked": true
+     },
+     {
+      "side": "bed",
+      "who": "Admissions desk",
+      "name": "First bill opened",
+      "today": "From 5 PM, up to 8",
+      "with": "Goal: around noon"
+     }
+    ],
+    "condition": "Each side checks the other. If a reported discharge time does not match the bed, both teams see it.",
+    "sheets": [
+     {
+      "key": "conf",
+      "when": "Discharge side",
+      "title": "Discharge confirmed",
+      "text": "Today the doctor says it on rounds. Once built, the time is logged when it is confirmed. That is the first time the bed side can trust.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Said on rounds"
+       },
+       {
+        "label": "Once built",
+        "value": "Logged as it happens",
+        "state": "target"
+       }
+      ],
+      "entry": "How is a discharge confirmed on your wards today?"
+     },
+     {
+      "key": "free",
+      "when": "Bed side",
+      "title": "Bed marked as freeing",
+      "text": "The engine marks the bed as freeing as soon as discharge is confirmed. It checks the real time later against the bed.",
+      "lines": [
+       {
+        "label": "Checks",
+        "value": "Reported time against the bed"
+       },
+       {
+        "label": "Shows",
+        "value": "Any time that does not match"
+       }
+      ],
+      "entry": "Who tells the desk a bed is freeing today?"
+     },
+     {
+      "key": "bill",
+      "when": "Discharge side",
+      "title": "Final bill closed",
+      "text": "Your bill closes around 12 to 1 PM. Once built, that time is held against the bed, not only the patient.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Around 12 to 1 PM",
+        "state": "start"
+       },
+       {
+        "label": "Starts",
+        "value": "Dead bed time"
+       }
+      ],
+      "entry": "What holds up the final bill most often?"
+     },
+     {
+      "key": "call",
+      "when": "Bed side",
+      "title": "Next patient called in",
+      "text": "The engine works back from when the bed will be free. It sets a call-in time so the patient arrives as it frees.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "Real discharge times"
+       },
+       {
+        "label": "Makes",
+        "value": "One call-in time per bed",
+        "state": "target"
+       }
+      ],
+      "entry": "Who calls planned patients in today?",
+      "hand": {
+       "who": "the admissions desk",
+       "does": "Calls each patient at their time."
+      }
+     },
+     {
+      "key": "open",
+      "when": "Bed side",
+      "title": "First bill opened",
+      "text": "Your first bill on the bed opens at 5 PM, up to 7 to 8 PM. The goal is around noon, once patients are called in on time.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "From 5 PM, up to 7 to 8 PM",
+        "state": "start"
+       },
+       {
+        "label": "Goal",
+        "value": "Around noon",
+        "state": "target"
+       }
+      ],
+      "entry": "When does a new patient’s first bill usually open?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Dead bed time today",
+    "value": "4 to 5 hours",
+    "state": "start",
+    "sub": "Your figure, up to 8 at worst. Discharge shrinks the front end. Call-in times shrink the back end."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: how it knows which beds free up",
+    "say": "How does it know which beds will free up?"
+   },
+   "add": {
+    "detail": "Tell me how discharge runs now",
+    "say": "Today our discharges run like this: "
+   },
+   "jump": {
+    "tab": "Processes",
+    "detail": "How the day changes on the wards",
+    "say": "Take me to Processes"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the Bed Management Automations turns."
+ }
+}

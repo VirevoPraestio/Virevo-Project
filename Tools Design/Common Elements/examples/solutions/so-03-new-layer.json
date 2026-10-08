@@ -1,0 +1,103 @@
+{
+ "turn": {
+  "id": "so-03",
+  "tab": "Solutions",
+  "type": "challenge",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Our doctors don’t use voice notes, and we don’t record half these details today.",
+  "context": "Playbook §5: a factual correction, not resistance. Concede it, then show the new layer and how little it needs."
+ },
+ "chat": {
+  "text": [
+   "Fair challenge. I described your rounds as if each decision was already recorded. It isn’t, and it doesn’t need to be.",
+   "Tojo adds the recording as a new layer. Your hospital only shares what it already keeps."
+  ],
+  "pointer": "The maze shows the routes Tojo tried for recording each decision. Pick a route to see why it fails or works.",
+  "note": "Tojo adds the recording. Your hospital only shares what it already keeps.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Voice notes on the round",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Typing every summary at night",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Waiting for new software",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The one-tap form",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What if some notes are on paper?",
+   "What does our IT team have to do?",
+   "Which part saves the most time?"
+  ],
+  "moves": [
+   {
+    "prompt": "What if some notes are on paper?",
+    "tab": "Automations"
+   },
+   {
+    "prompt": "What does our IT team have to do?",
+    "tab": "Automations"
+   }
+  ],
+  "invite": "Or we can look at which part saves the most time."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 1 · a correction",
+    "title": "A new layer, not a new habit",
+    "deck": "Four ways to record each decision on the evening round. Three hit a wall. One gets through with what you already have."
+   },
+   {
+    "type": "maze",
+    "start": "Record each decision on the evening round",
+    "goal": "Every decision recorded, with nothing new for doctors to learn",
+    "routes": [
+     {
+      "kind": "dead",
+      "name": "Voice notes on the round",
+      "why": "Your doctors don’t use them. Asking for them adds work to a busy round.",
+      "point": 1
+     },
+     {
+      "kind": "dead",
+      "name": "Type every summary at night",
+      "why": "Your typists work in the morning. The queue moves to the night, but the work stays.",
+      "point": 2
+     },
+     {
+      "kind": "dead",
+      "name": "Wait for new hospital software",
+      "why": "It takes months. The two-week trial does not need it.",
+      "point": 3
+     },
+     {
+      "kind": "way",
+      "name": "A one-tap form, plus notes you already keep",
+      "why": "The doctor taps once on the ward phone for each decision. Tojo drafts the rest from your files.",
+      "needs": [
+       "Doctors deciding on the evening round, as they do today",
+       "Notes and reports kept in your hospital software",
+       "Your IT team lets Tojo read your records"
+      ],
+      "point": 4
+     }
+    ]
+   }
+  ]
+ }
+}

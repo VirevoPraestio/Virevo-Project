@@ -1,0 +1,251 @@
+{
+ "turn": {
+  "id": "bm-so-12",
+  "tab": "Solutions",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "ok proceed",
+  "context": "Four steps; nothing changes for staff until step 3, so steps 1 and 2 are muted. The exit at step 2 is the load-bearing offer. Discharge before bed mapping, because the files make it a prerequisite.",
+  "transcript": {
+   "label": "Transcript turn 31 · What a first step looks like"
+  }
+ },
+ "chat": {
+  "text": [
+   "There are four steps. Your day does not change until the third one."
+  ],
+  "bullets": [
+   "Step 1 is read access. Your IT team connects us to the systems you already run. About two weeks.",
+   "Step 2 is measuring what happens now. Four weeks of real numbers, and nobody works differently.",
+   "Step 3 is where the day changes. Step 4 is the build: discharge first, then the bed mapping on top."
+  ],
+  "pointer": "Pick a step to open it. The doors at the end lead into how it is built and how the day changes.",
+  "invite": "At the end of step 2 you have your own dead bed time, not our guess. To start we need read access from IT, and one name from you.",
+  "note": "You find out if we were wrong before you spend anything.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Read access",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Measuring now",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The day changes",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The build",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "One name from you",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "How would the build work?",
+   "Who should own this until the managers are in?",
+   "Can we skip straight to step 3?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "The first step",
+    "title": "Nothing changes until step three",
+    "deck": "Steps 1 and 2 are muted. Nobody on your staff works differently in them."
+   },
+   {
+    "type": "route",
+    "hint": "Pick a step to open it.",
+    "steps": [
+     {
+      "title": "Read access",
+      "what": "IT connects us to the systems you already run",
+      "muted": true,
+      "point": 1
+     },
+     {
+      "title": "Measure what happens now",
+      "what": "Dead bed time per bed, the five admission steps",
+      "muted": true,
+      "point": 2
+     },
+     {
+      "title": "The day changes",
+      "what": "Both jobs run together. Call-in times go out per bed",
+      "point": 3
+     },
+     {
+      "title": "The build",
+      "what": "Discharge first, then the bed mapping on top",
+      "point": 4
+     }
+    ],
+    "sheets": [
+     {
+      "key": "s1",
+      "when": "About two weeks",
+      "title": "Read access",
+      "text": "Your IT team connects us to the systems you already run. We read, we write nothing back.",
+      "lines": [
+       {
+        "label": "Changes for staff",
+        "value": "Nothing"
+       },
+       {
+        "label": "Needs",
+        "value": "Read access from IT",
+        "state": "target"
+       }
+      ],
+      "entry": "Who in IT would give us access?"
+     },
+     {
+      "key": "s2",
+      "when": "Four weeks",
+      "title": "Measure what happens now",
+      "text": "Dead bed time on each bed, and the five admission steps. Real numbers, and nobody works differently.",
+      "lines": [
+       {
+        "label": "Changes for staff",
+        "value": "Nothing"
+       },
+       {
+        "label": "You get",
+        "value": "Your own dead bed time",
+        "state": "start"
+       }
+      ],
+      "entry": "Which ward would you start measuring?"
+     },
+     {
+      "key": "s3",
+      "when": "After step 2",
+      "title": "The day changes",
+      "text": "The two jobs start running together. Call-in times go out bed by bed.",
+      "lines": [
+       {
+        "label": "Changes for staff",
+        "value": "The order of the day"
+       }
+      ]
+     },
+     {
+      "key": "s4",
+      "when": "After step 3",
+      "title": "The build",
+      "text": "Discharge first, because the bed plan runs on its times. Then the bed mapping on top.",
+      "lines": [
+       {
+        "label": "Order",
+        "value": "Discharge, then beds"
+       },
+       {
+        "label": "Why",
+        "value": "The bed plan needs real discharge times"
+       }
+      ]
+     }
+    ],
+    "fork": {
+     "question": "At the end of step 2 you have your own dead bed time. Where next?",
+     "options": [
+      {
+       "tab": "Automations",
+       "label": "How the build works",
+       "what": "Read access, the engine, discharge first",
+       "say": "How would the build work?"
+      },
+      {
+       "tab": "Processes",
+       "label": "How the day changes",
+       "what": "Both jobs together, the 5 PM round",
+       "say": "Show me how the day would change"
+      }
+     ]
+    }
+   },
+   {
+    "type": "notes",
+    "items": [
+     {
+      "title": "What we need to start",
+      "text": "Read access from IT. One name from you to own this.",
+      "point": 5,
+      "state": "target"
+     },
+     {
+      "title": "What you have after step 2",
+      "text": "Your own dead bed time. Not our guess at it.",
+      "point": 2
+     }
+    ],
+    "caption": "If it is smaller than we said, you know before you spend anything on people or process.",
+    "sheets": [
+     {
+      "key": "need",
+      "when": "To start",
+      "title": "What we need to start",
+      "text": "Two things. Read access from your IT team. And one name from you to own this until the managers are in place.",
+      "lines": [
+       {
+        "label": "From IT",
+        "value": "Read access"
+       },
+       {
+        "label": "From you",
+        "value": "One name",
+        "state": "target"
+       }
+      ],
+      "entry": "Who would own this at your hospital?",
+      "entry_hint": "A name or a role"
+     },
+     {
+      "key": "have",
+      "when": "After step 2",
+      "title": "What you have after step 2",
+      "text": "Your own dead bed time, measured on your beds. If it is smaller than we said, you can stop there.",
+      "lines": [
+       {
+        "label": "Costs you",
+        "value": "Nothing in people or process",
+        "state": "start"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: how the build works, in Automations",
+    "say": "How would the build work?"
+   },
+   "add": {
+    "detail": "Add something about your hospital",
+    "say": "Here is something to add about our hospital: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "How the automations are built and run",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved 1 Oct with the Bed Management Solutions turns."
+ }
+}

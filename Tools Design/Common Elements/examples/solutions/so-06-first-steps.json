@@ -1,0 +1,109 @@
+{
+ "turn": {
+  "id": "so-06",
+  "tab": "Solutions",
+  "type": "recommendation",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "What would we do first?",
+  "context": "Playbook §7, points 1 and 4: a low-risk trial first, then a choice. Either choice moves the conversation to another place."
+ },
+ "chat": {
+  "text": [
+   "Start with a two-week trial on one ward. Begin with the consultants who decide latest, because they gain the most.",
+   "It needs no new staff and no new system. It turns our biggest guess into a measured fact."
+  ],
+  "pointer": "Pick a step for its detail. The two doors at the end are your choice of what comes next.",
+  "invite": "Which would you like to go into first?",
+  "note": "Prove it on one ward, then decide on the rest.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The two-week trial",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The person in charge",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Linking the hospital software",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Walk me through the daily automation",
+   "Scope the two-week trial",
+   "I’d need to check with my team"
+  ],
+  "moves": [
+   {
+    "prompt": "Walk me through the daily automation",
+    "tab": "Automations"
+   },
+   {
+    "prompt": "Scope the two-week trial",
+    "tab": "Processes"
+   }
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Next steps",
+    "title": "Try it on one ward first",
+    "deck": "Three steps in order. The first needs nothing new from you."
+   },
+   {
+    "type": "route",
+    "default": 1,
+    "steps": [
+     {
+      "title": "Two-week trial on one ward",
+      "what": "Start the night work for the consultants who decide latest.",
+      "needs": "No new staff and no new system",
+      "measure": "Hours from ready to home",
+      "when": "Two weeks",
+      "point": 1
+     },
+     {
+      "title": "Put the person in charge in place",
+      "what": "One Discharge Manager now. Two helpers once the trial shows your busy hours.",
+      "needs": "A yes from your Head of Operations",
+      "measure": "Patients home by noon",
+      "when": "During the trial",
+      "point": 2
+     },
+     {
+      "title": "Link the hospital software",
+      "what": "Your IT team lets Tojo read your records, so drafting can start.",
+      "needs": "One person in your IT team",
+      "measure": "Summaries ready before the round ends",
+      "when": "After the trial",
+      "point": 3
+     }
+    ],
+    "fork": {
+     "question": "Which do you want to go into first?",
+     "options": [
+      {
+       "label": "The daily automation",
+       "what": "What runs by itself, from the evening round to going home",
+       "tab": "Automations",
+       "say": "Walk me through the daily automation"
+      },
+      {
+       "label": "Scoping the trial",
+       "what": "Which ward, who records the times, what we measure",
+       "tab": "Processes",
+       "say": "Scope the two-week trial"
+      }
+     ]
+    }
+   }
+  ]
+ }
+}

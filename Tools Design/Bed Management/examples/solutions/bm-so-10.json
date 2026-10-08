@@ -1,0 +1,294 @@
+{
+ "turn": {
+  "id": "bm-so-10",
+  "tab": "Solutions",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "yes let us do the KPIs",
+  "context": "Eight measures, not eighteen. Six new, two already tracked and not expected to move. Three are early warnings. Nobody measures what nobody owns.",
+  "transcript": {
+   "label": "Transcript turn 29 · Part 5: What to measure"
+  }
+ },
+ "chat": {
+  "text": [
+   "Eight numbers, checked weekly. Six of them nobody measures today."
+  ],
+  "bullets": [
+   "Start with dead bed time. It moves when any of the others improve. Nothing in your hospital produces it today.",
+   "Three of the eight are early warnings. They show whether people are doing the new thing. If they slip, the rest follows within two weeks.",
+   "Weekly, not monthly. A month hides a bad week. Occupancy and length of stay stay as they are. This work is not meant to move them."
+  ],
+  "pointer": "Pick a dial to open it. Filter to the early warnings to see the three to watch first.",
+  "invite": "That is all five parts. Do you want a short summary, or shall we talk about a first step?",
+  "note": "Nobody measures what nobody owns.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Dead bed time",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Beds mapped by 6 PM",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Discharge signals on time",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Admissions by noon",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Occupancy and stay",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Yes, give me a summary",
+   "What would a first step look like?",
+   "Who would read these each week?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 5 · Measures",
+    "title": "Eight dials, six of them new",
+    "plate": {
+     "part": 5,
+     "of": 5,
+     "name": "Measures",
+     "stage": "Shaped"
+    },
+    "deck": "Checked weekly. The dashed dials have no needle, because nobody reads them today."
+   },
+   {
+    "type": "gauges",
+    "filters": {
+     "all": "All eight",
+     "lead": "Early warnings",
+     "result": "Results"
+    },
+    "key_line": "Dashed dials: nobody measures these today.",
+    "new_tag": "New",
+    "tracked_tag": "Tracked",
+    "measures": [
+     {
+      "title": "Dead bed time",
+      "reading": "Hours from one bill closing to the next opening, per bed",
+      "kind": "result",
+      "new": true,
+      "point": 1
+     },
+     {
+      "title": "Time to a bed",
+      "reading": "Arrival to bed, against under 30 minutes",
+      "kind": "result",
+      "new": true
+     },
+     {
+      "title": "Beds mapped by the 6 PM freeze",
+      "reading": "Share of planned admissions with a bed",
+      "kind": "lead",
+      "new": true,
+      "point": 2
+     },
+     {
+      "title": "Discharge signals on time",
+      "reading": "Given a full day ahead",
+      "kind": "lead",
+      "new": true,
+      "point": 3
+     },
+     {
+      "title": "Admissions finished by noon",
+      "reading": "Share of the day’s admissions",
+      "kind": "lead",
+      "new": true,
+      "point": 4
+     },
+     {
+      "title": "2 PM plans that hold",
+      "reading": "Share unchanged at the 6 PM freeze",
+      "kind": "result",
+      "new": true
+     },
+     {
+      "title": "Beds full",
+      "reading": "89% today. Not expected to move.",
+      "kind": "result",
+      "needle": 0.89,
+      "point": 5
+     },
+     {
+      "title": "Average stay",
+      "reading": "6.5 days. May come down a little.",
+      "kind": "result",
+      "needle": 0.65,
+      "point": 5
+     }
+    ],
+    "caption": "Nobody measures what nobody owns. The two managers each own a set.",
+    "sheets": [
+     {
+      "key": "dbt",
+      "when": "Result · new",
+      "title": "Dead bed time",
+      "text": "The one number that moves when any of the others improve. Both halves already sit in your billing system. Only the link to the bed is missing.",
+      "lines": [
+       {
+        "label": "Owned by",
+        "value": "The Bed Manager"
+       },
+       {
+        "label": "Data",
+        "value": "Bill close and bill open, against the bed"
+       }
+      ],
+      "entry": "Has anyone ever measured this at your hospital?"
+     },
+     {
+      "key": "tat",
+      "when": "Result · new",
+      "title": "Time to a bed",
+      "text": "From the patient arriving to the patient in a bed. Paperwork is the only step that cannot be made shorter.",
+      "lines": [
+       {
+        "label": "Owned by",
+        "value": "The Bed Manager"
+       },
+       {
+        "label": "Goal",
+        "value": "Under 30 minutes",
+        "state": "target"
+       }
+      ],
+      "entry": "How do you time admissions now?"
+     },
+     {
+      "key": "map",
+      "when": "Early warning · new",
+      "title": "Beds mapped by the 6 PM freeze",
+      "text": "Of tomorrow’s planned admissions, how many have a bed by 6 PM. If this slips, the call-in times slip next.",
+      "lines": [
+       {
+        "label": "Owned by",
+        "value": "The Bed Manager"
+       }
+      ],
+      "entry": "How many planned admissions do you have on a usual day?"
+     },
+     {
+      "key": "sig",
+      "when": "Early warning · new",
+      "title": "Discharge signals on time",
+      "text": "How many discharges were signalled a full day ahead. This is the doctors’ part of the plan.",
+      "lines": [
+       {
+        "label": "Owned by",
+        "value": "The Discharge Manager"
+       }
+      ],
+      "entry": "How early do doctors say who goes home now?"
+     },
+     {
+      "key": "noon",
+      "when": "Early warning · new",
+      "title": "Admissions finished by noon",
+      "text": "How many of the day’s admissions are in a bed by noon, instead of 4:30 to 8 PM.",
+      "lines": [
+       {
+        "label": "Owned by",
+        "value": "The Bed Manager"
+       },
+       {
+        "label": "Today",
+        "value": "Most after 4:30 PM",
+        "state": "outcome"
+       }
+      ],
+      "entry": "What share is done by noon today?"
+     },
+     {
+      "key": "hold",
+      "when": "Result · new",
+      "title": "2 PM plans that hold",
+      "text": "How many 2 PM mappings are still the same at the 6 PM freeze. It shows how good the first pass is.",
+      "lines": [
+       {
+        "label": "Owned by",
+        "value": "The Bed Manager"
+       }
+      ]
+     },
+     {
+      "key": "occ",
+      "when": "Result · tracked",
+      "title": "Beds full",
+      "text": "You track this already. It stays as it is. This work is not meant to raise it.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "89%"
+       },
+       {
+        "label": "Expected",
+        "value": "No change"
+       }
+      ]
+     },
+     {
+      "key": "alos",
+      "when": "Result · tracked",
+      "title": "Average stay",
+      "text": "You track this already. It may come down a little. That gain is counted once, inside the money.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "6.5 days"
+       },
+       {
+        "label": "Expected",
+        "value": "A little lower"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "The one to start with",
+    "value": "Dead bed time",
+    "sub": "Both halves already sit in your billing system. Only the link to the bed is missing."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: a short summary of all five parts",
+    "say": "Yes, give me a summary"
+   },
+   "add": {
+    "detail": "Add something about your hospital",
+    "say": "Here is something to add about our hospital: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "How the automations are built and run",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved 1 Oct with the Bed Management Solutions turns."
+ }
+}

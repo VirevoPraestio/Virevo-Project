@@ -1,0 +1,281 @@
+{
+ "turn": {
+  "id": "bm-so-09",
+  "tab": "Solutions",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "yes let us move on",
+  "context": "Four roles, two sizing chains: the admissions side settled on the hospital’s numbers, the discharge side waiting for its discharge pattern. Full cost, not extra cost, said plainly.",
+  "transcript": {
+   "label": "Transcript turn 28 · Part 4: Teams and numbers, both sides"
+  }
+ },
+ "chat": {
+  "text": [
+   "Four roles. Two managers, and two teams under them."
+  ],
+  "bullets": [
+   "The admissions side we can settle. About 41 admissions a day, 5 an hour per person, over a short window. That gives 3 on the afternoon shift.",
+   "The discharge side we cannot settle yet. The usual rule of one person for 15 discharges a day gives 3. At another hospital the real answer was 2.",
+   "The cost shown is the full cost of these roles, not the extra cost. Send us four numbers and it becomes a difference."
+  ],
+  "pointer": "Pick a role to open it. Move the slider to see how the busiest hour sets the number of staff. Type in any number you have.",
+  "invite": "Shall we finish with part 5, the measures?",
+  "note": "The busiest hour sets the number, not the daily average.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Bed Manager",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Discharge Manager",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Admissions Executives",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Discharge Executives",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "The four numbers",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Yes, let us do the measures",
+   "Here is our desk roster",
+   "Why not just use the usual rule?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 4 · Teams and roles",
+    "title": "Four roles, sized by the busiest hour",
+    "plate": {
+     "part": 4,
+     "of": 5,
+     "name": "Teams and roles",
+     "stage": "Shaped"
+    },
+    "deck": "Two managers and two teams. One side is settled on your numbers. The other waits for one more."
+   },
+   {
+    "type": "sizing",
+    "roles_label": "The four roles",
+    "new_tag": "New role",
+    "roles": [
+     {
+      "title": "Bed Manager",
+      "line": "Owns tomorrow’s bed plan. About ₹4 to 4.5 lakhs a year.",
+      "new": true,
+      "point": 1
+     },
+     {
+      "title": "Discharge Manager",
+      "line": "Owns every discharge. About ₹4 to 4.5 lakhs a year.",
+      "new": true,
+      "point": 2
+     },
+     {
+      "title": "Admissions Executives",
+      "tag": "Team",
+      "line": "Three on the afternoon shift. About ₹3 to 3.5 lakhs each.",
+      "point": 3
+     },
+     {
+      "title": "Discharge Executives",
+      "tag": "Team",
+      "line": "Number not settled yet, so not in the cost.",
+      "point": 4
+     }
+    ],
+    "chains": [
+     {
+      "title": "Admissions side",
+      "verdict": "Settled",
+      "state": "outcome",
+      "steps": [
+       {
+        "title": "About 41 admissions a day",
+        "line": "Worked out from your figures"
+       },
+       {
+        "title": "One person handles 5 an hour",
+        "slider": {
+         "label": "Arrivals in your busiest hour",
+         "min": 5,
+         "max": 25,
+         "value": 15,
+         "per": 5,
+         "unit": "people on the shift",
+         "source": "Tojo’s guess"
+        }
+       },
+       {
+        "title": "3 on the afternoon shift",
+        "line": "The busiest hour sets it, not the daily average",
+        "state": "outcome"
+       }
+      ]
+     },
+     {
+      "title": "Discharge side",
+      "verdict": "Waiting on you",
+      "state": "target",
+      "steps": [
+       {
+        "title": "Usual rule: 1 per 15 a day",
+        "line": "Gives 3 for about 41 discharges"
+       },
+       {
+        "title": "Another hospital: really 2",
+        "line": "Their two busy windows changed the answer"
+       },
+       {
+        "title": "Your discharge pattern",
+        "state": "target",
+        "line": "When your discharges happen through the day",
+        "result": "Type it into the list below"
+       }
+      ]
+     }
+    ],
+    "caption": "We used the usual rule at another hospital. Their real answer was 2, so we will not apply it here blind.",
+    "sheets": [
+     {
+      "key": "bm",
+      "when": "New role",
+      "title": "Bed Manager",
+      "text": "Owns the whole bed plan as one person. The role is about coordination, so it is not sized per admission.",
+      "lines": [
+       {
+        "label": "Cost",
+        "value": "About ₹4 to 4.5 lakhs a year"
+       },
+       {
+        "label": "Reports to",
+        "value": "The Head of Operations"
+       }
+      ],
+      "entry": "Is anyone doing this job today?"
+     },
+     {
+      "key": "dm",
+      "when": "New role",
+      "title": "Discharge Manager",
+      "text": "Owns every discharge as one chain. A peer of the Bed Manager, not under them.",
+      "lines": [
+       {
+        "label": "Cost",
+        "value": "About ₹4 to 4.5 lakhs a year"
+       },
+       {
+        "label": "Reports to",
+        "value": "The Head of Operations"
+       }
+      ],
+      "entry": "Is anyone doing this job today?"
+     },
+     {
+      "key": "ae",
+      "when": "Team",
+      "title": "Admissions Executives",
+      "text": "Sized by the busiest hour. Your patients arrive over a short window, so the peak sets the number.",
+      "lines": [
+       {
+        "label": "Number",
+        "value": "3 on the afternoon shift",
+        "state": "outcome"
+       },
+       {
+        "label": "Cost",
+        "value": "About ₹3 to 3.5 lakhs each"
+       }
+      ],
+      "entry": "How many people sit on your desk each shift?"
+     },
+     {
+      "key": "de",
+      "when": "Team",
+      "title": "Discharge Executives",
+      "text": "Not settled. We need to know when your discharges actually happen through the day.",
+      "lines": [
+       {
+        "label": "Number",
+        "value": "Waiting on your discharge pattern",
+        "state": "target"
+       }
+      ],
+      "entry": "When are your two busiest discharge hours?"
+     }
+    ]
+   },
+   {
+    "type": "costing",
+    "cost_label": "What we can cost, a year",
+    "cost": "₹17 to 19.5 lakhs",
+    "lines": [
+     {
+      "label": "Two managers",
+      "value": "₹8 to 9 lakhs"
+     },
+     {
+      "label": "Three Admissions Executives",
+      "value": "₹9 to 10.5 lakhs"
+     }
+    ],
+    "note": "The full cost of these roles, not the extra cost. Discharge Executives are left out, not guessed.",
+    "needed_label": "Still needed from you",
+    "needed": [
+     {
+      "label": "Desk roster per shift, both sides",
+      "hint": "For example, 2 morning, 2 evening, 1 night"
+     },
+     {
+      "label": "Arrivals hour by hour",
+      "hint": "Or just your busiest two hours"
+     },
+     {
+      "label": "Bed transfers inside the hospital a day",
+      "hint": "A rough number is fine"
+     },
+     {
+      "label": "When discharges happen through the day",
+      "hint": "For example, most between 11 AM and 3 PM"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: part 5, what to measure",
+    "say": "Yes, let us do the measures"
+   },
+   "add": {
+    "detail": "Add something about your hospital",
+    "say": "Here is something to add about our hospital: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "How the automations are built and run",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved 1 Oct with the Bed Management Solutions turns."
+ }
+}

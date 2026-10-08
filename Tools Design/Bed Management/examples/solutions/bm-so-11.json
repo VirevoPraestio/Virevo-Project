@@ -1,0 +1,281 @@
+{
+ "turn": {
+  "id": "bm-so-11",
+  "tab": "Solutions",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "yes give me a summary",
+  "context": "The approved summary: facts muted because they are the hospital’s, the five parts as pieces, worth beside cost with no ratio stated, the four numbers that would finish it.",
+  "transcript": {
+   "label": "Transcript turn 30 · The summary"
+  }
+ },
+ "chat": {
+  "text": [
+   "Here is the whole thing on one page."
+  ],
+  "bullets": [
+   "Everything we found is yours. One team does both jobs, one after the other. Patients reach a bed between 4:30 and 8 PM.",
+   "The gain is ₹1.5 to 2 crore a year. We used your ₹8,000 per bed a day. Your total daily revenue says it should be higher.",
+   "The cost is ₹17 to 19.5 lakhs a year. The Discharge Executives are not in that yet."
+  ],
+  "pointer": "Pick a finding, a piece or a box to open it.",
+  "invite": "Occupancy will not go up. The shorter stay is already inside the gain, counted once. Shall we talk about a first step?",
+  "note": "Your facts, five parts, worth beside cost.",
+  "points": [
+   {
+    "n": 1,
+    "label": "What we found",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The five parts",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "What it is worth",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "What it costs",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "The four numbers",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Ok, proceed to a first step",
+   "Why should the gain be higher?",
+   "Which part would you start with?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "The summary",
+    "title": "The whole thing on one page",
+    "deck": "Your facts first, then the five parts, then worth beside cost."
+   },
+   {
+    "type": "findings",
+    "label": "What we found: your facts, not ours",
+    "items": [
+     {
+      "tag": "One team",
+      "value": "Both jobs in turn",
+      "line": "Discharges first, then admissions",
+      "point": 1
+     },
+     {
+      "tag": "Into a bed",
+      "value": "4:30 to 8 PM",
+      "line": "Patients arrive at about 1 PM",
+      "point": 1
+     },
+     {
+      "tag": "Between two bills",
+      "value": "4 to 5 hours",
+      "line": "Each bed earns nothing in that time",
+      "point": 1
+     }
+    ],
+    "caption": "Muted, because they are yours. Nothing in this row is our proposal.",
+    "sheets": [
+     {
+      "key": "team",
+      "when": "Your answer",
+      "title": "One team, both jobs",
+      "text": "You told us one team runs discharges and admissions. Its own clock times showed them running one after the other.",
+      "lines": [
+       {
+        "label": "Found in",
+        "value": "Diagnosis"
+       }
+      ]
+     },
+     {
+      "key": "bed",
+      "when": "Your times",
+      "title": "A bed only after 4:30 PM",
+      "text": "Patients arrive at about 1 PM. They reach a bed between 4:30 and 8 PM.",
+      "lines": [
+       {
+        "label": "Found in",
+        "value": "Diagnosis"
+       }
+      ]
+     },
+     {
+      "key": "gap",
+      "when": "Your billing",
+      "title": "4 to 5 hours between bills",
+      "text": "From one patient’s bill closing to the next patient’s bill opening on the same bed. Up to 8 hours on a bad day.",
+      "lines": [
+       {
+        "label": "Found in",
+        "value": "Diagnosis"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "jigsaw",
+    "hint": "Pick a piece. The pieces it relies on are outlined.",
+    "pieces": [
+     {
+      "label": "Part 1",
+      "when": "Part 1",
+      "title": "Automations",
+      "line": "One engine on data you already hold",
+      "relies_on": [
+       3
+      ],
+      "point": 2
+     },
+     {
+      "label": "Part 2",
+      "when": "Part 2",
+      "title": "Process changes",
+      "line": "Both jobs run together",
+      "relies_on": [
+       3
+      ],
+      "point": 2
+     },
+     {
+      "label": "Part 3",
+      "when": "Part 3",
+      "title": "People and buy-in",
+      "line": "The Head of Operations signs it off",
+      "point": 2
+     },
+     {
+      "label": "Part 4",
+      "when": "Part 4",
+      "title": "Teams and roles",
+      "line": "Two managers, two teams",
+      "relies_on": [
+       2
+      ],
+      "point": 2
+     },
+     {
+      "label": "Part 5",
+      "when": "Part 5",
+      "title": "Measures",
+      "line": "Eight numbers, checked weekly",
+      "relies_on": [
+       4
+      ],
+      "point": 2
+     },
+     {
+      "label": "What it is for",
+      "when": "The gain",
+      "title": "Bills start hours earlier",
+      "line": "On every bed that changes patient",
+      "relies_on": [
+       1,
+       2,
+       4
+      ],
+      "point": 3
+     }
+    ],
+    "condition": "Take any piece away and the gain does not arrive.",
+    "sheets": [
+     {
+      "key": "a",
+      "when": "Part 1",
+      "title": "Automations",
+      "text": "Six steps from one engine, reading data you already hold. Needs read access and discharge automated first."
+     },
+     {
+      "key": "p",
+      "when": "Part 2",
+      "title": "Process changes",
+      "text": "Admissions and discharges run together. Four smaller changes and two owners hold it up."
+     },
+     {
+      "key": "k",
+      "when": "Part 3",
+      "title": "People and buy-in",
+      "text": "Six teams confirm what the system worked out. The Head of Operations approves the flows."
+     },
+     {
+      "key": "t",
+      "when": "Part 4",
+      "title": "Teams and roles",
+      "text": "Two managers, three Admissions Executives settled, Discharge Executives waiting on your pattern."
+     },
+     {
+      "key": "m",
+      "when": "Part 5",
+      "title": "Measures",
+      "text": "Eight numbers weekly. Six new, three of them early warnings. Dead bed time first."
+     },
+     {
+      "key": "g",
+      "when": "What it is for",
+      "title": "Bills start hours earlier",
+      "text": "Each bed earns from earlier in the day. That is where the ₹1.5 to 2 crore comes from. The operation theatre is left out.",
+      "lines": [
+       {
+        "label": "Not counted",
+        "value": "Occupancy. It does not go up."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "pair",
+    "items": [
+     {
+      "label": "What it is worth",
+      "value": "₹1.5 to 2 crore",
+      "state": "start",
+      "point": 3,
+      "sub": "A year, from earlier billing on your beds. Worked out from your figures. The operation theatre is left out."
+     },
+     {
+      "label": "What it costs",
+      "value": "₹17 to 19.5 lakhs",
+      "point": 4,
+      "sub": "A year, for the two managers and three Admissions Executives. Discharge Executives are not in yet."
+     }
+    ],
+    "caption": "Four numbers would finish the picture: the desk roster, hourly arrivals, bed transfers inside the hospital, and when discharges happen."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: what a first step looks like",
+    "say": "Ok, proceed"
+   },
+   "add": {
+    "detail": "Add something about your hospital",
+    "say": "Here is something to add about our hospital: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "How the automations are built and run",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved 1 Oct with the Bed Management Solutions turns."
+ }
+}

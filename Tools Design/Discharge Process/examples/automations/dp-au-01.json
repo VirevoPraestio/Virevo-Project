@@ -1,0 +1,257 @@
+{
+ "turn": {
+  "id": "dp-au-01",
+  "type": "part",
+  "tool": "Discharge Process",
+  "tab": "Automations",
+  "register": "advisory",
+  "user_message": "Start with the automatic paperwork",
+  "was": "turn-05 (dp-05), chain + cards + stat-strip",
+  "context": "Discharge sample conversation, turn 5 (playbook §4: the automation part in this hospital’s own hold-ups).",
+  "transcript": {
+   "label": "Sample conversation · turn 5 · the automatic paperwork"
+  }
+ },
+ "chat": {
+  "text": [
+   "Here is what the software does at your hospital, from the 7 PM round to the patient going home. Why each piece matters:"
+  ],
+  "bullets": [
+   "It starts at the evening round, because your doctors already decide then. Nothing new is asked of them.",
+   "It keeps the bill up to date all day, so billing stops waiting for the nurses to count supplies.",
+   "It sends the first bill to insurance overnight, so the morning is not spent waiting for approval."
+  ],
+  "invite": "Next is the changes on the wards: what each team does differently.",
+  "note": "The papers are ready before the doctor signs.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The discharge summary",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The running bill",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The insurance request",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Medicines to take home",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "What your IT team must do first",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Show me the changes on the wards",
+   "Our doctors don’t use voice notes",
+   "What does our IT team need to do?"
+  ],
+  "pointer": "Switch between today and with the automation. Pick a paper to open it."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 1 of 5 · Automatic paperwork",
+    "title": "Papers ready before the doctor signs",
+    "deck": "Every paper a patient needs to leave. Today each one starts after the 11 AM signature.",
+    "plate": {
+     "tag": "Automations",
+     "name": "The going-home file",
+     "stage": "Idea"
+    }
+   },
+   {
+    "type": "file",
+    "label": "The going-home file, one patient",
+    "hand_key": "A person says yes",
+    "switch": {
+     "today": "Today",
+     "with": "With the automation",
+     "cap_today": "Every paper waits for the 11 AM signature. The patient leaves about 3 PM.",
+     "cap_with": "Each paper fills in from the evening round. Staff check and say yes."
+    },
+    "docs": [
+     {
+      "title": "Discharge summary",
+      "at_today": "After 11 AM",
+      "today": "Typed from the doctor’s notes",
+      "at_with": "7:30 PM",
+      "with": "Drafted from notes in your files",
+      "hand": true,
+      "point": 1
+     },
+     {
+      "title": "The running bill",
+      "at_today": "After 11 AM",
+      "today": "Built once supplies are counted",
+      "at_with": "All day",
+      "with": "Each charge added as it happens",
+      "hand": true,
+      "point": 2
+     },
+     {
+      "title": "Insurance request",
+      "at_today": "After the bill",
+      "today": "Sent once the bill is final",
+      "at_with": "Overnight",
+      "with": "A first bill sent the evening before",
+      "point": 3
+     },
+     {
+      "title": "Medicines to take home",
+      "at_today": "After 11 AM",
+      "today": "Listed after the signature",
+      "at_with": "Evening",
+      "with": "Listed for the pharmacy on the round",
+      "point": 4
+     },
+     {
+      "title": "Supplies going back",
+      "at_today": "At noon",
+      "today": "Counted by the nurses first",
+      "at_with": "Evening",
+      "with": "Worked out from what was used"
+     }
+    ],
+    "condition": "What must happen first: your IT team lets Tojo read your records. Without that link, none of these papers fill in.",
+    "sheets": [
+     {
+      "key": "sum",
+      "when": "Paper 1 · the summary",
+      "title": "Discharge summary",
+      "text": "Drafted from notes, tests and medicines already in your files. The doctor checks and signs on the morning round.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Typed after 11 AM"
+       },
+       {
+        "label": "With it",
+        "value": "Ready to sign at 7:30 PM",
+        "state": "start"
+       }
+      ],
+      "entry": "Who types your summaries today?",
+      "hand": {
+       "who": "the doctor",
+       "does": "Checks the draft and signs it on a phone."
+      }
+     },
+     {
+      "key": "bill",
+      "when": "Paper 2 · the bill",
+      "title": "The running bill",
+      "text": "Each charge goes on the bill as it happens, so it is ready when the doctor signs.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Built after the supply count"
+       },
+       {
+        "label": "With it",
+        "value": "Up to date all day",
+        "state": "start"
+       }
+      ],
+      "entry": "How long does your final bill take?",
+      "hand": {
+       "who": "billing",
+       "does": "Checks the bill before it goes out."
+      }
+     },
+     {
+      "key": "ins",
+      "when": "Paper 3 · insurance",
+      "title": "Insurance request",
+      "text": "A first bill goes to the insurer the evening before, so approval is not waited for in the morning.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Sent after the final bill"
+       },
+       {
+        "label": "With it",
+        "value": "Sent overnight",
+        "state": "start"
+       }
+      ],
+      "entry": "Which insurers do most of your patients use?"
+     },
+     {
+      "key": "med",
+      "when": "Paper 4 · medicines",
+      "title": "Medicines to take home",
+      "text": "The list goes to the pharmacy on the evening round, so the medicines are packed by morning.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Listed after the signature"
+       },
+       {
+        "label": "With it",
+        "value": "Packed by morning",
+        "state": "start"
+       }
+      ],
+      "entry": "When does the pharmacy pack medicines now?"
+     },
+     {
+      "key": "sup",
+      "when": "Paper 5 · supplies",
+      "title": "Supplies going back",
+      "text": "What was given, used and left over is worked out from the records. Nurses check it, instead of counting first.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Counted by hand before billing"
+       },
+       {
+        "label": "With it",
+        "value": "Worked out, nurses check",
+        "state": "start"
+       }
+      ],
+      "entry": "Who counts the used supplies today?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Hours each patient waits today",
+    "value": "5 hours",
+    "state": "start",
+    "sub": "Your own figure. This part is aimed at those hours. How many it removes here, a short trial will show."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: walk through one night",
+    "say": "Walk me through the daily automation"
+   },
+   "add": {
+    "detail": "Tell me which paper is slowest",
+    "say": "The slowest paper here is: "
+   },
+   "jump": {
+    "tab": "Processes",
+    "detail": "How the day changes on the wards",
+    "say": "Take me to Processes"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

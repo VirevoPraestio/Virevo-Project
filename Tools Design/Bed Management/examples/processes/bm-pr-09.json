@@ -1,0 +1,272 @@
+{
+ "turn": {
+  "id": "bm-pr-09",
+  "tab": "Processes",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "How would we know it is working?",
+  "context": "Prompt 3 of bm-au-07 and bm-pr-07. Transcript 29 (eight numbers, checked weekly, six new; occupancy and stay tracked, not promised) and bed-management.md §8 (with dead bed time and stage times added, as agreed). The day background returns here.",
+  "transcript": {
+   "label": "After transcript turn 31 · Processes, turn 9 (the record stops at 31)"
+  }
+ },
+ "chat": {
+  "text": [
+   "Eight numbers, read every week. Six of them nobody measures today."
+  ],
+  "bullets": [
+   "Start with dead bed time. It moves when any of the others improve, and both halves sit in your billing system.",
+   "Three numbers check people are doing the new thing. If they slip, the rest follows within a fortnight.",
+   "Occupancy and length of stay are tracked, not promised. This work moves time and billing."
+  ],
+  "invite": "Next, we can plan a trial on one ward.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Dead bed time",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Beds planned by 6 PM",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Dates a day ahead",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Admissions by noon",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Occupancy",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Can we try it on one ward first?",
+   "Who would read these each week?",
+   "Why weekly, not monthly?"
+  ],
+  "pointer": "Pick a window to see how it is measured. Switch to see which are read in the trial."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · the measures",
+    "title": "Eight windows, read weekly",
+    "deck": "Each measure as a window on the station wall. Six are new and start with no number.",
+    "plate": {
+     "column": "Measures",
+     "name": "What we read"
+    }
+   },
+   {
+    "type": "readouts",
+    "measures": [
+     {
+      "name": "Dead bed time, bill to bill",
+      "state": "new",
+      "source": "new",
+      "when": "trial",
+      "point": 1
+     },
+     {
+      "name": "Admission time, step by step",
+      "state": "new",
+      "source": "new",
+      "when": "trial"
+     },
+     {
+      "name": "Beds planned by 6 PM",
+      "state": "new",
+      "source": "new",
+      "when": "trial",
+      "point": 2
+     },
+     {
+      "name": "Discharge dates given a day ahead",
+      "state": "new",
+      "source": "new",
+      "when": "trial",
+      "point": 3
+     },
+     {
+      "name": "Admissions finished by noon",
+      "state": "new",
+      "source": "new",
+      "when": "trial",
+      "point": 4
+     },
+     {
+      "name": "Likely stay against real stay",
+      "state": "new",
+      "source": "new",
+      "when": "later"
+     },
+     {
+      "name": "Bed occupancy",
+      "state": "confirmed",
+      "source": "yours",
+      "when": "later",
+      "value": "89%",
+      "point": 5
+     },
+     {
+      "name": "Average length of stay",
+      "state": "confirmed",
+      "source": "yours",
+      "when": "later",
+      "value": "6.5 days"
+     }
+    ],
+    "condition": "Read every week, not every month. A month hides a bad week.",
+    "sheets": [
+     {
+      "key": "m1",
+      "when": "In the trial",
+      "title": "Dead bed time, bill to bill",
+      "text": "From the last bill of one patient to the first bill of the next, on the same bed. The one number that moves when the others improve.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Nobody measures it"
+       },
+       {
+        "label": "Your guess",
+        "value": "4 to 5 hours, up to 8"
+       }
+      ],
+      "entry": "Has billing ever looked at this?"
+     },
+     {
+      "key": "m2",
+      "when": "In the trial",
+      "title": "Admission time, step by step",
+      "text": "Your 3½ hours, split into its five steps. It shows paperwork apart from waiting.",
+      "lines": [
+       {
+        "label": "Your guess",
+        "value": "About 3½ hours, 1 hour papers"
+       }
+      ],
+      "entry": "Which step do you think is slowest?"
+     },
+     {
+      "key": "m3",
+      "when": "In the trial",
+      "title": "Beds planned by 6 PM",
+      "text": "How many of tomorrow’s planned patients have a bed by 6 PM. An early warning if it slips.",
+      "lines": [
+       {
+        "label": "Read",
+        "value": "Every evening"
+       }
+      ],
+      "entry": "How many planned admissions in a usual day?"
+     },
+     {
+      "key": "m4",
+      "when": "In the trial",
+      "title": "Discharge dates given a day ahead",
+      "text": "How many discharges had a confirmed date 24 hours before. Shows if the round is working.",
+      "lines": [
+       {
+        "label": "Read",
+        "value": "Every morning"
+       }
+      ],
+      "entry": "How many discharges have a date today?"
+     },
+     {
+      "key": "m5",
+      "when": "In the trial",
+      "title": "Admissions finished by noon",
+      "text": "The share of planned patients in bed by about noon. Shows if the new order is holding.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "In bed 4:30 PM, up to 8",
+        "state": "outcome"
+       }
+      ],
+      "entry": "How many patients are in bed by noon today?"
+     },
+     {
+      "key": "m6",
+      "when": "After the trial",
+      "title": "Likely stay against real stay",
+      "text": "How close the likely dates were to the real ones, by procedure. Keeps the predictions honest.",
+      "lines": [
+       {
+        "label": "Read",
+        "value": "Every month, after the trial"
+       }
+      ],
+      "entry": "Which procedures vary most?"
+     },
+     {
+      "key": "m7",
+      "when": "After the trial",
+      "title": "Bed occupancy",
+      "text": "Tracked as it is today. Not expected to rise much. That is not what this work does.",
+      "lines": [
+       {
+        "label": "Your number",
+        "value": "89%, ICU 94%"
+       }
+      ],
+      "entry": "Who reports occupancy today?"
+     },
+     {
+      "key": "m8",
+      "when": "After the trial",
+      "title": "Average length of stay",
+      "text": "Tracked as it is today. It may fall a little. That gain is already counted once in the money.",
+      "lines": [
+       {
+        "label": "Your number",
+        "value": "6.5 days"
+       }
+      ],
+      "entry": "Is length of stay tracked by ward?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Expected to change",
+    "value": "Time and billing, not occupancy",
+    "sub": "Occupancy will not go up. Patients reach a bed earlier, and each bed earns for more of the day.",
+    "state": "outcome",
+    "look": "banner"
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: a trial on one ward",
+    "say": "Can we try it on one ward first?"
+   },
+   "add": {
+    "detail": "Tell me what you track now",
+    "say": "We already track these: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the Bed Management Processes turns."
+ }
+}

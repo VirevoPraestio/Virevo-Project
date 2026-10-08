@@ -1,0 +1,184 @@
+{
+ "turn": {
+  "id": "rf-00",
+  "type": "question",
+  "register": "advisory",
+  "tool": "Tojo rules",
+  "context": "Tojo · new rule: learning from your replies",
+  "subject": "reply-check-rule",
+  "user_message": "A new rule: Tojo gauges how useful his replies are from how the user responds, asks for a rating every 10th turn, resets after two misses in a row, and sends findings back to us."
+ },
+ "chat": {
+  "text": [
+   "Yes, I can read the chat response rules: 06, version 2 of 28 Sep, in your Discharge folder. The newer shared rules (08) sit on your G: drive, which this session cannot reach.",
+   "Here is what I understood. Tojo watches how you answer him, counts the misses, and stops to reset after two in a row. Every session ends up as a report with suggested rule changes, which only your team can approve."
+  ],
+  "bullets": [
+   "I'd make it a rule of its own, shared by every tool, and point 06 at it. It runs in every place and every tool, so it should not live inside one tool's rules.",
+   "The two fixed lines (the opening line and the reset line) would be scripted turns, said word for word. The opening line plays once per new chat, never again in that chat."
+  ],
+  "pointer": "Tap each stop and each card to check my reading of your seven points.",
+  "invite": "Correct anything I have read wrongly, point by point.",
+  "note": "Two misses in a row means stop, recheck the playbook, then answer again.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Opening line in every new chat",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Rating every 10th turn",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "What counts as a miss",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Reset after two misses in a row",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Report and suggested rule changes",
+    "canvas": true
+   }
+  ],
+  "question": {
+   "text": "Where should the rule live?",
+   "options": [
+    "A rule of its own, linked from 06",
+    "A new section inside 06",
+    "Inside the shared rules (08)"
+   ]
+  },
+  "prompts": [
+   "Make it a rule of its own",
+   "Does a Fine rating count as a miss?",
+   "Show me the report format first"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "New rule · my reading of it",
+    "title": "Tojo learns from how you reply",
+    "deck": "How the rule runs in a session, what counts as a miss, and what gets sent back to your team."
+   },
+   {
+    "type": "chain",
+    "label": "How the rule runs in one chat",
+    "steps": [
+     {
+      "title": "Opening line, new chat",
+      "value": "Once",
+      "state": "start",
+      "point": 1
+     },
+     {
+      "title": "Ask for a rating",
+      "value": "Every 10th",
+      "point": 2
+     },
+     {
+      "title": "Two misses in a row",
+      "flag": "Trigger",
+      "state": "target",
+      "point": 4,
+      "value": "Count hits 2"
+     },
+     {
+      "title": "Say the reset line",
+      "value": "Word for word"
+     },
+     {
+      "title": "Recheck playbook and references",
+      "value": "Then rephrase"
+     },
+     {
+      "title": "Log the turn for the report",
+      "state": "outcome",
+      "point": 5
+     }
+    ],
+    "caption": "Rating options: Good, Fine or Bad. The count of misses starts again after each reset."
+   },
+   {
+    "type": "cards",
+    "label": "What counts as a miss",
+    "items": [
+     {
+      "title": "Tojo's ask is ignored",
+      "text": "Tojo asked a question or for a figure, and the reply skips it.",
+      "tag": "Your point 2",
+      "point": 3,
+      "more_label": "See how it is read",
+      "more_points": [
+       "The reply does not answer the question, pick an option or give the figure.",
+       "A reply of 'I'd need to check' is not a miss.",
+       "Picking one of the three prompts is not a miss."
+      ]
+     },
+     {
+      "title": "'You have not understood'",
+      "text": "The reply says plainly that Tojo missed the point or went off track.",
+      "tag": "Your point 2",
+      "point": 3,
+      "more_label": "See how it is read",
+      "more_points": [
+       "Words like 'that is not what I asked' or 'you missed it'.",
+       "Repeating the same request in other words also counts."
+      ]
+     },
+     {
+      "title": "Sudden change of subject",
+      "text": "The reply drops the thread and starts on something else.",
+      "tag": "Your point 2",
+      "point": 3,
+      "more_label": "See how it is read",
+      "more_points": [
+       "A jump to another place on purpose, with the jump button, is not a miss.",
+       "A new subject with no link to Tojo's last answer is a miss."
+      ]
+     },
+     {
+      "title": "A rating of Bad",
+      "text": "My reading: Bad counts as a miss. Fine and Good do not.",
+      "tag": "Please confirm",
+      "point": 2
+     }
+    ]
+   },
+   {
+    "type": "bands",
+    "inputs": {
+     "title": "Logged each session",
+     "items": [
+      "Which turns were missed, and how",
+      "What Tojo asked, what came back",
+      "Every rating given",
+      "The playbook step Tojo was on"
+     ]
+    },
+    "engine": {
+     "title": "Session report",
+     "text": "Tojo groups the misses and names the rule, playbook step or reference he likely misread.",
+     "point": 5
+    },
+    "outputs": {
+     "title": "Sent to your team",
+     "items": [
+      "The report of misses",
+      "Suggested chat rule changes",
+      "Suggested playbook and reference changes"
+     ]
+    },
+    "caption": "Tojo never changes his own rules. Your team reviews each suggestion, and only accepted ones are written in."
+   }
+  ]
+ }
+}

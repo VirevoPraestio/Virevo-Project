@@ -1,0 +1,174 @@
+{
+ "updated": "2026-09-28",
+ "note": "Landing-page templates per tab. One approved per tab; the others are kept for reference (like examples/archive) and are not built into production.",
+ "tabs": {
+  "diagnosis": {
+   "generator": "diagnosis-html-generator/landing.py",
+   "approved": "c",
+   "samples": {
+    "a": {
+     "name": "Route walked",
+     "version": 1,
+     "status": "not_chosen",
+     "feedback": [
+      {
+       "date": "2026-09-28",
+       "verdict": "not_chosen",
+       "note": ""
+      }
+     ]
+    },
+    "b": {
+     "name": "Case sheet",
+     "version": 1,
+     "status": "not_chosen",
+     "feedback": [
+      {
+       "date": "2026-09-28",
+       "verdict": "not_chosen",
+       "note": ""
+      }
+     ]
+    },
+    "c": {
+     "name": "Under the glass",
+     "version": 1,
+     "status": "approved",
+     "feedback": [
+      {
+       "date": "2026-09-28",
+       "verdict": "approved",
+       "note": "Picked from three samples"
+      }
+     ]
+    }
+   }
+  },
+  "solutions": {
+   "generator": "solutions-html-generator/landing.py",
+   "approved": "b",
+   "samples": {
+    "a": {
+     "name": "Drawing sheets",
+     "version": 1,
+     "status": "not_chosen",
+     "feedback": [
+      {
+       "date": "2026-09-28",
+       "verdict": "not_chosen",
+       "note": ""
+      }
+     ]
+    },
+    "b": {
+     "name": "Iteration tracks",
+     "version": 1,
+     "status": "approved",
+     "feedback": [
+      {
+       "date": "2026-09-28",
+       "verdict": "approved",
+       "note": "Picked from three samples"
+      }
+     ]
+    },
+    "c": {
+     "name": "Revision log",
+     "version": 1,
+     "status": "not_chosen",
+     "feedback": [
+      {
+       "date": "2026-09-28",
+       "verdict": "not_chosen",
+       "note": ""
+      }
+     ]
+    }
+   }
+  },
+  "automations": {
+   "generator": "automations-html-generator/landing.py",
+   "approved": "b",
+   "samples": {
+    "a": {
+     "name": "Switchboard",
+     "version": 1,
+     "status": "not_chosen",
+     "feedback": [
+      {
+       "date": "2026-09-28",
+       "verdict": "not_chosen",
+       "note": ""
+      }
+     ]
+    },
+    "b": {
+     "name": "Overnight arc",
+     "version": 1,
+     "status": "approved",
+     "feedback": [
+      {
+       "date": "2026-09-28",
+       "verdict": "approved",
+       "note": "Picked from three samples"
+      }
+     ]
+    },
+    "c": {
+     "name": "Signal bars",
+     "version": 1,
+     "status": "not_chosen",
+     "feedback": [
+      {
+       "date": "2026-09-28",
+       "verdict": "not_chosen",
+       "note": ""
+      }
+     ]
+    }
+   }
+  },
+  "processes": {
+   "generator": "processes-html-generator/landing.py",
+   "approved": "a",
+   "samples": {
+    "a": {
+     "name": "Ward board",
+     "version": 1,
+     "status": "approved",
+     "feedback": [
+      {
+       "date": "2026-09-28",
+       "verdict": "approved",
+       "note": "Picked from three samples"
+      }
+     ]
+    },
+    "b": {
+     "name": "Readouts and seats",
+     "version": 1,
+     "status": "not_chosen",
+     "feedback": [
+      {
+       "date": "2026-09-28",
+       "verdict": "not_chosen",
+       "note": ""
+      }
+     ]
+    },
+    "c": {
+     "name": "The loop",
+     "version": 1,
+     "status": "not_chosen",
+     "feedback": [
+      {
+       "date": "2026-09-28",
+       "verdict": "not_chosen",
+       "note": ""
+      }
+     ]
+    }
+   }
+  }
+ }
+}

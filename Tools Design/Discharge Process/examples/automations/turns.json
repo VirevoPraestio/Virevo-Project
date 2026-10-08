@@ -1,0 +1,38 @@
+{
+ "place": "Automations",
+ "tool": "Discharge Process",
+ "turns": [
+  {
+   "file": "dp-au-01.json",
+   "note": "Was turn-05 (sample conversation). The going-home file, paper by paper, today and with the automation."
+  },
+  {
+   "file": "dp-au-02.json",
+   "note": "Was au-01. One night on one ward: seven stations, a hand where a person says yes."
+  },
+  {
+   "file": "dp-au-03.json",
+   "note": "Was au-02. The summary written a little each day, on the engine’s screen."
+  },
+  {
+   "file": "dp-au-04.json",
+   "note": "Was au-03. The loop on the evening round, and what it never does."
+  },
+  {
+   "file": "dp-au-05.json",
+   "note": "Was au-04. The places facts are kept, as switches. The night-shift background starts here."
+  },
+  {
+   "file": "dp-au-06.json",
+   "note": "Was au-05. Tojo at the desk: one question, then five asks for IT."
+  },
+  {
+   "file": "dp-au-07.json",
+   "note": "Was au-06 (the switchboard again). Now the build panel: the order of switching on."
+  },
+  {
+   "file": "dp-au-08.json",
+   "note": "Was au-07. The hand-over from the patient leaving to the next patient in the bed."
+  }
+ ]
+}

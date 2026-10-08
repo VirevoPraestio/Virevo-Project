@@ -1,0 +1,155 @@
+{
+ "turn": {
+  "id": "pr-05",
+  "tab": "Processes",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Who at the bed desk would see this?",
+  "context": "From Automations au-07. Bed Management §7.4.2 to §7.4.4: the peer roles and what passes between the two desks."
+ },
+ "chat": {
+  "text": [
+   "The bed desk sees it through its own Bed Manager, a peer of the Discharge Manager. Both report to your Head of Operations.",
+   "Whether you need a Bed Manager depends on three numbers we do not have yet. So that chair stays open for now."
+  ],
+  "bullets": [
+   "Likely discharges reach the bed desk a day ahead.",
+   "A 5 PM round confirms tomorrow’s leavers.",
+   "Each bill is held against the bed, so the empty time can be measured."
+  ],
+  "pointer": "Pick a hand-over between the two desks to see what it takes.",
+  "note": "The bed desk plans from the discharge desk’s times.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Head of Operations",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The Bed Manager",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "A day ahead",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "One team doing both",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "One team does both",
+   "Two separate teams",
+   "Which measures show it worked?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Beyond the ward · the bed desk",
+    "title": "Two desks, one head",
+    "deck": "The discharge desk and the bed desk as peers. What passes between them, and who is needed."
+   },
+   {
+    "type": "seats",
+    "reports_to": {
+     "name": "Head of Operations",
+     "does": "Approves how the two desks work together",
+     "point": 1
+    },
+    "roles": [
+     {
+      "name": "Discharge Manager",
+      "seats": 1,
+      "cost_low": 4,
+      "cost_high": 4.5,
+      "state": "needed",
+      "does": "Owns discharges. Sends likely leavers to the bed desk a day ahead.",
+      "rule": "Any one is enough",
+      "triggers": [
+       {
+        "label": "More than 40 discharges a day",
+        "value": "40 to 45",
+        "state": "met",
+        "source": "yours"
+       }
+      ]
+     },
+     {
+      "name": "Bed Manager",
+      "seats": 1,
+      "cost_low": 4,
+      "cost_high": 4.5,
+      "state": "check",
+      "does": "Owns bed planning. Places each admission in a bed before it is free.",
+      "rule": "Any one is enough",
+      "point": 2,
+      "triggers": [
+       {
+        "label": "More admissions than beds free the night before",
+        "state": "unknown",
+        "source": "needed"
+       },
+       {
+        "label": "Beds more than 80% full",
+        "state": "unknown",
+        "source": "needed"
+       },
+       {
+        "label": "More than half of admissions late",
+        "state": "unknown",
+        "source": "needed"
+       }
+      ]
+     },
+     {
+      "name": "Admissions Executives",
+      "seats": 3,
+      "cost_low": 3,
+      "cost_high": 3.5,
+      "each": true,
+      "state": "check",
+      "does": "At least one each shift at 250 beds. Each handles up to 5 admissions an hour.",
+      "note": "Your busiest admission hour decides if more are needed."
+     }
+    ],
+    "between_label": "What passes between the two desks",
+    "between": [
+     {
+      "title": "Likely leavers a day ahead",
+      "detail": "Ward patients are flagged 24 hours ahead. Intensive care patients by 1 PM. The bed desk maps beds from this list.",
+      "status": "new",
+      "point": 3
+     },
+     {
+      "title": "A 5 PM round",
+      "detail": "The senior doctors check tomorrow’s likely leavers by 5 PM. The bed desk then fixes its plan at 6 PM.",
+      "status": "new"
+     },
+     {
+      "title": "Bed ready, the minute it is clean",
+      "detail": "Housekeeping marks the bed clean. The bed desk sees it at once, with no phone call.",
+      "status": "agreed"
+     },
+     {
+      "title": "Bills held against the bed",
+      "detail": "One patient’s final bill and the next patient’s first bill are read off the same bed. So empty time becomes a number.",
+      "status": "new"
+     },
+     {
+      "title": "One team, or two?",
+      "detail": "If one team runs discharges and admissions, the two must run side by side. Not one after the other.",
+      "status": "needed",
+      "point": 4
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,186 @@
+{
+ "turn": {
+  "id": "rf-02",
+  "type": "question",
+  "register": "advisory",
+  "tool": "Tojo rules",
+  "context": "Tojo · new rule: learning from your replies",
+  "subject": "reply-check-rule",
+  "user_message": "Flag each miss as high, medium or low. Send the history and the recommended change, once at the end of the day. A back-end agent reads Tojo's report, adds its own view, works with my team, and updates the files for the next day."
+ },
+ "chat": {
+  "text": [
+   "That changes two things from my last answer. Tojo now writes his own suggested changes, not just records. And a back-end agent replaces the nightly review, adding its own view before your team sees anything.",
+   "Every miss gets a priority, and nothing leaves the chat during the day. One report goes out at the end of the day, with the full history behind each miss."
+  ],
+  "bullets": [
+   "I'd set end of day at midnight, India time, the same moment the summary pages refresh. Changes your team approves are then in the files Tojo reads the next morning.",
+   "This needs three pieces: Tojo's rule, the format of his daily report, and the back-end agent's own skill for reading it. The report format is what joins the two agents, so it should be settled first."
+  ],
+  "pointer": "Tap each step to see who acts, and each priority to see what puts a miss there.",
+  "note": "Tojo suggests, the back-end agent weighs it, your team decides.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Tojo's end-of-day report",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The back-end agent's view",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Your team's three answers",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "What makes a miss high, medium or low",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "What each finding carries",
+    "canvas": true
+   }
+  ],
+  "question": {
+   "text": "What should I write first?",
+   "options": [
+    "All three pieces together",
+    "Tojo's rule and the report format",
+    "Tojo's rule only"
+   ]
+  },
+  "prompts": [
+   "All three together",
+   "Why is a Fine rating only medium?",
+   "Midnight works for end of day"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "New rule · two agents, one loop",
+    "title": "From today's misses to tomorrow's rules",
+    "deck": "Tojo reports once a day. The back-end agent weighs it. Your team decides. The files change overnight."
+   },
+   {
+    "type": "chain",
+    "label": "One day, start to finish",
+    "steps": [
+     {
+      "title": "Tojo flags each miss",
+      "value": "High, medium, low",
+      "state": "start",
+      "point": 4
+     },
+     {
+      "title": "End-of-day report sent",
+      "value": "At midnight",
+      "point": 1
+     },
+     {
+      "title": "Back-end agent adds its view",
+      "value": "Agree, change, drop",
+      "point": 2
+     },
+     {
+      "title": "Your team answers",
+      "flag": "You decide",
+      "value": "Yes, no, rework",
+      "state": "target",
+      "point": 3
+     },
+     {
+      "title": "Back-end agent updates files",
+      "value": "Rules, references, skills"
+     },
+     {
+      "title": "Tojo reads new files",
+      "value": "Next morning",
+      "state": "outcome"
+     }
+    ],
+    "caption": "Asked to rework, the back-end agent revises the change and brings it back. Nothing is written in until your team says yes."
+   },
+   {
+    "type": "cards",
+    "label": "How Tojo sets the priority",
+    "items": [
+     {
+      "title": "High",
+      "text": "Tojo got something wrong, or the user said plainly he missed the point.",
+      "tag": "Fix tonight",
+      "state": "target",
+      "point": 4,
+      "more_label": "See what makes it high",
+      "more_points": [
+       "The user says Tojo has not understood.",
+       "A rating of Bad.",
+       "The rephrase after a reset also missed.",
+       "A wrong fact or figure from a reference file.",
+       "A figure Tojo made up, or one from another hospital."
+      ]
+     },
+     {
+      "title": "Medium",
+      "text": "The user did not go along with Tojo, without saying why.",
+      "tag": "Fix soon",
+      "point": 4,
+      "more_label": "See what makes it medium",
+      "more_points": [
+       "A rating of Fine.",
+       "Two misses in a row that set off a reset, where the rephrase then worked.",
+       "Tojo's question or figure request ignored.",
+       "A sudden change of subject."
+      ]
+     },
+     {
+      "title": "Low",
+      "text": "A small slip the user recovered from on their own.",
+      "tag": "Watch",
+      "point": 4,
+      "more_label": "See what makes it low",
+      "more_points": [
+       "A single ignored question the user answered a turn later.",
+       "Too long, or the drawing repeats the chat, with no complaint.",
+       "An unclear word the user asked about once."
+      ]
+     }
+    ]
+   },
+   {
+    "type": "bands",
+    "inputs": {
+     "title": "History of each miss",
+     "items": [
+      "What Tojo asked, and the reply",
+      "The ratings given that day",
+      "Rule, playbook step, references used",
+      "What Tojo did after the reset",
+      "Whether the rephrase worked"
+     ]
+    },
+    "engine": {
+     "title": "One finding per miss",
+     "text": "Priority, likely cause, and the history that shows it. Patient details removed.",
+     "point": 5
+    },
+    "outputs": {
+     "title": "Tojo's suggested change",
+     "items": [
+      "Which file and section",
+      "The words today",
+      "The words he suggests",
+      "Why, and which miss it fixes"
+     ]
+    },
+    "caption": "Several misses with the same cause become one finding, with every turn listed under it."
+   }
+  ]
+ }
+}

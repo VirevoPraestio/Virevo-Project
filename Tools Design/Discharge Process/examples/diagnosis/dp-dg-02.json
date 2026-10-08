@@ -1,0 +1,159 @@
+{
+ "turn": {
+  "id": "dp-dg-02",
+  "type": "data-ask",
+  "tool": "Discharge Process",
+  "tab": "Diagnosis",
+  "register": "advisory",
+  "user_message": "Consultants finish rounds by about 11. The RMO drafts the summary, the consultant signs, and a transcriptionist types it up. We’re 250 beds, around 88% full, 40–45 discharges a day.",
+  "was": "turn-02 (dp-02), progress-trail + stat-strip + calculator",
+  "context": "Discharge sample conversation, turn 2 (playbook §1.2: put a price on the wait before the diagnosis).",
+  "transcript": {
+   "label": "Sample conversation · turn 2 · price the wait"
+  },
+  "user_tag": "@Point1"
+ },
+ "chat": {
+  "text": [
+   "Thank you. That is the first stop done. Three people handle every summary, and none of it starts before 11.",
+   "To put a price on the wait, I need three figures. They are on the bill in the drawing."
+  ],
+  "pointer": "Type each figure straight onto the bill. Each one goes into your message.",
+  "note": "A delay only moves people once it has a price.",
+  "points": [
+   {
+    "n": 1,
+    "label": "What one bed earns in a day",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Hours each patient waits to leave",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "When doctors decide who goes home",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Your 250 beds, 88% in use",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "One bed earns about ₹35,000 a day",
+   "Where do I find the wait time?",
+   "I’d need to check with finance"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Pricing the wait",
+    "title": "What is the wait costing you?",
+    "deck": "Your numbers are in. Three more and the wait has a price."
+   },
+   {
+    "type": "receipt",
+    "title": "Figures for Tojo",
+    "subtitle": "Your hospital · the price of the wait",
+    "lines": [
+     {
+      "label": "What one bed earns",
+      "unit": "a day, in rupees",
+      "placeholder": "Type it here",
+      "point": 1
+     },
+     {
+      "label": "Hours each patient waits to leave",
+      "unit": "from ready to leaving",
+      "placeholder": "Type it here",
+      "point": 2
+     },
+     {
+      "label": "When doctors decide who goes home",
+      "unit": "a clock time",
+      "placeholder": "Type it here",
+      "point": 3
+     }
+    ],
+    "total_label": "Yearly cost of the wait",
+    "waiting": "Waiting on your figures",
+    "done": "All three in. Send to Tojo.",
+    "hint": "Type each figure on its line. Tap a line to see what it is for.",
+    "caption": "Nothing here is my guess. Every figure comes from you.",
+    "sheets": [
+     {
+      "key": "rate",
+      "when": "Figure 1 of 3",
+      "title": "What one bed earns",
+      "text": "Turns each hour a bed waits into rupees."
+     },
+     {
+      "key": "wait",
+      "when": "Figure 2 of 3",
+      "title": "Hours each patient waits to leave",
+      "text": "From the doctor saying the patient can go, to the patient leaving. A rough number is fine."
+     },
+     {
+      "key": "decide",
+      "when": "Figure 3 of 3",
+      "title": "When doctors decide who goes home",
+      "text": "Tells us when the going-home work could start, if anyone used that time."
+     }
+    ]
+   },
+   {
+    "type": "stat-strip",
+    "stats": [
+     {
+      "label": "Beds",
+      "value": "250",
+      "source": "yours",
+      "point": 4
+     },
+     {
+      "label": "Beds in use",
+      "value": "88%",
+      "source": "yours",
+      "point": 4
+     },
+     {
+      "label": "Patients going home each day",
+      "value": "40–45",
+      "source": "yours"
+     },
+     {
+      "label": "Summary can start",
+      "value": "About 11 AM",
+      "source": "yours"
+     }
+    ],
+    "caption": "What you have told me so far."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: send the three figures",
+    "say": "One bed earns about ₹35,000 a day"
+   },
+   "add": {
+    "detail": "Send the figures you have",
+    "say": "Here are the figures I have: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the wait could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

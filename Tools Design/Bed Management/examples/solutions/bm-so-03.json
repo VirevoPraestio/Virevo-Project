@@ -1,0 +1,234 @@
+{
+ "turn": {
+  "id": "bm-so-03",
+  "tab": "Solutions",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "so, you will be doing all of this for me? what if i dont have such systems already?",
+  "context": "What Tojo brings against what must already exist, and the honest threshold: a hospital mostly on paper is a different project.",
+  "transcript": {
+   "label": "Transcript turn 20 · “Will you be doing all of this for me? What if I don’t have such systems?”"
+  }
+ },
+ "chat": {
+  "text": [
+   "Most of it is ours. A small part is not, and it is better said now."
+  ],
+  "bullets": [
+   "We bring the recording. Voice notes on rounds, with our own recorder. Prescriptions read at OPD. Each admission step timed as it happens.",
+   "Two things have to be there already. Read access to what holds admissions, discharges, tests and charges. And one report on your billing system.",
+   "If almost nothing is digital, this is a different project, not a slower one. The recording layer gets much bigger."
+  ],
+  "pointer": "Pick a box to open it. Then switch the building to a hospital still on paper.",
+  "invite": "Next are the other four parts. Shall I show you what else we would be doing?",
+  "note": "We bring the recording. You bring the access.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Voice notes on rounds",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Prescriptions read at OPD",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Admission steps timed",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Read access",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "The billing report",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Other than these, what else would we be doing?",
+   "Most of our records are on paper",
+   "Who in IT would we need?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 1 · Automations",
+    "title": "What we bring, what must be there",
+    "plate": {
+     "part": 1,
+     "of": 5,
+     "name": "Automations",
+     "stage": "Shaped"
+    },
+    "deck": "Above the line is ours. Below it is what we stand on, and it has to exist before we start."
+   },
+   {
+    "type": "foundation",
+    "bring_label": "We bring this",
+    "there_label": "This has to be there",
+    "ground": "The ground line: what we stand on",
+    "bring": [
+     {
+      "title": "Voice notes on rounds",
+      "line": "Our own recorder and our own transcription",
+      "point": 1
+     },
+     {
+      "title": "Prescriptions read at OPD",
+      "line": "Read as written, not a form for somebody to fill in",
+      "point": 2
+     },
+     {
+      "title": "Admission steps timed",
+      "line": "Each step stamped as the new flow runs",
+      "point": 3
+     }
+    ],
+    "there": [
+     {
+      "title": "Read access",
+      "line": "To whatever holds admissions, discharges, tests and charges today",
+      "point": 4
+     },
+     {
+      "title": "One billing report",
+      "line": "Bill close and bill open, joined against the bed",
+      "point": 5
+     }
+    ],
+    "switch": {
+     "label": "How much is digital",
+     "yes": "Most of it is digital",
+     "no": "Almost nothing is",
+     "extra": "A much bigger recording layer. Most of the record has to be recorded first.",
+     "read_yes": "With these two in place, the rest is ours to build.",
+     "read_no": "A different project, not a slower one. Better said now than found out later."
+    },
+    "sheets": [
+     {
+      "key": "voice",
+      "when": "We bring this",
+      "title": "Voice notes on rounds",
+      "text": "The doctor speaks on the round they already do. Our recorder and our transcription turn it into a note. Nobody types it again.",
+      "lines": [
+       {
+        "label": "Who it helps",
+        "value": "Doctors, and the discharge plan"
+       },
+       {
+        "label": "Needs from you",
+        "value": "Nothing but the round"
+       }
+      ],
+      "entry": "Do your doctors record notes on rounds today?"
+     },
+     {
+      "key": "opd",
+      "when": "We bring this",
+      "title": "Prescriptions read at OPD",
+      "text": "The advice to admit is read from the prescription as the doctor writes it. It is not a form for somebody to fill in.",
+      "lines": [
+       {
+        "label": "Who it helps",
+        "value": "The admissions desk"
+       },
+       {
+        "label": "Needs from you",
+        "value": "The prescription, as it is written now"
+       }
+      ],
+      "entry": "How are OPD prescriptions written now?",
+      "entry_hint": "For example, on paper or on a system"
+     },
+     {
+      "key": "steps",
+      "when": "We bring this",
+      "title": "Admission steps timed",
+      "text": "Each of the five admission steps is stamped as it happens. That is what shows coordination time apart from paperwork.",
+      "lines": [
+       {
+        "label": "Who it helps",
+        "value": "The Bed Manager, and you"
+       },
+       {
+        "label": "Needs from you",
+        "value": "Nothing new"
+       }
+      ],
+      "entry": "Do you time any admission steps today?"
+     },
+     {
+      "key": "access",
+      "when": "Has to be there",
+      "title": "Read access",
+      "text": "We read whatever holds admissions, discharges, tests and charges today. We write nothing back.",
+      "lines": [
+       {
+        "label": "Who gives it",
+        "value": "Your IT team"
+       },
+       {
+        "label": "If it is missing",
+        "value": "Nothing runs",
+        "state": "outcome"
+       }
+      ],
+      "entry": "Which systems hold this today?"
+     },
+     {
+      "key": "report",
+      "when": "Has to be there",
+      "title": "One billing report",
+      "text": "Your billing system holds the time each bill closes and opens. One report joins them against the same bed.",
+      "lines": [
+       {
+        "label": "Who",
+        "value": "Billing, with IT"
+       },
+       {
+        "label": "It is",
+        "value": "A report, not new data"
+       }
+      ],
+      "entry": "Who builds reports on your billing system?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "If almost nothing is digital",
+    "value": "A different project",
+    "state": "outcome",
+    "sub": "Not a slower one. The recording layer grows, and the timeline changes with it."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: what else we would be doing",
+    "say": "Other than these automations, what else would we be doing?"
+   },
+   "add": {
+    "detail": "Add something about your hospital",
+    "say": "Here is something to add about our hospital: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "How the automations are built and run",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved 1 Oct with the Bed Management Solutions turns."
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "bm-dg-04",
+  "type": "data-ask",
+  "user_message": "pattern b",
+  "transcript": {
+   "label": "Transcript turn 10 · admission time, as a blank chain",
+   "said": "Pattern B is the better of the two, and less common than you’d think. Which makes the next one worth getting precise, because it’s what shows the pattern is actually landing: every admission runs through five steps, and the gap between the first and the last is your Admission TAT. The graphic has that chain with the times left blank. Fill in a typical day’s clock times and we’ll see exactly where the time goes."
+  }
+ },
+ "chat": {
+  "text": [
+   "Pattern B is the better of the two, and less common than you’d think.",
+   "That makes the next one worth getting exact. It shows whether the pattern is really landing.",
+   "Every admission runs through five steps. The gap between the first and the last is your admission time. Fill in a typical day’s clock times, and we’ll see where the time goes."
+  ],
+  "note": "Clock times settle it.",
+  "prompts": [
+   "Arrival about 1 PM, in the bed by 4:30 PM",
+   "Our times change a lot from day to day",
+   "Do the times need to be exact?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "How long an admission takes",
+    "title": "Five steps, times left blank",
+    "deck": "A typical day’s clock times are enough. They do not have to be exact."
+   },
+   {
+    "type": "admission-line",
+    "mode": "blank",
+    "stages": [
+     {
+      "key": "arr",
+      "name": "Patient arrives, or Emergency says admit",
+      "what": "The clock starts when the patient arrives, or when Emergency decides to admit."
+     },
+     {
+      "key": "doc",
+      "name": "Paperwork done",
+      "what": "Registration and admission papers are complete."
+     },
+     {
+      "key": "bed",
+      "name": "Bed given in the system",
+      "what": "A bed is put against the patient’s name in your hospital software."
+     },
+     {
+      "key": "rdy",
+      "name": "Ward or ICU confirms the bed is ready",
+      "what": "The ward or ICU says the bed is clean and ready to take the patient."
+     },
+     {
+      "key": "in",
+      "name": "Patient in the bed",
+      "what": "The patient is physically in the bed. The clock stops here."
+     }
+    ],
+    "caption": "The gap between the first step and the last is your admission time."
+   }
+  ]
+ }
+}

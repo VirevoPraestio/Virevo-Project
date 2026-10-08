@@ -1,0 +1,246 @@
+{
+ "turn": {
+  "id": "dp-au-08",
+  "type": "deeper",
+  "tool": "Discharge Process",
+  "tab": "Automations",
+  "register": "advisory",
+  "user_message": "What about the bed after the patient leaves?",
+  "was": "au-07 (relay)",
+  "context": "Automations place, turn 7 (the hand-over to the bed, each side checking the other).",
+  "transcript": {
+   "label": "Automations · the bed after leaving"
+  }
+ },
+ "chat": {
+  "text": [
+   "The discharge does not end at the door. Today the bed stays empty 75 minutes before the next patient can use it."
+  ],
+  "bullets": [
+   "Housekeeping hears late, so cleaning starts late.",
+   "The bed desk learns a bed is free only when someone calls.",
+   "Nobody checks the other side’s times. So a late discharge can be written down as an early one."
+  ],
+  "invite": "Next, we can look at how the day changes on the wards.",
+  "note": "A discharge ends when the next patient is in the bed.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The patient leaves",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The housekeeping alert",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The bed shown as ready",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The next patient in",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Who at the bed desk would see this?",
+   "Where do the automations stand now?",
+   "This is getting too technical"
+  ],
+  "pointer": "Switch between today and both sides linked. Pick a step to open it."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Automations · after the door",
+    "title": "The bed is the last step",
+    "deck": "From the patient leaving to the next patient in the bed, on both sides.",
+    "plate": {
+     "tag": "Automations",
+     "name": "The bed hand-over",
+     "stage": "Idea"
+    }
+   },
+   {
+    "type": "relay",
+    "with_label": "Both sides linked",
+    "lane_dis": "The discharge side",
+    "lane_bed": "The bed side",
+    "hint": "Pick a step of the hand-over. Switch to see it with both sides linked.",
+    "gap": {
+     "label": "Time the bed stands empty",
+     "today": "75 minutes, yours",
+     "with": "Under 30 minutes, a goal"
+    },
+    "legs": [
+     {
+      "side": "dis",
+      "who": "The ward",
+      "name": "Patient leaves the ward",
+      "today": "About 3:15 PM",
+      "with": "Recorded as it happens",
+      "point": 1
+     },
+     {
+      "side": "dis",
+      "who": "Tojo",
+      "name": "Housekeeping hears",
+      "today": "When someone calls",
+      "with": "At once, with the bed",
+      "checked": true,
+      "point": 2
+     },
+     {
+      "side": "bed",
+      "who": "Housekeeping",
+      "name": "Bed cleaned and made",
+      "today": "Starts late",
+      "with": "Starts within minutes"
+     },
+     {
+      "side": "bed",
+      "who": "The bed desk",
+      "name": "Bed shown as ready",
+      "today": "About 4:30 PM",
+      "with": "The minute it is clean",
+      "checked": true,
+      "point": 3
+     },
+     {
+      "side": "bed",
+      "who": "The bed desk",
+      "name": "Next patient in the bed",
+      "today": "Not recorded today",
+      "with": "Recorded and checked",
+      "checked": true,
+      "point": 4
+     }
+    ],
+    "condition": "Past 30 minutes, the hand-over is slow, or a time is not what really happened. This check needs the bed desk’s own times.",
+    "sheets": [
+     {
+      "key": "l1",
+      "when": "The discharge side",
+      "title": "Patient leaves the ward",
+      "text": "The ward marks the leaving time on the phone. Tojo passes it on at once.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "About 3:15 PM"
+       },
+       {
+        "label": "Linked",
+        "value": "Recorded as it happens",
+        "state": "start"
+       }
+      ],
+      "entry": "Who records the leaving time today?"
+     },
+     {
+      "key": "l2",
+      "when": "The discharge side",
+      "title": "Housekeeping hears",
+      "text": "Housekeeping gets an alert with the bed number and the time.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "When someone calls"
+       },
+       {
+        "label": "Linked",
+        "value": "At once, with the bed",
+        "state": "start"
+       }
+      ],
+      "entry": "How does housekeeping hear today?"
+     },
+     {
+      "key": "l3",
+      "when": "The bed side",
+      "title": "Bed cleaned and made",
+      "text": "Housekeeping marks the bed clean on their phone when it is done.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Starts late"
+       },
+       {
+        "label": "Linked",
+        "value": "Starts within minutes",
+        "state": "start"
+       }
+      ],
+      "entry": "How long does a clean take?"
+     },
+     {
+      "key": "l4",
+      "when": "The bed side",
+      "title": "Bed shown as ready",
+      "text": "The bed desk sees the bed turn ready, without a phone call.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "About 4:30 PM"
+       },
+       {
+        "label": "Linked",
+        "value": "The minute it is clean",
+        "state": "start"
+       }
+      ],
+      "entry": "How does the bed desk see a ready bed?"
+     },
+     {
+      "key": "l5",
+      "when": "The bed side",
+      "title": "Next patient in the bed",
+      "text": "The time the next patient arrives is recorded. Both sides check each other’s times.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Not recorded today"
+       },
+       {
+        "label": "Linked",
+        "value": "Recorded and checked",
+        "state": "start"
+       }
+      ],
+      "entry": "When does the next patient usually arrive?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Bed empty after leaving",
+    "value": "75 minutes",
+    "state": "outcome",
+    "sub": "Your own number. The goal is under 30 minutes, checked by both sides."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: how the day changes on the wards",
+    "say": "Show me the changes on the wards"
+   },
+   "add": {
+    "detail": "Tell me about your bed desk",
+    "say": "Our bed desk works like this: "
+   },
+   "jump": {
+    "tab": "Processes",
+    "detail": "How the day changes on the wards",
+    "say": "Take me to Processes"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

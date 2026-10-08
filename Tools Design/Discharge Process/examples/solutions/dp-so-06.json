@@ -1,0 +1,113 @@
+{
+ "turn": {
+  "id": "dp-so-06",
+  "type": "recommendation",
+  "tool": "Discharge Process",
+  "tab": "Solutions",
+  "register": "advisory",
+  "user_message": "Is it worth what it costs?",
+  "was": "so-05 (stake)",
+  "context": "Solutions place, turn 5 (playbook §7: cost against what is at stake, a threshold already met).",
+  "transcript": {
+   "label": "Solutions · cost against the wait"
+  }
+ },
+ "chat": {
+  "text": [
+   "Yes. Put one Discharge Manager in place now, and start the two-week trial.",
+   "At 40 to 45 discharges a day, this is not a maybe-someday. You are already there.",
+   "The team costs a small part of what the wait costs, even if the trial wins back very little."
+  ],
+  "note": "The team costs about a hundredth of what the wait does.",
+  "points": [
+   {
+    "n": 1,
+    "label": "What the wait costs",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "What the team costs",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Your discharges a day",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What would we do first?",
+   "Why the Manager before the trial?",
+   "Can we start with one person?"
+  ],
+  "pointer": "The two figures read against each other. Ask about either one."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Cost against what is at stake",
+    "title": "A small team against a large wait",
+    "deck": "What the wait costs a year, against what the team that owns it costs."
+   },
+   {
+    "type": "pair",
+    "label": "Read one against the other",
+    "between": "against",
+    "items": [
+     {
+      "label": "Yearly cost of the wait",
+      "value": "Up to ₹10.9 crore",
+      "state": "outcome",
+      "point": 1,
+      "sub": "Worked out from your real times: 5 hours 15 minutes a patient. The most it could be.",
+      "ask": {
+       "label": "Ask how it is worked out",
+       "say": "How did you work out the ₹10.9 crore?"
+      }
+     },
+     {
+      "label": "One manager, two helpers",
+      "value": "₹10 to 11.5 lakh",
+      "state": "start",
+      "point": 2,
+      "sub": "A year, at the top of the range. One Discharge Manager and two Discharge Executives.",
+      "ask": {
+       "label": "Ask about the team",
+       "say": "Why one manager and two helpers?"
+      }
+     }
+    ],
+    "caption": "If the trial wins back just one hour in a hundred of the wait, the team pays for itself."
+   },
+   {
+    "type": "effect",
+    "label": "Your discharges a day",
+    "value": "40 to 45",
+    "state": "target",
+    "sub": "Past the line of 40 where one person in charge is needed. Your own number, so this is not a maybe-someday."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: what we would do first",
+    "say": "What would we do first?"
+   },
+   "add": {
+    "detail": "Tell me about your budget",
+    "say": "About the budget for this: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "What runs by itself, night and day",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

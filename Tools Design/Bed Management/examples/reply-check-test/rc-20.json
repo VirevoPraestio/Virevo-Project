@@ -1,0 +1,231 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "advisory",
+  "id": "rc-20",
+  "type": "overview",
+  "user_message": "Okay. So what do we actually do about it?",
+  "note_for_review": "The 20th counted turn. Rating first; the user says Fine, so the app shows the reset line. Recheck: the user wants the fix; the last turns ran long. Rework: shorter, the five parts named, nothing else to read."
+ },
+ "chat": {
+  "text": [
+   "Here is what I’d build. Five parts, and the full design, because your admissions run ahead of the beds that free up overnight.",
+   "Pick the part you care about most, and I’ll take you through just that one."
+  ],
+  "note": "Five parts, one aim: the bed earning again sooner.",
+  "question": {
+   "text": "Which part first?",
+   "options": [
+    "Automations I can build for you",
+    "Changes to current processes",
+    "The people key to success",
+    "Changes to teams and roles",
+    "The numbers and targets we set"
+   ]
+  },
+  "points": [
+   {
+    "n": 1,
+    "label": "Automations I can build for you",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Changes to current processes",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The people key to success",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Changes to teams and roles",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "The numbers and targets we set",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Start with the automations",
+   "Why not just add beds?",
+   "What will it not do?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "What I’d build for you",
+    "title": "Five parts, the full design",
+    "deck": "The full design, because your admissions run ahead of the beds that free up overnight."
+   },
+   {
+    "type": "corridor",
+    "label": "The five parts, none opened yet",
+    "hint": "Tap a door to look in. Pick one in the chat to go into it.",
+    "doors": [
+     {
+      "name": "Automations I can build for you",
+      "text": "The bed picture for tomorrow, worked out and shared, and call-in times for each bed.",
+      "point": 1
+     },
+     {
+      "name": "Changes to current processes",
+      "text": "The steps that change on the wards, at the desk and with housekeeping.",
+      "point": 2
+     },
+     {
+      "name": "The people key to success",
+      "text": "Who has to agree, and how we get each of them on board.",
+      "point": 3
+     },
+     {
+      "name": "Changes to teams and roles",
+      "text": "Who does what differently, and which teams need sizing for the busy hours.",
+      "point": 4
+     },
+     {
+      "name": "The numbers and targets we set",
+      "text": "What we measure each week, so we know it is working.",
+      "point": 5
+     }
+    ],
+    "sheets": [
+     {
+      "key": "auto",
+      "when": "Part 1 of 5",
+      "title": "Automations I can build for you",
+      "text": "The bed picture for tomorrow, worked out and shared, and call-in times for each bed.",
+      "lines": [
+       {
+        "label": "Answers",
+        "value": "Finding 3, no set way to match beds"
+       }
+      ]
+     },
+     {
+      "key": "proc",
+      "when": "Part 2 of 5",
+      "title": "Changes to current processes",
+      "text": "The steps that change on the wards, at the desk and with housekeeping.",
+      "lines": [
+       {
+        "label": "Answers",
+        "value": "Findings 1 and 2, the team and the wait"
+       }
+      ]
+     },
+     {
+      "key": "ppl",
+      "when": "Part 3 of 5",
+      "title": "The people key to success",
+      "text": "Who has to agree, and how we get each of them on board.",
+      "lines": [
+       {
+        "label": "Answers",
+        "value": "Everyone the rule touches"
+       }
+      ]
+     },
+     {
+      "key": "team",
+      "when": "Part 4 of 5",
+      "title": "Changes to teams and roles",
+      "text": "Who does what differently, and which teams need sizing for the busy hours.",
+      "lines": [
+       {
+        "label": "Answers",
+        "value": "Finding 5, no team ever sized"
+       }
+      ]
+     },
+     {
+      "key": "kpi",
+      "when": "Part 5 of 5",
+      "title": "The numbers and targets we set",
+      "text": "What we measure each week, so we know it is working.",
+      "lines": [
+       {
+        "label": "Answers",
+        "value": "All five, week by week"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Revenue at stake",
+    "value": "₹1.5 to 2 crore a year",
+    "state": "outcome",
+    "sub": "What all five parts are aimed at, from your own figures."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: start with the automations",
+    "say": "Start with the automations"
+   },
+   "add": {
+    "detail": "Tell me which part matters most",
+    "say": "The part that matters most to us is: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved by Avishek with the second Diagnosis set (one drawing per turn)."
+ },
+ "reply_check": {
+  "chat_id": "test-chat-1",
+  "turn_id": "rc-20",
+  "user_ref": "u-test",
+  "tool": "Bed Management",
+  "place": "diagnosis",
+  "counted_turn": 20,
+  "run": 1,
+  "action": "reset",
+  "last_reply": {
+   "class": "rating_fine",
+   "quote": "Fine",
+   "cause": "too_long",
+   "priority": "medium"
+  },
+  "say": "reset",
+  "ask": {
+   "kind": "question",
+   "text": "Which part first?"
+  },
+  "sources": {
+   "rules": [
+    "09 §4.3",
+    "09 §6",
+    "06 §10.1"
+   ],
+   "playbook_step": "bed-management-conversation-playbook.md §3: five-part solution overview",
+   "references": [
+    "bed-management.md §7.4"
+   ]
+  },
+  "recheck": {
+   "user_wants": "To move from what is wrong to what to do about it.",
+   "playbook": "The diagnosis is done; playbook §3 says the next turn is the five-part overview, one part per turn after.",
+   "reference": "bed-management.md §7.4: the full design applies; nothing to correct.",
+   "rules": "The last three turns ran over 150 words each, with three blocks under the heading. 06 §5.1 says most turns stay under about 150.",
+   "cause": "too_long",
+   "fix_in_chat": "Two short paragraphs, the five parts and what they are worth, then let the user pick."
+  }
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "note": "The turns of Processes, in conversation order. Only these are built.",
+ "turns": [
+  {
+   "file": "pr-00-landing-arrival.json",
+   "note": "The landing page on a first visit, from the door in Automations. Approved template A, the ward board, drawn from data."
+  },
+  {
+   "file": "pr-01-two-weeks.json",
+   "note": "Playbook §7: the trial first. New block: trial (the strip of day magnets). Pick a day or play the two weeks."
+  },
+  {
+   "file": "pr-02-who-agrees.json",
+   "note": "Playbook §4, key people: only the roles this talk touched, tied to what the hospital said. New block: people (name badges). Filter, pick, ask."
+  },
+  {
+   "file": "pr-03-ward-changes.json",
+   "note": "Playbook §4, process changes: each step today and with the changes, the biggest hold-up flagged. New block: swap (magnets moved across)."
+  },
+  {
+   "file": "pr-04-who-to-hire.json",
+   "note": "Playbook §4, team and roles: two separate choices, sized by the busy-hours check. New block: seats (chairs, lamps, the day strip). Slide it."
+  },
+  {
+   "file": "pr-05-bed-desk.json",
+   "note": "From Automations au-07. Bed Management: the peer roles and the hand-overs between the desks. The seats block with its head and links."
+  },
+  {
+   "file": "pr-06-measures.json",
+   "note": "Playbook §4, measures: nine of the sixteen, real numbers plain, new ones blank. New block: readouts (instrument windows)."
+  },
+  {
+   "file": "pr-07-after-the-trial.json",
+   "note": "The loop: plan, try, measure, adjust, spread, with a yes or not-yet gate. New block: loop."
+  },
+  {
+   "file": "pr-08-landing-next-day.json",
+   "note": "The landing page the next morning, brought up to date overnight."
+  }
+ ]
+}

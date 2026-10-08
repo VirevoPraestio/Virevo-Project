@@ -1,0 +1,250 @@
+{
+ "turn": {
+  "id": "dp-so-02",
+  "type": "overview",
+  "tool": "Discharge Process",
+  "tab": "Solutions",
+  "register": "advisory",
+  "user_message": "Show me the five parts",
+  "was": "so-01 (puzzle)",
+  "context": "Solutions place, turn 1 (playbook §3: the five parts, and how they lean on each other).",
+  "transcript": {
+   "label": "Solutions · the five parts"
+  }
+ },
+ "chat": {
+  "text": [
+   "Here is the answer. It has five parts, and they only work together.",
+   "None of them needs a new hospital system on day one."
+  ],
+  "invite": "Choose a part to start with. You can take them in any order.",
+  "note": "Five parts, one picture. Take one away and there is a hole.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Automations",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Changes on the wards",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "People who must agree",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Team and roles",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Measures we watch",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Start with the automations",
+   "Which part saves the most time?",
+   "Do we need to hire anyone?"
+  ],
+  "pointer": "Pick a piece. It lifts, and the pieces it leans on are outlined."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "The answer · all five parts",
+    "title": "Five parts, one picture",
+    "deck": "Each part answers a cause Diagnosis found. Each one also leans on the others."
+   },
+   {
+    "type": "jigsaw",
+    "pieces": [
+     {
+      "when": "Through the night",
+      "title": "Automations",
+      "line": "Papers and the bill start on the evening round, by themselves.",
+      "relies_on": [
+       2,
+       3
+      ],
+      "point": 1
+     },
+     {
+      "when": "The evening before",
+      "title": "Changes on the wards",
+      "line": "The going-home work moves to the night before the patient leaves.",
+      "relies_on": [
+       3,
+       4
+      ],
+      "point": 2
+     },
+     {
+      "when": "Before day 1",
+      "title": "People who must agree",
+      "line": "Who has to say yes, and what each group gives up.",
+      "relies_on": [],
+      "point": 3
+     },
+     {
+      "when": "Every day",
+      "title": "Team and roles",
+      "line": "One person owns every discharge, with helpers for the two busy times.",
+      "relies_on": [
+       3
+      ],
+      "point": 4
+     },
+     {
+      "when": "Week by week",
+      "title": "Measures we watch",
+      "line": "The numbers that tell us, week by week, if it is working.",
+      "relies_on": [
+       1,
+       2
+      ],
+      "point": 5
+     }
+    ],
+    "condition": "Take any piece away and the evening goes unused again.",
+    "sheets": [
+     {
+      "key": "j1",
+      "when": "Part 1 of 5",
+      "title": "Automations",
+      "text": "The summary is drafted from notes already in your files. The bill stays up to date through the stay.",
+      "lines": [
+       {
+        "label": "It answers",
+        "value": "Hours nobody uses overnight"
+       },
+       {
+        "label": "Needs first",
+        "value": "Your IT team lets Tojo read your records",
+        "state": "target"
+       }
+      ],
+      "entry": "What would your IT team say to read-only access?",
+      "ask": {
+       "label": "Open this part",
+       "say": "Tell me about the automations"
+      }
+     },
+     {
+      "key": "j2",
+      "when": "Part 2 of 5",
+      "title": "Changes on the wards",
+      "text": "Nurses start the checklist after the evening round. Families hear that same evening.",
+      "lines": [
+       {
+        "label": "It answers",
+        "value": "Hours nobody uses overnight"
+       },
+       {
+        "label": "Needs first",
+        "value": "A two-week trial on one ward",
+        "state": "target"
+       }
+      ],
+      "entry": "Which ward would try it first?",
+      "ask": {
+       "label": "Open this part",
+       "say": "Tell me about the changes on the wards"
+      }
+     },
+     {
+      "key": "j3",
+      "when": "Part 3 of 5",
+      "title": "People who must agree",
+      "text": "Typists check drafts instead of typing them. Doctors sign an early summary, as they do for cash patients.",
+      "lines": [
+       {
+        "label": "It answers",
+        "value": "Nobody in charge of the whole discharge"
+       },
+       {
+        "label": "Needs first",
+        "value": "A yes from your Head of Operations",
+        "state": "target"
+       }
+      ],
+      "entry": "Who has to say yes first?",
+      "ask": {
+       "label": "Open this part",
+       "say": "Tell me about the people who must agree"
+      }
+     },
+     {
+      "key": "j4",
+      "when": "Part 4 of 5",
+      "title": "Team and roles",
+      "text": "A Discharge Manager owns each discharge from start to end. One helper for each busy time.",
+      "lines": [
+       {
+        "label": "It answers",
+        "value": "Nobody in charge of the whole discharge"
+       },
+       {
+        "label": "Needs first",
+        "value": "The trial shows your two busy times",
+        "state": "target"
+       }
+      ],
+      "entry": "Who could own discharge here?",
+      "ask": {
+       "label": "Open this part",
+       "say": "Tell me about the team and roles"
+      }
+     },
+     {
+      "key": "j5",
+      "when": "Part 5 of 5",
+      "title": "Measures we watch",
+      "text": "Hours from ready to home. Patients home before noon. Minutes a bed stays empty.",
+      "lines": [
+       {
+        "label": "It answers",
+        "value": "Both causes"
+       },
+       {
+        "label": "Needs first",
+        "value": "Real times from one normal week",
+        "state": "target"
+       }
+      ],
+      "entry": "Which number would you trust most?",
+      "ask": {
+       "label": "Open this part",
+       "say": "Tell me about the measures we watch"
+      }
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: start with the automations",
+    "say": "Start with the automations"
+   },
+   "add": {
+    "detail": "Tell me which part to start with",
+    "say": "I would like to start with: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "What runs by itself, night and day",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

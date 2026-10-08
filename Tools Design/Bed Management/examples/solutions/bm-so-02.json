@@ -1,0 +1,279 @@
+{
+ "turn": {
+  "id": "bm-so-02",
+  "tab": "Solutions",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "so how would all of these be achieved? there seems to be multiple things to be done.",
+  "context": "How the automation part is achieved, at the level of the answer: what the hospital provides, the one build, what comes out, the one prerequisite and the one blocker.",
+  "transcript": {
+   "label": "Transcript turn 19 · “How would all of these be achieved?”"
+  }
+ },
+ "chat": {
+  "text": [
+   "The chain showed the order. It did not show how little of it is separate work."
+  ],
+  "bullets": [
+   "Six steps, but not six projects. Almost all of it comes out of one engine reading data you already hold.",
+   "The mapping, the alerts, the freeze and the call-in times are outputs of that one engine. They are not builds of their own.",
+   "What you provide is short. Read access to systems you already run, two small changes in habit, and one report in billing."
+  ],
+  "pointer": "The drawing splits it into what you provide, what we build and what comes out. Pick anything you provide to see what it feeds.",
+  "invite": "Tell me which of these you want to go into, or pick another of the five parts.",
+  "note": "Six steps, one engine, one connection to your systems.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Read access",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The two habits",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The billing report",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Discharge comes first",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "The IT connection",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Will you be doing all of this for me?",
+   "What if we don’t have such systems?",
+   "Why must discharge come first?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 1 · Automations",
+    "title": "Six steps, one engine",
+    "plate": {
+     "part": 1,
+     "of": 5,
+     "name": "Automations",
+     "stage": "Shaped"
+    },
+    "deck": "What you provide, what we build and what comes out. Most of it is one build, reading data you already hold."
+   },
+   {
+    "type": "hub",
+    "in_label": "What you provide",
+    "out_label": "What comes out",
+    "inputs": [
+     {
+      "kind": "Read access",
+      "title": "Admissions and discharges",
+      "line": "Who came in, who left, and when",
+      "feeds": [
+       2,
+       5,
+       6
+      ],
+      "point": 1
+     },
+     {
+      "kind": "Read access",
+      "title": "OPD and inpatient records",
+      "line": "The advice to admit, the procedure, the stay so far",
+      "feeds": [
+       1,
+       2
+      ],
+      "point": 1
+     },
+     {
+      "kind": "A small habit",
+      "title": "Doctors check a date on the round",
+      "line": "Confirm or correct the predicted date",
+      "feeds": [
+       4,
+       5
+      ],
+      "point": 2
+     },
+     {
+      "kind": "A small habit",
+      "title": "One fixed round at 5 PM",
+      "line": "Medical Supervisory confirm tomorrow’s discharges",
+      "feeds": [
+       4,
+       5
+      ],
+      "point": 2
+     },
+     {
+      "kind": "One report",
+      "title": "Bill close and bill open, against the bed",
+      "line": "Turns dead bed time into a number you can track",
+      "feeds": [],
+      "point": 3
+     }
+    ],
+    "engine": {
+     "label": "What we build",
+     "title": "One mapping engine",
+     "line": "Reads what you already hold. Gives every step its answer."
+    },
+    "outputs": [
+     "Admission advice recorded",
+     "First mapping of tomorrow",
+     "Teams told",
+     "Evening round confirms",
+     "Tomorrow’s plan frozen",
+     "Call-in times sent"
+    ],
+    "sheets": [
+     {
+      "key": "adm",
+      "when": "Read access",
+      "title": "Admissions and discharges",
+      "text": "The engine reads who came in, who left and when. It writes nothing back. It needs no new work from the desk.",
+      "lines": [
+       {
+        "label": "Who gives it",
+        "value": "Your IT team, once"
+       },
+       {
+        "label": "Feeds",
+        "value": "The mapping, the freeze and the call-in times"
+       }
+      ],
+      "entry": "Which system holds admissions at your hospital today?",
+      "entry_hint": "For example, the hospital system or a register"
+     },
+     {
+      "key": "rec",
+      "when": "Read access",
+      "title": "OPD and inpatient records",
+      "text": "The advice to admit, the procedure and the stay so far. This is what lets the engine see which beds are likely to free up.",
+      "lines": [
+       {
+        "label": "Who gives it",
+        "value": "Your IT team, once"
+       },
+       {
+        "label": "Feeds",
+        "value": "The advice recorded and the 2 PM mapping"
+       }
+      ],
+      "entry": "Are your OPD notes on a system or on paper?"
+     },
+     {
+      "key": "date",
+      "when": "A small habit",
+      "title": "Doctors check a date on the round",
+      "text": "The system puts a predicted discharge date in front of the doctor. The doctor confirms it or corrects it. Nobody is asked to produce a date.",
+      "lines": [
+       {
+        "label": "Who",
+        "value": "The treating doctor, on the round they already do"
+       },
+       {
+        "label": "Feeds",
+        "value": "The 5 PM round and the freeze"
+       }
+      ],
+      "entry": "How do your doctors pass on discharge plans today?"
+     },
+     {
+      "key": "five",
+      "when": "A small habit",
+      "title": "One fixed round at 5 PM",
+      "text": "Medical Supervisory look only at beds expected to free up tomorrow. They confirm or correct them by 5 PM, so the plan can freeze at 6 PM.",
+      "lines": [
+       {
+        "label": "Who",
+        "value": "Medical Supervisory"
+       },
+       {
+        "label": "Feeds",
+        "value": "The 5 PM round and the freeze"
+       }
+      ],
+      "entry": "Who does an evening round at your hospital today?"
+     },
+     {
+      "key": "bill",
+      "when": "One report",
+      "title": "Bill close and open, against the bed",
+      "text": "Both times already sit in your billing system. Nobody has put them side by side against the same bed. That is one report, not new data.",
+      "lines": [
+       {
+        "label": "Who",
+        "value": "Billing, with IT"
+       },
+       {
+        "label": "Gives",
+        "value": "Dead bed time, every week, bed by bed",
+        "state": "start"
+       }
+      ],
+      "entry": "Which billing system do you run?"
+     }
+    ]
+   },
+   {
+    "type": "pair",
+    "items": [
+     {
+      "label": "What must come first",
+      "value": "Discharge, automated",
+      "state": "target",
+      "point": 4,
+      "sub": "The bed plan runs on discharge times. So Bed Management cannot be bought on its own.",
+      "ask": {
+       "label": "Ask about this",
+       "say": "Why must discharge be automated first?"
+      }
+     },
+     {
+      "label": "One blocker",
+      "value": "The IT connection",
+      "state": "outcome",
+      "point": 5,
+      "sub": "Without read access to your systems, nothing runs. Everything after that is ours to build.",
+      "ask": {
+       "label": "Ask about this",
+       "say": "What exactly would our IT team have to do?"
+      }
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: what we bring, and what must be there",
+    "say": "So, will you be doing all of this for me?"
+   },
+   "add": {
+    "detail": "Add something about your hospital",
+    "say": "Here is something to add about our hospital: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "How the automations are built and run",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved 1 Oct with the Bed Management Solutions turns."
+ }
+}

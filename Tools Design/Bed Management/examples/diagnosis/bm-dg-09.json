@@ -1,0 +1,165 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "bm-dg-09",
+  "type": "sizing",
+  "user_message": "ARPOB ₹8,000/day. ALOS 6.5 days. Average daily revenue ₹28 lakhs. Bed occupancy 89%, ICU 94%. OT utilisation 75%, daily OT revenue ₹5 lakhs.",
+  "transcript": {
+   "label": "Transcript turn 15 · dead bed time turned into money",
+   "said": "That’s everything I needed. The graphic below turns your dead bed time into a revenue number, step by step, so you can check every line of the arithmetic rather than take it from me. Two things I’ve deliberately left out of it: an ALOS gain on top, because that would be the same bed-days counted twice; and OT, which needs more from you before it can be sized honestly. Last question before we move on: has anyone worked out what your admissions desk can actually handle per hour at peak — counting internal bed transfers alongside admissions — or is that team sized by habit?"
+  },
+  "user_words": [
+   "ARPOB",
+   "ALOS",
+   "OT"
+  ]
+ },
+ "chat": {
+  "text": [
+   "That’s everything I needed.",
+   "The working turns your dead bed time into a revenue number, one line at a time. You can check every line rather than take it from me.",
+   "Two things I’ve left out on purpose. A shorter stay on top, because that would count the same days twice. And the operating theatre, which needs more from you first."
+  ],
+  "invite": "Last one before we move on. Has anyone worked out what your admissions desk can handle an hour at peak, bed transfers included?",
+  "note": "₹1.5 to 2 crore a year, from your own figures.",
+  "question": {
+   "text": "Pick the closest",
+   "options": [
+    "Yes, we have worked it out",
+    "No, sized by habit and taken to be enough",
+    "Not sure. I would need to check"
+   ]
+  },
+  "points": [
+   {
+    "n": 1,
+    "label": "Hours won back each time",
+    "canvas": false
+   },
+   {
+    "n": 2,
+    "label": "Revenue at stake a year",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "No, sized by habit",
+   "How sure is the ₹1.5 crore?",
+   "Why leave the operating theatre out?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Dead bed time, turned into money",
+    "title": "From one bed to a year",
+    "deck": "Every figure is yours. Move the hours won back between 3 and 4 to see the range."
+   },
+   {
+    "type": "bed-count",
+    "occupied": 267,
+    "occupied_label": "beds occupied, 300 at 89%",
+    "stay": 6.5,
+    "per_day_label": "beds change patient every day",
+    "rate": 8000,
+    "beds_caption": "Each bed sits 4 to 5 hours with no bill when it changes patient. The red line is that time.",
+    "hours": {
+     "label": "Hours won back each time",
+     "min": 3,
+     "max": 4,
+     "step": 0.5,
+     "value": 3.5
+    },
+    "hint": "Move the slider. Tap a figure to see the working.",
+    "readouts": [
+     {
+      "label": "Bed hours won back a year",
+      "calc": "hy",
+      "note": "41 beds, the hours, 365 days"
+     },
+     {
+      "label": "Full days of bed time",
+      "calc": "d",
+      "note": "those hours, divided by 24"
+     },
+     {
+      "label": "Revenue at stake a year",
+      "calc": "v",
+      "note": "at ₹8,000 a bed day",
+      "state": "outcome",
+      "point": 2
+     }
+    ],
+    "caption": "It holds only if freed hours are filled, and at 89% full they can. It uses the bed charge alone, so it understates.",
+    "sheets": [
+     {
+      "key": "hy",
+      "when": "The working · 1",
+      "title": "Bed hours won back",
+      "text": "267 beds ÷ 6.5 days is about 41 changes a day. Each one wins back 3 to 4 hours, over 365 days.",
+      "lines": [
+       {
+        "label": "From",
+        "value": "Your beds, stay and dead bed time"
+       }
+      ]
+     },
+     {
+      "key": "d",
+      "when": "The working · 2",
+      "title": "Full days of bed time",
+      "text": "The hours won back, divided by 24. About 1,900 to 2,500 bed days a year.",
+      "lines": [
+       {
+        "label": "From",
+        "value": "The line before"
+       }
+      ]
+     },
+     {
+      "key": "v",
+      "when": "The working · 3",
+      "title": "Revenue at stake",
+      "text": "Those bed days at ₹8,000 each. Your ₹28 lakh a day suggests the ₹8,000 is the bed charge alone, so this is on the low side.",
+      "lines": [
+       {
+        "label": "Range",
+        "value": "₹1.5 to 2 crore a year",
+        "state": "outcome"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "A shorter average stay",
+    "value": "Counted once, inside this",
+    "sub": "A shorter stay frees the same days of bed time. Adding it on top would count them twice."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: how the team is sized",
+    "say": "No, sized by habit"
+   },
+   "add": {
+    "detail": "Tell me about your team size",
+    "say": "Our admissions team is sized like this: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved by Avishek with the second Diagnosis set (one drawing per turn)."
+ }
+}

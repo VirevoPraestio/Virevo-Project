@@ -1,0 +1,295 @@
+{
+ "turn": {
+  "id": "bm-pr-07",
+  "tab": "Processes",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "Who needs to agree to this?",
+  "context": "Prompt 2 of bm-au-07, again in bm-pr-02, 03, 05 and 06. bed-management.md §7.4.3 (the teams, the Head of Operations approves the flows, resistance concentrates with doctors). Transcript 27 (Key people, rebuilt for both sides).",
+  "transcript": {
+   "label": "After transcript turn 31 · Processes, turn 7 (the record stops at 31)"
+  }
+ },
+ "chat": {
+  "text": [
+   "Nine groups touch this. Nobody gets a new job. Each confirms something the plan has already worked out."
+  ],
+  "bullets": [
+   "The pushback sits with the doctors. Not the speaking, but naming a date a day early.",
+   "The Head of Operations signs off the new order. Without that, it will not survive the first busy day.",
+   "Four groups are in the trial on one ward. The rest join when it spreads."
+  ],
+  "invite": "Next, we can look at whether you need to hire anyone.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Head of Operations",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Doctors",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Medical Supervisory",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Admissions desk",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "IT team",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Do we need to hire anyone?",
+   "What if the doctors still refuse?",
+   "How would we know it is working?"
+  ],
+  "pointer": "Pick a name badge to see what changes for that person."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · who says yes",
+    "title": "Nine groups, one signature",
+    "deck": "Everyone this touches, grouped by where they work. Filter to see who is in the trial.",
+    "plate": {
+     "column": "People",
+     "name": "Who says yes"
+    }
+   },
+   {
+    "type": "badges",
+    "people": [
+     {
+      "name": "Head of Operations",
+      "group": "Signs off",
+      "status": "to_ask",
+      "trial": false,
+      "point": 1
+     },
+     {
+      "name": "Doctors",
+      "group": "On the wards",
+      "status": "worried",
+      "trial": true,
+      "point": 2
+     },
+     {
+      "name": "Medical Supervisory team",
+      "group": "On the wards",
+      "status": "to_ask",
+      "trial": true,
+      "point": 3
+     },
+     {
+      "name": "ICU doctors",
+      "group": "On the wards",
+      "status": "to_ask",
+      "trial": false
+     },
+     {
+      "name": "Admissions desk",
+      "group": "At the desks",
+      "status": "to_ask",
+      "trial": true,
+      "point": 4
+     },
+     {
+      "name": "Discharge team",
+      "group": "At the desks",
+      "status": "to_ask",
+      "trial": true
+     },
+     {
+      "name": "Billing",
+      "group": "At the desks",
+      "status": "to_ask",
+      "trial": false
+     },
+     {
+      "name": "OPD doctors",
+      "group": "Behind the scenes",
+      "status": "to_ask",
+      "trial": false
+     },
+     {
+      "name": "IT team",
+      "group": "Behind the scenes",
+      "status": "to_ask",
+      "trial": false,
+      "point": 5
+     }
+    ],
+    "rule": "Nobody gets a new job. What changes is when they confirm something. The Head of Operations signs off the new order.",
+    "sheets": [
+     {
+      "key": "b1",
+      "when": "Signs off",
+      "title": "Head of Operations",
+      "text": "Approves the new order of the day. Without that sign-off, the old order comes back on the first busy day.",
+      "lines": [
+       {
+        "label": "Asked",
+        "value": "Approve the new order"
+       },
+       {
+        "label": "Daily work",
+        "value": "None",
+        "state": "start"
+       }
+      ],
+      "entry": "Who is your Head of Operations?"
+     },
+     {
+      "key": "b2",
+      "when": "On the wards",
+      "title": "Doctors",
+      "text": "The pushback sits here. Naming a date a day early is a clinical call. A date to check is easier than one to make.",
+      "lines": [
+       {
+        "label": "Asked",
+        "value": "Check a date on the round"
+       },
+       {
+        "label": "Worry",
+        "value": "Being held to a date",
+        "state": "target"
+       }
+      ],
+      "entry": "Which doctors would agree first?"
+     },
+     {
+      "key": "b3",
+      "when": "On the wards",
+      "title": "Medical Supervisory team",
+      "text": "One round at 5 PM of the beds likely to free tomorrow. That is the new part of their day.",
+      "lines": [
+       {
+        "label": "Asked",
+        "value": "The 5 PM round"
+       }
+      ],
+      "entry": "Who leads Medical Supervisory today?"
+     },
+     {
+      "key": "b4",
+      "when": "On the wards",
+      "title": "ICU doctors",
+      "text": "Name the ICU patients likely to move to a ward, by 1 PM.",
+      "lines": [
+       {
+        "label": "Asked",
+        "value": "A name by 1 PM"
+       }
+      ],
+      "entry": "Who runs your ICU?"
+     },
+     {
+      "key": "b5",
+      "when": "At the desks",
+      "title": "Admissions desk",
+      "text": "Calls each patient in for a time. Confirms dates back into the plan.",
+      "lines": [
+       {
+        "label": "Asked",
+        "value": "Call in by the plan"
+       }
+      ],
+      "entry": "How many people work the desk?"
+     },
+     {
+      "key": "b6",
+      "when": "At the desks",
+      "title": "Discharge team",
+      "text": "Gets a time to have each bed ready, instead of a surprise.",
+      "lines": [
+       {
+        "label": "Gets",
+        "value": "A release time per bed",
+        "state": "start"
+       }
+      ],
+      "entry": "Who runs discharges on the wards?"
+     },
+     {
+      "key": "b7",
+      "when": "At the desks",
+      "title": "Billing",
+      "text": "Runs one new report: last bill and first bill against the same bed.",
+      "lines": [
+       {
+        "label": "Asked",
+        "value": "One report"
+       }
+      ],
+      "entry": "Who runs billing reports?"
+     },
+     {
+      "key": "b8",
+      "when": "Behind the scenes",
+      "title": "OPD doctors",
+      "text": "Write the date, the procedure and the likely stay on the slip.",
+      "lines": [
+       {
+        "label": "Asked",
+        "value": "Three lines on a slip"
+       }
+      ],
+      "entry": "Which OPD books most admissions?"
+     },
+     {
+      "key": "b9",
+      "when": "Behind the scenes",
+      "title": "IT team",
+      "text": "Gives read access, about two weeks of work. Then nothing daily.",
+      "lines": [
+       {
+        "label": "Asked",
+        "value": "Read access, once"
+       }
+      ],
+      "entry": "Who looks after your systems?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Where the pushback sits",
+    "value": "A date named a day early",
+    "sub": "Not the speaking on the round. Show a date to check and it holds. Ask for one and it will not.",
+    "state": "target",
+    "look": "plate"
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: do we need to hire anyone",
+    "say": "Do we need to hire anyone?"
+   },
+   "add": {
+    "detail": "Tell me who would push back",
+    "say": "The people who would push back here are: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the Bed Management Processes turns."
+ }
+}

@@ -1,0 +1,116 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "bm-dg-05",
+  "type": "data-back",
+  "user_message": "Arrival around 1 PM. Documentation by 2 PM, worst 3–4 PM. Bed allocated by 3 PM, sometimes 4, worst 4–5 PM. Ward or ICU confirms ready by 4 PM, worst 5–6 PM. In the bed by 4:30 PM, worst 6:30 PM. This is the ideal situation, sometimes this can stretch to 7–8 PM. Generally we allocate only after we get confirmation that bed is ready or about to get readied.",
+  "transcript": {
+   "label": "Transcript turn 11 · the filled chain, and the gap named",
+   "said": "Your own times are worth more than anything else we’ve covered — and they point somewhere slightly different from what you told me a moment ago. You said admissions and discharges run together through the day. The times you have just given put the patient arriving in the early afternoon and physically in the bed late afternoon to evening, which is an afternoon pattern rather than a spread one. I would take the numbers as the better guide — and two likely reasons for the gap: you allocate a bed only once it is confirmed ready, so there is nothing to call a patient in against until late in the day; and where one team carries both jobs, whichever job has a deadline in front of it takes the morning. Your times are in the chain below. Next: is there an actual mechanism that maps tomorrow’s planned admissions against the beds you expect to free up — or does the bed picture come together as the day goes?"
+  },
+  "redraw_of": "bm-dg-04"
+ },
+ "chat": {
+  "text": [
+   "Your own times are worth more than anything else we’ve covered. They point somewhere slightly different from what you told me.",
+   "You said admissions and discharges run together through the day. Your times put arrival in the early afternoon, and the bed late afternoon to evening. That is an afternoon pattern, not a spread one.",
+   "I’d take the numbers as the better guide. There are two likely reasons. You give a bed only once it is confirmed ready, so nobody can be called in until late. And where one team carries both jobs, the job with a deadline takes the morning."
+  ],
+  "pointer": "Your times are on the admission line.",
+  "note": "Your numbers tell a different story from the claim.",
+  "invite": "Next: is there a set way to match tomorrow’s planned admissions against the beds you expect to free up?",
+  "question": {
+   "text": "Pick the closest",
+   "options": [
+    "Yes, a set way, done every day",
+    "It happens, but informally",
+    "No, the picture comes together as the day goes"
+   ]
+  },
+  "prompts": [
+   "It happens, but informally",
+   "We do call some patients in early",
+   "Why would the morning go to discharges?"
+  ]
+ },
+ "canvas": {
+  "tone": "count",
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Admission time, from your own clock",
+    "title": "Five steps, your times",
+    "deck": "A typical day on top, the worst day beneath. The last step is where the patient finally lands."
+   },
+   {
+    "type": "admission-line",
+    "mode": "filled",
+    "stages": [
+     {
+      "key": "arr",
+      "name": "Patient arrives, or Emergency says admit",
+      "what": "The clock starts when the patient arrives, or when Emergency decides to admit.",
+      "typical": "1:00 PM"
+     },
+     {
+      "key": "doc",
+      "name": "Paperwork done",
+      "what": "Registration and admission papers are complete.",
+      "typical": "2:00 PM",
+      "worst": "3 to 4 PM"
+     },
+     {
+      "key": "bed",
+      "name": "Bed given in the system",
+      "what": "A bed is put against the patient’s name in your hospital software.",
+      "typical": "3:00 PM, sometimes 4",
+      "worst": "4 to 5 PM"
+     },
+     {
+      "key": "rdy",
+      "name": "Ward or ICU confirms the bed is ready",
+      "what": "The ward or ICU says the bed is clean and ready to take the patient.",
+      "typical": "4:00 PM",
+      "worst": "5 to 6 PM"
+     },
+     {
+      "key": "in",
+      "name": "Patient in the bed",
+      "what": "The patient is physically in the bed. The clock stops here.",
+      "typical": "4:30 PM",
+      "worst": "6:30 PM, up to 8 PM",
+      "outcome": true
+     }
+    ]
+   },
+   {
+    "type": "time-split",
+    "title": "Where the time goes on a good day",
+    "parts": [
+     {
+      "label": "Paperwork",
+      "hours": 1,
+      "kind": "work",
+      "detail": "From arrival at 1 PM to paperwork done by 2 PM."
+     },
+     {
+      "label": "Waiting on the next step",
+      "hours": 2.5,
+      "kind": "wait",
+      "detail": "Waiting for a bed to be given, then for the ward to confirm it, then for the move."
+     }
+    ],
+    "caption": "About an hour of this is paperwork. The rest is waiting on the next step."
+   },
+   {
+    "type": "effect",
+    "label": "Admission time from your own times",
+    "value": "About 3½ hours on a good day",
+    "outcome": true,
+    "sub": "5½ hours at worst, and up to 7 on the days it stretches to 8 PM."
+   }
+  ]
+ }
+}

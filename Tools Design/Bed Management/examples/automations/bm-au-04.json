@@ -1,0 +1,251 @@
+{
+ "turn": {
+  "id": "bm-au-04",
+  "tab": "Automations",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "How does it know which beds will free up?",
+  "context": "From bed-management.md §7.4.1 (a) and (b): beds likely to free from patients near the usual stay for their procedure, and §7.4.2 (the 24-hour and 1 PM signals, the 5 PM confirmation).",
+  "transcript": {
+   "label": "After transcript turn 31 · Automations, turn 4 (the record stops at 31)"
+  }
+ },
+ "chat": {
+  "text": [
+   "It reads the stay so far for each patient. Then it sets it against similar past patients."
+  ],
+  "bullets": [
+   "Patients near the usual stay for their procedure are flagged. Nobody has to say it out loud first.",
+   "Before the round, the doctor gets a short summary for each patient. It holds a predicted date.",
+   "The doctor confirms or corrects it by 5 PM. The engine only predicts. The doctor decides."
+  ],
+  "invite": "Tell me which procedures fill most of your beds. That sets how fine the prediction can be.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Near the usual stay",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Similar past patients",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The doctor’s summary",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What if some records are on paper?",
+   "What happens after the 6 PM freeze?",
+   "Which automation do we switch on first?"
+  ],
+  "pointer": "Pick a step. The loop lights where the engine is."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Automations · the prediction",
+    "plate": {
+     "tag": "Automations",
+     "name": "The prediction",
+     "stage": "Idea"
+    },
+    "title": "It predicts, the doctor decides",
+    "deck": "One patient through one day. Five steps, and the doctor has the last word."
+   },
+   {
+    "type": "agent",
+    "hint": "Pick a step. The loop lights where the engine is, and its sheet opens.",
+    "loop": [
+     {
+      "id": "n",
+      "name": "Notice"
+     },
+     {
+      "id": "g",
+      "name": "Gather"
+     },
+     {
+      "id": "c",
+      "name": "Check"
+     },
+     {
+      "id": "d",
+      "name": "Draft"
+     },
+     {
+      "id": "a",
+      "name": "Ask"
+     }
+    ],
+    "steps": [
+     {
+      "when": "Through the day",
+      "title": "Spots patients near their usual stay",
+      "stages": [
+       "n"
+      ],
+      "point": 1
+     },
+     {
+      "when": "Before rounds",
+      "title": "Gathers notes and the stay so far",
+      "stages": [
+       "g"
+      ]
+     },
+     {
+      "when": "Before rounds",
+      "title": "Checks against similar past patients",
+      "stages": [
+       "c"
+      ],
+      "point": 2
+     },
+     {
+      "when": "On the round",
+      "title": "Hands the doctor a summary to confirm",
+      "stages": [
+       "d",
+       "a"
+      ],
+      "point": 3
+     },
+     {
+      "when": "By 5 PM",
+      "title": "Takes the answer into tomorrow’s map",
+      "stages": [
+       "a",
+       "n"
+      ]
+     }
+    ],
+    "caption": "The engine predicts. The doctor decides. Every predicted date goes to a doctor to confirm or correct.",
+    "steps_label": "One patient, one day",
+    "never_label": "What it never does",
+    "never": [
+     "It never decides a discharge.",
+     "It never calls a patient in on a date nobody confirmed.",
+     "It never changes your records."
+    ],
+    "sheets": [
+     {
+      "key": "near",
+      "when": "Through the day",
+      "title": "Spots patients near their usual stay",
+      "text": "Each procedure has a usual stay in your own past records. Patients close to it are flagged, ward and ICU alike.",
+      "lines": [
+       {
+        "label": "Reads",
+        "value": "Inpatient notes, past stays"
+       },
+       {
+        "label": "Flags",
+        "value": "Ward and ICU patients"
+       }
+      ],
+      "entry": "Which procedures fill most of your beds?"
+     },
+     {
+      "key": "gather",
+      "when": "Before rounds",
+      "title": "Gathers notes and the stay so far",
+      "text": "The engine pulls together the notes, tests and days so far. The doctor does not have to look them up.",
+      "lines": [
+       {
+        "label": "Reads",
+        "value": "Inpatient notes, voice notes"
+       }
+      ],
+      "entry": "What does a doctor check before saying a patient can go?"
+     },
+     {
+      "key": "check",
+      "when": "Before rounds",
+      "title": "Checks against similar past patients",
+      "text": "The stay is set against past patients with the same procedure. The engine sets a likely date and how sure it is.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "Enough past cases per procedure"
+       },
+       {
+        "label": "Makes",
+        "value": "A likely date",
+        "state": "target"
+       }
+      ],
+      "entry": "How many years of past admissions are on your system?"
+     },
+     {
+      "key": "draft",
+      "when": "On the round",
+      "title": "Hands the doctor a summary to confirm",
+      "text": "Ward patients need a signal a day ahead. ICU patients need theirs by 1 PM. The summary makes that a quick yes or no.",
+      "lines": [
+       {
+        "label": "Ward",
+        "value": "24 hours ahead"
+       },
+       {
+        "label": "ICU",
+        "value": "By 1 PM"
+       }
+      ],
+      "entry": "Do your doctors give a likely discharge date today?",
+      "hand": {
+       "who": "the treating doctor",
+       "does": "Confirms or corrects the date, by voice or a tap."
+      }
+     },
+     {
+      "key": "take",
+      "when": "By 5 PM",
+      "title": "Takes the answer into tomorrow’s map",
+      "text": "Every answer goes into tomorrow’s bed map. A corrected date moves the bed, and the call-in time with it.",
+      "lines": [
+       {
+        "label": "Feeds",
+        "value": "The 6 PM freeze",
+        "state": "start"
+       }
+      ],
+      "entry": "Who should hear when a date is corrected?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Signal needed",
+    "value": "A day ahead",
+    "state": "target",
+    "sub": "Ward patients need a discharge signal 24 hours ahead. ICU patients need theirs by 1 PM."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: what if records are on paper",
+    "say": "What if some records are on paper?"
+   },
+   "add": {
+    "detail": "Tell me how rounds run now",
+    "say": "Our evening rounds run like this: "
+   },
+   "jump": {
+    "tab": "Processes",
+    "detail": "How the day changes on the wards",
+    "say": "Take me to Processes"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the Bed Management Automations turns."
+ }
+}

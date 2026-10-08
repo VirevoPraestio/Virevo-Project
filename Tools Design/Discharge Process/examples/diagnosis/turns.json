@@ -1,0 +1,18 @@
+{
+ "place": "Diagnosis",
+ "tool": "Discharge Process",
+ "turns": [
+  {
+   "file": "dp-dg-01.json",
+   "note": "Was turn-01. The eleven stops as rooms on one path: the agenda, walked one stop at a time."
+  },
+  {
+   "file": "dp-dg-02.json",
+   "note": "Was turn-02. The three figures as lines on a bill, typed in place, with what is already known."
+  },
+  {
+   "file": "dp-dg-03.json",
+   "note": "Was turn-03. The unused hours on one line, the two lines for an owner, and the cost."
+  }
+ ]
+}

@@ -1,0 +1,135 @@
+{
+ "turn": {
+  "id": "au-07",
+  "tab": "Automations",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "What about the bed after the patient leaves?",
+  "context": "Beyond the playbook: the discharge reference asks Bed Management to share real bed times, and each side to check the other's."
+ },
+ "chat": {
+  "text": [
+   "The discharge does not end at the door. Today the bed stays empty 75 minutes before the next patient can use it."
+  ],
+  "bullets": [
+   "Housekeeping hears late, so cleaning starts late.",
+   "The bed desk learns a bed is free only when someone calls.",
+   "Nobody checks the other side’s times. So a late discharge can be written down as an early one."
+  ],
+  "pointer": "Switch between Today and With both linked. Pick a step to see who acts and who checks.",
+  "invite": "Next, we can put the order of switching on in one place.",
+  "note": "A discharge ends when the next patient is in the bed.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The patient leaves",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The housekeeping alert",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The bed shown as ready",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The next patient in",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Who at the bed desk would see this?",
+   "Where do the automations stand now?",
+   "This is getting too technical"
+  ],
+  "moves": [
+   {
+    "prompt": "Who at the bed desk would see this?",
+    "tab": "Processes"
+   }
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Beyond the ward · the bed",
+    "title": "The hand-over to the next patient",
+    "deck": "Five steps from the patient leaving to the next one arriving. With both linked, each side checks the other’s times."
+   },
+   {
+    "type": "relay",
+    "with_label": "With both linked",
+    "default": 1,
+    "gap": {
+     "label": "Time the bed stands empty",
+     "today": 75,
+     "with": 27,
+     "scale": 90,
+     "line": 30,
+     "line_label": "30 minutes",
+     "today_text": "75 minutes",
+     "today_source": "yours",
+     "with_text": "Under 30 minutes",
+     "with_source": "target"
+    },
+    "legs": [
+     {
+      "side": "dis",
+      "who": "The ward",
+      "name": "Patient leaves the ward",
+      "today": "About 3:15 PM",
+      "with": "Recorded the moment it happens",
+      "how": "The ward marks the leaving time on the phone. Tojo passes it on at once.",
+      "checked_by": "The bed desk",
+      "point": 1
+     },
+     {
+      "side": "dis",
+      "who": "Tojo",
+      "name": "Housekeeping hears",
+      "today": "When someone calls",
+      "with": "At once, with the bed number",
+      "how": "Housekeeping gets an alert with the bed number and the time.",
+      "point": 2
+     },
+     {
+      "side": "bed",
+      "who": "Housekeeping",
+      "name": "Bed cleaned and made",
+      "today": "Starts late",
+      "with": "Starts within minutes",
+      "how": "Housekeeping marks the bed clean on their phone when it is done.",
+      "checked_by": "The ward"
+     },
+     {
+      "side": "bed",
+      "who": "The bed desk",
+      "name": "Bed shown as ready",
+      "today": "About 4:30 PM",
+      "with": "The minute it is clean",
+      "how": "The bed desk sees the bed turn ready, without a phone call.",
+      "checked_by": "The ward",
+      "point": 3
+     },
+     {
+      "side": "bed",
+      "who": "The bed desk",
+      "name": "Next patient in the bed",
+      "today": "Not recorded today",
+      "with": "Recorded and checked",
+      "how": "The time the next patient arrives is recorded. Both sides check each other’s times.",
+      "checked_by": "The ward",
+      "point": 4
+     }
+    ],
+    "condition": "Past 30 minutes, the hand-over is slow, or a time is not what really happened. This check needs the bed desk’s own times."
+   }
+  ]
+ }
+}

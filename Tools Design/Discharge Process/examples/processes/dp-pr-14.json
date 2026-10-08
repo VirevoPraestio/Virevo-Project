@@ -1,0 +1,188 @@
+{
+ "turn": {
+  "id": "dp-pr-14",
+  "type": "recommendation",
+  "tool": "Discharge Process",
+  "tab": "Processes",
+  "register": "advisory",
+  "user_message": "What happens after the two weeks?",
+  "was": "pr-07 (loop)",
+  "context": "Processes place, turn 7 (read the numbers and choose: spread, or adjust and try again).",
+  "transcript": {
+   "label": "Processes · after the trial"
+  }
+ },
+ "chat": {
+  "text": [
+   "After two weeks we read the numbers and choose. If hours from ready to home fell, we spread it. If not, we adjust and try again.",
+   "Each new ward starts from the plan step. The software link comes in once two wards run well."
+  ],
+  "note": "Spread only what worked.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Plan",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Try on one ward",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Measure",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Spread",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Let’s pick the trial ward",
+   "What does spreading cost?",
+   "Where do the automations stand now?"
+  ],
+  "pointer": "Step round the loop. At the check, the answer sends you on or back."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · after the trial",
+    "title": "Spread only what worked",
+    "deck": "One ward at a time, round the same loop. The check after measuring decides where you go next.",
+    "plate": {
+     "column": "The trial",
+     "name": "After two weeks"
+    }
+   },
+   {
+    "type": "loop",
+    "at": 0,
+    "sub": "One ward at a time",
+    "steps": [
+     {
+      "name": "Plan",
+      "who": "You and Tojo",
+      "point": 1
+     },
+     {
+      "name": "Try on one ward",
+      "who": "The trial ward",
+      "point": 2
+     },
+     {
+      "name": "Measure",
+      "who": "You, the ward and Tojo",
+      "point": 3
+     },
+     {
+      "name": "Adjust",
+      "who": "Discharge Manager"
+     },
+     {
+      "name": "Spread to more wards",
+      "who": "Discharge Manager and IT",
+      "point": 4
+     }
+    ],
+    "gate": {
+     "at": 2,
+     "question": "Did hours from ready to home fall?",
+     "yes": "Yes, it fell",
+     "no": "Not yet",
+     "yes_to": 4,
+     "no_to": 3,
+     "retry_to": 1
+    },
+    "sheets": [
+     {
+      "key": "s1",
+      "when": "Step 1 of 5",
+      "title": "Plan",
+      "text": "Pick the ward. Name who records the times. Your Head of Operations says yes to the new order.",
+      "lines": [
+       {
+        "label": "Who",
+        "value": "You and Tojo"
+       }
+      ],
+      "entry": "What would you need for this step?"
+     },
+     {
+      "key": "s2",
+      "when": "Step 2 of 5",
+      "title": "Try on one ward",
+      "text": "Run the fourteen days. Three quiet days, then the changes in two steps.",
+      "lines": [
+       {
+        "label": "Who",
+        "value": "The trial ward"
+       }
+      ]
+     },
+     {
+      "key": "s3",
+      "when": "Step 3 of 5",
+      "title": "Measure",
+      "text": "Read the nine windows. Compare the trial days with days 1 to 3.",
+      "lines": [
+       {
+        "label": "Who",
+        "value": "You, the ward and Tojo"
+       }
+      ]
+     },
+     {
+      "key": "s4",
+      "when": "Step 4 of 5",
+      "title": "Adjust",
+      "text": "Fix what did not work. Then run one more week on the same ward.",
+      "lines": [
+       {
+        "label": "Who",
+        "value": "Discharge Manager"
+       }
+      ]
+     },
+     {
+      "key": "s5",
+      "when": "Step 5 of 5",
+      "title": "Spread to more wards",
+      "text": "Add one or two wards at a time. Link the hospital software once two wards run well.",
+      "lines": [
+       {
+        "label": "Who",
+        "value": "Discharge Manager and IT"
+       }
+      ],
+      "entry": "What would you need for this step?"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: pick the trial ward",
+    "say": "Let’s pick the trial ward"
+   },
+   "add": {
+    "detail": "Tell me what spreading needs",
+    "say": "To spread this, we would need: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

@@ -1,0 +1,239 @@
+{
+ "turn": {
+  "id": "dp-pr-02",
+  "type": "part",
+  "tool": "Discharge Process",
+  "tab": "Processes",
+  "register": "advisory",
+  "user_message": "Show me the people who must agree",
+  "was": "turn-07 (dp-07), role-cards + stat-strip",
+  "context": "Discharge sample conversation, turn 7 (playbook §4: only the roles this conversation touched, and the one approver).",
+  "transcript": {
+   "label": "Sample conversation · turn 7 · who must agree"
+  }
+ },
+ "chat": {
+  "text": [
+   "Several teams touch discharge, but only a few are asked to change much. One person has to approve it. Why each matters:"
+  ],
+  "bullets": [
+   "Doctors are asked for no extra time. They already decide at 7 PM, which is why they can agree.",
+   "Typists have the most to give up, so they check drafts first, and nobody loses a job at the start.",
+   "The Head of Operations must approve the new order, or it will not last past the first busy morning."
+  ],
+  "invite": "Next is who is in charge: whether you need anyone new.",
+  "note": "Help first. Fewer hands only once it is trusted.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Doctors",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Typists, who have the most to give up",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Billing and the insurance desk",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The IT team",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Head of Operations",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Show me who is in charge",
+   "Will anyone lose their job?",
+   "Our consultants won’t sign on a phone"
+  ],
+  "pointer": "Pick a team to see what changes for them."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 3 · People who must agree",
+    "title": "Who has to say yes",
+    "deck": "Six teams touched, one approver. Each team’s room says what it is asked to do.",
+    "plate": {
+     "column": "People",
+     "name": "Who says yes"
+    }
+   },
+   {
+    "type": "people",
+    "teams_label": "Six teams, and what each is asked",
+    "resist_tag": "Most to give up",
+    "teams": [
+     {
+      "title": "Doctors",
+      "gets": "Say who goes home at 7 PM. Sign on a phone next morning.",
+      "point": 1
+     },
+     {
+      "title": "Typists",
+      "gets": "Check and correct a ready draft, instead of typing each one.",
+      "resist": true,
+      "point": 2
+     },
+     {
+      "title": "Nurses",
+      "gets": "Check what the software writes, instead of counting supplies first."
+     },
+     {
+      "title": "Billing and insurance",
+      "gets": "Check bills that are already made.",
+      "point": 3
+     },
+     {
+      "title": "IT team",
+      "gets": "Link the software to records, bills, lab reports and scans.",
+      "point": 4
+     },
+     {
+      "title": "Bed desk and wards",
+      "gets": "Act when the software says a bed or a patient is ready."
+     }
+    ],
+    "approver": {
+     "tag": "Sign-off",
+     "title": "Head of Operations",
+     "line": "Approves the new order of steps, and splitting discharges from admissions."
+    },
+    "managers": [
+     {
+      "tag": "New role",
+      "title": "Discharge Manager",
+      "line": "Owns every discharge"
+     },
+     {
+      "title": "Bed desk manager",
+      "line": "Owns the beds"
+     }
+    ],
+    "tree_note": "Peers. Both report to the Head of Operations, who signs off the new order.",
+    "sheets": [
+     {
+      "key": "t1",
+      "when": "Doctors",
+      "title": "Doctors",
+      "text": "They already decide at 7 PM, which is why they can agree. Nothing extra is asked of them.",
+      "lines": [
+       {
+        "label": "Extra time",
+        "value": "None, if no extra round or login",
+        "state": "start"
+       }
+      ],
+      "entry": "Which doctors would you ask first?"
+     },
+     {
+      "key": "t2",
+      "when": "Typists",
+      "title": "Typists",
+      "text": "Typists have the most to give up. They check drafts first, and nobody loses a job at the start.",
+      "lines": [
+       {
+        "label": "At the start",
+        "value": "Check drafts, no job cut",
+        "state": "target"
+       }
+      ],
+      "entry": "How many typists work on summaries?"
+     },
+     {
+      "key": "t3",
+      "when": "Nurses",
+      "title": "Nurses",
+      "text": "The supply count before billing goes. Nurses check a list that is already made.",
+      "lines": [
+       {
+        "label": "Saves",
+        "value": "The count before billing",
+        "state": "start"
+       }
+      ],
+      "entry": "Who counts supplies on your wards?"
+     },
+     {
+      "key": "t4",
+      "when": "Billing and insurance",
+      "title": "Billing and insurance",
+      "text": "The bill is kept up to date through the stay. Billing checks it, instead of building it after the signature.",
+      "lines": [
+       {
+        "label": "Saves",
+        "value": "Building the bill at noon",
+        "state": "start"
+       }
+      ],
+      "entry": "How long does billing take today?"
+     },
+     {
+      "key": "t5",
+      "when": "IT team",
+      "title": "IT team",
+      "text": "The software can only read what it is linked to. Your IT team gives read-only access, once.",
+      "lines": [
+       {
+        "label": "Asks",
+        "value": "Read-only access, once",
+        "state": "target"
+       }
+      ],
+      "entry": "Who looks after your hospital software?"
+     },
+     {
+      "key": "t6",
+      "when": "Bed desk and wards",
+      "title": "Bed desk and wards",
+      "text": "Each team is told when it is their turn. Nobody waits for a phone call.",
+      "lines": [
+       {
+        "label": "Gets",
+        "value": "A message when it is their turn"
+       }
+      ],
+      "entry": "How does the bed desk hear a bed is free?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Jobs cut at the start",
+    "value": "None",
+    "state": "start",
+    "sub": "The software helps each person first. It takes work away only once everyone trusts it."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: who is in charge",
+    "say": "Show me who is in charge"
+   },
+   "add": {
+    "detail": "Tell me who would push back",
+    "say": "The people who would push back here are: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

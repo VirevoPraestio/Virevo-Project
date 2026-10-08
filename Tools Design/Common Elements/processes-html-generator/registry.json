@@ -1,0 +1,1166 @@
+{
+  "registry": "processes",
+  "registry_version": 1,
+  "updated": "2026-09-29",
+  "note": "Processes blocks. Slot rules as in blocks/registry.json. plain_english is shared and merged in at load time. scope \"all\": the pattern may be used anywhere, redrawn in its look. scope \"Processes\": Processes only.",
+  "budget": {
+    "wide_px": 824,
+    "narrow_px": 1500,
+    "max_blocks": 2
+  },
+  "tones": {
+    "list": {
+      "heather": {
+        "status": "approved",
+        "note": "base"
+      }
+    },
+    "rotation": [
+      "heather"
+    ]
+  },
+  "turn_recipes": {
+    "landing": [
+      "landing"
+    ],
+    "overview": [
+      "trial",
+      "swap"
+    ],
+    "elaboration": [
+      "swap",
+      "seats",
+      "people",
+      "readouts"
+    ],
+    "part": [
+      "trial",
+      "people",
+      "swap",
+      "seats",
+      "readouts"
+    ],
+    "question": [
+      "people"
+    ],
+    "data-ask": [
+      "seats"
+    ],
+    "data-back": [
+      "seats",
+      "readouts"
+    ],
+    "challenge": [
+      "people",
+      "seats"
+    ],
+    "findings": [
+      "readouts"
+    ],
+    "recommendation": [
+      "seats",
+      "loop",
+      "trial"
+    ],
+    "progress": [
+      "loop",
+      "readouts"
+    ]
+  },
+  "withheld_in_fact_turns": [],
+  "blocks": [
+    {
+      "id": "heading",
+      "version": 1,
+      "status": "approved",
+      "category": "frame",
+      "scope": "all",
+      "purpose": "Eyebrow, title and one-line deck at the top of every Processes canvas.",
+      "use_when": [
+        "every turn"
+      ],
+      "avoid_when": [
+        "never twice"
+      ],
+      "slots": {
+        "eyebrow": {
+          "type": "text",
+          "max_words": 6
+        },
+        "title": {
+          "type": "text",
+          "max_words": 8
+        },
+        "deck": {
+          "type": "text",
+          "max_words": 24,
+          "required": false
+        }
+      },
+      "mobile": "same, title 44px",
+      "cost": {
+        "wide": 150,
+        "narrow": 165
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with all nine Processes turns (pr-00 to pr-08)."
+        }
+      ]
+    },
+    {
+      "id": "landing",
+      "version": 1,
+      "status": "approved",
+      "category": "landing",
+      "scope": "Processes",
+      "purpose": "The approved landing template (Processes A, the ward board), drawn from data.",
+      "use_when": [
+        "landing turns only"
+      ],
+      "avoid_when": [
+        "any other turn"
+      ],
+      "slots": {
+        "stamp": {
+          "type": "object",
+          "fields": {
+            "at": {
+              "type": "text",
+              "max_words": 10
+            },
+            "since": {
+              "type": "text",
+              "max_words": 10
+            },
+            "fresh": {
+              "type": "text",
+              "max_words": 10
+            },
+            "fresh_since": {
+              "type": "text",
+              "max_words": 10
+            }
+          }
+        },
+        "standing": {
+          "type": "text",
+          "max_words": 12
+        },
+        "deck": {
+          "type": "text",
+          "max_words": 24
+        },
+        "loop_at": {
+          "type": "number",
+          "required": false
+        },
+        "trial": {
+          "type": "object",
+          "fields": {
+            "title": {
+              "type": "text",
+              "max_words": 8
+            },
+            "status": {
+              "type": "text",
+              "max_words": 4
+            },
+            "note": {
+              "type": "text",
+              "max_words": 10
+            },
+            "point": {
+              "type": "number",
+              "required": false
+            }
+          }
+        },
+        "changes": {
+          "type": "list",
+          "min": 0,
+          "max": 7,
+          "item": {
+            "type": "object",
+            "fields": {
+              "title": {
+                "type": "text",
+                "max_words": 9
+              },
+              "status": {
+                "type": "enum",
+                "values": [
+                  "agreed",
+                  "new",
+                  "tried"
+                ]
+              },
+              "flag": {
+                "type": "text",
+                "max_words": 3,
+                "required": false
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "measures": {
+          "type": "list",
+          "min": 0,
+          "max": 7,
+          "item": {
+            "type": "object",
+            "fields": {
+              "title": {
+                "type": "text",
+                "max_words": 7
+              },
+              "value": {
+                "type": "text",
+                "max_words": 4,
+                "required": false
+              },
+              "status": {
+                "type": "enum",
+                "values": [
+                  "confirmed",
+                  "new"
+                ]
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "roles": {
+          "type": "list",
+          "min": 0,
+          "max": 3,
+          "item": {
+            "type": "object",
+            "fields": {
+              "title": {
+                "type": "text",
+                "max_words": 4
+              },
+              "seats": {
+                "type": "number"
+              },
+              "filled": {
+                "type": "number"
+              },
+              "note": {
+                "type": "text",
+                "max_words": 10
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "roles_note": {
+          "type": "text",
+          "max_words": 16,
+          "required": false
+        },
+        "roles_cost": {
+          "type": "text",
+          "max_words": 8,
+          "required": false
+        },
+        "pending": {
+          "type": "list",
+          "min": 1,
+          "max": 5,
+          "item": {
+            "type": "object",
+            "fields": {
+              "text": {
+                "type": "text",
+                "max_words": 14
+              },
+              "who": {
+                "type": "enum",
+                "values": [
+                  "tojo",
+                  "you"
+                ]
+              },
+              "need": {
+                "type": "text",
+                "max_words": 6,
+                "required": false
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "actions": {
+          "type": "object",
+          "fields": {
+            "go": {
+              "type": "object",
+              "fields": {
+                "detail": {
+                  "type": "text",
+                  "max_words": 8
+                },
+                "say": {
+                  "type": "text",
+                  "max_words": 10
+                }
+              }
+            },
+            "add": {
+              "type": "object",
+              "fields": {
+                "detail": {
+                  "type": "text",
+                  "max_words": 8
+                },
+                "say": {
+                  "type": "text",
+                  "max_words": 10
+                }
+              }
+            },
+            "jump": {
+              "type": "object",
+              "fields": {
+                "tab": {
+                  "type": "enum",
+                  "values": [
+                    "Diagnosis",
+                    "Solutions",
+                    "Automations"
+                  ]
+                },
+                "detail": {
+                  "type": "text",
+                  "max_words": 8
+                },
+                "say": {
+                  "type": "text",
+                  "max_words": 8
+                }
+              }
+            }
+          }
+        }
+      },
+      "mobile": "the three columns stack; the week boxes hide",
+      "cost": {
+        "wide": 790,
+        "narrow": 1450
+      },
+      "feedback": [
+        {
+          "date": "2026-09-28",
+          "verdict": "approved",
+          "note": "Landing A approved 28 Sep; drawn from data from 29 Sep."
+        },
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with all nine Processes turns (pr-00 to pr-08)."
+        }
+      ]
+    },
+    {
+      "id": "trial",
+      "version": 1,
+      "status": "approved",
+      "category": "plan",
+      "scope": "Processes",
+      "purpose": "The trial on one ward as a strip of day magnets in two weeks, each phase with who acts and what is recorded.",
+      "use_when": [
+        "scoping a trial",
+        "what happens on which day"
+      ],
+      "avoid_when": [
+        "the trial has not been agreed in outline"
+      ],
+      "slots": {
+        "ward": {
+          "type": "object",
+          "fields": {
+            "label_head": {
+              "type": "text",
+              "max_words": 4,
+              "required": false
+            },
+            "label": {
+              "type": "text",
+              "max_words": 10
+            },
+            "status": {
+              "type": "enum",
+              "values": [
+                "needed",
+                "chosen"
+              ]
+            },
+            "note": {
+              "type": "text",
+              "max_words": 16
+            },
+            "point": {
+              "type": "number",
+              "required": false
+            }
+          }
+        },
+        "days": {
+          "type": "number",
+          "required": false
+        },
+        "phases": {
+          "type": "list",
+          "min": 2,
+          "max": 5,
+          "item": {
+            "type": "object",
+            "fields": {
+              "from": {
+                "type": "number"
+              },
+              "to": {
+                "type": "number"
+              },
+              "title": {
+                "type": "text",
+                "max_words": 7
+              },
+              "what": {
+                "type": "text",
+                "max_words": 26
+              },
+              "who": {
+                "type": "text",
+                "max_words": 8
+              },
+              "records": {
+                "type": "list",
+                "min": 1,
+                "max": 3,
+                "item": {
+                  "type": "text",
+                  "max_words": 6
+                }
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "needs": {
+          "type": "list",
+          "min": 1,
+          "max": 4,
+          "item": {
+            "type": "text",
+            "max_words": 8
+          }
+        },
+        "default": {
+          "type": "number",
+          "required": false
+        },
+        "condition": {
+          "type": "text",
+          "max_words": 24,
+          "required": false
+        }
+      },
+      "interaction": "Pick a day, or play the two weeks. The phase lights and its sheet opens: who acts and what is recorded.",
+      "mobile": "the strip wraps into two weeks of seven",
+      "cost": {
+        "wide": 520,
+        "narrow": 900
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with all nine Processes turns (pr-00 to pr-08)."
+        }
+      ]
+    },
+    {
+      "id": "people",
+      "version": 1,
+      "status": "approved",
+      "category": "people",
+      "scope": "Processes",
+      "purpose": "The people who must agree, as name badges on the board, grouped by what they do, each with what changes and what they gain.",
+      "use_when": [
+        "key people and buy-in",
+        "who has to agree"
+      ],
+      "avoid_when": [
+        "listing all ten roles when the talk touched only a few"
+      ],
+      "slots": {
+        "groups": {
+          "type": "list",
+          "min": 2,
+          "max": 4,
+          "item": {
+            "type": "object",
+            "fields": {
+              "name": {
+                "type": "text",
+                "max_words": 6
+              },
+              "people": {
+                "type": "list",
+                "min": 1,
+                "max": 6,
+                "item": {
+                  "type": "object",
+                  "fields": {
+                    "name": {
+                      "type": "text",
+                      "max_words": 4
+                    },
+                    "status": {
+                      "type": "enum",
+                      "values": [
+                        "agreed",
+                        "to_ask",
+                        "worried"
+                      ]
+                    },
+                    "trial": {
+                      "type": "bool",
+                      "required": false
+                    },
+                    "change": {
+                      "type": "text",
+                      "max_words": 22
+                    },
+                    "gain": {
+                      "type": "text",
+                      "max_words": 22
+                    },
+                    "said": {
+                      "type": "text",
+                      "max_words": 22,
+                      "required": false
+                    },
+                    "point": {
+                      "type": "number",
+                      "required": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "rule": {
+          "type": "text",
+          "max_words": 30
+        },
+        "default": {
+          "type": "text",
+          "max_words": 4,
+          "required": false
+        }
+      },
+      "interaction": "Filter everyone, in the trial, or still to ask. Pick a badge for what changes, what they gain and what the hospital said. Ask Tojo about that person.",
+      "mobile": "groups stack; badges two to a row",
+      "cost": {
+        "wide": 520,
+        "narrow": 1050
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with all nine Processes turns (pr-00 to pr-08)."
+        }
+      ]
+    },
+    {
+      "id": "swap",
+      "version": 1,
+      "status": "approved",
+      "category": "change",
+      "scope": "Processes",
+      "purpose": "Each step of the day as a magnet moved from today to with the changes. The biggest hold-up is flagged.",
+      "use_when": [
+        "process changes, step by step",
+        "before and after"
+      ],
+      "avoid_when": [
+        "one change only"
+      ],
+      "slots": {
+        "with_label": {
+          "type": "text",
+          "max_words": 4
+        },
+        "rows": {
+          "type": "list",
+          "min": 3,
+          "max": 8,
+          "item": {
+            "type": "object",
+            "fields": {
+              "name": {
+                "type": "text",
+                "max_words": 5
+              },
+              "who": {
+                "type": "text",
+                "max_words": 5
+              },
+              "today": {
+                "type": "text",
+                "max_words": 14
+              },
+              "today_at": {
+                "type": "text",
+                "max_words": 4,
+                "required": false
+              },
+              "with": {
+                "type": "text",
+                "max_words": 14
+              },
+              "with_at": {
+                "type": "text",
+                "max_words": 4,
+                "required": false
+              },
+              "flag": {
+                "type": "text",
+                "max_words": 3,
+                "required": false
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "keeps": {
+          "type": "text",
+          "max_words": 24
+        },
+        "condition": {
+          "type": "text",
+          "max_words": 24,
+          "required": false
+        }
+      },
+      "interaction": "Move one magnet at a time, or switch all to the new way. The count says how many moved.",
+      "mobile": "each row shows one side at a time",
+      "cost": {
+        "wide": 470,
+        "narrow": 980,
+        "per_item_wide": 0
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with all nine Processes turns (pr-00 to pr-08)."
+        }
+      ]
+    },
+    {
+      "id": "seats",
+      "version": 1,
+      "status": "approved",
+      "category": "people",
+      "scope": "Processes",
+      "purpose": "Roles as chairs to fill, their triggers as lamps, and the busy-hours check that sizes a team.",
+      "use_when": [
+        "team and role changes",
+        "do we need to hire"
+      ],
+      "avoid_when": [
+        "no role is in question"
+      ],
+      "slots": {
+        "reports_to": {
+          "type": "object",
+          "fields": {
+            "name": {
+              "type": "text",
+              "max_words": 4
+            },
+            "does": {
+              "type": "text",
+              "max_words": 12
+            },
+            "point": {
+              "type": "number",
+              "required": false
+            }
+          },
+          "required": false
+        },
+        "roles": {
+          "type": "list",
+          "min": 1,
+          "max": 3,
+          "item": {
+            "type": "object",
+            "fields": {
+              "name": {
+                "type": "text",
+                "max_words": 4
+              },
+              "seats": {
+                "type": "number"
+              },
+              "cost_low": {
+                "type": "number"
+              },
+              "cost_high": {
+                "type": "number"
+              },
+              "each": {
+                "type": "bool",
+                "required": false
+              },
+              "state": {
+                "type": "enum",
+                "values": [
+                  "needed",
+                  "optional",
+                  "check"
+                ]
+              },
+              "sized": {
+                "type": "bool",
+                "required": false
+              },
+              "does": {
+                "type": "text",
+                "max_words": 22
+              },
+              "note": {
+                "type": "text",
+                "max_words": 18,
+                "required": false
+              },
+              "rule": {
+                "type": "text",
+                "max_words": 6,
+                "required": false
+              },
+              "triggers": {
+                "type": "list",
+                "min": 0,
+                "max": 3,
+                "item": {
+                  "type": "object",
+                  "fields": {
+                    "label": {
+                      "type": "text",
+                      "max_words": 8
+                    },
+                    "value": {
+                      "type": "text",
+                      "max_words": 5,
+                      "required": false
+                    },
+                    "state": {
+                      "type": "enum",
+                      "values": [
+                        "met",
+                        "not",
+                        "unknown"
+                      ]
+                    },
+                    "source": {
+                      "type": "enum",
+                      "values": [
+                        "yours",
+                        "derived",
+                        "estimate",
+                        "illustrative",
+                        "target",
+                        "needed",
+                        "new"
+                      ]
+                    },
+                    "above": {
+                      "type": "number",
+                      "required": false
+                    },
+                    "point": {
+                      "type": "number",
+                      "required": false
+                    }
+                  }
+                },
+                "required": false
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "between_label": {
+          "type": "text",
+          "max_words": 8,
+          "required": false
+        },
+        "between": {
+          "type": "list",
+          "min": 2,
+          "max": 5,
+          "item": {
+            "type": "object",
+            "fields": {
+              "title": {
+                "type": "text",
+                "max_words": 8
+              },
+              "detail": {
+                "type": "text",
+                "max_words": 24
+              },
+              "status": {
+                "type": "enum",
+                "values": [
+                  "agreed",
+                  "new",
+                  "needed"
+                ]
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          },
+          "required": false
+        },
+        "sizing": {
+          "type": "object",
+          "fields": {
+            "flat_label": {
+              "type": "text",
+              "max_words": 3
+            },
+            "busy_label": {
+              "type": "text",
+              "max_words": 3
+            },
+            "slider_label": {
+              "type": "text",
+              "max_words": 4
+            },
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            },
+            "default": {
+              "type": "number"
+            },
+            "yours_low": {
+              "type": "number"
+            },
+            "yours_high": {
+              "type": "number"
+            },
+            "per_person": {
+              "type": "number"
+            },
+            "start": {
+              "type": "number"
+            },
+            "end": {
+              "type": "number"
+            },
+            "windows": {
+              "type": "list",
+              "min": 1,
+              "max": 3,
+              "item": {
+                "type": "object",
+                "fields": {
+                  "from": {
+                    "type": "number"
+                  },
+                  "to": {
+                    "type": "number"
+                  },
+                  "label": {
+                    "type": "text",
+                    "max_words": 3
+                  },
+                  "clock": {
+                    "type": "text",
+                    "max_words": 4
+                  }
+                }
+              }
+            },
+            "flat_text": {
+              "type": "text",
+              "max_words": 24
+            },
+            "busy_text": {
+              "type": "text",
+              "max_words": 24
+            },
+            "recheck_text": {
+              "type": "text",
+              "max_words": 24
+            },
+            "count_label": {
+              "type": "text",
+              "max_words": 4
+            },
+            "total_label": {
+              "type": "text",
+              "max_words": 5
+            },
+            "point": {
+              "type": "number",
+              "required": false
+            }
+          },
+          "required": false
+        },
+        "others": {
+          "type": "text",
+          "max_words": 24,
+          "required": false
+        }
+      },
+      "interaction": "Slide the discharges a day. Lamps light, the manager's chair fills or empties, and the busy-hours check redraws the people on the day. Switch the flat rule against your busy hours.",
+      "mobile": "roles stack; the day strip stays full width",
+      "cost": {
+        "wide": 560,
+        "narrow": 1150
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with all nine Processes turns (pr-00 to pr-08)."
+        }
+      ]
+    },
+    {
+      "id": "readouts",
+      "version": 1,
+      "status": "approved",
+      "category": "measure",
+      "scope": "Processes",
+      "purpose": "The chosen measures as instrument windows. Your starting numbers in plain; new measures blank, never made up.",
+      "use_when": [
+        "which measures we watch",
+        "KPIs and goals"
+      ],
+      "avoid_when": [
+        "all sixteen at once"
+      ],
+      "slots": {
+        "measures": {
+          "type": "list",
+          "min": 3,
+          "max": 9,
+          "item": {
+            "type": "object",
+            "fields": {
+              "name": {
+                "type": "text",
+                "max_words": 7
+              },
+              "value": {
+                "type": "text",
+                "max_words": 4,
+                "required": false
+              },
+              "state": {
+                "type": "enum",
+                "values": [
+                  "confirmed",
+                  "new"
+                ]
+              },
+              "source": {
+                "type": "enum",
+                "values": [
+                  "yours",
+                  "derived",
+                  "estimate",
+                  "illustrative",
+                  "target",
+                  "needed",
+                  "new"
+                ]
+              },
+              "when": {
+                "type": "enum",
+                "values": [
+                  "trial",
+                  "later"
+                ]
+              },
+              "how": {
+                "type": "text",
+                "max_words": 22
+              },
+              "who": {
+                "type": "text",
+                "max_words": 6
+              },
+              "goal": {
+                "type": "text",
+                "max_words": 10
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "default": {
+          "type": "number",
+          "required": false
+        },
+        "condition": {
+          "type": "text",
+          "max_words": 24,
+          "required": false
+        }
+      },
+      "interaction": "Filter by in the trial or after it. Flip between the starting number and the end of the trial. Pick a window for how it is measured and who records it.",
+      "mobile": "two windows to a row",
+      "cost": {
+        "wide": 520,
+        "narrow": 1100
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with all nine Processes turns (pr-00 to pr-08)."
+        }
+      ]
+    },
+    {
+      "id": "loop",
+      "version": 1,
+      "status": "approved",
+      "category": "plan",
+      "scope": "Processes",
+      "purpose": "Plan, try on one ward, measure, adjust, spread: the loop with a yes or no gate.",
+      "use_when": [
+        "what happens after the trial",
+        "how it spreads"
+      ],
+      "avoid_when": [
+        "before the trial is scoped"
+      ],
+      "slots": {
+        "steps": {
+          "type": "list",
+          "min": 4,
+          "max": 6,
+          "item": {
+            "type": "object",
+            "fields": {
+              "name": {
+                "type": "text",
+                "max_words": 5
+              },
+              "what": {
+                "type": "text",
+                "max_words": 24
+              },
+              "who": {
+                "type": "text",
+                "max_words": 8
+              },
+              "point": {
+                "type": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "at": {
+          "type": "number",
+          "required": false
+        },
+        "sub": {
+          "type": "text",
+          "max_words": 6
+        },
+        "gate": {
+          "type": "object",
+          "fields": {
+            "at": {
+              "type": "number"
+            },
+            "question": {
+              "type": "text",
+              "max_words": 12
+            },
+            "yes": {
+              "type": "text",
+              "max_words": 4
+            },
+            "no": {
+              "type": "text",
+              "max_words": 4
+            },
+            "yes_to": {
+              "type": "number"
+            },
+            "no_to": {
+              "type": "number"
+            },
+            "retry_to": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "interaction": "Step round the loop. At the gate, answer yes or not yet: the marker moves on to spread, or back to adjust and a new round.",
+      "mobile": "the wheel sits above the sheet",
+      "cost": {
+        "wide": 470,
+        "narrow": 950
+      },
+      "feedback": [
+        {
+          "date": "2026-09-29",
+          "verdict": "approved",
+          "note": "Approved with all nine Processes turns (pr-00 to pr-08)."
+        }
+      ]
+    }
+  ]
+}

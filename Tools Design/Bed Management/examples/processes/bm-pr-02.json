@@ -1,0 +1,284 @@
+{
+ "turn": {
+  "id": "bm-pr-02",
+  "tab": "Processes",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "Where on the ward does each change happen?",
+  "context": "Prompt 1 of bm-pr-01. bed-management.md §7.4.2: the 24-hour signal, the 5 PM round, OPD prescriptions as intake, stage times and the desk link, the bill-close and bill-open join, the 1 PM ICU signal. The drawing comes from the approved Processes landing page B, the trial ward.",
+  "transcript": {
+   "label": "After transcript turn 31 · Processes, turn 2 (the record stops at 31)"
+  }
+ },
+ "chat": {
+  "text": [
+   "Six small changes, each in a room you already have. None of them is a new job."
+  ],
+  "bullets": [
+   "On the round, the doctor checks a date instead of giving one. That is the change people will feel most.",
+   "At the desk, patients are called in for a time. At billing, one report is added.",
+   "The other three are a time written down, in OPD, at the ICU and at the 5 PM round."
+  ],
+  "invite": "Next, we can see why your patients still get in so late.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The round",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The 5 PM round",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "OPD",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The admissions desk",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Billing",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Why do our patients still get in so late?",
+   "What does a doctor have to do?",
+   "Who needs to agree to this?"
+  ],
+  "pointer": "Pick a change to see its pin on the ward."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · where it happens",
+    "title": "Six pins on one ward",
+    "deck": "Your trial ward seen from above. Each change is pinned in the room where it happens.",
+    "plate": {
+     "column": "Changes",
+     "name": "The trial ward"
+    }
+   },
+   {
+    "type": "ward-pins",
+    "layout": [
+     "bay bay bay stn",
+     "c c c c",
+     "opd adm bil icu"
+    ],
+    "rooms": [
+     {
+      "area": "bay",
+      "name": "Patient beds",
+      "kind": "beds",
+      "beds": 8
+     },
+     {
+      "area": "stn",
+      "name": "Nurses’ station",
+      "kind": "desk"
+     },
+     {
+      "area": "opd",
+      "name": "OPD room",
+      "kind": "room"
+     },
+     {
+      "area": "adm",
+      "name": "Admissions desk",
+      "kind": "desk"
+     },
+     {
+      "area": "bil",
+      "name": "Billing office",
+      "kind": "office"
+     },
+     {
+      "area": "icu",
+      "name": "ICU",
+      "kind": "room"
+     }
+    ],
+    "corridor": "Corridor",
+    "plan_label": "A ward drawn as an example. Every ward in your hospital has these rooms.",
+    "changes_label": "Six small changes",
+    "changes": [
+     {
+      "name": "Date checked on the round",
+      "room": 1,
+      "who": "Doctors",
+      "point": 1
+     },
+     {
+      "name": "The 5 PM round",
+      "room": 2,
+      "who": "Medical Supervisory team",
+      "point": 2
+     },
+     {
+      "name": "Admissions written down in OPD",
+      "room": 3,
+      "who": "OPD doctors",
+      "point": 3
+     },
+     {
+      "name": "Patients called in on time",
+      "room": 4,
+      "who": "Desk staff",
+      "point": 4
+     },
+     {
+      "name": "Bill close and open joined",
+      "room": 5,
+      "who": "Billing",
+      "point": 5
+     },
+     {
+      "name": "Step-down named by 1 PM",
+      "room": 6,
+      "who": "ICU doctors"
+     }
+    ],
+    "rule": "Each change is a time, or a thing written down, inside work people already do. Nobody gets a new job.",
+    "sheets": [
+     {
+      "key": "c1",
+      "when": "Doctors",
+      "title": "Date checked on the round",
+      "text": "The doctor sees a likely date for each patient, a day ahead, and confirms or changes it by voice.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Said in passing, not written"
+       },
+       {
+        "label": "New",
+        "value": "Confirmed 24 hours ahead",
+        "state": "start"
+       }
+      ],
+      "entry": "Do doctors mention discharge dates on rounds today?"
+     },
+     {
+      "key": "c2",
+      "when": "Medical Supervisory team",
+      "title": "The 5 PM round",
+      "text": "One fixed round of the beds likely to free tomorrow. It is what lets the plan freeze at 6 PM.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "No fixed evening check"
+       },
+       {
+        "label": "New",
+        "value": "Every day by 5 PM",
+        "state": "start"
+       }
+      ],
+      "entry": "Who could do this round on your wards?"
+     },
+     {
+      "key": "c3",
+      "when": "OPD doctors",
+      "title": "Admissions written down in OPD",
+      "text": "When a doctor advises admission, the date, the procedure and the likely stay are written down once.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Stays on paper in OPD"
+       },
+       {
+        "label": "New",
+        "value": "Feeds the bed plan",
+        "state": "start"
+       }
+      ],
+      "entry": "How are planned admissions booked today?"
+     },
+     {
+      "key": "c4",
+      "when": "Desk staff",
+      "title": "Patients called in on time",
+      "text": "The desk calls each patient for the time their bed will be free. It also confirms dates back into the plan.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Told to come at 1 PM"
+       },
+       {
+        "label": "New",
+        "value": "A time for each bed",
+        "state": "start"
+       }
+      ],
+      "entry": "Who calls patients in today?"
+     },
+     {
+      "key": "c5",
+      "when": "Billing",
+      "title": "Bill close and open joined",
+      "text": "One report puts the last bill of one patient and the first bill of the next on the same bed.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Both times exist, never joined"
+       },
+       {
+        "label": "New",
+        "value": "Dead bed time, every week",
+        "state": "start"
+       }
+      ],
+      "entry": "Who runs billing reports today?"
+     },
+     {
+      "key": "c6",
+      "when": "ICU doctors",
+      "title": "Step-down named by 1 PM",
+      "text": "ICU patients likely to move to a ward are named by 1 PM, in time for the 2 PM plan.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Decided when a bed is found"
+       },
+       {
+        "label": "New",
+        "value": "Named by 1 PM",
+        "state": "start"
+       }
+      ],
+      "entry": "How many ICU beds do you run?"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: why patients still get in late",
+    "say": "Why do our patients still get in so late?"
+   },
+   "add": {
+    "detail": "Tell me how a ward runs here",
+    "say": "On our wards: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the Bed Management Processes turns."
+ }
+}

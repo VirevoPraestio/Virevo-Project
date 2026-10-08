@@ -1,0 +1,79 @@
+{
+ "turn": {
+  "id": "au-05",
+  "tab": "Automations",
+  "type": "question",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "What exactly does our IT team need?",
+  "context": "Playbook §7: lead with one plain question about their systems, and keep the technical detail optional."
+ },
+ "chat": {
+  "text": [
+   "One question first, before any list. The answer decides what your IT team has to link."
+  ],
+  "question": {
+   "text": "Are billing and doctors’ notes kept in the same hospital software?",
+   "options": [
+    "Yes, one system",
+    "No, they are separate",
+    "Some notes are still on paper",
+    "I’d need to check"
+   ],
+   "free_text": true
+  },
+  "pointer": "The helper shows what it would ask your IT team. The detail is there if you want it.",
+  "note": "One question now. The rest can wait.",
+  "prompts": [
+   "Yes, one system. Reports are separate.",
+   "This is too technical for now",
+   "I’d need to check with our IT team"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Your IT team",
+    "title": "One question before any list",
+    "deck": "What Tojo would ask your IT team, in plain words. The detail is optional."
+   },
+   {
+    "type": "helper",
+    "says": {
+     "plain": "One question for you first. Then four simple things for your IT team.",
+     "detail": "Here is the detail, for whoever looks after your systems. None of it is needed today."
+    },
+    "plain": [
+     "Who looks after the hospital software",
+     "Whether Tojo can read records without changing them",
+     "How reports reach the doctors today",
+     "A test copy with the patient names hidden"
+    ],
+    "detail": [
+     {
+      "ask": "Read-only access to billing and notes",
+      "why": "Tojo only reads. Nothing can be changed or deleted."
+     },
+     {
+      "ask": "A copy of each report when it is signed off",
+      "why": "So the summary never waits for a report."
+     },
+     {
+      "ask": "The list of charges and their prices",
+      "why": "So the bill can be kept up to date."
+     },
+     {
+      "ask": "A test copy of one ward’s records",
+      "why": "So we can try it before any real patient."
+     },
+     {
+      "ask": "One named person in your IT team",
+      "why": "One contact, so questions do not wait."
+     }
+    ],
+    "park": "Anything more technical can wait. Say so, and Tojo will park it until you are ready."
+   }
+  ]
+ }
+}

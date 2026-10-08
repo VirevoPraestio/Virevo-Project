@@ -1,0 +1,276 @@
+{
+ "turn": {
+  "id": "dp-au-03",
+  "type": "deeper",
+  "tool": "Discharge Process",
+  "tab": "Automations",
+  "register": "advisory",
+  "user_message": "How is the summary drafted all through the stay?",
+  "was": "au-02 (brain)",
+  "context": "Automations place, turn 2 (playbook §5: tell me more, one level further down).",
+  "transcript": {
+   "label": "Automations · the summary writes itself"
+  }
+ },
+ "chat": {
+  "text": [
+   "The night showed the summary appear on the evening round. It can, because it has been writing itself since admission.",
+   "Each day, Tojo records what happens to the patient. By the evening round, most of the summary is already there."
+  ],
+  "note": "The summary is written a little each day, not all at once.",
+  "points": [
+   {
+    "n": 1,
+    "label": "What is recorded on arrival",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Tests and what they showed",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Medicines, counted in strips",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The doctor’s daily notes",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Explain the first three steps on the round",
+   "Won’t this take our nurses’ time?",
+   "What if a report comes in late?"
+  ],
+  "pointer": "Pick a day, or play the stay. The summary fills in, day by day."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Automations · the summary",
+    "title": "The summary that writes itself",
+    "deck": "One patient’s four days. Each day adds to the summary, so it is mostly written by the evening round.",
+    "plate": {
+     "tag": "Automations",
+     "name": "The running summary",
+     "stage": "Built"
+    }
+   },
+   {
+    "type": "brain",
+    "passes_label": "Day of the stay",
+    "play": "Play the stay",
+    "in_label": "What is recorded",
+    "out_label": "The summary, filling in",
+    "count_label": "facts recorded, none typed twice",
+    "kinds": [
+     {
+      "k": "a",
+      "name": "On arrival",
+      "example": "History, symptoms and what doctors found",
+      "point": 1
+     },
+     {
+      "k": "b",
+      "name": "Tests and findings",
+      "example": "Each result, anything unusual marked",
+      "point": 2
+     },
+     {
+      "k": "c",
+      "name": "Procedures",
+      "example": "Each procedure, with its notes"
+     },
+     {
+      "k": "d",
+      "name": "Medicines",
+      "example": "Given, changed and left over, in strips",
+      "point": 3
+     },
+     {
+      "k": "e",
+      "name": "Supplies",
+      "example": "Used and left over, in whole units"
+     },
+     {
+      "k": "f",
+      "name": "Daily progress",
+      "example": "The doctor’s notes on each round",
+      "point": 4
+     },
+     {
+      "k": "g",
+      "name": "Reasons and outcomes",
+      "example": "Why each step was taken, and what happened"
+     }
+    ],
+    "outputs": [
+     {
+      "name": "Reason for admission",
+      "from": [
+       "a"
+      ]
+     },
+     {
+      "name": "Tests and what they showed",
+      "from": [
+       "b"
+      ]
+     },
+     {
+      "name": "Treatment given",
+      "from": [
+       "c",
+       "g"
+      ]
+     },
+     {
+      "name": "Medicines to take home",
+      "from": [
+       "d"
+      ]
+     },
+     {
+      "name": "Supplies to return",
+      "from": [
+       "e"
+      ]
+     },
+     {
+      "name": "How the stay went",
+      "from": [
+       "f"
+      ]
+     }
+    ],
+    "passes": [
+     {
+      "label": "Day 1",
+      "what": "Admitted",
+      "brings": [
+       "a",
+       "b",
+       "d",
+       "g"
+      ]
+     },
+     {
+      "label": "Day 2",
+      "what": "Tests",
+      "brings": [
+       "b",
+       "f",
+       "d",
+       "e",
+       "g"
+      ]
+     },
+     {
+      "label": "Day 3",
+      "what": "Procedure",
+      "brings": [
+       "c",
+       "e",
+       "d",
+       "f",
+       "g"
+      ]
+     },
+     {
+      "label": "Day 4",
+      "what": "Evening round",
+      "brings": [
+       "f",
+       "d",
+       "b",
+       "f"
+      ]
+     }
+    ],
+    "condition": "The patient here is an example only. Your records would fill the summary the same way.",
+    "sheets": [
+     {
+      "key": "d1",
+      "when": "Day 1",
+      "title": "Admitted",
+      "text": "Chest pain, admitted through Emergency. Blood tests and a heart tracing. Three medicines started.",
+      "lines": [
+       {
+        "label": "Adds to the summary",
+        "value": "4 facts",
+        "state": "start"
+       }
+      ],
+      "entry": "What is recorded on arrival at your hospital?"
+     },
+     {
+      "key": "d2",
+      "when": "Day 2",
+      "title": "Tests",
+      "text": "A heart scan shows a narrowed vessel. One medicine changed. A drip set and syringes used.",
+      "lines": [
+       {
+        "label": "Adds to the summary",
+        "value": "5 facts",
+        "state": "start"
+       }
+      ],
+      "entry": "Where do test results land today?"
+     },
+     {
+      "key": "d3",
+      "when": "Day 3",
+      "title": "Procedure",
+      "text": "A stent is placed in the narrowed vessel. A blood thinner is started. Stable after the procedure.",
+      "lines": [
+       {
+        "label": "Adds to the summary",
+        "value": "5 facts",
+        "state": "start"
+       }
+      ],
+      "entry": "How are procedure notes kept?"
+     },
+     {
+      "key": "d4",
+      "when": "Day 4",
+      "title": "Evening round",
+      "text": "The doctor says the patient can go tomorrow. Two strips of one medicine are left over.",
+      "lines": [
+       {
+        "label": "Adds to the summary",
+        "value": "4 facts",
+        "state": "start"
+       }
+      ],
+      "entry": "What does the doctor note on this round?"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: the three steps on the round",
+    "say": "Explain the first three steps on the round"
+   },
+   "add": {
+    "detail": "Tell me how notes are kept",
+    "say": "Our doctors keep their notes like this: "
+   },
+   "jump": {
+    "tab": "Processes",
+    "detail": "How the day changes on the wards",
+    "say": "Take me to Processes"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

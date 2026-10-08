@@ -1,0 +1,257 @@
+{
+ "turn": {
+  "id": "dp-so-03",
+  "type": "part",
+  "tool": "Discharge Process",
+  "tab": "Solutions",
+  "register": "advisory",
+  "user_message": "Start with the automations",
+  "was": "so-02 (untangle)",
+  "context": "Solutions place, turn 2 (playbook §4: this hospital’s own hold-ups, not the generic list).",
+  "transcript": {
+   "label": "Solutions · part 1, the automations"
+  }
+ },
+ "chat": {
+  "text": [
+   "Automations are the part that puts the unused night hours to work."
+  ],
+  "bullets": [
+   "The decision is already made on the evening round. Today nothing moves until the morning signature.",
+   "Your staff write the same facts twice. Once in the notes, then again in the summary and the bill.",
+   "An early insurance request stops the insurer from setting the time a patient leaves."
+  ],
+  "invite": "Next is the changes on the wards. This part leans on them.",
+  "note": "The work is not slow. It just waits all night.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The doctor’s word on the round",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The discharge summary",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The final bill",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The insurance request",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Medicines to take home",
+    "canvas": true
+   },
+   {
+    "n": 6,
+    "label": "The morning signature",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Our doctors don’t use voice notes",
+   "What does our IT team have to do?",
+   "Next, the changes on the wards"
+  ],
+  "pointer": "Pick a switch. The current runs to it, and the bulb lights at the last one."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 1 · Automations",
+    "title": "Six switches, one going home",
+    "deck": "The automation part, from the evening round to the morning signature. The patient is home early only when every switch is on.",
+    "plate": {
+     "part": 1,
+     "of": 5,
+     "name": "Automations",
+     "stage": "Shaped"
+    }
+   },
+   {
+    "type": "circuit",
+    "source": {
+     "label": "The evening round",
+     "line": "Where the decision is already made"
+    },
+    "goal": {
+     "label": "Home by noon",
+     "line": "A goal, set against today’s 3:15 PM"
+    },
+    "steps": [
+     {
+      "when": "7 PM round",
+      "title": "The doctor’s word recorded",
+      "line": "One tap on the ward phone says who can likely go.",
+      "state": "start",
+      "point": 1
+     },
+     {
+      "when": "7:30 PM",
+      "title": "Summary drafted",
+      "line": "Drafted from notes already in your files, ready to check.",
+      "point": 2
+     },
+     {
+      "when": "All evening",
+      "title": "Bill kept up to date",
+      "line": "Each charge is added as it happens. No count first.",
+      "point": 3
+     },
+     {
+      "when": "Overnight",
+      "title": "Insurance asked early",
+      "line": "An early request goes with the expected bill.",
+      "point": 4
+     },
+     {
+      "when": "Before morning",
+      "title": "Medicines listed and packed",
+      "line": "The pharmacy gets the list the evening before.",
+      "point": 5
+     },
+     {
+      "when": "Morning round",
+      "title": "Doctor checks and signs",
+      "line": "A draft to check, not a page to write.",
+      "point": 6
+     }
+    ],
+    "readout": "Take any switch away and the patient waits for the morning again.",
+    "sheets": [
+     {
+      "key": "word",
+      "when": "7 PM round",
+      "title": "The doctor’s word recorded",
+      "text": "Your doctors already decide on the evening round. Today it is said, not written down. One tap makes it the start of everything else.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Said, not recorded"
+       },
+       {
+        "label": "Asks of doctors",
+        "value": "One tap, nothing new to learn",
+        "state": "start"
+       }
+      ],
+      "entry": "Who is on your evening round?"
+     },
+     {
+      "key": "sum",
+      "when": "7:30 PM",
+      "title": "Summary drafted",
+      "text": "Tojo drafts the summary from notes, reports and medicines already in your files. The morning typing queue goes.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Typed next morning by a typist"
+       },
+       {
+        "label": "Needs",
+        "value": "Your IT team lets Tojo read your records",
+        "state": "target"
+       }
+      ],
+      "entry": "How many summaries does one typist do a day?"
+     },
+     {
+      "key": "bill",
+      "when": "All evening",
+      "title": "Bill kept up to date",
+      "text": "Each charge goes on the bill as it happens. Billing stops waiting for nurses to count supplies.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Drawn up after the signature, 1:30 PM"
+       },
+       {
+        "label": "Needs",
+        "value": "Billing agrees to check, not build",
+        "state": "target"
+       }
+      ],
+      "entry": "How long does billing take after signing?"
+     },
+     {
+      "key": "ins",
+      "when": "Overnight",
+      "title": "Insurance asked early",
+      "text": "An early request goes with the expected bill, the evening before. The insurer stops setting the leaving time.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Asked once the bill is final"
+       },
+       {
+        "label": "Needs",
+        "value": "Your insurers accept an early request",
+        "state": "target"
+       }
+      ],
+      "entry": "Which insurers take longest to approve?"
+     },
+     {
+      "key": "med",
+      "when": "Before morning",
+      "title": "Medicines listed and packed",
+      "text": "The pharmacy gets the list of medicines to take home that evening. The rush after the signature goes.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Listed after the signature, then packed"
+       }
+      ],
+      "entry": "When does the pharmacy hear today?"
+     },
+     {
+      "key": "sign",
+      "when": "Morning round",
+      "title": "Doctor checks and signs",
+      "text": "The doctor checks a ready draft on the morning round and signs. Nothing is written from the start.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Signs about 11 AM, then the work starts"
+       },
+       {
+        "label": "With this",
+        "value": "Signs a ready draft",
+        "state": "start"
+       }
+      ],
+      "entry": "Would your consultants sign on a phone?"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: the changes on the wards",
+    "say": "Next, the changes on the wards"
+   },
+   "add": {
+    "detail": "Tell me what our doctors do now",
+    "say": "On our evening round, the doctors: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "What runs by itself, night and day",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

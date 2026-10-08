@@ -1,0 +1,99 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "bm-dg-09",
+  "type": "sizing",
+  "user_message": "ARPOB ₹8,000 a day. ALOS 6.5 days. Average daily revenue ₹28 lakhs. Bed occupancy 89%, ICU 94%. OT utilisation 75%, daily OT revenue ₹5 lakhs.",
+  "transcript": {
+   "label": "Transcript turn 15 · dead bed time turned into money",
+   "said": "That’s everything I needed. The graphic below turns your dead bed time into a revenue number, step by step, so you can check every line of the arithmetic rather than take it from me. Two things I’ve deliberately left out of it: an ALOS gain on top, because that would be the same bed-days counted twice; and OT, which needs more from you before it can be sized honestly. Last question before we move on: has anyone worked out what your admissions desk can actually handle per hour at peak — counting internal bed transfers alongside admissions — or is that team sized by habit?"
+  },
+  "user_words": [
+   "ARPOB",
+   "ALOS",
+   "OT"
+  ]
+ },
+ "chat": {
+  "text": [
+   "That’s everything I needed.",
+   "The steps turn your dead bed time into a revenue number, one line at a time. You can check every line rather than take it from me.",
+   "Two things I’ve left out on purpose. A shorter stay on top, because that would count the same days twice. And the operating theatre, which needs more from you first."
+  ],
+  "note": "₹1.5 to 2 crore a year, from your own figures.",
+  "invite": "Last one before we move on. Has anyone worked out what your admissions desk can handle an hour at peak, bed transfers included?",
+  "question": {
+   "text": "Pick the closest",
+   "options": [
+    "Yes, we have worked it out",
+    "No, sized by habit and taken to be enough",
+    "Not sure. I would need to check"
+   ]
+  },
+  "prompts": [
+   "No, sized by habit",
+   "How sure is the ₹1.5 crore?",
+   "Why leave the operating theatre out?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Dead bed time, turned into money",
+    "title": "From one bed to a year",
+    "deck": "Four steps, each worked out from your figures. Tap a step to see the working."
+   },
+   {
+    "type": "step-ledger",
+    "steps": [
+     {
+      "key": "occ",
+      "label": "Beds occupied",
+      "value": "267",
+      "source": "derived",
+      "how": "300 beds, 89% full. 300 × 0.89 is 267."
+     },
+     {
+      "key": "turn",
+      "label": "Beds changing patient a day",
+      "value": "About 41",
+      "source": "derived",
+      "how": "267 beds, and each patient stays 6.5 days on average. 267 ÷ 6.5 is about 41."
+     },
+     {
+      "key": "hrs",
+      "label": "Hours won back each time",
+      "value": "3 to 4 of the 4 to 5",
+      "source": "estimate",
+      "how": "Not all dead bed time can be won back. We count only the part a better plan can reach."
+     },
+     {
+      "key": "days",
+      "label": "Bed days won back a year",
+      "value": "1,900 to 2,500",
+      "source": "derived",
+      "outcome": true,
+      "how": "41 changes a day, 3 to 4 hours each, over 365 days. Divided by 24 hours, that is 1,900 to 2,500 days."
+     }
+    ],
+    "condition": "This holds only if the freed hours can be filled. At 89% full, with patients waiting for beds, they can."
+   },
+   {
+    "type": "effect",
+    "label": "Revenue at stake",
+    "value": "₹1.5 to 2 crore a year",
+    "outcome": true,
+    "sub": "At ₹8,000 a bed day. Your figures suggest that is the bed charge alone, so this understates the real amount."
+   },
+   {
+    "type": "effect",
+    "label": "A shorter average stay",
+    "value": "Counted once, inside this",
+    "sub": "A shorter stay frees the same bed days. Adding it on top would count them twice."
+   }
+  ]
+ }
+}

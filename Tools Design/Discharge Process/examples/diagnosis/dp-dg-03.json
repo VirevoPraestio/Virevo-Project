@@ -1,0 +1,220 @@
+{
+ "turn": {
+  "id": "dp-dg-03",
+  "type": "diagnosis",
+  "tool": "Discharge Process",
+  "tab": "Diagnosis",
+  "register": "advisory",
+  "user_message": "One bed earns about ₹32,000 a day. Most patients are ready by 10 and leave around 3, so they wait about 5 hours. The doctors usually decide who’s going home on the 7 PM round, but they don’t sign till morning.",
+  "was": "turn-03 (dp-03), chain + threshold-gauges + calculator",
+  "context": "Discharge sample conversation, turn 3 (playbook §2: name the dead window and the missing owner).",
+  "transcript": {
+   "label": "Sample conversation · turn 3 · the diagnosis"
+  },
+  "user_tag": "@Point1 @Point2"
+ },
+ "chat": {
+  "text": [
+   "Your real problem is not slow discharge. It is time nobody uses, and nobody being in charge.",
+   "Your doctors already decide in the evening. But nothing happens until they sign the next morning. Most of the going-home work could be done overnight. Nobody does it today because:"
+  ],
+  "bullets": [
+   "Nothing is automatic, so starting early means doing the work twice.",
+   "No team moves until the doctor signs.",
+   "Nobody has ever been asked to use the evening."
+  ],
+  "invite": "The second reason: your own numbers show you now need one person in charge of discharge. Does this match what you see on the wards?",
+  "note": "The time is already there. Nobody uses it.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The hours nobody uses overnight",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The doctor signs next morning",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Needing one person in charge",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "What the waiting costs",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Yes, show me how to fix it",
+   "Why doesn’t anyone use the evening now?",
+   "Our doctors won’t sign at night"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "What is really wrong",
+    "title": "Unused hours, and nobody in charge",
+    "deck": "One patient’s night and morning, on your own times."
+   },
+   {
+    "type": "time-window",
+    "label": "From the evening round to going home",
+    "axis_from": 18,
+    "axis_to": 40,
+    "tick": 4,
+    "events": [
+     {
+      "time": 19,
+      "label": "Doctor decides",
+      "state": "start"
+     },
+     {
+      "time": 34,
+      "label": "Patient ready",
+      "state": "target"
+     },
+     {
+      "time": 35,
+      "label": "Doctor signs",
+      "point": 2
+     },
+     {
+      "time": 39,
+      "label": "Patient goes home",
+      "state": "outcome"
+     }
+    ],
+    "window": {
+     "start": 19,
+     "end": 35,
+     "label": "Nothing happens",
+     "note": "The decision is made. The work waits for the signature.",
+     "point": 1
+    },
+    "share": {
+     "value": "Most",
+     "label": "of the going-home work could be done in these hours"
+    },
+    "caption": "Ready by 10 AM, home by 3 PM: about 5 hours of waiting. All the times are yours.",
+    "sheets": [
+     {
+      "key": "dec",
+      "when": "7 PM round",
+      "title": "Doctor decides",
+      "text": "The doctor already knows who can go home tomorrow. Today that decision is not written down anywhere.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Said, not recorded"
+       }
+      ],
+      "entry": "Who hears the decision on the round?",
+      "entry_hint": "For example: only the ward nurse"
+     },
+     {
+      "key": "ready",
+      "when": "10 AM",
+      "title": "Patient ready to go",
+      "text": "The patient is fit to leave. Nothing they need is ready yet.",
+      "lines": [
+       {
+        "label": "Waiting from here",
+        "value": "About 5 hours",
+        "state": "target"
+       }
+      ],
+      "entry": "When are most of your patients ready?"
+     },
+     {
+      "key": "sign",
+      "when": "11 AM",
+      "title": "Doctor signs",
+      "text": "Only now do the papers and the bill start. Three people handle every summary.",
+      "lines": [
+       {
+        "label": "Starts after this",
+        "value": "Papers and the bill"
+       }
+      ],
+      "entry": "What happens first after the signature?"
+     },
+     {
+      "key": "home",
+      "when": "About 3 PM",
+      "title": "Patient goes home",
+      "text": "Four hours after the signature, the patient leaves and the bed frees.",
+      "lines": [
+       {
+        "label": "Ready to home",
+        "value": "About 5 hours",
+        "state": "outcome"
+       }
+      ],
+      "entry": "What usually holds up the last hour?"
+     }
+    ]
+   },
+   {
+    "type": "threshold-gauges",
+    "gauges": [
+     {
+      "label": "Beds in use",
+      "caption": "Over 80% needs one person in charge",
+      "min": 0,
+      "max": 100,
+      "value": 88,
+      "value_label": "You: 88%",
+      "line": 80,
+      "line_label": "80%",
+      "point": 3
+     },
+     {
+      "label": "Patients going home a day",
+      "caption": "Over 40 a day needs the same",
+      "min": 0,
+      "max": 60,
+      "value": 42.5,
+      "value_label": "40 to 45",
+      "band_low": 40,
+      "band_high": 45,
+      "line": 40,
+      "line_label": "40",
+      "point": 3
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "What the waiting costs a year",
+    "value": "Up to ₹10.3 crore",
+    "state": "outcome",
+    "sub": "Worked out from your figures: 42.5 patients a day, 5 hours each, ₹32,000 a bed. True only if each freed bed fills that day."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: how to fix it",
+    "say": "Yes, show me how to fix it"
+   },
+   "add": {
+    "detail": "Tell me what I missed",
+    "say": "One more thing about our discharges: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the wait could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

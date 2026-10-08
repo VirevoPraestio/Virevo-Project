@@ -1,0 +1,135 @@
+{
+ "turn": {
+  "id": "au-03",
+  "tab": "Automations",
+  "type": "elaboration",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Explain the first three steps on the round",
+  "context": "Playbook §5, the second 'tell me more': the three steps on the evening round, and how the draft is put together."
+ },
+ "chat": {
+  "text": [
+   "The summary was already filling in. Here are the three steps on the evening round, and who says yes at each.",
+   "Tojo gathers, checks and drafts. People make every decision."
+  ],
+  "pointer": "Press Next step to walk through it. The loop shows what Tojo is doing at each step.",
+  "note": "Tojo drafts. The doctor decides.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Hearing the decision",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Putting the draft together",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The doctor’s yes",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "How would you record each decision?",
+   "What if the doctor changes their mind?",
+   "Does it work for insured patients?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Going deeper · the evening round",
+    "title": "Three steps, then a yes",
+    "deck": "What Tojo does between the doctor’s word and the signed early summary."
+   },
+   {
+    "type": "agent",
+    "caption": "Tojo’s loop: it notices, gathers, checks, drafts, then asks a person.",
+    "loop": [
+     {
+      "id": "n",
+      "name": "Notice"
+     },
+     {
+      "id": "g",
+      "name": "Gather"
+     },
+     {
+      "id": "c",
+      "name": "Check"
+     },
+     {
+      "id": "d",
+      "name": "Draft"
+     },
+     {
+      "id": "a",
+      "name": "Ask"
+     }
+    ],
+    "steps": [
+     {
+      "title": "Hear the decision",
+      "when": "On the evening round",
+      "does": "The doctor taps once on the ward phone to say the patient can likely go tomorrow. Tojo takes that as its signal.",
+      "checks": [
+       "It is the patient’s own doctor",
+       "The patient is not waiting on a test"
+      ],
+      "stages": [
+       "n",
+       "c"
+      ],
+      "hand": {
+       "who": "the doctor",
+       "does": "Taps once to say the patient can likely go"
+      },
+      "point": 1
+     },
+     {
+      "title": "Put the draft together",
+      "when": "Within minutes",
+      "does": "Tojo gathers the facts recorded since admission. It writes the draft summary, the expected bill and the list of medicines to take home.",
+      "checks": [
+       "Every test result is in",
+       "No medicine changed after the last note",
+       "The bill matches what was used"
+      ],
+      "stages": [
+       "g",
+       "c",
+       "d"
+      ],
+      "point": 2
+     },
+     {
+      "title": "Ask for the yes",
+      "when": "Before the round ends",
+      "does": "The draft appears on the doctor’s phone. Anything missing or unclear is marked for the doctor to look at.",
+      "checks": [
+       "Late reports are named, never guessed"
+      ],
+      "stages": [
+       "a"
+      ],
+      "hand": {
+       "who": "the doctor",
+       "does": "Reads the early summary, then signs or corrects it"
+      },
+      "point": 3
+     }
+    ],
+    "never": [
+     "Decide who goes home",
+     "Sign for a doctor",
+     "Guess a missing result",
+     "Change a patient’s record"
+    ]
+   }
+  ]
+ }
+}

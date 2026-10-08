@@ -1,0 +1,128 @@
+{
+ "turn": {
+  "id": "dp-07",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "context": "Tojo · 250-bed hospital, Bhubaneswar",
+  "subject": "solution",
+  "user_message": "Show me the people who must agree"
+ },
+ "chat": {
+  "text": [
+   "Several teams touch discharge, but only a few are asked to change much. One person has to approve it. Why each matters:"
+  ],
+  "bullets": [
+   "Doctors are asked for no extra time. They already decide at 7 PM, which is why they can agree.",
+   "Typists have the most to give up, so they check drafts first, and nobody loses a job at the start.",
+   "The Head of Operations must approve the new order, or it won’t last past the first busy morning."
+  ],
+  "invite": "Next is who is in charge: whether you need anyone new. Shall we go there?",
+  "note": "Help first. Fewer hands only once it is trusted.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Doctors",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Typists, who have the most to give up",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Billing and the insurance desk",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The IT team",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Head of Operations",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Show me who is in charge",
+   "Will anyone lose their job?",
+   "Our consultants won’t sign on a phone"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 3 of 5 · People who must agree",
+    "title": "Who has to say yes"
+   },
+   {
+    "type": "role-cards",
+    "doers": [
+     {
+      "role": "Doctors",
+      "ask": "Say who is going home at 7 PM, then sign on a phone next morning.",
+      "point": 1
+     },
+     {
+      "role": "Typists",
+      "ask": "Check and correct a ready draft, instead of typing each one from scratch.",
+      "resistant": true,
+      "point": 2
+     },
+     {
+      "role": "Nurses",
+      "ask": "Check what the software writes down, instead of counting supplies before billing."
+     },
+     {
+      "role": "Billing and insurance desk",
+      "ask": "Check bills that are already made, instead of building them after signing.",
+      "point": 3
+     },
+     {
+      "role": "IT team",
+      "ask": "Link the software to patient records, bills, lab reports and scans.",
+      "point": 4
+     },
+     {
+      "role": "Bed desk and wards",
+      "ask": "Act when the software says a bed or a patient is ready."
+     }
+    ],
+    "approver": {
+     "role": "Head of Operations",
+     "approves": "The new order of steps, and splitting discharges from admissions.",
+     "fails_if": "the first busy morning sends everyone back to the old order.",
+     "point": 5
+    },
+    "caption": "Each team is told the software takes work off them first. Fewer staff comes later, and only once it is trusted."
+   },
+   {
+    "type": "stat-strip",
+    "stats": [
+     {
+      "label": "Extra time asked of doctors",
+      "value": "None",
+      "source": "target",
+      "note": "true only if no extra round, form or login is added",
+      "state": "start"
+     },
+     {
+      "label": "Jobs cut at the start",
+      "value": "None",
+      "source": "target",
+      "note": "the software helps first"
+     }
+    ]
+   }
+  ]
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-09-25",
+  "note": "Approved."
+ }
+}

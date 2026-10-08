@@ -1,0 +1,54 @@
+{
+ "place": "Solutions",
+ "tool": "Bed Management",
+ "turns": [
+  {
+   "file": "bm-so-01-A.json",
+   "note": "Transcript turn 18 · the automation part. Sample A (six switches, one bulb), approved 1 Oct."
+  },
+  {
+   "file": "bm-so-02.json",
+   "note": "The hub: five things the hospital provides, wired into one engine, six steps out. Then the prerequisite and the blocker as a pair."
+  },
+  {
+   "file": "bm-so-03.json",
+   "note": "The foundation: what Tojo brings above the ground line, the two things that must exist below it, and a switch to a hospital still on paper."
+  },
+  {
+   "file": "bm-so-04.json",
+   "note": "The corridor of doors from the Solutions landing page: part 1 ajar and covered, four closed doors each carrying its question."
+  },
+  {
+   "file": "bm-so-05.json",
+   "note": "The day now against the day as it would run, on your clock. Then the four smaller changes and the two owners joined as peers."
+  },
+  {
+   "file": "bm-so-06.json",
+   "note": "The library maze, layered: two routes ruled out and the way through. Then the re-run loop: try a change and the plan runs again."
+  },
+  {
+   "file": "bm-so-07.json",
+   "note": "The library knots motif: a discharge chain whose waiting is in the gaps. Switch to an owner and the knots come undone. No rupee figure in the drawing."
+  },
+  {
+   "file": "bm-so-08.json",
+   "note": "Six teams as rooms on one plan, the doctors’ room marked where the resistance sits. Then the sign-off tree: Head of Operations over two managers of the same size."
+  },
+  {
+   "file": "bm-so-09.json",
+   "note": "The four roles, then the two sizing chains with a live slider on the busiest hour. The discharge chain and the four missing numbers take entries in place."
+  },
+  {
+   "file": "bm-so-10.json",
+   "note": "Eight measures as drafting dials: six dashed with no needle, two with a needle at the hospital’s own figures. Filter to the three early warnings."
+  },
+  {
+   "file": "bm-so-11.json",
+   "note": "Muted findings, the five parts as one jigsaw ending in the gain, and worth beside cost with no ratio stated: you draw the comparison."
+  },
+  {
+   "file": "bm-so-12.json",
+   "note": "The library route: four stations, the first two muted where nothing changes for staff. At the end, doors into Automations and Processes."
+  }
+ ]
+}

@@ -1,0 +1,205 @@
+{
+ "turn": {
+  "id": "dp-pr-11",
+  "type": "recommendation",
+  "tool": "Discharge Process",
+  "tab": "Processes",
+  "register": "advisory",
+  "user_message": "Do we need to hire anyone?",
+  "was": "pr-04 (seats)",
+  "context": "Processes place, turn 4 (the roles, their triggers, and the busy-hours check on your own pattern).",
+  "transcript": {
+   "label": "Processes · who to hire"
+  }
+ },
+ "chat": {
+  "text": [
+   "Yes. One Discharge Manager and two Discharge Executives.",
+   "The flat rule says three Executives. Your busy hours say two, one for each window.",
+   "At 40 to 45 discharges a day, the Manager is needed now. You are already there."
+  ],
+  "invite": "Next, we can see how this joins up with the bed desk.",
+  "note": "Size the team to your busy hours, not your daily total.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The Discharge Manager",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "More than 40 discharges a day",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The two Discharge Executives",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The busy-hours check",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Why not one person for both jobs?",
+   "Who at the bed desk would see this?",
+   "Which measures show it worked?"
+  ],
+  "pointer": "Move the slider and switch the rule. The chairs and the cost follow."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · who to hire",
+    "title": "Three chairs, sized to your hours",
+    "deck": "The roles as chairs. Their triggers as lamps. The helpers sized to your busy hours.",
+    "plate": {
+     "column": "Roles",
+     "name": "Who to hire"
+    }
+   },
+   {
+    "type": "seats",
+    "others": "Everyone else records and approves a little more. That is a wider job, not a new one.",
+    "roles": [
+     {
+      "name": "Discharge Manager",
+      "seats": 1,
+      "cost_low": 4,
+      "cost_high": 4.5,
+      "state": "needed",
+      "does": "Owns the whole discharge process. Works with the other departments. A peer of the Bed Manager.",
+      "rule": "Any one is enough",
+      "point": 1,
+      "triggers": [
+       {
+        "label": "More than 40 discharges a day",
+        "value": "40 to 45",
+        "state": "met",
+        "source": "yours",
+        "above": 40,
+        "point": 2
+       },
+       {
+        "label": "Beds more than 80% full",
+        "value": "88%",
+        "state": "met",
+        "source": "yours"
+       },
+       {
+        "label": "Discharges often run over time",
+        "state": "unknown",
+        "source": "needed"
+       }
+      ]
+     },
+     {
+      "name": "Discharge Executives",
+      "seats": 2,
+      "cost_low": 3,
+      "cost_high": 3.5,
+      "each": true,
+      "sized": true,
+      "state": "needed",
+      "does": "Own each discharge from the doctor’s first signal. Catch hold-ups as they happen.",
+      "point": 3
+     }
+    ],
+    "sizing": {
+     "flat_label": "Flat rule",
+     "busy_label": "Your busy hours",
+     "slider_label": "Discharges a day",
+     "min": 20,
+     "max": 60,
+     "default": 45,
+     "yours_low": 40,
+     "yours_high": 45,
+     "per_person": 15,
+     "start": 6,
+     "end": 24,
+     "windows": [
+      {
+       "from": 8,
+       "to": 11,
+       "label": "Morning confirmations",
+       "clock": "8 to 11 AM"
+      },
+      {
+       "from": 18,
+       "to": 21,
+       "label": "Evening round intake",
+       "clock": "6 to 9 PM"
+      }
+     ],
+     "flat_text": "{n} a day at 15 each makes {k}. But the work comes in two windows, so most of the day they wait.",
+     "busy_text": "Your work comes in two windows. One person anchored to each covers the peak. This is your own pattern.",
+     "recheck_text": "Your busy hours were checked at 40 to 45 a day. At this number, run the check again with your times.",
+     "count_label": "Discharge Executives",
+     "total_label": "New roles, each year",
+     "point": 4
+    },
+    "sheets": [
+     {
+      "key": "dm",
+      "when": "Needed now",
+      "title": "Discharge Manager",
+      "text": "Owns the whole discharge process. Any one trigger is enough, and two of yours are met.",
+      "lines": [
+       {
+        "label": "Cost",
+        "value": "About ₹4 to 4.5 lakh a year"
+       },
+       {
+        "label": "Triggers met",
+        "value": "Two of three, your numbers",
+        "state": "start"
+       }
+      ],
+      "entry": "Could someone you have take this role?"
+     },
+     {
+      "key": "de",
+      "when": "Needed now",
+      "title": "Discharge Executives",
+      "text": "One person anchored to each busy window: the morning confirmations and the evening round.",
+      "lines": [
+       {
+        "label": "Cost",
+        "value": "About ₹3 to 3.5 lakh each"
+       },
+       {
+        "label": "How many",
+        "value": "Two, for two windows",
+        "state": "start"
+       }
+      ],
+      "entry": "Do your busy times change at weekends?"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: how this joins the bed desk",
+    "say": "Who at the bed desk would see this?"
+   },
+   "add": {
+    "detail": "Tell me about your staff rota",
+    "say": "Our discharge staff work these shifts: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

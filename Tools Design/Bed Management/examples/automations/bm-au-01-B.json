@@ -1,0 +1,326 @@
+{
+ "turn": {
+  "id": "bm-au-01",
+  "tab": "Automations",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "How would the build work?",
+  "context": "The first Automations turn: how the build works. From bed-management.md §7.4.1 (the engine, a to e, and the 2 PM and 6 PM passes), §7.2 (the records) and §7.4.2 (discharge first, read access), with the transcript’s own facts.",
+  "transcript": {
+   "label": "After transcript turn 31 · “How would the build work?” (the record stops at 31)"
+  },
+  "sample": {
+   "letter": "B",
+   "name": "One engine, read through the day",
+   "what": "The library brain, layered: one day instead of one stay. Pick a time of day or play it, and watch the records flow in and the engine’s answers fill by the 6 PM freeze."
+  }
+ },
+ "chat": {
+  "text": [
+   "Here is the build, in the order it happens."
+  ],
+  "bullets": [
+   "First, read access. Your IT team links the systems that already hold admissions, discharges, inpatient notes and billing. We write nothing back.",
+   "Second, discharge. The bed plan runs on discharge times, so discharge is built and linked before the bed mapping.",
+   "Then one engine does five jobs. It maps tomorrow’s beds and ICU beds, checks discharge times, holds emergency beds back and sets call-in times."
+  ],
+  "invite": "Pick any part to see what it reads and what it makes. Or tell me which systems your hospital runs.",
+  "note": "Read access and discharge first. The engine comes after.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Read access",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Discharge first",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Tomorrow’s bed map",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Emergency beds",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Call-in times",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What exactly would our IT team do?",
+   "Why must discharge be built first?",
+   "What if some records are on paper?"
+  ],
+  "pointer": "Pick a time of day, or play the day. The records light as they arrive and the answers fill by 6 PM."
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved 1 Oct: the turn (Avishek’s preference)."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Automations · how it is built",
+    "plate": {
+     "tag": "Automations",
+     "name": "The bed engine",
+     "stage": "Idea"
+    },
+    "title": "One engine, read through the day",
+    "deck": "What the engine reads at each pass, and what it has made by the 6 PM freeze."
+   },
+   {
+    "type": "brain",
+    "passes_label": "Time of day",
+    "play": "Play the day",
+    "in_label": "What the engine reads",
+    "out_label": "What it makes, filling in",
+    "count_label": "records read, none typed again",
+    "kinds": [
+     {
+      "k": "opd",
+      "name": "OPD advice",
+      "example": "Who is coming in, for which procedure"
+     },
+     {
+      "k": "stay",
+      "name": "Expected stays",
+      "example": "Patients near the usual stay for their procedure"
+     },
+     {
+      "k": "icu",
+      "name": "ICU step-down signals",
+      "example": "Given by 1 PM"
+     },
+     {
+      "k": "round",
+      "name": "5 PM round answers",
+      "example": "Doctors confirm or correct the date"
+     },
+     {
+      "k": "trend",
+      "name": "Emergency trend",
+      "example": "Two to three years of emergency admissions",
+      "point": 4
+     },
+     {
+      "k": "dis",
+      "name": "Discharge times",
+      "example": "Real times from the discharge side",
+      "point": 2
+     }
+    ],
+    "outputs": [
+     {
+      "name": "Tomorrow’s bed map",
+      "from": [
+       "opd",
+       "stay",
+       "dis",
+       "round"
+      ],
+      "point": 3
+     },
+     {
+      "name": "ICU bed map",
+      "from": [
+       "icu",
+       "stay"
+      ]
+     },
+     {
+      "name": "Beds held for emergencies",
+      "from": [
+       "trend"
+      ],
+      "point": 4
+     },
+     {
+      "name": "Admissions still without a bed",
+      "from": [
+       "opd",
+       "stay",
+       "round"
+      ]
+     },
+     {
+      "name": "Call-in times, bed by bed",
+      "from": [
+       "round",
+       "dis"
+      ],
+      "point": 5
+     }
+    ],
+    "passes": [
+     {
+      "label": "All day",
+      "what": "OPD advice comes in",
+      "brings": [
+       "opd",
+       "opd",
+       "trend"
+      ]
+     },
+     {
+      "label": "1 PM",
+      "what": "ICU signals due",
+      "brings": [
+       "icu",
+       "stay"
+      ]
+     },
+     {
+      "label": "2 PM",
+      "what": "First mapping pass",
+      "brings": [
+       "stay",
+       "dis"
+      ]
+     },
+     {
+      "label": "5 PM",
+      "what": "Rounds confirm",
+      "brings": [
+       "round",
+       "round"
+      ]
+     },
+     {
+      "label": "6 PM",
+      "what": "Final freeze",
+      "brings": [
+       "dis",
+       "round"
+      ]
+     }
+    ],
+    "condition": "The 2 PM pass is a first picture. Only the 6 PM freeze sends call-in times out.",
+    "sheets": [
+     {
+      "key": "day",
+      "when": "All day",
+      "title": "OPD advice comes in",
+      "text": "Each advice to admit is read as it is written, with the procedure and the date. The emergency trend is read from your past admissions.",
+      "lines": [
+       {
+        "label": "Reads",
+        "value": "OPD prescriptions, past admissions"
+       },
+       {
+        "label": "Makes",
+        "value": "Tomorrow’s list of planned admissions"
+       }
+      ],
+      "entry": "How many planned admissions do you have on a usual day?"
+     },
+     {
+      "key": "one",
+      "when": "1 PM",
+      "title": "ICU signals due",
+      "text": "ICU patients need their step-down signal by 1 PM. The engine adds patients near the usual ICU stay for their procedure.",
+      "lines": [
+       {
+        "label": "Reads",
+        "value": "ICU signals, inpatient records"
+       },
+       {
+        "label": "Makes",
+        "value": "The ICU bed map"
+       }
+      ],
+      "entry": "Who gives the step-down signal in your ICU?"
+     },
+     {
+      "key": "two",
+      "when": "2 PM",
+      "title": "First mapping pass",
+      "text": "Tomorrow’s planned admissions are set against empty beds and beds likely to free up. The teams are told what to confirm.",
+      "lines": [
+       {
+        "label": "Reads",
+        "value": "Admissions, stays, discharge times"
+       },
+       {
+        "label": "Tells",
+        "value": "The discharge team and Medical Supervisory"
+       }
+      ],
+      "entry": "Who should hear about the 2 PM pass first?"
+     },
+     {
+      "key": "five",
+      "when": "5 PM",
+      "title": "Rounds confirm",
+      "text": "On the evening round each predicted date is confirmed or corrected. The engine takes in every answer.",
+      "lines": [
+       {
+        "label": "Reads",
+        "value": "Round answers, voice notes"
+       }
+      ],
+      "entry": "At what time do your evening rounds end?",
+      "hand": {
+       "who": "the treating doctor",
+       "does": "Confirms or corrects each predicted date."
+      }
+     },
+     {
+      "key": "six",
+      "when": "6 PM",
+      "title": "Final freeze",
+      "text": "Tomorrow’s plan is frozen. Each patient coming in has one bed and a call-in time. What is still unmapped is shared with everyone.",
+      "lines": [
+       {
+        "label": "Makes",
+        "value": "Call-in times, bed by bed",
+        "state": "start"
+       },
+       {
+        "label": "Also makes",
+        "value": "The list still without a bed"
+       }
+      ],
+      "entry": "What usually changes after 6 PM?",
+      "hand": {
+       "who": "the Bed Manager",
+       "does": "Checks the freeze before the call-in times go out."
+      }
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Your IT team’s part",
+    "value": "Read access, once",
+    "state": "target",
+    "sub": "About two weeks. We read the records you already hold, and we write nothing back."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: what your IT team would do",
+    "say": "What exactly would our IT team do?"
+   },
+   "add": {
+    "detail": "Tell me about your systems",
+    "say": "Here is what we run today: "
+   },
+   "jump": {
+    "tab": "Processes",
+    "detail": "How the day changes on the wards",
+    "say": "Take me to Processes"
+   }
+  }
+ }
+}

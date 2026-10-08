@@ -1,0 +1,138 @@
+{
+ "turn": {
+  "id": "pr-04",
+  "tab": "Processes",
+  "type": "recommendation",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "Do we need to hire anyone?",
+  "context": "Playbook §4, team and role changes: two separate role decisions. The busy-hours check, not the flat rule."
+ },
+ "chat": {
+  "text": [
+   "Yes. One Discharge Manager and two Discharge Executives.",
+   "The flat rule says three Executives. Your busy hours say two, one for each window.",
+   "At 40 to 45 discharges a day, the Manager is needed now. You are already there."
+  ],
+  "pointer": "Slide the discharges a day, and switch between the flat rule and your busy hours.",
+  "invite": "Next, we can see how this joins up with the bed desk.",
+  "note": "Size the team to your busy hours, not your daily total.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The Discharge Manager",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "More than 40 discharges a day",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The two Discharge Executives",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The busy-hours check",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Why not one person for both jobs?",
+   "Who at the bed desk would see this?",
+   "Which measures show it worked?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Team and roles",
+    "title": "One manager, two executives",
+    "deck": "Two separate choices. The Manager owns the whole process. The Executives carry the work at the busy hours."
+   },
+   {
+    "type": "seats",
+    "others": "Everyone else records and approves a little more. That is a wider job, not a new one.",
+    "roles": [
+     {
+      "name": "Discharge Manager",
+      "seats": 1,
+      "cost_low": 4,
+      "cost_high": 4.5,
+      "state": "needed",
+      "does": "Owns the whole discharge process. Works with the other departments. A peer of the Bed Manager.",
+      "rule": "Any one is enough",
+      "point": 1,
+      "triggers": [
+       {
+        "label": "More than 40 discharges a day",
+        "value": "40 to 45",
+        "state": "met",
+        "source": "yours",
+        "above": 40,
+        "point": 2
+       },
+       {
+        "label": "Beds more than 80% full",
+        "state": "unknown",
+        "source": "needed"
+       },
+       {
+        "label": "Discharges often run over the expected time",
+        "state": "unknown",
+        "source": "needed"
+       }
+      ]
+     },
+     {
+      "name": "Discharge Executives",
+      "seats": 2,
+      "cost_low": 3,
+      "cost_high": 3.5,
+      "each": true,
+      "sized": true,
+      "state": "needed",
+      "does": "Own each discharge from the doctor’s first signal. Catch hold-ups as they happen.",
+      "point": 3
+     }
+    ],
+    "sizing": {
+     "flat_label": "Flat rule",
+     "busy_label": "Your busy hours",
+     "slider_label": "Discharges a day",
+     "min": 20,
+     "max": 60,
+     "default": 45,
+     "yours_low": 40,
+     "yours_high": 45,
+     "per_person": 15,
+     "start": 6,
+     "end": 24,
+     "windows": [
+      {
+       "from": 8,
+       "to": 11,
+       "label": "Morning confirmations",
+       "clock": "8 to 11 AM"
+      },
+      {
+       "from": 18,
+       "to": 21,
+       "label": "Evening round intake",
+       "clock": "6 to 9 PM"
+      }
+     ],
+     "flat_text": "{n} a day at 15 each makes {k}. But the work comes in two windows, so most of the day they wait.",
+     "busy_text": "Your work comes in two windows. One person anchored to each covers the peak. This is your own pattern.",
+     "recheck_text": "Your busy hours were checked at 40 to 45 a day. At this number, run the check again with your times.",
+     "count_label": "Discharge Executives",
+     "total_label": "New roles, each year",
+     "point": 4
+    }
+   }
+  ]
+ }
+}

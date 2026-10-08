@@ -1,0 +1,254 @@
+{
+ "turn": {
+  "id": "bm-so-06",
+  "tab": "Solutions",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "a hospital is too dynamic. will such hard rules actually be possible to implement? there will be a lot of resistance",
+  "context": "Two objections, two treatments. Resistance is conceded and parked for part 3. Too dynamic is tested against the hospital’s own figures.",
+  "transcript": {
+   "label": "Transcript turn 23 · “A hospital is too dynamic. Will such hard rules work?”"
+  }
+ },
+ "chat": {
+  "text": [
+   "Resistance is real, and it is most of part 3. But too dynamic is worth testing first, because your numbers point the other way."
+  ],
+  "bullets": [
+   "89% full, a 6.5 day stay, about 41 admissions a day. The total is steady, even though no single bed is.",
+   "What is unknown is which bed frees when. What is known is how many will free, and roughly when. The mapping only uses that.",
+   "What is fixed is when a decision is made, not what is decided. When something moves, the plan re-runs and only the affected times change."
+  ],
+  "pointer": "Follow the routes through the maze. Then try a change and watch the plan re-run.",
+  "invite": "Resistance deserves more than a line. Shall I take you into part 3?",
+  "note": "Fix when decisions are made, not what is decided.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Fix what gets decided",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "No fixed times",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Fix when decisions are made",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Something changes",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "The change is recorded",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Yes, take me into part 3",
+   "Tell me more about why a Discharge Manager is needed",
+   "What if a doctor will not give a date?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 2 · Process changes",
+    "title": "Fixed times, free decisions",
+    "plate": {
+     "part": 2,
+     "of": 5,
+     "name": "Process changes",
+     "stage": "Shaped"
+    },
+    "deck": "Three routes were tried. Only one keeps both the plan and the doctor’s call."
+   },
+   {
+    "type": "maze",
+    "start": "A day that feels too dynamic",
+    "goal": "A plan that holds on a busy day",
+    "routes": [
+     {
+      "kind": "dead",
+      "name": "Fix what gets decided",
+      "why": "Who is fit to leave stays a clinical call. A rule on that would be broken every day.",
+      "point": 1
+     },
+     {
+      "kind": "dead",
+      "name": "No fixed times at all",
+      "why": "Then nothing is ready the evening before. Every afternoon gets rebuilt, as it is today.",
+      "point": 2
+     },
+     {
+      "kind": "way",
+      "name": "Fix when decisions are made",
+      "why": "The 2 PM mapping, the 5 PM check and the 6 PM freeze. What gets decided stays with the doctor.",
+      "needs": [
+       "One fixed round at 5 PM",
+       "Doctors check a predicted date"
+      ],
+      "point": 3
+     }
+    ],
+    "sheets": [
+     {
+      "key": "what",
+      "when": "Ruled out",
+      "title": "Fix what gets decided",
+      "text": "A rule on who goes home would sit on top of a clinical call. Doctors would break it daily, and they would be right to.",
+      "lines": [
+       {
+        "label": "Why it fails",
+        "value": "Clinical calls cannot be timetabled",
+        "state": "outcome"
+       }
+      ]
+     },
+     {
+      "key": "none",
+      "when": "Ruled out",
+      "title": "No fixed times at all",
+      "text": "Without fixed times, nobody can plan the evening before. That is how the day runs now: rebuilt every afternoon.",
+      "lines": [
+       {
+        "label": "Why it fails",
+        "value": "Nothing is ready the evening before",
+        "state": "outcome"
+       }
+      ]
+     },
+     {
+      "key": "when",
+      "when": "The way through",
+      "title": "Fix when decisions are made",
+      "text": "The times are fixed. The decisions are not. A step-down that slips is an input to the next pass, not a breach.",
+      "lines": [
+       {
+        "label": "Fixed",
+        "value": "When the 2 PM, 5 PM and 6 PM decisions happen",
+        "state": "start"
+       },
+       {
+        "label": "Left alone",
+        "value": "Who is fit to leave, emergencies, a step-down that slips"
+       }
+      ],
+      "entry": "Which decision moves most often at your hospital?"
+     }
+    ]
+   },
+   {
+    "type": "rerun",
+    "tries_label": "Try a change",
+    "loop_label": "What happens next",
+    "tries": [
+     {
+      "title": "An emergency arrives",
+      "point": 4
+     },
+     {
+      "title": "A step-down slips a day",
+      "point": 4
+     },
+     {
+      "title": "A patient stays one more night",
+      "point": 4
+     }
+    ],
+    "loop": [
+     {
+      "title": "Something changes"
+     },
+     {
+      "title": "The plan re-runs",
+      "line": "Only for the beds it touches"
+     },
+     {
+      "title": "Call-in times re-issued",
+      "line": "Only the affected patients hear"
+     },
+     {
+      "title": "The change is recorded",
+      "line": "A logged event, not a rule broken",
+      "state": "outcome"
+     }
+    ],
+    "sheets": [
+     {
+      "key": "er",
+      "when": "A change",
+      "title": "An emergency arrives",
+      "text": "Emergencies arrive when they arrive. A bed is held back for them. The plan re-runs for the beds that move, and nothing else changes.",
+      "lines": [
+       {
+        "label": "What moves",
+        "value": "One or two call-in times"
+       }
+      ],
+      "entry": "How many emergencies do you admit on a usual day?"
+     },
+     {
+      "key": "step",
+      "when": "A change",
+      "title": "A step-down slips a day",
+      "text": "The ICU patient stays another day. The next pass takes that in. The patient waiting for that bed gets a new call-in time.",
+      "lines": [
+       {
+        "label": "What moves",
+        "value": "The bed it was meant to free"
+       }
+      ],
+      "entry": "How often does a step-down slip?"
+     },
+     {
+      "key": "stay",
+      "when": "A change",
+      "title": "A patient stays one more night",
+      "text": "The doctor decides the patient is not fit to leave. That is the doctor’s call. The plan follows it and records the change.",
+      "lines": [
+       {
+        "label": "What moves",
+        "value": "One bed, one call-in time"
+       }
+      ],
+      "entry": "Who would tell the desk at your hospital?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Your numbers are steady",
+    "value": "89% · 6.5 days · 41",
+    "sub": "Beds full, average stay and admissions a day. The 41 is worked out from your figures. No single bed is steady, but the total is."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: part 3, the people and their buy-in",
+    "say": "Yes, take me into part 3, the key people"
+   },
+   "add": {
+    "detail": "Add something about your hospital",
+    "say": "Here is something to add about our hospital: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "How the automations are built and run",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved 1 Oct with the Bed Management Solutions turns."
+ }
+}

@@ -1,0 +1,234 @@
+{
+ "turn": {
+  "id": "bm-pr-03",
+  "tab": "Processes",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "Why do our patients still get in so late?",
+  "context": "Prompt 1 of bm-pr-02. Transcript 9 (one team, both jobs at once), 11 (the filled chain) and 22 (allocate forward). bed-management.md §7.2 question 8: a claimed overlap tested against the clock, and the rule that beds are not given until ready.",
+  "transcript": {
+   "label": "After transcript turn 31 · Processes, turn 3 (the record stops at 31)"
+  }
+ },
+ "chat": {
+  "text": [
+   "You already run discharges and admissions together. The wait comes from one rule: a bed is given only once it is ready."
+  ],
+  "bullets": [
+   "Every step after that rule waits for it. So patients reach a bed between 4:30 and 8 PM.",
+   "Give the bed against the time it will be free. The papers and the call-in can then happen first.",
+   "The same team, beds and patients give a different day. It costs nothing but the new order."
+  ],
+  "invite": "Next, we can look at what a doctor is asked to do.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Bed given out",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Patient called in",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Admission papers",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "First bill on the bed",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What does a doctor have to do?",
+   "What if a bed is not free in time?",
+   "Who needs to agree to this?"
+  ],
+  "pointer": "Move each magnet, or switch to move them all."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · the one rule",
+    "title": "One rule keeps the day late",
+    "deck": "Each step of an admission, today and with the change. Move a magnet to see what changes.",
+    "plate": {
+     "column": "Changes",
+     "name": "The admission"
+    }
+   },
+   {
+    "type": "swap",
+    "with_label": "With the change",
+    "rows": [
+     {
+      "name": "Bed given out",
+      "who": "Admissions desk",
+      "today": "When it is clean and ready",
+      "with": "When it will be free",
+      "today_at": "3 to 4 PM",
+      "with_at": "By 10 AM",
+      "flag": "The big one",
+      "point": 1
+     },
+     {
+      "name": "Patient called in",
+      "who": "Admissions desk",
+      "today": "Told to come at 1 PM",
+      "with": "Given a time for their bed",
+      "with_at": "9 to 11 AM",
+      "point": 2
+     },
+     {
+      "name": "Admission papers",
+      "who": "Admissions desk",
+      "today": "Done once the bed is ready",
+      "with": "Done before the bed is free",
+      "point": 3
+     },
+     {
+      "name": "Bed cleaned",
+      "who": "Housekeeping",
+      "today": "When someone calls them",
+      "with": "Told when the patient leaves"
+     },
+     {
+      "name": "First bill on bed",
+      "who": "Billing",
+      "today": "Opened from 5 PM",
+      "with": "Opened by about noon",
+      "point": 4
+     }
+    ],
+    "keeps": "The same team, the same beds and the same patients. Only the order changes, and the new order costs nothing.",
+    "condition": "Arrive 1 PM, in bed 4:30 PM, first bill 5 PM are your times. The new times are the plan.",
+    "sheets": [
+     {
+      "key": "r1",
+      "when": "Admissions desk",
+      "title": "Bed given out",
+      "text": "This one rule causes the late afternoon. A bed is only given once it is ready, so every step after it waits.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Given when ready"
+       },
+       {
+        "label": "New",
+        "value": "Given against its free time",
+        "state": "start"
+       }
+      ],
+      "entry": "Who decides a bed is ready today?"
+     },
+     {
+      "key": "r2",
+      "when": "Admissions desk",
+      "title": "Patient called in",
+      "text": "Today every patient is told the same time. With a free time for each bed, each patient gets their own.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "One time for all"
+       },
+       {
+        "label": "New",
+        "value": "One time per bed",
+        "state": "start"
+       }
+      ],
+      "entry": "What time are patients told to come today?"
+     },
+     {
+      "key": "r3",
+      "when": "Admissions desk",
+      "title": "Admission papers",
+      "text": "Papers take about an hour of your 3½ hours. Done while the bed is still being cleaned, they stop adding to the wait.",
+      "lines": [
+       {
+        "label": "Paperwork today",
+        "value": "About 1 hour of 3½"
+       },
+       {
+        "label": "New",
+        "value": "Done while the bed is cleaned",
+        "state": "start"
+       }
+      ],
+      "entry": "Which paper takes longest at your desk?"
+     },
+     {
+      "key": "r4",
+      "when": "Housekeeping",
+      "title": "Bed cleaned",
+      "text": "Housekeeping hears the leaving time from the plan. They are at the bed when it empties.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Called when someone notices"
+       },
+       {
+        "label": "New",
+        "value": "Told from the plan",
+        "state": "start"
+       }
+      ],
+      "entry": "How does housekeeping hear a bed is empty?"
+     },
+     {
+      "key": "r5",
+      "when": "Billing",
+      "title": "First bill on bed",
+      "text": "The bed earns again only when the new bill opens. Bringing it to noon is the money in this whole change.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "From 5 PM, up to 8 PM",
+        "state": "outcome"
+       },
+       {
+        "label": "Goal",
+        "value": "By about noon",
+        "state": "target"
+       }
+      ],
+      "entry": "When does the first charge go on today?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "What it costs",
+    "value": "Nothing but the new order",
+    "sub": "No hire and no system. The loss it removes comes from a rule, so changing the rule removes it.",
+    "state": "start",
+    "look": "banner"
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: what a doctor does",
+    "say": "What does a doctor have to do?"
+   },
+   "add": {
+    "detail": "Tell me about your bed rule",
+    "say": "Our rule for giving a bed is: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the Bed Management Processes turns."
+ }
+}

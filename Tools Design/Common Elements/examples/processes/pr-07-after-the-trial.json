@@ -1,0 +1,107 @@
+{
+ "turn": {
+  "id": "pr-07",
+  "tab": "Processes",
+  "type": "recommendation",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "What happens after the two weeks?",
+  "context": "The ward-board loop: plan, try on one ward, measure, adjust, spread. A choice at the gate, not a mandate."
+ },
+ "chat": {
+  "text": [
+   "After two weeks we read the numbers and choose. If hours from ready to home fell, we spread it. If not, we adjust and try again.",
+   "Each new ward starts from the plan step. The software link comes in once two wards run well."
+  ],
+  "pointer": "Step round the loop. At Measure, answer the question and watch where it goes.",
+  "note": "Spread only what worked.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Plan",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Try on one ward",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Measure",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Spread",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Let’s pick the trial ward",
+   "What does spreading cost?",
+   "Where do the automations stand now?"
+  ],
+  "moves": [
+   {
+    "prompt": "Where do the automations stand now?",
+    "tab": "Automations"
+   }
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "After the trial",
+    "title": "Plan, try, measure, spread",
+    "deck": "The same loop for every ward. Nothing spreads until the numbers say so."
+   },
+   {
+    "type": "loop",
+    "at": 0,
+    "sub": "One ward at a time",
+    "steps": [
+     {
+      "name": "Plan",
+      "what": "Pick the ward. Name who records the times. Your Head of Operations says yes to the new order.",
+      "who": "You and Tojo",
+      "point": 1
+     },
+     {
+      "name": "Try on one ward",
+      "what": "Run the fourteen days. Three quiet days, then the changes in two steps.",
+      "who": "The trial ward",
+      "point": 2
+     },
+     {
+      "name": "Measure",
+      "what": "Read the nine windows. Compare the trial days with days 1 to 3.",
+      "who": "You, the ward and Tojo",
+      "point": 3
+     },
+     {
+      "name": "Adjust",
+      "what": "Fix what did not work. Then run one more week on the same ward.",
+      "who": "Discharge Manager"
+     },
+     {
+      "name": "Spread to more wards",
+      "what": "Add one or two wards at a time. Link the hospital software once two wards run well.",
+      "who": "Discharge Manager and IT team",
+      "point": 4
+     }
+    ],
+    "gate": {
+     "at": 2,
+     "question": "Did hours from ready to home fall?",
+     "yes": "Yes, it fell",
+     "no": "Not yet",
+     "yes_to": 4,
+     "no_to": 3,
+     "retry_to": 1
+    }
+   }
+  ]
+ }
+}

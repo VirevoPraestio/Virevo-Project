@@ -1,0 +1,243 @@
+{
+ "turn": {
+  "id": "bm-pr-05",
+  "tab": "Processes",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "What if a doctor will not confirm a date?",
+  "context": "Prompt 1 of bm-pr-04. Transcript 23: what is fixed is when a decision is made, not what is decided; a step-down that slips is an input to the next pass. bed-management.md §7.4.2: the 5 PM round confirms or corrects predictions. The evening background starts here.",
+  "transcript": {
+   "label": "After transcript turn 31 · Processes, turn 5 (the record stops at 31)"
+  }
+ },
+ "chat": {
+  "text": [
+   "Then the bed is planned as likely, not confirmed. Nobody is called in for it until a doctor says yes."
+  ],
+  "bullets": [
+   "Tojo uses the usual stay for that kind of patient, from your own past patients.",
+   "The 5 PM round asks once more. Most dates are settled there, before the 6 PM freeze.",
+   "If it is still open, it is asked again next morning. A missed date is logged, not punished."
+  ],
+  "invite": "Next, we can see where the planned admissions come from.",
+  "points": [
+   {
+    "n": 1,
+    "label": "No date on the round",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "A likely date",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The 5 PM check",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Asked again",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Where do planned admissions come from?",
+   "Who needs to agree to this?",
+   "How often will a likely bed be wrong?"
+  ],
+  "pointer": "Step round the loop. At the 5 PM check, pick an answer to see where it goes."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · a date not given",
+    "title": "No date is not a breakdown",
+    "deck": "What happens to one bed when the doctor does not confirm. Step round it.",
+    "plate": {
+     "column": "Changes",
+     "name": "A date not given"
+    }
+   },
+   {
+    "type": "loop",
+    "at": 0,
+    "sub": "Every day, before 6 PM",
+    "steps": [
+     {
+      "name": "No date given",
+      "who": "Doctor, morning round",
+      "point": 1
+     },
+     {
+      "name": "Likely date used",
+      "who": "Tojo",
+      "point": 2
+     },
+     {
+      "name": "Checked at 5 PM",
+      "who": "Medical Supervisory team",
+      "point": 3
+     },
+     {
+      "name": "Planned as confirmed",
+      "who": "Bed Manager"
+     },
+     {
+      "name": "Likely, asked again",
+      "who": "Bed Manager and doctor",
+      "point": 4
+     }
+    ],
+    "gate": {
+     "at": 2,
+     "question": "Did the doctor confirm by 5 PM?",
+     "yes": "Yes, confirmed",
+     "no": "Not yet",
+     "yes_to": 3,
+     "no_to": 4,
+     "retry_to": 0
+    },
+    "sheets": [
+     {
+      "key": "s1",
+      "when": "Step 1 of 5",
+      "title": "No date given",
+      "text": "The doctor is busy or unsure. Nothing breaks. The patient simply has no confirmed date yet.",
+      "lines": [
+       {
+        "label": "Happens",
+        "value": "Often, at the start"
+       }
+      ],
+      "entry": "Which teams would confirm least at first?"
+     },
+     {
+      "key": "s2",
+      "when": "Step 2 of 5",
+      "title": "Likely date used",
+      "text": "Tojo uses the usual stay for this kind of patient. The bed is planned as likely, not confirmed.",
+      "lines": [
+       {
+        "label": "Marked",
+        "value": "Likely, not confirmed",
+        "state": "target"
+       }
+      ],
+      "entry": "Do you track usual stays by procedure?"
+     },
+     {
+      "key": "s3",
+      "when": "Step 3 of 5",
+      "title": "Checked at 5 PM",
+      "text": "The 5 PM round asks the doctor once more. Most dates are settled here, before the freeze.",
+      "lines": [
+       {
+        "label": "By",
+        "value": "5 PM, every day"
+       }
+      ],
+      "entry": "Who would ask the doctor at 5 PM?"
+     },
+     {
+      "key": "s4",
+      "when": "Step 4 of 5",
+      "title": "Planned as confirmed",
+      "text": "The bed goes into the 6 PM plan with a call-in time for the next patient.",
+      "lines": [
+       {
+        "label": "Gives",
+        "value": "A call-in time",
+        "state": "start"
+       }
+      ],
+      "entry": "Who sends call-in times today?"
+     },
+     {
+      "key": "s5",
+      "when": "Step 5 of 5",
+      "title": "Likely, asked again",
+      "text": "The bed stays in the plan as likely. No patient is called in for it until the doctor confirms next morning.",
+      "lines": [
+       {
+        "label": "Patient called",
+        "value": "Only once confirmed",
+        "state": "target"
+       }
+      ],
+      "entry": "How often would a likely bed be wrong?"
+     }
+    ]
+   },
+   {
+    "type": "notes",
+    "label": "Two things this keeps apart",
+    "items": [
+     {
+      "tag": "Stays fixed",
+      "title": "When a decision is made",
+      "text": "The 1 PM, 2 PM, 5 PM and 6 PM times stay the same every day.",
+      "state": "plain"
+     },
+     {
+      "tag": "Never fixed",
+      "title": "What the doctor decides",
+      "text": "Who is fit to go home, and when, stays with the treating doctor.",
+      "state": "muted"
+     }
+    ],
+    "sheets": [
+     {
+      "key": "n1",
+      "when": "Stays fixed",
+      "title": "When a decision is made",
+      "text": "The plan needs its answers by set times. The times stay the same, busy day or quiet day.",
+      "lines": [
+       {
+        "label": "Times",
+        "value": "1 PM, 2 PM, 5 PM, 6 PM"
+       }
+      ],
+      "entry": "Which of these times would be hardest here?"
+     },
+     {
+      "key": "n2",
+      "when": "Never fixed",
+      "title": "What the doctor decides",
+      "text": "The plan never decides who goes home. It only asks by when the doctor will say.",
+      "lines": [
+       {
+        "label": "Decides",
+        "value": "The treating doctor"
+       }
+      ],
+      "entry": "Where do you expect pushback?"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: where planned admissions come from",
+    "say": "Where do planned admissions come from?"
+   },
+   "add": {
+    "detail": "Tell me how often dates change",
+    "say": "Discharge dates here change because: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the Bed Management Processes turns."
+ }
+}

@@ -1,0 +1,213 @@
+{
+ "turn": {
+  "id": "dp-pr-03",
+  "type": "part",
+  "tool": "Discharge Process",
+  "tab": "Processes",
+  "register": "advisory",
+  "user_message": "Show me who is in charge",
+  "was": "turn-08 (dp-08), cards + compare-table + stat-strip",
+  "context": "Discharge sample conversation, turn 8 (playbook §4: the peak-load check on this hospital’s own pattern).",
+  "transcript": {
+   "label": "Sample conversation · turn 8 · who is in charge"
+  }
+ },
+ "chat": {
+  "text": [
+   "You need one person to own discharge, and two people to run it day to day. Why:"
+  ],
+  "bullets": [
+   "Nobody owns the whole wait today, and your own numbers are past the lines where one owner is needed.",
+   "Two helpers, not three, because your work comes in two busy times of day, not spread across 24 hours.",
+   "Every other team only records and approves a little more. Their jobs do not change."
+  ],
+  "invite": "Last part: how we will know it worked.",
+  "note": "One owner, two helpers, sized to your busy hours.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The Discharge Manager",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The Discharge Executives",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Why two helpers, not three",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "What the roles cost",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Show me how we’ll know it worked",
+   "Can one of our nurses become the manager?",
+   "Our busy hours change at weekends"
+  ],
+  "pointer": "Pick a role to open it. The two chains show why two helpers, not three."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 4 · Who is in charge",
+    "title": "One owner, two helpers",
+    "deck": "The roles, then the two ways to size the helpers: the usual rule, and your busy hours.",
+    "plate": {
+     "column": "Roles",
+     "name": "Who is in charge"
+    }
+   },
+   {
+    "type": "sizing",
+    "roles_label": "The roles",
+    "new_tag": "New role",
+    "roles": [
+     {
+      "title": "Discharge Manager",
+      "line": "Owns the whole process. About ₹4 to 4.5 lakh a year.",
+      "new": true,
+      "point": 1
+     },
+     {
+      "title": "Discharge Executives",
+      "line": "Look after each patient going home. About ₹3 to 3.5 lakh each.",
+      "new": true,
+      "point": 2
+     },
+     {
+      "title": "Everyone else",
+      "tag": "Team",
+      "line": "Records and approves a little more. Same jobs."
+     }
+    ],
+    "chains": [
+     {
+      "title": "The usual rule",
+      "verdict": "About 3",
+      "state": "muted",
+      "steps": [
+       {
+        "title": "One helper per 15 a day",
+        "line": "A rule of thumb"
+       },
+       {
+        "title": "42.5 a day, divided by 15",
+        "line": "The middle of your 40 to 45"
+       },
+       {
+        "title": "About 3 helpers",
+        "line": "₹9 to 10.5 lakh a year"
+       }
+      ]
+     },
+     {
+      "title": "Your busy hours",
+      "verdict": "Use this",
+      "state": "outcome",
+      "steps": [
+       {
+        "title": "Two busy times a day",
+        "line": "The 7 PM round, then 11 AM to about 3 PM"
+       },
+       {
+        "title": "One helper for each",
+        "line": "Sized to the peak, not the day"
+       },
+       {
+        "title": "2 helpers",
+        "line": "₹6 to 7 lakh a year",
+        "state": "outcome"
+       }
+      ]
+     }
+    ],
+    "caption": "My working from your times. Check it against your staff rota before hiring.",
+    "sheets": [
+     {
+      "key": "dm",
+      "when": "New role",
+      "title": "Discharge Manager",
+      "text": "One person answers for every delay, instead of each team blaming the process. Works with the bed desk manager as an equal.",
+      "lines": [
+       {
+        "label": "Cost",
+        "value": "About ₹4 to 4.5 lakh a year"
+       },
+       {
+        "label": "Needed because",
+        "value": "Past 80% full and 40 a day",
+        "state": "target"
+       }
+      ],
+      "entry": "Could someone you have take this role?"
+     },
+     {
+      "key": "de",
+      "when": "New role",
+      "title": "Discharge Executives",
+      "text": "They take over each patient from the evening round. They spot delays as they happen and chase the team holding things up.",
+      "lines": [
+       {
+        "label": "Cost",
+        "value": "About ₹3 to 3.5 lakh each"
+       },
+       {
+        "label": "How many",
+        "value": "Two, one for each busy time",
+        "state": "start"
+       }
+      ],
+      "entry": "When are your two busiest times?"
+     },
+     {
+      "key": "ev",
+      "when": "Same jobs",
+      "title": "Everyone else",
+      "text": "Every other team only records and approves a little more. Their jobs do not change.",
+      "lines": [
+       {
+        "label": "Changes",
+        "value": "A little more recording"
+       }
+      ],
+      "entry": "Which team would feel this most?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "New roles, cost a year",
+    "value": "₹10 to 11.5 lakh",
+    "state": "target",
+    "sub": "One manager and two helpers. About 1% of what the waiting costs a year, worked out from your figures."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: how we will know it worked",
+    "say": "Show me how we’ll know it worked"
+   },
+   "add": {
+    "detail": "Tell me about your busy hours",
+    "say": "Our busiest times for discharges are: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the regenerated Discharge turns."
+ }
+}

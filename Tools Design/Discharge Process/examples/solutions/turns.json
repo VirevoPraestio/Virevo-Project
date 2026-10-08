@@ -1,0 +1,34 @@
+{
+ "place": "Solutions",
+ "tool": "Discharge Process",
+ "turns": [
+  {
+   "file": "dp-so-01.json",
+   "note": "Was turn-04 (sample conversation). The five parts as doors off one corridor."
+  },
+  {
+   "file": "dp-so-02.json",
+   "note": "Was so-01. The five parts as jigsaw pieces: pick one and see what it leans on."
+  },
+  {
+   "file": "dp-so-03.json",
+   "note": "Was so-02. The automation part as six switches on one wire to going home."
+  },
+  {
+   "file": "dp-so-04.json",
+   "note": "Was so-03. The correction: three routes hit a wall, one gets through."
+  },
+  {
+   "file": "dp-so-05.json",
+   "note": "Was so-04. Five knots in one wait, each undone by the parts that hold it. The tracing-paper background starts here."
+  },
+  {
+   "file": "dp-so-06.json",
+   "note": "Was so-05. What the wait costs against what the team costs."
+  },
+  {
+   "file": "dp-so-07.json",
+   "note": "Was so-06. Three steps on one path, then a door to Automations or Processes."
+  }
+ ]
+}

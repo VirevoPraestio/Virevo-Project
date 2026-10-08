@@ -1,0 +1,324 @@
+{
+ "turn": {
+  "id": "bm-so-01",
+  "tab": "Solutions",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "automations",
+  "context": "The first Solutions turn: one part (automations) taken up after the overview. Six steps, the mechanism in the bullets, the drawing holds the steps.",
+  "transcript": {
+   "label": "Transcript turn 18 · Part 1: Automation",
+   "user": "automations",
+   "tojo": [
+    "Automation first, then.",
+    "The mapping doesn’t just count empty beds. It includes beds expected to free up — patients approaching the typical stay for their own procedure — which is what makes a next-day picture possible at all.",
+    "The 5 PM round is what makes the 6 PM freeze worth anything. A prediction nobody confirmed with the treating doctor is a guess with a timestamp on it.",
+    "And the last step is aimed squarely at your 1 PM arrivals: the desk is told when to call each patient in, per bed. It stops guessing, so patients stop arriving after the bed was already free.",
+    "The full chain is in the graphic. Come back to me on any step — or pick another of the five."
+   ],
+   "graphic": "Six-step chain: OPD prescription captured → 2 PM first mapping pass → teams notified → 5 PM rounds confirm → 6 PM final freeze → call-in times issued (red outcome). Desktop wraps three-and-three with an elbow connector. Effect box: ADMISSION TAT · under 30 minutes · documentation is the only step that cannot be compressed."
+  },
+  "sample": {
+   "letter": "C",
+   "name": "From OPD to the bed, in six stops",
+   "what": "The library route. The six steps are stations on one trail through the day before. At the end, under the bulb, four doors open the other four parts."
+  }
+ },
+ "chat": {
+  "text": [
+   "Automation first, then."
+  ],
+  "bullets": [
+   "The mapping counts more than empty beds. It also counts beds likely to free up: patients near the usual stay for their procedure. That is what makes a next-day picture possible.",
+   "The 5 PM round is what makes the 6 PM freeze worth anything. A forecast no treating doctor has checked is a guess with a time on it.",
+   "The last step is aimed at your 1 PM arrivals. The desk is told when to call each patient in, bed by bed. It stops guessing."
+  ],
+  "invite": "Come back to me on any step, or pick another of the five parts.",
+  "note": "One plan for tomorrow’s beds, fixed at 6 PM.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Admission advice recorded",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The 2 PM mapping",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Teams told",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The 5 PM round",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "The 6 PM freeze",
+    "canvas": true
+   },
+   {
+    "n": 6,
+    "label": "Call-in times",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "How would all of this be done?",
+   "What if we don’t have such systems?",
+   "Take me to part 2, the process changes"
+  ],
+  "pointer": "The six steps are stations on one route. Pick one to open it, or pick a door at the end."
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved 1 Oct as a template; Sample A is the turn."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 1 · Automations",
+    "plate": {
+     "part": 1,
+     "of": 5,
+     "name": "Automations",
+     "stage": "Shaped"
+    },
+    "title": "From OPD to the bed, in six stops",
+    "deck": "The automation part as one route through the day before. At the end, pick the part to open next."
+   },
+   {
+    "type": "route",
+    "steps": [
+     {
+      "title": "Admission advice recorded",
+      "what": "The doctor’s advice to admit is recorded as it is written.",
+      "point": 1
+     },
+     {
+      "title": "First mapping of tomorrow",
+      "what": "Planned admissions set against empty beds and beds likely to free up.",
+      "point": 2
+     },
+     {
+      "title": "Teams told",
+      "what": "Wards, housekeeping and the desk see which beds should free up.",
+      "point": 3
+     },
+     {
+      "title": "Evening round confirms",
+      "what": "Treating doctors confirm who goes home tomorrow.",
+      "point": 4
+     },
+     {
+      "title": "Tomorrow’s plan frozen",
+      "what": "Each patient coming in is matched to one bed.",
+      "point": 5
+     },
+     {
+      "title": "Call-in times sent",
+      "what": "The desk calls each patient for the time their bed is ready.",
+      "point": 6
+     }
+    ],
+    "sheets": [
+     {
+      "key": "opd",
+      "text": "Each time an OPD doctor advises admission, the advice is recorded with the procedure and the date. Tomorrow’s planned admissions are known when they are advised, not when the patient turns up.",
+      "lines": [
+       {
+        "label": "Reads from",
+        "value": "The OPD prescription, as the doctor writes it"
+       },
+       {
+        "label": "Who does the work",
+        "value": "Nobody new. The advice is read, not typed again"
+       }
+      ],
+      "entry": "How does admission advice reach your desk today?",
+      "entry_hint": "For example, a slip the patient carries",
+      "when": "In OPD, all day",
+      "title": "Admission advice recorded",
+      "ask": {
+       "label": "Ask about this step",
+       "say": "Tell me more about this step: admission advice recorded"
+      }
+     },
+     {
+      "key": "map",
+      "text": "At 2 PM the first pass sets tomorrow’s planned admissions against the beds. It counts empty beds, and beds likely to free up. Those are patients near the usual stay for their own procedure.",
+      "lines": [
+       {
+        "label": "Reads from",
+        "value": "Admissions, discharges and each patient’s procedure"
+       },
+       {
+        "label": "Gives",
+        "value": "A first picture of tomorrow’s beds, ward by ward",
+        "state": "start"
+       }
+      ],
+      "entry": "Which wards are hardest to predict?",
+      "entry_hint": "For example, the ICU or the surgical ward",
+      "when": "2 PM",
+      "title": "First mapping of tomorrow",
+      "ask": {
+       "label": "Ask about this step",
+       "say": "Tell me more about this step: first mapping of tomorrow"
+      }
+     },
+     {
+      "key": "tell",
+      "text": "The wards, housekeeping and the admissions desk are told which beds should free up tomorrow. Each team sees the same list, so nobody works from an old one.",
+      "lines": [
+       {
+        "label": "Who sees it",
+        "value": "Ward nurses, housekeeping and the admissions desk"
+       },
+       {
+        "label": "Kept up to date",
+        "value": "At each pass, 2 PM and 6 PM"
+       }
+      ],
+      "entry": "Who should hear first at your hospital?",
+      "entry_hint": "A role, for example the night ward in charge",
+      "when": "After 2 PM",
+      "title": "Teams told",
+      "ask": {
+       "label": "Ask about this step",
+       "say": "Tell me more about this step: teams told"
+      }
+     },
+     {
+      "key": "round",
+      "text": "On the 5 PM round, the treating doctor confirms which patients will go home tomorrow. This is what makes the 6 PM freeze worth anything. A forecast no doctor has checked is only a guess.",
+      "lines": [
+       {
+        "label": "Who",
+        "value": "The treating doctor, on the evening round"
+       },
+       {
+        "label": "What changes",
+        "value": "The forecast becomes a decision",
+        "state": "target"
+       }
+      ],
+      "entry": "Do your doctors round in the evening? At what time?",
+      "entry_hint": "For example, about 5 PM on most wards",
+      "when": "5 PM",
+      "title": "Evening round confirms",
+      "ask": {
+       "label": "Ask about this step",
+       "say": "Tell me more about this step: evening round confirms"
+      }
+     },
+     {
+      "key": "freeze",
+      "text": "At 6 PM tomorrow’s plan is frozen. Each patient coming in is matched to one bed, with the time it should be ready. A late change is handled on its own, not by redoing the plan.",
+      "lines": [
+       {
+        "label": "Gives",
+        "value": "One plan for every bed tomorrow",
+        "state": "start"
+       },
+       {
+        "label": "Fixed at",
+        "value": "6 PM, the evening before"
+       }
+      ],
+      "entry": "What usually changes the plan after 6 PM?",
+      "entry_hint": "For example, an emergency admission",
+      "when": "6 PM",
+      "title": "Tomorrow’s plan frozen",
+      "ask": {
+       "label": "Ask about this step",
+       "say": "Tell me more about this step: tomorrow’s plan frozen"
+      }
+     },
+     {
+      "key": "call",
+      "text": "The desk is told when to call each patient in, bed by bed. It stops guessing, so patients come when their bed is ready. This step is aimed at your 1 PM arrivals.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "Patients arrive about 1 PM, in a bed about 4:30 PM",
+        "state": "outcome"
+       },
+       {
+        "label": "With this step",
+        "value": "Each patient is called for their own bed’s time",
+        "state": "start"
+       }
+      ],
+      "entry": "Who calls patients in at your hospital today?",
+      "entry_hint": "A role, for example the admissions desk",
+      "when": "After 6 PM",
+      "title": "Call-in times sent",
+      "ask": {
+       "label": "Ask about this step",
+       "say": "Tell me more about this step: call-in times sent"
+      }
+     }
+    ],
+    "fork": {
+     "question": "Come back to me on any stop, or pick another of the five parts.",
+     "options": [
+      {
+       "tag": "Part 2",
+       "label": "Process changes",
+       "what": "What changes in how the day is run",
+       "say": "Take me through part 2, the process changes"
+      },
+      {
+       "tag": "Part 3",
+       "label": "People and buy-in",
+       "what": "Whose help this needs, and who signs it off",
+       "say": "Take me through part 3, the people and their buy-in"
+      },
+      {
+       "tag": "Part 4",
+       "label": "Teams and roles",
+       "what": "Whether you need to hire, and who",
+       "say": "Take me through part 4, the teams and roles"
+      },
+      {
+       "tag": "Part 5",
+       "label": "Measures and targets",
+       "what": "How you will know it is working",
+       "say": "Take me through part 5, the measures and targets"
+      }
+     ]
+    }
+   },
+   {
+    "type": "effect",
+    "label": "Time to a bed",
+    "value": "Under 30 minutes",
+    "state": "outcome",
+    "sub": "From about 3½ hours today. Paperwork is the one step that cannot be made shorter."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: how all of this would be done",
+    "say": "How would all of this be done?"
+   },
+   "add": {
+    "detail": "Add something about your hospital",
+    "say": "Here is something to add about our hospital: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "How the automations are built and run",
+    "say": "Take me to Automations"
+   }
+  }
+ }
+}

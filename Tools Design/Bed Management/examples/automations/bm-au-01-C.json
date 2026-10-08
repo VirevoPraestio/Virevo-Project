@@ -1,0 +1,349 @@
+{
+ "turn": {
+  "id": "bm-au-01",
+  "tab": "Automations",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "How would the build work?",
+  "context": "The first Automations turn: how the build works. From bed-management.md §7.4.1 (the engine, a to e, and the 2 PM and 6 PM passes), §7.2 (the records) and §7.4.2 (discharge first, read access), with the transcript’s own facts.",
+  "transcript": {
+   "label": "After transcript turn 31 · “How would the build work?” (the record stops at 31)"
+  },
+  "sample": {
+   "letter": "C",
+   "name": "The build, step by step",
+   "what": "The station panel from the Automations landing page. Two main switches on top, one row of four lamps for each automation. Step through the four steps of the build and the lamps light in order."
+  }
+ },
+ "chat": {
+  "text": [
+   "Here is the build, in the order it happens."
+  ],
+  "bullets": [
+   "First, read access. Your IT team links the systems that already hold admissions, discharges, inpatient notes and billing. We write nothing back.",
+   "Second, discharge. The bed plan runs on discharge times, so discharge is built and linked before the bed mapping.",
+   "Then one engine does five jobs. It maps tomorrow’s beds and ICU beds, checks discharge times, holds emergency beds back and sets call-in times."
+  ],
+  "invite": "Pick any part to see what it reads and what it makes. Or tell me which systems your hospital runs.",
+  "note": "Read access and discharge first. The engine comes after.",
+  "points": [
+   {
+    "n": 1,
+    "label": "Read access",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Discharge first",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Tomorrow’s bed map",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Emergency beds",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "Call-in times",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What exactly would our IT team do?",
+   "Why must discharge be built first?",
+   "What if some records are on paper?"
+  ],
+  "pointer": "Step through the build. The lamps light as each automation moves from idea to switched on. Pick a row to open it."
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved 1 Oct as a template; Sample B is the turn."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Automations · how it is built",
+    "plate": {
+     "tag": "Automations",
+     "name": "The bed engine",
+     "stage": "Idea"
+    },
+    "title": "The build, step by step",
+    "deck": "Four steps, in order. Watch each automation move from idea to switched on."
+   },
+   {
+    "type": "panel",
+    "phases_label": "The four steps",
+    "rows_label": "Automation",
+    "foot": "Nurses’ station · build panel",
+    "phases": [
+     {
+      "when": "About two weeks",
+      "name": "Read access"
+     },
+     {
+      "when": "Four weeks",
+      "name": "Measure what happens now"
+     },
+     {
+      "when": "Step 3",
+      "name": "The day changes"
+     },
+     {
+      "when": "Step 4",
+      "name": "The build: discharge, then beds"
+     }
+    ],
+    "mains": [
+     {
+      "tag": "Main switch 1",
+      "name": "Read access from IT",
+      "line": "The systems you already run",
+      "on_at": 0
+     },
+     {
+      "tag": "Main switch 2",
+      "name": "Discharge, automated",
+      "line": "The bed plan runs on its times",
+      "on_at": 3
+     }
+    ],
+    "automations": [
+     {
+      "name": "Admission steps timed",
+      "line": "Five steps stamped as they happen",
+      "stages": [
+       0,
+       3,
+       3,
+       3
+      ],
+      "point": 1
+     },
+     {
+      "name": "Dead bed time, measured",
+      "line": "Bill close and open, against the bed",
+      "stages": [
+       0,
+       3,
+       3,
+       3
+      ]
+     },
+     {
+      "name": "Call-in times, bed by bed",
+      "line": "When to call each patient in",
+      "stages": [
+       0,
+       0,
+       2,
+       3
+      ],
+      "point": 5
+     },
+     {
+      "name": "Discharge times checked",
+      "line": "Real times, not reported ones",
+      "stages": [
+       0,
+       0,
+       1,
+       3
+      ],
+      "point": 2
+     },
+     {
+      "name": "Tomorrow’s bed map",
+      "line": "A 2 PM pass and a 6 PM freeze",
+      "stages": [
+       0,
+       0,
+       1,
+       3
+      ],
+      "point": 3
+     },
+     {
+      "name": "ICU bed map",
+      "line": "Step-downs by 1 PM",
+      "stages": [
+       0,
+       0,
+       0,
+       3
+      ]
+     },
+     {
+      "name": "Emergency beds held back",
+      "line": "From two to three years of trend",
+      "stages": [
+       0,
+       1,
+       1,
+       3
+      ],
+      "point": 4
+     }
+    ],
+    "sheets": [
+     {
+      "key": "steps",
+      "when": "Switched on in step 2",
+      "title": "Admission steps timed",
+      "text": "Each of the five admission steps is stamped as it happens. That shows paperwork apart from waiting.",
+      "lines": [
+       {
+        "label": "Reads",
+        "value": "The admission desk’s own steps"
+       },
+       {
+        "label": "Makes",
+        "value": "Your real admission times",
+        "state": "start"
+       }
+      ],
+      "entry": "Do you time any admission steps today?"
+     },
+     {
+      "key": "dbt",
+      "when": "Switched on in step 2",
+      "title": "Dead bed time, measured",
+      "text": "One report joins bill close and bill open against the same bed. Your own number, before anything else changes.",
+      "lines": [
+       {
+        "label": "Reads",
+        "value": "Billing"
+       },
+       {
+        "label": "Makes",
+        "value": "Dead bed time, bed by bed",
+        "state": "start"
+       }
+      ],
+      "entry": "Has anyone measured this at your hospital?"
+     },
+     {
+      "key": "call",
+      "when": "Testing in step 3",
+      "title": "Call-in times, bed by bed",
+      "text": "Tested while the two jobs start running together. Switched on once the discharge times it uses are real.",
+      "lines": [
+       {
+        "label": "Reads",
+        "value": "The bed map and discharge times"
+       },
+       {
+        "label": "Makes",
+        "value": "One call-in time per bed"
+       }
+      ],
+      "entry": "Who calls patients in today?",
+      "hand": {
+       "who": "the admissions desk",
+       "does": "Calls each patient at their time."
+      }
+     },
+     {
+      "key": "dis",
+      "when": "Built in step 4",
+      "title": "Discharge times checked",
+      "text": "Discharge is built first in step 4. The engine checks its times against the beds as they free.",
+      "lines": [
+       {
+        "label": "Reads",
+        "value": "Discharge, admissions, bed board"
+       },
+       {
+        "label": "Why first",
+        "value": "The bed plan runs on these times",
+        "state": "target"
+       }
+      ],
+      "entry": "Who records discharge times today?"
+     },
+     {
+      "key": "map",
+      "when": "Built in step 4",
+      "title": "Tomorrow’s bed map",
+      "text": "Built on top of discharge. A first pass at 2 PM and a final freeze at 6 PM, every day.",
+      "lines": [
+       {
+        "label": "Reads",
+        "value": "OPD advice, stays, discharge times"
+       },
+       {
+        "label": "Makes",
+        "value": "One bed for each planned admission"
+       }
+      ],
+      "entry": "How many planned admissions on a usual day?",
+      "hand": {
+       "who": "the Bed Manager",
+       "does": "Checks the 6 PM freeze before it goes out."
+      }
+     },
+     {
+      "key": "icu",
+      "when": "Built in step 4",
+      "title": "ICU bed map",
+      "text": "The same mapping for ICU beds, using step-down signals given by 1 PM.",
+      "lines": [
+       {
+        "label": "Reads",
+        "value": "ICU signals, inpatient records"
+       }
+      ],
+      "entry": "How many ICU beds do you run?"
+     },
+     {
+      "key": "er",
+      "when": "Switched on in step 4",
+      "title": "Emergency beds held back",
+      "text": "A number of beds is kept for emergencies, worked out from two to three years of your own admissions.",
+      "lines": [
+       {
+        "label": "Reads",
+        "value": "Past admissions"
+       },
+       {
+        "label": "Makes",
+        "value": "Beds kept out of the planned map"
+       }
+      ],
+      "entry": "How many emergencies do you admit on a usual day?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Your IT team’s part",
+    "value": "Read access, once",
+    "state": "target",
+    "sub": "About two weeks. We read the records you already hold, and we write nothing back."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: what your IT team would do",
+    "say": "What exactly would our IT team do?"
+   },
+   "add": {
+    "detail": "Tell me about your systems",
+    "say": "Here is what we run today: "
+   },
+   "jump": {
+    "tab": "Processes",
+    "detail": "How the day changes on the wards",
+    "say": "Take me to Processes"
+   }
+  }
+ }
+}

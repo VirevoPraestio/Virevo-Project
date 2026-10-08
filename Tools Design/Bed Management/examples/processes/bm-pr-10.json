@@ -1,0 +1,191 @@
+{
+ "turn": {
+  "id": "bm-pr-10",
+  "tab": "Processes",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "Can we try it on one ward first?",
+  "context": "Prompt 1 of bm-pr-09. Transcript 31: step 3 is where the day changes, after read access and four weeks of measuring. The trial is that step on one ward; goals are set from the ward’s own first days.",
+  "transcript": {
+   "label": "After transcript turn 31 · Processes, turn 10 (the record stops at 31)"
+  }
+ },
+ "chat": {
+  "text": [
+   "Yes. Two weeks on one ward, once read access is in and your four weeks of numbers are measured."
+  ],
+  "bullets": [
+   "The first three days only record the day as it runs. Nothing changes for anyone.",
+   "Then dates are checked on the round, and after that the desk calls patients in by the plan.",
+   "On day 14 you read dead bed time and admission times, before and after."
+  ],
+  "invite": "Last, we can list what we need from you to start.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The trial ward",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Recording the day",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Dates on the round",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "Calling in by the plan",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "What do you need from us to start?",
+   "Which ward should we pick?",
+   "What if the trial goes badly?"
+  ],
+  "pointer": "Play the two weeks, or pick a part of the trial."
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Processes · the trial",
+    "title": "Two weeks on one ward",
+    "deck": "The trial as a strip of days. Play it to see each part start.",
+    "plate": {
+     "column": "The trial",
+     "name": "One ward first"
+    }
+   },
+   {
+    "type": "trial",
+    "days": 14,
+    "ward": {
+     "label": "The ward with most planned admissions",
+     "status": "needed",
+     "note": "Most planned patients means the change shows fastest. You pick the ward.",
+     "ask": "Which ward would you start on?",
+     "ask_hint": "Type the ward’s name",
+     "point": 1
+    },
+    "needs": [
+     "Read access already in",
+     "Four weeks of your numbers",
+     "One name to own it",
+     "No new staff for the trial"
+    ],
+    "phases": [
+     {
+      "from": 1,
+      "to": 3,
+      "title": "Record the day as it runs",
+      "who": "Ward nurse in charge",
+      "point": 2
+     },
+     {
+      "from": 4,
+      "to": 7,
+      "title": "Dates checked on the round",
+      "who": "Doctors, Medical Supervisory",
+      "point": 3
+     },
+     {
+      "from": 8,
+      "to": 11,
+      "title": "Patients called in by the plan",
+      "who": "Admissions desk",
+      "point": 4
+     },
+     {
+      "from": 12,
+      "to": 14,
+      "title": "Read the numbers",
+      "who": "You, the ward and Tojo"
+     }
+    ],
+    "condition": "Goals are set on day 3 from the ward’s own times. None are guessed now.",
+    "sheets": [
+     {
+      "key": "p1",
+      "when": "Days 1 to 3",
+      "title": "Record the day as it runs",
+      "text": "Nothing changes yet. The ward records when each bed frees and when each patient reaches a bed.",
+      "lines": [
+       {
+        "label": "Recorded",
+        "value": "Bed free, patient in bed, bills"
+       }
+      ],
+      "entry": "What would get in the way on these days?"
+     },
+     {
+      "key": "p2",
+      "when": "Days 4 to 7",
+      "title": "Dates checked on the round",
+      "text": "Doctors check likely dates on the round. The 5 PM round starts. The plan is made but nobody is called in by it yet.",
+      "lines": [
+       {
+        "label": "Watch",
+        "value": "Dates given a day ahead"
+       }
+      ],
+      "entry": "Which doctor would start this best?"
+     },
+     {
+      "key": "p3",
+      "when": "Days 8 to 11",
+      "title": "Patients called in by the plan",
+      "text": "The desk calls planned patients in for their bed’s time. This is where the day changes.",
+      "lines": [
+       {
+        "label": "Watch",
+        "value": "Admissions finished by noon",
+        "state": "target"
+       }
+      ],
+      "entry": "Who on the desk would run this?"
+     },
+     {
+      "key": "p4",
+      "when": "Days 12 to 14",
+      "title": "Read the numbers",
+      "text": "Dead bed time and admission times, before and after. Then you decide whether it spreads.",
+      "lines": [
+       {
+        "label": "Read",
+        "value": "Your own before and after",
+        "state": "start"
+       }
+      ],
+      "entry": "Who should see the result?"
+     }
+    ]
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: what you need from us",
+    "say": "What do you need from us to start?"
+   },
+   "add": {
+    "detail": "Tell me about our wards",
+    "say": "The ward I would start on is: "
+   },
+   "jump": {
+    "tab": "Diagnosis",
+    "detail": "Back to what is really wrong",
+    "say": "Take me to Diagnosis"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-06",
+  "note": "Approved 6 Oct with the Bed Management Processes turns."
+ }
+}

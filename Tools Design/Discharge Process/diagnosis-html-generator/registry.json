@@ -1,0 +1,2214 @@
+{
+ "registry": "Discharge Process · Diagnosis",
+ "registry_version": 1,
+ "updated": "2026-10-05",
+ "note": "Discharge Process Diagnosis is drawn by the latest Diagnosis generator (Bed Management/diagnosis-html-generator/bm_diagnosis_html.py, loaded as a copy), with the library’s universal patterns and the layered drawings, in the Discharge Diagnosis look (sage ground, forest ink: the approved Diagnosis landing page), plus Discharge’s own drawings in dp_dg_blocks.py.",
+ "library": "../../Common Elements/blocks/registry.json",
+ "budget": {
+  "max_blocks": 4
+ },
+ "theme": {
+  "id": "dp",
+  "name": "Discharge Process · Diagnosis: the case sheet",
+  "tokens": {
+   "ground": "#DCE3DA",
+   "card": "#F7F9F5",
+   "ink": "#10241A",
+   "muted": "#44544A",
+   "faint": "rgba(16,36,26,0.14)",
+   "gold_text": "#6B4F16",
+   "red": "#8E2F1C",
+   "green": "#2F7350",
+   "later": "#879689",
+   "paper": "#F7F9F5",
+   "target": "#8A5608",
+   "accent": "#2F6B4F",
+   "shadow": "rgba(16,36,26,0.13)"
+  }
+ },
+ "tones": {
+  "rule": "The background changes every four turns: turns 1–4 the case sheet, 5–8 the night round, 9–12 the case sheet. Specs store no colour. A fill-in-the-blank redraw keeps the theme of the turn it redraws.",
+  "set_size": 4,
+  "rotation": [
+   "count",
+   "lamp"
+  ],
+  "list": {
+   "count": {
+    "status": "approved",
+    "name": "The case sheet (base)"
+   },
+   "lamp": {
+    "status": "approved",
+    "name": "The night round",
+    "ground": "#ECEEE4",
+    "card": "#FFFEF8",
+    "muted": "#4B5A50",
+    "faint": "rgba(16,36,26,0.12)"
+   }
+  }
+ },
+ "layers": {
+  "note": "Extra slots Bed Management adds to a library block. sheets[i] belongs to the block's i-th item (event, step or row), in order.",
+  "sheets": {
+   "type": "list",
+   "min": 2,
+   "max": 8,
+   "required": false,
+   "item": {
+    "type": "object",
+    "fields": {
+     "key": {
+      "type": "text",
+      "max_words": 1
+     },
+     "when": {
+      "type": "text",
+      "max_words": 5
+     },
+     "title": {
+      "type": "text",
+      "max_words": 7
+     },
+     "text": {
+      "type": "text",
+      "max_words": 40
+     },
+     "bed": {
+      "type": "enum",
+      "values": [
+       "in",
+       "leaving",
+       "empty",
+       "next"
+      ],
+      "required": false
+     },
+     "bed_line": {
+      "type": "text",
+      "max_words": 8,
+      "required": false
+     },
+     "bill_line": {
+      "type": "text",
+      "max_words": 8,
+      "required": false
+     },
+     "bill": {
+      "type": "enum",
+      "values": [
+       "on",
+       "off",
+       "new"
+      ],
+      "required": false
+     },
+     "entry": {
+      "type": "text",
+      "max_words": 10,
+      "required": false
+     },
+     "entry_hint": {
+      "type": "text",
+      "max_words": 12,
+      "required": false
+     },
+     "lines": {
+      "type": "list",
+      "min": 1,
+      "max": 4,
+      "required": false,
+      "item": {
+       "type": "object",
+       "fields": {
+        "label": {
+         "type": "text",
+         "max_words": 5
+        },
+        "value": {
+         "type": "text",
+         "max_words": 10
+        },
+        "state": {
+         "type": "enum",
+         "values": [
+          "plain",
+          "target",
+          "outcome",
+          "start"
+         ],
+         "required": false
+        }
+       }
+      }
+     },
+     "entry_open": {
+      "type": "bool",
+      "required": false
+     },
+     "entry_label": {
+      "type": "text",
+      "max_words": 8,
+      "required": false
+     },
+     "slot": {
+      "type": "text",
+      "max_words": 3,
+      "required": false
+     }
+    }
+   }
+  },
+  "ask_more": {
+   "type": "object",
+   "required": false,
+   "fields": {
+    "label": {
+     "type": "text",
+     "max_words": 12
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 12
+    }
+   }
+  },
+  "applies_to": [
+   "time-window",
+   "chain",
+   "two-flow",
+   "cards",
+   "stat-strip",
+   "converge"
+  ],
+  "hint": {
+   "type": "text",
+   "max_words": 16,
+   "required": false
+  }
+ },
+ "variety": {
+  "rule": "Every turn looks different. The main block (the first after the heading) is used by one turn only in a place, and no block but heading and effect appears in two turns in a row. A fill-in-the-blank and its answered redraw share one block by rule and must add one of their own."
+ },
+ "blocks": [
+  {
+   "id": "effect",
+   "status": "approved",
+   "scope": "Bed Management only",
+   "category": "numbers",
+   "purpose": "The quantity a turn names: a label, the figure and one line, in the effect-box fill (07 §5.2) with a small bed-and-bill mark.",
+   "use_when": [
+    "naming the quantity a turn arrives at"
+   ],
+   "avoid_when": [
+    "more than two in a turn"
+   ],
+   "slots": {
+    "label": {
+     "type": "text",
+     "max_words": 6
+    },
+    "value": {
+     "type": "text",
+     "max_words": 9
+    },
+    "sub": {
+     "type": "text",
+     "max_words": 26
+    },
+    "state": {
+     "type": "enum",
+     "values": [
+      "plain",
+      "outcome"
+     ],
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "ward-map",
+   "status": "approved",
+   "scope": "Discharge Process",
+   "category": "drawing",
+   "purpose": "The road to going home as a ward floor plan: each stop a room on one winding path, walked in order. Each room opens what the hospital usually hears and the question asked there.",
+   "use_when": [
+    "the agenda for a set of questions, one team per stop",
+    "a long chain walked one stop at a time"
+   ],
+   "avoid_when": [
+    "fewer than six stops (use admission-route)"
+   ],
+   "interaction": "Tap a room to open its sheet; type an answer in Add yours. The first room is raised with its sheet open.",
+   "slots": {
+    "start_label": {
+     "type": "text",
+     "max_words": 3
+    },
+    "end_label": {
+     "type": "text",
+     "max_words": 3
+    },
+    "stops": {
+     "type": "list",
+     "min": 6,
+     "max": 12,
+     "item": {
+      "type": "object",
+      "fields": {
+       "name": {
+        "type": "text",
+        "max_words": 3
+       },
+       "tag": {
+        "type": "text",
+        "max_words": 1,
+        "required": false
+       },
+       "status": {
+        "type": "enum",
+        "values": [
+         "now",
+         "next",
+         "later",
+         "done"
+        ]
+       },
+       "heard": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 12,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "bed": {
+        "type": "enum",
+        "values": [
+         "in",
+         "leaving",
+         "empty",
+         "next"
+        ],
+        "required": false
+       },
+       "bed_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill": {
+        "type": "enum",
+        "values": [
+         "on",
+         "off",
+         "new"
+        ],
+        "required": false
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 10,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 10
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "slot": {
+        "type": "text",
+        "max_words": 3,
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 16,
+     "required": false
+    },
+    "caption": {
+     "type": "text",
+     "max_words": 25,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "lens",
+   "status": "approved",
+   "scope": "Bed Management only",
+   "category": "drawing",
+   "purpose": "Areas to examine on the rim of a magnifying glass. The one asked now is ink on the rim, the picked one gold.",
+   "use_when": [
+    "showing the areas of enquiry before asking the first"
+   ],
+   "avoid_when": [
+    "a sequence of steps"
+   ],
+   "interaction": "Pick an area: its arc turns gold and its sheet opens.",
+   "slots": {
+    "centre": {
+     "type": "object",
+     "fields": {
+      "kicker": {
+       "type": "text",
+       "max_words": 4
+      },
+      "title": {
+       "type": "text",
+       "max_words": 4
+      },
+      "sub": {
+       "type": "text",
+       "max_words": 8
+      }
+     }
+    },
+    "areas": {
+     "type": "list",
+     "min": 3,
+     "max": 6,
+     "item": {
+      "type": "object",
+      "fields": {
+       "name": {
+        "type": "text",
+        "max_words": 6
+       },
+       "status": {
+        "type": "text",
+        "max_words": 3
+       },
+       "state": {
+        "type": "enum",
+        "values": [
+         "now",
+         "later",
+         "done"
+        ],
+        "required": false
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "required": false,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "bed": {
+        "type": "enum",
+        "values": [
+         "in",
+         "leaving",
+         "empty",
+         "next"
+        ],
+        "required": false
+       },
+       "bed_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill": {
+        "type": "enum",
+        "values": [
+         "on",
+         "off",
+         "new"
+        ],
+        "required": false
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 10,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 10
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "slot": {
+        "type": "text",
+        "max_words": 3,
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 16,
+     "required": false
+    },
+    "caption": {
+     "type": "text",
+     "max_words": 25,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "day-strips",
+   "status": "approved",
+   "scope": "Bed Management only",
+   "category": "drawing",
+   "purpose": "Two ways a day can run, drawn bed by bed, hour by hour: beds with patients leaving, arriving, both, or quiet.",
+   "use_when": [
+    "testing a claim about how a day runs, without leading"
+   ],
+   "avoid_when": [
+    "one pattern only"
+   ],
+   "interaction": "Pick a pattern to read it.",
+   "slots": {
+    "slots": {
+     "type": "list",
+     "min": 4,
+     "max": 8,
+     "item": {
+      "type": "text",
+      "max_words": 3
+     }
+    },
+    "patterns": {
+     "type": "list",
+     "min": 2,
+     "max": 3,
+     "item": {
+      "type": "object",
+      "fields": {
+       "name": {
+        "type": "text",
+        "max_words": 3
+       },
+       "tag": {
+        "type": "text",
+        "max_words": 5
+       },
+       "cells": {
+        "type": "list",
+        "min": 4,
+        "max": 8,
+        "item": {
+         "type": "enum",
+         "values": [
+          "out",
+          "in",
+          "both",
+          "none"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "required": false,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "bed": {
+        "type": "enum",
+        "values": [
+         "in",
+         "leaving",
+         "empty",
+         "next"
+        ],
+        "required": false
+       },
+       "bed_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill": {
+        "type": "enum",
+        "values": [
+         "on",
+         "off",
+         "new"
+        ],
+        "required": false
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 10,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 10
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "slot": {
+        "type": "text",
+        "max_words": 3,
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 16,
+     "required": false
+    },
+    "caption": {
+     "type": "text",
+     "max_words": 25,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "admission-route",
+   "status": "approved",
+   "scope": "Bed Management only",
+   "category": "drawing",
+   "purpose": "The patient’s way from the door to the bed, one stop per step, with a clock time at each. Blank: the times are typed in. Filled: the times and the gaps between them.",
+   "use_when": [
+    "asking for, then showing, the steps of an admission with times"
+   ],
+   "avoid_when": [
+    "billing times"
+   ],
+   "interaction": "Pick a step; in blank mode type its time in the sheet and it appears on the stop.",
+   "slots": {
+    "mode": {
+     "type": "enum",
+     "values": [
+      "blank",
+      "filled"
+     ]
+    },
+    "start_label": {
+     "type": "text",
+     "max_words": 3
+    },
+    "end_label": {
+     "type": "text",
+     "max_words": 3
+    },
+    "stops": {
+     "type": "list",
+     "min": 3,
+     "max": 7,
+     "item": {
+      "type": "object",
+      "fields": {
+       "name": {
+        "type": "text",
+        "max_words": 7
+       },
+       "typical": {
+        "type": "text",
+        "max_words": 3,
+        "required": false
+       },
+       "gap": {
+        "type": "text",
+        "max_words": 3,
+        "required": false
+       },
+       "outcome": {
+        "type": "bool",
+        "required": false
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "required": false,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "bed": {
+        "type": "enum",
+        "values": [
+         "in",
+         "leaving",
+         "empty",
+         "next"
+        ],
+        "required": false
+       },
+       "bed_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill": {
+        "type": "enum",
+        "values": [
+         "on",
+         "off",
+         "new"
+        ],
+        "required": false
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 10,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 10
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "slot": {
+        "type": "text",
+        "max_words": 3,
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 16,
+     "required": false
+    },
+    "caption": {
+     "type": "text",
+     "max_words": 25,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "stopwatch",
+   "status": "approved",
+   "scope": "Bed Management only",
+   "category": "drawing",
+   "purpose": "Where the hours of one admission go, on a stopwatch dial: work in ink, waiting hatched amber.",
+   "use_when": [
+    "after the times are in, to show how little of the time is work"
+   ],
+   "avoid_when": [
+    "before the times are in"
+   ],
+   "interaction": "None: a reading.",
+   "slots": {
+    "label": {
+     "type": "text",
+     "max_words": 6
+    },
+    "value": {
+     "type": "text",
+     "max_words": 4
+    },
+    "value_sub": {
+     "type": "text",
+     "max_words": 4
+    },
+    "dial_hours": {
+     "type": "number"
+    },
+    "parts": {
+     "type": "list",
+     "min": 2,
+     "max": 4,
+     "item": {
+      "type": "object",
+      "fields": {
+       "label": {
+        "type": "text",
+        "max_words": 5
+       },
+       "hours": {
+        "type": "number"
+       },
+       "kind": {
+        "type": "enum",
+        "values": [
+         "work",
+         "wait"
+        ]
+       },
+       "text": {
+        "type": "text",
+        "max_words": 16
+       }
+      }
+     }
+    },
+    "worst": {
+     "type": "text",
+     "max_words": 18
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "bed-bills",
+   "status": "approved",
+   "scope": "Bed Management only",
+   "category": "drawing",
+   "purpose": "The leaving patient’s bill and the next patient’s first charge, as two tags tied to one bed, with the stretch between them where nothing bills.",
+   "use_when": [
+    "asking for, then showing, the two billing times"
+   ],
+   "avoid_when": [
+    "admission steps"
+   ],
+   "interaction": "Pick a tag; in blank mode type the time in its sheet.",
+   "slots": {
+    "mode": {
+     "type": "enum",
+     "values": [
+      "blank",
+      "filled"
+     ]
+    },
+    "gap_label": {
+     "type": "text",
+     "max_words": 5
+    },
+    "tags": {
+     "type": "list",
+     "min": 2,
+     "max": 2,
+     "item": {
+      "type": "object",
+      "fields": {
+       "who": {
+        "type": "text",
+        "max_words": 5
+       },
+       "label": {
+        "type": "text",
+        "max_words": 7
+       },
+       "value": {
+        "type": "text",
+        "max_words": 4,
+        "required": false
+       },
+       "worst": {
+        "type": "text",
+        "max_words": 5,
+        "required": false
+       },
+       "outcome": {
+        "type": "bool",
+        "required": false
+       }
+      }
+     }
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "required": false,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "bed": {
+        "type": "enum",
+        "values": [
+         "in",
+         "leaving",
+         "empty",
+         "next"
+        ],
+        "required": false
+       },
+       "bed_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill": {
+        "type": "enum",
+        "values": [
+         "on",
+         "off",
+         "new"
+        ],
+        "required": false
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 10,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 10
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "slot": {
+        "type": "text",
+        "max_words": 3,
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 16,
+     "required": false
+    },
+    "caption": {
+     "type": "text",
+     "max_words": 25,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "receipt",
+   "status": "approved",
+   "scope": "Bed Management only",
+   "category": "drawing",
+   "purpose": "The figures Tojo needs, as lines on a paper bill. Each line takes the figure right there; the total says how many are in.",
+   "use_when": [
+    "a batched ask for figures"
+   ],
+   "avoid_when": [
+    "figures already given"
+   ],
+   "interaction": "Type each figure on its line; pick a line to see what it turns into.",
+   "slots": {
+    "title": {
+     "type": "text",
+     "max_words": 6
+    },
+    "subtitle": {
+     "type": "text",
+     "max_words": 10
+    },
+    "lines": {
+     "type": "list",
+     "min": 3,
+     "max": 6,
+     "item": {
+      "type": "object",
+      "fields": {
+       "label": {
+        "type": "text",
+        "max_words": 7
+       },
+       "unit": {
+        "type": "text",
+        "max_words": 5
+       },
+       "placeholder": {
+        "type": "text",
+        "max_words": 6
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "total_label": {
+     "type": "text",
+     "max_words": 5
+    },
+    "waiting": {
+     "type": "text",
+     "max_words": 4
+    },
+    "done": {
+     "type": "text",
+     "max_words": 6
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "required": false,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "bed": {
+        "type": "enum",
+        "values": [
+         "in",
+         "leaving",
+         "empty",
+         "next"
+        ],
+        "required": false
+       },
+       "bed_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill": {
+        "type": "enum",
+        "values": [
+         "on",
+         "off",
+         "new"
+        ],
+        "required": false
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 10,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 10
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "slot": {
+        "type": "text",
+        "max_words": 3,
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 16,
+     "required": false
+    },
+    "caption": {
+     "type": "text",
+     "max_words": 25,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "bed-count",
+   "status": "approved",
+   "scope": "Bed Management only",
+   "category": "drawing",
+   "purpose": "The beds that change patient each day, drawn one by one, and what the hours won back are worth. A slider sets the hours won back.",
+   "use_when": [
+    "turning a duration into money from the user’s figures"
+   ],
+   "avoid_when": [
+    "fact-collecting turns"
+   ],
+   "interaction": "Move the slider; pick a figure to see the working.",
+   "slots": {
+    "occupied": {
+     "type": "number"
+    },
+    "occupied_label": {
+     "type": "text",
+     "max_words": 6
+    },
+    "stay": {
+     "type": "number"
+    },
+    "per_day_label": {
+     "type": "text",
+     "max_words": 6
+    },
+    "rate": {
+     "type": "number"
+    },
+    "beds_caption": {
+     "type": "text",
+     "max_words": 20
+    },
+    "hours": {
+     "type": "object",
+     "fields": {
+      "label": {
+       "type": "text",
+       "max_words": 6
+      },
+      "min": {
+       "type": "number"
+      },
+      "max": {
+       "type": "number"
+      },
+      "step": {
+       "type": "number"
+      },
+      "value": {
+       "type": "number"
+      }
+     }
+    },
+    "readouts": {
+     "type": "list",
+     "min": 2,
+     "max": 3,
+     "item": {
+      "type": "object",
+      "fields": {
+       "label": {
+        "type": "text",
+        "max_words": 6
+       },
+       "calc": {
+        "type": "enum",
+        "values": [
+         "hy",
+         "d",
+         "v"
+        ]
+       },
+       "note": {
+        "type": "text",
+        "max_words": 8
+       },
+       "state": {
+        "type": "enum",
+        "values": [
+         "plain",
+         "outcome"
+        ],
+        "required": false
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "required": false,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "bed": {
+        "type": "enum",
+        "values": [
+         "in",
+         "leaving",
+         "empty",
+         "next"
+        ],
+        "required": false
+       },
+       "bed_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill": {
+        "type": "enum",
+        "values": [
+         "on",
+         "off",
+         "new"
+        ],
+        "required": false
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 10,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 10
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "slot": {
+        "type": "text",
+        "max_words": 3,
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 16,
+     "required": false
+    },
+    "caption": {
+     "type": "text",
+     "max_words": 25,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "evidence-board",
+   "status": "approved",
+   "scope": "Bed Management only",
+   "category": "drawing",
+   "purpose": "The findings pinned to a board in the order they were given, on one thread, each with the user’s own words.",
+   "use_when": [
+    "consolidation before the diagnosis"
+   ],
+   "avoid_when": [
+    "causal order (that is the diagnosis)"
+   ],
+   "interaction": "Pick a card to see where it came from.",
+   "slots": {
+    "banner": {
+     "type": "text",
+     "max_words": 10
+    },
+    "cards": {
+     "type": "list",
+     "min": 3,
+     "max": 6,
+     "item": {
+      "type": "object",
+      "fields": {
+       "finding": {
+        "type": "text",
+        "max_words": 8
+       },
+       "quote": {
+        "type": "text",
+        "max_words": 9
+       },
+       "from": {
+        "type": "text",
+        "max_words": 8
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "required": false,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "bed": {
+        "type": "enum",
+        "values": [
+         "in",
+         "leaving",
+         "empty",
+         "next"
+        ],
+        "required": false
+       },
+       "bed_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill": {
+        "type": "enum",
+        "values": [
+         "on",
+         "off",
+         "new"
+        ],
+        "required": false
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 10,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 10
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "slot": {
+        "type": "text",
+        "max_words": 3,
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 16,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "rule-loop",
+   "status": "approved",
+   "scope": "Bed Management only",
+   "category": "drawing",
+   "purpose": "The diagnosis: the findings feed one rule; the rule starts a loop of consequences that comes back round to it.",
+   "use_when": [
+    "the diagnosis turn"
+   ],
+   "avoid_when": [
+    "before the evidence is in"
+   ],
+   "interaction": "Pick a step to follow the loop.",
+   "slots": {
+    "feeds_label": {
+     "type": "text",
+     "max_words": 8
+    },
+    "feeds": {
+     "type": "list",
+     "min": 2,
+     "max": 6,
+     "item": {
+      "type": "text",
+      "max_words": 6
+     }
+    },
+    "rule": {
+     "type": "text",
+     "max_words": 16
+    },
+    "rule_from": {
+     "type": "text",
+     "max_words": 8
+    },
+    "steps": {
+     "type": "list",
+     "min": 4,
+     "max": 4,
+     "item": {
+      "type": "object",
+      "fields": {
+       "text": {
+        "type": "text",
+        "max_words": 8
+       },
+       "clock": {
+        "type": "text",
+        "max_words": 6,
+        "required": false
+       },
+       "outcome": {
+        "type": "bool",
+        "required": false
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "back": {
+     "type": "text",
+     "max_words": 12
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "required": false,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "bed": {
+        "type": "enum",
+        "values": [
+         "in",
+         "leaving",
+         "empty",
+         "next"
+        ],
+        "required": false
+       },
+       "bed_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill": {
+        "type": "enum",
+        "values": [
+         "on",
+         "off",
+         "new"
+        ],
+        "required": false
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 10,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 10
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "slot": {
+        "type": "text",
+        "max_words": 3,
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 16,
+     "required": false
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "scale",
+   "status": "approved",
+   "scope": "Bed Management only",
+   "category": "drawing",
+   "purpose": "Demand against supply on a balance, tipping to the heavier side, with the verdict beside it.",
+   "use_when": [
+    "the scaling pivot: whether the full design applies"
+   ],
+   "avoid_when": [
+    "anything but two quantities"
+   ],
+   "interaction": "None: a reading.",
+   "slots": {
+    "left": {
+     "type": "object",
+     "fields": {
+      "value": {
+       "type": "text",
+       "max_words": 2
+      },
+      "label": {
+       "type": "text",
+       "max_words": 5
+      },
+      "note": {
+       "type": "text",
+       "max_words": 10
+      }
+     }
+    },
+    "right": {
+     "type": "object",
+     "fields": {
+      "value": {
+       "type": "text",
+       "max_words": 2
+      },
+      "label": {
+       "type": "text",
+       "max_words": 5
+      },
+      "note": {
+       "type": "text",
+       "max_words": 10
+      }
+     }
+    },
+    "verdict_label": {
+     "type": "text",
+     "max_words": 5
+    },
+    "verdict": {
+     "type": "text",
+     "max_words": 5
+    },
+    "text": {
+     "type": "text",
+     "max_words": 24
+    }
+   },
+   "feedback": []
+  },
+  {
+   "id": "corridor",
+   "status": "approved",
+   "scope": "Bed Management only",
+   "category": "drawing",
+   "purpose": "The parts of the answer as closed doors along a corridor. Picking one opens it a little and shows what is behind it, briefly.",
+   "use_when": [
+    "naming the parts of the solution before any is opened"
+   ],
+   "avoid_when": [
+    "going into one part (that is the next place)"
+   ],
+   "interaction": "Pick a door to look in.",
+   "slots": {
+    "label": {
+     "type": "text",
+     "max_words": 6
+    },
+    "doors": {
+     "type": "list",
+     "min": 3,
+     "max": 6,
+     "item": {
+      "type": "object",
+      "fields": {
+       "name": {
+        "type": "text",
+        "max_words": 6
+       },
+       "text": {
+        "type": "text",
+        "max_words": 16
+       },
+       "point": {
+        "type": "number",
+        "required": false
+       }
+      }
+     }
+    },
+    "sheets": {
+     "type": "list",
+     "min": 2,
+     "max": 8,
+     "required": false,
+     "item": {
+      "type": "object",
+      "fields": {
+       "key": {
+        "type": "text",
+        "max_words": 1
+       },
+       "when": {
+        "type": "text",
+        "max_words": 5
+       },
+       "title": {
+        "type": "text",
+        "max_words": 7
+       },
+       "text": {
+        "type": "text",
+        "max_words": 40
+       },
+       "bed": {
+        "type": "enum",
+        "values": [
+         "in",
+         "leaving",
+         "empty",
+         "next"
+        ],
+        "required": false
+       },
+       "bed_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill_line": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "bill": {
+        "type": "enum",
+        "values": [
+         "on",
+         "off",
+         "new"
+        ],
+        "required": false
+       },
+       "entry": {
+        "type": "text",
+        "max_words": 10,
+        "required": false
+       },
+       "entry_hint": {
+        "type": "text",
+        "max_words": 12,
+        "required": false
+       },
+       "lines": {
+        "type": "list",
+        "min": 1,
+        "max": 4,
+        "required": false,
+        "item": {
+         "type": "object",
+         "fields": {
+          "label": {
+           "type": "text",
+           "max_words": 5
+          },
+          "value": {
+           "type": "text",
+           "max_words": 10
+          },
+          "state": {
+           "type": "enum",
+           "values": [
+            "plain",
+            "target",
+            "outcome",
+            "start"
+           ],
+           "required": false
+          }
+         }
+        }
+       },
+       "entry_open": {
+        "type": "bool",
+        "required": false
+       },
+       "entry_label": {
+        "type": "text",
+        "max_words": 8,
+        "required": false
+       },
+       "slot": {
+        "type": "text",
+        "max_words": 3,
+        "required": false
+       }
+      }
+     }
+    },
+    "hint": {
+     "type": "text",
+     "max_words": 16,
+     "required": false
+    }
+   },
+   "feedback": []
+  }
+ ],
+ "actions": {
+  "rule": "rules/08 §8: the three buttons on every turn. Diagnosis jumps to Solutions.",
+  "slots": {
+   "type": "object",
+   "fields": {
+    "go": {
+     "type": "object",
+     "fields": {
+      "detail": {
+       "type": "text",
+       "max_words": 10
+      },
+      "say": {
+       "type": "text",
+       "max_words": 16
+      }
+     }
+    },
+    "add": {
+     "type": "object",
+     "fields": {
+      "detail": {
+       "type": "text",
+       "max_words": 10
+      },
+      "say": {
+       "type": "text",
+       "max_words": 16
+      }
+     }
+    },
+    "jump": {
+     "type": "object",
+     "fields": {
+      "tab": {
+       "type": "enum",
+       "values": [
+        "Solutions"
+       ]
+      },
+      "detail": {
+       "type": "text",
+       "max_words": 10
+      },
+      "say": {
+       "type": "text",
+       "max_words": 16
+      }
+     }
+    }
+   }
+  }
+ }
+}

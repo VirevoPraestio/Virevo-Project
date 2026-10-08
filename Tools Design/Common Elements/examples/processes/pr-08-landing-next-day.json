@@ -1,0 +1,182 @@
+{
+ "turn": {
+  "id": "pr-08",
+  "tab": "Processes",
+  "type": "landing",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "",
+  "context": "The user comes back the next morning. The page was brought up to date at midnight."
+ },
+ "chat": {
+  "text": [
+   "Overnight, this page caught up with our conversation. The trial is scoped day by day, and the team is sized."
+  ],
+  "pointer": "Press Proceed to pick the trial ward, or pick a point to add to it.",
+  "note": "One ward, fourteen days, then the numbers decide.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The trial ward",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "Discharge papers, the biggest hold-up",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Patients home by 10 AM",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The Bed Manager",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Let’s pick the trial ward",
+   "Who has to agree to this?",
+   "I have a new worry to add"
+  ]
+ },
+ "canvas": {
+  "state": "filled",
+  "blocks": [
+   {
+    "type": "landing",
+    "stamp": {
+     "at": "Brought up to date at midnight, 2 October",
+     "since": "Nothing new since then",
+     "fresh": "Brought up to date just now, 9:40 AM",
+     "fresh_since": "Everything you have said is in"
+    },
+    "standing": "Trial scoped day by day. The team is sized.",
+    "deck": "Six changes, the measures and the new roles. The trial ward is the one choice left.",
+    "loop_at": 0,
+    "trial": {
+     "title": "Two-week trial on one ward",
+     "status": "Ready to start",
+     "note": "Three quiet days, then the changes in two steps",
+     "point": 1
+    },
+    "changes": [
+     {
+      "title": "The evening round starts the paperwork",
+      "status": "agreed"
+     },
+     {
+      "title": "Discharge papers drafted before signing",
+      "status": "agreed",
+      "flag": "Biggest hold-up",
+      "point": 2
+     },
+     {
+      "title": "Bill and supply count kept up to date",
+      "status": "agreed"
+     },
+     {
+      "title": "Insurance asked the evening before",
+      "status": "agreed"
+     },
+     {
+      "title": "Family and transport told the night before",
+      "status": "agreed"
+     },
+     {
+      "title": "Bed desk told a day ahead",
+      "status": "new"
+     }
+    ],
+    "measures": [
+     {
+      "title": "Hours from ready to home",
+      "value": "5 hours 15 minutes",
+      "status": "confirmed"
+     },
+     {
+      "title": "Bed empty after the patient leaves",
+      "value": "75 minutes",
+      "status": "confirmed"
+     },
+     {
+      "title": "Insurance approval time",
+      "value": "About 1 hour",
+      "status": "confirmed"
+     },
+     {
+      "title": "Patients home by 10 AM",
+      "status": "new",
+      "point": 3
+     },
+     {
+      "title": "Decided on the evening round",
+      "status": "new"
+     },
+     {
+      "title": "Family told before leaving",
+      "status": "new"
+     }
+    ],
+    "roles": [
+     {
+      "title": "Discharge Manager",
+      "seats": 1,
+      "filled": 0,
+      "note": "Needed now, at 40 to 45 a day"
+     },
+     {
+      "title": "Discharge Executives",
+      "seats": 2,
+      "filled": 0,
+      "note": "Mornings 8 to 11, evenings 6 to 9"
+     },
+     {
+      "title": "Bed Manager",
+      "seats": 1,
+      "filled": 0,
+      "note": "Waits on three of your numbers",
+      "point": 4
+     }
+    ],
+    "roles_note": "₹10 to 11.5 lakh a year for the discharge roles. Your Head of Operations approves.",
+    "roles_cost": "₹10 to 11.5 lakh a year",
+    "pending": [
+     {
+      "text": "Draft the note asking your Head of Operations for a yes.",
+      "who": "tojo"
+     },
+     {
+      "text": "Pick the trial ward.",
+      "who": "you",
+      "need": "Needs your choice",
+      "point": 1
+     },
+     {
+      "text": "Say if one team runs discharges and admissions.",
+      "who": "you",
+      "need": "Needs your answer",
+      "point": 4
+     }
+    ],
+    "actions": {
+     "go": {
+      "detail": "Pick the trial ward",
+      "say": "Let’s pick the trial ward"
+     },
+     "add": {
+      "detail": "Add a change, a measure or a role",
+      "say": "I want to add a change: "
+     },
+     "jump": {
+      "tab": "Automations",
+      "detail": "The order to switch on",
+      "say": "Take me back to Automations"
+     }
+    }
+   }
+  ]
+ }
+}

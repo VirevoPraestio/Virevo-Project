@@ -1,0 +1,243 @@
+{
+ "turn": {
+  "tool": "Bed Management",
+  "tab": "Diagnosis",
+  "register": "guided",
+  "id": "rc-10",
+  "type": "data-back",
+  "user_message": "Arrival around 1 PM. Documentation by 2 PM, worst 3–4 PM. Bed allocated by 3 PM, sometimes 4, worst 4–5 PM. Ward or ICU confirms ready by 4 PM, worst 5–6 PM. In the bed by 4:30 PM, worst 6:30 PM. This is the ideal situation, sometimes this can stretch to 7–8 PM. Generally we allocate only after we get confirmation that bed is ready or about to get readied.",
+  "note_for_review": "The 10th counted turn. The rating is asked first and the user’s message is held. Good: one short line, then the answer (approved bm-dg-05)."
+ },
+ "chat": {
+  "text": [
+   "Thank you. Your own times are worth more than anything else we’ve covered. They point somewhere slightly different from what you told me.",
+   "You said admissions and discharges run together through the day. Your times put arrival in the early afternoon, and the bed late afternoon to evening. That is an afternoon pattern, not a spread one.",
+   "I’d take the numbers as the better guide. There are two likely reasons. You give a bed only once it is confirmed ready, so nobody can be called in until late. And where one team carries both jobs, the job with a deadline takes the morning."
+  ],
+  "pointer": "Your times are on the way from the door to the bed.",
+  "invite": "Next: is there a set way to match tomorrow’s planned admissions against the beds you expect to free up?",
+  "note": "Your numbers tell a different story from the claim.",
+  "question": {
+   "text": "Pick the closest",
+   "options": [
+    "Yes, a set way, done every day",
+    "It happens, but informally",
+    "No, the picture comes together as the day goes"
+   ]
+  },
+  "prompts": [
+   "It happens, but informally",
+   "We do call some patients in early",
+   "Why would the morning go to discharges?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Admission time, from your own clock",
+    "title": "Five steps, your times",
+    "deck": "A typical day at each stop, and the wait between stops. Tap a stop for its worst day."
+   },
+   {
+    "type": "admission-route",
+    "mode": "filled",
+    "start_label": "Arrival",
+    "end_label": "In the bed",
+    "hint": "Tap a step to see its worst day.",
+    "stops": [
+     {
+      "name": "Patient arrives, or Emergency says admit",
+      "typical": "1 PM",
+      "point": 1,
+      "gap": "1 hour"
+     },
+     {
+      "name": "Paperwork done",
+      "typical": "2 PM",
+      "point": 2,
+      "gap": "1 hour"
+     },
+     {
+      "name": "Bed given in the system",
+      "typical": "3 PM",
+      "point": 3,
+      "gap": "1 hour"
+     },
+     {
+      "name": "Ward or ICU confirms bed ready",
+      "typical": "4 PM",
+      "point": 4,
+      "gap": "30 minutes"
+     },
+     {
+      "name": "Patient in the bed",
+      "typical": "4:30 PM",
+      "point": 5,
+      "outcome": true
+     }
+    ],
+    "caption": "About an hour of this is paperwork. The rest is waiting on the next step.",
+    "sheets": [
+     {
+      "key": "arr",
+      "when": "Step 1 of 5",
+      "title": "Patient arrives, or Emergency says admit",
+      "text": "The clock starts when the patient arrives, or when Emergency decides to admit.",
+      "lines": [
+       {
+        "label": "Typical day",
+        "value": "1 PM",
+        "state": "start"
+       }
+      ]
+     },
+     {
+      "key": "doc",
+      "when": "Step 2 of 5",
+      "title": "Paperwork done",
+      "text": "Registration and admission papers are complete.",
+      "lines": [
+       {
+        "label": "Typical day",
+        "value": "2 PM",
+        "state": "start"
+       },
+       {
+        "label": "Worst day",
+        "value": "3 to 4 PM",
+        "state": "target"
+       }
+      ]
+     },
+     {
+      "key": "bed",
+      "when": "Step 3 of 5",
+      "title": "Bed given in the system",
+      "text": "A bed is put against the patient’s name in your hospital software.",
+      "lines": [
+       {
+        "label": "Typical day",
+        "value": "3 PM",
+        "state": "start"
+       },
+       {
+        "label": "Worst day",
+        "value": "Sometimes 4 PM, worst 4 to 5 PM",
+        "state": "target"
+       }
+      ]
+     },
+     {
+      "key": "rdy",
+      "when": "Step 4 of 5",
+      "title": "Ward or ICU confirms bed ready",
+      "text": "The ward or ICU says the bed is clean and ready to take the patient.",
+      "lines": [
+       {
+        "label": "Typical day",
+        "value": "4 PM",
+        "state": "start"
+       },
+       {
+        "label": "Worst day",
+        "value": "5 to 6 PM",
+        "state": "target"
+       }
+      ]
+     },
+     {
+      "key": "in",
+      "when": "Step 5 of 5",
+      "title": "Patient in the bed",
+      "text": "The patient is physically in the bed. The clock stops here.",
+      "lines": [
+       {
+        "label": "Typical day",
+        "value": "4:30 PM",
+        "state": "start"
+       },
+       {
+        "label": "Worst day",
+        "value": "6:30 PM, up to 7 to 8 PM",
+        "state": "outcome"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "stopwatch",
+    "label": "Where the 3½ hours go",
+    "value": "3½ hours",
+    "value_sub": "on a good day",
+    "dial_hours": 4,
+    "parts": [
+     {
+      "label": "Paperwork",
+      "hours": 1,
+      "kind": "work",
+      "text": "From arrival at 1 PM to paperwork done by 2 PM."
+     },
+     {
+      "label": "Waiting on the next step",
+      "hours": 2.5,
+      "kind": "wait",
+      "text": "For a bed to be given, then confirmed ready, then the move."
+     }
+    ],
+    "worst": "5½ hours at worst, and up to 7 on the days it stretches to 8 PM."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: is the morning kept for discharges",
+    "say": "It happens, but informally"
+   },
+   "add": {
+    "detail": "Tell me more about the wait",
+    "say": "About the wait for a bed: "
+   },
+   "jump": {
+    "tab": "Solutions",
+    "detail": "How the bed problem could be fixed",
+    "say": "Take me to Solutions"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved by Avishek with the second Diagnosis set (one drawing per turn)."
+ },
+ "reply_check": {
+  "chat_id": "test-chat-1",
+  "turn_id": "rc-10",
+  "user_ref": "u-test",
+  "tool": "Bed Management",
+  "place": "diagnosis",
+  "counted_turn": 10,
+  "run": 0,
+  "action": "answer",
+  "last_reply": {
+   "class": "rating_good",
+   "quote": "Good"
+  },
+  "ask": {
+   "kind": "question",
+   "text": "Is there a set way to match tomorrow’s planned admissions against the beds you expect to free up?"
+  },
+  "sources": {
+   "rules": [
+    "09 §4",
+    "06 §4",
+    "06 §6 data-back"
+   ],
+   "playbook_step": "bed-management-conversation-playbook.md §1, stage 2: dependency verification",
+   "references": [
+    "bed-management.md §7.1",
+    "bed-management.md §7.2"
+   ]
+  }
+ }
+}

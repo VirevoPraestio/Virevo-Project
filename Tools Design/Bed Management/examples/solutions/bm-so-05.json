@@ -1,0 +1,313 @@
+{
+ "turn": {
+  "id": "bm-so-05",
+  "tab": "Solutions",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Bed Management",
+  "user_message": "process changes",
+  "context": "The approved shape: one big change, four small ones, two owners, then the ask. The decoupling is the hospital’s own answer from Diagnosis.",
+  "transcript": {
+   "label": "Transcript turn 22 · Part 2: Process changes"
+  }
+ },
+ "chat": {
+  "text": [
+   "Process changes next. One big change, four small ones, and two owners."
+  ],
+  "bullets": [
+   "The big one: admissions and discharges stop running one after the other. Two teams, or the two windows run together.",
+   "Four smaller changes hold it up. Each one costs a change in order, not money.",
+   "The bed plan is only as good as the discharge times it is built on. So both sides need an owner, and neither reports to the other."
+  ],
+  "pointer": "Switch between the day now and the day as it would run. Then pick a change or an owner.",
+  "question": {
+   "text": "Do you have someone on this job full time?",
+   "options": [
+    "Yes, someone does it full time",
+    "We would look at creating the role",
+    "Tell me the reasoning in more detail"
+   ]
+  },
+  "invite": "After this comes part 3, the people and their buy-in.",
+  "note": "The bed plan is only as good as the discharge times it is built on.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The day now",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The day as it would run",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "The four smaller changes",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The Bed Manager",
+    "canvas": true
+   },
+   {
+    "n": 5,
+    "label": "The Discharge Manager",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "A hospital is too dynamic. Will such rules work?",
+   "Tell me more about why a Discharge Manager is needed",
+   "Next, part 3, the people"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Part 2 · Process changes",
+    "title": "Run the two jobs together",
+    "plate": {
+     "part": 2,
+     "of": 5,
+     "name": "Process changes",
+     "stage": "Shaped"
+    },
+    "deck": "Today one team discharges, then admits. The change is to run both at once, against beds that will be free."
+   },
+   {
+    "type": "day-switch",
+    "from": "8:00",
+    "to": "20:00",
+    "lanes": [
+     {
+      "name": "Discharges",
+      "now": [
+       {
+        "from": "9:00",
+        "to": "13:00",
+        "label": "Discharges first"
+       }
+      ],
+      "with": [
+       {
+        "from": "9:00",
+        "to": "13:00",
+        "label": "Discharges, as before"
+       }
+      ]
+     },
+     {
+      "name": "Admissions",
+      "now": [
+       {
+        "from": "13:00",
+        "to": "17:00",
+        "label": "Admissions after"
+       }
+      ],
+      "with": [
+       {
+        "from": "9:30",
+        "to": "12:30",
+        "label": "Admissions alongside",
+        "state": "start"
+       }
+      ]
+     },
+     {
+      "name": "Patient in a bed",
+      "now": [
+       {
+        "from": "16:30",
+        "to": "20:00",
+        "label": "4:30 to 8 PM",
+        "state": "outcome"
+       }
+      ],
+      "with": [
+       {
+        "from": "11:00",
+        "to": "12:30",
+        "label": "By about noon",
+        "state": "start"
+       }
+      ]
+     }
+    ],
+    "switch": {
+     "now": "The day now",
+     "with": "The day it would be",
+     "cap_now": "One team. Discharges first, then admissions. Patients reach a bed between 4:30 and 8 PM.",
+     "cap_with": "Both jobs run together, against beds that will be free. The goal is a bed by about noon."
+    },
+    "caption": "Your own times: patients arrive at about 1 PM and reach a bed between 4:30 and 8 PM. The noon time is a goal."
+   },
+   {
+    "type": "notes",
+    "label": "Four smaller changes",
+    "items": [
+     {
+      "tag": "No cost",
+      "title": "Give beds forward",
+      "text": "Give a bed against when it will be free, not once it is ready.",
+      "point": 3
+     },
+     {
+      "title": "A date a day ahead",
+      "text": "The system shows the doctor a predicted date to check.",
+      "point": 3
+     },
+     {
+      "title": "OPD advice first",
+      "text": "Every planned admission starts from the advice in OPD.",
+      "point": 3
+     },
+     {
+      "title": "One billing report",
+      "text": "Bill close and bill open, read against the same bed.",
+      "point": 3
+     }
+    ],
+    "sheets": [
+     {
+      "key": "fwd",
+      "when": "Change 1",
+      "title": "Give beds forward",
+      "text": "Today a bed is given only once it is confirmed ready. Give it against when it will be free instead. The same people and beds then make a different day.",
+      "lines": [
+       {
+        "label": "Costs",
+        "value": "Nothing but the order work is done in",
+        "state": "start"
+       }
+      ],
+      "entry": "When does your desk give a bed today?"
+     },
+     {
+      "key": "date",
+      "when": "Change 2",
+      "title": "A date a day ahead",
+      "text": "The doctor is shown a predicted discharge date to confirm or correct. That is a check, not a guess. It makes the evening plan possible.",
+      "lines": [
+       {
+        "label": "Today",
+        "value": "An informal mention on rounds"
+       }
+      ],
+      "entry": "How early do your doctors say who goes home?"
+     },
+     {
+      "key": "opd",
+      "when": "Change 3",
+      "title": "OPD advice first",
+      "text": "Every planned admission starts from the doctor’s advice in OPD, with the date and the procedure. The mapping works from that.",
+      "lines": [
+       {
+        "label": "Needs",
+        "value": "The prescription, read as it is written"
+       }
+      ],
+      "entry": "Where does a planned admission start at your hospital?"
+     },
+     {
+      "key": "bill",
+      "when": "Change 4",
+      "title": "One billing report",
+      "text": "Both times already exist in billing. What does not exist is the join against the bed. That turns dead bed time into a number you can track.",
+      "lines": [
+       {
+        "label": "It is",
+        "value": "A report, not new data"
+       }
+      ],
+      "entry": "Who could run this report?"
+     }
+    ]
+   },
+   {
+    "type": "owners",
+    "label": "Two owners",
+    "link": "Peers. Neither reports to the other.",
+    "line": "Give only one side an owner, and the side without one sets the pace.",
+    "owners": [
+     {
+      "tag": "New role",
+      "title": "Bed Manager",
+      "line": "Holds tomorrow’s plan. Decides which patient goes to which bed, and when to call each one.",
+      "point": 4
+     },
+     {
+      "tag": "New role",
+      "title": "Discharge Manager",
+      "line": "Owns every discharge, from the doctor’s word to the empty bed.",
+      "point": 5
+     }
+    ],
+    "sheets": [
+     {
+      "key": "bm",
+      "when": "New role",
+      "title": "Bed Manager",
+      "text": "Holds the plan, decides which patient goes to which bed, and sorts out late beds. On a busy day the patient at the desk wins, so a desk role cannot hold tomorrow’s plan.",
+      "lines": [
+       {
+        "label": "Reports to",
+        "value": "The Head of Operations"
+       }
+      ],
+      "entry": "Does anyone hold the bed plan today?"
+     },
+     {
+      "key": "dm",
+      "when": "New role",
+      "title": "Discharge Manager",
+      "text": "Owns every discharge as one chain. Without this owner the Bed Manager spends the day chasing other people’s work.",
+      "lines": [
+       {
+        "label": "Reports to",
+        "value": "The Head of Operations"
+       },
+       {
+        "label": "Needed above",
+        "value": "80% of beds full or 40 patients a day",
+        "state": "target"
+       }
+      ],
+      "entry": "Who chases a slow discharge today?"
+     }
+    ]
+   },
+   {
+    "type": "effect",
+    "label": "Discharge Manager",
+    "value": "Both lines crossed",
+    "state": "target",
+    "sub": "Needed above 80% of beds full or 40 patients a day. You are at 89% and about 41. The 41 is worked out from your figures."
+   }
+  ],
+  "actions": {
+   "go": {
+    "detail": "Next: will fixed times hold on a busy day?",
+    "say": "A hospital is too dynamic. Will such hard rules actually work?"
+   },
+   "add": {
+    "detail": "Add something about your hospital",
+    "say": "Here is something to add about our hospital: "
+   },
+   "jump": {
+    "tab": "Automations",
+    "detail": "How the automations are built and run",
+    "say": "Take me to Automations"
+   }
+  }
+ },
+ "review": {
+  "status": "approved",
+  "date": "2026-10-01",
+  "note": "Approved 1 Oct with the Bed Management Solutions turns."
+ }
+}

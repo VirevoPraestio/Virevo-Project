@@ -1,0 +1,117 @@
+{
+ "turn": {
+  "id": "pr-03",
+  "tab": "Processes",
+  "type": "part",
+  "register": "advisory",
+  "tool": "Discharge Process",
+  "user_message": "What changes on the ward, step by step?",
+  "context": "Playbook §4, process changes: function by function, today and with the changes. The biggest leak flagged."
+ },
+ "chat": {
+  "text": [
+   "Seven changes, one for each step of the day. The work itself stays the same. Only its timing moves.",
+   "The biggest hold-up is the summary. Moving it to the evening round frees most of the morning."
+  ],
+  "pointer": "Move one magnet at a time, or switch the whole board to the new way.",
+  "invite": "Next, we can size the team that keeps this running.",
+  "note": "Same work. Earlier in the day.",
+  "points": [
+   {
+    "n": 1,
+    "label": "The evening round",
+    "canvas": true
+   },
+   {
+    "n": 2,
+    "label": "The summary, the biggest hold-up",
+    "canvas": true
+   },
+   {
+    "n": 3,
+    "label": "Insurance the evening before",
+    "canvas": true
+   },
+   {
+    "n": 4,
+    "label": "The empty bed",
+    "canvas": true
+   }
+  ],
+  "prompts": [
+   "Do we need to hire anyone?",
+   "Who at the bed desk would see this?",
+   "Which measures show it worked?"
+  ],
+  "moves": []
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "Changes on the ward",
+    "title": "Same work, earlier in the day",
+    "deck": "Each step of a discharge, today and with the changes. Your Head of Operations approves the new order."
+   },
+   {
+    "type": "swap",
+    "with_label": "With the changes",
+    "rows": [
+     {
+      "name": "Evening round",
+      "who": "Doctors",
+      "today": "Discharges decided the next morning",
+      "with": "Likely discharges marked with one tap",
+      "with_at": "6 to 9 PM",
+      "point": 1
+     },
+     {
+      "name": "Discharge summary",
+      "who": "Doctors, night nurse",
+      "today": "Typed next morning, waits for a signature",
+      "today_at": "10 AM to noon",
+      "with": "Drafted overnight, signed on the morning round",
+      "flag": "Biggest hold-up",
+      "point": 2
+     },
+     {
+      "name": "Supplies and bill",
+      "who": "Nurses, billing",
+      "today": "Counted and drawn up after signing",
+      "with": "Kept up to date all through the stay"
+     },
+     {
+      "name": "Bill sign-off",
+      "who": "Billing",
+      "today": "Built from the start at the end",
+      "today_at": "90 minutes",
+      "with": "Checked, not built"
+     },
+     {
+      "name": "Insurance",
+      "who": "Insurance desk",
+      "today": "Asked once the bill is final",
+      "today_at": "About 1 hour",
+      "with": "Early request sent the evening before",
+      "point": 3
+     },
+     {
+      "name": "Family and transport",
+      "who": "Ward nurse",
+      "today": "Called at the end of the day",
+      "with": "Told the leaving time the night before"
+     },
+     {
+      "name": "The bed",
+      "who": "Housekeeping",
+      "today": "Hears late, so cleaning starts late",
+      "today_at": "75 minutes",
+      "with": "Told the moment the patient leaves",
+      "point": 4
+     }
+    ],
+    "keeps": "The flow of work stays the same. The new timing sits on top of it, and costs nothing but order."
+   }
+  ]
+ }
+}

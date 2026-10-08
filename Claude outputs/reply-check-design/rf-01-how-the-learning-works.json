@@ -1,0 +1,90 @@
+{
+ "turn": {
+  "id": "rf-01",
+  "type": "overview",
+  "register": "advisory",
+  "tool": "Tojo rules",
+  "context": "Tojo · new rule: learning from your replies",
+  "subject": "reply-check-rule",
+  "user_message": "Fine also counts as a miss. The rating comes before Tojo works out the turn. How would this rule create the feedback for us to approve and implement?"
+ },
+ "chat": {
+  "text": [
+   "Noted. Fine and Bad both count as a miss. On a rating turn, a Good lets Tojo answer the waiting message. Fine or Bad sends him back to the rules, references and playbook first, without waiting for a second miss.",
+   "The learning works in three layers. Tojo tags every turn as he writes it. A separate review runs every night over all the tags. Only your team can turn a suggestion into a rule."
+  ],
+  "bullets": [
+   "Tojo cannot judge himself fairly in the middle of a chat, so he only records. The nightly review compares many chats and writes the suggestions.",
+   "A suggestion reaches you only once the same cause shows up in several chats, or once it is serious. One person's habit stays with that person and does not become a rule."
+  ],
+  "pointer": "Tap each step of the loop to see what is recorded and who acts on it.",
+  "invite": "Tell me which part to change before I write the rule.",
+  "note": "Tojo records. The nightly review suggests. Only your team changes the rules.",
+  "points": [
+   {"n": 1, "label": "What Tojo tags on every turn", "canvas": true},
+   {"n": 2, "label": "The fixed list of causes", "canvas": true},
+   {"n": 3, "label": "When a suggestion reaches your team", "canvas": true},
+   {"n": 4, "label": "What each suggestion carries", "canvas": true},
+   {"n": 5, "label": "Checking an accepted change worked", "canvas": true}
+  ],
+  "prompts": [
+   "This works, write the rule",
+   "How many chats before a suggestion reaches us?",
+   "Who on our side reviews them?"
+  ]
+ },
+ "canvas": {
+  "blocks": [
+   {
+    "type": "heading",
+    "eyebrow": "New rule · how the learning works",
+    "title": "From one missed reply to a better rule",
+    "deck": "Tojo records each turn. A nightly review turns the records into suggestions. Your team decides."
+   },
+   {
+    "type": "chain",
+    "label": "The loop, start to finish",
+    "steps": [
+     {"title": "Tag every turn", "value": "In the chat", "state": "start", "point": 1},
+     {"title": "Name the likely cause", "value": "On each miss", "point": 2},
+     {"title": "Note if the rephrase worked", "value": "Next reply"},
+     {"title": "Nightly review of all chats", "value": "At midnight"},
+     {"title": "Suggestion sent to your team", "flag": "Repeated or serious", "state": "target", "point": 3},
+     {"title": "Your team accepts or rejects", "value": "You decide", "point": 4},
+     {"title": "Rule changed, then checked", "value": "Misses fall?", "state": "outcome", "point": 5}
+    ],
+    "caption": "A rejected suggestion is kept with its reason, so the same one is not sent again."
+   },
+   {
+    "type": "cards",
+    "label": "What is recorded, and what you receive",
+    "items": [
+     {"title": "Tagged on every turn", "text": "What Tojo asked, how the reply was read, and what he built the answer from.", "point": 1,
+      "more_label": "See the tags",
+      "more_points": ["Tool, place and turn type.", "What Tojo asked the user for.", "How the reply was read: answered, ignored, not understood, changed subject, or a rating.", "The user's reply, shortened, with patient details removed.", "Which rule sections, playbook step and reference sections he used."]},
+     {"title": "A fixed list of causes", "text": "Each miss gets one cause from a fixed list, so they can be counted.", "point": 2,
+      "more_label": "See the causes",
+      "more_points": ["Wrong playbook step, or a step skipped.", "Misread a reference file or a section of it.", "Asked the wrong question, or too many.", "Too long, or the canvas repeated the chat.", "Jargon or unclear words.", "Missed what the user actually asked."]},
+     {"title": "Each suggestion you receive", "text": "One change to one file, with the proof behind it.", "point": 4,
+      "more_label": "See what it carries",
+      "more_points": ["The file and section, for example 06 §5.6 or a playbook turn.", "The words today, and the words suggested.", "The reason, and the cause it fixes.", "The chats and turns it comes from, and how many.", "Whether the rephrase that worked is the example to follow.", "Whether it applies to one tool or every tool."]},
+     {"title": "Checking it worked", "text": "After a change goes in, misses with that cause are counted again.", "point": 5,
+      "more_label": "See how it is checked",
+      "more_points": ["Misses for that cause, before and after the change.", "Ratings in the same tool and place, before and after.", "If misses do not fall, the change comes back to you for another look."]}
+    ]
+   },
+   {
+    "type": "compare-table",
+    "options": [{"name": "One person's habit", "tag": "Stays personal"}, {"name": "A rule fault", "tag": "To you"}],
+    "highlight": 2,
+    "rows": [
+     {"label": "Seen in", "values": ["One user's chats only", "Several users, or one serious miss"]},
+     {"label": "What Tojo does", "values": ["Adjusts for that user", "Sends a suggested change"]},
+     {"label": "Who decides", "values": ["Nobody needs to", "Your team"], "point": 3},
+     {"label": "Rule files change", "values": ["Never", "Only once accepted"]}
+    ],
+    "caption": "This keeps one person's taste from becoming a rule for everyone."
+   }
+  ]
+ }
+}
