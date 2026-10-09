@@ -9,6 +9,21 @@ What it holds
      shared parts, and the Solutions, Automations and Processes turn templates.
   3. Bed Management: its look, its five approved landing pages, its approved turn templates (with the samples not
      chosen as variations), its own blocks, and the common tool layer (picking and entries).
+  4. OPD Diagnostic Leak (8 Oct 2026): its look and its five approved landing pages, added by
+     `OPD Diagnostic Leak/odl_library.py` (which can also add them to an existing library file without a rebuild).
+  5. Supply Chain and Procurement (8 Oct 2026), the first Financial tool: its look and its five approved landing pages,
+     added by `Supply Chain Procurement/scp_library.py`, which also groups the library by domain: a Response templates
+     heading (open to every tool), Operations Tools (Discharge, Bed Management, OPD) and Financial Tools.
+  6. Revenue & EBITDA (8 Oct 2026), the second Financial tool: its colours and its five approved landing pages,
+     added by `Revenue EBITDA/rev_library.py` after Supply Chain and Procurement.
+  7. Length of Stay (8 Oct 2026), the third Financial tool: its colours and its five approved landing pages,
+     added by `Length of Stay/los_library.py` after Revenue & EBITDA.
+
+Then (8 Oct 2026, Avishek) the page is laid out again by `reorganise.py`: every template is open to every tool and is
+grouped by what it shows (Logical, Process flow, Time flows, Selection, Financial, Numbers and measures, People and
+ownership, Universal elements), each with a "How to use this template" card from `template_uses.json`; only the landing
+pages stay by tool and by place, at the end. The build order is kept in out/block-library.source.html (what the tool
+injectors update); out/block-library.artifact.html is the published layout.
 
 Rule for this file (the lesson of 30 Sep 2026): BLOCKS ONLY. Every template is drawn inline as its canvas, at the
 desktop canvas width (864px) and the phone canvas width (362px). No app interface (rail, header, chat panel),
@@ -404,6 +419,9 @@ GUIDE_CSS = '''
 @media (max-width:1100px){.lib-cols{grid-template-columns:1fr}}
 '''
 
+PAGE_SHELL = ('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
+              '<title>Tojo Block Library</title></head><body>%s</body></html>')
+
 def fragment(doc):
     """The same page without doctype, html, head and body, for publishing as an artifact."""
     head = re.search(r'<head>(.*?)</head>', doc, re.S).group(1)
@@ -427,11 +445,28 @@ def main():
     page = base.replace('</style>', place_css + css + dcss + bcss + GUIDE_CSS + '</style>', 1)
     page = page.replace('<div id="sample-turns">', intro + '<div id="sample-turns">', 1)
     page = page.replace('</body>', rows + drows + brows + '<textarea id="tojo-input" hidden aria-hidden="true"></textarea><script>' + tjs + '</script><script>' + bjs + djs + '</script></body>', 1)
+    # OPD Diagnostic Leak: its section, a contents link, a guide row (see OPD Diagnostic Leak/odl_library.py)
+    page = load(os.path.join(TOOLS, 'OPD Diagnostic Leak', 'odl_library.py'), 'odl_library').inject(page, scope_css)
+    # Supply Chain and Procurement (Financial Tools), and the grouping by domain (see Supply Chain Procurement/scp_library.py)
+    sys.path.insert(0, os.path.join(TOOLS, 'Supply Chain Procurement'))
+    page = load(os.path.join(TOOLS, 'Supply Chain Procurement', 'scp_library.py'), 'scp_library').inject(page, scope_css)
+    # Revenue & EBITDA, the second Financial tool (see Revenue EBITDA/rev_library.py)
+    sys.path.insert(0, os.path.join(TOOLS, 'Revenue EBITDA'))
+    page = load(os.path.join(TOOLS, 'Revenue EBITDA', 'rev_library.py'), 'rev_library').inject(page, scope_css)
+    # Length of Stay, the third Financial tool (see Length of Stay/los_library.py)
+    sys.path.insert(0, os.path.join(TOOLS, 'Length of Stay'))
+    page = load(os.path.join(TOOLS, 'Length of Stay', 'los_library.py'), 'los_library').inject(page, scope_css)
     page = page.replace('<title>Tojo block library</title>', '<title>Tojo Block Library</title>', 1)
     page = re.sub(r'<h1>Tojo block library</h1>', '<h1>Tojo Block Library · every tool</h1>', page, count=1)
     os.makedirs(OUT, exist_ok=True)
-    open(os.path.join(OUT, 'block-library.html'), 'w', encoding='utf-8').write(page)
-    open(os.path.join(OUT, 'block-library.artifact.html'), 'w', encoding='utf-8').write(fragment(page))
+    # the source, in build order: every tool's injector (odl_, scp_, rev_, los_library.py) writes to this file
+    src = fragment(page)
+    open(os.path.join(OUT, 'block-library.source.html'), 'w', encoding='utf-8').write(src)
+    # the published library: templates by group (open to every tool), landing pages by tool and place (reorganise.py)
+    rg = load(os.path.join(HERE, 'reorganise.py'), 'reorganise')
+    out = rg.reorganise(src, json.load(open(rg.USES, encoding='utf-8')))
+    open(os.path.join(OUT, 'block-library.artifact.html'), 'w', encoding='utf-8').write(out)
+    open(os.path.join(OUT, 'block-library.html'), 'w', encoding='utf-8').write(PAGE_SHELL % out)
     print('wrote', os.path.join(OUT, 'block-library.html'), len(page) // 1024, 'kB')
 
 if __name__ == '__main__':

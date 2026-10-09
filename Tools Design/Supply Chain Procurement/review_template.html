@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Supply Chain and Procurement · three looks for the Financial domain</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#F4F1EA;--ink:#10241a;--mut:#4d5a52;--line:#d6d0c2;--card:#fff}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Poppins,system-ui,sans-serif}
+.rv{max-width:1900px;margin:0 auto;padding:24px 20px 60px}
+h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:44px;line-height:1;margin:0}
+.rv-intro{color:var(--mut);font-size:14px;line-height:1.55;margin:8px 0 18px;max-width:960px}
+.rv-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:stretch;margin-bottom:14px}
+.rv-s{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:56px;padding:8px 16px 8px 46px;border:1.5px solid var(--ink);border-radius:10px;background:var(--card);font:inherit;color:inherit;cursor:pointer;position:relative;text-align:left}
+.rv-s i{position:absolute;left:12px;top:50%;width:24px;height:24px;margin-top:-12px;border-radius:50%;border:3px solid}
+.rv-s b{font-size:12px}.rv-s span{font-size:14px;font-weight:600}
+.rv-s[aria-pressed=true]{background:var(--ink);color:#F3F1EA;box-shadow:inset 0 -4px 0 #6A3DBA}
+.rv-st{display:flex;border:1.5px solid var(--ink);border-radius:24px;overflow:hidden;align-self:center}
+.rv-st button{min-height:44px;padding:0 18px;border:0;background:var(--card);font:500 13px Poppins,sans-serif;color:var(--ink);cursor:pointer}
+.rv-st button[aria-pressed=true]{background:#6A3DBA;font-weight:600}
+.rv-about{background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:12px 16px;font-size:14px;line-height:1.55;margin-bottom:16px;max-width:1200px}
+.rv-about b{font-weight:600}.rv-about em{display:block;font-style:normal;color:var(--mut);font-size:12.5px;margin-top:2px}
+.rv-views{display:flex;gap:24px;align-items:flex-start}
+.rv-col{display:flex;flex-direction:column;gap:6px}
+.rv-lab{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.rv-desk{flex:1 1 auto;min-width:0}
+.rv-dwrap{width:100%;overflow:hidden;border:1.5px solid var(--line);border-radius:10px;background:#fff}
+.rv-dwrap iframe{width:1440px;height:900px;border:0;transform-origin:0 0;display:block}
+.rv-phone iframe{width:390px;height:844px;border:0;display:block}
+.rv-phone .rv-pwrap{width:390px;border:10px solid #1b1b1b;border-radius:34px;overflow:hidden;background:#fff}
+.rv-note{font-size:12.5px;color:var(--mut);margin-top:14px;max-width:960px}
+@media (max-width:1000px){.rv-views{flex-direction:column}}
+</style></head><body><div class="rv">
+<h1>Supply Chain and Procurement · the home page in three looks</h1>
+<p class="rv-intro">The first tool of the Financial domain. The layout is the same as every Hospital Operations tool: the rail, the header, the page and the chat panel sit in the same places, and the page keeps its five zones in the same order. What changes is the domain’s identity: the type families, the shapes, the paper, the marks, and how the rail, header and chat are dressed. Pick a look below. Scroll inside each view; the chat stays one screen tall with its own scroll. Every page opens with its first part raised and its box open. Tap another part to raise it instead.</p>
+<div class="rv-bar">@@PICKS@@<div class="rv-st" role="group" aria-label="Page state"><button type="button" data-st="filled" aria-pressed="true">In progress</button><button type="button" data-st="empty" aria-pressed="false">First visit</button></div></div>
+<div class="rv-about" id="about"></div>
+<div class="rv-views">
+ <div class="rv-col rv-desk"><div class="rv-lab">Desktop · 1440 wide, shown to fit</div><div class="rv-dwrap" id="dwrap"><iframe id="fd" title="Desktop view"></iframe></div></div>
+ <div class="rv-col rv-phone"><div class="rv-lab">Phone · 390 wide</div><div class="rv-pwrap"><iframe id="fm" title="Phone view"></iframe></div></div>
+</div>
+<p class="rv-note">Desktop shows 1440 × 900, scaled to fit. Phone shows 390 × 844. All figures are made up for an example 250-bed hospital and marked Example only or Tojo’s guess.</p>
+</div>
+<script>
+var A=@@ABOUT@@, P=@@DATA@@, cur={s:'a',st:'filled'};
+var fd=document.getElementById('fd'), fm=document.getElementById('fm'), dw=document.getElementById('dwrap');
+function fit(){var sc=Math.min(1,dw.clientWidth/1440);fd.style.transform='scale('+sc+')';dw.style.height=Math.ceil(900*sc)+'px';}
+function show(){document.getElementById('about').innerHTML=A[cur.s];fd.srcdoc=P[cur.s+'.desktop.'+cur.st];fm.srcdoc=P[cur.s+'.mobile.'+cur.st];
+}
+[fd,fm].forEach(function(f){f.addEventListener('load',function(){fit();setTimeout(fit,400);
+});});
+window.addEventListener('resize',fit);
+[].slice.call(document.querySelectorAll('.rv-s')).forEach(function(b){b.addEventListener('click',function(){cur.s=b.getAttribute('data-s');
+  [].slice.call(document.querySelectorAll('.rv-s')).forEach(function(o){o.setAttribute('aria-pressed',o===b?'true':'false');});show();});});
+[].slice.call(document.querySelectorAll('.rv-st button')).forEach(function(b){b.addEventListener('click',function(){cur.st=b.getAttribute('data-st');
+  [].slice.call(document.querySelectorAll('.rv-st button')).forEach(function(o){o.setAttribute('aria-pressed',o===b?'true':'false');});show();});});
+show();
+</script></body></html>

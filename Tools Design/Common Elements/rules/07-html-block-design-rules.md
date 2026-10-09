@@ -29,10 +29,18 @@ These rules govern the **templates** in each tab's generator, not individual res
 - Each tab has its own ground, ink, accent and drawn elements, so the user always knows which tab they are in.
 - A tab's templates use only its own palette. They never borrow another tab's elements.
 
+**One domain, one identity (8 Oct 2026).** Tools are grouped by domain: **Operations Tools** (Discharge Process, Bed Management, OPD Diagnostic Leak) and **Financial Tools** (Supply Chain and Procurement). Colour alone never marks a domain, because tools and places inside one domain already differ by colour.
+- **Same in every domain:** the layout (rail, header, page and chat panel in the same places; the five landing zones in order), the typography and type scale (§2, never changed per domain), plain English, picking, the three buttons, the stamp, and the state meanings (§5).
+- **Set by the domain:** shapes (corners, border weights, edges), paper and texture, how the rail, header and chat panel are dressed, the marks for done, now, still to do and not started, what "raised" looks like, and the kind of drawing.
+- **Set by each tool, and each place in it:** its colours only.
+- **Operations look:** rounded chunky outlines, warm paper, pastel rounded rail tabs, the forest chat, drawn pictures (valves, beds, boards).
+- **Financial look** (`Supply Chain Procurement/skins.py`, the V skin): a flat frame with no rounded corners, heavy rules, numbered sections, a flat chat panel in the page's ink with Tojo's Note in the page's highlight, a hard highlight block when an item is raised, and three papers of money: report sheet, ledger paper (ruled, double margin, double-ruled totals), receipt (torn zigzag edges, dashed tear lines, dotted leaders).
+- **Every tool in every domain uses the response templates** (the universal patterns), redrawn in its own look.
+
 **Shared everywhere:**
 - **The typography** (§2).
-- **The chat panel.** It stays forest (`#10241a`) with cream and gold in every tab, and the canvas is always the lighter half of the screen.
-- **Virevo gold `#d4a94f`** for "now", for the next step, and for selected and highlighted items.
+- **The chat panel's place and parts.** In the Operations look it stays forest (`#10241a`) with cream and gold; in the Financial look it is flat, in the page's ink, with the page's highlight. The canvas is always the lighter half of the screen.
+- **Virevo gold `#d4a94f`** for "now", for the next step, and for selected and highlighted items, in the Operations look. Newer tools (OPD Diagnostic Leak, every Financial tool) put each page's own highlight in its place.
 - **Gold text on a light ground** uses a dark gold (`#6B4F16` or the tab's own), never the fill gold, for contrast.
 - **The state meanings** (§5).
 
