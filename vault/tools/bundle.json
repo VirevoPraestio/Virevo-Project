@@ -1,0 +1,76 @@
+{
+  "bundle": "tools-design-common-elements",
+  "ab_date": "2026-10-08",
+  "staged": "2026-10-09",
+  "previous": "tojo-html-v5 of 28 Sep 2026, staged 30 Sep",
+  "read_by": "the live tool engine (ToolBundleSource), through the vault on every turn: SKILL.md, <tool>/tojo-api-system-prompt.md, <tool>/06-html-response-rules.md, <tool>/tojo-response.schema.json and reply-check-report.schema.json from this folder, and rule 09 from the chat vault (vault/chat/_rules-09-reply-check.md, id _rules-reply-check, kind rules-ondemand - one copy for the chat and every tool, as AB asks). registry.json, tojo.css and tojo.js stay embedded with the generator (Chat/Virevo.Chat.Canvas), content-identical to these.",
+  "rule_09": {
+    "vault": "vault/chat/_rules-09-reply-check.md",
+    "source": "tojo-v2 - Regular Chat/rules/always-on/09-reply-check-rules.md",
+    "bytes": 21631,
+    "sha256_body": "a2f2cb2acdb3b4ea2fba56b3056e91a7b11d23014ba536ffb7746c76e6bfae8b",
+    "note": "AB's bytes after our front matter; the tool path and the regular chat both read it by id (8 Oct 2026)"
+  },
+  "files": {
+    "SKILL.md": {
+      "source": "tojo-v2 - Regular Chat/skill/virevo-hospital-ops/SKILL.md",
+      "bytes": 10184,
+      "sha256": "3416fbc923a933e8ae2340cf8c133f07a7305128c05c25290df67f0c6f8951c3",
+      "note": "opens every tool prefix (KT, 29 Sep 2026); AB 15 Sep v2, unchanged in the 8 Oct drop"
+    },
+    "discharge/tojo-api-system-prompt.md": {
+      "source": "Tools Design/Common Elements/prompts/tojo-api-system-prompt.md",
+      "bytes": 1717,
+      "sha256": "c6ffae646a5d92091a76c1e021c8743d9a496ac50554b1508c3920a3f295c72a",
+      "note": "the output contract; {{RULES_06}} and {{CATALOG}} are filled at request time. 8 Oct: step 0, the reply check, added; CRLF line endings now"
+    },
+    "discharge/06-html-response-rules.md": {
+      "source": "Tools Design/Common Elements/rules/06-html-response-rules.md",
+      "bytes": 42198,
+      "sha256": "ac7574e803d08cc4e8f12c284a42c5650c9c37d4c37acdc6c3612ab470b43e5b",
+      "note": "the rule file the model reads on a tool turn. 8 Oct: rule 09 in the read-with list, F11 extended (the three buttons close every turn), F12 added (the reply check), the Solutions/Automations/Processes rows, patterns cross tabs, when a conversation moves tab (chat.moves), recipes of the other tabs in their registries"
+    },
+    "discharge/registry.json": {
+      "source": "Tools Design/Common Elements/blocks/registry.json",
+      "bytes": 75750,
+      "sha256": "992e73b1f738c84bf5ec2bfccc8173ddac26421781a9cd93991e41a135da4239",
+      "note": "the block catalogue built into the prefix; the generator validates against the same file. 8 Oct: each block gained scope (route-map Diagnosis only, the rest universal); nothing else changed"
+    },
+    "discharge/tojo-response.schema.json": {
+      "source": "Tools Design/Common Elements/schema/tojo-response.schema.json",
+      "bytes": 5063,
+      "sha256": "ffceda2e52e24593f90040b20f1ff12ef6c13d59e83f19f2ba7dd7d707281095",
+      "note": "the tojo_turn input schema. 8 Oct: reply_check added as a $ref into the regular chat's reply-check schema; the API cannot follow it, so ToolPromptBuilder inlines $defs.turn_record from reply-check-report.schema.json"
+    },
+    "discharge/landing-registry.json": {
+      "source": "Tools Design/Common Elements/landing-common/landing-registry.json",
+      "bytes": 3528,
+      "sha256": "1a85325524a22711ff0f363e45b66d7f92f906524a61b515e8280ce37c0e9313",
+      "note": "which landing template is approved per tab; 8 Oct: line endings only"
+    },
+    "discharge/tojo.css": {
+      "source": "Tools Design/Common Elements/diagnosis-html-generator/assets/tojo.css",
+      "bytes": 41094,
+      "sha256": "3e74c4303fbdc1447eb104a7bd5cc1d87d9c3748cf188d956d3044d09ac9ca73",
+      "note": "inlined into every canvas page; 8 Oct: line endings only (the generator keeps its embedded copy)"
+    },
+    "discharge/tojo.js": {
+      "source": "Tools Design/Common Elements/diagnosis-html-generator/assets/tojo.js",
+      "bytes": 5487,
+      "sha256": "fe496df50946e6d239a8338dca286f3477652e0aa9462389480eaef23af8c611",
+      "note": "inlined into every canvas page; 8 Oct: line endings only (the generator keeps its embedded copy)"
+    },
+    "08-shared-turn-rules.md": {
+      "source": "Tools Design/Common Elements/rules/08-shared-turn-rules.md",
+      "bytes": 11103,
+      "sha256": "a52516f3110e80417b28adc9d4a5ee84ce704d6e34d4ecfa8fb19e76d5d1b8b1",
+      "note": "the shared turn rules for the generators (6 Oct 2026; 8 Oct: §12 the two domains of tools, Operations and Financial, each with its own look; §13 every response template open to every tool, only landing pages tool-specific, every template with a How to use card in library/template_uses.json): §8 the three buttons on every turn, §11 how a tool carries the reply check. Not in a request; rides along for the reader, as AB assembles the prompt from 06 and the catalogue only"
+    },
+    "reply-check-report.schema.json": {
+      "source": "tojo-v2 - Regular Chat/schema/reply-check-report.schema.json",
+      "bytes": 18695,
+      "sha256": "313221dd6c471692ebbb699e145b70b8a88262c5805d2f81af547ed2d13098d4",
+      "note": "the per-turn reply_check record ($defs.turn_record) and the end-of-day report (rule 09 §9, §10). Read by the tool path on every turn: inlined into the tojo_turn schema and used to check the record the model returns"
+    }
+  }
+}

@@ -1,0 +1,527 @@
+{
+  "version": "2026-10-09",
+  "about": "Where each file of an AB package goes. Buckets: vault (enters an API request; publish-ready copy under vault/), code (read by our code at build, run or test time; copied or ported into the project folders), left (stays in AB's folder only). Globs are relative to the package folder. First match wins; anything unmatched is 'left' and must be added here.",
+  "destinations": {
+    "vault-chat": "vault/chat/  ->  D:/Git_Virevo/skills-live  ->  S3 via Utility/Virevo.Utility.SkillsPublisher.Cli (when KT says)",
+    "vault-tools": "vault/tools/  ->  D:/Git_Virevo/skills-live/tools/  ->  S3 as tool_files in the manifest (the publisher carries the whole folder, README.md excepted, since 1 Oct 2026); read by the live tool engine through the vault in both modes",
+    "figure-renderer": "VirevoService_Dev/Chat/Virevo.Chat.Business/FigureRenderer.cs (ported C#)",
+    "generator": "VirevoService_Dev/Chat/Virevo.Chat.Canvas (ported C# since 30 Sep 2026; assets/, blocks/registry.json embedded beside it)",
+    "ui-fonts": "VirevoUI_Dev/src/assets/fonts/ (still to copy; the API embeds the fonts from Chat/Virevo.Chat.Canvas/assets/fonts until Tools:FontsHref is set)",
+    "chat-tests": "VirevoService_Dev/Tests/Virevo.Chat.Canvas.Tests/fixtures/ab-v5 (the replay oracle); the twelve example specs also in Chat/Virevo.Chat.Business/Tools/script/discharge (the scripted engine)",
+    "vault-chat-ondemand": "vault/chat/_rules-NN-name.md with kind rules-ondemand: published with the chat skills, in a prefix only where the code asks for it by id"
+  },
+  "packages": {
+    "tojo-v2 - Regular Chat": [
+      {
+        "match": "rules/always-on/00-core.md",
+        "bucket": "vault",
+        "to": "vault/chat/_rules-00-core.md",
+        "kind": "rules"
+      },
+      {
+        "match": "rules/always-on/09-reply-check-rules.md",
+        "bucket": "vault",
+        "to": "vault/chat/_rules-09-reply-check.md",
+        "kind": "rules-ondemand",
+        "id": "_rules-reply-check",
+        "note": "always on in AB design (chat and every tool); one copy; the tool path reads it by id since 8 Oct 2026, the regular chat once its record channel exists"
+      },
+      {
+        "match": "schema/reply-check-report.schema.json",
+        "bucket": "vault",
+        "to": "vault/tools/reply-check-report.schema.json",
+        "note": "$defs.turn_record is inlined into the tojo_turn schema and checks the record; the root is the end-of-day report (not built yet)"
+      },
+      {
+        "match": "schema/reply-check-report.sample.json",
+        "bucket": "left",
+        "note": "a valid sample report"
+      },
+      {
+        "match": "skill/virevo-hospital-ops/references/bed-management-conversation-playbook.md",
+        "bucket": "left",
+        "note": "held 8 Oct 2026: its own header says it is not a runtime file and must not be chunked beside claude/06-bed-management-answering-rules.md, which has not been delivered; no index card or point names it. Back to AB"
+      },
+      {
+        "match": "rules/on-demand/01-response-rules.md",
+        "bucket": "vault",
+        "to": "vault/chat/_rules-01-response.md",
+        "kind": "rules"
+      },
+      {
+        "match": "rules/on-demand/02-image-creation-rules.md",
+        "bucket": "vault",
+        "to": "vault/chat/_rules-02-image.md",
+        "kind": "rules"
+      },
+      {
+        "match": "rules/on-demand/04-layout-patterns.md",
+        "bucket": "vault",
+        "to": "vault/chat/_rules-04-layout.md",
+        "kind": "rules"
+      },
+      {
+        "match": "skill/virevo-hospital-ops/references/common-elements.md",
+        "bucket": "vault",
+        "to": "vault/chat/common-elements.md",
+        "kind": "shared"
+      },
+      {
+        "match": "skill/virevo-hospital-ops/references/*.md",
+        "bucket": "vault",
+        "to": "vault/chat/{name}",
+        "kind": "topic"
+      },
+      {
+        "match": "skill/virevo-hospital-ops/index/GROUP-CATALOGUE.md",
+        "bucket": "vault",
+        "to": "vault/chat/_index.md",
+        "kind": "index",
+        "note": "assembled together with the five *.card.md"
+      },
+      {
+        "match": "skill/virevo-hospital-ops/index/*.card.md",
+        "bucket": "vault",
+        "to": "vault/chat/_index.md",
+        "kind": "index",
+        "note": "assembled"
+      },
+      {
+        "match": "skill/virevo-hospital-ops/index/POINT-INDEX.md",
+        "bucket": "vault",
+        "to": "vault/chat/index/POINT-INDEX.md"
+      },
+      {
+        "match": "skill/virevo-hospital-ops/index/points/*.md",
+        "bucket": "vault",
+        "to": "vault/chat/index/points/{name}"
+      },
+      {
+        "match": "skill/virevo-hospital-ops/SKILL.md",
+        "bucket": "vault",
+        "to": "vault/tools/SKILL.md",
+        "note": "opens every tool prefix; not published for the regular chat"
+      },
+      {
+        "match": "image/DESIGN-TOKENS.md",
+        "bucket": "code",
+        "to": "figure-renderer",
+        "port": true
+      },
+      {
+        "match": "image/templates/*.py",
+        "bucket": "code",
+        "to": "figure-renderer",
+        "port": true
+      },
+      {
+        "match": "image/samples/**",
+        "bucket": "left"
+      },
+      {
+        "match": "publish/*.py",
+        "bucket": "left",
+        "note": "the publisher CLI validates instead; mirror any new check there"
+      },
+      {
+        "match": "*.md",
+        "bucket": "left",
+        "note": "README, IMPLEMENTATION-GUIDE, CHUNKING-SPEC, FIGURE-STUBBING-SPEC: specs our code follows"
+      }
+    ],
+    "tojo-html*": [
+      {
+        "match": ".git/**",
+        "bucket": "strip"
+      },
+      {
+        "match": "tojo-project-knowledge/**",
+        "bucket": "left"
+      },
+      {
+        "match": "prompts/tojo-api-system-prompt.md",
+        "bucket": "vault",
+        "to": "vault/tools/discharge/tojo-api-system-prompt.md"
+      },
+      {
+        "match": "rules/06-html-response-rules.md",
+        "bucket": "vault",
+        "to": "vault/tools/discharge/06-html-response-rules.md"
+      },
+      {
+        "match": "blocks/registry.json",
+        "bucket": "vault",
+        "to": "vault/tools/discharge/registry.json",
+        "note": "also read by the generator at run time; one copy"
+      },
+      {
+        "match": "schema/tojo-response.schema.json",
+        "bucket": "vault",
+        "to": "vault/tools/discharge/tojo-response.schema.json"
+      },
+      {
+        "match": "references/*.md",
+        "bucket": "vault",
+        "to": "vault/chat/{name}",
+        "note": "already there and byte-identical; a difference goes back to AB"
+      },
+      {
+        "match": "diagnosis-html-generator/diagnosis_html.py",
+        "bucket": "code",
+        "to": "generator",
+        "port": true
+      },
+      {
+        "match": "*-html-generator/landing.py",
+        "bucket": "code",
+        "to": "generator",
+        "port": true
+      },
+      {
+        "match": "landing-common/landing_common.py",
+        "bucket": "code",
+        "to": "generator",
+        "port": true
+      },
+      {
+        "match": "diagnosis-html-generator/assets/tojo.css",
+        "bucket": "code",
+        "to": "generator"
+      },
+      {
+        "match": "diagnosis-html-generator/assets/tojo.js",
+        "bucket": "code",
+        "to": "generator"
+      },
+      {
+        "match": "diagnosis-html-generator/assets/fonts/*.woff2",
+        "bucket": "code",
+        "to": "ui-fonts"
+      },
+      {
+        "match": "landing-common/landing-registry.json",
+        "bucket": "code",
+        "to": "generator"
+      },
+      {
+        "match": "examples/archive/**",
+        "bucket": "left"
+      },
+      {
+        "match": "examples/turn-*.json",
+        "bucket": "code",
+        "to": "chat-tests",
+        "note": "the universal generator's replay oracle; the scripted engine replays the Tools Design templates since 9 Oct 2026"
+      },
+      {
+        "match": "out/turn-*.html",
+        "bucket": "code",
+        "to": "chat-tests",
+        "note": "replay oracle"
+      },
+      {
+        "match": "out/landing/*.html",
+        "bucket": "code",
+        "to": "chat-tests",
+        "note": "replay oracle for landing pages"
+      },
+      {
+        "match": "out/system-section.md",
+        "bucket": "code",
+        "to": "chat-tests",
+        "note": "checks our prompt builder"
+      },
+      {
+        "match": "out/**",
+        "bucket": "left"
+      },
+      {
+        "match": "blocks/samples.json",
+        "bucket": "left",
+        "note": "code only if an admin block gallery is built"
+      },
+      {
+        "match": "diagnosis-html-generator/*.py",
+        "bucket": "left",
+        "note": "server.py, api_example.py, preview.py, dc_export.py: AB's tooling"
+      },
+      {
+        "match": "landing-common/*.py",
+        "bucket": "left"
+      },
+      {
+        "match": "tests/**",
+        "bucket": "left",
+        "note": "AB's Playwright checks run on AB's side"
+      },
+      {
+        "match": "rules/05-universal-answering-method.md",
+        "bucket": "left"
+      },
+      {
+        "match": "rules/07-html-block-design-rules.md",
+        "bucket": "left",
+        "note": "governs the templates, so the port follows it; never in a request"
+      },
+      {
+        "match": "*.md",
+        "bucket": "left",
+        "note": "README, CHANGELOG, DIAGNOSIS-TAB, LANDING-PAGES, PROJECT-CONTEXT"
+      }
+    ],
+    "Tools Design": [
+      {
+        "match": "Common Elements/prompts/tojo-api-system-prompt.md",
+        "bucket": "vault",
+        "to": "vault/tools/discharge/tojo-api-system-prompt.md"
+      },
+      {
+        "match": "Common Elements/rules/06-html-response-rules.md",
+        "bucket": "vault",
+        "to": "vault/tools/discharge/06-html-response-rules.md"
+      },
+      {
+        "match": "Common Elements/rules/08-shared-turn-rules.md",
+        "bucket": "vault",
+        "to": "vault/tools/08-shared-turn-rules.md",
+        "note": "for the generators; never in a request. Rides along so the folder shows AB whole delivery 8 Oct 2026: §12 the two domains (Operations, Financial), §13 every response template open to every tool; staged 9 Oct, AB's bytes"
+      },
+      {
+        "match": "Common Elements/schema/tojo-response.schema.json",
+        "bucket": "vault",
+        "to": "vault/tools/discharge/tojo-response.schema.json"
+      },
+      {
+        "match": "Common Elements/blocks/registry.json",
+        "bucket": "vault",
+        "to": "vault/tools/discharge/registry.json",
+        "note": "also embedded with the generator (Chat/Virevo.Chat.Canvas/blocks) and the replay fixture; one content"
+      },
+      {
+        "match": "Common Elements/landing-common/landing-registry.json",
+        "bucket": "vault",
+        "to": "vault/tools/discharge/landing-registry.json"
+      },
+      {
+        "match": "Common Elements/diagnosis-html-generator/assets/tojo.css",
+        "bucket": "vault",
+        "to": "vault/tools/discharge/tojo.css",
+        "note": "the generator keeps its embedded copy, content-identical"
+      },
+      {
+        "match": "Common Elements/diagnosis-html-generator/assets/tojo.js",
+        "bucket": "vault",
+        "to": "vault/tools/discharge/tojo.js",
+        "note": "the generator keeps its embedded copy, content-identical"
+      },
+      {
+        "match": "Common Elements/diagnosis-html-generator/assets/fonts/*.woff2",
+        "bucket": "code",
+        "to": "ui-fonts"
+      },
+      {
+        "match": "Common Elements/diagnosis-html-generator/diagnosis_html.py",
+        "bucket": "code",
+        "to": "generator",
+        "port": true,
+        "note": "the port of 30 Sep is of tojo-html v5; 8 Oct adds only the scope badge in the gallery"
+      },
+      {
+        "match": "Common Elements/tool-layer/reply_check.py",
+        "bucket": "code",
+        "to": "generator",
+        "port": true,
+        "note": "ported 8 Oct 2026 as Chat/Virevo.Chat.Business/Tools/ReplyCheck.cs (the checks, the fixed lines)"
+      },
+      {
+        "match": "Common Elements/tool-layer/tojo_layer.py",
+        "bucket": "code",
+        "to": "generator",
+        "port": true,
+        "note": "picking, entries and the three buttons of the newer generators: ported 8 Oct 2026 as Chat/Virevo.Chat.Canvas/Places/ToolLayer.cs"
+      },
+      {
+        "match": "Common Elements/landing-common/*.py",
+        "bucket": "code",
+        "to": "generator",
+        "port": true,
+        "note": "the shared landing zones (30 Sep) and all four Discharge templates (Diagnosis C 30 Sep; Solutions B, Automations B, Processes A 9 Oct): LandingRenderer.cs, LandingRenderer.Tabs.cs"
+      },
+      {
+        "match": "Common Elements/*-html-generator/**",
+        "bucket": "code",
+        "to": "generator",
+        "port": true,
+        "note": "the four tabs' landing.py, ported (LandingRenderer.Tabs.cs, 9 Oct 2026); diagnosis_html.py is the universal generator (30 Sep); the per-place generators live in Discharge Process/ and Bed Management/"
+      },
+      {
+        "match": "Common Elements/library/**",
+        "bucket": "left",
+        "note": "the one block library builder. Version 14 (8 Oct 2026): reorganise.py lays the library out by what a template shows; template_uses.json holds a How to use card per template (195), keyed by the registry's block names - a candidate for the model's catalogue if AB puts it in a request; until then it is not one"
+      },
+      {
+        "match": "Common Elements/examples/**",
+        "bucket": "code",
+        "to": "chat-tests",
+        "note": "approved turns of the other tabs: fixtures when their generators are ported"
+      },
+      {
+        "match": "Common Elements/reply-check-test/**",
+        "bucket": "left",
+        "note": "rendered examples rc-01 to rc-20 of rule 09 in a tool (desktop and mobile)"
+      },
+      {
+        "match": "Common Elements/out/**",
+        "bucket": "left"
+      },
+      {
+        "match": "Common Elements/tests/**",
+        "bucket": "left"
+      },
+      {
+        "match": "Common Elements/rules/05-universal-answering-method.md",
+        "bucket": "left"
+      },
+      {
+        "match": "Common Elements/rules/07-html-block-design-rules.md",
+        "bucket": "left",
+        "note": "governs the templates; never in a request"
+      },
+      {
+        "match": "Common Elements/blocks/samples.json",
+        "bucket": "left"
+      },
+      {
+        "match": "Common Elements/*.md",
+        "bucket": "left",
+        "note": "README, ARTIFACTS, LANDING-PAGES, README-discharge-generators"
+      },
+      {
+        "match": "Discharge Process/tojo-html/**",
+        "bucket": "left",
+        "note": "AB copy of the 28 Sep package, left as it was; superseded by Common Elements"
+      },
+      {
+        "match": "Discharge Process/**",
+        "bucket": "code",
+        "to": "generator",
+        "port": true,
+        "note": "the per-place generators ported into Chat/Virevo.Chat.Canvas/Places (8-9 Oct 2026); the 32 turns are replay fixtures (Tests/.../fixtures/places/dp-*) and the scripted engine's script (Business/Tools/script/discharge/<tab>/); tojo-html/ is the old copy, left"
+      },
+      {
+        "match": "Bed Management/**",
+        "bucket": "code",
+        "to": "generator",
+        "port": true,
+        "note": "ported 8-9 Oct 2026: the four place generators (Canvas/Places), the approved v3 landing pages (BedLandingRenderer, assets/landing-bm-*), the turns as replay fixtures (fixtures/places/bm-*) and the scripted script (Business/Tools/script/bed/<tab>/); home/, archive/ and the QA scripts left"
+      },
+      {
+        "match": "Supply Chain Procurement/landing3.py",
+        "bucket": "code",
+        "to": "generator",
+        "port": true,
+        "note": "the four approved place pages, ported 9 Oct 2026 as Chat/Virevo.Chat.Canvas/SupplyChainLandingRenderer.cs (with FinancialParts: the masthead, the two-column box, the chip). The home page (F, the notebook) is not drawn: the app's worksheet is a tool's front. Ported and proven, not wired to a tool of the app"
+      },
+      {
+        "match": "Supply Chain Procurement/sc_common.py",
+        "bucket": "code",
+        "to": "generator",
+        "port": true,
+        "note": "the Financial domain layer: its canvas parts are bm_common's (ported once as LandingParts); the frame, the chat panel and the embedded fonts are AB's preview shell, which the app replaces"
+      },
+      {
+        "match": "Supply Chain Procurement/skins.py",
+        "bucket": "code",
+        "to": "generator",
+        "port": false,
+        "note": "the V skin (Virevo type, flat frame): its CSS travels in the extracted stylesheets; the set-aside looks A, B, C stay"
+      },
+      {
+        "match": "Supply Chain Procurement/landing2.py",
+        "bucket": "code",
+        "to": "generator",
+        "port": false,
+        "note": "V_SHARED_CSS and F_CSS travel in the extracted stylesheets; the home looks D, E, F are not drawn"
+      },
+      {
+        "match": "Supply Chain Procurement/out/landing/scp-{diagnosis,solutions,automations,processes}.desktop.*.html",
+        "bucket": "code",
+        "to": "chat-tests",
+        "note": "the replay oracles (Tests/Virevo.Chat.Canvas.Tests/fixtures/landing/scp-*.html, the canvas inside <main>) and the source of assets/landing-scp-*.css"
+      },
+      {
+        "match": "Supply Chain Procurement/**",
+        "bucket": "left",
+        "note": "round one and the home samples (landing.py, its DATA the home page's words), scp_library.py, qa.py, review_template.html, fonts/ (the woff2 of the set-aside looks A, B, C), the other renders and the review pages"
+      },
+      {
+        "match": "Revenue EBITDA/places.py",
+        "bucket": "code",
+        "to": "generator",
+        "port": true,
+        "note": "the four approved place pages, ported 9 Oct 2026 as Chat/Virevo.Chat.Canvas/RevenueLandingRenderer.cs; the figures it prints from literals are read from the data (fixtures carry AB's). Home page (A, the cheque book) not drawn. Not wired"
+      },
+      {
+        "match": "Revenue EBITDA/out/landing/rev-{diagnosis,solutions,automations,processes}.desktop.*.html",
+        "bucket": "code",
+        "to": "chat-tests",
+        "note": "the replay oracles and the source of assets/landing-rev-*.css"
+      },
+      {
+        "match": "Revenue EBITDA/**",
+        "bucket": "left",
+        "note": "rev_landing.py (round one; places.py loads it for the tool name and the Financial look), landing.py (an older copy of it), rev_library.py, qa.py, the other renders"
+      },
+      {
+        "match": "Length of Stay/places.py",
+        "bucket": "code",
+        "to": "generator",
+        "port": true,
+        "note": "the four approved place pages, ported 9 Oct 2026 as Chat/Virevo.Chat.Canvas/LengthOfStayLandingRenderer.cs; the figures it prints from literals are read from the data. Home page (A, the patient's path) not drawn. Not wired"
+      },
+      {
+        "match": "Length of Stay/out/landing/los-{diagnosis,solutions,automations,processes}.desktop.*.html",
+        "bucket": "code",
+        "to": "chat-tests",
+        "note": "the replay oracles and the source of assets/landing-los-*.css"
+      },
+      {
+        "match": "Length of Stay/**",
+        "bucket": "left",
+        "note": "los_landing.py (round one), los_library.py, qa.py, shot.py, the other renders"
+      },
+      {
+        "match": "OPD Diagnostic Leak/landing.py",
+        "bucket": "code",
+        "to": "generator",
+        "port": true,
+        "note": "the four place pages, ported 9 Oct 2026 as Chat/Virevo.Chat.Canvas/OpdLeakLandingRenderer.cs (approved 8 Oct per ARTIFACTS.md and the library; the tool's README still says for review). Home page (the leak line) not drawn. Not wired"
+      },
+      {
+        "match": "OPD Diagnostic Leak/odl_common.py",
+        "bucket": "code",
+        "to": "generator",
+        "port": true,
+        "note": "the Bed Management page parts in this tool's colours, the highlight in place of the shared gold: ported as LandingParts"
+      },
+      {
+        "match": "OPD Diagnostic Leak/out/landing/odl-{diagnosis,solutions,automations,processes}.desktop.*.html",
+        "bucket": "code",
+        "to": "chat-tests",
+        "note": "the replay oracles and the source of assets/landing-odl-*.css"
+      },
+      {
+        "match": "OPD Diagnostic Leak/**",
+        "bucket": "left",
+        "note": "odl_library.py, qa.py, review_template.html, the other renders"
+      }
+    ],
+    "Backend Agent": [
+      {
+        "match": "**",
+        "bucket": "left",
+        "note": "AB back-end agent: reads the end-of-day reply-check reports and writes review packs; nothing runs here yet"
+      }
+    ]
+  }
+}
