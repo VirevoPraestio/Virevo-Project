@@ -1,0 +1,141 @@
+/* ===== Example data: Diagnostic Scheduling suite, 250-bed hospital, Bhubaneswar. All figures are examples.
+   Content from opd-diagnostic-leakage.md: §2 activities, §3 dependencies (MRI bottleneck, each unit scheduled on its own,
+   secretaries, compensation), §6 failure modes (sequential scheduling, no redemption tracking, backwards causality),
+   §7.1 (redemption split new vs returning, peak loading, STAT slots held and released to the next OP patient, IP slots fixed,
+   off-peak discounted slots, guest services, non-ambulatory transport), §7.4 (prescription scanning and reading bot,
+   scheduling bot, patient-facing guide bot, daily performance share, Scheduling Manager above 200 OPD a day), §8 KPIs. ===== */
+if (typeof SUITES==="undefined") var SUITES = [];
+SUITES.push({ key:"diagnostic", data:{
+  suite: "Diagnostic Scheduling",
+  family: "OPD to Diagnostics",
+  hospital: "250-bed hospital, Bhubaneswar",
+  started: "21 Sep 2026", week: 4, weeksPlanned: 22, asOf: "12 Oct 2026, 10:40 AM",
+  recoverLine:"If all three land, break-even comes back to November.",
+  aheadRisk:"The risk to watch is the MRI 2 schedule: until it can be read, walk-in MRI tests can still be turned away at peak.",
+  chat:{ sub:"Diagnostic Scheduling suite · 250-bed hospital, Bhubaneswar",
+    msg:["Three of the twelve parts are live. Every OPD prescription is now scanned and read, so for the first time we know what is prescribed and what is done here: ₹8.4 lakh prescribed today, ₹3.1 lakh done in-house so far.","Three measures are off track: returning patients' tests done here, the held emergency slots and the time for MRI and CT reports to reach the doctor. Two of them come back to the MRI suite still being run by the senior radiologist's own order.","Pick a point to add to it, or choose what to do next."],
+    note:"Agree the slot rules with radiology this week. The MRI is where the money leaks.",
+    points:["The MRI 2 schedule we cannot read yet","Returning patients' tests done elsewhere","Held emergency slots being overridden","Break-even moving to December"],
+    asks:["Which doctors' patients leave without their tests?","How many MRI slots sit empty after 4 PM?","Can we offer evening slots at a lower rate now?"] },
+  milestone: { what: "Scheduling across every test room goes live", date: "20 Oct", days: 8, part: 4 },
+  opd: { newPts: 60, returning: 460, prescribedToday: 8.4, doneHere: 3.1, slotted: 212, last: "Ultrasound for OPD 7 slotted in 3 min" },
+  /* test rooms on the day board: feeding part, hours busy pattern */
+  rooms: [
+    { name:"MRI 1", part:6, st:"live" }, { name:"MRI 2", part:6, st:"blocked" }, { name:"CT", part:6, st:"live" },
+    { name:"Ultrasound", part:4, st:"testing" }, { name:"X-ray", part:4, st:"testing" }, { name:"Lab samples", part:7, st:"live" },
+    { name:"Echo and TMT", part:8, st:"building" }, { name:"Endoscopy", part:4, st:"testing" }
+  ],
+
+  parts: [
+    { id:1,  name:"Every OPD prescription scanned", src:"Scanners in 14 OPD rooms", side:"in", st:"live", when:"Live since 24 Sep", fresh:"2 min ago", owner:"debashree", vol:"about 520 prescriptions a day", note:"The scan itself is done by hand at the room door; everything after it is automatic." },
+    { id:2,  name:"Prescription read and priced", src:"OPD records and ERP rates", side:"in", st:"live", when:"Live since 28 Sep", fresh:"2 min ago", owner:"ananya", vol:"about 640 tests a day", note:"Reads the tests on each scan, sorts them by department, specialty and doctor, and prices them from the ERP." },
+    { id:3,  name:"Prescribed against done, every day", src:"Billing and every test room", side:"in", st:"testing", when:"Goes live 16 Oct", fresh:"test report, today 7 AM", owner:"ananya", vol:"new and returning patients kept apart", note:"Shows what was prescribed, what was done here, and what walked out, by test room, specialty and doctor." },
+    { id:4,  name:"Scheduling across every test room", src:"Test room schedules", side:"engine", st:"testing", when:"Goes live 20 Oct", fresh:"test, ultrasound and X-ray", owner:"ananya", vol:"about 210 tests slotted a day", note:"Books each test the moment the prescription is confirmed, room by room, with each MRI and CT unit scheduled on its own." },
+    { id:5,  name:"Emergency slots held and released", src:"Scheduling rules", side:"engine", st:"testing", when:"Goes live 20 Oct", fresh:"rule in test", owner:"satyajit", vol:"3 slots held each hour on MRI and CT", note:"Keeps slots free for emergencies; if none arrives, the next OPD patient moves up. Slots booked for inpatients never move." },
+    { id:6,  name:"MRI and CT schedules, unit by unit", src:"MRI 1, MRI 2 and CT consoles", side:"out", st:"blocked", when:"10 days late · now 27 Oct", fresh:"MRI 2 no feed", owner:"sanjay", vol:"about 70 scans a day",
+      note:"Reads each unit's own schedule so one busy MRI cannot hide behind a quiet one.",
+      delay:"MRI 1 and CT are read, but the MRI 2 vendor has not opened its console. MRI 2 bookings are still kept in a register by the senior technologist, so walk-in MRI tests are turned away at peak even when MRI 2 has gaps.",
+      fixes:[["Book MRI 2 from a shared sheet the scheduling bot reads, until the console opens","ananya","15 Oct"],["Vendor escalation through the purchase team","kavya","20 Oct"],["MRI 2 console link live","sanjay","27 Oct"]] },
+    { id:7,  name:"Lab sample queue", src:"Lab system", side:"out", st:"live", when:"Live since 1 Oct", fresh:"1 min ago", owner:"pradeep", vol:"about 380 samples a day", note:"Gives each patient a sample-collection time and shows the queue at the collection room." },
+    { id:8,  name:"Echo, TMT and ECG slots", src:"Cardiology register", side:"out", st:"building", when:"Due 3 Nov", fresh:"no feed yet", owner:"meera", vol:"about 45 tests a day", note:"Brings the cardiology tests onto the same schedule." },
+    { id:9,  name:"Patient guide on the phone", src:"WhatsApp and SMS", side:"out", st:"building", when:"Due 2 Nov", fresh:"test with 20 patients", owner:"rohit", vol:"—", note:"Tells the patient their wait and their turn, reminds them when the slot comes up, and lets them call for help." },
+    { id:10, name:"Wheelchair or porter called to the patient", src:"Housekeeping app", side:"out", st:"notstarted", when:"Starts 9 Nov", fresh:"not started", owner:"rohit", vol:"about 25 patients a day need help moving", note:"Calls a porter to the patient's room or waiting area in time for the slot." },
+    { id:11, name:"Daily performance share", src:"Reports to every team", side:"out", st:"testing", when:"Goes live 16 Oct", fresh:"sent today 8 AM, in test", owner:"ananya", vol:"by department, specialty and doctor", note:"Yesterday's prescribed value and value done here, shared as information only, with no ranking." },
+    { id:12, name:"Off-peak slots at a lower rate", src:"Billing rates", side:"out", st:"notstarted", when:"Starts 16 Nov", fresh:"not started", owner:"debashree", vol:"MRI and CT after 5 PM", note:"Offers evening MRI and CT slots at a lower rate, so patients who would go elsewhere for price stay here." }
+  ],
+  handoffs: [
+    { name:"Findings that lead to admission", to:"Admission Process", st:"notstarted", when:"Starts with the patient guide" },
+    { name:"Same-visit test bills", to:"Billing & Insurance", st:"testing", when:"With the charge list" }
+  ],
+
+  kpis: [
+    { id:"K1", name:"New patients' prescribed tests done here", short:"New patients", unit:"%", dir:"up", base:14, target:60, plan:28, now:31,
+      why:"New patients now get a slot at the room door; front office no longer just points them to the test rooms." },
+    { id:"K2", name:"Returning patients' prescribed tests done here", short:"Returning patients", unit:"%", dir:"up", base:22, target:65, plan:34, now:29,
+      factors:[["MRI tests turned away at peak while MRI 2 has gaps",45],["Doctors' secretaries booking tests outside for three part-time consultants",35],["No reminder for tests prescribed for a later date",20]],
+      fixes:[["MRI 2 booked from a shared sheet the bot reads","ananya","15 Oct"],["Secretaries hand the patient to front office before they leave the room","debashree","19 Oct"],["Patient guide sends reminders for later-date tests","rohit","2 Nov"]],
+      back:"Back on the plan line by week 8 (9 Nov)" },
+    { id:"K3", name:"Revenue walking out each day", short:"Revenue lost a day", unit:"L", dir:"down", base:1.6, target:0.4, plan:1.15, now:1.25,
+      factors:[["MRI and CT tests done elsewhere",60],["Lab tests skipped when the queue is long",25],["Echo and TMT not yet on the schedule",15]],
+      fixes:[["Scheduling across every test room","ananya","20 Oct"],["Echo, TMT and ECG on the schedule","meera","3 Nov"]],
+      back:"Back on the plan line by week 6 (26 Oct)" },
+    { id:"K4", name:"Tests done the same visit", short:"Same visit", unit:"%", dir:"up", base:18, target:70, plan:35, now:33,
+      factors:[["80% of OPD patients arrive between 9 AM and 1 PM",55],["No guest services to walk patients to the rooms",45]],
+      fixes:[["Two guest-service executives on the morning peak","rohit","19 Oct"]],
+      back:"Back on the plan line by week 6 (26 Oct)" },
+    { id:"K5", name:"Walk-in tests slotted without 'come back another day'", short:"Walk-ins slotted", unit:"%", dir:"up", base:41, target:90, plan:60, now:64,
+      why:"Ultrasound and X-ray now keep two open slots an hour for tests prescribed that morning." },
+    { id:"K6", name:"Emergencies handled by the held-slot rule", short:"Held-slot rule", unit:"%", dir:"up", base:0, target:95, plan:50, now:38,
+      factors:[["Senior radiologists override the MRI schedule for their own patients",60],["Emergencies still squeezed in by moving a booked patient",40]],
+      fixes:[["Slot rules agreed and signed by the radiology head","satyajit","17 Oct"],["Overrides only through the Scheduling Manager, logged","ananya","20 Oct"]],
+      back:"Back on the plan line by week 7 (2 Nov)" },
+    { id:"K7", name:"MRI in use after 5 PM", short:"MRI after 5 PM", unit:"%", dir:"up", base:32, target:75, plan:45, now:41,
+      factors:[["Evening slots not offered to patients",70],["One technologist on the evening shift",30]],
+      fixes:[["Lower-rate evening slots","debashree","16 Nov"],["Second evening technologist from the existing rota","satyajit","26 Oct"]],
+      back:"Back on the plan line by week 9 (16 Nov)" },
+    { id:"K8", name:"MRI and CT report to the doctor", short:"Report to doctor", unit:"min", dir:"down", base:420, target:120, plan:300, now:340,
+      factors:[["Reports typed after the radiologist's list, not between scans",55],["MRI 2 reports not linked to the request",45]],
+      fixes:[["Reporting time blocked every two hours","satyajit","19 Oct"],["MRI 2 console link","sanjay","27 Oct"]],
+      back:"Back on the plan line by week 8 (9 Nov)" },
+    { id:"K9", name:"Days the performance share went out", short:"Daily share", unit:"%", dir:"up", base:0, target:100, plan:80, now:86,
+      why:"The share goes out at 8 AM from the read prescriptions; two days missed when the ERP rates were updating." }
+  ],
+
+  people: [
+    { key:"ananya", name:"Ananya Rath", role:"Scheduling Manager", from:"New role we recommended · joined 22 Sep", done:12, due:13, late:0,
+      today:[["Test-room slot plan for tomorrow",1],["MRI 2 shared sheet set up","in progress"],["Check yesterday's prescribed-vs-done report",1]],
+      next:[["Scheduling across every test room","20 Oct"],["Overrides only through the Scheduling Manager","20 Oct"],["Off-peak slot rules with billing","9 Nov"],["First monthly review with the CEO and CFO","16 Nov"]] },
+    { key:"debashree", name:"Debashree Pani", role:"OPD front-office lead", from:"Hospital", done:8, due:10, late:1,
+      today:[["Hand-off rule with the three consultants' secretaries","late 3 days"],["Morning peak rota",1]],
+      impact:"Secretary hand-off 3 days late: about 12 returning patients a day still leave with tests booked elsewhere, roughly ₹0.25 lakh a day.",
+      next:[["Secretaries hand patients to front office","19 Oct"],["Lower-rate evening slots","16 Nov"]] },
+    { key:"satyajit", name:"Dr. Satyajit Behera", role:"Head of Radiology", from:"Hospital", done:2, due:5, late:2,
+      today:[["Sign the slot rules","late 5 days"],["Block reporting time every two hours","late 2 days"]],
+      impact:"Slot rules unsigned: emergency slots are overridden on MRI and reports reach doctors 40 minutes later than plan.",
+      next:[["Slot rules signed","17 Oct"],["Reporting time blocked","19 Oct"],["Second evening technologist","26 Oct"]] },
+    { key:"pradeep", name:"Pradeep Mallick", role:"Lab manager", from:"Hospital", done:7, due:7, late:0,
+      today:[["Collection room queue screen",1],["Peak-hour phlebotomist shift",1]],
+      next:[["Home-collection slots for later-date tests","9 Nov"]] },
+    { key:"rohit", name:"Rohit Sahoo", role:"Guest services executive", from:"New role we recommended · joined 6 Oct", done:5, due:6, late:0,
+      today:[["Walk 30 new patients to their test rooms","in progress"],["Patient guide test with 20 patients",1]],
+      next:[["Second guest-service executive joins","19 Oct"],["Patient guide on the phone","2 Nov"],["Porter calls from the guide","9 Nov"]] },
+    { key:"meera", name:"Dr. Meera Das", role:"Cardiology diagnostics in-charge", from:"Hospital", done:3, due:4, late:1,
+      today:[["Echo and TMT slot lengths for the schedule","late 2 days"]],
+      impact:"Slot lengths 2 days late: Echo and TMT stay off the schedule, about ₹0.2 lakh a day still walking out.",
+      next:[["Echo, TMT and ECG on the schedule","3 Nov"]] },
+    { key:"sanjay", name:"Sanjay Mohanty", role:"IT integration lead", from:"Hospital IT (shared with three other suites)", done:3, due:5, late:1,
+      today:[["MRI 2 vendor call","late 10 days"],["ERP rate feed check",1]],
+      impact:"MRI 2 console closed: walk-in MRI tests turned away at peak, about ₹0.4 lakh a day.",
+      next:[["MRI 2 console link","27 Oct"],["Cardiology register link","3 Nov"]] },
+    { key:"kavya", name:"Kavya Iyer", role:"Virevo project lead", from:"Virevo", done:5, due:5, late:0,
+      today:[["Weekly report to the CEO",1],["Slot rules draft for radiology",1]],
+      next:[["Performance share approved for open circulation by the CEO, CFO and COO","16 Oct"],["Vendor escalation","20 Oct"],["Four-week review","2 Nov"]] }
+  ],
+
+  months: ["Sep","Oct"],
+  spend: [
+    { cat:"Subscription", v:[2.2,2.2] },
+    { cat:"Salaries of roles we recommended", v:[0.15,0.85], note:"Scheduling Manager ₹5 lakh a year (example); two guest-service executives ₹2.6 lakh a year each" },
+    { cat:"One-time costs", v:[2.4,0.9], note:"Sep: prescription scanners for 14 OPD rooms · Oct: patient guide set-up" }
+  ],
+  revenue: [2.1,9.8], ebitda:[1.1,5.4],
+  runRate: { revenue:24, ebitda:13 },
+  cumMonths:["Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun"],
+  cumSpend:[4.75,8.7,11.75,14.8,17.85,20.9,23.95,27.0,30.05,33.1],
+  cumPlan:[1.5,7.0,13.5,20.5,28.0,35.8,43.9,52.2,60.7,69.4],
+  cumFore:[1.1,6.5,11.2,16.9,23.2,30.0,37.2,44.8,52.7,60.9],
+  actualTo:1,
+  breakeven:{ plan:"Nov 2026", fore:"Dec 2026", late:"about 4 weeks", planIdx:2, foreIdx:3 },
+  healthFactors:[["MRI 2 schedule not readable, so walk-in MRI still turned away",40],["Radiology slot rules unsigned",35],["Returning patients' tests booked outside by secretaries",25]],
+  healthFixes:[["MRI 2 booked from a shared sheet the bot reads","ananya","15 Oct"],["Slot rules signed by the radiology head","satyajit","17 Oct"],["Secretaries hand patients to front office","debashree","19 Oct"]],
+  watch: [
+    { t:"MRI 2 schedule still unreadable, 10 days late", who:"sanjay", ref:"part:6" },
+    { t:"Returning patients' tests done here: 5 points under plan", who:"debashree", ref:"kpi:K2" },
+    { t:"Held emergency slots overridden on MRI", who:"satyajit", ref:"kpi:K6" }
+  ],
+  resources: [
+    ["Project plan and milestones","PDF · 21 Sep"],["Slot rules for radiology (awaiting signature)","Draft 2 · 10 Oct"],
+    ["Test room capacity, unit by unit","8 rooms · updated 9 Oct"],["Front-office and secretary hand-off script","1 page"],
+    ["Weekly review notes","3 notes · latest 9 Oct"],["Subscription agreement and invoices","2 files"]
+  ]
+}});
