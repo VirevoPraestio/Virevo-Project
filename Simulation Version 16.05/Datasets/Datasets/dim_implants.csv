@@ -1,0 +1,17 @@
+implant_id,implant_name,implant_category,specialty,brand_name,manufacturer,vendor_id,supply_model,mrp,contracted_rate,discount_pct,billed_to_patient_rate,margin_per_unit,generic_equivalent_available,generic_equivalent_id,surgeon_preference_notes
+IMP-00001,Total Knee Replacement System — Cemented,JOINT_REPLACEMENT,ORTHOPAEDICS,Triathlon Knee,Stryker India Pvt Ltd,VIMP01,CONSIGNMENT,145000,98000,0.324,145000,47000,True,IMP-00011,"Dr. Sunita Krishnamurthy (DR002), Dr. Vivek Kulkarni (DR009) — brand-specific"
+IMP-00002,Total Hip Replacement System — Uncemented,JOINT_REPLACEMENT,ORTHOPAEDICS,Accolade II Hip,Stryker India Pvt Ltd,VIMP01,CONSIGNMENT,135000,88000,0.348,135000,47000,True,IMP-00012,DR002 specifies this implant for all primary THR cases
+IMP-00003,Dynamic Hip Screw (DHS) — Sliding Barrel Plate,FRACTURE_FIXATION,ORTHOPAEDICS,Synthes DHS,DePuy Synthes,VIMP02,INDENT,28000,18500,0.339,28000,9500,False,,Standard implant — no specific surgeon preference
+IMP-00004,Intramedullary Nail — Femoral (IMN),FRACTURE_FIXATION,ORTHOPAEDICS,Expert Femoral Nail,DePuy Synthes,VIMP02,INDENT,32000,21000,0.344,32000,11000,False,,
+IMP-00005,Proximal Femoral Nail Antirotation (PFNA),FRACTURE_FIXATION,ORTHOPAEDICS,PFNA-II,DePuy Synthes,VIMP02,INDENT,24000,16000,0.333,24000,8000,False,,
+IMP-00006,Locking Compression Plate — Tibia,FRACTURE_FIXATION,ORTHOPAEDICS,LCP Tibial Plate,DePuy Synthes,VIMP02,INDENT,18000,12500,0.306,18000,5500,False,,
+IMP-00007,Cannulated Cancellous Screw Set (6.5mm × 3),FRACTURE_FIXATION,ORTHOPAEDICS,CS Screw Set,Ortho One,VIMP03,DIRECT_PURCHASE,8500,5500,0.353,8500,3000,False,,
+IMP-00008,Lumbar Pedicle Screw System (4-level),SPINAL,ORTHOPAEDICS,Spine System Plus,Medtronic India,VIMP04,CONSIGNMENT,185000,120000,0.351,185000,65000,False,,Visiting spine surgeon only — 2 cases/month
+IMP-00009,Polypropylene Mesh — Hernia Repair (15×15cm),SOFT_TISSUE,GENERAL_SURGERY,Prolene Hernia Mesh,Ethicon India,VIMP05,INDENT,4500,2800,0.378,4500,1700,True,IMP-00014,DR001 (Dr. Rajesh Mehta) — mixed branded/generic
+IMP-00010,PTFE Vascular Graft (6mm),SOFT_TISSUE,GENERAL_SURGERY,Gore-Tex Graft,W.L. Gore,VIMP05,CONSIGNMENT,32000,22000,0.313,32000,10000,False,,Cardiology/vascular — DR003
+IMP-00011,Total Knee Replacement — Domestic Cemented,JOINT_REPLACEMENT,ORTHOPAEDICS,Nexgen Knee (Domestic),Ortho India Ltd,VIMP03,INDENT,68000,42000,0.382,68000,26000,False,,Generic equivalent to IMP-00001. Approved but rarely used due to surgeon preference.
+IMP-00012,Total Hip Replacement — Domestic Uncemented,JOINT_REPLACEMENT,ORTHOPAEDICS,Stemfit Hip (Domestic),Ortho India Ltd,VIMP03,INDENT,62000,38000,0.387,62000,24000,False,,Generic equivalent to IMP-00002.
+IMP-00013,Titanium Mesh Plate — Orbital/Facial,FRACTURE_FIXATION,GENERAL_SURGERY,Synthes Titanium Mesh,DePuy Synthes,VIMP02,INDENT,22000,14500,0.341,22000,7500,False,,ENT/Facial — DR008 (Dr. Shilpa Nair)
+IMP-00014,Polypropylene Mesh — Generic (15×15cm),SOFT_TISSUE,GENERAL_SURGERY,Proline Mesh Domestic,Meril Life Sciences,VIMP03,DIRECT_PURCHASE,1800,950,0.472,1800,850,False,,Generic equivalent to IMP-00009
+IMP-00015,Cochlear Implant — Unilateral,SOFT_TISSUE,ENT,Nucleus CI612,Cochlear Ltd,VIMP06,CONSIGNMENT,650000,520000,0.2,650000,130000,False,,Rare procedure — 0-1 per month
+IMP-00016,Gynaecology Mesh — Pelvic Floor Repair,SOFT_TISSUE,GYNAECOLOGY,Gynemesh PS,Ethicon India,VIMP05,INDENT,12000,7800,0.35,12000,4200,False,,DR004 (Dr. Priya Deshpande)

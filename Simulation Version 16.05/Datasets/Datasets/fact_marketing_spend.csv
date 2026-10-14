@@ -1,0 +1,10 @@
+spend_id,month_year,channel,vendor_name,spend_amount,target_audience,geographic_focus,impressions_estimated,leads_generated,opd_visits_attributed,admissions_attributed,revenue_attributed,cost_per_lead,cost_per_admission,roi,recurring,notes
+MKT-0224-001,2024-02,CAMP_OUTREACH,Internal (Hospital Team),168000,GENERAL_PUBLIC,Nashik Road; Deolali; Sinnar,1850,82,148,23,1196000,2048.78,7304,7.12,False,"3 camps in Feb: Orthopedic Screening (Nashik Road), Cardiac Camp (Deolali), General Health (Sinnar)"
+MKT-0224-002,2024-02,DOCTOR_VISITS,Internal MR/Liaison Officer,95000,GP_DOCTORS,Nashik city; 15km radius,0,48,315,88,7260000,1979.17,1080,76.4,True,Monthly GP/specialist engagement; 28 doctors visited; gifting within MCI guidelines
+MKT-0224-003,2024-02,DIGITAL_ADS,DigiMed Agency Nashik,72000,GENERAL_PUBLIC,Nashik city + 25km radius,38500,64,110,22,1496000,1125.0,3273,20.8,True,Google Search + Facebook/Instagram; ortho and cardiology specialties; 3 creatives
+MKT-0224-004,2024-02,PRINT_ADS,Sakal Media Group,45000,GENERAL_PUBLIC,Nashik district,28000,18,42,8,544000,2500.0,5625,12.1,True,Half-page ad in Sakal Nashik edition; 4 insertions in Feb; appointment number callout
+MKT-0224-005,2024-02,CORPORATE_LIAISON,Internal HR/BD,28000,CORPORATE,Nashik Industrial belt (Ambad/Satpur),0,12,72,3,285000,2333.33,9333,10.2,True,Corporate health agreement visits; 4 companies; 1 new empanelment signed
+MKT-0224-006,2024-02,REFERRAL_GIFTS,Internal,12000,GP_DOCTORS,Nashik city,0,0,0,0,0,,,,True,Branded diaries and calendars sent to Tier-1 referral doctors (8 doctors)
+MKT-0224-007,2024-02,RADIO,Radio Mirchi Nashik,18000,GENERAL_PUBLIC,Nashik district,12000,8,18,2,136000,2250.0,9000,7.6,False,4-week campaign; orthopaedic bone health; spot in morning drive-time slot
+MKT-0224-008,2024-02,SIGNAGE,Outdoor Advertising Co.,8000,GENERAL_PUBLIC,Hospital catchment zone,0,0,0,0,0,,,,True,2 hoardings near hospital; directional and specialty callout
+MKT-0224-009,2024-02,EVENTS,Internal,2000,GENERAL_PUBLIC,On-campus,0,4,6,0,0,500.0,,,False,World Cancer Day awareness talk (Feb 4); no direct admission attribution

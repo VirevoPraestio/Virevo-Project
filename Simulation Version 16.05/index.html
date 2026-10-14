@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virevo — Login</title>
+
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ═══════════ AMBIENT BACKGROUND ═══════════ -->
+  <div class="ambient"></div>
+  <div class="particles" id="particles"></div>
+
+
+  <!-- ═══════════ LOGIN SCENE ═══════════ -->
+  <div class="login-scene" id="loginScene">
+    <div class="login-card">
+
+      <!-- Logo -->
+      <div class="logo-wrap">
+        <img src="images/Tojo_with_Virevo.png" alt="Virevo Logo">
+      </div>
+
+      <!-- STEP 1: Email -->
+      <div class="step active" id="stepEmail">
+        <div class="form-title">Welcome</div>
+        <div class="form-subtitle">Enter your email to get started</div>
+
+        <div class="field-group">
+          <label class="field-label">Email Address</label>
+          <div class="field-input-wrap">
+            <input
+              class="field-input"
+              id="emailInput"
+              type="email"
+              placeholder="you@company.com"
+              autocomplete="email"
+            >
+            <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="3"/>
+              <path d="M22 7l-10 6L2 7"/>
+            </svg>
+          </div>
+          <div class="error-msg" id="emailError">Please enter a valid email address</div>
+        </div>
+
+        <button class="btn-primary" id="btnEmailNext">
+          <span class="btn-text">Continue</span>
+          <div class="spinner"></div>
+        </button>
+
+        <div class="divider">or</div>
+        <div class="footer-text">Don't have an account? <a href="#">Sign up</a></div>
+      </div>
+
+      <!-- STEP 2: Password -->
+      <div class="step" id="stepPassword">
+        <div class="form-title">Enter password</div>
+        <div class="form-subtitle">Verify your identity to continue</div>
+
+        <div class="email-display">
+          <div class="avatar" id="emailAvatar">A</div>
+          <div class="email-text" id="emailTextDisplay"></div>
+          <button class="change-btn" id="changeEmail">Change</button>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Password</label>
+          <div class="field-input-wrap">
+            <input
+              class="field-input"
+              id="passwordInput"
+              type="password"
+              placeholder="••••••••"
+              autocomplete="current-password"
+            >
+            <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2"/>
+              <path d="M7 11V7a5 5 0 0110 0v4"/>
+            </svg>
+            <button class="toggle-password" id="togglePass" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <div class="error-msg" id="passError">Password must be at least 6 characters</div>
+        </div>
+
+        <button class="btn-primary" id="btnLogin">
+          <span class="btn-text">Sign In</span>
+          <div class="spinner"></div>
+        </button>
+
+        <div class="footer-text" style="margin-top: 16px">
+          <a href="#">Forgot password?</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════ APP SHELL (Post-Login) ═══════════ -->
+  <div class="app-shell" id="appShell">
+
+    <!-- ── Sidebar ── -->
+    <div class="app-sidebar" id="appSidebar">
+      <div class="sidebar-logo">
+        <img src="images/Tojo_Namaste.png" alt="Tojo">
+      </div>
+
+      <button class="sidebar-toggle" id="sidebarToggle" title="Toggle menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+
+      <div class="sidebar-nav">
+        <div class="nav-item active" data-page="home">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <span class="nav-item-label">Home</span>
+        </div>
+        <a href="simulation.html" class="nav-item" data-page="simulation">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span class="nav-item-label">Simulation</span>
+        </a>
+        <a href="dashboard.html" class="nav-item" data-page="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+            <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+            <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+            <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+          </svg>
+          <span class="nav-item-label">Dashboard</span>
+        </a>
+        <a href="analysis.html" class="nav-item" data-page="analysis">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M21 21H4.6C4.03995 21 3.75992 21 3.54601 20.891C3.35785 20.7951 3.20487 20.6422 3.10899 20.454C3 20.2401 3 19.9601 3 19.4V3"/>
+            <path d="M7 14l4-4 4 4 6-6"/>
+          </svg>
+          <span class="nav-item-label">Analysis</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ── Top Bar ── -->
+    <div class="app-topbar" id="appTopbar">
+      <div class="theme-wrapper" id="themeWrapper">
+        <button class="theme-btn" id="themeBtn" title="Change theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2"/><path d="M12 20v2"/>
+            <path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/>
+            <path d="M2 12h2"/><path d="M20 12h2"/>
+            <path d="M6.34 17.66l-1.41 1.41"/><path d="M19.07 4.93l-1.41 1.41"/>
+          </svg>
+        </button>
+        <div class="theme-dropdown" id="themeDropdown">
+          <div class="theme-dd-header">Appearance</div>
+          <div class="theme-option active" data-theme="dark">
+            <span class="theme-swatch" style="background: #08090c"></span>
+            <span class="theme-option-label">Dark</span>
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+          </div>
+          <div class="theme-option" data-theme="light">
+            <span class="theme-swatch" style="background: #f5f3ef"></span>
+            <span class="theme-option-label">Light</span>
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+          </div>
+          <div class="theme-option" data-theme="corporate">
+            <span class="theme-swatch" style="background: linear-gradient(135deg, #0f1923, #243447)"></span>
+            <span class="theme-option-label">Corporate</span>
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Content Area ── -->
+    <div class="app-content" id="appContent">
+
+      <!-- HOME PAGE -->
+      <div class="home-page active" id="homePage">
+        <div class="greeting-section">
+          <div class="greeting-mascot">
+            <img src="images/Tojo_Namaste.png" alt="Tojo">
+          </div>
+          <div class="greeting-text">Hello, <span id="homeUserName"></span></div>
+        </div>
+
+        <!-- Chat Messages Area -->
+        <div class="chat-messages-area" id="chatMessagesArea">
+          <!-- Messages will be populated by JavaScript -->
+        </div>
+
+        <div class="chat-input-area">
+          <!-- Hidden File Input -->
+          <input type="file" id="fileInput" accept=".pdf,.doc,.docx,image/*" style="display: none;" multiple>
+          
+          <div class="chat-box">
+            <!-- Attachment Preview Area -->
+            <div class="attachment-preview" id="attachmentPreview"></div>
+            
+            <textarea
+              class="chat-textarea"
+              placeholder="How can I help you today?"
+              rows="1"
+              id="chatTextarea"
+            ></textarea>
+            <div class="chat-bar">
+              <div class="chat-bar-left">
+                <button class="chat-attach-btn" id="attachBtn" title="Attach file">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                </button>
+                <!-- Voice Recording Button -->
+                <button class="chat-voice-btn" id="voiceBtn" title="Record Voice">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="voice-icon">
+                    <path d="M12 1C10.8954 1 10 1.89543 10 3V12C10 13.1046 10.8954 14 12 14C13.1046 14 14 13.1046 14 12V3C14 1.89543 13.1046 1 12 1Z" fill="currentColor"/>
+                    <path d="M5 10V12C5 15.866 8.13401 19 12 19C15.866 19 19 15.866 19 12V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <line x1="8" y1="23" x2="16" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+
+                <style>
+                  .chat-voice-btn {
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 6px;
+                    border-radius: var(--radius-sm, 10px);
+                    transition: all 0.3s ease;
+                  }
+
+                  .chat-voice-btn .voice-icon {
+                    width: 18px;
+                    height: 18px;
+                    color: var(--text-secondary);
+                    transition: color 0.3s ease, transform 0.3s ease;
+                  }
+
+                  .chat-voice-btn:hover {
+                    background: var(--green-glow);
+                  }
+
+                  .chat-voice-btn:hover .voice-icon {
+                    color: var(--green-light);
+                    transform: scale(1.1);
+                  }
+
+                  .chat-voice-btn:active .voice-icon {
+                    transform: scale(0.95);
+                  }
+
+                  .chat-voice-btn.recording {
+                    background: var(--green-glow);
+                  }
+
+                  .chat-voice-btn.recording .voice-icon {
+                    color: var(--green-light);
+                    animation: pulse 1.5s ease-in-out infinite;
+                  }
+
+                  @keyframes pulse {
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: 0.5; }
+                  }
+                </style>
+              </div>
+              <div class="chat-bar-right">
+                <span class="chat-model-label">Virevo AI</span>
+                <button class="chat-send-btn" id="sendBtn" title="Send">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"/>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="quick-chips">
+            <div class="chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+                <path d="M2 2l7.586 7.586"/>
+              </svg>
+              Write
+            </div>
+            <div class="chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4"/>
+                <path d="M12 8h.01"/>
+              </svg>
+              Learn
+            </div>
+            <div class="chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <polyline points="16 18 22 12 16 6"/>
+                <polyline points="8 6 2 12 8 18"/>
+              </svg>
+              Code
+            </div>
+            <div class="chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+              Workflow
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DASHBOARD PAGE -->
+      <div class="dash-page" id="dashPage">
+        <div class="welcome-banner">
+          <h1>Good to see you, <span id="dashGreetName"></span></h1>
+          <p>Here's what's happening with your workflows today.</p>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-card">
+            <div class="stat-label">Active Workflows</div>
+            <div class="stat-value green">12</div>
+            <div class="stat-change">+3 this week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Tasks Completed</div>
+            <div class="stat-value gold">847</div>
+            <div class="stat-change">+12% from last month</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Team Members</div>
+            <div class="stat-value">24</div>
+            <div class="stat-change">+2 new</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Efficiency</div>
+            <div class="stat-value green">94%</div>
+            <div class="stat-change down">-1.2% from last week</div>
+          </div>
+        </div>
+
+        <div class="section-title">Recent Workflows</div>
+        <div class="workflow-grid">
+          <div class="workflow-card">
+            <div class="wf-icon green">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <div class="wf-name">Data Pipeline v2</div>
+            <div class="wf-desc">Automated ETL process for customer analytics.</div>
+            <div class="wf-meta">
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                2h ago
+              </span>
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>
+                5 members
+              </span>
+            </div>
+          </div>
+
+          <div class="workflow-card">
+            <div class="wf-icon gold">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+              </svg>
+            </div>
+            <div class="wf-name">Deploy Orchestrator</div>
+            <div class="wf-desc">CI/CD pipeline with canary release support.</div>
+            <div class="wf-meta">
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                5h ago
+              </span>
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>
+                8 members
+              </span>
+            </div>
+          </div>
+
+          <div class="workflow-card">
+            <div class="wf-icon blue">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+              </svg>
+            </div>
+            <div class="wf-name">Notification Hub</div>
+            <div class="wf-desc">Multi-channel notification engine.</div>
+            <div class="wf-meta">
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                1d ago
+              </span>
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>
+                3 members
+              </span>
+            </div>
+          </div>
+
+          <div class="workflow-card">
+            <div class="wf-icon purple">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M12 1v14"/>
+                <circle cx="12" cy="19" r="4"/>
+                <line x1="8" y1="23" x2="16" y2="23"/>
+              </svg>
+            </div>
+            <div class="wf-name">ML Retrainer</div>
+            <div class="wf-desc">Scheduled model retraining with drift detection.</div>
+            <div class="wf-meta">
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                3d ago
+              </span>
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>
+                4 members
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- Main JavaScript -->
+  <script src="js/app.js"></script>
+
+</body>
+</html>

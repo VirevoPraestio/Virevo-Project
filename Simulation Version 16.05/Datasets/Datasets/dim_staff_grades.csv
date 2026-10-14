@@ -1,0 +1,18 @@
+grade_id,department,grade_name,grade_level,monthly_ctc_min,monthly_ctc_max,monthly_ctc_midpoint,agency_equivalent_rate,agency_premium_multiple,sanctioned_strength
+GRD-01,NURSING,ANM (Auxiliary Nurse Midwife),1,14000,18000,16000,28000,1.75,8
+GRD-02,NURSING,GNM Staff Nurse,2,20000,26000,23000,38000,1.65,24
+GRD-03,NURSING,BSc Nursing - Junior,3,26000,32000,29000,45000,1.55,18
+GRD-04,NURSING,BSc Nursing - Senior,4,32000,40000,36000,54000,1.5,16
+GRD-05,NURSING,Nursing In-Charge / Supervisor,5,42000,55000,48500,68000,1.4,8
+GRD-06,NURSING,ICU Specialist Nurse (BSc),4,35000,45000,40000,58000,1.45,12
+GRD-07,HOUSEKEEPING,HK Attendant / Ward Boy,1,12000,15000,13500,0,0,20
+GRD-08,HOUSEKEEPING,HK Supervisor,2,16000,20000,18000,0,0,4
+GRD-09,PHARMACY,Pharmacy Assistant / D.Pharm,1,16000,20000,18000,0,0,4
+GRD-10,PHARMACY,Pharmacist - B.Pharm,2,22000,28000,25000,0,0,4
+GRD-11,PHARMACY,Senior Pharmacist / In-Charge,3,30000,38000,34000,0,0,2
+GRD-12,ADMIN,Admission Counsellor,2,22000,28000,25000,0,0,4
+GRD-13,ADMIN,Admin Executive / Front Desk,1,18000,22000,20000,0,0,6
+GRD-14,DIETARY,Cook / Kitchen Staff,1,14000,18000,16000,0,0,6
+GRD-15,MAINTENANCE,Biomedical Technician / Electrician,2,18000,24000,21000,0,0,4
+GRD-16,CLINICAL,Resident Medical Officer (RMO),1,40000,50000,45000,0,0,4
+GRD-17,MANAGEMENT,Department Manager / HOD,3,55000,75000,65000,0,0,6

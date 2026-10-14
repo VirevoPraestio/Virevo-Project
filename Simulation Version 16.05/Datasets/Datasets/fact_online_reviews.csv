@@ -1,0 +1,13 @@
+review_snapshot_id,snapshot_date,platform,total_review_count,new_reviews_this_week,average_rating,5_star_count_week,4_star_count_week,3_star_count_week,1_2_star_count_week,positive_keywords,negative_keywords,management_response_count,response_rate,composite_reputation_score
+REV-20240204-GOO,2024-02-04,GOOGLE,138,2,3.9,0,0,0,2,"friendly doctors,good nursing care,clean ICU","long discharge wait,billing unclear,food quality poor",1,0.5,7.8
+REV-20240204-PRA,2024-02-04,PRACTO,64,1,4.1,0,0,0,1,"Dr. Rajesh Mehta excellent,OPD quick,good facility","waiting time,parking",0,0.0,8.2
+REV-20240204-JUS,2024-02-04,JUSTDIAL,36,1,4.0,0,0,0,1,"affordable,skilled doctors","canteen closed early,discharge slow",0,0.0,8.0
+REV-20240211-GOO,2024-02-11,GOOGLE,139,1,3.9,0,0,0,1,"friendly doctors,good nursing care,clean ICU","long discharge wait,billing unclear,food quality poor",0,0.0,7.8
+REV-20240211-PRA,2024-02-11,PRACTO,65,1,4.1,0,0,0,1,"Dr. Rajesh Mehta excellent,OPD quick,good facility","waiting time,parking",0,0.0,8.2
+REV-20240211-JUS,2024-02-11,JUSTDIAL,37,1,4.0,0,0,0,1,"affordable,skilled doctors","canteen closed early,discharge slow",0,0.0,8.0
+REV-20240218-GOO,2024-02-18,GOOGLE,141,2,3.9,0,0,0,2,"friendly doctors,good nursing care,clean ICU","long discharge wait,billing unclear,food quality poor",1,0.5,7.8
+REV-20240218-PRA,2024-02-18,PRACTO,66,1,4.1,0,0,0,1,"Dr. Rajesh Mehta excellent,OPD quick,good facility","waiting time,parking",0,0.0,8.2
+REV-20240218-JUS,2024-02-18,JUSTDIAL,37,0,4.0,0,0,0,0,"affordable,skilled doctors","canteen closed early,discharge slow",0,0,8.0
+REV-20240225-GOO,2024-02-25,GOOGLE,142,1,3.9,0,0,0,1,"friendly doctors,good nursing care,clean ICU","long discharge wait,billing unclear,food quality poor",0,0.0,7.8
+REV-20240225-PRA,2024-02-25,PRACTO,67,1,4.1,0,0,0,1,"Dr. Rajesh Mehta excellent,OPD quick,good facility","waiting time,parking",0,0.0,8.2
+REV-20240225-JUS,2024-02-25,JUSTDIAL,38,1,4.0,0,0,0,1,"affordable,skilled doctors","canteen closed early,discharge slow",0,0.0,8.0

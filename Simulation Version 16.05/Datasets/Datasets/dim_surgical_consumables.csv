@@ -1,0 +1,15 @@
+consumable_id,consumable_name,consumable_category,specialty,unit_of_measure,contracted_unit_cost,billed_to_patient,patient_billing_rate,average_usage_per_procedure,monthly_consumption_units,preferred_brand
+CON-00001,Vicryl 2-0 Suture 70cm,SUTURE,ALL,EACH,85,True,120,3.2,480,True
+CON-00002,Prolene 3-0 Suture 75cm,SUTURE,GENERAL_SURGERY,EACH,95,True,135,2.8,200,True
+CON-00003,Chromic Catgut 1-0 Suture,SUTURE,GYNAECOLOGY,EACH,45,True,65,4.0,28,False
+CON-00004,Vicryl Rapide 4-0 Suture,SUTURE,ALL,EACH,110,True,155,1.5,220,True
+CON-00005,Endo-GIA Stapler 45mm,STAPLER,GENERAL_SURGERY,EACH,4800,True,6500,1.0,62,True
+CON-00006,Linear Stapler Cartridge 60mm Blue,STAPLER,GENERAL_SURGERY,EACH,2200,True,2900,1.8,105,True
+CON-00007,Circular Stapler 29mm CDH,STAPLER,GENERAL_SURGERY,EACH,5500,True,7200,1.0,18,True
+CON-00008,Trocar 5mm Disposable,TROCAR,GENERAL_SURGERY,EACH,380,True,520,2.5,145,False
+CON-00009,Trocar 12mm Disposable,TROCAR,GENERAL_SURGERY,EACH,480,True,650,1.0,58,False
+CON-00010,Surgical Drape — Full Body Large,DRAPE,ALL,EACH,320,False,0,1.0,160,False
+CON-00011,Sterile Surgical Gloves — Pairs (Various Sizes),GLOVE,ALL,PAIR,55,False,0,4.0,620,False
+CON-00012,Electrosurgical Pencil — Disposable,ELECTROSURGICAL,ALL,EACH,150,True,200,1.0,160,False
+CON-00013,Bipolar Diathermy Forceps — Disposable,ELECTROSURGICAL,ALL,EACH,280,True,380,1.0,80,False
+CON-00014,Bone Wax — Orthopaedic,OTHER,ORTHOPAEDICS,EACH,220,True,300,1.0,35,False

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virevo — Analysis</title>
+
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <link rel="stylesheet" href="css/analysis.css">
+</head>
+<body>
+
+  <!-- ═══════════ AMBIENT BACKGROUND ═══════════ -->
+  <div class="ambient"></div>
+  <div class="particles" id="particles"></div>
+
+
+  <!-- ═══════════ ANALYSIS LAYOUT ═══════════ -->
+  <div class="analysis-layout">
+
+    <!-- ── Left Sidebar (Icons Only) ── -->
+    <div class="analysis-sidebar">
+      <div class="sidebar-logo-mini">
+        <img src="images/Tojo_Namaste.png" alt="Tojo">
+      </div>
+
+      <div class="sidebar-nav-mini">
+        <a href="index.html" class="nav-icon" id="homeNavBtn" title="Home">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </a>
+        <a href="simulation.html" class="nav-icon" title="Simulation">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </a>
+        <a href="dashboard.html" class="nav-icon" title="Dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+            <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+            <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+            <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+          </svg>
+        </a>
+        <a href="analysis.html" class="nav-icon active" title="Analysis">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M21 21H4.6C4.03995 21 3.75992 21 3.54601 20.891C3.35785 20.7951 3.20487 20.6422 3.10899 20.454C3 20.2401 3 19.9601 3 19.4V3"/>
+            <path d="M7 14l4-4 4 4 6-6"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="nav-icon" id="settingsBtn" title="Settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Middle Content Area ── -->
+    <div class="analysis-main">
+      <div class="analysis-topbar">
+        <div class="analysis-title">Analysis <span>Results</span></div>
+        
+        <div class="theme-wrapper" id="themeWrapper">
+          <button class="theme-btn" id="themeBtn" title="Change theme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 2v2"/><path d="M12 20v2"/>
+              <path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/>
+              <path d="M2 12h2"/><path d="M20 12h2"/>
+              <path d="M6.34 17.66l-1.41 1.41"/><path d="M19.07 4.93l-1.41 1.41"/>
+            </svg>
+          </button>
+          <div class="theme-dropdown" id="themeDropdown">
+            <div class="theme-dd-header">Appearance</div>
+            <div class="theme-option active" data-theme="dark">
+              <span class="theme-swatch" style="background: #08090c"></span>
+              <span class="theme-option-label">Dark</span>
+              <div class="toggle-track"><div class="toggle-thumb"></div></div>
+            </div>
+            <div class="theme-option" data-theme="light">
+              <span class="theme-swatch" style="background: #f5f3ef"></span>
+              <span class="theme-option-label">Light</span>
+              <div class="toggle-track"><div class="toggle-thumb"></div></div>
+            </div>
+            <div class="theme-option" data-theme="corporate">
+              <span class="theme-swatch" style="background: linear-gradient(135deg, #0f1923, #243447)"></span>
+              <span class="theme-option-label">Corporate</span>
+              <div class="toggle-track"><div class="toggle-thumb"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="analysis-content" id="analysisContent">
+        <!-- Analysis results will be populated by JavaScript -->
+      </div>
+    </div>
+
+    <!-- ── Right Chat Panel ── -->
+    <div class="chat-panel">
+      <div class="chat-panel-header">
+        <div class="chat-panel-title">Virevo AI</div>
+        <div class="chat-panel-actions">
+          <button class="panel-action-btn" title="History">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </button>
+          <button class="panel-action-btn" title="New Chat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="chat-messages-area" id="chatMessagesArea">
+        <!-- Chat messages will be populated by JavaScript -->
+      </div>
+
+      <div class="chat-input-wrapper">
+        <div class="chat-input-box">
+          <textarea 
+            class="chat-input-field" 
+            id="chatInput"
+            placeholder="Ask anything, @ to mention..."
+            rows="1"
+          ></textarea>
+          <div class="chat-input-controls">
+            <div class="chat-input-left">
+              <button class="input-tool-btn" title="Attach">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+              </button>
+              <!-- Voice Recording Button -->
+              <button class="input-tool-btn voice-btn" id="voiceBtn" title="Record Voice">
+                <svg viewBox="0 0 24 24" fill="none" class="voice-icon">
+                  <path d="M12 1C10.8954 1 10 1.89543 10 3V12C10 13.1046 10.8954 14 12 14C13.1046 14 14 13.1046 14 12V3C14 1.89543 13.1046 1 12 1Z" fill="currentColor"/>
+                  <path d="M5 10V12C5 15.866 8.13401 19 12 19C15.866 19 19 15.866 19 12V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <line x1="8" y1="23" x2="16" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+            <div class="chat-input-right">
+              <div class="model-selector">
+                <span>Virevo AI</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+              <button class="send-btn" id="sendChatBtn" title="Send">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Analysis Page JavaScript -->
+  <script src="js/analysis.js"></script>
+
+</body>
+</html>
