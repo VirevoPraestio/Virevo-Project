@@ -1,0 +1,4261 @@
+{
+ "heading": {
+  "category": "universal",
+  "also": null,
+  "name": "Canvas heading",
+  "shows": "Where the user is in the conversation, the main claim or question, and one line of context.",
+  "key_uses": [
+   "Opening every canvas, as the first block",
+   "Stating the claim or question the canvas answers",
+   "Telling the user where they are, for example stop 1 of 11",
+   "Giving one line on how to read the drawings below"
+  ],
+  "logic": [
+   "framing a claim before the evidence",
+   "placing this answer inside a longer sequence"
+  ],
+  "best_for": [
+   "Every response that draws on the canvas",
+   "A first answer that names the question being worked on",
+   "A turn that needs to say which step of a sequence it covers"
+  ],
+  "motif": null
+ },
+ "route-map": {
+  "category": "process",
+  "also": null,
+  "name": "Stop-by-stop route",
+  "shows": "A long process of 6 to 14 stops, each run by someone different, where every stop opens to its own detail.",
+  "key_uses": [
+   "Setting out the agenda for a run of questions, one stop at a time",
+   "Walking a long chain where each stop has its own story",
+   "Marking which stop is being asked about now, next and later",
+   "Setting what people usually say against what really happens at each stop"
+  ],
+  "logic": [
+   "cause and effect along a long chain",
+   "narrowing down to where the delay begins",
+   "what people say against what is happening"
+  ],
+  "best_for": [
+   "A first answer that sets out the questions to come",
+   "When the user asks where in a long process time is lost",
+   "When many teams each own one stop of the same journey"
+  ],
+  "motif": "Draws a route with stops along a line: use it whenever the answer follows a journey through many hands or places."
+ },
+ "chain": {
+  "category": "process",
+  "also": "logical",
+  "name": "Short step chain",
+  "shows": "A short sequence of 2 to 8 steps that ends in one outcome, with optional waits and keep or change marks.",
+  "key_uses": [
+   "Playing back a sequence the user has just described",
+   "Showing a stretch where nothing can start before the first step",
+   "Marking each step keep or change after a review",
+   "Ending a short process on its result, with times beside each step"
+  ],
+  "logic": [
+   "cause and effect along a chain",
+   "where things stop or wait in a sequence",
+   "before against after, step by step"
+  ],
+  "best_for": [
+   "When the user describes how something runs today and wants it checked",
+   "A diagnosis that shows how long waiting adds up across a few steps",
+   "A verdict on which steps of a short process should change"
+  ],
+  "motif": null
+ },
+ "two-flow": {
+  "category": "logical",
+  "also": "process",
+  "name": "Today against proposed",
+  "shows": "Two parallel versions of the same process, today and proposed, compared row for row.",
+  "key_uses": [
+   "Showing how each step changes under a proposed fix",
+   "Comparing the current way and the new way, function by function",
+   "Showing the same steps started at a different time or by a different hand",
+   "Setting old and new times side by side for each step"
+  ],
+  "logic": [
+   "before against after",
+   "same steps, different order or timing"
+  ],
+  "best_for": [
+   "When the user asks what actually changes for each team",
+   "A solution turn that has to show the new way beside the old",
+   "When both flows have the same steps and only the content differs"
+  ],
+  "motif": null
+ },
+ "compare-table": {
+  "category": "selection",
+  "also": null,
+  "name": "Option comparison table",
+  "shows": "Two or three options compared on the same points, with one option marked as the place to start.",
+  "key_uses": [
+   "Choosing between a small trial and a full rollout",
+   "Comparing scenarios on cost, people, systems and what each proves",
+   "Recommending one option while keeping the others visible",
+   "Showing what each option needs and what it gives back"
+  ],
+  "logic": [
+   "weighing options on shared points",
+   "a recommendation with its reasons shown"
+  ],
+  "best_for": [
+   "When the user asks which option to start with",
+   "When two fixes compete for the same money or people",
+   "A recommendation turn that must show why one path wins"
+  ],
+  "motif": null
+ },
+ "stat-strip": {
+  "category": "measures",
+  "also": null,
+  "name": "Headline figures strip",
+  "shows": "Two to four headline numbers, each tagged with where it came from or that it is still needed.",
+  "key_uses": [
+   "Summing up the main findings from the user's own data",
+   "Restating numbers already agreed earlier",
+   "Marking which figures are the user's, worked out, or still missing",
+   "Opening a diagnosis with the size of the problem"
+  ],
+  "logic": [
+   "how big the problem is",
+   "separating known figures from missing ones"
+  ],
+  "best_for": [
+   "When the user wants the key numbers at a glance",
+   "A summary turn after several figures have been gathered",
+   "When one needed number is still missing and must be asked for"
+  ],
+  "motif": null
+ },
+ "calculator": {
+  "category": "measures",
+  "also": "financial",
+  "name": "Shown working calculator",
+  "shows": "How a headline number is worked out: the inputs, each step of the sum, the result and the condition it holds on.",
+  "key_uses": [
+   "Turning the user's figures into a money or time total",
+   "Sizing what a change could be worth, step by step",
+   "Showing which inputs are the user's and which are still needed",
+   "Stating the one condition the result depends on"
+  ],
+  "logic": [
+   "step-by-step working from inputs to a total",
+   "a result that holds only under a stated condition"
+  ],
+  "best_for": [
+   "When the user asks how a number was reached",
+   "Any turn that puts a new headline money or time figure on screen",
+   "When the user asks what a problem is costing them each year"
+  ],
+  "motif": null
+ },
+ "threshold-gauges": {
+  "category": "measures",
+  "also": null,
+  "name": "Readings against a line",
+  "shows": "Where the user's own numbers sit against a threshold or target that changes what should be done.",
+  "key_uses": [
+   "Showing that a reading has crossed a line that matters",
+   "Comparing now against a target or limit",
+   "Backing a recommendation with the user's own readings",
+   "Showing a range, not one number, against the line"
+  ],
+  "logic": [
+   "now against goal",
+   "a crossed line that triggers a recommendation"
+  ],
+  "best_for": [
+   "When the user asks whether their situation is serious enough to act",
+   "A recommendation that rests on a known threshold",
+   "A diagnosis turn, not a turn still collecting facts"
+  ],
+  "motif": "Draws gauges with a marked line: use it whenever the answer turns on whether a reading is above or below a limit."
+ },
+ "balance": {
+  "category": "financial",
+  "also": null,
+  "name": "Cost against return scale",
+  "shows": "What a fix costs set against what it returns, one amount on each side of a balance.",
+  "key_uses": [
+   "Weighing the yearly cost of a fix against its yearly return",
+   "Showing payback at a glance in a recommendation",
+   "Marking one side as still to be sized once a figure arrives",
+   "Comparing a small spend with a much larger gain"
+  ],
+  "logic": [
+   "cost against return",
+   "whether a change pays for itself"
+  ],
+  "best_for": [
+   "When the user asks whether a fix is worth the money",
+   "A recommendation that has to justify a new hire or purchase",
+   "When the return is much larger than the cost and should look it"
+  ],
+  "motif": "Draws money on a balance scale: use it whenever a cost and its return can each be given as one amount."
+ },
+ "progress-trail": {
+  "category": "universal",
+  "also": "process",
+  "name": "Where-are-we dots",
+  "shows": "A compact row of numbered dots showing how far through a sequence the conversation is and what comes next.",
+  "key_uses": [
+   "Every turn after the first inside a multi-step sequence",
+   "Showing n of N stops walked",
+   "Naming the next stop or question",
+   "Keeping the user oriented in a long run of questions"
+  ],
+  "logic": [
+   "position within an ordered sequence",
+   "what is done against what is left"
+  ],
+  "best_for": [
+   "A follow-up question inside a longer series of questions",
+   "When the user asks how many more steps there are",
+   "A turn that continues a route walked earlier"
+  ],
+  "motif": null
+ },
+ "agenda-grid": {
+  "category": "universal",
+  "also": "process",
+  "name": "Parts overview grid",
+  "shows": "A multi-part answer as one card per part, each labelled with the question it answers and whether it is done.",
+  "key_uses": [
+   "Opening a multi-part solution with an overview of every part",
+   "Showing what is covered, current and still to do",
+   "Answering when the user asks what is left",
+   "Letting the user open a part to see its main points"
+  ],
+  "logic": [
+   "breaking a large answer into named parts",
+   "done against still to come"
+  ],
+  "best_for": [
+   "A first solution turn that lays out all parts before going into one",
+   "When the user asks what is left to cover",
+   "When the user wants to jump to one part of a long answer"
+  ],
+  "motif": null
+ },
+ "cards": {
+  "category": "universal",
+  "also": null,
+  "name": "Expandable item cards",
+  "shows": "A set of independent items, such as findings, options or gaps, with no order between them and room to expand each.",
+  "key_uses": [
+   "Listing findings that do not follow one another",
+   "Laying out the parts of a fix, each opening to its details",
+   "Showing gaps or open questions side by side",
+   "Marking one card as the place to start"
+  ],
+  "logic": [
+   "grouping separate points under one heading",
+   "a summary that opens into detail"
+  ],
+  "best_for": [
+   "When the answer is a set of separate points, not a sequence",
+   "A solution turn listing what the software or a team will do",
+   "When the user wants a short list first and detail on request"
+  ],
+  "motif": null
+ },
+ "role-cards": {
+  "category": "people",
+  "also": null,
+  "name": "Doers and approver",
+  "shows": "Who has to cooperate for a change: one card per group doing the work and a separate box for the person who approves.",
+  "key_uses": [
+   "Showing who has to agree to a change and what each gives up",
+   "Naming the group with the most to give up",
+   "Setting out what the approver signs off and what happens without it",
+   "Stating the condition that keeps buy-in true"
+  ],
+  "logic": [
+   "who owns what in a change",
+   "where resistance gathers",
+   "what fails if approval never comes"
+  ],
+  "best_for": [
+   "When the user asks who needs to be on board",
+   "A process turn that assigns new duties to existing teams",
+   "When one senior person must sign off for the change to last"
+  ],
+  "motif": "Draws people as role cards: use it whenever roles, teams or a sign-off are named."
+ },
+ "fill-blank": {
+  "category": "universal",
+  "also": "measures",
+  "name": "Fill-in-the-blank structure",
+  "shows": "A drawing handed to the user with empty slots to fill with their own numbers, then redrawn once filled.",
+  "key_uses": [
+   "Asking for a time or value at each stage of a process",
+   "Collecting several figures in one shape the user recognises",
+   "Redrawing the same shape once the answers come in",
+   "Making clear that rough answers are fine"
+  ],
+  "logic": [
+   "gathering facts before drawing a conclusion",
+   "the same shape before and after it is filled"
+  ],
+  "best_for": [
+   "A data-asking turn that needs a value for each stage",
+   "When the user is more likely to answer a picture than a list",
+   "The turn after, showing the user's numbers in place"
+  ],
+  "motif": null
+ },
+ "fork": {
+  "category": "selection",
+  "also": null,
+  "name": "Which-is-closer fork",
+  "shows": "Two or three neutral patterns side by side so the user can say which one matches how they work.",
+  "key_uses": [
+   "Finding out which of several patterns the user is in",
+   "Asking a question as a choice between pictures",
+   "Avoiding a leading question by showing every likely answer",
+   "Splitting the conversation down different paths"
+  ],
+  "logic": [
+   "placing the user on one branch of a choice",
+   "narrowing down by asking which case applies"
+  ],
+  "best_for": [
+   "A question turn where the answer decides the next path",
+   "When the user may not know the right words for how they work",
+   "When there are two or three common ways a thing is done"
+  ],
+  "motif": null
+ },
+ "handnote": {
+  "category": "universal",
+  "also": null,
+  "name": "Handwritten note",
+  "shows": "One handwritten line on the canvas that points at something or names a benefit that is hard to put in numbers.",
+  "key_uses": [
+   "Stating the one point that ties the whole canvas together",
+   "Naming a benefit that has no number",
+   "Pointing the eye at the key part of a drawing",
+   "Giving a short, human summary in the user's own terms"
+  ],
+  "logic": [
+   "the one takeaway from the whole canvas",
+   "an insight that reframes the problem"
+  ],
+  "best_for": [
+   "When one sentence sums up why the drawings matter",
+   "A diagnosis turn with a simple, memorable insight",
+   "When the main gain is felt, not counted"
+  ],
+  "motif": null
+ },
+ "time-window": {
+  "category": "time",
+  "also": null,
+  "name": "Unused hours window",
+  "shows": "A stretch of the day or night on one line, with key moments marked and the hours nobody uses shaded.",
+  "key_uses": [
+   "Showing time that exists but nobody uses",
+   "Marking when each key event happens across a day or night",
+   "Showing how many steps could move into an idle stretch",
+   "Placing real clock times on a single line"
+  ],
+  "logic": [
+   "time lost between two moments",
+   "moving work into idle hours"
+  ],
+  "best_for": [
+   "When the user asks why something takes so long from start to finish",
+   "A diagnosis where the delay is waiting time, not slow work",
+   "When work could start earlier, for example overnight"
+  ],
+  "motif": "Built on a clock timeline across a day: use it whenever the answer turns on when things happen and the idle hours between."
+ },
+ "hour-load": {
+  "category": "time",
+  "also": "people",
+  "name": "Work by the hour",
+  "shows": "How much work lands in each hour of the day, with the busy windows marked and the staff placed on each.",
+  "key_uses": [
+   "Sizing a role against when the work really happens",
+   "Showing that load comes in peaks, not evenly",
+   "Placing helpers on each busy window",
+   "Arguing against spreading staff evenly across the day"
+  ],
+  "logic": [
+   "sizing to peaks, not averages",
+   "matching people to when work arrives"
+  ],
+  "best_for": [
+   "When the user asks how many people a new role needs",
+   "When work piles up at certain hours and the user wants to know why",
+   "A staffing proposal that moves people to busy times"
+  ],
+  "motif": "Built on the hours of a day: use it whenever the answer depends on what happens hour by hour or by shift."
+ },
+ "was-now": {
+  "category": "measures",
+  "also": "logical",
+  "name": "Guess replaced by real",
+  "shows": "What was assumed, what the real figure turned out to be, and what that changes further on, figure by figure.",
+  "key_uses": [
+   "Replacing estimates with the user's real numbers",
+   "Showing how much each figure moved and in which direction",
+   "Saying plainly what the change means for the conclusion",
+   "Confirming that a recommendation still holds after correction"
+  ],
+  "logic": [
+   "before against after for each figure",
+   "how a corrected input changes the result"
+  ],
+  "best_for": [
+   "When the user sends real data after earlier guesses",
+   "When the user corrects a number Tojo used",
+   "A turn that must show the recommendation still stands"
+  ],
+  "motif": null
+ },
+ "scorecard": {
+  "category": "measures",
+  "also": null,
+  "name": "Tracking scorecard",
+  "shows": "The few measures to track, each with its starting number, goal and whether it is confirmed, unmeasured or new.",
+  "key_uses": [
+   "Setting the measures and goals for a change",
+   "Showing how success will be judged",
+   "Marking measures that have no starting number yet",
+   "Flagging goals that are proposals until a trial reports"
+  ],
+  "logic": [
+   "now against goal",
+   "separating known starting points from new measures"
+  ],
+  "best_for": [
+   "When the user asks how they will know it worked",
+   "The closing part of a plan, before a trial begins",
+   "When the user wants targets agreed for a team"
+  ],
+  "motif": null
+ },
+ "narrow-claim": {
+  "category": "logical",
+  "also": null,
+  "name": "Answering pushback",
+  "shows": "A challenge answered in order: what the user said, the fair part, what changes, what stays, and the ask with its condition.",
+  "key_uses": [
+   "Answering a challenge to an earlier claim",
+   "Accepting a factual correction and narrowing the claim",
+   "Separating what changes from what stays the same",
+   "Stating the small ask on the most resistant group"
+  ],
+  "logic": [
+   "claim against objection",
+   "narrowing a claim to the part that holds",
+   "what changes against what stays"
+  ],
+  "best_for": [
+   "When the user says the proposal will not work for them",
+   "When the user corrects a wrong assumption about how they work",
+   "When a group fears the change will cost them time"
+  ],
+  "motif": null
+ },
+ "converge": {
+  "category": "process",
+  "also": null,
+  "name": "Many sources, one result",
+  "shows": "Several sources feeding into one result, joined on one line with a single arrow out.",
+  "key_uses": [
+   "Showing where a document or number draws its parts from",
+   "Showing that a result is built from records that already exist",
+   "Tracing each line of an output back to its source",
+   "Showing what must arrive before something can be ready"
+  ],
+  "logic": [
+   "many inputs combining into one output",
+   "tracing a result back to its sources"
+  ],
+  "best_for": [
+   "When the user asks where a figure or document comes from",
+   "When the user doubts that something can be prepared automatically",
+   "When one output waits on several teams' inputs"
+  ],
+  "motif": null
+ },
+ "bands": {
+  "category": "process",
+  "also": "logical",
+  "name": "In, engine, out",
+  "shows": "What goes in, the one thing doing the work, and what comes out, to show something complex is really simple.",
+  "key_uses": [
+   "Explaining how a many-step thing is really one core piece",
+   "Showing inputs and outputs around a single record or system",
+   "Answering the worry that a fix means many new systems",
+   "Showing how one source can feed several outputs"
+  ],
+  "logic": [
+   "reducing many parts to one cause or core",
+   "inputs through one core to several outputs"
+  ],
+  "best_for": [
+   "When the user thinks a fix sounds too complicated",
+   "When the answer is that it is not many things but one",
+   "An automation turn that explains how something gets built or run"
+  ],
+  "motif": null
+ },
+ "shared-flow": {
+  "category": "process",
+  "also": "logical",
+  "name": "Mostly-shared flows",
+  "shows": "Two processes that are mostly the same, with shared steps drawn once and the steps only one has drawn as a side path.",
+  "key_uses": [
+   "Showing that two flows are really one with a single difference",
+   "Comparing values for two groups on the same shared step",
+   "Arguing that fixing shared steps helps both groups",
+   "Showing where one group goes round a step the other must take"
+  ],
+  "logic": [
+   "finding what two processes have in common",
+   "isolating the one step that differs"
+  ],
+  "best_for": [
+   "When the user thinks two groups need two separate fixes",
+   "When two patient or case types follow nearly the same path",
+   "A diagnosis that points to one extra step as the difference"
+  ],
+  "motif": null
+ },
+ "zoom-trail": {
+  "category": "universal",
+  "also": null,
+  "name": "Drill-down trail",
+  "shows": "Where the current answer sits in a drill-down, from the first picture to the level now being shown.",
+  "key_uses": [
+   "Orienting the user in a tell-me-more answer",
+   "Showing each level of detail reached so far",
+   "Linking a deep answer back to the first overview",
+   "Helping the user step back up a level"
+  ],
+  "logic": [
+   "zooming from a whole to one of its parts",
+   "keeping the thread across several turns"
+  ],
+  "best_for": [
+   "When the user asks to go one level deeper",
+   "A follow-up that explains one piece of an earlier answer",
+   "When a conversation has drilled down several levels"
+  ],
+  "motif": null
+ },
+ "phases": {
+  "category": "time",
+  "also": "process",
+  "name": "Week-by-week plan",
+  "shows": "A plan across weeks, each phase a bar on the same week scale, with the key decision points marked.",
+  "key_uses": [
+   "Laying out next steps and a trial over several weeks",
+   "Showing which phases overlap and which wait",
+   "Marking the week a go or stop decision is made",
+   "Showing what must start before a trial begins"
+  ],
+  "logic": [
+   "phases in order over time",
+   "a decision point that gates what follows"
+  ],
+  "best_for": [
+   "When the user asks what happens next and when",
+   "A closing turn that proposes a trial and rollout",
+   "When later steps depend on what an early trial shows"
+  ],
+  "motif": "Built on a week-by-week timeline: use it whenever the answer turns on when phases start, end or overlap."
+ },
+ "update-stamp": {
+  "category": "universal",
+  "also": null,
+  "name": "Freshness stamp with refresh",
+  "shows": "When a summary was last brought up to date, what has happened since that is not in it, and a refresh button.",
+  "key_uses": [
+   "Top of any landing page that sums up a changing state",
+   "A weekly review that may already be out of date",
+   "A trial check-in where new results keep arriving",
+   "Any summary built from earlier conversations"
+  ],
+  "logic": [
+   "how current a summary is",
+   "what is known against what is still to be added"
+  ],
+  "best_for": [
+   "When the user returns and needs to know if the picture is current",
+   "A summary page that should invite the user to bring it up to date",
+   "When new conversations have happened since the last summary"
+  ],
+  "motif": null
+ },
+ "three-buttons": {
+  "category": "universal",
+  "also": null,
+  "name": "Three next moves",
+  "shows": "The three ways to go on, always in the same order: proceed, add more, or jump elsewhere.",
+  "key_uses": [
+   "The end of any overview or summary turn",
+   "Closing a landing page with clear next steps",
+   "After findings, to offer the next step or a side door",
+   "Letting the user add something before moving on"
+  ],
+  "logic": [
+   "one recommended next step against two other routes",
+   "moving forward, adding, or switching focus"
+  ],
+  "best_for": [
+   "When the response ends and the user must choose how to go on",
+   "A summary turn that should point to one clear next step",
+   "When another part of the work is ready and worth a jump"
+  ],
+  "motif": null
+ },
+ "tojo-to-do": {
+  "category": "universal",
+  "also": "people",
+  "name": "Open items still to do",
+  "shows": "A list of open items Tojo still has to work on, with the ones waiting on the user marked and explained.",
+  "key_uses": [
+   "The end of a findings, progress or plan turn with loose ends",
+   "Showing what Tojo needs from the user next",
+   "A landing page summary of unfinished work",
+   "Separating work Tojo can do alone from work needing an answer"
+  ],
+  "logic": [
+   "what is done against what is still open",
+   "who must act next: Tojo or the user"
+  ],
+  "best_for": [
+   "When a response ends with open points to close",
+   "When Tojo needs a number, a name or an answer from the user",
+   "A progress turn that should show how much work remains"
+  ],
+  "motif": null
+ },
+ "dx-route-walked": {
+  "category": "process",
+  "also": null,
+  "name": "Stop-by-stop route",
+  "shows": "A lettered route of stops through a process, each marked walked, being walked now, or still to walk, with a count.",
+  "key_uses": [
+   "Walking through any chain of steps one stop at a time",
+   "A progress turn showing how far a walk-through has got",
+   "Mapping the stops a patient, item, order or report passes through",
+   "Showing which stops are left to check"
+  ],
+  "logic": [
+   "steps in order along a route",
+   "progress through a chain, stop by stop",
+   "where the checking has reached so far"
+  ],
+  "best_for": [
+   "When the user asks where in a process time or money is lost",
+   "A walk-through that checks each hand-off in turn",
+   "When the user wants to know how many steps are still to look at"
+  ],
+  "motif": "Draws a hospital route of stops: use it whenever the answer follows a path through departments or desks."
+ },
+ "dx-source-figures": {
+  "category": "measures",
+  "also": null,
+  "name": "Figures with source tags",
+  "shows": "Four key figures in boxes, each tagged with where it came from: the user's number or worked out from it.",
+  "key_uses": [
+   "A findings turn that backs its claim with numbers",
+   "A compact strip of figures on a landing page",
+   "Showing which numbers are still needed from the user",
+   "Separating the user's own figures from worked-out ones"
+  ],
+  "logic": [
+   "claims backed by evidence",
+   "how far each number can be trusted, by its source"
+  ],
+  "best_for": [
+   "When the user gives figures and wants them played back",
+   "A response that must show where each number came from",
+   "When some key numbers are still missing and need asking for"
+  ],
+  "motif": null
+ },
+ "dx-pulse-line": {
+  "category": "process",
+  "also": "measures",
+  "name": "Pulse line of stages",
+  "shows": "Progress through a staged sequence as a pulse line: each beat is a stage done, flat dashed lines are stages to come.",
+  "key_uses": [
+   "Showing progress through any staged investigation",
+   "Following a trial week by week",
+   "Summing up the arc of a long conversation",
+   "Giving each finished stage its one-line result"
+  ],
+  "logic": [
+   "progress through stages in order",
+   "what each finished stage found"
+  ],
+  "best_for": [
+   "When the user asks how far the work has got",
+   "A progress turn that should feel calm and clinical",
+   "When each stage has a short result worth showing in one line"
+  ],
+  "motif": null
+ },
+ "dx-told-happening-why": {
+  "category": "logical",
+  "also": null,
+  "name": "Told, happening, why ladder",
+  "shows": "A three-step ladder from what the user said, to what is really happening, to the cause behind it.",
+  "key_uses": [
+   "A diagnosis turn that names the real cause",
+   "Correcting a belief while granting what was right in it",
+   "Turning a complaint into a found cause",
+   "Summing up findings in three plain lines"
+  ],
+  "logic": [
+   "what people say against what is happening",
+   "narrowing down to a cause",
+   "cause and effect in three steps"
+  ],
+  "best_for": [
+   "When what the user believes differs from what the facts show",
+   "When the user pushes back and part of their point holds",
+   "A findings turn that must end in one plain cause"
+  ],
+  "motif": null
+ },
+ "dx-readings": {
+  "category": "measures",
+  "also": null,
+  "name": "Readings chart",
+  "shows": "A few key figures laid out as readings: a label, a big value and a tag saying where it came from.",
+  "key_uses": [
+   "A turn that plays back the user's numbers",
+   "A short summary of measures with few figures",
+   "Showing which readings are still missing",
+   "Setting the starting numbers before a change"
+  ],
+  "logic": [
+   "now against what was reported",
+   "how big each problem is, in its own unit"
+  ],
+  "best_for": [
+   "When the user shares a handful of numbers and wants them confirmed",
+   "A response that sizes the problem before naming the cause",
+   "When a few readings tell the story better than a chart"
+  ],
+  "motif": null
+ },
+ "dx-lens": {
+  "category": "logical",
+  "also": "measures",
+  "name": "Finding under the glass",
+  "shows": "One headline finding set inside a lens, with the checking stages as its rim and a numbered list of them.",
+  "key_uses": [
+   "A turn that names one main finding",
+   "Showing how far checking a claim has got",
+   "A landing page headline for the current cause",
+   "Holding a finding open until all stages are done"
+  ],
+  "logic": [
+   "narrowing down to one cause",
+   "how much evidence stands behind a claim so far"
+  ],
+  "best_for": [
+   "When the response has one finding that matters most",
+   "When the user asks how sure Tojo is about a cause",
+   "A progress turn that names the claim and the stages left"
+  ],
+  "motif": null
+ },
+ "dx-evidence-pins": {
+  "category": "logical",
+  "also": "measures",
+  "name": "Pinned evidence cards",
+  "shows": "Figures pinned as cards, two across, each with its source, standing as evidence beside a claim.",
+  "key_uses": [
+   "Beside any claim, as the proof for it",
+   "A findings turn with three to six supporting numbers",
+   "Showing which evidence is still missing",
+   "Backing a recommendation with the user's own figures"
+  ],
+  "logic": [
+   "claims and evidence",
+   "which numbers support the conclusion"
+  ],
+  "best_for": [
+   "When a claim needs its supporting numbers in view",
+   "When the user doubts a finding and asks for proof",
+   "A response that pairs one statement with its evidence"
+  ],
+  "motif": null
+ },
+ "so-drawing-sheets": {
+  "category": "selection",
+  "also": "logical",
+  "name": "Option drawing sheets",
+  "shows": "Each option as a drawing sheet with its revision, status, where it came from and what it rests on, settled or open.",
+  "key_uses": [
+   "An overview of all fixes on the table",
+   "A set of automations or roles, each with its open points",
+   "Showing how an option has been redrawn over time",
+   "Counting settled against open points across options"
+  ],
+  "logic": [
+   "what each option rests on, settled or open",
+   "tracing an option back to the cause it answers",
+   "how options change through revisions"
+  ],
+  "best_for": [
+   "When several fixes are being shaped at once",
+   "When the user asks what still has to be settled before agreeing",
+   "A summary that links each fix back to its cause"
+  ],
+  "motif": null
+ },
+ "so-iteration-tracks": {
+  "category": "process",
+  "also": "selection",
+  "name": "Idea-to-agreed tracks",
+  "shows": "Each item on a track through the same stages, from idea to agreed, with its latest change and settled points.",
+  "key_uses": [
+   "Showing where each fix stands from idea to agreed",
+   "Following automations from design to switched on",
+   "Tracking hires from opening to start",
+   "A progress view across many items at once"
+  ],
+  "logic": [
+   "items moving through the same stages",
+   "what changed in the latest revision and why"
+  ],
+  "best_for": [
+   "When the user asks how far each option has got",
+   "When several items move through the same steps at different speeds",
+   "A progress turn that also shows what changed lately"
+  ],
+  "motif": null
+ },
+ "so-revision-log": {
+  "category": "time",
+  "also": null,
+  "name": "Dated change log",
+  "shows": "A dated log of what was changed, with the revision number and the reason for each change.",
+  "key_uses": [
+   "A 'what changed since last time' turn",
+   "Showing why a plan was redrawn",
+   "Keeping a record of decisions on any part of the work",
+   "A returning user catching up on changes"
+  ],
+  "logic": [
+   "cause and effect: new facts leading to changes",
+   "what changed over time and why"
+  ],
+  "best_for": [
+   "When the user asks what has changed since yesterday",
+   "When new numbers have changed an earlier recommendation",
+   "A catch-up turn for a user coming back after a gap"
+  ],
+  "motif": "Built on a dated timeline: use it whenever the answer turns on when things changed."
+ },
+ "so-register": {
+  "category": "selection",
+  "also": null,
+  "name": "Register of options",
+  "shows": "Every option in one numbered list with what it touches, its status and how much is settled.",
+  "key_uses": [
+   "A compact list of everything on the table",
+   "A status check across all fixes",
+   "Listing automations, roles or changes with their state",
+   "Showing which items wait on the user"
+  ],
+  "logic": [
+   "status of each option at a glance",
+   "what each option affects: cost, people, systems, timing"
+  ],
+  "best_for": [
+   "When the user asks for a quick list of all options and where they stand",
+   "When many items need one line each, not a card",
+   "A short summary before going into one option"
+  ],
+  "motif": null
+ },
+ "au-switchboard": {
+  "category": "process",
+  "also": "measures",
+  "name": "Switchboard behind one gate",
+  "shows": "Several items as switches on one wire behind a main switch they all need, with counts by state.",
+  "key_uses": [
+   "Showing many items waiting on one shared need",
+   "Automations held up by one system link",
+   "Changes waiting on one approval or one hire",
+   "Counting items by state: idea, designed, testing, on"
+  ],
+  "logic": [
+   "many effects held by one cause",
+   "what must happen first before anything else can run"
+  ],
+  "best_for": [
+   "When everything is waiting on one thing",
+   "When the user asks why nothing has started yet",
+   "A summary that counts items by how ready they are"
+  ],
+  "motif": null
+ },
+ "au-overnight-arc": {
+  "category": "time",
+  "also": "process",
+  "name": "Evening-to-afternoon arc",
+  "shows": "Items placed at the hour they run on an arc from evening to next afternoon, with the gate they wait on.",
+  "key_uses": [
+   "Any schedule that runs across a night",
+   "Showing work moved out of the busy morning",
+   "Placing automatic steps at the hour they fire",
+   "Showing what has to be ready before the morning round"
+  ],
+  "logic": [
+   "when things happen across a day and night",
+   "moving work to unused hours"
+  ],
+  "best_for": [
+   "When the answer turns on using the overnight hours",
+   "When the user asks when each step would run",
+   "A plan that shifts work from one time of day to another"
+  ],
+  "motif": "Draws a clock arc from evening to afternoon: use it whenever the answer turns on hours of the day or night."
+ },
+ "au-readiness-ladder": {
+  "category": "measures",
+  "also": "process",
+  "name": "Readiness ladder",
+  "shows": "A ladder of stages showing how many items reached each one, and what is holding them back.",
+  "key_uses": [
+   "A progress summary for any set of items through stages",
+   "Showing where a group of items has stalled",
+   "Naming the one thing that holds everything at a stage",
+   "Comparing reach at each stage at a glance"
+  ],
+  "logic": [
+   "counts at each stage of a sequence",
+   "where progress stops and why"
+  ],
+  "best_for": [
+   "When the user asks how far a set of items has got",
+   "When everything is stuck at the same stage",
+   "A short progress check before naming the hold-up"
+  ],
+  "motif": null
+ },
+ "au-signal-bars": {
+  "category": "measures",
+  "also": null,
+  "name": "Signal bars list",
+  "shows": "A readiness list where each item has signal bars filled to its stage, when it runs and its status.",
+  "key_uses": [
+   "A readiness list of automations or changes",
+   "Trial units getting ready to start",
+   "Roles being filled, each at its own stage",
+   "Showing timing and readiness side by side"
+  ],
+  "logic": [
+   "how ready each item is",
+   "when each item runs against how far it has got"
+  ],
+  "best_for": [
+   "When the user asks which items are nearly ready",
+   "A compact list where each line needs a readiness level",
+   "When timing and readiness both matter for each item"
+  ],
+  "motif": null
+ },
+ "pr-ward-board": {
+  "category": "process",
+  "also": "people",
+  "name": "Three-column change board",
+  "shows": "Changes, measures and roles as strips in three columns, with a trial strip across the foot.",
+  "key_uses": [
+   "Any three-part summary of how the work changes",
+   "A plan page showing changes, measures and people together",
+   "Showing what has been agreed, tried and is new",
+   "Setting up a small trial before spreading a change"
+  ],
+  "logic": [
+   "what changes, how we know, and who does it",
+   "plan against trial progress"
+  ],
+  "best_for": [
+   "When the user asks what will actually change on the ground",
+   "A plan turn that must cover steps, numbers and people at once",
+   "When a trial is about to start and needs the full picture"
+  ],
+  "motif": "Drawn as a ward board with week strips: use it when wards, units or a weekly trial are mentioned."
+ },
+ "pr-readouts": {
+  "category": "measures",
+  "also": null,
+  "name": "Measure readout windows",
+  "shows": "Each measure as an instrument window with its starting number, or a dashed window if it starts in the trial.",
+  "key_uses": [
+   "A scorecard summary of the measures to watch",
+   "The measures part of a trial check-in",
+   "Separating measures with a starting number from new ones",
+   "Agreeing what to record before a change"
+  ],
+  "logic": [
+   "now against goal",
+   "what is known now against what the trial will show"
+  ],
+  "best_for": [
+   "When the user asks how success will be measured",
+   "A trial check-in that compares readings with the start",
+   "When some measures exist and others must be started"
+  ],
+  "motif": null
+ },
+ "pr-lane-and-seats": {
+  "category": "people",
+  "also": "process",
+  "name": "Change lane and seats",
+  "shows": "Process changes along one lane beside roles drawn as seats, filled or empty, with their cost.",
+  "key_uses": [
+   "A team and role turn",
+   "A staffing plan beside the changes it serves",
+   "Showing who must be hired and who approves",
+   "Linking each new role to the change it supports"
+  ],
+  "logic": [
+   "who owns which change",
+   "people needed against the work to be done"
+  ],
+  "best_for": [
+   "When the user asks who will do the new work",
+   "When a fix needs new roles and their cost",
+   "A plan that must show both changes and staffing"
+  ],
+  "motif": "Draws roles as seats: use it whenever roles, hiring or who sits where is discussed."
+ },
+ "pr-loop": {
+  "category": "process",
+  "also": "time",
+  "name": "Improvement loop",
+  "shows": "The plan, try, measure, adjust, spread loop with the current step marked.",
+  "key_uses": [
+   "Showing where a trial sits right now",
+   "Explaining what happens after a trial",
+   "Framing any change as tried small first",
+   "A landing page marker for the stage of the work"
+  ],
+  "logic": [
+   "a repeating loop of trying and learning",
+   "where we are and what comes next"
+  ],
+  "best_for": [
+   "When the user asks what happens after the trial",
+   "When a change should be tried small before going wide",
+   "A short answer that places the work on a known cycle"
+  ],
+  "motif": null
+ },
+ "pr-loop-cards": {
+  "category": "process",
+  "also": "people",
+  "name": "Cards on the loop",
+  "shows": "One card per area of change, each pinned to the step of the improvement loop where it matters.",
+  "key_uses": [
+   "Beside the loop, to show what each step involves",
+   "A plan grouped by stage",
+   "Linking roles, changes and measures to plan, try and measure",
+   "Showing what must be ready before each step"
+  ],
+  "logic": [
+   "which work belongs to which step",
+   "plan, try and measure as a sequence"
+  ],
+  "best_for": [
+   "When the user asks what is needed at each step of a trial",
+   "A plan turn that groups the work by stage",
+   "When roles, changes and measures must be shown in order"
+  ],
+  "motif": null
+ },
+ "dp-dg-01": {
+  "category": "process",
+  "also": "logical",
+  "name": "Floor plan of stops",
+  "shows": "A long chain of stops, each run by a different team, laid out as rooms on one winding path.",
+  "key_uses": [
+   "Setting out the agenda of questions, one team or stop at a time",
+   "Walking a long chain of hand-offs in order",
+   "Showing what people usually say at each stop",
+   "Collecting the user's answer for each stop in place"
+  ],
+  "logic": [
+   "a chain of hand-offs between teams",
+   "what people say against what is really happening",
+   "narrowing down to a cause one stop at a time"
+  ],
+  "best_for": [
+   "A first diagnosis answer that maps the questions to come",
+   "When the user blames one team but many teams touch the work",
+   "When a process has six or more stops to walk through"
+  ],
+  "motif": "Draws a floor plan with rooms on a path: use it whenever the answer walks a hospital route stop by stop."
+ },
+ "dp-dg-02": {
+  "category": "financial",
+  "also": "measures",
+  "name": "Bill of missing figures",
+  "shows": "The few figures needed to price a problem, as lines on a bill the user types into, beside what is already known.",
+  "key_uses": [
+   "Asking the user for the numbers needed to work out a yearly cost",
+   "Showing back the figures the user has already given",
+   "Explaining why each figure is needed before the user types it",
+   "Holding a cost total that fills in once figures arrive"
+  ],
+  "logic": [
+   "inputs that add up to a cost",
+   "known facts against what is still missing"
+  ],
+  "best_for": [
+   "When the user has shared some numbers and a cost needs a few more",
+   "A turn that asks for figures without guessing any",
+   "Before putting a price on a delay, loss or waste"
+  ],
+  "motif": "Draws a bill or receipt: use it whenever the answer is about putting a money value on something."
+ },
+ "dp-dg-03": {
+  "category": "time",
+  "also": "people",
+  "name": "Day line of unused hours",
+  "shows": "One case's night and day on a single time line, marking the moments that matter and the long gap where nothing happens.",
+  "key_uses": [
+   "Showing hours lost between a decision and the work starting",
+   "Placing the user's own clock times on one line",
+   "Pointing out a step that nobody owns",
+   "Leading into the cost of the unused hours"
+  ],
+  "logic": [
+   "cause and effect along a time line",
+   "a decision made but not acted on",
+   "a gap with no owner"
+  ],
+  "best_for": [
+   "When the user gives clock times and asks where the hours go",
+   "A diagnosis answer that names the real cause after the questions",
+   "When work could start earlier than it does"
+  ],
+  "motif": "Built on a 24-hour timeline: use it whenever the answer turns on when things happen across a day and night."
+ },
+ "dp-diagnosis-block-ward-map": {
+  "category": "process",
+  "also": null,
+  "name": "Rooms on one path",
+  "shows": "A long chain of stops drawn as rooms on a winding floor plan, each opening the question asked there.",
+  "key_uses": [
+   "Setting out the agenda for a set of questions, one team per stop",
+   "Walking a long chain one stop at a time",
+   "Showing what is usually heard at each stop"
+  ],
+  "logic": [
+   "steps in order along a chain",
+   "what people say against what is asked at each step"
+  ],
+  "best_for": [
+   "When a chain has six or more stops, each with its own team",
+   "A first answer that lays out where questions will go",
+   "Not for short chains under six stops; use a simpler route instead"
+  ],
+  "motif": "Draws a floor plan of rooms: use it whenever the answer follows a route through hospital areas or teams."
+ },
+ "dp-so-01": {
+  "category": "selection",
+  "also": "universal",
+  "name": "Doors off one corridor",
+  "shows": "The parts of a fix as doors along one corridor, each labelled with the question its part answers.",
+  "key_uses": [
+   "Introducing the parts of a solution before going into any one",
+   "Letting the user pick which part to open first",
+   "Linking each part back to the cause it answers",
+   "Showing what others have saved, marked as not yet measured here"
+  ],
+  "logic": [
+   "a whole fix broken into parts",
+   "each part matched to a cause"
+  ],
+  "best_for": [
+   "When the user agrees with the diagnosis and asks how to fix it",
+   "A first solutions answer that sets out what is to come",
+   "When the user should choose where to start"
+  ],
+  "motif": "Draws a corridor with doors: use it whenever options or parts are opened one at a time."
+ },
+ "dp-so-02": {
+  "category": "logical",
+  "also": "process",
+  "name": "Jigsaw of parts",
+  "shows": "The parts of a fix as jigsaw pieces, showing which pieces each one leans on and what must come first.",
+  "key_uses": [
+   "Showing how parts of a fix rely on each other",
+   "Pointing out which part needs nothing before it",
+   "Linking each part to the cause it answers",
+   "Naming what each part needs first"
+  ],
+  "logic": [
+   "parts that rely on each other",
+   "what must come before what"
+  ],
+  "best_for": [
+   "When the user asks to see all parts of a fix together",
+   "When no part works without another",
+   "Deciding which part has to start first"
+  ],
+  "motif": null
+ },
+ "dp-so-03": {
+  "category": "process",
+  "also": "time",
+  "name": "Switches on one wire",
+  "shows": "A chain of automatic steps as switches on one wire, where the end result lights only when every switch is on.",
+  "key_uses": [
+   "Walking through automatic steps in the order they run",
+   "Showing that the result needs every step working",
+   "Comparing each step today with how it would run",
+   "Naming what each step needs from the hospital"
+  ],
+  "logic": [
+   "a chain where every link must hold",
+   "today against after the change, step by step"
+  ],
+  "best_for": [
+   "When the user asks to start with what runs by itself",
+   "When several automatic steps feed one result",
+   "Explaining why one missing step breaks the whole fix"
+  ],
+  "motif": "Steps carry clock times: use it whenever the automatic steps run at set hours."
+ },
+ "dp-so-04": {
+  "category": "selection",
+  "also": "logical",
+  "name": "Maze of ruled-out routes",
+  "shows": "Several ways to reach one goal as routes through a maze: most hit a wall and one gets through.",
+  "key_uses": [
+   "Correcting a plan after the user rules something out",
+   "Showing why other options fail and one works",
+   "Naming what the working route asks of each team"
+  ],
+  "logic": [
+   "ruling out options one by one",
+   "reasons each option fails",
+   "the one way that fits what already exists"
+  ],
+  "best_for": [
+   "When the user says a suggested fix will not work for them",
+   "When several obvious options must be ruled out first",
+   "Showing a fix that needs no new habit"
+  ],
+  "motif": null
+ },
+ "dp-so-05": {
+  "category": "process",
+  "also": "time",
+  "name": "Knots between steps",
+  "shows": "The waits between steps of one process as knots, each with its length and the parts of the fix that undo it.",
+  "key_uses": [
+   "Showing where time is lost between steps",
+   "Ranking which part of a fix saves the most time",
+   "Comparing today's finish time with the fix in place",
+   "Asking who waits at each gap"
+  ],
+  "logic": [
+   "waits stacked one after another",
+   "each wait matched to the fix that removes it",
+   "before against after"
+  ],
+  "best_for": [
+   "When the user asks which part saves the most time",
+   "When a delay is made of several smaller waits",
+   "Showing the user's own times as a chain of gaps"
+  ],
+  "motif": "Steps carry clock times: use it whenever the answer turns on how long each wait lasts."
+ },
+ "dp-so-06": {
+  "category": "financial",
+  "also": "measures",
+  "name": "Cost against what is at stake",
+  "shows": "What a problem costs a year set against what the fix costs, with the break-even point in plain words.",
+  "key_uses": [
+   "Answering whether a fix is worth its cost",
+   "Setting yearly loss against a team or tool cost",
+   "Stating how small a gain pays for the fix",
+   "Showing a threshold the user has already passed"
+  ],
+  "logic": [
+   "cost against gain",
+   "the smallest win that pays back"
+  ],
+  "best_for": [
+   "When the user asks if it is worth the money",
+   "When a hire or purchase must be justified",
+   "Before asking about budget"
+  ],
+  "motif": "Shows money figures in rupees: use it whenever costs and savings are weighed against each other."
+ },
+ "dp-so-07": {
+  "category": "process",
+  "also": "selection",
+  "name": "Three-step route to a door",
+  "shows": "A few next steps in order on one path, each with what it needs and what is measured, ending in a choice of doors.",
+  "key_uses": [
+   "Setting out what to do first, second and third",
+   "Starting with a step that needs nothing new",
+   "Naming what each step needs and how it is measured",
+   "Handing over to the next part of the tool"
+  ],
+  "logic": [
+   "steps in order from easiest first",
+   "each step with its need and its measure"
+  ],
+  "best_for": [
+   "When the user asks what to do first",
+   "Closing a solutions turn with clear next steps",
+   "When a small trial should come before bigger changes"
+  ],
+  "motif": null
+ },
+ "dp-automations-block-file": {
+  "category": "process",
+  "also": "logical",
+  "name": "Papers on a desk",
+  "shows": "The documents a case needs as sheets on a desk, switching between when each is done today and with an automation.",
+  "key_uses": [
+   "Showing what an automation produces, paper by paper",
+   "Before and after for a set of documents",
+   "Letting the user open a paper and add their own detail"
+  ],
+  "logic": [
+   "before against after",
+   "a set of outputs made by one change"
+  ],
+  "best_for": [
+   "When the user asks what the automation actually makes",
+   "When several forms or papers hold up the end result",
+   "Not for a single document"
+  ],
+  "motif": "Draws papers and forms: use it whenever the answer is about documents, summaries, bills or forms."
+ },
+ "dp-processes-block-heading": {
+  "category": "universal",
+  "also": null,
+  "name": "Heading with small board",
+  "shows": "The turn's eyebrow, title and short deck, with a small board marking which column this turn covers.",
+  "key_uses": [
+   "Opening every processes turn",
+   "Showing where this turn sits in the larger plan",
+   "Setting the title and one-line summary"
+  ],
+  "logic": [
+   "where this answer sits in a sequence",
+   "one part of a larger plan in focus"
+  ],
+  "best_for": [
+   "The top of any turn",
+   "When the user needs to know which part of the plan they are in",
+   "Never used twice in one turn"
+  ],
+  "motif": null
+ },
+ "dp-processes-block-swap": {
+  "category": "logical",
+  "also": "process",
+  "name": "Magnets moved step by step",
+  "shows": "Each step of a day as a magnet on a board, moved from how it runs today to how it runs with the changes.",
+  "key_uses": [
+   "Showing what changes for people, step by step",
+   "Comparing today with after the change",
+   "Moving one step or all steps at once"
+  ],
+  "logic": [
+   "before against after",
+   "small changes across many steps"
+  ],
+  "best_for": [
+   "When the user asks what changes on the floor",
+   "When most work stays the same but timing or owner moves",
+   "Not for fewer than three steps"
+  ],
+  "motif": null
+ },
+ "dp-processes-block-trial": {
+  "category": "time",
+  "also": "process",
+  "name": "Short trial plan",
+  "shows": "A short trial over days or weeks, with a playable day strip, phases as bands, and the place still to choose.",
+  "key_uses": [
+   "Scoping a short trial in one area",
+   "Showing the phases of a trial over two weeks",
+   "Asking the user which unit runs it"
+  ],
+  "logic": [
+   "phases over time",
+   "test small before spreading"
+  ],
+  "best_for": [
+   "When the user asks how to try a change safely",
+   "When a fix should be proven before it spreads",
+   "Not when there is no trial"
+  ],
+  "motif": "Built on a day strip over weeks: use it whenever the answer is a trial run over days or weeks."
+ },
+ "dp-processes-block-badges": {
+  "category": "people",
+  "also": null,
+  "name": "Name badges on a board",
+  "shows": "The people who must agree as name badges, grouped by role and marked as agreed, still to ask or worried.",
+  "key_uses": [
+   "Showing who has to agree, team by team",
+   "Tracking who is still to be asked",
+   "Flagging who has a worry",
+   "Filtering to the people a trial needs"
+  ],
+  "logic": [
+   "who owns which yes",
+   "support against worry"
+  ],
+  "best_for": [
+   "When the user asks who must approve a change",
+   "When several teams must agree before starting",
+   "Not when only one person approves"
+  ],
+  "motif": "Draws people as name badges: use it whenever roles, teams or sign-offs are mentioned."
+ },
+ "dp-processes-block-seats": {
+  "category": "people",
+  "also": "measures",
+  "name": "Chairs for new roles",
+  "shows": "Roles as chairs with the triggers that call for them, plus a day strip and slider to size how many are needed.",
+  "key_uses": [
+   "Deciding whether to hire, and how many",
+   "Showing what triggers each new role",
+   "Sizing a team against busy hours",
+   "Switching between sizing rules"
+  ],
+  "logic": [
+   "need sized from numbers",
+   "a threshold that calls for a role"
+  ],
+  "best_for": [
+   "When the user asks if they need new staff",
+   "When a team size must rest on the hospital's own numbers",
+   "Not when no new roles are proposed"
+  ],
+  "motif": "Draws seats and a day strip: use it whenever people, roles or busy hours of the day are discussed."
+ },
+ "dp-processes-block-readouts": {
+  "category": "measures",
+  "also": null,
+  "name": "Instrument windows",
+  "shows": "The measures to watch as instrument windows, with a starting number where known and dashed where none exists.",
+  "key_uses": [
+   "Listing the measures to watch during a change",
+   "Showing which numbers have a starting point and which do not",
+   "Grouping measures by when they are read",
+   "Flipping to the numbers after a trial"
+  ],
+  "logic": [
+   "now against target",
+   "known against not yet measured"
+  ],
+  "best_for": [
+   "When the user asks how they will know it worked",
+   "Setting up what to track before a trial",
+   "Not for fewer than three measures"
+  ],
+  "motif": null
+ },
+ "dp-processes-block-loop": {
+  "category": "process",
+  "also": null,
+  "name": "Try and check wheel",
+  "shows": "Plan, try, measure, adjust and spread as a wheel, with a yes-or-no check that sends you on or back.",
+  "key_uses": [
+   "Showing what happens after a trial",
+   "Deciding whether to spread a change or adjust it",
+   "Explaining that improvement repeats in a loop"
+  ],
+  "logic": [
+   "a repeating loop",
+   "a yes-or-no check that decides the next step"
+  ],
+  "best_for": [
+   "When the user asks what comes after the trial",
+   "When results decide whether to spread or try again",
+   "Not for a one-off step"
+  ],
+  "motif": null
+ },
+ "dp-processes-block-timesheet": {
+  "category": "time",
+  "also": "measures",
+  "name": "One-day timesheet",
+  "shows": "One normal day's times on a single line, blank for the user to type in or filled with times and gaps.",
+  "key_uses": [
+   "Asking the user for real clock times at each step",
+   "Showing their times back with the gaps between",
+   "Spotting the longest gap in a normal day"
+  ],
+  "logic": [
+   "steps placed by clock time",
+   "gaps between steps"
+  ],
+  "best_for": [
+   "When real times are needed before going further",
+   "Showing back times the user has typed",
+   "Not when the answer involves no times"
+  ],
+  "motif": "Built on a timeline of one day: use it whenever the answer turns on when each step happens."
+ },
+ "dp-processes-block-night-lanes": {
+  "category": "time",
+  "also": "logical",
+  "name": "Jobs on one clock",
+  "shows": "Each job as a lane on one clock running overnight, showing when it happens today and with the changes.",
+  "key_uses": [
+   "Showing work moved to the evening or night before",
+   "Comparing today's timing with the new timing, job by job",
+   "Showing which jobs can overlap overnight"
+  ],
+  "logic": [
+   "before against after in time",
+   "work moved earlier to save hours"
+  ],
+  "best_for": [
+   "When the fix is to start the same work the night before",
+   "When the user asks what runs overnight",
+   "Not for work that happens in daytime only"
+  ],
+  "motif": "Built on an overnight clock: use it whenever the answer moves work into the evening or night."
+ },
+ "dp-au-01": {
+  "category": "process",
+  "also": "time",
+  "name": "Item-by-item file, now and after",
+  "shows": "A set of papers or outputs, each shown with when it is ready today and when it would be ready after a change.",
+  "key_uses": [
+   "Show each output an automation would prepare, one card at a time",
+   "Compare today's ready time with the ready time after a change",
+   "Mark which items still need a person to check and say yes",
+   "Ask the user who handles each item today"
+  ],
+  "logic": [
+   "before against after, item by item",
+   "one shared wait holding up many items",
+   "where a person still signs off inside an automatic flow"
+  ],
+  "best_for": [
+   "When the user asks to start with the automatic paperwork or outputs",
+   "A first answer on an automation that prepares several documents",
+   "When every item today waits for one sign-off or event"
+  ],
+  "motif": "Shows clock times per item: use it whenever the answer turns on when each item is ready."
+ },
+ "dp-au-02": {
+  "category": "time",
+  "also": "process",
+  "name": "One night, station by station",
+  "shows": "A sequence of automatic steps laid on a clock from evening to the next day, with marks where a person says yes.",
+  "key_uses": [
+   "Walk through what an automation does hour by hour overnight",
+   "Play the sequence to show when each step runs",
+   "Show what each step reads and what it makes",
+   "Mark the points where a person must approve",
+   "Ask who is on duty at each station"
+  ],
+  "logic": [
+   "steps in order along a clock",
+   "inputs and outputs at each step",
+   "work moved into quiet hours so nothing waits"
+  ],
+  "best_for": [
+   "When the user asks to be walked through a daily automation",
+   "When work can run overnight instead of the next morning",
+   "When the answer must show exactly when each step happens"
+  ],
+  "motif": "Built on a clock from evening to the next day: use it whenever overnight or out-of-hours work is the point."
+ },
+ "dp-au-03": {
+  "category": "time",
+  "also": "process",
+  "name": "Record built day by day",
+  "shows": "One case followed day by day, with each day adding facts to a running record that fills in by the end.",
+  "key_uses": [
+   "Show a document or record built a little each day instead of at the end",
+   "Play a case day by day and watch sections fill",
+   "Show where each kind of fact comes from",
+   "Ask where facts are recorded at each stage"
+  ],
+  "logic": [
+   "build-up over time instead of one big job at the end",
+   "sources feeding one output",
+   "how early facts reduce late work"
+  ],
+  "best_for": [
+   "When the user asks how an output is drafted all through a stay or case",
+   "When the answer is that the work can be spread across days",
+   "When it helps to follow one example case from start to end"
+  ],
+  "motif": "Built on a day-by-day timeline: use it whenever the answer turns on what is known on each day."
+ },
+ "dp-au-04": {
+  "category": "process",
+  "also": "people",
+  "name": "Short loop, one yes each",
+  "shows": "A few steps of an automatic loop, each with what it checks first and where a person must say yes.",
+  "key_uses": [
+   "Explain the first steps an automatic helper takes after a trigger",
+   "Show the checks done before each step runs",
+   "Make clear where a person approves and what the helper never does",
+   "Ask what would stop the step from going ahead"
+  ],
+  "logic": [
+   "trigger, gather, check, draft, then ask a person",
+   "conditions that must be true before acting",
+   "human sign-off inside an automatic loop"
+  ],
+  "best_for": [
+   "When the user asks what an automation actually does, step by step",
+   "When the user worries the system will act without people",
+   "When the answer must name the checks before each action"
+  ],
+  "motif": null
+ },
+ "dp-au-05": {
+  "category": "selection",
+  "also": "process",
+  "name": "Switchboard of sources",
+  "shows": "The places data is kept, shown as switches, and which automations light up as each source is linked.",
+  "key_uses": [
+   "Show which data sources each automation needs",
+   "Let the user flip sources on to see what starts working",
+   "Show what can work with no IT effort and what waits on IT",
+   "Ask which systems hold which facts"
+  ],
+  "logic": [
+   "what depends on what being linked",
+   "partial setups and what each one unlocks",
+   "starting small before linking systems"
+  ],
+  "best_for": [
+   "When the user asks where the facts would come from",
+   "When the user wants to know what works before IT is involved",
+   "When choosing which source to link first"
+  ],
+  "motif": null
+ },
+ "dp-au-06": {
+  "category": "people",
+  "also": "process",
+  "name": "Numbered asks for another team",
+  "shows": "A short list of numbered requests for one team, each with why it is needed and who does it.",
+  "key_uses": [
+   "List exactly what one team, for example IT, is asked to do",
+   "Show why each request is needed and that it changes nothing",
+   "Name who does each request and whether it is one-off",
+   "Ask a question before the list to tailor it"
+  ],
+  "logic": [
+   "each request tied to its reason",
+   "low-risk asks: read-only or one-off",
+   "who acts for each item"
+  ],
+  "best_for": [
+   "When the user asks what another team needs to do",
+   "When a team fears changes to its systems",
+   "When the answer is a short, ready-to-send list of requests"
+  ],
+  "motif": null
+ },
+ "dp-au-07": {
+  "category": "process",
+  "also": "selection",
+  "name": "Switch-on order panel",
+  "shows": "The order in which parts are set up, and which outcomes switch on at each stage.",
+  "key_uses": [
+   "Show the order to set things up, based on the user's answer",
+   "Step through stages and see which outcomes light",
+   "Show what works from day one and what waits for later links",
+   "Ask follow-up questions on each outcome"
+  ],
+  "logic": [
+   "sequence of setup steps",
+   "what each outcome needs before it works",
+   "quick wins first, harder links later"
+  ],
+  "best_for": [
+   "When the user has answered which systems they have and needs the order",
+   "When the answer is a staged plan for switching things on",
+   "When some results are possible from day one"
+  ],
+  "motif": null
+ },
+ "dp-au-08": {
+  "category": "process",
+  "also": "measures",
+  "name": "Two-side hand-over relay",
+  "shows": "The hand-over between two sides of a process, step by step, today and once both sides are linked, with the gap timed.",
+  "key_uses": [
+   "Show the hand-over from one team's finish to another team's start",
+   "Compare today's gap with the gap once both sides are linked",
+   "Show who hears what at each step",
+   "Set the user's current wait against a goal"
+  ],
+  "logic": [
+   "hand-offs between teams",
+   "before against after",
+   "where time is lost between two sides",
+   "now against goal"
+  ],
+  "best_for": [
+   "When the user asks what happens after their part of the process ends",
+   "When time is lost between one team finishing and the next starting",
+   "When two departments need to be linked"
+  ],
+  "motif": "Shows times and an empty-bed wait: use it whenever a bed, room or slot waits between users."
+ },
+ "dp-pr-01": {
+  "category": "time",
+  "also": "process",
+  "name": "Team jobs on one clock",
+  "shows": "Each team's job laid out as a lane on one clock, today and after the changes, with the biggest hold-up marked.",
+  "key_uses": [
+   "Show which jobs move earlier, for example to the evening before",
+   "Compare today's timing with timing after the changes",
+   "Mark the biggest hold-up among the jobs",
+   "Ask who does each job today"
+  ],
+  "logic": [
+   "before against after on one clock",
+   "everything waiting on one event",
+   "moving work into unused hours"
+  ],
+  "best_for": [
+   "When the user asks to see the changes for staff",
+   "When the answer is the same steps started earlier",
+   "When several teams' jobs must be compared on one time line"
+  ],
+  "motif": "Built on a clock from evening to the next afternoon: use it whenever the answer turns on when jobs happen."
+ },
+ "dp-pr-02": {
+  "category": "people",
+  "also": "logical",
+  "name": "Teams who must agree",
+  "shows": "The teams touched by a change, as rooms, each with what it is asked to do and what it gives up or saves.",
+  "key_uses": [
+   "Show every team a change touches and what each is asked",
+   "Mark which team has the most to give up",
+   "Name the one approver over all teams",
+   "Ask which people to approach first"
+  ],
+  "logic": [
+   "who gains and who loses",
+   "why each group can or cannot agree",
+   "one approver over several teams"
+  ],
+  "best_for": [
+   "When the user asks who must agree to a change",
+   "When winning people over matters as much as the fix",
+   "When one group may resist because it loses work"
+  ],
+  "motif": null
+ },
+ "dp-pr-03": {
+  "category": "people",
+  "also": "financial",
+  "name": "Roles and team size",
+  "shows": "New roles with their cost and reason, plus two ways to size the helper team: a usual rule and the user's busy hours.",
+  "key_uses": [
+   "Show who owns a process and who helps",
+   "Give the yearly cost of each new role",
+   "Size the team with a slider, by a flat rule or by busy hours",
+   "Ask whether current staff could fill a role"
+  ],
+  "logic": [
+   "one owner instead of shared blame",
+   "sizing by a rule against sizing by real busy hours",
+   "cost of each role"
+  ],
+  "best_for": [
+   "When the user asks who is in charge",
+   "When the answer adds new roles with costs",
+   "When the number of staff depends on when the work peaks"
+  ],
+  "motif": "Shows salaries in money: use it whenever role costs are part of the answer."
+ },
+ "dp-pr-04": {
+  "category": "measures",
+  "also": null,
+  "name": "Dials for the measures",
+  "shows": "A set of dials for the measures that will show success, with new, unmeasured ones drawn dashed.",
+  "key_uses": [
+   "Show the numbers that will prove a change worked",
+   "Separate early warnings from end results",
+   "Mark which measures have a starting number and which are new",
+   "Ask who could record each number"
+  ],
+  "logic": [
+   "now against goal",
+   "early warning against final result",
+   "honest gaps: no number made up"
+  ],
+  "best_for": [
+   "When the user asks how they will know it worked",
+   "When some measures are not recorded today",
+   "A closing answer that sets what to watch during a trial"
+  ],
+  "motif": null
+ },
+ "dp-pr-05": {
+  "category": "process",
+  "also": "time",
+  "name": "Switches in series",
+  "shows": "A plan as switches in a circuit, in order, where the result lights only when every step is on.",
+  "key_uses": [
+   "Turn a set of changes into an ordered plan",
+   "Show that the result needs every step, not just some",
+   "Give the week, needs and cost of each step",
+   "Ask which place to start with"
+  ],
+  "logic": [
+   "every step needed for the result",
+   "small trial first, then spread",
+   "steps in order by week"
+  ],
+  "best_for": [
+   "When the user says yes and asks for a plan",
+   "When the plan must start with a low-cost trial",
+   "When skipping one step would stop the result"
+  ],
+  "motif": "Steps are set out by week: use it whenever the plan runs over a few weeks."
+ },
+ "dp-pr-06": {
+  "category": "universal",
+  "also": "time",
+  "name": "Fill-in day sheet",
+  "shows": "A blank list of steps in a normal day where the user types a rough time straight into each one.",
+  "key_uses": [
+   "Collect the user's own times for each step",
+   "Gather a starting point before a trial",
+   "Let the user leave blanks where nobody records a time",
+   "Explain what each step means before asking"
+  ],
+  "logic": [
+   "collecting facts before judging",
+   "steps in order through a day",
+   "admitting what is not recorded"
+  ],
+  "best_for": [
+   "When the answer needs the user's own numbers first",
+   "When planning a trial that needs starting times",
+   "When the user may not know all the times"
+  ],
+  "motif": "Built on the hours of one day: use it whenever the user's own times for each step are needed."
+ },
+ "dp-pr-07": {
+  "category": "time",
+  "also": "measures",
+  "name": "Day sheet with the gaps",
+  "shows": "The user's real times for each step in a day, with the time between steps worked out and the largest gaps shown.",
+  "key_uses": [
+   "Play back the user's times and the gap between each step",
+   "Find the largest gap in a day",
+   "Show what the user's numbers change in the plan",
+   "Confirm all numbers come from the user"
+  ],
+  "logic": [
+   "where time is lost between steps",
+   "narrowing down to the largest gap",
+   "the user's own data as evidence"
+  ],
+  "best_for": [
+   "When the user has just given times for each step",
+   "When the answer must point to where hours go",
+   "A follow-up that turns the user's numbers into findings"
+  ],
+  "motif": "Built on the hours of one day: use it whenever the answer turns on the time between steps."
+ },
+ "dp-pr-08": {
+  "category": "time",
+  "also": "process",
+  "name": "Two-week trial in parts",
+  "shows": "A trial of about two weeks split into parts, each with who acts, what is recorded and a day strip to play.",
+  "key_uses": [
+   "Scope a short trial day by day",
+   "Show what changes in each part and what stays the same",
+   "Name who acts and what is recorded in each part",
+   "Ask which place the trial should start in"
+  ],
+  "logic": [
+   "changing one thing at a time",
+   "measuring before changing",
+   "steps in order over days"
+  ],
+  "best_for": [
+   "When the user asks to scope or plan a trial",
+   "When the trial needs no new staff or system",
+   "When the answer must show what happens on which days"
+  ],
+  "motif": "Built on a strip of days: use it whenever a trial or plan runs over days or weeks."
+ },
+ "dp-pr-09": {
+  "category": "people",
+  "also": null,
+  "name": "Name badges and sign-off",
+  "shows": "Each person or group involved as a name badge, grouped by what they do, with where they stand and what they gain.",
+  "key_uses": [
+   "Show everyone who has to agree, and the one approver",
+   "Mark who is still to ask and who has a worry",
+   "Show what each person gains from the change",
+   "Ask what each group would say"
+  ],
+  "logic": [
+   "who signs off and who takes part",
+   "gains for each person",
+   "worries met with a change in the plan"
+  ],
+  "best_for": [
+   "When the user asks who has to agree",
+   "When some people have raised a worry",
+   "When tracking who has been asked and who has not"
+  ],
+  "motif": "Draws people as name badges: use it whenever named roles or people are central."
+ },
+ "dp-pr-10": {
+  "category": "logical",
+  "also": "process",
+  "name": "Magnets moved across",
+  "shows": "Each step of a day as a magnet that moves from how it works today to how it works after the change.",
+  "key_uses": [
+   "Show step by step what changes for staff",
+   "Let the user move one step or all of them across",
+   "Mark the biggest hold-up among the steps",
+   "Ask who does each step today"
+  ],
+  "logic": [
+   "before against after, step by step",
+   "change one piece at a time",
+   "who each change affects"
+  ],
+  "best_for": [
+   "When the user asks what changes, step by step",
+   "When the change is many small moves, not one big one",
+   "When the user wants to see each step before and after"
+  ],
+  "motif": null
+ },
+ "dp-pr-11": {
+  "category": "people",
+  "also": "financial",
+  "name": "Chairs, triggers and team size",
+  "shows": "Roles drawn as chairs with the conditions that call for them, their cost, and a slider to size helpers to busy hours.",
+  "key_uses": [
+   "Answer whether new people need to be hired",
+   "Show the conditions that make a role needed and which are met",
+   "Size a team to the user's busy hours",
+   "Give the yearly cost of each role"
+  ],
+  "logic": [
+   "thresholds that trigger a decision",
+   "sizing to real busy hours",
+   "cost of each role"
+  ],
+  "best_for": [
+   "When the user asks if they need to hire anyone",
+   "When a role is needed only past a certain size",
+   "When staff numbers depend on peak hours"
+  ],
+  "motif": "Draws seats and a 24-hour strip: use it whenever roles, hiring or busy hours are discussed."
+ },
+ "dp-pr-12": {
+  "category": "people",
+  "also": "process",
+  "name": "Two peers under one head",
+  "shows": "Two roles as equal desks under one head, with what passes between them.",
+  "key_uses": [
+   "Show two owners as peers, neither reporting to the other",
+   "Show what one desk must send the other",
+   "Show the conditions that make each role needed",
+   "Ask who both would report to"
+  ],
+  "logic": [
+   "ownership split between two equals",
+   "hand-offs between two desks",
+   "one depends on the other's information"
+  ],
+  "best_for": [
+   "When the user asks who in another department would see this",
+   "When two teams must work as equals",
+   "When one team can only plan from what the other sends"
+  ],
+  "motif": "Draws desks and seats: use it whenever two owners and their link are the point."
+ },
+ "dp-pr-13": {
+  "category": "measures",
+  "also": null,
+  "name": "Board of measure windows",
+  "shows": "Many measures as windows on a board, each with its starting number, when it is read and who records it.",
+  "key_uses": [
+   "List every measure a trial or change will read",
+   "Separate measures with a starting number from new ones",
+   "Show who records each and when it is read",
+   "Filter measures read during and after a trial"
+  ],
+  "logic": [
+   "now against goal",
+   "honest gaps: no number made up",
+   "who records each number"
+  ],
+  "best_for": [
+   "When the user asks which measures show it worked",
+   "When there are many measures to track",
+   "When some measures have no starting number yet"
+  ],
+  "motif": null
+ },
+ "dp-pr-14": {
+  "category": "process",
+  "also": "selection",
+  "name": "Loop with a yes-or-no check",
+  "shows": "A plan, try, measure, adjust and spread loop, where a check after measuring sends you on or back.",
+  "key_uses": [
+   "Show what happens after a trial ends",
+   "Show the check that decides to spread or adjust",
+   "Name who acts at each step of the loop",
+   "Plan spreading one place at a time"
+  ],
+  "logic": [
+   "loops that repeat until it works",
+   "a yes-or-no check that picks the next step",
+   "spread only what worked"
+  ],
+  "best_for": [
+   "When the user asks what happens after a trial",
+   "When the next step depends on the results",
+   "When the plan should spread one place at a time"
+  ],
+  "motif": null
+ },
+ "bm-dg-01-a": {
+  "category": "time",
+  "also": "logical",
+  "name": "One day on one line",
+  "shows": "A whole response that walks one item through one day on a single time line, with the dead stretch shaded.",
+  "key_uses": [
+   "Revealing where in a day value or progress stops",
+   "Showing how long a gap lasts between two events",
+   "Asking the user to add their own times at each moment",
+   "Setting up a money figure for the lost hours"
+  ],
+  "logic": [
+   "cause and effect across the hours of a day",
+   "spotting the gap where nothing useful happens",
+   "one case standing in for the whole"
+  ],
+  "best_for": [
+   "When the user needs to see where in a day the waste sits",
+   "A case reveal that makes a hidden gap visible",
+   "When the next step is asking for the user's own clock times"
+  ],
+  "motif": "Built on a 24-hour timeline and draws a bed: use it when the answer turns on hours in a day, or beds."
+ },
+ "bm-dg-01-b": {
+  "category": "process",
+  "also": "time",
+  "name": "Four stops, last one red",
+  "shows": "A whole response that follows one item through a short chain of stops, marking where it stops paying.",
+  "key_uses": [
+   "Walking through stages to show where value stops",
+   "Showing a short case as boxes joined by arrows",
+   "Inviting the user to add their version of each stop",
+   "Naming the effect at the end of the chain"
+  ],
+  "logic": [
+   "cause and effect along a chain",
+   "finding the stage where things go wrong",
+   "one case standing in for the whole"
+  ],
+  "best_for": [
+   "When the gap is best told as a few stages, not exact hours",
+   "A case reveal where the last stage carries the cost",
+   "When the user should check each stage against their own"
+  ],
+  "motif": "Each stop carries a bed mark: use it whenever beds or a bed's state are part of the story."
+ },
+ "bm-dg-01-c": {
+  "category": "logical",
+  "also": "time",
+  "name": "Two things, side by side",
+  "shows": "A whole response that sets two parallel flows row by row, showing one running while the other has stopped.",
+  "key_uses": [
+   "Showing two things that should move together but do not",
+   "Contrasting what is physically happening against what is recorded or paid",
+   "Asking for the user's version at each time of day",
+   "Leading into a figure for the gap"
+  ],
+  "logic": [
+   "what is happening against what is counted",
+   "two flows compared step by step",
+   "spotting where one side stops while the other carries on"
+  ],
+  "best_for": [
+   "When the problem is a mismatch between two parallel tracks",
+   "When the user should see a gap that one view alone hides",
+   "A case reveal told in two columns"
+  ],
+  "motif": "Built on times of day and pairs a bed with its bill: use it when beds, money and hours meet."
+ },
+ "bm-dg-02": {
+  "category": "universal",
+  "also": "logical",
+  "name": "Areas to ask, in turn",
+  "shows": "A whole response that lays out the separate areas the questions will cover and asks the first.",
+  "key_uses": [
+   "Opening a diagnosis by showing what will be asked",
+   "Telling the user which question is now and which come later",
+   "Keeping separate topics apart, not as steps in a row",
+   "Letting the user peek at later questions"
+  ],
+  "logic": [
+   "narrowing down to a cause through separate areas",
+   "a plan of enquiry before evidence"
+  ],
+  "best_for": [
+   "A first answer that sets out the questions to come",
+   "When the user wants to know how long the questioning will take",
+   "When several unrelated areas must each be checked"
+  ],
+  "motif": "Drawn as a magnifying glass: use it when the response is about looking closely or investigating."
+ },
+ "bm-dg-03": {
+  "category": "selection",
+  "also": "time",
+  "name": "Which pattern is closer?",
+  "shows": "A whole response that shows the same day run two ways and asks the user which matches theirs.",
+  "key_uses": [
+   "Testing how the user's day really runs without leading them",
+   "Comparing two ways a team can arrange its work",
+   "Letting the user pick the closer pattern",
+   "Checking a claim like 'one team does both'"
+  ],
+  "logic": [
+   "two patterns compared hour by hour",
+   "testing what people say against what happens",
+   "choosing the closer of two options"
+  ],
+  "best_for": [
+   "When the user's answer is vague and needs a concrete choice",
+   "When two ways of running a day must be told apart",
+   "A follow-up that checks a claim without suggesting the answer"
+  ],
+  "motif": "Built on hour strips across a day: use it whenever the answer turns on what happens at which hour."
+ },
+ "bm-dg-04": {
+  "category": "process",
+  "also": "time",
+  "name": "Steps with blank times",
+  "shows": "A whole response that lists the steps of a process in order, with an empty time box at each.",
+  "key_uses": [
+   "Asking the user for a typical clock time at each step",
+   "Setting out where a process starts and stops",
+   "Collecting rough times without demanding exact ones",
+   "Preparing the ground to find where time is lost"
+  ],
+  "logic": [
+   "steps in order from start to finish",
+   "gathering evidence step by step"
+  ],
+  "best_for": [
+   "When the user is asked how long something takes, step by step",
+   "When the clock start and stop must be agreed first",
+   "A fact-collecting turn before any working out"
+  ],
+  "motif": "Draws a route from arrival to the end point with clock boxes: use it when a journey through the hospital is timed."
+ },
+ "bm-dg-05": {
+  "category": "process",
+  "also": "measures",
+  "name": "Steps with your times",
+  "shows": "A whole response that shows a process with the user's times filled in and the waits between steps.",
+  "key_uses": [
+   "Playing the user's times back on the steps",
+   "Showing where waiting sits between steps",
+   "Comparing a typical day with the worst day",
+   "Naming how much of the total is real work"
+  ],
+  "logic": [
+   "where in a process time is lost",
+   "typical against worst case",
+   "work set against waiting"
+  ],
+  "best_for": [
+   "When the user asks where in a process time is lost",
+   "Right after the user has given step times",
+   "When worst days matter as much as typical ones"
+  ],
+  "motif": "Draws a timed route and a stopwatch: use it whenever time spent on steps is the point."
+ },
+ "bm-dg-06": {
+  "category": "time",
+  "also": "financial",
+  "name": "Two times on one item",
+  "shows": "A whole response that asks for two times on one item: when earning stops and when it starts again.",
+  "key_uses": [
+   "Asking for the two times that bound an idle gap",
+   "Showing the stretch in between where nothing earns",
+   "Pointing the user to where those times are already recorded",
+   "Setting up a later figure for the gap"
+  ],
+  "logic": [
+   "the gap between an end and a new start",
+   "cause and effect on money over time"
+  ],
+  "best_for": [
+   "When a loss is set by two moments, an end and a restart",
+   "A fact-collecting turn that needs exactly two times",
+   "When the times probably sit in a system the user already has"
+  ],
+  "motif": "Draws a bed with two bill tags: use it whenever beds and billing times are discussed."
+ },
+ "bm-dg-07": {
+  "category": "measures",
+  "also": "time",
+  "name": "Two times, the gap",
+  "shows": "A whole response that plays back two times, works out the gap and sets it against the earlier example.",
+  "key_uses": [
+   "Working out a gap from the user's own two times",
+   "Setting the user's number against an example figure",
+   "Showing the typical gap and the worst days",
+   "Naming the size of the loss before money is added"
+  ],
+  "logic": [
+   "before against after: example against your own number",
+   "simple sums on the user's own figures",
+   "typical against worst case"
+  ],
+  "best_for": [
+   "Right after the user gives two times",
+   "When an example figure must be replaced by the user's own",
+   "When the size of a gap should be stated plainly"
+  ],
+  "motif": "Draws a bed with two bill tags and a was-now pair: use it when beds, billing times and gaps meet."
+ },
+ "bm-dg-08": {
+  "category": "financial",
+  "also": "measures",
+  "name": "Needed figures as a bill",
+  "shows": "A whole response that asks for several figures at once, each on its own line of a paper bill.",
+  "key_uses": [
+   "Asking for several money or count figures in one go",
+   "Explaining what each figure will be turned into",
+   "Showing how many figures are still missing",
+   "Preparing to turn hours or counts into money"
+  ],
+  "logic": [
+   "what each input will be used for",
+   "building toward a money figure from parts"
+  ],
+  "best_for": [
+   "When several figures are needed before any money can be worked out",
+   "A batched ask so the user is not asked one by one",
+   "When the user wants to know why each figure is needed"
+  ],
+  "motif": "Draws a paper receipt: use it whenever figures are collected for money working."
+ },
+ "bm-dg-09": {
+  "category": "financial",
+  "also": "measures",
+  "name": "One case to a year",
+  "shows": "A whole response that scales a small loss on one item up to a yearly money figure, with a slider.",
+  "key_uses": [
+   "Turning a lost duration into money a year",
+   "Showing the working line by line",
+   "Letting the user move one figure to see the range",
+   "Stating the limits on when the figure holds"
+  ],
+  "logic": [
+   "one case multiplied up to the whole",
+   "a range from a moving figure",
+   "money effect of lost time"
+  ],
+  "best_for": [
+   "When the user asks what a delay is worth in money",
+   "When one figure is uncertain and a range is fairer",
+   "When the working must be shown, not just the answer"
+  ],
+  "motif": "Draws beds one by one and money: use it whenever bed counts and their value are discussed."
+ },
+ "bm-dg-10": {
+  "category": "logical",
+  "also": "universal",
+  "name": "Findings on one board",
+  "shows": "A whole response that gathers every finding so far on a board, each with the user's own words.",
+  "key_uses": [
+   "Bringing all findings together before the diagnosis",
+   "Showing that each finding came from the user",
+   "Letting the user trace a finding back to its answer",
+   "Checking nothing is missing before naming a cause"
+  ],
+  "logic": [
+   "claims and evidence",
+   "gathering before narrowing down to a cause"
+  ],
+  "best_for": [
+   "A summing-up turn before the cause is named",
+   "When the user should see their own words played back",
+   "When trust matters: nothing on the board is a guess"
+  ],
+  "motif": null
+ },
+ "bm-dg-11": {
+  "category": "logical",
+  "also": "process",
+  "name": "One rule and its loop",
+  "shows": "A whole response that traces many findings back to one rule, then shows the loop that rule keeps alive.",
+  "key_uses": [
+   "Naming the single cause behind several findings",
+   "Showing how a habit keeps proving itself right",
+   "Walking the loop step by step",
+   "Closing the diagnosis before fixes are offered"
+  ],
+  "logic": [
+   "narrowing down to a cause",
+   "a loop where the effect feeds the cause",
+   "cause and effect along a chain"
+  ],
+  "best_for": [
+   "The diagnosis turn, once the evidence is in",
+   "When a problem keeps coming back however hard people try",
+   "When several findings share one root"
+  ],
+  "motif": null
+ },
+ "bm-dg-12": {
+  "category": "selection",
+  "also": "measures",
+  "name": "The parts of the answer",
+  "shows": "A whole response that weighs demand against supply to choose the size of the answer, then names its parts.",
+  "key_uses": [
+   "Deciding between a full and a trimmed answer",
+   "Naming the parts of the solution without opening any",
+   "Linking each part back to the findings it answers",
+   "Letting the user pick which part to open first"
+  ],
+  "logic": [
+   "two quantities weighed against each other",
+   "choosing which option to open",
+   "each fix tied to a finding"
+  ],
+  "best_for": [
+   "The bridge from diagnosis to solutions",
+   "When the user asks what the whole fix looks like",
+   "When the size of the answer depends on demand against supply"
+  ],
+  "motif": "Draws a balance and a corridor of doors: use it when weighing two amounts, then choosing a way in."
+ },
+ "bm-block-effect": {
+  "category": "measures",
+  "also": "universal",
+  "name": "The figure a turn reaches",
+  "shows": "One drawing that names a single quantity: a label, the figure and one line of meaning.",
+  "key_uses": [
+   "Naming the number a turn has worked toward",
+   "Closing a case reveal with its effect",
+   "Stating a gap, count or sum in one box"
+  ],
+  "logic": [
+   "the result at the end of a chain",
+   "how big the effect is"
+  ],
+  "best_for": [
+   "When a turn should end on one clear number",
+   "When the user needs the size of a problem in plain terms"
+  ],
+  "motif": "Carries a small bed-and-bill mark: use it when the figure is about beds or billing; avoid more than two per turn."
+ },
+ "bm-block-lens": {
+  "category": "logical",
+  "also": "universal",
+  "name": "Areas under a magnifying glass",
+  "shows": "One drawing that places the areas of enquiry on the rim of a magnifying glass, marking the one asked now.",
+  "key_uses": [
+   "Showing the areas of enquiry before the first question",
+   "Marking which area is being asked now",
+   "Letting the user peek at later areas"
+  ],
+  "logic": [
+   "narrowing down to a cause",
+   "separate areas, not steps in order"
+  ],
+  "best_for": [
+   "A first answer that sets out the questions to come",
+   "When topics to check are separate, not a sequence"
+  ],
+  "motif": "Drawn as a magnifying glass: use it when the response is about looking closely; avoid for steps in order."
+ },
+ "bm-block-day-strips": {
+  "category": "time",
+  "also": "selection",
+  "name": "Two days, hour by hour",
+  "shows": "One drawing that shows two ways a day can run, item by item and hour by hour.",
+  "key_uses": [
+   "Testing a claim about how a day runs",
+   "Letting the user pick the pattern closer to theirs",
+   "Showing when activity happens and when it is quiet"
+  ],
+  "logic": [
+   "two patterns compared",
+   "what people say against what happens"
+  ],
+  "best_for": [
+   "When the user's account of a day needs checking without leading them",
+   "When there are exactly two patterns to choose between"
+  ],
+  "motif": "Built on hour strips across a day: use it whenever timing within a day matters; avoid for one pattern only."
+ },
+ "bm-block-admission-route": {
+  "category": "process",
+  "also": "time",
+  "name": "Timed route, door to end",
+  "shows": "One drawing of a journey from start to finish, one stop per step, with a clock time at each.",
+  "key_uses": [
+   "Asking for the time at each step, with blanks to fill",
+   "Showing the filled times and gaps between steps",
+   "Agreeing where the clock starts and stops"
+  ],
+  "logic": [
+   "steps in order",
+   "where in a process time is lost"
+  ],
+  "best_for": [
+   "When the user is asked how long each step of a journey takes",
+   "When filled times should show where waiting builds up"
+  ],
+  "motif": "Draws a route through the hospital with clock times: use it whenever a timed journey is asked for or shown."
+ },
+ "bm-block-stopwatch": {
+  "category": "measures",
+  "also": "time",
+  "name": "Work against waiting dial",
+  "shows": "One drawing of a stopwatch dial that splits total time into work and waiting.",
+  "key_uses": [
+   "Showing how little of the total time is real work",
+   "Making waiting visible after times are collected",
+   "Comparing work and wait shares at a glance"
+  ],
+  "logic": [
+   "work set against waiting",
+   "how big the wasted share is"
+  ],
+  "best_for": [
+   "When the user's times are in and the waste should be shown",
+   "When the user asks why something takes so long"
+  ],
+  "motif": "Draws a stopwatch: use it whenever elapsed time is split into parts; avoid before times are known."
+ },
+ "bm-block-bed-bills": {
+  "category": "time",
+  "also": "financial",
+  "name": "Two tags, one idle gap",
+  "shows": "One drawing of two time tags tied to one item, with the stretch between them where nothing earns.",
+  "key_uses": [
+   "Asking for the two times that bound an idle gap",
+   "Showing the gap once both times are in",
+   "Pointing to records where the times already sit"
+  ],
+  "logic": [
+   "the gap between an end and a restart",
+   "money lost while time passes"
+  ],
+  "best_for": [
+   "When a loss is set by exactly two moments",
+   "When asking for, then showing, two billing times"
+  ],
+  "motif": "Draws a bed with bill tags: use it whenever beds and billing times are mentioned; avoid for step-by-step routes."
+ },
+ "bm-block-receipt": {
+  "category": "financial",
+  "also": "universal",
+  "name": "Figures as bill lines",
+  "shows": "One drawing of a paper bill where each line takes one figure the user must give.",
+  "key_uses": [
+   "Asking for several figures in one batch",
+   "Showing how many figures are still missing",
+   "Explaining what each figure will turn into"
+  ],
+  "logic": [
+   "inputs that build a money figure",
+   "what each figure is for"
+  ],
+  "best_for": [
+   "When several figures are needed at once",
+   "A fact-collecting turn before money is worked out"
+  ],
+  "motif": "Draws a paper receipt: use it whenever figures for money are collected; avoid once they are given."
+ },
+ "bm-block-bed-count": {
+  "category": "financial",
+  "also": "measures",
+  "name": "Items counted, time made money",
+  "shows": "One drawing that counts items one by one and turns time won back into money, with a slider.",
+  "key_uses": [
+   "Turning a lost duration into money a year",
+   "Showing a range by moving one uncertain figure",
+   "Showing the working behind each figure"
+  ],
+  "logic": [
+   "one case multiplied up to the whole",
+   "money effect of lost time"
+  ],
+  "best_for": [
+   "When the user asks what lost hours are worth",
+   "When a range is fairer than a single figure"
+  ],
+  "motif": "Draws beds one by one: use it whenever bed counts are turned into money; avoid in fact-collecting turns."
+ },
+ "bm-block-evidence-board": {
+  "category": "logical",
+  "also": null,
+  "name": "Findings pinned on a board",
+  "shows": "One drawing that pins the findings to a board in the order given, each with the user's words.",
+  "key_uses": [
+   "Bringing findings together before the diagnosis",
+   "Tracing each finding back to its source",
+   "Showing nothing is guessed"
+  ],
+  "logic": [
+   "claims and evidence",
+   "gathering before narrowing down"
+  ],
+  "best_for": [
+   "A summing-up turn before the cause is named",
+   "When the user should see their own answers in one place"
+  ],
+  "motif": null
+ },
+ "bm-block-rule-loop": {
+  "category": "logical",
+  "also": "process",
+  "name": "Rule that starts a loop",
+  "shows": "One drawing where findings feed one rule, and the rule starts a loop that comes back to it.",
+  "key_uses": [
+   "Naming the root cause behind many findings",
+   "Showing a self-feeding loop of results",
+   "Walking the loop one step at a time"
+  ],
+  "logic": [
+   "narrowing down to a cause",
+   "a loop where the effect feeds the cause"
+  ],
+  "best_for": [
+   "The diagnosis turn, once evidence is in",
+   "When a problem keeps renewing itself"
+  ],
+  "motif": null
+ },
+ "bm-block-scale": {
+  "category": "measures",
+  "also": "selection",
+  "name": "Two amounts on a balance",
+  "shows": "One drawing that weighs one quantity against another on a balance, with the verdict beside it.",
+  "key_uses": [
+   "Deciding whether the full answer is needed",
+   "Showing demand against supply",
+   "Giving a verdict from two amounts"
+  ],
+  "logic": [
+   "two quantities weighed",
+   "a choice decided by which side is heavier"
+  ],
+  "best_for": [
+   "When the size of the fix depends on two amounts",
+   "When the user asks whether a smaller version would do"
+  ],
+  "motif": null
+ },
+ "bm-block-corridor": {
+  "category": "selection",
+  "also": null,
+  "name": "Doors along a corridor",
+  "shows": "One drawing that shows the parts of an answer as closed doors, each opened a little on pick.",
+  "key_uses": [
+   "Naming the parts of a solution before any is opened",
+   "Letting the user choose which part to open first",
+   "Giving a short peek behind each part"
+  ],
+  "logic": [
+   "choosing among several options",
+   "an overview before going deep"
+  ],
+  "best_for": [
+   "The bridge from diagnosis to the parts of a fix",
+   "When the user asks what the whole answer contains"
+  ],
+  "motif": "Drawn as a corridor of doors: use it when the response offers several ways in; avoid inside one part."
+ },
+ "bm-so-01-a": {
+  "category": "process",
+  "also": null,
+  "name": "Switches on one wire",
+  "shows": "A whole answer that lays out a fix as steps in a chain, where the result only arrives once every step is on.",
+  "key_uses": [
+   "Setting out the steps of one automation from source data to result",
+   "Showing that each step needs the one before it",
+   "Opening one step to see what it reads, gives and who does it",
+   "Asking the user one question per step"
+  ],
+  "logic": [
+   "a chain where each link must hold for the end result",
+   "all-or-nothing: the outcome arrives only at the last step"
+  ],
+  "best_for": [
+   "When the user asks how a fix would run, start to finish",
+   "When a result appears only once every step is in place",
+   "A first answer on one part that will be refined with the user"
+  ],
+  "motif": "Draws a lightbulb lit by switches on a wire: use it when the answer is that everything must be on before anything shows."
+ },
+ "bm-so-01-b": {
+  "category": "logical",
+  "also": "process",
+  "name": "Interlocking puzzle pieces",
+  "shows": "A whole answer that shows the steps of one fix as pieces that rely on each other to be worth anything.",
+  "key_uses": [
+   "Showing which steps lean on which others",
+   "Explaining why one step is useless without another",
+   "Laying out the parts of a fix that must be built together",
+   "Warning against doing only half of a plan"
+  ],
+  "logic": [
+   "what relies on what among several steps",
+   "the whole is worth more than the parts taken alone"
+  ],
+  "best_for": [
+   "When the user asks whether they can do only some of the steps",
+   "When one step makes another worth doing",
+   "When reliance between steps matters more than their order"
+  ],
+  "motif": "Draws jigsaw pieces: use it when the point is that parts only work fitted together."
+ },
+ "bm-so-01-c": {
+  "category": "process",
+  "also": "selection",
+  "name": "Stop-by-stop route with doors",
+  "shows": "A whole answer that walks a fix as stations on one trail, then offers a choice of where to go next.",
+  "key_uses": [
+   "Walking the steps of a plan in order",
+   "Opening each stop to see what happens there and when",
+   "Ending a part with a choice of the next part to open",
+   "Asking the user one question at each stop"
+  ],
+  "logic": [
+   "steps in sequence",
+   "a path that ends in a fork of next options"
+  ],
+  "best_for": [
+   "When the user wants the steps of a plan in order",
+   "When an answer should close by asking which topic to open next",
+   "A part of a longer plan that hands over to other parts"
+  ],
+  "motif": "Built on a route through the day: use it whenever steps happen in order and lead somewhere."
+ },
+ "bm-so-02": {
+  "category": "process",
+  "also": null,
+  "name": "Inputs into one engine",
+  "shows": "A whole answer that shows what the user provides, the one thing built from it, and what comes out.",
+  "key_uses": [
+   "Explaining how a set of steps is achieved",
+   "Showing that many steps come from one single build",
+   "Naming what the user must supply and who gives it",
+   "Stating the one what must come first and the one blocker"
+  ],
+  "logic": [
+   "many inputs feeding one central build",
+   "what goes in leads to what comes out"
+  ],
+  "best_for": [
+   "When the user asks how all of this would be achieved",
+   "When many features turn out to be one build",
+   "When the user needs to know what is asked of their own team"
+  ],
+  "motif": null
+ },
+ "bm-so-03": {
+  "category": "logical",
+  "also": "selection",
+  "name": "What we bring, what must exist",
+  "shows": "A whole answer that splits what is supplied from what must already be in place, with an honest threshold.",
+  "key_uses": [
+   "Setting what the provider brings against what the user must already have",
+   "Stating the point below which the plan changes",
+   "Comparing a mostly digital setting with one mostly on paper",
+   "Answering doubts about missing systems"
+  ],
+  "logic": [
+   "what is supplied against what must already exist",
+   "a threshold that changes the whole answer"
+  ],
+  "best_for": [
+   "When the user asks whether you will do all of it",
+   "When the user asks what happens if they lack the systems",
+   "When a plan only works above a certain starting point"
+  ],
+  "motif": "Draws a building section with a ground line: use it when some things sit on a foundation that must exist first."
+ },
+ "bm-so-04": {
+  "category": "selection",
+  "also": null,
+  "name": "Doors off one corridor",
+  "shows": "A whole answer that shows progress through several independent parts, one covered and the rest still closed.",
+  "key_uses": [
+   "Showing which parts are covered and which are left",
+   "Naming the question each remaining part answers",
+   "Letting the user pick the next part to open",
+   "Giving a short progress view mid-conversation"
+  ],
+  "logic": [
+   "progress through independent sections",
+   "choosing the next section from what is left"
+  ],
+  "best_for": [
+   "When the user asks what else is coming beyond this part",
+   "A mid-conversation answer showing where we stand",
+   "When the parts can be opened in any order"
+  ],
+  "motif": "Draws doors on a corridor: use it when the user must choose which part of a plan to walk into next."
+ },
+ "bm-so-05": {
+  "category": "time",
+  "also": "process",
+  "name": "The day now against the day after",
+  "shows": "A whole answer that shows one main change to how a day runs, a few smaller changes, their owners and the ask.",
+  "key_uses": [
+   "Showing a process change on the real hours of a day",
+   "Setting today's order of work against the new order",
+   "Listing a few smaller changes and what each costs",
+   "Naming the owners of the change"
+  ],
+  "logic": [
+   "before against after on one clock",
+   "one big change backed by smaller ones"
+  ],
+  "best_for": [
+   "When the change is about when work happens, not who does it",
+   "When the user's own times can show the gain",
+   "An answer setting out process changes for one part"
+  ],
+  "motif": "Built on the hours of a day: use it whenever the answer turns on when things happen."
+ },
+ "bm-so-06": {
+  "category": "logical",
+  "also": "selection",
+  "name": "Routes ruled out, one way through",
+  "shows": "A whole answer that meets an objection by trying several routes, ruling out all but one.",
+  "key_uses": [
+   "Answering a challenge such as 'will this really work here?'",
+   "Showing why other options were rejected",
+   "Separating what is fixed from what stays free",
+   "Testing a doubt against the user's own figures"
+  ],
+  "logic": [
+   "ruling out options one by one",
+   "objection and reply",
+   "what is fixed against what is left open"
+  ],
+  "best_for": [
+   "When the user says the plan is too rigid or will not work",
+   "When the user asks why not do something else instead",
+   "When two objections need different treatment"
+  ],
+  "motif": "Draws a maze: use it when several routes were tried and only one gets through."
+ },
+ "bm-so-07": {
+  "category": "process",
+  "also": "people",
+  "name": "Waiting in the gaps",
+  "shows": "A whole answer showing that delay sits in the hand-offs between steps, and what an owner would change.",
+  "key_uses": [
+   "Showing where waiting happens between steps",
+   "Explaining why a new owner or role is needed",
+   "Setting the chain today against the chain with an owner",
+   "Asking who passes work on at each gap"
+  ],
+  "logic": [
+   "delay found in hand-offs, not inside steps",
+   "before against after with one owner"
+  ],
+  "best_for": [
+   "When the user asks why a new role is needed",
+   "When no step is broken but the whole still runs slow",
+   "When the cost of a role is better left for later"
+  ],
+  "motif": "Draws knots in a rope: use it when the problem sits between steps rather than in them."
+ },
+ "bm-so-08": {
+  "category": "people",
+  "also": null,
+  "name": "Teams and one sign-off",
+  "shows": "A whole answer that shows each team involved, what each receives, and who signs off above them.",
+  "key_uses": [
+   "Setting out who is affected and what each team is asked",
+   "Showing where pushback is likely to sit",
+   "Drawing who signs off and who reports to whom",
+   "Showing two managers as equals"
+  ],
+  "logic": [
+   "ownership and sign-off",
+   "what changes for each group"
+  ],
+  "best_for": [
+   "When the user asks whose help is needed",
+   "When the user asks who would resist and who approves",
+   "An answer on people and buy-in for a plan"
+  ],
+  "motif": "Draws rooms on a floor plan: use it when teams sit in different places or wards."
+ },
+ "bm-so-09": {
+  "category": "people",
+  "also": "financial",
+  "name": "Roles sized by the peak",
+  "shows": "A whole answer that lists the roles needed, how many people each needs, and their full cost.",
+  "key_uses": [
+   "Saying whether to hire, who and how many",
+   "Sizing a team on the busiest hour",
+   "Showing one side settled and one waiting on a figure",
+   "Pricing roles at full cost"
+  ],
+  "logic": [
+   "sizing from the user's own numbers",
+   "settled against still open"
+  ],
+  "best_for": [
+   "When the user asks if they need to hire",
+   "When number of staff depends on a number the user has not given yet",
+   "An answer on teams and roles with a cost"
+  ],
+  "motif": "Carries money figures per role: use it when the cost of people must sit beside their number."
+ },
+ "bm-so-10": {
+  "category": "measures",
+  "also": null,
+  "name": "Dials for what to measure",
+  "shows": "A whole answer that sets out a short list of measures, which are new and which give early warning.",
+  "key_uses": [
+   "Choosing a short set of measures to watch",
+   "Marking which measures nobody reads today",
+   "Splitting early warnings from results",
+   "Naming the owner of each measure"
+  ],
+  "logic": [
+   "early warning against final result",
+   "measured today against not measured"
+  ],
+  "best_for": [
+   "When the user asks what to measure",
+   "When a plan needs a weekly check on whether it works",
+   "When most useful numbers are not yet tracked"
+  ],
+  "motif": "Draws gauges with needles: use it whenever readings, goals or tracking come up."
+ },
+ "bm-so-11": {
+  "category": "universal",
+  "also": "logical",
+  "name": "Whole plan on one page",
+  "shows": "A whole answer that sums up a plan: the user's facts, the parts, worth beside cost, and missing numbers.",
+  "key_uses": [
+   "Closing summary of a long plan",
+   "Restating the user's own findings, kept apart from the proposal",
+   "Showing how the parts rely on each other",
+   "Setting worth beside cost and naming numbers still needed"
+  ],
+  "logic": [
+   "facts against proposals",
+   "parts that rely on each other",
+   "worth set against cost"
+  ],
+  "best_for": [
+   "When the user asks for the whole thing in one place",
+   "A last answer before deciding to start",
+   "When a summary must keep the user's facts apart from advice"
+  ],
+  "motif": null
+ },
+ "bm-so-12": {
+  "category": "process",
+  "also": "time",
+  "name": "First steps before change",
+  "shows": "A whole answer showing the first steps of a start, which ones change nothing for staff, and the exit point.",
+  "key_uses": [
+   "Showing what a first step looks like",
+   "Marking steps where nobody works differently",
+   "Offering a safe exit after early measuring",
+   "Explaining why one build must come before another"
+  ],
+  "logic": [
+   "steps in order with a stop point",
+   "one thing must come first because another needs it"
+  ],
+  "best_for": [
+   "When the user asks what a first step looks like",
+   "When the user worries about disrupting staff",
+   "When a low-risk start with an exit is the offer"
+  ],
+  "motif": "Built on a route with durations: use it when the start is a sequence of weeks."
+ },
+ "bm-so-block-heading": {
+  "category": "universal",
+  "also": null,
+  "name": "Heading with progress plate",
+  "shows": "The top of every response: eyebrow, title, short deck, and a plate saying which part this is and its stage.",
+  "key_uses": [
+   "Opening every response",
+   "Naming which part of the work this is",
+   "Showing the stage: idea, shaped, tested with you, agreed"
+  ],
+  "logic": [
+   "where we are in a larger plan",
+   "how settled an idea is"
+  ],
+  "best_for": [
+   "Any response, once at the top",
+   "When the user needs to know how far a plan has come"
+  ],
+  "motif": null
+ },
+ "bm-so-block-circuit": {
+  "category": "process",
+  "also": null,
+  "name": "Switches to a bulb",
+  "shows": "Steps as switches on one wire, where the result lights only when every switch is on.",
+  "key_uses": [
+   "A sequence where each step needs the one before",
+   "Showing the result only arrives at the end of the chain",
+   "Opening any step to see its detail"
+  ],
+  "logic": [
+   "a chain of steps that each rely on the last",
+   "all steps needed for one result"
+  ],
+  "best_for": [
+   "When the user asks why nothing improves until all steps run",
+   "When one part is a strict sequence"
+  ],
+  "motif": "Draws a lightbulb on a wire: use it when an outcome switches on only at the end."
+ },
+ "bm-so-block-jigsaw": {
+  "category": "logical",
+  "also": null,
+  "name": "Locked jigsaw pieces",
+  "shows": "Steps as jigsaw pieces locked together, showing which pieces each one relies on.",
+  "key_uses": [
+   "Showing that steps only work together",
+   "Showing that one step makes another worth anything",
+   "Picking a step to see what it rests on"
+  ],
+  "logic": [
+   "what relies on what",
+   "the whole outweighs the parts"
+  ],
+  "best_for": [
+   "When the user wants to drop one step from a plan",
+   "When reliance between steps is the main point"
+  ],
+  "motif": "Draws puzzle pieces: use it when parts only make sense fitted together."
+ },
+ "bm-so-block-route": {
+  "category": "process",
+  "also": "selection",
+  "name": "Trail ending in a fork",
+  "shows": "Stations on a trail in order, ending in a fork with doors to what comes next.",
+  "key_uses": [
+   "Steps in order that end in a choice",
+   "Opening each station to see its detail",
+   "Handing the user a choice of next topic"
+  ],
+  "logic": [
+   "sequence of steps",
+   "a fork of next options at the end"
+  ],
+  "best_for": [
+   "When steps lead to a decision on where to go next",
+   "When a part closes by offering the next parts"
+  ],
+  "motif": "Built on a route: use it whenever steps happen in order and lead to a choice."
+ },
+ "bm-so-block-effect": {
+  "category": "measures",
+  "also": null,
+  "name": "The one number moved",
+  "shows": "The single quantity a part of the work aims to move, named once.",
+  "key_uses": [
+   "Naming the one number a fix changes",
+   "Closing a drawing with what it is for",
+   "Restyled as plate, stamp, ticket, banner or meter"
+  ],
+  "logic": [
+   "aim of the work in one figure",
+   "now against goal for one number"
+  ],
+  "best_for": [
+   "When a part has one clear number it moves",
+   "Beside a main drawing, at most twice per response"
+  ],
+  "motif": null
+ },
+ "bm-so-block-hub": {
+  "category": "process",
+  "also": null,
+  "name": "Inputs wired to one engine",
+  "shows": "What the user provides, wired into one central build, and what comes out of it.",
+  "key_uses": [
+   "Showing how a part is achieved",
+   "Showing that many steps are one build",
+   "Tracing which input feeds which output"
+  ],
+  "logic": [
+   "many inputs into one centre",
+   "what goes in leads to what comes out"
+  ],
+  "best_for": [
+   "When the user asks how it will all be done",
+   "When several features share one source"
+  ],
+  "motif": null
+ },
+ "bm-so-block-pair": {
+  "category": "logical",
+  "also": null,
+  "name": "Two boxes side by side",
+  "shows": "Two facts read against each other, such as what must come first and blocker, worth and cost, or claim and test.",
+  "key_uses": [
+   "A what must come first beside a blocker",
+   "Worth beside cost",
+   "A claim beside what would prove it wrong"
+  ],
+  "logic": [
+   "two sides held against each other",
+   "claim and its test"
+  ],
+  "best_for": [
+   "When two facts belong together and must be read as a pair",
+   "When the user should weigh one thing against another"
+  ],
+  "motif": null
+ },
+ "bm-so-block-foundation": {
+  "category": "logical",
+  "also": null,
+  "name": "Above and below the ground",
+  "shows": "What is supplied above a ground line against what must already exist below it, with a switch for a weaker start.",
+  "key_uses": [
+   "What is supplied against what must exist",
+   "Stating a threshold below which the plan changes",
+   "Switching to show a setting still on paper"
+  ],
+  "logic": [
+   "supplied against required",
+   "a threshold that changes the answer"
+  ],
+  "best_for": [
+   "When the user asks what they need before starting",
+   "When a plan only stands on certain things being in place"
+  ],
+  "motif": "Draws a building on a foundation: use it when some things must exist before the rest is built."
+ },
+ "bm-so-block-doors": {
+  "category": "selection",
+  "also": null,
+  "name": "Corridor of doors",
+  "shows": "Several parts as doors off one corridor, covered ones ajar, closed ones carrying their question.",
+  "key_uses": [
+   "Showing progress through several parts",
+   "Showing what is left to cover",
+   "Letting the user open the next part"
+  ],
+  "logic": [
+   "progress through independent parts",
+   "picking what to open next"
+  ],
+  "best_for": [
+   "When the user asks what else there is",
+   "Mid-conversation, not on the first reveal"
+  ],
+  "motif": "Draws doors off a corridor: use it when the user chooses which part to enter next."
+ },
+ "bm-so-block-day-switch": {
+  "category": "time",
+  "also": "logical",
+  "name": "Today against the new day",
+  "shows": "A day as it runs now against the day as it would run, lane by lane on one clock.",
+  "key_uses": [
+   "Showing a process change on real times",
+   "Showing when jobs run today against when they would",
+   "Moving bars to their new hours with a switch"
+  ],
+  "logic": [
+   "before against after",
+   "timing of parallel jobs"
+  ],
+  "best_for": [
+   "When a change is about the order or timing of the day",
+   "When the user has given real clock times"
+  ],
+  "motif": "Built on the hours of a day: use it whenever the answer turns on when things happen."
+ },
+ "bm-so-block-notes": {
+  "category": "universal",
+  "also": null,
+  "name": "Pinned drafting cards",
+  "shows": "A few pinned cards for smaller items placed beside a main drawing.",
+  "key_uses": [
+   "A handful of smaller changes beside the main drawing",
+   "Side points that each open their own detail",
+   "Extra items too small for their own drawing"
+  ],
+  "logic": [
+   "a short list of supporting items",
+   "main point with side points"
+  ],
+  "best_for": [
+   "When an answer has one main idea and a few smaller ones",
+   "Beside, never instead of, the main drawing"
+  ],
+  "motif": null
+ },
+ "bm-so-block-owners": {
+  "category": "people",
+  "also": null,
+  "name": "Two owners as peers",
+  "shows": "Two roles joined as equals by a two-way arrow, with one line on why both are needed.",
+  "key_uses": [
+   "Two roles that only work together",
+   "Showing two managers as equals, not boss and junior",
+   "Opening what each job involves"
+  ],
+  "logic": [
+   "shared ownership",
+   "two halves of one job"
+  ],
+  "best_for": [
+   "When the user asks why two roles and not one",
+   "When ownership is split between two equal people"
+  ],
+  "motif": "Draws people as role badges: use it when named roles or owners come up."
+ },
+ "bm-so-block-maze": {
+  "category": "logical",
+  "also": "selection",
+  "name": "Maze with one way through",
+  "shows": "Routes ruled out and the one route that gets through, each with why it fails or works.",
+  "key_uses": [
+   "Answering 'why not just do something else?'",
+   "Showing options that were tried and rejected",
+   "Lighting the one route that works"
+  ],
+  "logic": [
+   "ruling out options one by one",
+   "objection and reply"
+  ],
+  "best_for": [
+   "When the user challenges the plan with an alternative",
+   "When there are several routes to rule out"
+  ],
+  "motif": "Draws a maze: use it when several routes were tried and only one gets through."
+ },
+ "bm-so-block-rerun": {
+  "category": "process",
+  "also": null,
+  "name": "Loop that re-runs",
+  "shows": "A loop where a change is fed back in, the plan runs again, and what moved is recorded.",
+  "key_uses": [
+   "Showing that a change is handled, not a rule broken",
+   "Showing a plan that updates itself",
+   "Tracing what moves when one input shifts"
+  ],
+  "logic": [
+   "a loop that absorbs change",
+   "cause and effect through a re-run"
+  ],
+  "best_for": [
+   "When the user says real life is too unpredictable for a plan",
+   "When a late change must flow through to new outputs"
+  ],
+  "motif": null
+ },
+ "bm-so-block-gap-knots": {
+  "category": "process",
+  "also": "people",
+  "name": "Knots between steps",
+  "shows": "A chain whose waiting sits in the gaps between steps, drawn as knots that an owner undoes.",
+  "key_uses": [
+   "Showing nobody owns the hand-offs",
+   "Setting the chain today against one with an owner",
+   "Asking who waits at each gap"
+  ],
+  "logic": [
+   "delay in hand-offs, not inside steps",
+   "before against after with an owner"
+  ],
+  "best_for": [
+   "When no step is slow but the whole is",
+   "When the case for a new owner must be made"
+  ],
+  "motif": "Draws a rope with knots: use it when the waiting sits between steps."
+ },
+ "bm-so-block-people": {
+  "category": "people",
+  "also": null,
+  "name": "Teams on a floor plan",
+  "shows": "Teams as rooms on one plan, each with what it receives, then who signs off and who sits under them.",
+  "key_uses": [
+   "Key people and buy-in",
+   "Showing what changes for each team",
+   "Drawing sign-off and reporting lines"
+  ],
+  "logic": [
+   "who is affected and how",
+   "who approves"
+  ],
+  "best_for": [
+   "When the user asks whose help a plan needs",
+   "When several teams each receive something different"
+  ],
+  "motif": "Draws rooms on a floor plan: use it when teams, wards or departments are mentioned."
+ },
+ "bm-so-block-sizing": {
+  "category": "people",
+  "also": "measures",
+  "name": "Role sizing chains",
+  "shows": "Roles needed, then the chains that work out how many people, one settled and one waiting on a figure.",
+  "key_uses": [
+   "Working out how many staff are needed",
+   "Moving a slider to see number of staff change",
+   "Typing in a missing figure to finish a sizing"
+  ],
+  "logic": [
+   "sizing from the user's own numbers",
+   "settled against still open"
+  ],
+  "best_for": [
+   "When the user asks how many people to hire",
+   "When number of staff rests on a peak hour or a figure still missing"
+  ],
+  "motif": "Draws people as roles and number of staff: use it when staff numbers come up."
+ },
+ "bm-so-block-costing": {
+  "category": "financial",
+  "also": null,
+  "name": "Cost with blanks to fill",
+  "shows": "What can be costed now, and the numbers still needed, typed in place by the user.",
+  "key_uses": [
+   "A cost with missing numbers",
+   "Asking the user for the figures that finish a cost",
+   "Showing what is known against what is not"
+  ],
+  "logic": [
+   "known against unknown",
+   "a total that waits on inputs"
+  ],
+  "best_for": [
+   "When a cost cannot be finished without the user's figures",
+   "When the user should fill in their own numbers"
+  ],
+  "motif": "Carries money figures: use it whenever a price or cost has gaps."
+ },
+ "bm-so-block-gauges": {
+  "category": "measures",
+  "also": null,
+  "name": "Row of dials",
+  "shows": "Measures as dials, with new ones dashed and needle-less because nobody reads them today.",
+  "key_uses": [
+   "Setting out what to measure",
+   "Marking measures not tracked today",
+   "Filtering early warnings from results"
+  ],
+  "logic": [
+   "early warning against result",
+   "tracked against not tracked"
+  ],
+  "best_for": [
+   "When the user asks what to measure",
+   "When there are four or more measures to show"
+  ],
+  "motif": "Draws gauges with needles: use it whenever readings or targets are discussed."
+ },
+ "bm-so-block-findings": {
+  "category": "logical",
+  "also": "universal",
+  "name": "The user's own findings",
+  "shows": "The user's own facts, shown muted, because they are theirs and not a proposal.",
+  "key_uses": [
+   "Opening a summary with what was found",
+   "Keeping facts apart from advice",
+   "Opening where each finding came from"
+  ],
+  "logic": [
+   "fact against proposal",
+   "evidence carried into a summary"
+  ],
+  "best_for": [
+   "When a summary restates earlier findings",
+   "When the user must see which points are their own facts"
+  ],
+  "motif": null
+ },
+ "bm-so-actions": {
+  "category": "universal",
+  "also": null,
+  "name": "Three closing buttons",
+  "shows": "The three buttons that close every response: proceed with the named next step, add more, jump ahead.",
+  "key_uses": [
+   "Closing every response",
+   "Naming the next step to proceed with",
+   "Letting the user add more or jump elsewhere"
+  ],
+  "logic": [
+   "choice of what to do next",
+   "moving forward one step at a time"
+  ],
+  "best_for": [
+   "Every response, at the end",
+   "When the user should steer where the talk goes next"
+  ],
+  "motif": null
+ },
+ "bm-au-01-a": {
+  "category": "process",
+  "also": "universal",
+  "name": "Switches and lamps build",
+  "shows": "A whole answer showing which records must be linked before each helper can start working.",
+  "key_uses": [
+   "Explaining how an automation is built from the records it reads",
+   "Showing which data links must be in place first",
+   "Letting the user try settings to see what switches on",
+   "Asking which systems hold each record today"
+  ],
+  "logic": [
+   "Needs and conditions: a part works only when all its inputs are present",
+   "One main switch that everything else waits on",
+   "What if: change the inputs and see what follows"
+  ],
+  "best_for": [
+   "When the user asks how the build would work",
+   "When the answer turns on what data has to be linked first",
+   "A turn that asks the user which systems they already run"
+  ],
+  "motif": null
+ },
+ "bm-au-01-b": {
+  "category": "time",
+  "also": "process",
+  "name": "Engine through one day",
+  "shows": "A whole answer showing what a helper reads and makes at each pass through one working day.",
+  "key_uses": [
+   "Showing what an automation does at set times of the day",
+   "Explaining how records arrive and answers build up by a cut-off",
+   "Naming where a person confirms or corrects the helper",
+   "Asking the user about their own daily timings"
+  ],
+  "logic": [
+   "Inputs in, outputs out, pass by pass",
+   "Building toward a fixed deadline",
+   "Machine work checked by a person at set points"
+  ],
+  "best_for": [
+   "When the user asks what the helper actually does each day",
+   "When the answer depends on fixed times and a daily cut-off",
+   "A build answer that needs to feel concrete, hour by hour"
+  ],
+  "motif": "Built on a day clock: use it whenever the answer turns on what happens at which hour."
+ },
+ "bm-au-01-c": {
+  "category": "process",
+  "also": "time",
+  "name": "Build steps with lamps",
+  "shows": "A whole answer showing a build in ordered steps, with each helper's stage lit from idea to switched on.",
+  "key_uses": [
+   "Laying out the order in which several automations are built",
+   "Showing where each helper stands: idea, built, testing or switched on",
+   "Showing which steps must come before others",
+   "Asking the user about their starting point for each helper"
+  ],
+  "logic": [
+   "Order of work: what must come before what",
+   "Progress through fixed stages",
+   "Main conditions that unlock the rest"
+  ],
+  "best_for": [
+   "When the user asks how the build would go, step by step",
+   "When several helpers switch on at different times",
+   "A plan answer that sets out a phased rollout"
+  ],
+  "motif": null
+ },
+ "bm-au-02": {
+  "category": "universal",
+  "also": "people",
+  "name": "List of asks",
+  "shows": "A whole answer listing the few things asked of another team, each opening to why it is needed and who does it.",
+  "key_uses": [
+   "Setting out what is needed from the IT team or another team",
+   "Showing that each ask only reads and changes nothing",
+   "Explaining why each ask matters and what uses it",
+   "Asking the user how each record is kept today"
+  ],
+  "logic": [
+   "A short checklist of needs with a reason for each",
+   "Who does what, once",
+   "Reassurance: limits on what will be touched"
+  ],
+  "best_for": [
+   "When the user asks what we need from their IT team",
+   "When a team worries a change will disturb their systems",
+   "A turn that turns a build into a clear list of requests"
+  ],
+  "motif": null
+ },
+ "bm-au-03": {
+  "category": "process",
+  "also": "logical",
+  "name": "Two-sided hand-over",
+  "shows": "A whole answer showing a hand-over between two sides, step by step, today against once both are linked.",
+  "key_uses": [
+   "Showing how one team's output becomes another team's start",
+   "Explaining why one part must be built before another",
+   "Comparing the hand-over today with the hand-over once linked",
+   "Showing how each side checks the other"
+  ],
+  "logic": [
+   "Hand-off along a chain between two sides",
+   "Before against after",
+   "Double check: each side catches the other's errors"
+  ],
+  "best_for": [
+   "When the user asks why one fix has to come first",
+   "When time is lost in the gap between two teams",
+   "When the answer needs to show both sides of a hand-over"
+  ],
+  "motif": null
+ },
+ "bm-au-04": {
+  "category": "process",
+  "also": "people",
+  "name": "Predict then person decides",
+  "shows": "A whole answer showing the loop a helper runs on one case, ending with a person who makes the call.",
+  "key_uses": [
+   "Explaining how an automation reaches a suggestion",
+   "Showing where a person confirms or corrects it",
+   "Making clear what the helper never does on its own",
+   "Asking what a person checks before deciding"
+  ],
+  "logic": [
+   "A loop: notice, gather, check, draft, ask",
+   "Machine suggests, person decides",
+   "Comparing a case with similar past cases"
+  ],
+  "best_for": [
+   "When the user asks how the prediction works",
+   "When staff worry a machine will make the decision",
+   "A turn that follows one case through one day"
+  ],
+  "motif": null
+ },
+ "bm-au-05": {
+  "category": "selection",
+  "also": "logical",
+  "name": "Paper or system check",
+  "shows": "A whole answer showing which helpers still work when some records are on paper and which go dark.",
+  "key_uses": [
+   "Showing what still works if records are kept on paper",
+   "Separating what we bring from what must already exist",
+   "Letting the user try settings, from mostly digital to mostly paper",
+   "Asking how each record is kept today"
+  ],
+  "logic": [
+   "What if: change the setting and see what still works",
+   "Needs and conditions for each helper",
+   "What we supply against what must be there"
+  ],
+  "best_for": [
+   "When the user says almost nothing is digital",
+   "When the answer depends on how records are kept",
+   "When the user asks what they must have in place first"
+  ],
+  "motif": null
+ },
+ "bm-au-06": {
+  "category": "time",
+  "also": "process",
+  "name": "Overnight line to noon",
+  "shows": "A whole answer showing a timed run of stations from evening through night to a goal next day.",
+  "key_uses": [
+   "Showing what runs overnight and what is ready by morning",
+   "Following a timed sequence from a cut-off to a goal",
+   "Showing how a surprise event is handled without breaking the plan",
+   "Naming where a person acts at each station"
+  ],
+  "logic": [
+   "A timed sequence toward a fixed goal",
+   "Working back from when something will be ready",
+   "Holding something in reserve for surprises"
+  ],
+  "best_for": [
+   "When the user asks what happens after the day's plan is fixed",
+   "When the answer turns on hours across a night",
+   "A turn that ends on a clear goal time"
+  ],
+  "motif": "Built on a playable clock across the night: use it whenever the answer turns on when things happen overnight."
+ },
+ "bm-au-07": {
+  "category": "process",
+  "also": "selection",
+  "name": "First two, then the rest",
+  "shows": "A whole answer showing which helpers switch on first in a build and which wait for later steps.",
+  "key_uses": [
+   "Picking the first helpers to switch on",
+   "Showing a phased build with each helper's start step",
+   "Explaining why measuring comes before changing",
+   "Closing a run of build answers and naming what comes next"
+  ],
+  "logic": [
+   "Order of work: quick starts first",
+   "Measure now, then change",
+   "Main conditions that unlock later steps"
+  ],
+  "best_for": [
+   "When the user asks where to start",
+   "When some helpers need only simple access and others need more",
+   "A last answer in a series that sets the first step"
+  ],
+  "motif": null
+ },
+ "bm-au-block-heading": {
+  "category": "universal",
+  "also": null,
+  "name": "Heading with stage lamps",
+  "shows": "The title area of a turn, with a small plate of four lamps for idea, built, testing and switched on.",
+  "key_uses": [
+   "Opening every turn with eyebrow, title and short deck",
+   "Showing the stage an automation has reached",
+   "Keeping a series of turns looking the same"
+  ],
+  "logic": [
+   "Framing: names what the turn is about",
+   "Progress through fixed stages"
+  ],
+  "best_for": [
+   "The top of any turn",
+   "When the stage of a helper should be clear at a glance"
+  ],
+  "motif": null
+ },
+ "bm-au-block-sources": {
+  "category": "process",
+  "also": "logical",
+  "name": "Switches and lamps",
+  "shows": "Inputs drawn as switches and results as lamps that light only when every input they need is on.",
+  "key_uses": [
+   "Showing how an automation is built from its records",
+   "Showing what has to be linked first",
+   "Letting the user flip inputs and see what lights",
+   "Showing one main switch that everything waits on"
+  ],
+  "logic": [
+   "Needs and conditions: all inputs must be present",
+   "What if: change inputs and see results",
+   "One key condition that unlocks the rest"
+  ],
+  "best_for": [
+   "When the user asks what has to be in place before a fix works",
+   "When several results share the same inputs",
+   "When the user wants to test what happens if something is missing"
+  ],
+  "motif": null
+ },
+ "bm-au-block-brain": {
+  "category": "time",
+  "also": "process",
+  "name": "Engine read through a day",
+  "shows": "A screen where records flow in, pass by pass through a day, and the engine's answers fill up.",
+  "key_uses": [
+   "Showing what a helper reads and makes over a day",
+   "Showing how answers build up by a fixed time",
+   "Letting the user pick a time or play the day"
+  ],
+  "logic": [
+   "Inputs in, outputs out, over time",
+   "Building toward a deadline"
+  ],
+  "best_for": [
+   "When the user asks what the helper does all day",
+   "When records arrive at different times and feed one result"
+  ],
+  "motif": "Built on the hours of a day: use it whenever the answer turns on when records arrive."
+ },
+ "bm-au-block-panel": {
+  "category": "process",
+  "also": "measures",
+  "name": "Build panel rows",
+  "shows": "One row per automation with four stage lamps under main switches, lit as the build steps forward.",
+  "key_uses": [
+   "Showing the order of a build across several helpers",
+   "Showing where each helper stands right now",
+   "Stepping through phases and watching stages change"
+  ],
+  "logic": [
+   "Progress through fixed stages",
+   "Order of work across many items",
+   "Main conditions that unlock the rest"
+  ],
+  "best_for": [
+   "When the user asks what gets built when",
+   "When several helpers move at different speeds"
+  ],
+  "motif": null
+ },
+ "bm-au-block-helper": {
+  "category": "people",
+  "also": "universal",
+  "name": "Desk helper's asks",
+  "shows": "Tojo as a desk helper listing what it asks another team for, each ask opening why and who does it.",
+  "key_uses": [
+   "Listing what the IT team or another team must do",
+   "Explaining why each ask is needed",
+   "Naming who does each ask"
+  ],
+  "logic": [
+   "Who does what",
+   "A checklist of needs with reasons"
+  ],
+  "best_for": [
+   "When the user asks what their IT team has to do",
+   "When a request to another team must be clear and short"
+  ],
+  "motif": null
+ },
+ "bm-au-block-relay": {
+  "category": "process",
+  "also": "logical",
+  "name": "Two-side relay",
+  "shows": "A hand-over between two sides in legs, shown today and once linked, each leg checked by the other side.",
+  "key_uses": [
+   "Showing why one part is built before another",
+   "Showing a double check between two sides",
+   "Comparing a hand-over today with once linked"
+  ],
+  "logic": [
+   "Hand-off along a chain",
+   "Before against after",
+   "Each side checks the other"
+  ],
+  "best_for": [
+   "When the user asks why one fix must come first",
+   "When two teams pass work between them and time is lost"
+  ],
+  "motif": null
+ },
+ "bm-au-block-agent": {
+  "category": "process",
+  "also": "people",
+  "name": "Helper's thinking loop",
+  "shows": "The loop a helper runs (notice, gather, check, draft, ask) with what it never does on its own.",
+  "key_uses": [
+   "Explaining how an automation decides what to show",
+   "Showing where a person has the last word",
+   "Setting limits on what the helper does"
+  ],
+  "logic": [
+   "A repeating loop of steps",
+   "Machine suggests, person decides"
+  ],
+  "best_for": [
+   "When the user asks how the helper reaches its suggestion",
+   "When staff need to hear the machine will not decide alone"
+  ],
+  "motif": null
+ },
+ "bm-au-block-nightshift": {
+  "category": "time",
+  "also": "process",
+  "name": "Night line with clock",
+  "shows": "A line through evening and night with timed stations, a playable clock and what is ready by morning.",
+  "key_uses": [
+   "Showing what runs overnight",
+   "Following any timed sequence toward a goal",
+   "Showing what is ready when the day starts"
+  ],
+  "logic": [
+   "A timed sequence toward a goal",
+   "Working back from a ready time"
+  ],
+  "best_for": [
+   "When the user asks what happens between evening and morning",
+   "When the answer is a run of steps set to clock times"
+  ],
+  "motif": "Built on a clock across the night: use it whenever the answer turns on overnight timing."
+ },
+ "bm-au-block-effect": {
+  "category": "measures",
+  "also": null,
+  "name": "Effect box",
+  "shows": "One number or condition named once, in a look that changes with the turn.",
+  "key_uses": [
+   "Showing the one quantity a turn is about",
+   "Showing a current value and how it will change",
+   "Keeping one number in view beside a larger drawing"
+  ],
+  "logic": [
+   "Now against after",
+   "How big the effect is"
+  ],
+  "best_for": [
+   "When a turn moves one number or one condition",
+   "A short side note on the size of a change"
+  ],
+  "motif": null
+ },
+ "bm-pr-01": {
+  "category": "time",
+  "also": "logical",
+  "name": "Today's day against the new day",
+  "shows": "A whole answer that sets a working day on a clock, comparing today's timings with the day after a change.",
+  "key_uses": [
+   "Show how a fixed set of daily jobs moves to new times",
+   "Name the fixed times of the new day and who acts at each",
+   "Compare when things finish today against the goal",
+   "Ask the user for their own times at each fixed point"
+  ],
+  "logic": [
+   "Before against after across one day",
+   "Earlier start causing an earlier finish",
+   "Same work, only the timing changes"
+  ],
+  "best_for": [
+   "When the user asks how their day will change after a fix",
+   "When the change is about when work happens, not what work",
+   "A Processes answer that shows a new daily routine hour by hour"
+  ],
+  "motif": "Built on a 24-hour style wall clock: use it whenever the answer turns on what happens at which hour of the day."
+ },
+ "bm-pr-02": {
+  "category": "process",
+  "also": "people",
+  "name": "Changes pinned on a floor plan",
+  "shows": "A whole answer that pins each change to the room or desk where it happens, with who does it.",
+  "key_uses": [
+   "Show where in a building each change takes place",
+   "Link each change to the team that works in that room",
+   "Compare today and the new way for each pinned change",
+   "Ask the user how each spot works in their hospital"
+  ],
+  "logic": [
+   "Where each part of a plan lands",
+   "Several small changes adding up to one result",
+   "Today against the new way, place by place"
+  ],
+  "best_for": [
+   "When the user asks where each change happens",
+   "When a plan touches several rooms, desks or departments",
+   "A Processes answer that makes a list of changes feel concrete"
+  ],
+  "motif": "Draws a ward from above with rooms and a corridor: use it whenever places, rooms or departments are mentioned."
+ },
+ "bm-pr-03": {
+  "category": "logical",
+  "also": "process",
+  "name": "One rule holds the chain back",
+  "shows": "A whole answer that shows each step of a chain today and after a change, naming the one rule that delays the rest.",
+  "key_uses": [
+   "Find the single rule that makes every later step wait",
+   "Show each step's timing today against with the change",
+   "Let the user move steps one by one or all at once",
+   "Ask who decides each step today"
+  ],
+  "logic": [
+   "Cause and effect along a chain",
+   "One root cause behind a late result",
+   "Before against after, step by step"
+  ],
+  "best_for": [
+   "When the user asks why something still happens late",
+   "When one rule or habit holds back every step after it",
+   "An answer that narrows many delays down to one cause"
+  ],
+  "motif": null
+ },
+ "bm-pr-04": {
+  "category": "people",
+  "also": "process",
+  "name": "Check, do not decide",
+  "shows": "A whole answer that shows a short list of cases where a person only confirms or changes a suggested answer.",
+  "key_uses": [
+   "Show what a person is asked to do in a routine they already run",
+   "Present suggested values to confirm or change one by one",
+   "Explain where each suggestion comes from",
+   "Gather the user's corrections into the message"
+  ],
+  "logic": [
+   "Checking is easier than making",
+   "A suggestion backed by past cases",
+   "Small asks fitted into an existing routine"
+  ],
+  "best_for": [
+   "When the user asks what a busy person has to do",
+   "When a change asks staff to confirm, not create, information",
+   "When pushback is likely and the ask must look small"
+  ],
+  "motif": null
+ },
+ "bm-pr-05": {
+  "category": "process",
+  "also": "logical",
+  "name": "What happens when it does not go to plan",
+  "shows": "A whole answer that walks one case round a loop with a yes-or-no check that sends it on or back.",
+  "key_uses": [
+   "Show what happens when someone does not do their part",
+   "Reassure that a missed step has a fallback, not a breakdown",
+   "Explain a repeating check before a daily cut-off",
+   "Ask who would own each step of the loop"
+  ],
+  "logic": [
+   "A loop with a yes-or-no check",
+   "Fallback when the main path fails",
+   "Repeat until settled"
+  ],
+  "best_for": [
+   "When the user asks what if someone will not comply",
+   "When a process repeats daily until a case is settled",
+   "An answer that removes fear of a plan breaking"
+  ],
+  "motif": null
+ },
+ "bm-pr-06": {
+  "category": "process",
+  "also": null,
+  "name": "Where the plan starts",
+  "shows": "A whole answer that takes one source document line by line and shows what each line feeds into a plan.",
+  "key_uses": [
+   "Show where the inputs to a plan really come from",
+   "Explain what each line of a form or slip gives later steps",
+   "Compare finding information on the day against having it ahead",
+   "Ask what the user's own form records today"
+  ],
+  "logic": [
+   "Source to use, line by line",
+   "Earlier information enabling earlier action",
+   "One input feeding several parts of a plan"
+  ],
+  "best_for": [
+   "When the user asks where some information comes from",
+   "When a plan depends on a form filled earlier by another team",
+   "An answer that moves the start of a process earlier"
+  ],
+  "motif": "Draws a paper prescription slip: use it whenever a form, slip or written order starts the process."
+ },
+ "bm-pr-07": {
+  "category": "people",
+  "also": null,
+  "name": "Who has to agree",
+  "shows": "A whole answer that shows everyone a change touches, grouped by where they work, with their status and worries.",
+  "key_uses": [
+   "List every group that must agree to a change",
+   "Show who is in the trial and who is still to ask",
+   "Name the one person who must sign off",
+   "Show where pushback is likely and why"
+  ],
+  "logic": [
+   "Who agrees, who objects, who signs off",
+   "Grouping people by where they work",
+   "Ask and worry for each group"
+  ],
+  "best_for": [
+   "When the user asks who needs to agree",
+   "When a change crosses many teams and needs one sign-off",
+   "An answer that plans who to approach first"
+  ],
+  "motif": "Draws name badges for people and teams: use it whenever people, roles or sign-offs are the subject."
+ },
+ "bm-pr-08": {
+  "category": "people",
+  "also": "measures",
+  "name": "Roles and when to hire",
+  "shows": "A whole answer that shows new roles as seats, each with triggers checked against the user's own numbers and a cost.",
+  "key_uses": [
+   "Decide whether new roles are needed",
+   "Show which triggers the user's numbers already meet",
+   "Give the yearly cost of each role",
+   "Size a team against the busiest hours"
+  ],
+  "logic": [
+   "Trigger met or not met",
+   "How many people for how much work",
+   "Who reports to whom"
+  ],
+  "best_for": [
+   "When the user asks whether they need to hire anyone",
+   "When a fix needs new owners and the cost must be clear",
+   "When team size depends on busy-hour numbers"
+  ],
+  "motif": "Draws chairs at a station with lamps: use it whenever roles, seats or number of staff are discussed."
+ },
+ "bm-pr-09": {
+  "category": "measures",
+  "also": null,
+  "name": "What we will read each week",
+  "shows": "A whole answer that sets out the measures to watch, each with a starting number or marked as not yet known.",
+  "key_uses": [
+   "Show how the user will know a change is working",
+   "List what to read during and after a trial",
+   "Mark which measures have no starting number yet",
+   "Ask for the user's guess where no number exists"
+  ],
+  "logic": [
+   "Now against goal",
+   "Early warning signs",
+   "Honest gaps where nothing is measured yet"
+  ],
+  "best_for": [
+   "When the user asks how they would know it works",
+   "When some measures are new and have no history",
+   "An answer that sets the weekly numbers for a trial"
+  ],
+  "motif": null
+ },
+ "bm-pr-10": {
+  "category": "time",
+  "also": "process",
+  "name": "A short trial, day by day",
+  "shows": "A whole answer that lays out a trial as a strip of days with phases that start in turn.",
+  "key_uses": [
+   "Plan a small trial in one place before going wide",
+   "Show which part of the change starts on which days",
+   "Say what to watch in each phase",
+   "Ask the user to choose where to run it"
+  ],
+  "logic": [
+   "Steps that build on each other over days",
+   "Record first, then change",
+   "Small test before spreading"
+  ],
+  "best_for": [
+   "When the user asks if they can try it in one place first",
+   "When a change must start in stages over a few weeks",
+   "An answer that turns a plan into a dated trial"
+  ],
+  "motif": "Built on a two-week strip of days: use it whenever the answer turns on which day or week things start."
+ },
+ "bm-pr-11": {
+  "category": "universal",
+  "also": null,
+  "name": "What we need from you",
+  "shows": "A whole closing answer that lists the missing names and numbers as lines the user fills in.",
+  "key_uses": [
+   "Close a set of answers by asking for what is still missing",
+   "Gather names of owners and contacts",
+   "Collect rough numbers that would change the plan",
+   "Say why each item is needed"
+  ],
+  "logic": [
+   "Missing input changes the answer",
+   "Each item tied to what it unlocks"
+  ],
+  "best_for": [
+   "When the user asks what is needed to start",
+   "The last answer in a sequence, before going back to the start",
+   "When rough answers are enough to move on"
+  ],
+  "motif": "Draws a clipboard form: use it whenever the user is asked to fill in several items."
+ },
+ "bm-pr-block-swap": {
+  "category": "logical",
+  "also": "process",
+  "name": "Magnets moved from today to new",
+  "shows": "Each step of a chain with a magnet that moves from today's way to the changed way.",
+  "key_uses": [
+   "Show what changes at each step after a fix",
+   "Compare today and with the change, one step at a time",
+   "Mark the one step that drives the rest",
+   "Let the user move all steps at once to see the whole shift"
+  ],
+  "logic": [
+   "Before against after, step by step",
+   "One change setting off others along a chain"
+  ],
+  "best_for": [
+   "When the user asks what changes, step by step",
+   "When a process has three or more steps that each shift",
+   "When one rule explains why everything after it is late"
+  ],
+  "motif": null
+ },
+ "bm-pr-block-trial": {
+  "category": "time",
+  "also": "process",
+  "name": "Trial strip of days",
+  "shows": "A playable strip of days with phases as bands, showing how a short trial unfolds.",
+  "key_uses": [
+   "Scope a short trial of a few weeks",
+   "Show when each phase starts and who leads it",
+   "Ask the user to pick where the trial runs",
+   "Show what to watch in each phase"
+  ],
+  "logic": [
+   "Phases in order over time",
+   "Small test before a wide roll-out"
+  ],
+  "best_for": [
+   "When the user wants to try a change small first",
+   "When the answer must say what happens on which days",
+   "Avoid when no trial is planned"
+  ],
+  "motif": "Built on a strip of days and weeks: use it whenever a trial or start dates are discussed."
+ },
+ "bm-pr-block-badges": {
+  "category": "people",
+  "also": null,
+  "name": "Name badges by group",
+  "shows": "Name badges grouped by where people work, each showing whether they agree, are still to ask, or worry.",
+  "key_uses": [
+   "Show who has to agree, team by team",
+   "Filter to those in a trial or still to ask",
+   "Name who signs off and who may push back",
+   "Show what changes for each person"
+  ],
+  "logic": [
+   "Who agrees and who objects",
+   "Grouping by role and place"
+  ],
+  "best_for": [
+   "When the user asks who needs to say yes",
+   "When a change touches several teams",
+   "Avoid when there is only one approver"
+  ],
+  "motif": "Draws name badges: use it whenever people, teams or sign-offs are mentioned."
+ },
+ "bm-pr-block-seats": {
+  "category": "people",
+  "also": "measures",
+  "name": "Chairs with trigger lamps",
+  "shows": "Roles drawn as chairs, with lamps showing which hiring triggers are met and a busy-hours check.",
+  "key_uses": [
+   "Decide whether to hire and how many",
+   "Show which triggers the numbers meet for each role",
+   "Size a desk against the busiest hour with a slider",
+   "Compare two sizing rules"
+  ],
+  "logic": [
+   "Trigger met or not",
+   "Workload per hour against people needed"
+  ],
+  "best_for": [
+   "When the user asks if they need new staff",
+   "When roles cost money and need a clear reason",
+   "Avoid when no new roles are proposed"
+  ],
+  "motif": "Draws chairs and lamps at a station: use it whenever roles, seats or number of staff come up."
+ },
+ "bm-pr-block-readouts": {
+  "category": "measures",
+  "also": null,
+  "name": "Instrument windows",
+  "shows": "Measures drawn as instrument windows, showing a starting number where one exists and dashed where none does.",
+  "key_uses": [
+   "Set out the measures to watch",
+   "Show which have a starting number and which are new",
+   "Filter by when each is read",
+   "Flip to the expected reading after a trial"
+  ],
+  "logic": [
+   "Now against goal",
+   "What is known against not yet measured"
+  ],
+  "best_for": [
+   "When the user asks how they will know it works",
+   "When three or more measures must be tracked",
+   "Avoid when there are fewer than three measures"
+  ],
+  "motif": null
+ },
+ "bm-pr-block-loop": {
+  "category": "process",
+  "also": "logical",
+  "name": "Loop with a yes-or-no check",
+  "shows": "A wheel of steps with a yes-or-no check that sends a case on or back round the loop.",
+  "key_uses": [
+   "Show what happens after a trial: plan, try, measure, adjust, spread",
+   "Show a fallback when a step is missed",
+   "Explain a check that repeats until passed"
+  ],
+  "logic": [
+   "Repeat until a condition is met",
+   "A decision point that sends you on or back"
+  ],
+  "best_for": [
+   "When the user asks what happens after a trial",
+   "When a step may fail and needs a way back",
+   "Avoid for a one-off step"
+  ],
+  "motif": null
+ },
+ "bm-pr-block-timesheet": {
+  "category": "time",
+  "also": "universal",
+  "name": "One day's times on a line",
+  "shows": "One normal day's times on a single line, either blank for the user to type in or filled with gaps shown.",
+  "key_uses": [
+   "Ask the user for real times at each step",
+   "Show the times back with the gaps between them",
+   "Spot where the longest wait in a day sits"
+  ],
+  "logic": [
+   "Where time is lost between steps",
+   "Real times against assumed ones"
+  ],
+  "best_for": [
+   "When the answer needs the user's real times",
+   "When showing back times the user has given",
+   "Avoid when no times are involved"
+  ],
+  "motif": "Built on a timeline of one day: use it whenever the answer turns on when things happen."
+ },
+ "bm-pr-block-day-dial": {
+  "category": "time",
+  "also": null,
+  "name": "Day on a wall clock",
+  "shows": "A working day on a wall clock, comparing today's window for a job with the new one and the fixed times.",
+  "key_uses": [
+   "Show how a day changes after a fix",
+   "Compare today's time window with the new one",
+   "Mark the fixed times of a new routine"
+  ],
+  "logic": [
+   "Before against after across one day",
+   "Earlier start, earlier finish"
+  ],
+  "best_for": [
+   "When the user asks how their day will change",
+   "When the change is mainly about timing",
+   "Avoid when there are more than 8 fixed times"
+  ],
+  "motif": "Draws a wall clock from morning to evening: use it whenever hours of the day or daily routines matter."
+ },
+ "bm-pr-block-ward-pins": {
+  "category": "process",
+  "also": "people",
+  "name": "Pins on a floor plan",
+  "shows": "A floor plan seen from above with each change pinned in the room where it happens.",
+  "key_uses": [
+   "Show where each change happens in a building",
+   "Link changes to the team in each room",
+   "Make a list of changes concrete and placed"
+  ],
+  "logic": [
+   "Where each part of a plan lands",
+   "Many small changes in one place"
+  ],
+  "best_for": [
+   "When the user asks where a change happens",
+   "When changes are spread across rooms or desks",
+   "Avoid when there are more than 7 changes"
+  ],
+  "motif": "Draws a ward from above: use it whenever rooms, wards or departments are mentioned."
+ },
+ "bm-pr-block-round-cards": {
+  "category": "people",
+  "also": "selection",
+  "name": "Cards to confirm or change",
+  "shows": "A card per case with a suggested value that a person confirms or changes and types in.",
+  "key_uses": [
+   "Show what a person does on a routine check",
+   "Present predictions for staff to confirm or correct",
+   "Explain where each prediction comes from",
+   "Collect changed values into the message"
+  ],
+  "logic": [
+   "Checking a suggestion rather than making one",
+   "Prediction from past cases"
+  ],
+  "best_for": [
+   "When the user asks what a doctor or staff member must do",
+   "When staff confirm suggested values one by one",
+   "Avoid when there are more than 6 cases"
+  ],
+  "motif": "Draws patient cards on a round: use it whenever patients or beds are checked one by one."
+ },
+ "bm-pr-block-slip": {
+  "category": "process",
+  "also": null,
+  "name": "Slip pulled into the plan",
+  "shows": "A paper slip whose lines are pulled into a plan, showing what each line feeds.",
+  "key_uses": [
+   "Show where a plan's inputs come from",
+   "Explain what each line of a form feeds later",
+   "Show information captured early instead of found on the day"
+  ],
+  "logic": [
+   "Source to use, line by line",
+   "Earlier information, earlier action"
+  ],
+  "best_for": [
+   "When the user asks where planned work comes from",
+   "When a written form starts the process",
+   "Avoid when there are more than 7 lines"
+  ],
+  "motif": "Draws a paper prescription slip: use it whenever a form, order or slip starts the work."
+ },
+ "bm-pr-block-clipboard": {
+  "category": "universal",
+  "also": null,
+  "name": "Clipboard to fill in",
+  "shows": "A clipboard form whose lines the user types into, each added to the chat message.",
+  "key_uses": [
+   "Ask for numbers or names still missing",
+   "Collect rough answers in one place",
+   "Say why each item is needed"
+  ],
+  "logic": [
+   "Missing input that changes the plan",
+   "Each item tied to what it unlocks"
+  ],
+  "best_for": [
+   "When the answer needs several facts from the user",
+   "A closing ask before work can start",
+   "Avoid when there are more than 7 lines"
+  ],
+  "motif": "Draws a clipboard: use it whenever the user is asked to fill in several items."
+ },
+ "tool-layer": {
+  "category": "universal",
+  "also": "selection",
+  "name": "Picking and entries layer",
+  "shows": "A layer added on top of a drawing: each item gets its own sheet, the first is raised and open, and the user can type an entry that goes into the chat.",
+  "key_uses": [
+   "Letting the user tap any item of a drawing to read its sheet",
+   "Collecting the user's own figures or words from inside a drawing",
+   "Keeping every entry and adding it to the chat message, never replacing one"
+  ],
+  "logic": [
+   "one item at a time, in order",
+   "the user's own entries as evidence"
+  ],
+  "best_for": [
+   "Any drawing with several items that each need more detail",
+   "When the response asks the user to add what they know"
+  ],
+  "motif": null
+ }
+}

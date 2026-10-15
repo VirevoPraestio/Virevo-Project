@@ -7,9 +7,9 @@
   "rule_09": {
     "vault": "vault/chat/_rules-09-reply-check.md",
     "source": "tojo-v2 - Regular Chat/rules/always-on/09-reply-check-rules.md",
-    "bytes": 21631,
-    "sha256_body": "a2f2cb2acdb3b4ea2fba56b3056e91a7b11d23014ba536ffb7746c76e6bfae8b",
-    "note": "AB's bytes after our front matter; the tool path and the regular chat both read it by id (8 Oct 2026)"
+    "bytes": 21674,
+    "sha256_body": "35b409e4970f7fa0b16a79b834e202544985013b7161a2bfed3896260a2f529f",
+    "note": "AB's bytes after our front matter; the tool path and the regular chat both read it by id (8 Oct 2026); EDITED 15 Oct 2026 (KT): only a negative reply is a miss (§3.1, §3.2, §8)"
   },
   "files": {
     "SKILL.md": {
@@ -68,9 +68,34 @@
     },
     "reply-check-report.schema.json": {
       "source": "tojo-v2 - Regular Chat/schema/reply-check-report.schema.json",
-      "bytes": 18695,
-      "sha256": "313221dd6c471692ebbb699e145b70b8a88262c5805d2f81af547ed2d13098d4",
-      "note": "the per-turn reply_check record ($defs.turn_record) and the end-of-day report (rule 09 §9, §10). Read by the tool path on every turn: inlined into the tojo_turn schema and used to check the record the model returns"
+      "bytes": 18754,
+      "sha256": "a6251b4585398f54bcef66f708c9deed13da20c119441464ba2ba91adf9e9cae",
+      "note": "the per-turn reply_check record ($defs.turn_record) and the end-of-day report (rule 09 §9, §10). Read by the tool path on every turn: inlined into the tojo_turn schema and used to check the record the model returns; 15 Oct 2026 (KT): the record's class description says only not_understood, rating_fine and rating_bad are misses"
+    },
+    "00d-conversation-control.md": {
+      "source": "Universal Conversation Rules/rules/always-on/00d-conversation-control.md",
+      "bytes": 6924,
+      "sha256": "c22eeb81591f8b820e5a095fb88919dc5b2f4eafc8bba3b08046b02456ab5c12",
+      "note": "AB 14 Oct 2026, his bytes; tools only (KT, 15 Oct 2026); not in a request until 05 and the step tracking are built"
+    },
+    "05-case-intervention.md": {
+      "source": "Universal Conversation Rules/rules/on-demand/05-case-intervention.md",
+      "bytes": 12019,
+      "sha256": "2d4300c97379c08bbad9e39ca09ba931026f8b649f5427f7a34edcc2a22cc491",
+      "note": "AB 14 Oct 2026, REWORDED by us 15 Oct 2026 (KT, option b): §1 row A, §2 a framing paragraph and the variant A and B lines, §4 the intro, a never bullet, who it was (we can't disclose hospital names) and the figure tag (illustrative, Example only), §5.6 the typical outcome, §7 the provenance line; tools only, loaded only on the turn 00d fires"
+    },
+    "conversation-sequences.md": {
+      "source": "Universal Conversation Rules/skill/virevo-hospital-ops/references/conversation-sequences.md",
+      "bytes": 21083,
+      "sha256": "5dd3d6592de539c41469d289c1ffab1abdb34840b30ad6bd7122920ad9280eb6",
+      "note": "AB 14 Oct 2026, his bytes; tools only: seq.1, seq.2 and the tool's overlay (seq.3 Discharge, seq.4 Bed), seq.7 while a step is held"
     }
+  },
+  "rule_00c": {
+    "vault": "vault/chat/_rules-00c-plain-english.md",
+    "source": "Universal Conversation Rules/rules/always-on/00c-plain-english.md",
+    "bytes": 8799,
+    "sha256_body": "f345f3c581469aea8249c4e9b66c1ae3972b1a3a806cef3a088d3c8ec2ea3b97",
+    "note": "AB's bytes after our front matter; id _rules-plain-english, kind rules-ondemand: the tool path reads it by id (the tool's cached part), the regular chat inside its rules block (KT, 15 Oct 2026: both chats)"
   }
 }

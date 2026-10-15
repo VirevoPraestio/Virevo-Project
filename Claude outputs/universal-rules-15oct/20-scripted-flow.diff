@@ -1,0 +1,21 @@
+--- rule 20 before (vault, AB's text)
++++ rule 20 after (15 Oct)
+@@ -8,6 +8,7 @@
+ version: 2026-09-11
+ source_file: rules/always-on/20-scripted-flow.md
+ source_author: Avishek
++edited: 2026-10-15 virevo-engineering (KT) - the case reveal presents the comparable hospital as our illustration of problems we've solved, not as a hospital we worked with
+ ---
+ 
+ # Tojo — Scripted Flow: Fixed Responses & Repetition Rules
+@@ -241,8 +242,8 @@
+ **Text** — three jobs only, per `00-tojo-core.md` §3. The graphic carries the case; the text does
+ not restate it:
+ 
+-> [Problem] it is — and what you've described lines up closely with a hospital we worked with. Let me
+-> show you their day rather than describe it.
++> [Problem] it is — and what you've described lines up closely with problems we've solved. Here is our
++> illustration of a hospital like yours: let me show you its day rather than describe it.
+ >
+ > [One framing line: the single claim the graphic does not itself assert. For the bed problem, this is
+ > "one thing to watch as you read it: that bed stopped earning hours before it was empty."]

@@ -314,7 +314,7 @@
     "rating_fine",
     "rating_bad"
    ],
-   "description": "09 §3. The last five are misses; unsure is recorded but never a miss."
+   "description": "09 §3. not_understood, rating_fine and rating_bad are misses; ignored, changed_subject and unsure are recorded but never a miss."
   },
   "sources": {
    "type": "object",

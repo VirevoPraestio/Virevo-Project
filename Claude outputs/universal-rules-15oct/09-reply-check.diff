@@ -1,0 +1,36 @@
+--- rule 09 before (vault, AB's text)
++++ rule 09 after (15 Oct)
+@@ -7,6 +7,7 @@
+ version: 2026-10-06
+ source_file: rules/always-on/09-reply-check-rules.md
+ source_author: Avishek
++edited: 2026-10-15 virevo-engineering (KT) - only a negative reply is a miss - `ignored` and `changed_subject` are recorded in §3.1, not misses (§3.2, §8)
+ note: always on in AB's design (regular chat and every tool); published on-demand here and added to a prefix by id (_rules-reply-check) only where the app shows the three fixed lines and stores the record - the tool path since 8 Oct 2026, the regular chat not yet
+ ---
+ # 09 — Reply Check Rules (v1)
+@@ -95,14 +96,14 @@
+ | `follow_up` | The user asks "why", "how" or "tell me more" about something Tojo said. This shows interest, not a miss. |
+ | `new_info` | The user corrects a fact about their own hospital or gives new facts. This is a correction of the record, not of Tojo. |
+ | `no_ask` | Tojo's last turn asked nothing, and the reply carries on the same subject. |
++| `ignored` | Tojo asked for something, and the reply neither gives it, nor defers it, nor says why not. The reply goes on about something else in the same subject. Recorded, not a miss: only a negative reply is a miss. |
++| `changed_subject` | The user drops the thread for a new subject, with no link to Tojo's last answer and without using a button to move on. Recorded, not a miss. |
+ 
+ ### 3.2 Replies that are misses
+ 
+ | Class | What it looks like |
+ |---|---|
+-| `ignored` | Tojo asked for something, and the reply neither gives it, nor defers it, nor says why not. The reply goes on about something else in the same subject. |
+ | `not_understood` | The user says plainly that Tojo has misunderstood, gone off track or missed the point. For example "that's not what I asked", "you've misunderstood", "no, I meant…", "this doesn't help". **A user repeating their own earlier request in other words also counts.** |
+-| `changed_subject` | The user drops the thread for a new subject, with no link to Tojo's last answer and without using a button to move on. |
+ | `rating_fine` | A rating of Fine (§4). |
+ | `rating_bad` | A rating of Bad (§4). |
+ 
+@@ -223,7 +224,7 @@
+ | Priority | Set when the miss is… |
+ |---|---|
+ | **High** | `not_understood` · `rating_bad` · any miss after a reset that did not recover (`recovered: false`) · any miss whose cause is `invented_figure` or `misread_reference` · a third reset in the same chat |
+-| **Medium** | `rating_fine` · `ignored` · `changed_subject` · a reset that then recovered · `off_playbook` or `missed_the_ask`, when not already high |
++| **Medium** | `rating_fine` · a reset that then recovered · `off_playbook` or `missed_the_ask`, when not already high |
+ | **Low** | a single miss the user recovered from on their own in the next reply · `too_long` or `unclear_words` with no complaint from the user · every `unsure` reading · every `user_side` miss |
+ 
+ **Moving a priority up:**

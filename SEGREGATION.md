@@ -112,7 +112,8 @@ Since 8 Oct 2026 AB's deliveries arrive by `git pull` from `VirevoPraestio/Virev
 | `Supply Chain Procurement/landing3.py`, `Revenue EBITDA/places.py`, `Length of Stay/places.py`, `OPD Diagnostic Leak/landing.py` (+ `sc_common.py`, `odl_common.py`) | code, ported (9 Oct 2026) | `Chat/Virevo.Chat.Canvas/SupplyChainLandingRenderer.cs`, `RevenueLandingRenderer.cs`, `LengthOfStayLandingRenderer.cs`, `OpdLeakLandingRenderer.cs`, on bm_common's parts (`LandingParts.cs`, which Bed Management now shares); each page's stylesheet taken unchanged from AB's render into `assets/landing-{scp,rev,los,odl}-{tab}.css`; registered in `ToolLandingFamilies` | the 16 place pages, byte for byte against AB's renders (`NewToolLandingTests`, 32 pages). The figures AB's code prints from literals (totals, trial lengths, the statement title, the 1,300 extra days, the pad's date) are read from the data; his fixtures carry them under `_literals`. **Not wired to a tool of the app**: the app's list (OPD Scheduling, Clinical Notes, Supply Chain) is not AB's (OPD Diagnostic Leak, Revenue & EBITDA, Length of Stay), and these pages read fields our summary contract does not carry yet. The home pages are not drawn |
 | `{Supply Chain Procurement,Revenue EBITDA,Length of Stay,OPD Diagnostic Leak}/out/landing/{scp,rev,los,odl}-{diagnosis,solutions,automations,processes}.desktop.{filled,empty}.html` | code | `Tests/Virevo.Chat.Canvas.Tests/fixtures/landing/` (the canvas inside `<main>`), with each page's DATA as `{tool}-{tab}.data.json` and its empty half as `Chat/Virevo.Chat.Canvas/assets/landing-empty/{tool}-{tab}.json` | the replay oracles |
 | `skins.py`, `landing2.py`, `landing.py` (SCP), `rev_landing.py`, `los_landing.py`, `*_library.py`, `qa.py`, `shot.py`, `review_template.html`, `fonts/`, the home renders and review pages; `Claude outputs/*.html` | left | — | the home pages' samples and AB's tooling; `fonts/` are the set-aside looks' (the Financial look keeps the Virevo type) |
-| `Common Elements/library/template_uses.json`, `reorganise.py` | left | — | the library's How to use cards (195, keyed by the registry's block names: what a template shows, key uses, best for). A candidate for the model's catalogue if AB puts it in a request; until then it is not one |
+| `Common Elements/library/template_uses.json` | vault | `vault/tools/template_uses.json` | the library's How to use cards (195): in the tool request since 10 Oct 2026 (KT) - the catalogue carries each block's card beside its registry lines; the map entry sits before `library/**`, since the first match wins |
+| `Common Elements/library/reorganise.py` | left | — | lays the published library out by what a template shows |
 | `Common Elements/rules/07-html-block-design-rules.md` (8 Oct: one domain, one identity) | left | — | governs the templates; never in a request |
 | `Backend Agent/**` | left | — | AB's agent that reads the end-of-day reports; nothing runs here yet |
 
@@ -137,3 +138,29 @@ Since 8 Oct 2026 AB's deliveries arrive by `git pull` from `VirevoPraestio/Virev
 5. **Code files:** copy content files to their project home. A changed template, generator source or spec is a code change: port it, run the replay test against AB's rendered files of the same drop, and it ships with the next release.
 6. **Left files:** nothing to do.
 7. Report: what moved where, that `skills-live` matches, what needs a build, what waits on a decision. Commit only when asked.
+
+## Map — Universal Conversation Rules (`Universal Conversation Rules/`, AB 14 Oct 2026, staged 15 Oct 2026)
+
+AB's commit `6181f79` ("Simulation and Universal Conversation"). KT copied the folder in before pulling, and it is byte for byte the same. Which chat gets which rule is KT's decision (15 Oct 2026): **00c goes to both chats; 00d, 05 and the sequences go to the tools only.**
+
+| AB's file | bucket | destination | note |
+|---|---|---|---|
+| `rules/always-on/00c-plain-english.md` | vault | `vault/chat/_rules-00c-plain-english.md`, `kind: rules-ondemand`, id `_rules-plain-english` | One copy, read by id. The regular chat carries it inside its rules block (no new cache breakpoint), and every tool carries it in the tool's cached part. Embedded fallback: `Business/Tools/prompt/00c-plain-english.md`. |
+| `rules/always-on/00d-conversation-control.md` | vault | `vault/tools/00d-conversation-control.md` | AB's bytes. Goes live with 05 and the step tracking. |
+| `rules/on-demand/05-case-intervention.md` | vault | `vault/tools/05-case-intervention.md` | **Reworded by us**; see below. Loaded only on the turn 00d fires. |
+| `skill/virevo-hospital-ops/references/conversation-sequences.md` | vault | `vault/tools/conversation-sequences.md` | AB's bytes. seq.1 and seq.2 plus the tool's overlay (seq.3 Discharge, seq.4 Bed); seq.7 while a step is held. |
+| `skill/virevo-hospital-ops/index/seq.card.md`, `index/points/seq.points.md` | left | — | Index material for the regular chat's retrieval. The sequences are tools only. |
+| `publish/manifest.yaml`, `HANDOVER-FOR-DEVELOPER.md`, `CONVERSATION-CONTROL-SPEC.md`, `AGENT-USAGE-AND-TOKEN-GUIDE.md` | left | — | AB's runtime contract and the developer notes. |
+
+**Our edits to AB's texts (KT, 15 Oct 2026).** This is an exception to "nothing AB wrote is edited". Each edited file says so in its front matter, or in `vault/tools/bundle.json`, and AB has the list to adopt.
+- `05-case-intervention.md` (option b): the comparable hospital is our illustration, built from similar problems we have solved. It is never a specific client, a record, or something Tojo saw himself.
+  - §1 row A.
+  - §2: a framing paragraph, plus the variant A and B lines.
+  - §4: the intro, a "never" bullet, the answer to "who was it" (we can't disclose hospital names), and the figure tag, which is the tools' `illustrative` source ("Example only").
+  - §5.6: the typical outcome.
+  - §7: the regular chat's provenance mark is dropped.
+- `vault/chat/_rules-09-reply-check.md`: only a negative reply is a miss.
+  - `ignored` and `changed_subject` move to §3.1 as recorded readings that are not misses.
+  - §8 drops them from Medium.
+  - The code's `ReplyCheck.Misses` and the record's class description in `reply-check-report.schema.json` change with it.
+- `vault/chat/_rules-20-scripted-flow.md`: the case reveal's "a hospital we worked with" becomes "problems we've solved… our illustration of a hospital like yours".

@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-09",
+  "version": "2026-10-15",
   "about": "Where each file of an AB package goes. Buckets: vault (enters an API request; publish-ready copy under vault/), code (read by our code at build, run or test time; copied or ported into the project folders), left (stays in AB's folder only). Globs are relative to the package folder. First match wins; anything unmatched is 'left' and must be added here.",
   "destinations": {
     "vault-chat": "vault/chat/  ->  D:/Git_Virevo/skills-live  ->  S3 via Utility/Virevo.Utility.SkillsPublisher.Cli (when KT says)",
@@ -24,7 +24,7 @@
         "to": "vault/chat/_rules-09-reply-check.md",
         "kind": "rules-ondemand",
         "id": "_rules-reply-check",
-        "note": "always on in AB design (chat and every tool); one copy; the tool path reads it by id since 8 Oct 2026, the regular chat once its record channel exists"
+        "note": "always on in AB design (chat and every tool); one copy; the tool path reads it by id since 8 Oct 2026, the regular chat once its record channel exists; EDITED 15 Oct 2026 (KT): only a negative reply is a miss - ignored and changed_subject recorded in §3.1, not misses (§3.2, §8; ReplyCheck.Misses the same). AB to adopt"
       },
       {
         "match": "schema/reply-check-report.schema.json",
@@ -284,7 +284,7 @@
         "match": "Common Elements/rules/08-shared-turn-rules.md",
         "bucket": "vault",
         "to": "vault/tools/08-shared-turn-rules.md",
-        "note": "for the generators; never in a request. Rides along so the folder shows AB whole delivery 8 Oct 2026: §12 the two domains (Operations, Financial), §13 every response template open to every tool; staged 9 Oct, AB's bytes"
+        "note": "for the generators, except §2 and the One entry per question bullet of §9, which the tool request carries in AB's words since 10 Oct 2026 (KT). Rides along so the folder shows AB whole delivery 8 Oct 2026: §12 the two domains (Operations, Financial), §13 every response template open to every tool; staged 9 Oct, AB's bytes"
       },
       {
         "match": "Common Elements/schema/tojo-response.schema.json",
@@ -355,9 +355,15 @@
         "note": "the four tabs' landing.py, ported (LandingRenderer.Tabs.cs, 9 Oct 2026); diagnosis_html.py is the universal generator (30 Sep); the per-place generators live in Discharge Process/ and Bed Management/"
       },
       {
+        "match": "Common Elements/library/template_uses.json",
+        "bucket": "vault",
+        "to": "vault/tools/template_uses.json",
+        "note": "the How to use card per template (195, library v14): in the tool request since 10 Oct 2026 (KT) - the catalogue carries each block's card beside its registry lines (group, key uses, logic, best for, picture rule); AB's bytes. Before the library/** entry: the first match wins"
+      },
+      {
         "match": "Common Elements/library/**",
         "bucket": "left",
-        "note": "the one block library builder. Version 14 (8 Oct 2026): reorganise.py lays the library out by what a template shows; template_uses.json holds a How to use card per template (195), keyed by the registry's block names - a candidate for the model's catalogue if AB puts it in a request; until then it is not one"
+        "note": "the one block library builder. Version 14 (8 Oct 2026): reorganise.py lays the library out by what a template shows; template_uses.json has its own entry above (in the tool request since 10 Oct 2026)"
       },
       {
         "match": "Common Elements/examples/**",
@@ -521,6 +527,49 @@
         "match": "**",
         "bucket": "left",
         "note": "AB back-end agent: reads the end-of-day reply-check reports and writes review packs; nothing runs here yet"
+      }
+    ],
+    "Universal Conversation Rules": [
+      {
+        "match": "rules/always-on/00c-plain-english.md",
+        "bucket": "vault",
+        "to": "vault/chat/_rules-00c-plain-english.md",
+        "kind": "rules-ondemand",
+        "id": "_rules-plain-english",
+        "note": "both chats (KT, 15 Oct 2026); one copy read by id: the regular chat carries it inside its rules block (no extra cache breakpoint), every tool in the tool's cached part; AB's bytes after our front matter"
+      },
+      {
+        "match": "rules/always-on/00d-conversation-control.md",
+        "bucket": "vault",
+        "to": "vault/tools/00d-conversation-control.md",
+        "note": "tools only (KT, 15 Oct 2026); AB's bytes; goes live with 05 and the step tracking (it tells the model to show a case, which needs 05's guardrails)"
+      },
+      {
+        "match": "rules/on-demand/05-case-intervention.md",
+        "bucket": "vault",
+        "to": "vault/tools/05-case-intervention.md",
+        "note": "tools only, loaded only on the turn 00d fires; REWORDED by us (KT, 15 Oct 2026, option b): the case is our illustration built from similar problems we have solved, never a specific client or record; asked who it was: we can't disclose hospital names; figures carry the tools' illustrative source (Example only); the regular chat's provenance mark dropped. AB to adopt"
+      },
+      {
+        "match": "skill/virevo-hospital-ops/references/conversation-sequences.md",
+        "bucket": "vault",
+        "to": "vault/tools/conversation-sequences.md",
+        "note": "tools only; AB's bytes; seq.1, seq.2 and the tool's overlay (seq.3 Discharge, seq.4 Bed) ride in the tool's part, seq.7 while a step is held"
+      },
+      {
+        "match": "skill/virevo-hospital-ops/index/{seq.card.md,points/seq.points.md}",
+        "bucket": "left",
+        "note": "the regular chat's retrieval index; the sequences are tools only, and the tool path does not read the chat's cards or point index"
+      },
+      {
+        "match": "publish/manifest.yaml",
+        "bucket": "left",
+        "note": "AB's runtime contract for his own pipeline; our code implements the parts that apply"
+      },
+      {
+        "match": "*.md",
+        "bucket": "left",
+        "note": "HANDOVER-FOR-DEVELOPER, CONVERSATION-CONTROL-SPEC, AGENT-USAGE-AND-TOKEN-GUIDE: written for the developer"
       }
     ]
   }

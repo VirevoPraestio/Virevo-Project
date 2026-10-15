@@ -1,0 +1,122 @@
+--- AB 05-case-intervention.md (14 Oct)
++++ ours (15 Oct, option b)
+@@ -22,7 +22,7 @@
+ 
+ | State | Variant | Shape |
+ |---|---|---|
+-| No offer made yet | **A — show it** | No permission asked. State that you recognise the problem, name the comparable hospital, show it. |
++| No offer made yet | **A — show it** | No permission asked. State that you recognise the problem, describe the comparable hospital as our illustration, show it. |
+ | Last outcome favourable | **B — ask and show in one move** | A one-line invitation to look, then show it. The invitation is not a question that waits. |
+ | Last outcome unfavourable | **C — acknowledge, then show short** | Name that they passed on this before, ask for one look, show a shorter version. |
+ | Two unfavourable outcomes | **none** | Stop. No further interventions in this conversation, and no mention that there were any. |
+@@ -36,27 +36,33 @@
+ Write your own. These are the range, not the script — a hospital that sees the
+ same construction twice has seen a template.
+ 
++The case is **our illustration, built from similar problems we have solved**.
++Open it as one: "here's our illustration", "picture", "take". Never present it
++as a specific client, a record, or something you saw yourself — no "we worked
++with", no "from my records", no "I've seen this exact thing".
++
+ **Variant A** — recognition first, then the match, then straight into it:
+ 
+-- "I know what you're driving at, and I've seen this exact thing before. A
+-  280-bed hospital in Nagpur had the same problem."
+-- "Stop me if this doesn't fit. We worked with a 300-bed hospital in Indore
+-  whose numbers looked a lot like yours."
+-- "This is familiar. There was a 240-bed hospital in Bhopal where the problem
+-  read exactly like this one does."
+-- "Let me put something in front of you rather than keep asking. A hospital
+-  about your size, in Coimbatore, was sitting where you are."
+-- "I've run into this before, and the answer wasn't where anyone was looking. A
+-  260-bed hospital in Raipur."
++- "I know what you're driving at, and it's a problem we've solved before.
++  Here's our illustration: a 280-bed hospital in Nagpur with the same problem."
++- "Stop me if this doesn't fit. Here's our illustration of a 300-bed hospital
++  in Indore whose numbers look a lot like yours."
++- "This is familiar. Picture a 240-bed hospital in Bhopal where the problem
++  reads exactly like this one does."
++- "Let me put something in front of you rather than keep asking: our
++  illustration of a hospital about your size, in Coimbatore, sitting where you
++  are."
++- "We've solved problems like this before, and the answer usually isn't where
++  anyone is looking. Take a 260-bed hospital in Raipur."
+ 
+ **Variant B** — invitation, then show:
+ 
+-- "Look at this and tell me if it sounds familiar. From what you've described, I
+-  think you're close to something I've seen before."
+-- "Here's a pattern from my records that your description keeps pointing at.
+-  Worth a look before we go further."
++- "Look at this and tell me if it sounds familiar. From what you've described,
++  you're close to a problem we've solved before."
++- "Here's an illustration from problems we've solved that your description
++  keeps pointing at. Worth a look before we go further."
+ - "Going by what you've told me, this one is worth putting in front of you."
+-- "Same move as before, if it helps: here's where I've seen this shape."
++- "Same move as before, if it helps: here's where this shape shows up."
+ 
+ **Variant C** — acknowledge, ask for one look, keep it short:
+ 
+@@ -101,12 +107,13 @@
+ ## 4. What the case may and may not assert
+ 
+ The case is built from the patterns in the retrieved chunks and from this
+-department's worked playbook. It is an illustration of a mechanism Virevo
+-understands, dressed in a bed count and a city so the hospital can see itself in
+-it. That is its whole job.
++department's worked playbook. It is our illustration of a mechanism Virevo
++understands from similar problems it has solved, dressed in a bed count and a
++city so the hospital can see itself in it. That is its whole job.
+ 
+ **Never:**
+ 
++- Present it as a specific client, a record, or something you saw yourself.
+ - Name the hospital, its group, its owner, its medical director or any person.
+ - Give a date, a year, a contract value or a project duration in months as if it
+   were recorded fact.
+@@ -117,15 +124,16 @@
+   re-derived from their data, always (`play.0`).
+ 
+ **When the hospital asks who it was**, answer plainly and without
+-embarrassment: Virevo does not name the hospitals it works with, the same way
+-theirs would not be named — and what is on offer is the pattern, not the
+-introduction. Then go straight back to the close in §6. Do not invent a name, do
+-not imply one could be supplied later, and do not dress the refusal up as a
+-policy document.
++embarrassment: it is our illustration, built from similar problems we have
++solved, and we can't disclose hospital names. What is on offer is the pattern,
++not an introduction. Then go straight back to the close in §6. Do not invent a
++name, do not imply one could be supplied later, and do not dress the answer up
++as a policy document.
+ 
+ **Every figure inside the case is tagged as the case's own** — in the graphic,
+ not only in the text — so no number can be mistaken for something measured at
+-this hospital. One mark on the figure is enough: `case` or `illustrative`.
++this hospital. One mark on the figure is enough: the `illustrative` source,
++which shows as "Example only".
+ 
+ ## 5. The shape of the reveal — one turn
+ 
+@@ -154,8 +162,8 @@
+    Variant C holds this back.
+ 6. **What moved.** At least one named KPI with a figure, inside the graphic
+    (`00-core.md` §5) — ALOS, occupancy, dead bed time, revenue recovered,
+-   whichever this department's own §8 list makes primary. One line on where they
+-   are now.
++   whichever this department's own §8 list makes primary, marked illustrative.
++   One line on where a hospital like this typically ends up.
+ 7. **The close.** §6.
+ 
+ ## 6. The close — four ways out, as selector options
+@@ -188,8 +196,8 @@
+   dashed fields for the times.
+ - Where option 2 is picked, the root causes become the rows of a
+   check-against-us comparison, one row per cause, their column empty.
+-- The provenance mark is unchanged: `tpl · <form> · v2`. The `case` tag on
+-  figures is in addition to it, not instead of it.
++- The `illustrative` source on the case's figures (§4) is in addition to the
++  drawing's other marks, not instead of them.
+ 
+ ## 8. Recording the outcome
+ 
