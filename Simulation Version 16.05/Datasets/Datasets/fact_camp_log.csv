@@ -1,0 +1,4 @@
+camp_id,camp_date,camp_location,camp_city,camp_pincode,camp_type,organised_by,organising_doctor_id,doctors_deployed,staff_deployed,total_attendees,referred_to_opd,opd_conversions_30d,ip_admissions_30d,conversion_rate_opd,conversion_rate_ip,total_camp_cost,revenue_from_admissions,cost_per_opd_conversion,cost_per_ip_admission,dominant_payer_type,avg_case_value_from_camp
+CMP-20240208-01,2024-02-08,"Satpur Industrial Area, Nashik",Nashik,422007,GENERAL_HEALTH,CORPORATE_CSR,REF-00003,2,8,145,38,21,8,0.145,0.055,85000,224000,4047.62,10625.0,TPA,28000.0
+CMP-20240215-01,2024-02-15,"Gangapur Village, Nashik Taluka",Nashik,422222,ORTHO_SCREENING,HOSPITAL_DIRECT,REF-00012,1,6,88,22,12,3,0.136,0.034,42000,84000,3500.0,14000.0,GOVT,28000.0
+CMP-20240222-01,2024-02-22,"Deolali Camp, Nashik",Nashik,422401,CARDIAC,REFERRAL_DOCTOR,REF-00016,2,5,112,31,18,5,0.161,0.045,55000,170000,3055.56,11000.0,TPA,34000.0

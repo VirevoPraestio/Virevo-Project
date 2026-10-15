@@ -1,0 +1,13 @@
+ward_id,ward_name,ward_type,total_beds,daily_rate,floor
+ICU,Intensive Care Unit,ICU,15,8500,2
+OT1,OT-1 General Surgery,OT,0,0,1
+OT2,OT-2 Orthopaedics,OT,0,0,1
+OT3,OT-3 Gynaecology,OT,0,0,1
+WARDA,Ward A — General Medicine,WARD,30,2200,3
+WARDB,Ward B — Surgical,WARD,30,2400,3
+WARDC,Ward C — Orthopaedics,WARD,25,2400,4
+PRIVE,Private Wing,WARD,20,4200,4
+SEMIP,Semi-Private,WARD,20,3100,4
+HDU,High Dependency Unit,HDU,4,5500,2
+ER,Emergency,EMERG,6,0,0
+PHARM,Pharmacy,SUPPORT,0,0,0

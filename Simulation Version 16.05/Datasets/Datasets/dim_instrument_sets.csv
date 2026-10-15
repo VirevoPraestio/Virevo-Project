@@ -1,0 +1,11 @@
+set_id,set_name,specialty,ot_assigned,instrument_count,set_weight_kg,standard_processing_time_min,actual_avg_processing_time_min,quantity_owned,sets_in_rotation,sets_under_repair,autoclave_cycle_required,constraint_flag
+ISET-001,Basic Laparotomy Set,GENERAL_SURGERY,OT1,38,4.2,45,62,3,3,0,PREVACUUM,True
+ISET-002,Laparoscopic Tower Instrument Set,GENERAL_SURGERY,OT1,24,3.8,55,78,2,2,0,PREVACUUM,True
+ISET-003,Minor Surgical Set (General),MULTI,OT1,18,1.6,35,44,4,4,0,GRAVITY,False
+ISET-004,Orthopaedic Basic Set (Open Fracture),ORTHOPAEDICS,OT2,42,6.1,55,88,3,3,0,PREVACUUM,True
+ISET-005,Orthopaedic Power Tool Set (Drill/Saw),ORTHOPAEDICS,OT2,12,8.8,95,128,2,2,0,PREVACUUM,True
+ISET-006,Orthopaedic Arthroplasty Retractor Set,ORTHOPAEDICS,OT2,28,5.5,65,97,2,2,0,PREVACUUM,True
+ISET-007,Gynaecology D&C / Minor Set,GYNAECOLOGY,OT3,22,2.1,40,55,3,3,0,GRAVITY,False
+ISET-008,Gynaecology Major (Hysterectomy) Set,GYNAECOLOGY,OT3,35,3.9,50,72,2,2,0,PREVACUUM,True
+ISET-009,Cardiac / Vascular Set,CARDIOLOGY,OT1,30,4.5,60,84,2,2,0,PREVACUUM,True
+ISET-010,ENT Microlaryngoscopy Set,ENT,OT1,26,2.4,45,64,2,2,0,PREVACUUM,False

@@ -1,0 +1,130 @@
+/* suites register their data here */
+if (typeof SUITES==="undefined") var SUITES = [];
+/* ===== Example data: Billing & Insurance suite, 250-bed hospital, Bhubaneswar. All figures are examples. ===== */
+SUITES.push({ key:"billing", data:{
+  suite: "Billing & Insurance",
+  family: "Discharge Process",
+  hospital: "250-bed hospital, Bhubaneswar",
+  started: "14 Sep 2026", week: 5, weeksPlanned: 24, asOf: "12 Oct 2026, 10:40 AM",
+  rvTitle:"Billing & Insurance · suite landing",
+  rvSub:"Three options for the whole page. Every event in the stay is charged the moment it is recorded. Example figures for a 250-bed hospital in Bhubaneswar, week 5 of 24.",
+  recoverLine:"If all three land, break-even comes back to late January.",
+  aheadRisk:"The risk to watch is the charge list: until it is signed off, rates can still change under this gain.",
+  chat:{ sub:"Billing & Insurance suite · 250-bed hospital, Bhubaneswar",
+    msg:["Three of the twelve charge lines are live, and 64% of charges now land on the bill within 15 minutes of the event, ahead of plan.","Three measures are off track: missed charges, the insurer's final approval and billing overtime. Two of them wait on the charge list sign-off.","Pick a point to add to it, or choose what to do next."],
+    note:"Get the charge list signed this week. Two measures wait on it.",
+    points:["The charge list sign-off, 5 days late","Insurer's final approval after discharge","Charges missed on the final bill","Break-even moving to March"],
+    asks:["What would bring break-even back to January?","Which insurer is slowest to approve?","Can medicines be charged on the dose before 22 Oct?"] },
+  milestone: { what: "Tariff and package rules go live", date: "16 Oct", days: 4, part: 8 },
+
+  /* side: "in" feeds the billing engine, "out" leaves it */
+  parts: [
+    { id:1,  name:"Bed-days and room charges", src:"Hospital software (HIS)", side:"in", st:"live", when:"Live since 21 Sep", fresh:"charged at 00:00 and on every transfer", owner:"manoj", vol:"about 230 bed-days a day", note:"Room, nursing and bed-day charges post at midnight and on each ward transfer, with the room category checked against the package." },
+    { id:2,  name:"Lab tests charged when ordered", src:"Lab system", side:"in", st:"live", when:"Live since 28 Sep", fresh:"4 min ago", owner:"sanjay", vol:"about 610 tests a day", note:"A test is charged when the order is placed and reversed automatically if it is cancelled before the sample is taken." },
+    { id:3,  name:"Imaging charged on the report", src:"Imaging system (PACS)", side:"in", st:"blocked", when:"9 days late · now 28 Oct", fresh:"no feed yet", owner:"sanjay", vol:"about 120 reports a day",
+      note:"Waits on the same imaging link as the Discharge Summary suite. Until it opens, imaging is charged by hand from the register.",
+      delay:"The imaging vendor has not opened its data link, the same hold-up the Discharge Summary suite has. Imaging is still charged by hand from the register at the end of each shift, so about 1 in 25 scans reaches the bill late or not at all.",
+      fixes:[["Charge imaging from the PDF report the system already prints, until the link opens","sanjay","20 Oct"],["Escalate to the vendor's regional head, jointly with the Discharge Summary suite","kavya","31 Oct"],["Imaging link live","sanjay","28 Oct"]] },
+    { id:4,  name:"Medicines charged on the dose given", src:"Pharmacy and drug chart", side:"in", st:"testing", when:"Goes live 22 Oct", fresh:"test feed, 12 min ago", owner:"rakesh", vol:"about 2,400 doses a day", note:"Charged when the nurse records the dose, not when the pharmacy issues it, so unused strips never reach the bill." },
+    { id:5,  name:"Consumables charged on use", src:"Stores (ERP)", side:"in", st:"building", when:"Due 30 Oct", fresh:"no feed yet", owner:"sanjay", vol:"about 3,100 items a day", note:"Uses the same item-code match as the Discharge Summary suite's consumables link." },
+    { id:6,  name:"Procedure and theatre charges", src:"Theatre register", side:"in", st:"testing", when:"Goes live 19 Oct", fresh:"test feed, 1 h ago", owner:"manoj", vol:"about 22 cases a day", note:"Surgeon, anaesthetist, theatre time and implants are charged from the theatre record when the case closes." },
+    { id:7,  name:"Doctor visit fees", src:"Doctors' round log", side:"in", st:"live", when:"Live since 5 Oct", fresh:"2 min ago", owner:"manoj", vol:"about 480 visits a day", note:"Each visit recorded on the round is charged at the doctor's grade and the patient's package rate." },
+    { id:8,  name:"Tariff and package rules", src:"Charge list in the ERP", side:"rules", st:"testing", when:"Goes live 16 Oct", fresh:"rates as of 1 Oct", owner:"manoj", vol:"1,840 rates · 64 packages", note:"Every charge is priced from one signed charge list, with insurer packages and caps applied as it posts." },
+    { id:9,  name:"Running bill and payments for the family", src:"Patient app, SMS and payment counter", side:"out", st:"testing", when:"Goes live 26 Oct", fresh:"test, 2 wards", owner:"smita", vol:"about 40 families a day", note:"The family sees the bill to date each evening and can pay a deposit or the balance by UPI or card." },
+    { id:10, name:"Insurer pre-approval and top-up requests", src:"Insurer portals (6 TPAs)", side:"out", st:"building", when:"Due 9 Nov", fresh:"2 of 6 portals connected", owner:"debasish", vol:"about 25 requests a day", note:"Requests for approval and for more cover go out with the running bill and the doctor's notes attached." },
+    { id:11, name:"Provisional bill to the insurer the evening before", src:"Insurer portals, with the Discharge Summary suite", side:"out", st:"notstarted", when:"Starts 2 Nov", fresh:"not started", owner:"debasish", vol:"—", note:"When the doctor flags a likely discharge on the evening round, the bill to date and the draft summary go to the insurer that night." },
+    { id:12, name:"Final bill and claim papers on discharge", src:"Insurer portals, with the Discharge Summary suite", side:"out", st:"notstarted", when:"Starts 16 Nov", fresh:"not started", owner:"debasish", vol:"—", note:"On the doctor's sign-off, the final bill, reports and signed summary go to the insurer in one pack." }
+  ],
+  handoffs: [
+    { name:"Signed discharge summary for the claim papers", to:"Discharge Summary", st:"testing", when:"Phone sign-off goes live 15 Oct" }
+  ],
+
+  kpis: [
+    { id:"K1", name:"Charges on the bill within 15 minutes of the event", short:"Charged in 15 min", unit:"%", dir:"up", base:22, target:98, plan:60, now:64,
+      why:"Lab orders, bed-days and doctor visits now post on their own; they make up two thirds of all charges." },
+    { id:"K2", name:"Bill ready after the doctor confirms discharge", short:"Bill ready", unit:"min", dir:"down", base:150, target:15, plan:90, now:98,
+      factors:[["Medicines still added from the pharmacy issue slip",55],["Imaging added by hand from the register",30],["Final check of package caps done by hand",15]],
+      fixes:[["Medicines charged on the dose given","rakesh","22 Oct"],["Imaging charged from the printed PDF report","sanjay","20 Oct"]],
+      back:"Back on the plan line by week 8 (2 Nov)" },
+    { id:"K3", name:"Charges missed on the final bill", short:"Missed charges", unit:"%", dir:"down", base:3.2, target:0.3, plan:2.0, now:2.6,
+      factors:[["Old rates in the charge list for 140 items",50],["Imaging charged late from the register",30],["Consumables not yet charged on use",20]],
+      fixes:[["Charge list signed off with the 140 rates corrected","manoj","16 Oct"],["Imaging charged from the printed PDF report","sanjay","20 Oct"],["Consumables link live","sanjay","30 Oct"]],
+      back:"Back on the plan line by week 9 (9 Nov)" },
+    { id:"K4", name:"Insurer's first approval turnaround", short:"First approval", unit:"min", dir:"down", base:240, target:60, plan:170, now:185,
+      factors:[["Only 2 of 6 insurer portals connected",65],["Doctor's notes attached by hand",35]],
+      fixes:[["Next two portals (the two largest insurers) connected","debasish","26 Oct"],["Notes attached from the Discharge Summary suite's record","kavya","2 Nov"]],
+      back:"Back on the plan line by week 8 (2 Nov)" },
+    { id:"K5", name:"Insurer's final approval after discharge", short:"Final approval", unit:"min", dir:"down", base:300, target:90, plan:230, now:285,
+      factors:[["Claim papers put together by hand in the morning",50],["Bill not ready until mid-morning",30],["Insurer queries on missing reports",20]],
+      fixes:[["Night insurance coordinator sends provisional bills by hand from 14 Oct","nibedita","14 Oct"],["Provisional bill to the insurer the evening before, automatically","debasish","2 Nov"]],
+      back:"Back on the plan line by week 10 (16 Nov)" },
+    { id:"K6", name:"Bills sent without a manual cross-check", short:"No manual check", unit:"%", dir:"up", base:0, target:60, plan:10, now:12,
+      why:"Cash bills under ₹50,000 with no package now go straight to the family after a sample check." },
+    { id:"K7", name:"Amount the insurer deducts from claims", short:"Claim deductions", unit:"%", dir:"down", base:7.5, target:3, plan:6.5, now:6.1,
+      why:"Package caps are applied as charges post, so non-payable items are flagged before the claim goes out." },
+    { id:"K8", name:"Billing team overtime each week", short:"Billing overtime", unit:"h", dir:"down", base:46, target:10, plan:34, now:38,
+      factors:[["Month-end catch-up on imaging and consumables",60],["Rates corrected by hand while the charge list is unsigned",40]],
+      fixes:[["Charge list signed off","manoj","16 Oct"],["Stores link live","sanjay","30 Oct"]],
+      back:"Back on the plan line by week 9 (9 Nov)" },
+    { id:"K9", name:"Cash bills paid before the patient leaves", short:"Paid before leaving", unit:"%", dir:"up", base:81, target:99, plan:86, now:88,
+      why:"Families are asked for the balance at the evening update, not at the discharge counter." }
+  ],
+
+  people: [
+    { key:"manoj", name:"Manoj Sahu", role:"Billing head, suite owner", from:"Hospital", done:5, due:9, late:2,
+      today:[["Sign off the charge list","late 5 days"],["Approve 140 corrected rates","late 3 days"],["Review theatre charge test",1]],
+      impact:"Charge list 5 days late: missed charges stay 0.6 points over plan, about ₹1.1 lakh a week, and break-even moves 3 weeks.",
+      next:[["Charge list signed off","16 Oct"],["Theatre charges live","19 Oct"],["Month-end close with no catch-up","31 Oct"],["Billing team rota cut by one shift","16 Nov"]] },
+    { key:"debasish", name:"Debasish Rout", role:"Insurance desk lead", from:"Hospital", done:6, due:8, late:1,
+      today:[["Portal access for the two largest insurers","late 2 days"],["Clear 9 pending first approvals",1],["Brief Nibedita on night sends",1]],
+      impact:"Portal access 2 days late: first approvals stay 15 min over plan.",
+      next:[["Two more insurer portals connected","26 Oct"],["Provisional bill to insurer starts","2 Nov"],["All six portals connected","9 Nov"],["Final claim papers sent automatically","16 Nov"]] },
+    { key:"nibedita", name:"Nibedita Sahoo", role:"Insurance coordinator, nights", from:"New role we recommended · joined 28 Sep", done:9, due:9, late:0,
+      today:[["Send 7 provisional bills to insurers by hand","9 PM"],["Log insurer queries for the morning","11 PM"]],
+      next:[["Same-night sends for every flagged discharge","14 Oct"],["Hand over to the automatic send","2 Nov"]] },
+    { key:"smita", name:"Smita Panda", role:"Billing executive, mornings", from:"Hospital", done:11, due:12, late:0,
+      today:[["Check 14 final bills before release",1],["Evening bill message test on Ward 3",1],["Deposit reminders for 6 families","in progress"]],
+      next:[["Running bill for families goes live","26 Oct"],["Sample checks only for cash bills","2 Nov"]] },
+    { key:"rakesh", name:"Rakesh Behera", role:"Pharmacy in-charge", from:"Hospital", done:4, due:6, late:1,
+      today:[["Match pharmacy codes to the drug chart","late 4 days"],["Return-to-stock rule test",1]],
+      impact:"Drug codes 4 days late: medicine charging on the dose may slip from 22 Oct, keeping bills 8 min slower than plan.",
+      next:[["Medicines charged on the dose given","22 Oct"],["Unused strips returned automatically","2 Nov"]] },
+    { key:"sanjay", name:"Sanjay Mohanty", role:"IT integration lead", from:"Hospital IT (shared with Discharge Summary)", done:4, due:7, late:1,
+      today:[["Imaging vendor call","late 9 days"],["Stores item-code match","due today"]],
+      impact:"Imaging link 9 days late: about 1 in 25 scans reaches the bill late or not at all.",
+      next:[["Imaging charged from the PDF report","20 Oct"],["Imaging link live","28 Oct"],["Stores link live","30 Oct"]] },
+    { key:"ritika", name:"Ritika Das", role:"Discharge Manager", from:"Discharge Summary suite", done:3, due:3, late:0,
+      today:[["Share tonight's likely discharges with Nibedita",1]],
+      next:[["Evening flags passed to billing automatically","2 Nov"]] },
+    { key:"kavya", name:"Kavya Iyer", role:"Virevo project lead", from:"Virevo", done:5, due:5, late:0,
+      today:[["Weekly report to the CFO",1],["Plan the joint vendor escalation",1]],
+      next:[["Insurer portal plan reviewed with the CFO","19 Oct"],["Notes attached from the summary record","2 Nov"],["Four-week review","9 Nov"]] }
+  ],
+
+  months: ["Sep","Oct"],
+  spend: [
+    { cat:"Subscription", v:[2.0,2.0] },
+    { cat:"Salaries of roles we recommended", v:[0,0.25], note:"Insurance coordinator, nights: ₹3 lakh a year" },
+    { cat:"One-time costs", v:[1.2,1.8], note:"Sep: charge-list clean-up · Oct: insurer portal connectors" }
+  ],
+  revenue: [0.9,3.4], ebitda:[0.6,2.1],
+  runRate: { revenue:9, ebitda:5.5 },
+  cumMonths:["Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun"],
+  cumSpend:[3.2,7.25,9.6,11.95,14.3,16.65,19.0,21.35,23.7,26.05],
+  cumPlan:[0.8,3.4,7.2,11.6,16.5,21.6,27.0,32.6,38.4,44.3],
+  cumFore:[0.6,2.7,5.4,8.5,12.1,16.2,21.0,26.2,31.8,37.6],
+  actualTo:1,
+  breakeven:{ plan:"Jan 2027", fore:"Mar 2027", late:"about 8 weeks" },
+  healthFactors:[["Charge list sign-off late, so missed charges are not yet recovered",40],["Insurer portals slower to connect than planned",35],["Imaging still charged by hand",25]],
+  healthFixes:[["Charge list signed off with the 140 rates corrected","manoj","16 Oct"],["Two largest insurers' portals connected first","debasish","26 Oct"],["Imaging charged from the printed PDF report","sanjay","20 Oct"]],
+  watch: [
+    { t:"Charge list sign-off 5 days late", who:"manoj", ref:"per:manoj" },
+    { t:"Insurer's final approval: 55 min over plan", who:"debasish", ref:"kpi:K5" },
+    { t:"Imaging charges stuck behind the imaging link", who:"sanjay", ref:"part:3" }
+  ],
+  resources: [
+    ["Project plan and milestones","PDF · 14 Sep"],["Charge list, draft 4 (awaiting sign-off)","Spreadsheet · 9 Oct"],
+    ["Insurer portal access checklist","6 insurers · updated 10 Oct"],["Package and cap rules","64 packages"],
+    ["Weekly review notes","4 notes · latest 9 Oct"],["Subscription agreement and invoices","2 files"]
+  ]
+}});

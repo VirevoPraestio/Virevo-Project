@@ -1,0 +1,9 @@
+payer_id,payer_name,payer_type,panel_number,avg_tat_days,payment_terms_days
+PAY-CASH,Cash / Self Pay,CASH,,0,0
+PAY-TPA01,Star Health Insurance,TPA,SH-NAS-2021,32,30
+PAY-TPA02,Medi Assist TPA,TPA,MA-NAS-2019,38,30
+PAY-TPA03,Paramount TPA,TPA,PT-NAS-2020,42,30
+PAY-TPA04,Vidal Health TPA,TPA,VH-NAS-2022,35,30
+PAY-CGHS,CGHS,GOVT,CGHS-NAS,55,60
+PAY-ECHS,ECHS,GOVT,ECHS-NAS,48,60
+PAY-PMJAY,PM-JAY / Ayushman Bharat,GOVT,PMJAY-MH,60,90

@@ -1,0 +1,16 @@
+doctor_id,name,role,specialty,department,is_surgeon,is_anaesthetist
+DR001,Dr. Rajesh Mehta,OWNER_CONSULTANT,GENERAL_SURGERY,Surgery,True,False
+DR002,Dr. Sunita Krishnamurthy,CONSULTANT,ORTHOPAEDICS,Ortho,True,False
+DR003,Dr. Anil Patwardhan,CONSULTANT,CARDIOLOGY,Cardiology,True,False
+DR004,Dr. Priya Deshpande,CONSULTANT,GYNAECOLOGY,Gynae,True,False
+DR005,Dr. Suresh Joshi,CONSULTANT,GENERAL_MEDICINE,Medicine,False,False
+DR006,Dr. Kavita Bhosale,CONSULTANT,PAEDIATRICS,Paeds,False,False
+DR007,Dr. Manoj Thorat,CONSULTANT,NEUROLOGY,Neurology,False,False
+DR008,Dr. Shilpa Nair,CONSULTANT,ENT,ENT,True,False
+DR009,Dr. Vivek Kulkarni,CONSULTANT,ORTHOPAEDICS,Ortho,True,False
+DR010,Dr. Anita Sawant,CONSULTANT,GENERAL_SURGERY,Surgery,True,False
+DR011,Dr. Ramesh Gupta,ANAESTHETIST,ANAESTHESIA,Anaesthesia,False,True
+DR012,Dr. Meena Iyer,ANAESTHETIST,ANAESTHESIA,Anaesthesia,False,True
+DR013,Dr. Aakash Rao,INTENSIVIST,CRITICAL_CARE,ICU,False,False
+DR014,Dr. Pooja Wagh,RESIDENT,GENERAL,Medicine,False,False
+DR015,Dr. Amit Desai,RESIDENT,GENERAL,Surgery,False,False

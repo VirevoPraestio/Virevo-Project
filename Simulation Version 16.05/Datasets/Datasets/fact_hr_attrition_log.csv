@@ -1,0 +1,5 @@
+attrition_id,staff_id,department,grade_id,date_of_resignation,last_working_date,notice_period_served_days,departure_type,exit_reason_primary,exit_reason_secondary,destination_type,competitor_named,city_destination,replacement_initiated,replacement_hired_date,agency_cover_used,vacancy_days,agency_cover_cost
+ATR-202401-01,STF-00003,NURSING,GRD-02,2024-01-08,2024-01-22,14,VOLUNTARY,LOCATION,SALARY,COMPETITOR_HOSPITAL,Sahyadri Hospital Nashik,Pune,True,2024-01-25,True,8,56000.0
+ATR-202401-02,STF-00009,NURSING,GRD-03,2024-01-15,2024-01-29,14,VOLUNTARY,SALARY,WORKLOAD,METRO_CITY,Ruby Hall Clinic,Pune,True,,True,30,111000.0
+ATR-202401-03,STF-00021,NURSING,GRD-02,2024-01-20,2024-02-03,14,VOLUNTARY,LOCATION,GROWTH,METRO_CITY,KEM Hospital,Mumbai,False,,True,25,70000.0
+ATR-202402-01,STF-00034,NURSING,GRD-02,2024-02-05,2024-02-19,14,VOLUNTARY,SCHEDULE,FAMILY,OTHER_SECTOR,,Nashik,False,,True,9,25200.0

@@ -1,0 +1,279 @@
+# Tojo v2 runtime assembly manifest.
+#
+# Two jobs:
+#   1. Tell publish.py which source doc produces which runtime file(s).
+#   2. Tell the API backend how to assemble a call -- what is resident, what is
+#      pinned, what is retrieved, and which register to inject.
+#
+# The backend should read this file rather than hard-coding the file list, so
+# adding a department file is a manifest change, not a code change.
+#
+# What is different from v1: retrieval is chunk-level, not file-level. The
+# `retrieved` block below names files because that is the unit a maintainer
+# reasons about, but the backend fetches CHUNKS from them, via the three index
+# levels in section 4.
+
+# ---------------------------------------------------------------------------
+# 1. Build: there is no longer a source -> runtime step
+# ---------------------------------------------------------------------------
+# v1 generated 00-core, the two registers, the layout rules and common-elements
+# from .source.md files. That tree has been deleted and every file below is now
+# maintained directly. Editing a runtime file IS the edit -- there is nothing
+# upstream of it to regenerate from.
+#
+# The one exception is POINT-INDEX.md, which is still generated -- see the
+# `generated:` block below. Do not hand-edit that one.
+
+lint_only:
+  - rules/always-on/00-core.md
+  - rules/always-on/00a-register-sales.md
+  - rules/always-on/00b-register-advisor.md
+  - rules/always-on/00c-plain-english.md
+  - rules/always-on/00d-conversation-control.md
+  - rules/on-demand/01-response-rules.md
+  - rules/on-demand/02-image-creation-rules.md
+  - rules/on-demand/03-subscription-pricing-rules.md
+  - rules/on-demand/04-layout-patterns.md
+  - rules/on-demand/05-case-intervention.md
+  - skill/virevo-hospital-ops/SKILL.md
+  - skill/virevo-hospital-ops/references/discharge-process.md
+  - skill/virevo-hospital-ops/references/bed-management.md
+  - skill/virevo-hospital-ops/references/opd-diagnostic-leakage.md
+  - skill/virevo-hospital-ops/references/supply-chain-procurement.md
+  - skill/virevo-hospital-ops/references/discharge-process-conversation-playbook.md
+  - skill/virevo-hospital-ops/references/conversation-sequences.md
+
+# The point index is generated, not hand-maintained. Regenerate it whenever any
+# per-file extract changes; never edit POINT-INDEX.md directly, because the
+# merge will silently overwrite the edit on the next build.
+generated:
+  skill/virevo-hospital-ops/index/POINT-INDEX.md:
+    merge_of:
+      - skill/virevo-hospital-ops/index/points/bed.points.md
+      - skill/virevo-hospital-ops/index/points/dis.points.md
+      - skill/virevo-hospital-ops/index/points/opd.points.md
+      - skill/virevo-hospital-ops/index/points/sup.points.md
+      - skill/virevo-hospital-ops/index/points/common.points.md
+      - skill/virevo-hospital-ops/index/points/play.points.md
+      - skill/virevo-hospital-ops/index/points/seq.points.md
+    header_is_hand_written: true   # the intro and the cross-department table
+
+# ---------------------------------------------------------------------------
+# 2. Assembly: what the backend puts in each call
+# ---------------------------------------------------------------------------
+assembly:
+
+  # Resident in the system prompt on EVERY call, in this order, ABOVE the
+  # retrieved <internal_reference> block, INSIDE the cached prefix.
+  #
+  # 00c and 00d are always-on by necessity, not by preference. 00c governs every
+  # word the hospital can see, including on turns that build no graphic and load
+  # no on-demand rules. 00d has to evaluate the meander test on every turn, and
+  # a rule that only loads once something has gone wrong cannot notice that it
+  # is going wrong.
+  always_on:
+    - rules/always-on/00-core.md
+    - rules/always-on/00c-plain-english.md
+    - rules/always-on/00d-conversation-control.md
+    - skill/virevo-hospital-ops/index/GROUP-CATALOGUE.md
+
+  # Exactly one of these is appended to always_on, chosen by flow stage.
+  # Never both. The other is suppressed entirely -- that is what structurally
+  # prevents register blending, rather than asking the model not to blend.
+  register_select:
+    key: flow_stage
+    branches:
+      scripted:   rules/always-on/00a-register-sales.md
+      unscripted: rules/always-on/00b-register-advisor.md
+    scripted_stages:
+      - industry-menu
+      - facility-intake
+      - problem-menu
+      - problem-commitment
+      - case-study-reveal
+      - diagnostic-questions
+      - solution-reveal
+      - data-ask
+      - subscription-pivot
+    subscriber_bypass:
+      from_stage: token-gate
+      to_stage:   unscripted
+
+  # CACHE BREAKPOINT sits here. Everything above is identical every turn and
+  # must be emitted in exactly this order; a wrong order produces zero cache
+  # hits with NO error. Confirm with cache_read_input_tokens on a real turn.
+  cache_breakpoint_after: register_select
+
+  # Fetched unconditionally, in code, whenever ANY department chunk is fetched.
+  # NOT a topic-retrieval candidate.
+  pinned:
+    - file: skill/virevo-hospital-ops/references/common-elements.md
+      pinned_with: department_chunks
+
+  # Topic-retrieved into <internal_reference>, at chunk granularity.
+  retrieved:
+    department_files:
+      - file: skill/virevo-hospital-ops/references/discharge-process.md
+        prefix: dis
+        group: 4
+      - file: skill/virevo-hospital-ops/references/bed-management.md
+        prefix: bed
+        group: 2
+      - file: skill/virevo-hospital-ops/references/opd-diagnostic-leakage.md
+        prefix: opd
+        group: 5
+      - file: skill/virevo-hospital-ops/references/supply-chain-procurement.md
+        prefix: sup
+        group: 9
+
+    # Discharge and Bed Management verify each other's numbers. Retrieving
+    # either pulls the other; enforce in code, like the pin above.
+    co_fetch:
+      - [dis, bed]
+    # PROPOSED, NOT ADOPTED: [sup, dis]. Supply Chain's issue/consumption/returns
+    # automation and Discharge's provisional-billing automation are two halves of
+    # one build (sup.3b row D, dis.3b row C), and a discharge delay attributed to
+    # pharmacy reconciliation is unanswerable from either file alone. Held back
+    # deliberately: a second unconditional pair raises the floor cost of every
+    # query in two groups, and the case for it should be made from real retrieval
+    # logs rather than asserted. Revisit once the gap register has data.
+
+    playbooks:
+      - file: skill/virevo-hospital-ops/references/discharge-process-conversation-playbook.md
+        when: group == 4 and turn_is_open_ended
+
+    # Fetched by conversation stage, not by topic scoring. The sequence is what
+    # 00d's counter is evaluated against, so it has to be present on every
+    # unscripted consulting turn -- a topic match would drop it exactly when the
+    # conversation has drifted off topic, which is when it is needed.
+    sequences:
+      - file: skill/virevo-hospital-ops/references/conversation-sequences.md
+        prefix: seq
+        when: flow_stage == unscripted
+        always_fetch: [seq.1, seq.2]
+        overlay_by_sequence_id:
+          dis: seq.3
+          bed: seq.4
+          opd: seq.5
+          sup: seq.6
+        fetch_also:
+          - chunk: seq.7
+            when: step_held > 0
+          - chunk: seq.0
+            when: sequence_id is unset
+        # Roughly 2,500-3,100 tokens per consulting turn: seq.1 + seq.2 + one
+        # overlay. Counted inside retrieval.budget_tokens, not outside it.
+
+  on_demand:
+    - files:
+        - rules/on-demand/01-response-rules.md
+        - rules/on-demand/02-image-creation-rules.md
+        - rules/on-demand/04-layout-patterns.md
+      when: turn_generates_svg
+      trigger_lives_in: rules/always-on/00-core.md  # section 6
+    - files:
+        - rules/on-demand/03-subscription-pricing-rules.md
+      when: turn_is_pricing_related
+    - files:
+        - rules/on-demand/05-case-intervention.md
+      when: case_intervention_fired
+      trigger_lives_in: rules/always-on/00d-conversation-control.md  # section 4
+
+# ---------------------------------------------------------------------------
+# 3. Retrieval contract -- the parts that live in code, not in the files
+# ---------------------------------------------------------------------------
+retrieval:
+  budget_tokens: 12000          # hard cap on retrieved chunks per turn
+  chunks_per_query: [3, 6]
+  needs_resolution: one_hop     # NEVER to fixpoint -- measured, that pulls >50%
+  see_resolution: score_boost   # NEVER fetched -- to fixpoint this pulls 95%
+  never_fetch_flag: "retrieve: never"
+  strip_before_assembly: "<!--m-->...<!--/m-->"
+
+  # The sequence chunks are fetched by stage and are exempt from
+  # chunks_per_query, which governs topic-scored selection only. They still
+  # count against budget_tokens.
+  stage_fetched_exempt_from_chunk_count: [seq]
+
+  # Required tests. The first is the one nothing in the files can enforce.
+  tests:
+    - assert_no_chunk_reached_only_via_see
+    - assert_needs_never_resolved_transitively
+    - assert_no_retrieve_never_chunk_in_context
+    - assert_maintainer_spans_stripped
+    - assert_cache_read_input_tokens_nonzero
+    - assert_sequence_chunks_present_on_every_unscripted_turn
+    - assert_case_intervention_rules_absent_until_fired
+
+# ---------------------------------------------------------------------------
+# 3b. Conversation control state
+# ---------------------------------------------------------------------------
+# Held by the backend alongside the hospital record and supplied with the
+# variable tail, the same way flow_stage is. The model infers these only when
+# they are absent, and inference is the fallback rather than the contract.
+#
+# Full definitions, transitions and tests: CONVERSATION-CONTROL-SPEC.md
+conversation_control:
+  enabled_for_stages: [unscripted]
+  fields:
+    sequence_id:        # dis | bed | opd | sup
+      derived_from: the department the conversation committed to
+    sequence_step:      # e.g. C3, G2 -- the smallest open step
+      derived_from: the overlay's step table
+    turns_in_step:
+      type: integer
+      counts: user turns since the step opened, inclusive
+      resets_on: [step_closed, case_intervention_delivered]
+    step_held:
+      type: integer
+      max: 2
+      increments_on: justified_deviation
+      note: a hold suspends turns_in_step; it never resets it
+    case_offers_made:
+      type: integer
+      increments_on: case_intervention_delivered
+    last_case_outcome: # favourable | unfavourable | unset
+      set_from: the hospital's next turn, per 05-case-intervention.md section 8
+  trigger:
+    fires_when: turns_in_step >= 4 and step_exit_condition_unmet
+    suppressed_when: case_offers_made >= 2 and last_case_outcome == unfavourable
+    loads: rules/on-demand/05-case-intervention.md
+
+# ---------------------------------------------------------------------------
+# 4. Index levels
+# ---------------------------------------------------------------------------
+index:
+  resident:  skill/virevo-hospital-ops/index/GROUP-CATALOGUE.md
+  cards:     skill/virevo-hospital-ops/index/*.card.md
+  # Retriever-side only. Never enters the prompt, so its size does not matter
+  # at inference and it can afford to be exhaustive.
+  point_index: skill/virevo-hospital-ops/index/POINT-INDEX.md
+
+  # A query naming a symptom rather than a function scores into the group where
+  # the failure SURFACES. Every department file's §3b chunk names the couplings
+  # through which its failures reach other functions, and the point index's §3b
+  # rows are phrased as complaints so they match symptom-shaped queries. Where a
+  # §3b row names another department as the origin, fetch that department's §3b
+  # as a second hop before composing.
+  misattribution_hop:
+    enabled: true
+    from_chunks: ["*.3b"]
+    max_hops: 1
+
+# ---------------------------------------------------------------------------
+# 5. Vocabulary: flow stage is the only position vocabulary
+# ---------------------------------------------------------------------------
+# Turn numbers are not shared vocabulary between the rules and the content
+# files -- four content files drifted +2 against SKILL.md's flow in v1. The
+# backend holds the one stage -> turn map; no markdown file carries a turn
+# number, and no chunk id is derived from a section number.
+#
+# sequence_step is a SECOND position vocabulary, and the two do not overlap:
+# flow_stage says scripted or unscripted and selects the register; sequence_step
+# says where inside the unscripted arc the conversation is. Neither is ever
+# spoken to the hospital.
+stage_content_map:
+  case-study-reveal:    content/case-studies.md
+  diagnostic-questions: content/diagnostic-questions.md
+  solution-reveal:      content/solution-depictions.md
+  data-ask:             content/data-points.md

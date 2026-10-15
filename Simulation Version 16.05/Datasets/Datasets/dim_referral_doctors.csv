@@ -1,0 +1,29 @@
+referral_doctor_id,doctor_name,qualification,specialty,clinic_name,city,pincode,distance_from_hospital_km,relationship_tier,relationship_since_date,last_referral_date,total_referrals_ltm,referrals_feb24,avg_case_value_ltm,pref_specialty_at_sunrise,formal_mou_signed,camp_participated,last_hospital_visit_date
+REF-00001,Dr. Dilip Kulkarni,MBBS,GP,Dilip Kulkarni Clinic,Nashik,422009,15.0,TIER_1,2020-03-01,2024-02-24,80,7,95024,GENERAL_MEDICINE,True,True,2024-01-22
+REF-00002,Dr. Suhas Patil,MBBS,GP,Suhas Patil Clinic,Nashik,422009,4.2,TIER_1,2022-04-01,2024-02-08,106,10,87976,GENERAL_MEDICINE,True,False,2024-01-18
+REF-00003,Dr. Narendra Shinde,MBBS,GP,Narendra Shinde Clinic,Nashik,422006,10.7,TIER_1,2021-12-01,2024-02-14,113,10,87212,GENERAL_MEDICINE,True,False,2024-02-09
+REF-00004,Dr. Pramod Gaikwad,MD (Gen Med),INTERNAL_MEDICINE,Pramod Gaikwad Clinic,Nashik,422002,4.5,TIER_1,2018-10-01,2024-02-09,108,10,98763,GENERAL_MEDICINE,True,True,2024-01-24
+REF-00005,Dr. Usha Bhosale,MS (Ortho),ORTHOPAEDICS,Usha Bhosale Clinic,Nashik,422002,21.5,TIER_1,2019-11-01,2024-02-20,107,10,105089,ORTHOPAEDICS,True,False,2024-02-19
+REF-00006,Dr. Rekha More,MD (Paeds),PAEDIATRICS,Rekha More Clinic,Nashik,422006,3.4,TIER_1,2020-02-01,2024-02-13,92,8,89614,GENERAL_MEDICINE,True,True,2024-02-15
+REF-00007,Dr. Santosh Jadhav,MD (Gynae),GYNAECOLOGY,Santosh Jadhav Clinic,Nashik,422003,5.7,TIER_1,2022-10-01,2024-02-21,100,9,95748,GYNAECOLOGY,True,True,2024-01-18
+REF-00008,Dr. Girish Thakur,"MBBS, PGDM",GP,Girish Thakur Clinic,Nashik,422005,11.5,TIER_1,2023-04-01,2024-02-27,101,9,97626,GENERAL_MEDICINE,True,False,2024-01-26
+REF-00009,Dr. Leela Salunke,DNB (Cardiology),CARDIOLOGY,Leela Salunke Clinic,Nashik,422009,3.8,TIER_2,2017-11-01,2024-02-15,56,5,80358,CARDIOLOGY,False,False,2024-01-09
+REF-00010,Dr. Baburao Sathe,MBBS,GP,Baburao Sathe Clinic,Nashik,422002,13.0,TIER_2,2020-03-01,2024-02-17,73,6,75861,GENERAL_MEDICINE,False,True,2024-02-03
+REF-00011,Dr. Kiran Landge,MBBS,GP,Kiran Landge Clinic,Nashik,422009,5.5,TIER_2,2022-07-01,2024-02-13,52,4,83543,GENERAL_MEDICINE,False,False,2024-02-17
+REF-00012,Dr. Ashok Nandedkar,MBBS,GP,Ashok Nandedkar Clinic,Nashik,422008,19.3,TIER_2,2019-11-01,2024-02-11,31,3,81595,GENERAL_MEDICINE,False,True,2024-01-10
+REF-00013,Dr. Jayashri Supekar,MBBS,GP,Jayashri Supekar Clinic,Nashik,422003,2.6,TIER_2,2022-11-01,2024-02-10,55,5,80635,GENERAL_MEDICINE,False,False,2024-01-05
+REF-00014,Dr. Mohan Deshpande,MD (Gen Med),INTERNAL_MEDICINE,Mohan Deshpande Clinic,Nashik,422002,13.0,TIER_2,2023-02-01,2024-02-12,38,3,80010,GENERAL_MEDICINE,False,False,2024-02-08
+REF-00015,Dr. Padma Kamble,MS (Ortho),ORTHOPAEDICS,Padma Kamble Clinic,Nashik,422009,4.2,TIER_2,2021-03-01,2024-02-22,63,6,81455,ORTHOPAEDICS,False,False,2024-02-18
+REF-00016,Dr. Ramdas Sonawane,MD (Paeds),PAEDIATRICS,Ramdas Sonawane Clinic,Nashik,422008,19.5,TIER_2,2020-12-01,2024-02-10,67,6,81671,GENERAL_MEDICINE,False,True,2024-02-22
+REF-00017,Dr. Sunanda Thorat,MD (Gynae),GYNAECOLOGY,Sunanda Thorat Clinic,Nashik,422004,20.0,TIER_2,2020-02-01,2024-02-11,64,6,72123,GYNAECOLOGY,False,True,2024-01-19
+REF-00018,Dr. Vishwas Pawar,"MBBS, PGDM",GP,Vishwas Pawar Clinic,Nashik,422004,2.6,TIER_2,2023-06-01,2024-02-03,35,3,66208,GENERAL_MEDICINE,False,True,2024-01-09
+REF-00019,Dr. Kamla Lahane,DNB (Cardiology),CARDIOLOGY,Kamla Lahane Clinic,Nashik,422007,13.0,TIER_3,2017-04-01,2024-02-04,35,3,62498,CARDIOLOGY,False,False,2024-01-22
+REF-00020,Dr. Hemant Ghuge,MBBS,GP,Hemant Ghuge Clinic,Nashik,422002,9.4,TIER_3,2022-01-01,2024-02-13,42,3,48775,GENERAL_MEDICINE,False,False,2024-02-26
+REF-00021,Dr. Shalini Mhaske,MBBS,GP,Shalini Mhaske Clinic,Nashik,422002,7.3,TIER_3,2017-03-01,2024-02-09,20,1,51593,GENERAL_MEDICINE,False,False,2024-02-08
+REF-00022,Dr. Dattatray Deore,MBBS,GP,Dattatray Deore Clinic,Nashik,422007,11.1,TIER_3,2023-02-01,2024-02-25,-4,0,64713,GENERAL_MEDICINE,False,False,2024-01-06
+REF-00023,Dr. Meena Yeole,MBBS,GP,Meena Yeole Clinic,Nashik,422008,12.0,TIER_3,2021-07-01,2024-02-01,18,1,48921,GENERAL_MEDICINE,False,False,2024-02-09
+REF-00024,Dr. Raju Mahajan,MD (Gen Med),INTERNAL_MEDICINE,Raju Mahajan Clinic,Nashik,422006,8.1,TIER_3,2019-04-01,2024-02-02,32,3,53222,GENERAL_MEDICINE,False,False,2024-01-24
+REF-00025,Dr. Geeta Borse,MS (Ortho),ORTHOPAEDICS,Geeta Borse Clinic,Nashik,422004,3.6,TIER_3,2022-03-01,2024-02-03,33,3,48863,ORTHOPAEDICS,False,False,2024-01-22
+REF-00026,Dr. Sharad Wagh,MD (Paeds),PAEDIATRICS,Sharad Wagh Clinic,Nashik,422004,10.4,TIER_3,2017-11-01,2024-02-19,7,1,49686,GENERAL_MEDICINE,False,False,2024-02-09
+REF-00027,Dr. Vaishali Khandare,MD (Gynae),GYNAECOLOGY,Vaishali Khandare Clinic,Nashik,422006,15.6,TIER_3,2017-03-01,2024-02-22,24,2,55703,GYNAECOLOGY,False,False,2024-02-15
+REF-00028,Dr. Eknath Shelar,"MBBS, PGDM",GP,Eknath Shelar Clinic,Nashik,422005,20.6,TIER_3,2022-02-01,2024-02-18,-5,0,62017,GENERAL_MEDICINE,False,False,2024-01-17

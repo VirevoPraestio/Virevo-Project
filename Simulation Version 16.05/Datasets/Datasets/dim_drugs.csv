@@ -1,0 +1,21 @@
+drug_id,name,category,is_icu_critical,generic_available,brand_flag,unit_cost,unit,controlled
+DRG001,Midazolam 5mg/5ml Inj,SEDATION,True,True,True,285,VIAL,True
+DRG002,Vecuronium 10mg Inj,NMB,True,True,True,320,VIAL,True
+DRG003,Propofol 200mg/20ml,SEDATION,True,True,True,410,VIAL,False
+DRG004,Noradrenaline 4mg/4ml,VASOPRESSOR,True,True,True,180,AMP,False
+DRG005,Morphine 10mg/ml Inj,ANALGESIC,True,True,True,95,AMP,True
+DRG006,Fentanyl 100mcg/2ml,ANALGESIC,True,False,True,145,AMP,True
+DRG007,Augmentin 1.2g Inj (Brand),ANTIBIOTIC,False,True,True,185,VIAL,False
+DRG008,Amoxiclav 1.2g Inj (Generic),ANTIBIOTIC,False,False,False,78,VIAL,False
+DRG009,Pantocid 40mg IV (Brand),PPI,False,True,True,62,VIAL,False
+DRG010,Pantoprazole 40mg (Generic),PPI,False,False,False,18,VIAL,False
+DRG011,Cefoperazone-Sulbactam (Brand),ANTIBIOTIC,False,True,True,245,VIAL,False
+DRG012,Cefoperazone-Sulbactam (Generic),ANTIBIOTIC,False,False,False,112,VIAL,False
+DRG013,Tramadol 50mg Inj,ANALGESIC,False,True,False,14,AMP,False
+DRG014,Ondansetron 4mg Inj,ANTIEMETIC,False,True,False,12,AMP,False
+DRG015,Dexamethasone 4mg Inj,STEROID,False,True,False,8,AMP,False
+DRG016,Heparin 5000 IU Inj,ANTICOAG,True,True,False,48,VIAL,False
+DRG017,Insulin Actrapid 10ml,HORMONE,True,False,True,185,VIAL,False
+DRG018,Ringer's Lactate 500ml,IV_FLUID,False,False,False,32,VIAL,False
+DRG019,Normal Saline 500ml,IV_FLUID,False,False,False,28,VIAL,False
+DRG020,Metronidazole 500mg IV,ANTIBIOTIC,False,False,False,22,VIAL,False

@@ -1,0 +1,50 @@
+<title>Simulation Page Options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@500;700&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+/* Review page: a neutral strip on top, then one full-bleed option at a time.
+   Each option commits to its own single look (no light/dark swap by design); every colour is set explicitly. */
+/*@@SUITE_BASE@@*/
+/* ---------- additions for the simulation ---------- */
+.d-ms{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+.d-ms li{display:grid;grid-template-columns:118px 1fr;gap:10px;align-items:start;font-size:13.5px}
+.src{display:inline-flex;justify-content:center;border-radius:999px;padding:2px 8px;font-size:11.5px;font-weight:600;border:1.5px solid currentColor;white-space:nowrap}
+.src-yours{color:#1E6B45}.src-ref{color:#6A4FA0;border-style:dashed}.src-manual{color:#9A5B00}.src-none{color:#8A2E2E;border-style:dotted}
+#toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:90;
+  max-width:min(560px,calc(100% - 32px));background:var(--forest);color:var(--cream);border:1.5px solid var(--gold);border-radius:14px;padding:12px 16px;font-size:13.5px;transition:opacity .2s,transform .2s}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+body.chat-open #toast{left:calc((100% - 400px)/2)}
+body.dropping #stage{outline:4px dashed var(--gold);outline-offset:-10px}
+.rv .picks button small{display:block;font-size:11px;font-weight:400;opacity:.75;line-height:1.2}
+.rv .rvtools{margin-left:auto;display:flex;flex-wrap:wrap;align-items:center;gap:6px;border:1.5px dashed var(--rv-ink);border-radius:10px;padding:5px 8px;font-size:12px;color:var(--rv-mute)}
+.rv .rvtools button{border:1px solid var(--rv-line);background:#fff;border-radius:8px;padding:6px 10px;font-size:12.5px;font-weight:600;min-height:36px}
+@media (max-width:900px){.rv .rvtools{margin-left:0}}
+.d-why{margin:0 0 14px;padding:10px 12px;border-left:4px solid #d4a94f;background:#FBF6E8;border-radius:0 10px 10px 0;font-size:14px;line-height:1.5}
+.d-why span{display:block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B4F16;margin-bottom:2px}
+.d-fill{border:1.5px solid #16213E;background:#d4a94f;border-radius:8px;padding:8px 14px;font-weight:600;min-height:40px;color:#16213E}
+.rv[hidden],.rv-note[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+input[type=file]{position:absolute;width:1px;height:1px;opacity:0}
+</style>
+
+<div class="rv">
+  <div><h1 id="rvTitle"></h1><small id="rvSub"></small></div>
+  <div class="picks" id="picks" role="group" aria-label="Choose an option"></div>
+  <div class="rvtools" role="group" aria-label="Review controls, not part of the page"><span>Review only:</span><button type="button" data-rv="sample">Replay the sample hospital arriving</button><button type="button" data-rv="clear">Empty the page</button></div>
+</div>
+<div class="rv-note" id="rvNote"></div>
+<main id="stage"></main>
+
+<div id="peek" role="status" aria-live="polite"></div>
+<div id="scrim"></div>
+<section id="sheet" role="dialog" aria-modal="true" aria-label="Details"><div class="shbar"><button class="sh-ask" type="button"><i>T</i>Ask Tojo about this</button><button class="x" type="button" aria-label="Close">×</button></div><div id="sheetBody"></div></section>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<button id="chatFab" type="button" aria-label="Open the chat with Tojo"><i class="t">T</i><span>Ask Tojo</span><i class="dot" aria-hidden="true"></i></button>
+<aside id="chat" aria-label="Chat with Tojo">
+  <header><i class="t">T</i><div><h3>Tojo</h3><small id="chatSub"></small></div><button type="button" id="chatClose" aria-label="Minimise the chat">–</button></header>
+  <div class="body" id="chatBody"></div>
+  <div class="ctx" id="chatCtx" hidden></div>
+  <div class="in"><label class="sr" for="chatIn">Write to Tojo</label><textarea id="chatIn" placeholder="Write to Tojo…"></textarea><button class="send" type="button" aria-label="Send">→</button></div>
+</aside>
