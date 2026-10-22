@@ -54,3 +54,22 @@
 | common.peak-load#k4 | Discharge nursing/discharge-coordination ratio, against two-window discharge pattern | common.peak-load | nurses per discharge, discharge coordinator, who does the paperwork |
 | common.peak-load#k5 | Discharge housekeeping/transport per shift vs bed-turnover and transport volume | common.peak-load | housekeeping per shift, bed cleaning staff, how fast beds get ready |
 | common.peak-load#k6 | Bed Management ratio for bed-turnover and admission-handling staff (method here, KPI #17 there) | common.peak-load | admission desk staff, bed turnover manpower, who manages beds |
+
+## common.occupancy-pivot
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| common.occupancy-pivot#c1 | 80% occupancy is one hospital-wide pivot, not three separate department thresholds | common.occupancy-pivot | the eighty percent mark, when things change, are we past it |
+| common.occupancy-pivot#c2 | below it spare capacity absorbs coordination failure; above it, it converts to lost revenue | common.occupancy-pivot | we've always run like this, why is it a problem now, no room to recover |
+| common.occupancy-pivot#c3 | every function needs a different strategy above it, not the same strategy harder | common.occupancy-pivot | what changes when we're full, do we just work faster |
+| common.occupancy-pivot#s1 | Bed Management — prediction becomes the mechanism; cadence and reserve earn their cost here | common.occupancy-pivot | why plan beds twice a day, when the reserve is worth it |
+| common.occupancy-pivot#s2 | Discharge — TAT measured through to the next admission becomes an active check | common.occupancy-pivot | tighter discharge measurement, where the time actually goes |
+| common.occupancy-pivot#s3 | Supply Chain — buffer policy inverts; the shortage-allocation rule starts firing for real | common.occupancy-pivot | safety stock when we're full, who gets it when short |
+| common.occupancy-pivot#s4 | OPD is the exception — ambulatory load scales with footfall, not ward occupancy | common.occupancy-pivot | does this apply to OPD, busy counter but empty wards |
+| common.occupancy-pivot#s5 | the pivot triggers a dedicated owner role in each function, not one shared owner | common.occupancy-pivot | do we need a manager for each, one person for everything |
+| common.occupancy-pivot#p1 | Materials Manager ₹8–10 lakhs; Bed Manager and Discharge Manager ₹4–4.5 lakhs each | common.occupancy-pivot | what these roles cost, salary for each manager |
+| common.occupancy-pivot#n1 | a common trigger does not imply a common price — salary follows proficiency | common.occupancy-pivot | why does one cost double, same trigger different salary |
+| common.occupancy-pivot#n2 | never reason from one role's figure to another's, in either direction | common.occupancy-pivot | we pay our bed manager this much, benchmark the salaries |
+| common.occupancy-pivot#c4 | a department may carry a sharper pivot of its own — Bed's demand-vs-supply | common.occupancy-pivot | which pivot applies, two different thresholds |
+| common.occupancy-pivot#n3 | crossing the pivot warrants the roles; it does not sequence them | common.occupancy-pivot | do we hire all of them at once, which one first |
+| common.occupancy-pivot#s6 | rank by which function's failure costs most, using that department's §7.3 parameters | common.occupancy-pivot | where do we start, what's hurting most |

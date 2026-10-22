@@ -75,7 +75,7 @@ summary: Establishes that staffing is sized to peak-hour load by a six-step rati
 keys: staffing, manpower, peak hour, peak load, headcount, shift structure, staff-to-patient ratio, recruitment, workload bandwidth, off-peak redundancy
 needs: none
 see: bed.8
-tokens: 1150
+tokens: 1260
 -->
 ## Peak-Load Staffing & Manpower Cost-Benefit Method (universal)
 
@@ -108,3 +108,56 @@ Apply this method at two distinct points in the working method, not one:
 - **OPD-to-Diagnostics Conversion**: OPD floor-staff-to-patient billing ratio, guest-services-to-patient ratio, housekeeping/transport-to-patient ratio for non-ambulatory mobility support (~5% of patients assumed to need it). See `opd-diagnostic-leakage.md` §7.1 and its KPIs #10 and #12.
 - **Discharge Process**: nursing/discharge-coordination staffing ratio for discharge-associated functions, and housekeeping/transport staff available per shift relative to bed-turnover and discharge-transport volume — both run against this hospital's own confirmed two-window (morning/evening) discharge pattern rather than an even 24-hour spread. See `discharge-process.md` §7.1 points 2–3, §7.2 questions 11–12, and KPIs #14/#15.
 - **Bed Management**: the equivalent ratio-check for bed-turnover and admission-handling staff. `bed-management.md` carries the ratio metric at KPI #17 but does not itself carry the method — apply the method from this file when a Bed Management query reaches staffing adequacy, at both the verification and the solution-construction stage.
+- **Supply Chain & Procurement**: the only department with **two** distinct peaks, which must be sized separately — inbound receipt (vendor delivery windows, driving GRN entry) and outbound issue (pre-OT picking and discharge-time returns). Sizing either against a daily average produces the GRN-backlog and slow-issue symptoms that get reported as system problems. See `supply-chain-procurement.md` §7.1, §7.2.3 cluster L, and KPI #30.
+
+<!--chunk
+id: common.occupancy-pivot
+title: The 80% Occupancy Pivot
+summary: Establishes 80% occupancy as one hospital-wide state change that alters every function's operating strategy and triggers a differently-priced owner role in each.
+keys: 80% occupancy, occupancy pivot, hospital-wide threshold, state change, slack, dedicated owner role, hiring trigger, manager salary, proficiency, sequencing
+needs: none
+see: common.peak-load, common.shared-considerations
+tokens: 1300
+-->
+## The 80% Occupancy Pivot (universal)
+
+### 1. It is one hospital-wide pivot, not a threshold each department set for itself
+
+80% occupancy appears independently in three department files as a trigger, and it is the same pivot in all three, not a coincidence of three separate derivations. Treat it as a **state change for the whole hospital**, and read every department's numbers differently on either side of it.
+
+Below the pivot, spare capacity absorbs coordination failure. A bed turned around slowly, an indent raised late, a discharge that runs to the afternoon — each is inefficient, and none of them costs a patient or a rupee, because there is somewhere else to put the next admission and time to recover. Above it, that absorption is gone. The same coordination failure now converts directly into a lost admission, a cancelled case, a stock-out at the point of care, or a bed-day that earns nothing. Nothing about the failure changed; what changed is that the hospital stopped having room to hide it.
+
+This is why "we've always run like this and it was fine" is a true statement and an irrelevant one from a hospital that has crossed the pivot.
+
+### 2. Every function needs a *different* strategy above it, not the same strategy harder
+
+The pivot is universal; what it demands is not. Each department's answer to "what changes at 80%" is its own:
+
+- **Bed Management** — prediction stops being a convenience and becomes the mechanism. The twice-daily mapping cadence, the earmarked emergency reserve and the call-in timing in `bed-management.md` §7.4.1 all earn their cost only here.
+- **Discharge Process** — the TAT definition tightens. Measuring through to the next patient's admission into that bed becomes an active efficiency check rather than a definitional nicety (`discharge-process.md` §7.2 question 15), because that is where the time is now going.
+- **Supply Chain & Procurement** — buffer policy inverts. Below the pivot, generous safety stock is a working-capital choice; above it, a stock-out stops care and the shortage-allocation rule in `supply-chain-procurement.md` §7.4.1 starts firing for real rather than sitting unused in the ERP.
+- **OPD-to-Diagnostics** — the pivot is **not** this department's trigger, and that is worth stating. OPD is ambulatory: its load scales with footfall, not with how full the wards are, which is why its Scheduling Manager is anchored to >200 daily OPD footfall instead. Where occupancy does reach OPD it is through OP-to-IP conversion — above the pivot, a finding that would have become an admission may not.
+
+When a hospital reports crossing 80%, work through what it means for the department in front of you. Do not carry another department's answer across.
+
+### 3. It triggers a dedicated owner in each function — at different salaries
+
+At the pivot, each function's coordination load exceeds what a shared or part-time owner can carry, so each warrants a dedicated role. Same trigger, different roles:
+
+| Function | Role triggered | Indicative cost |
+|---|---|---|
+| Supply Chain & Procurement | Materials Manager | ₹8–10 lakhs/year |
+| Bed Management | Bed Manager | ₹4–4.5 lakhs/year |
+| Discharge Process | Discharge Manager | ₹4–4.5 lakhs/year |
+
+**A common trigger does not imply a common price, and this is the error to avoid.** The salary follows the proficiency the role actually requires, not the threshold that surfaced it. A Materials Manager carries vendor negotiation, rate-contract authority, inventory economics, systems governance and cross-department accountability, and is priced accordingly. A Bed Manager and a Discharge Manager are coordination roles over a defined process with a defined counterpart — real seniority, narrower scope. Never reason from one of these figures to another, in either direction: do not talk a hospital down to a coordinator's salary for a materials role, and do not inflate a coordination role to a materials salary because the trigger was the same.
+
+The processing layers beneath these roles are sized separately and by volume, not by this pivot — see `common.peak-load`.
+
+### 4. A department may carry a sharper pivot of its own
+
+Where a department has derived its own, more precise inflection, that one governs its solution shape and this one still governs whether the hospital is in the state at all. Bed Management is the case in the library: its scaling pivot is demand against supply — monthly-average daily admissions against the previous night's average available beds — which is deliberately not an occupancy measure and is sharper for that department's purpose. Both apply; they are not competing.
+
+### 5. Crossing the pivot warrants the roles; it does not sequence them
+
+A hospital that crosses 80% has, on this logic, become eligible for several dedicated roles at once, and the combined cost is real. The pivot establishes that each is *warranted*; it does not say hire them all this quarter. Rank them by which function's failure is currently costing this hospital the most, using that department's own §7.3 financial parameters, and say plainly that the ranking is a sequencing judgment rather than a claim that the unranked roles are unnecessary.
