@@ -1,5 +1,5 @@
 # Department: Discharge Process
-*Division: Patient Flow & Hospital Operations <!--m-->· Status: content complete (§1–8; KPIs drafted by Claude 2026-09-02, approved by Avishek as drafted 2026-09-09; Peak-Load Staffing retrofit into §7.1/§7.2 completed 2026-09-09; TAT-authenticity verification questions and Bed-Management-linkage added to §7.2/§7.4 2026-09-09; TAT definition, shared-team verification question and role-taxonomy split 2026-09-10; revenue-clock note added to §7.2 q15 2026-09-10)<!--/m-->*
+*Division: Patient Flow & Hospital Operations <!--m-->· Status: content complete (§1–8; KPIs drafted by Claude 2026-09-02, approved by Avishek as drafted 2026-09-09; Peak-Load Staffing retrofit into §7.1/§7.2 completed 2026-09-09; TAT-authenticity verification questions and Bed-Management-linkage added to §7.2/§7.4 2026-09-09; TAT definition, shared-team verification question and role-taxonomy split 2026-09-10; revenue-clock note added to §7.2 q15 2026-09-10; §3b cross-function interdependency map added 2026-09-16)<!--/m-->*
 
 <!--chunk
 id: dis.1
@@ -31,7 +31,7 @@ title: Dependencies
 summary: Which six upstream teams Discharge needs work from and which eight downstream metrics degrade when discharge runs slowly, each with a priority rating.
 keys: upstream dependency, downstream impact, nursing, doctors, billing, housekeeping, transport, ALOS, ARPOB, OT scheduling
 needs: none
-see: dis.7.2.1
+see: dis.7.2.1, dis.3b
 tokens: 430
 -->
 ## 3. Dependencies
@@ -59,6 +59,51 @@ tokens: 430
 | Daily Revenue | Aggregate effect of all of the above | Critical |
 
 <!--m-->*(Draft ratings — flag any that should move.)*<!--/m-->
+
+<!--chunk
+id: dis.3b
+title: Cross-function interdependency map
+summary: The eleven couplings through which Discharge fails, each named as a mechanism with the failure that propagates along it and the probe that walks back to its origin.
+keys: interdependency, cross-function, root cause, misattribution, discharge summary ownership, stock-take gate, pharmacy returns, late charges, TPA window, bed management double control, housekeeping notification, transport peak, OT gate, cash counter
+needs: dis.3
+see: dis.6, dis.7.2.1, bed.3b, sup.3b
+tokens: 2010
+-->
+### 3b. Cross-function interdependency map
+
+§3 says *who* Discharge depends on and how hard. This section says *through what mechanism*, and *what failure travels along it* — because a dependency stated as "Discharge needs the summary from doctors" cannot be verified and produces a generic question.
+
+Discharge is the department most often blamed for delays that originate elsewhere, and the one most often credited with a turnaround number that another department's data would contradict. Both follow from the same fact: Discharge is the last visible step in a chain of eleven, so every upstream delay surfaces wearing a Discharge symptom. The probes below walk *backwards* along each coupling. Ask the one whose symptom the hospital has described; they supplement §7.2's questions rather than replacing them.
+
+| | Coupled function | The coupling mechanism | What propagates, and where it surfaces |
+|---|---|---|---|
+| **A** | **Doctors** | The summary-authoring chain — who drafts, who reviews, who signs — and the fact that the round schedule, not the process, sets when any of it can begin. | Discharge time is a function of one consultant's round timing. For multidisciplinary cases the chain has no owner at all, so the summary waits on whichever doctor is asked last. Surfaces as **"discharges are slow"** and is diagnosed as a process problem when it is an authoring-ownership problem. |
+| **B** | **Nursing** | The ward stock-take as a hard gate: billing cannot close until the count is done, and the count cannot start until a nurse is free of clinical work. | The gate opens at whatever time the ward's clinical load allows, which is unrelated to the discharge. Surfaces as **"billing is slow"** — Billing is in fact waiting, and says so, and is believed. |
+| **C** | **Supply Chain & Pharmacy** | The returnable balance: what was issued, what was actually consumed, and what can be credited back. The reciprocal of `supply-chain-procurement.md` §3b(D). | Where that balance is counted manually rather than computed, the bill needs a second pass. Surfaces as **"pending pharmacy reconciliation"** — the most common single stated cause of discharge delay, and one Discharge cannot fix from inside its own department. |
+| **D** | **Billing** | Charge-capture completeness at the moment of closure — a last investigation, an OT consumable, a procedure charged late. | A charge landing after closure reopens a finalised bill. Surfaces as **bill revisions and disputes at the counter**, and as a second insurance submission, both of which cost far more time than the original charge was worth. |
+| **E** | **Insurance / TPA** | An approval window outside the hospital's control that sits inside the patient's experience — and either inside or outside the hospital's reported TAT. | Excluding it makes the reported TAT look good while the family waits; including it makes a well-run hospital look slow. Surfaces as **a TAT figure that cannot be compared to anything**, and as the cash-versus-insured timing split most hospitals never separate. |
+| **F** | **Bed Management** | The double control: Discharge's reported timing is verifiable only against Bed Management's allocation and physical-admission timestamps, and Bed Management's prediction accuracy depends on Discharge's real timings. Runs both ways, per `bed-management.md` §7.4.1(c). | Broken in either direction, both departments report plausible numbers that cannot be reconciled. Surfaces as **a good Discharge TAT alongside beds that visibly don't turn over** — and the reconciliation is the finding, not either number. |
+| **G** | **Housekeeping** | The *notification* moment, not the cleaning speed. A bed is turned around from when housekeeping is told, not from when the patient left. | Where notification is manual or batched, the turnaround clock starts late and the delay is attributed to cleaning. Surfaces as **"housekeeping is slow"** when measured cleaning time is fine and the gap sits entirely before it. |
+| **H** | **Transport** | Porter and wheelchair availability pooled across discharge, admission, diagnostics and inter-ward moves, with a single peak. | A fully cleared discharge waits for a wheelchair. Surfaces as **the last twenty minutes nobody accounts for**, because it falls after every tracked milestone has been met. |
+| **I** | **OT Scheduling** | The admission-hour gate: a bed freed after a certain hour cannot be converted into a same-day or same-night OT slot, so discharge timing sets OT's addressable capacity. | Surfaces at OT as **empty evening slots**, and is diagnosed as an OT scheduling or surgeon-availability problem. The revenue loss is booked against OT and caused by Discharge. |
+| **J** | **Dietitian, pharmacy counselling & the briefing chain** | Several separate people must each reach the patient before physical exit, none of them coordinated with the others or with the discharge clock. | The briefing is either skipped — breaching §4's non-negotiable — or it becomes the final delay. Surfaces as **either a safety gap or a late exit**, and hospitals usually have one of the two without noticing they chose. |
+| **K** | **Finance / cash counter** | Final settlement: counter staffing against the discharge peak, and who may authorise release with a balance outstanding. | Every discharge converges on one counter in a two-hour window. Surfaces as **a queue at the counter**, read as a payment problem rather than a rostering one — and where release authority is undefined, a single disputed balance holds a bed for hours. |
+
+**Root-cause probes**, keyed to the rows above:
+
+- **A.** Who physically writes the summary, who reviews it, who signs it — and for a multidisciplinary case, which of those three owns it? Then: what time do rounds finish on the wards with the most discharges, and is any discharge work possible before that?
+- **B.** How long after a discharge is confirmed does the ward stock-take actually start, and what determines that gap? Ask for the gap, not the count duration.
+- **C.** Is the returnable balance computed by the system from the issue-and-consumption record, or counted by a nurse? What is the median time from discharge confirmation to the return credit being posted, and how many discharges a day wait on it?
+- **D.** In the last month, how many bills were reopened after finalisation, and what was the charge that reopened them? A recurring source is a process gap, not an accident.
+- **E.** Does the hospital's reported Discharge TAT include the TPA window end to end? Ask for the first-request and final-approval timestamps and check, rather than accepting the answer.
+- **F.** Ask Bed Management, separately, for the allocation and physical-admission timestamps on the same beds Discharge reported on. A gap beyond roughly 30 minutes means either real inefficiency or a discharge time that doesn't reflect when the patient left — see §7.2 questions 13–15.
+- **G.** What is the elapsed time from physical discharge to housekeeping being *notified*, tracked separately from cleaning time? If the hospital only holds one combined number, that is the finding.
+- **H.** How many porters are on duty during the discharge peak, and what else are they serving in that window?
+- **I.** What is the latest hour at which a freed bed can still be converted into a same-day OT slot, and how many discharges land after it?
+- **J.** Who must reach the patient before exit, and does anyone sequence them against the discharge clock — or does each arrive when free?
+- **K.** How many counter staff are on duty during the discharge peak, and who is authorised to release a patient with a balance outstanding?
+
+**Using this map.** When a discharge query arrives already diagnosed — "our billing is slow", "housekeeping can't keep up", "the doctors won't sign off" — treat the stated cause as the *symptom column*, find the row it sits in, and run that probe before accepting it. Where the hospital has never looked at a coupling from both ends, the absence of an owner for that coupling is itself the finding.
 
 <!--chunk
 id: dis.4
@@ -90,7 +135,7 @@ title: Failure modes & early warning signs
 summary: Sequential processing, manual handoffs, no predictive flagging and no single owner are the default failures, plus a shared discharge/admissions team that pushes admissions into 4–8 PM.
 keys: failure mode, serialised shared team, discharge and admissions team, manual handoff, no single owner, predictive flagging, late admissions, billable hours, ALOS
 needs: none
-see: dis.7.2.1, bed.6
+see: dis.7.2.1, dis.3b, bed.6
 tokens: 280
 -->
 ## 6. Failure modes & early warning signs
@@ -142,12 +187,12 @@ title: Dependency verification protocol
 summary: The four data pulls — staffing rosters, timestamped discharge volume, billing and TPA logs, and Bed Management's allocation and admission timestamps — required before any discharge diagnosis.
 keys: data access, HIS, nursing roster, housekeeping roster, discharge timestamps, billing sign-off logs, TPA correspondence, bed allocation timestamps, practice pattern, verification
 needs: dis.7.2.1
-see: dis.3, dis.7.1, bed.7.2.1
-tokens: 380
+see: dis.3, dis.3b, dis.7.1, bed.7.2.1
+tokens: 420
 -->
 ### 7.2 Dependency verification protocol
 
-Before reasoning about a specific hospital's discharge problem, check how *this* hospital's actual practice compares to the baseline dependency list in §3 — the real bottleneck is almost always in the practice pattern, not the org chart.
+Before reasoning about a specific hospital's discharge problem, check how *this* hospital's actual practice compares to the baseline dependency list in §3 — and to the couplings in §3b, whose probes are run alongside the questions below when the query arrives from another function's side. The real bottleneck is almost always in the practice pattern, not the org chart.
 
 **Data/system access required**, to verify how this hospital's actual practice compares against the §3 baseline dependencies and the §7.1 considerations above:
 - **Nursing roster and shift structure for discharge-associated duties**, and **daily discharge volume with timestamps** — to run the peak-load ratio checks in §7.1 points 2–3 and feed the cost-benefit comparisons those checks require.
@@ -161,7 +206,7 @@ title: Practice-verification questions to put to the hospital directly
 summary: Sixteen questions that locate the real bottleneck in practice, including three that test whether a reported Discharge TAT is genuine against Bed Management's own timestamps.
 keys: verification questions, evening round sign-off, discharge summary ownership, billing turnaround, single point of ownership, automation level, discharge TAT authenticity, dead bed time, shared discharge admissions team, bed turnaround gap
 needs: dis.7.2
-see: dis.7.1, dis.7.4.4, common.peak-load, bed.7.1, bed.7.2.2, bed.7.3
+see: dis.3b, dis.7.1, dis.7.4.4, common.peak-load, bed.7.1, bed.7.2.2, bed.7.3
 tokens: 1970
 -->
 **Practice-verification questions to put to the hospital directly**, one at a time, once the data picture above is in hand:
@@ -197,7 +242,7 @@ summary: The six financial parameters every discharge cost-benefit case is argue
 keys: ARPOB, daily average revenue, OT utilisation, OT revenue, ICU occupancy, bed occupancy, financial parameters, cost benefit
 needs: none
 see: dis.7.4, dis.8
-tokens: 30
+tokens: 40
 -->
 ### 7.3 Financial parameters to check
 ARPOB · Daily Average Revenue · OT Utilisation · OT Revenue (daily) · ICU Occupancy · Bed Occupancy
@@ -209,14 +254,14 @@ summary: For Discharge the recommended solution is identical at any size or occu
 keys: solution construction, cost benefit analysis, before after comparison, four aspects, discharge manager, occupancy level, ALOS reduction, scale invariance, worked example
 needs: common.solution-method, dis.7.3
 see: dis.7.4.1, dis.7.4.2, dis.7.4.3, dis.7.4.4, bed.7.4
-tokens: 390
+tokens: 400
 -->
 ### 7.4 Solution construction method
 Follows the two genuinely universal rules in `references/common-elements.md`: mandatory cost-benefit analysis + side-by-side graphical before/after comparison, and the four-aspect solution shape.
 
 **Specific to Discharge Process** (not a general rule — see `references/common-elements.md`'s "what is NOT assumed universal"): for this problem specifically, the actual recommended solution is the same for hospitals of any size or occupancy level — what varies is whether the solution's cost implications are justified *right now* for a given hospital, decided via cost-benefit analysis against §7.3's financial parameters. Note that this finding is Discharge-specific and does **not** carry across: `bed-management.md` §7.4 records the opposite finding for that department, where the solution itself scales with a demand-vs-supply pivot.
 
-Worked example: recommending a dedicated Discharge Manager to handle a hospital's discharge process end-to-end is the same recommendation at any occupancy level. At 95% occupancy, the 6–8 hours saved and earlier discharge times (11 AM for cash patients, 1 PM for insured) driving a ~0.5-day ALOS reduction plus better OT utilisation and OT revenue make the added headcount cost obviously worth it. At 60% occupancy, the same fix may not yet be pressing enough to justify that cost. Solution content stays constant; whether/when to act on a given cost-bearing part of it is gated by that hospital's current numbers.
+Worked example: recommending a dedicated Discharge Manager to handle a hospital's discharge process end-to-end is the same recommendation at any occupancy level. At 95% occupancy, the 6–8 hours saved and earlier discharge times (**10 AM target for cash patients, with leniency to 11 AM**; 1 PM for insured) driving a ~0.5-day ALOS reduction plus better OT utilisation and OT revenue make the added headcount cost obviously worth it. At 60% occupancy, the same fix may not yet be pressing enough to justify that cost. Solution content stays constant; whether/when to act on a given cost-bearing part of it is gated by that hospital's current numbers.
 
 Department-specific answers to the four required aspects:
 
@@ -297,10 +342,10 @@ Buy-in mechanism: per §7.4.2, the agent is introduced as an automated extension
 id: dis.7.4.4
 title: Team/role changes
 summary: Two separately triggered and priced roles — a condition-triggered Discharge Manager owning the process end-to-end, and volume-sized Discharge Executives sized by ratio-check, not a flat rule.
-keys: discharge manager, discharge executive, headcount sizing, salary cost, occupancy threshold, discharges per day, peak load ratio check, role split, worked example, two windows
-needs: dis.7.4
+keys: discharge manager, discharge executive, headcount sizing, salary cost, occupancy pivot, discharges per day, peak load ratio check, role split, worked example, two windows
+needs: dis.7.4, common.occupancy-pivot
 see: dis.7.1, dis.7.4.3, common.peak-load, bed.7.4.4
-tokens: 880
+tokens: 1020
 -->
 #### 4. Team/role changes
 
@@ -311,7 +356,9 @@ Beyond that there are **two separate role decisions**, triggered differently and
 **a. The Discharge Manager — ₹4–4.5 lakhs/year.**
 Owns the entire discharge process end-to-end as its single point of contact. The role is about **coordination with other departments and ownership of the whole process**, not processing volume — which is why it is not sized per discharge. It sits at the same level as the Bed Manager in `bed-management.md` §7.4.4(a): the two are peers, coordination runs between their departments, and both report to the Head of Operations / COO (§7.4.3).
 
-Recommend the role for hospitals at **>80% occupancy or >40 discharges/day** — and, mirroring `bed-management.md` §7.4.4(a)'s third condition, wherever the hospital continually overruns its own expected Discharge TAT, since a sustained breach signifies exactly the cross-departmental coordination failure this role exists to fix. Below those conditions the role is optional, and better framed as an investment in efficiency and future team-optimisation potential than as an immediately self-justifying cost.
+**The primary trigger is the 80% occupancy pivot** in `common-elements.md` — the universal hospital-wide inflection, which triggers a dedicated owner in every function, not just this one. Two further conditions each independently warrant the role: **>40 discharges/day**, and — mirroring `bed-management.md` §7.4.4(a)'s third condition — wherever the hospital continually overruns its own expected Discharge TAT, since a sustained breach signifies exactly the cross-departmental coordination failure this role exists to fix. Below all three the role is optional, and better framed as an investment in efficiency and future team-optimisation potential than as an immediately self-justifying cost.
+
+The ₹4–4.5 lakh figure is set by what this role has to be good at — coordination over a defined process with a defined counterpart — and **not by the trigger it shares with other functions**. A Materials Manager crosses the same pivot at ₹8–10 lakhs because its scope is wider, not because its trigger is different (see the occupancy pivot's own table). Do not carry either figure across.
 
 **b. Discharge Executives — volume-sized, ₹3–3.5 lakhs/year each.**
 The processing layer: owning each discharge from the moment a doctor signals a provisional discharge, and catching efficiency gaps or offline hurdles/delays as they arise. Sized at roughly **15 discharges/day per person** — a flat rule of thumb, which the Peak-Load Staffing Method requires be checked against the hospital's actual shift pattern and volume before it is used to size headcount.
@@ -325,7 +372,7 @@ summary: Which parts of this file are complete and approved, which revisions pro
 keys: status, change log, open items, role split, revenue clock, question 15, question 16, playbook correction, KPI 13, approval
 needs: none
 see: none
-tokens: 820
+tokens: 960
 retrieve: never
 -->
 ---
@@ -336,22 +383,24 @@ On 2026-09-10, three changes were made alongside the Bed Management finalisation
 
 **Later on 2026-09-10, §7.2 question 15 gained the revenue-clock note**, the reciprocal of the dead-bed-time redefinition made in `bed-management.md` §7.3 point 5 the same day. Discharge TAT runs on the patient's physical movement; revenue on that bed stops earlier, at bill finalisation, while the patient is still in the bed. The stretch from that moment to the initiation of the next patient's bill is dead bed time, and the part of it that Discharge owns is the tail after billing closes — approval, payment, briefing, physical exit and turnaround. The note exists so a good Discharge TAT is not mistaken for evidence that the bed was earning.
 
+**On 2026-09-16, §3b was added** — the cross-function interdependency map, applied as a template change across all four department files alongside its introduction in `supply-chain-procurement.md`. Eleven couplings, each stated as a mechanism with the failure that propagates along it and a root-cause probe that walks backwards from the symptom. Row C is the reciprocal of Supply Chain's §3b(D) and row F the reciprocal of Bed Management's §3b(A); both are now stated from both ends rather than from one. §3, §6 and §7.2 gained pointers to it.
+
 Still open: `discharge-process-conversation-playbook.md` refers to the old single-role framing in §4 and §7 (including "the Discharge Executive threshold") and needs correcting to match §7.4.4's split; §8's KPI #13 tracks the threshold under the old framing; and the restructure of that playbook into a shared department-deep-dive file plus per-department appendices is provisionally agreed for after the Bed Management practice conversation.
 
 <!--chunk
 id: dis.8
 title: KPIs
-summary: Sixteen approved KPIs covering discharge timing, automation maturity and adoption, financial conversion, staffing ratios, and family-briefing completion.
-keys: KPI, discharge cycle time, discharge by 10 AM, bed turnaround time, ALOS contribution, billing finalization turnaround, insurance approval turnaround, ARPOB, OT revenue, staffing ratio, briefing completion
+summary: Twenty approved KPIs covering discharge timing, automation maturity, financial conversion, staffing ratios, family briefing, and the four cross-function couplings §3b named.
+keys: KPI, discharge cycle time, discharge by 10 AM, bed turnaround time, ALOS contribution, billing turnaround, insurance approval, ARPOB, OT revenue, staffing ratio, briefing completion, housekeeping notification gap, reopened bills, transport wait, counter throughput
 needs: none
-see: dis.3, dis.7.3, dis.7.4.1, dis.7.4.4, common.peak-load
-tokens: 1050
+see: dis.3, dis.3b, dis.7.3, dis.7.4.1, dis.7.4.4, common.peak-load
+tokens: 1520
 -->
 ## 8. KPIs <!--m-->(drafted by Claude 2026-09-02, approved by Avishek as drafted 2026-09-09)<!--/m-->
 
 ### Core discharge timing
 1. **Discharge-order-to-physical-discharge cycle time** — the department's core end-to-end metric.
-2. **% of non-insurance discharges completed by 10 AM**, and **% of insured discharges completed by 1 PM** — the two target times named in §7.4's worked example, tracked separately since insured and non-insured patients follow different bill-clearance paths.
+2. **% of non-insurance discharges completed by 10 AM** — the target — **and % completed by 11 AM**, the leniency band. Track both: 10 AM is what the process is designed to hit and what improvement is measured against, 11 AM is what counts as acceptable in practice, and reporting only one of them either flatters the hospital or makes a well-run one look like it is failing. **% of insured discharges completed by 1 PM** is tracked separately, since insured and non-insured patients follow different bill-clearance paths. *(This is why both 10 AM and 11 AM appear in this file — they are a target and its tolerance, not a disagreement.)*
 3. **% of discharges triggered by a provisional evening-round mention** vs. **same-day-only order** — measures how much of the automation's core value proposition (§7.4.1 — acting on a passing mention, not waiting for a formal order) is actually landing in practice.
 4. **Bed turnaround time** — from physical discharge to the bed being usably available for the next admission (ties directly to Housekeeping's dependency in §3 and to Bed Management's own KPIs).
 5. **ALOS contribution from discharge delay specifically** — isolating the portion of ALOS attributable to avoidable discharge-process time (per §6's failure-mode framing), distinct from clinically-necessary stay length.
@@ -364,15 +413,23 @@ tokens: 1050
 
 ### Financial
 10. **ARPOB** and **Daily Average Revenue** (from §7.3, tracked as ongoing KPIs, not just diagnostic parameters).
-11. **OT Utilisation** and **OT Revenue (daily)** — specifically the portion attributable to same-night/early-morning OT slots freed up by faster discharge (§3's OT-Scheduling downstream dependency).
+11. **OT Utilisation** and **OT Revenue (daily)** — specifically the portion attributable to same-night/early-morning OT slots freed up by faster discharge (§3's OT-Scheduling downstream dependency, and §3b(I)'s admission-hour gate).
 12. **Realized vs. theoretical revenue impact** — actual freed-bed-day revenue captured, benchmarked against the ARPOB × No. of Beds × 365 potential named in §7.4.1, to show how much of the theoretical upside is actually being converted.
 
 ### Staffing & ratios
-13. **Role threshold tracking** — occupancy % and discharges/day tracked against the **>80% occupancy or >40 discharges/day** Discharge Manager conditions in §7.4.4(a), plus the proportion of discharges overrunning expected Discharge TAT (the third condition), as operational trigger metrics in their own right. <!--m-->*(Wording predates §7.4.4's 2026-09-10 role split; the third condition is not yet reflected in the approved text and needs a revision pass alongside `bed-management.md` §8's.)*<!--/m-->
+13. **Role threshold tracking** — all three §7.4.4(a) Discharge Manager conditions tracked as operational trigger metrics in their own right: occupancy % against the **80% pivot** (`common-elements.md`, the universal hospital-wide inflection), **discharges/day** against the >40 condition, and the **proportion of discharges overrunning expected Discharge TAT**. Track the third separately rather than folding it into #1 — a rising overrun rate is the earliest of the three to move.
 14. **Nursing ratio per bed for discharge-associated functions**, and **discharges handled per staff per hour (peak vs. off-peak)** — the Discharge-specific instances of the universal Peak-Load Staffing & Manpower Cost-Benefit Method in `references/common-elements.md`, now also grounded directly in §7.1 point 2 and §7.2 question 11's verification protocol.
 15. **Housekeeping and Transport staff availability per shift, relative to discharge volume** — same method, applied to the two remaining §3 upstream dependencies with a clear staffing-ratio dimension, per §7.1 point 3 and §7.2 question 12.
 
 ### Patient/family experience
 16. **Family/patient briefing completion rate before physical discharge** — % of discharges with documented delivery of diet, medication, and follow-up instructions before the patient leaves, directly enforcing the non-negotiable in §4 that this is never skipped for speed.
 
-<!--m-->*(All 16 were Claude's first draft, delivered per Avishek's 2026-09-02 request alongside OPD-Diagnostics' and Bed Management's KPI lists, and approved by Avishek as drafted on 2026-09-09.)*<!--/m-->
+### Cross-function interdependency
+*Each measures a §3b coupling that no KPI above reaches. They exist because a named coupling with nothing measuring it is a gap in the library rather than in the hospital.*
+
+17. **Housekeeping notification gap** — elapsed time from physical discharge to housekeeping actually being *notified*, tracked separately from cleaning time itself (§3b(G)). #4 blends the two into one turnaround figure, which is exactly what lets a hospital blame cleaning speed for a delay that happened before anyone picked up a mop.
+18. **Bills reopened after finalisation** — count and value per month, with the charge type that reopened each (§3b(D)). A recurring charge type is a charge-capture process gap, not a run of accidents, and the reopening costs far more time than the charge was worth.
+19. **Transport wait after clearance** — time from a discharge being clinically, financially and administratively complete to the patient physically leaving the bed (§3b(H)). This sits after every milestone #1–#4 track, which is why no existing metric can see it.
+20. **Cash-counter throughput at the discharge peak** — settlements completed per counter staff member per hour in the peak window, alongside the count of discharges held by a disputed balance (§3b(K)). Two numbers, because a queue caused by understaffing and a queue caused by undefined release authority need different fixes.
+
+<!--m-->*(#1–16 were Claude's first draft, delivered per Avishek's 2026-09-02 request and approved as drafted 2026-09-09. #17–20 follow from the §3b pass and were approved 2026-09-16, along with #13's revision to the three current §7.4.4(a) conditions.)*<!--/m-->

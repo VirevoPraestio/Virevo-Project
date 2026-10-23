@@ -22,7 +22,7 @@ CHUNK_RE = re.compile(r"<!--chunk\s*\n(.*?)\n-->", re.S)
 MSPAN_RE = re.compile(r"<!--m-->.*?<!--/m-->", re.S)
 REQUIRED = ("id", "title", "summary", "keys", "needs", "see", "tokens")
 OPTIONAL = ("retrieve",)
-PREFIXES = ("bed", "dis", "opd", "common", "play")
+PREFIXES = ("bed", "dis", "opd", "sup", "common", "play")
 
 MIN_TOKENS, MAX_TOKENS = 400, 2000
 MAX_NEEDS = 2      # hard dependencies only; more means the split was wrong

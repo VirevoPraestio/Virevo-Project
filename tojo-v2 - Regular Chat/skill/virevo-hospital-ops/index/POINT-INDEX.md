@@ -1,14 +1,16 @@
 # Tojo — Point Index
 
-This is the layer below the chunks: every individually named activity, dependency, non-negotiable, flex, failure mode, consideration, verification question, financial parameter, solution element and KPI in the Tojo v2 hospital-ops library, each carried with the chunk it lives in. It is a retrieval artefact only — the retriever searches it, and it never enters the prompt; what enters the prompt is the chunk a row points at. Read the columns as: `point` is the stable id, built as `<chunk>#<kind><n>` so the id itself names its chunk; `what it is` is a compressed statement of the thing, not a summary of the surrounding section; `chunk` is what to fetch; `also called` is the phrasebook — the words a hospital would actually use, which is what most queries will match on. 524 points across the five files cover 63 of the 65 retrievable chunks in the library (`dis.7` and `opd.7` are section-container headings with no content of their own and so carry no points).
+This is the layer below the chunks: every individually named activity, dependency, coupling, non-negotiable, flex, failure mode, consideration, verification question, financial parameter, solution element and KPI in the Tojo v2 hospital-ops library, each carried with the chunk it lives in. It is a retrieval artefact only — the retriever searches it, and it never enters the prompt; what enters the prompt is the chunk a row points at. Read the columns as: `point` is the stable id, built as `<chunk>#<kind><n>` so the id itself names its chunk; `what it is` is a compressed statement of the thing, not a summary of the surrounding section; `chunk` is what to fetch; `also called` is the phrasebook — the words a hospital would actually use, which is what most queries will match on. 961 points across the six files cover 92 of the 96 retrievable chunks in the library (`dis.7`, `opd.7`, `sup.7` and `sup.8` are section-container headings and carry no points of their own).
 
 ## How a lookup works
 
 1. A hospital says "we don't record when housekeeping is notified that a bed is free."
-2. Match on `also called`, not on the formal description — here "bed cleaning time", "how long the bed sits empty", "getting the bed cleaned".
-3. The matching rows hand back their chunk: `bed.8#k6` and `dis.8#k4` both give bed turnaround time, `dis.2#a9` gives the handoff itself, `bed.3#d2` gives the dependency.
+2. Match on `also called`, not on the formal description — here "bed cleaning time", "how long the bed sits empty", "when did they actually get told".
+3. The matching rows hand back their chunk: `bed.8#k6` and `dis.8#k4` both give bed turnaround time, `dis.3b#d8` gives the notification mechanism specifically, `dis.2#a9` gives the handoff itself, `bed.3#d2` gives the dependency.
 4. Fetch that chunk, plus its one-hop `needs` from the chunk header — never the whole department file.
 5. Where a concept spans departments, the Cross-department table below says which point is the definition and which are references, so the fetch starts from the owning chunk.
+
+**The §3b rows are the shortest path for a misattributed query.** Every department file now carries a cross-function interdependency map at §3b, and those maps are built for exactly the case where a hospital names the wrong department. A query that arrives as "our billing is slow" or "housekeeping can't keep up" or "procurement is buying badly" should be matched against the §3b rows first: they are the only rows in this index whose `also called` column is phrased as the *complaint* rather than as the mechanism.
 
 ## Cross-department concepts
 
@@ -16,43 +18,54 @@ Each row is one underlying thing that is indexed under point ids in two or more 
 
 | concept | points | note |
 |---|---|---|
-| ALOS (average length of stay) | `common.shared-considerations#c4`; `bed.7.3#p1`, `bed.3#d12`, `bed.8#k9`, `bed.7.4.1#p4`; `dis.3#d7`, `dis.8#k5`, `dis.7.4#s6` | Defined once in common as a baseline financial parameter. Bed carries it as a downstream dependency, a §7.3 parameter and a KPI; Discharge carries it as a Critical dependency and isolates the discharge-delay share of it (`dis.8#k5`). The 0.5-day reduction claim lives only in `dis.7.4#s6`. |
-| ARPOB (average revenue per occupied bed) | `common.shared-considerations#c3`; `dis.7.3#p1`, `dis.3#d8`, `dis.8#k10`, `dis.7.4.1#p2`; `bed.7.3#p1` | Definition in common. Discharge instantiates it most heavily, including the annualisation formula in `dis.7.4.1#p2`. Bed references it only as part of the shared baseline block. |
-| Bed Occupancy and ICU Occupancy | `bed.7.3#p2`; `bed.8#k8`, `bed.1#a3`; `dis.7.3#p5`, `dis.7.3#p6`; `opd.3#d18` | `bed.7.3#p2` is the owner and carries the rule that the two are tracked separately and never blended. Discharge lists them as two flat parameters, which is the same quantity stated without the rule. OPD reaches the same number indirectly, via admissions driven by diagnostic findings. |
+| The cross-function interdependency map itself | `sup.3b`, `dis.3b`, `bed.3b`, `opd.3b` | The same template section in all four department files, introduced with Supply Chain and applied retroactively. Each map is that department's own couplings, not a copy. Where two maps name the same edge, the reciprocal is stated in both rows. |
+| Failures are misattributed at the point they surface | `sup.3b#c1`; `dis.3b#c1`; `bed.3b#c1`; `opd.3b#c1` | The organising principle behind all four maps, stated once in each with a department-specific twist: Supply Chain is blamed late, Discharge is blamed for others' delays, Bed Management is disbelieved on its own numbers, and OPD has no symptom at all. |
+| Pharmacy returns and the returnable balance at discharge | `sup.3b#d7`, `sup.7.2.3#q18`–`#q22`, `sup.8.2#k18`, `sup.8.2#k19`; `dis.3b#d4`, `dis.3b#q3`, `dis.7.4.1#s6`, `dis.7.4.1#s7`, `dis.7.4.1#s12`, `dis.8#k6`; `dis.2#a3`, `dis.2#a6` | Supply Chain owns the computation (`sup.7.4.1.2#s5` — the issued-vs-consumed gap); Discharge owns the consequence. `sup.8.2#k18` is the flagship metric of the Supply Chain file and measures exactly what `dis.8#k6` measures from the other side. A query about "pending pharmacy reconciliation" belongs in Supply Chain even though it is always reported by Discharge. |
+| OPD prescription leakage — diagnostics and pharmacy as one mechanism | `sup.3b#d13`, `sup.7.2.3.2#q6`–`#q10`, `sup.8.2#k24`, `sup.8.2#k42`; `opd.3b#d7`, `opd.3b#q7`, `opd.3b#c2`, `opd.8#k19` | The largest addition the §3b pass made. The same patient, at the same moment, decides whether to redeem a test here and whether to fill a prescription here, and the mechanism is identical — but the two are owned, measured and fixed by different departments in every hospital. `opd.3b#c2` names this as the most commonly missed row in that file's map. |
+| Closed-system and reagent-rental equipment contracts | `sup.3b#d10`, `sup.3b#d11`, `sup.7.2.3#q30`–`#q34`, `sup.7.3#p10`, `sup.8.2#k40`; `opd.3b#d8`, `opd.3b#q8`; `opd.3#d14` | Owned by Supply Chain, and the live seam with the capital-procurement file (Part 2). OPD feels it as an uncompetitive cost-per-test and as downtime; Supply Chain holds the explanation, which is a capital decision made once by Biomedical. `sup.8.2#k40` is the only measure of how much of the cost base is unnegotiable. |
+| Housekeeping — cleaning speed vs the notification and ready-confirmation moments | `dis.3b#d8`, `dis.3b#q7`, `dis.8#k17`; `bed.3b#d2`, `bed.3b#q2`, `bed.8#k22`; `bed.6#f4`, `dis.3#d5`, `bed.3#d2`, `bed.8#k6`, `dis.8#k4` | Three distinct clocks that hospitals report as one. Discharge owns the *notification* gap (told late), Bed Management owns the *ready-confirmation* gap (cleaned but not released), and both departments' KPI #4/#6 measure only the middle stretch. Both gaps are now measured — `dis.8#k17` isolates the notification gap and `bed.8#k22` the ready-confirmation gap — so the two clocks either side of cleaning are separable for the first time. |
+| Ward consumable-kit readiness as a condition on a bed being usable | `bed.3b#d9`, `bed.3b#q9`; `sup.3b#d15`, `sup.2#a29`, `sup.7.4.1.2#s7` | One edge, each file naming the half it owns: Bed Management names the kit as a readiness condition, Supply Chain names the forward-demand signal it needs from Bed Management to have stocked it. Neither states the full loop; read both. |
+| OT as the shared downstream victim, via three different mechanisms | `sup.3b#d1`, `sup.3b#d2`, `sup.8.2#k35`; `bed.3b#d3`, `bed.3b#q3`, `bed.8#k23`; `dis.3b#d10`, `dis.3b#q9`; `dis.3#d11`, `bed.3#d10`, `common.shared-considerations#c6` | An OT late start or cancellation has three unrelated upstream causes, each owned elsewhere: the trolley wasn't picked (Supply Chain), the post-op bed wasn't reserved or was reserved too early (Bed Management), or the bed freed too late in the day to convert (Discharge). A query framed as an OT problem needs all three checked before OT itself. |
+| ALOS (average length of stay) | `common.shared-considerations#c4`; `bed.7.3#p1`, `bed.3#d12`, `bed.8#k9`, `bed.7.4.1#p4`; `dis.3#d7`, `dis.8#k5`, `dis.7.4#s6`; `sup.8.2#k28` | Defined once in common as a baseline financial parameter. Bed carries it as a downstream dependency, a §7.3 parameter and a KPI; Discharge carries it as a Critical dependency and isolates the discharge-delay share of it (`dis.8#k5`). The 0.5-day reduction claim lives only in `dis.7.4#s6`. Supply Chain derives its EBITDA contribution from the same ALOS-hours arithmetic. |
+| ARPOB (average revenue per occupied bed) | `common.shared-considerations#c3`; `dis.7.3#p1`, `dis.3#d8`, `dis.8#k10`, `dis.7.4.1#p2`; `bed.7.3#p1`; `sup.7.3#p9`, `sup.8.2#k27` | Definition in common. Discharge instantiates it most heavily, including the annualisation formula in `dis.7.4.1#p2`. Supply Chain uses it as a denominator for consumable cost, which is a different use of the same number. |
+| Bed Occupancy and ICU Occupancy | `bed.7.3#p2`; `bed.8#k8`, `bed.1#a3`; `dis.7.3#p5`, `dis.7.3#p6`; `opd.3#d18`; `bed.3b#d11` | `bed.7.3#p2` is the owner and carries the rule that the two are tracked separately and never blended. `bed.3b#d11` adds the further caution that a midnight-census occupancy figure conceals intraday dead bed time, so occupancy must not be read as evidence the beds were earning. |
 | Daily / Daily Average Revenue | `bed.7.3#p3`, `bed.3#d11`, `bed.8#k15`; `dis.7.3#p2`, `dis.3#d14`, `dis.8#k10`; `opd.3#d12` | The same aggregate line appears as a §7.3 parameter, a Critical downstream dependency and a KPI in all three departments. No file owns it; treat `common.shared-considerations` as the baseline block it belongs beside. |
-| OT scheduling, OT Utilisation and OT Revenue | `common.shared-considerations#c6`; `bed.3#d6`, `bed.3#d10`, `bed.2#a13`, `bed.7.2.2#q3`, `bed.7.3#p4`; `dis.3#d11`, `dis.3#d12`, `dis.3#d13`, `dis.7.3#p3`, `dis.7.3#p4`, `dis.8#k11` | The OT-to-bed link is defined as a shared consideration in common. Bed sees OT as both an upstream need (post-op reservation) and a downstream victim (elective cancelled for want of a bed); Discharge sees the same OT slots as revenue freed by earlier discharge. Same theatre, three vantage points. |
-| Dead bed time (bill finalisation → next bill initiation) | `bed.7.3#p5`; `bed.6#c1`, `bed.7.1#c7`, `bed.7.4.1#p3`, `bed.8#c3`, `bed.7.2.1#c5`, `bed.7.2.2#q11`, `bed.7.4.2#s8`; `dis.7.2.1#c1` | Owned by Bed — `bed.7.3#p5` is the definition. `dis.7.2.1#c1` is Discharge's single reference to it, and is the one that explains why a good Discharge TAT can still sit inside dead bed time. A query about unbilled bed hours should land on the Bed chunk even when the hospital frames it as a discharge problem. |
-| Bed turnaround time (physical discharge → usably available bed) | `bed.8#k6`; `dis.8#k4`; `dis.7.2.1#q12`, `bed.6#f4`, `dis.2#a9`, `bed.2#a9` | The identical KPI, worded differently, in both departments' §8 lists. Neither is the definition; they are co-equal. `dis.7.2.1#q12` is the verification question asking whether it is tracked as its own metric at all. Distinct from dead bed time — this clock is physical, that one is billing. |
-| Discharge TAT — correct definition, ending at the next admission into that bed | `dis.7.2.1#q15`; `bed.7.1#c6`; `dis.7.2.1#q14`, `bed.7.1#c2`, `bed.7.2.2#q7`, `dis.8#k1` | Defined in Discharge (`dis.7.2.1#q15`) and restated verbatim in Bed (`bed.7.1#c6`) because Bed needs the same clock to test whether a claimed vacancy is real. The three-check verification appears on both sides too (`dis.7.2.1#q14`, `bed.7.2.2#q7`). |
-| Admission timestamps — bed allocation and physical admission, and Admission TAT | `bed.7.1#c4`, `bed.7.1#c8`–`bed.7.1#c12`, `bed.7.2.1#c4`, `bed.7.2.1#c6`, `bed.7.2.2#q10`, `bed.7.4.2#s7`, `bed.7.4.1#p1`, `bed.8#c2`; `dis.7.2#d4`, `dis.7.2.1#q13`, `dis.7.4.2#s8` | Bed owns the measurement, including the five-stage decomposition. Discharge asks for exactly the same timestamps from the other side: `dis.7.2#d4` requests them as data, `dis.7.4.2#s8` names Bed Management as the team obliged to produce them. The same dependency on two tables, pointing opposite ways. |
-| The serialised shared team — discharges till 12–2 PM, then admissions at 4–8 PM | `dis.6#f5`; `bed.6#f5`; `dis.7.2.1#q16`, `bed.7.2.2#q8`; `dis.7.4.2#s7`, `bed.7.4.2#s1`, `bed.7.4#s4` | One operational fact indexed seven times across two files — as a failure mode, as a verification question and as a fix, in each department. Neither file is the definition; both state it in full. The fix wording differs (split the roles vs. overlap the windows) but the change is the same change. |
-| Provisional discharge as a formally tracked 24-hour-advance signal | `dis.2#a1`, `dis.8#k3`; `bed.7.4#s3`, `bed.7.4.2#s3`, `bed.8#k10`; `common.shared-considerations#c7` | Discharge owns the activity (early flagging) and measures how many discharges it triggers. Bed owns the service level demanded of it — 24 hours in advance — and measures the same signal as an inbound percentage. The two KPIs count the same events from either end. |
-| ICU step-down signal and step-down mapping | `common.shared-considerations#c8`; `bed.3#d4`, `bed.2#a6`, `bed.7.2.2#q5`, `bed.7.4#s10`, `bed.7.4.1#s3`, `bed.7.4.2#s3`, `bed.8#k3`, `bed.8#k11`; `dis.3#d9` | The mapping requirement is defined in common. Bed instantiates it fully, down to the 1 PM signal deadline. `dis.3#d9` is the same protocol seen as a Critical dependency of Discharge — the ICU bed that will not clear. |
-| Mapping planned admissions against provisional discharges and expected bed availability | `common.shared-considerations#c7`; `bed.7.2.2#q4`, `bed.7.4#s2`, `bed.7.4.1#s2`, `bed.7.4.1#s7`, `bed.8#k1`, `bed.8#k2` | Defined in common as a shared consideration; Bed is where it becomes an actual daily mechanism with a 2 PM pass and a 6 PM freeze. A query about tomorrow's bed picture should be answered from Bed, not from common. |
-| Bed availability for admission ↔ timely bed release — the same edge, opposite directions | `bed.3#d1`; `dis.3#d10`; `bed.3#d8`, `bed.3#d9`, `bed.8#k7`, `bed.2#a8` | `bed.3#d1` lists Discharge as Bed's Critical upstream; `dis.3#d10` lists Bed Availability as Discharge's Critical downstream. One dependency, entered twice from either side. The ER boarding consequence is indexed only on the Bed side (`bed.3#d8`, `bed.8#k7`). |
-| The Discharge–Bed double control | `bed.7.4#s6`, `bed.7.4.1#s4`; `dis.7.4.2#s5`, `dis.7.4.2#s8` | Bed names it as a control it applies to Discharge's timings; Discharge names it as downstream functions reading its agent's output directly. Same cross-check, described as an obligation by each file about the other. |
-| Housekeeping and transport turnaround capacity | `common.peak-load#k5`; `bed.3#d2`, `bed.7.1#c3`, `bed.7.2.1#c2`, `bed.8#k17`, `bed.6#f4`; `dis.3#d5`, `dis.3#d6`, `dis.7.1#c3`, `dis.7.2#d2`, `dis.8#k15`; `opd.7.1.1#c7`, `opd.8#k13`, `common.peak-load#k3` | The ratio method is owned by common. Bed and Discharge run it against the same staff pool for the same beds — genuinely the same people counted twice. OPD's version (`common.peak-load#k3`) is a different duty for the same function: moving non-ambulatory patients to diagnostics, not turning beds. |
-| Peak-load staffing ratio method and its six named instances | `common.peak-load#s1`–`#s6`, `#n1`–`#n3`; instances `common.peak-load#k1`–`#k6`; run as `opd.7.1.1#c3`, `opd.7.1.1#c5`, `opd.7.1.1#c7`, `dis.7.1#c2`, `dis.7.1#c3`, `bed.7.1#c3`, `bed.7.1#c5`; measured as `opd.8#k10`, `opd.8#k12`, `opd.8#k13`, `dis.8#k14`, `dis.8#k15`, `bed.8#k17`, `bed.8#c4`; applied as `play.4#s6`, `play.9#s3` | One method, defined once in common, with six named ratios and then a third copy of each as an ongoing KPI in the department files. `common.peak-load#k6` explicitly says the method lives in common and the KPI lives in Bed — the clearest statement of the pattern this whole table describes. |
-| Staffing enables volume, not the reverse (the causality reversal) | `common.peak-load#f2`; `opd.7.1.2#c11`, `opd.0#f2`, `opd.6#f4`, `opd.7.2#q13`; `common.peak-load#n1` | Promoted to common as universal. OPD holds four separate instances of it — case-study fact, failure mode, reasoning principle and verification question — which is why an OPD query will hit the instance before the rule. |
-| A single named owner of the process end-to-end | `common.shared-considerations#c2`; `dis.6#f4`, `dis.7.2.1#q9`, `dis.1#a1`, `dis.7.4.4#s3`; `bed.7.2.2#q2`, `bed.7.4#s1`; `opd.6#f3`, `opd.7.1.1#c4` | The check is defined in common. Each department names its own absence of one as a failure mode and its own creation of one as a fix. OPD's version is scoped to the scheduling protocol specifically rather than the whole department. |
-| Whether the process is already automated — the maturity baseline | `common.shared-considerations#c1`; `dis.7.2.1#q10`; `bed.7.2.2#q1`; `opd.7.2#q8` | Defined in common; asked near-identically in all three departments' verification protocols. `bed.7.2.2#q1` is the broadest, covering Discharge, Admission and Bed Scheduling in one question. |
-| The threshold-triggered Manager hire at ₹4–4.5 lakhs/year | `dis.7.4.4#s3`, `dis.7.4.4#p1`, `dis.7.4.4#s4`; `bed.7.4.4#s1`, `bed.7.4.1#p6`, `bed.7.4.4#c2`–`#c5`, `bed.7.4#s12`; `opd.7.4.3#s10`, `opd.7.4.4#s16`, `opd.7.4.4#s17` | The same role shape and the same price at the same >80% occupancy trigger in Discharge and Bed — `dis.7.4.4#s3` calls the Bed Manager its peer explicitly. OPD's Scheduling Manager copies the shape but anchors to OPD footfall and has no cost figure yet (`opd.7.4.4#s17`). |
-| Two separate role decisions, triggered and priced differently — don't collapse them | `dis.7.4.4#s2`; `bed.7.4.4#c1` | The identical instruction, in near-identical words, in two files. Neither is derived from the other in the text; treat `dis.7.4.4#s2` as the earlier statement. |
+| OT scheduling, OT Utilisation and OT Revenue | `common.shared-considerations#c6`; `bed.3#d6`, `bed.3#d10`, `bed.2#a13`, `bed.7.2.2#q3`, `bed.7.3#p4`; `dis.3#d11`, `dis.3#d12`, `dis.3#d13`, `dis.7.3#p3`, `dis.7.3#p4`, `dis.8#k11` | The OT-to-bed link is defined as a shared consideration in common. Bed sees OT as both an upstream need (post-op reservation) and a downstream victim (elective cancelled for want of a bed); Discharge sees the same OT slots as revenue freed by earlier discharge. Same theatre, three vantage points — and see the three-mechanism row above. |
+| Dead bed time (bill finalisation → next bill initiation) | `bed.7.3#p5`; `bed.6#c1`, `bed.7.1#c7`, `bed.7.4.1#p3`, `bed.8#k20`, `bed.7.2.1#c5`, `bed.7.2.2#q11`, `bed.7.4.2#s8`, `bed.3b#d7`, `bed.3b#q7`; `dis.7.2.1#c1` | Owned by Bed — `bed.7.3#p5` is the definition. `dis.7.2.1#c1` is Discharge's single reference to it, and is the one that explains why a good Discharge TAT can still sit inside dead bed time. `bed.3b#d7` names the Billing coupling that makes it measurable at all. |
+| Bed turnaround time (physical discharge → usably available bed) | `bed.8#k6`; `dis.8#k4`; `dis.7.2.1#q12`, `bed.6#f4`, `dis.2#a9`, `bed.2#a9` | The identical KPI, worded differently, in both departments' §8 lists. Neither is the definition; they are co-equal. Distinct from dead bed time — this clock is physical, that one is billing — and distinct again from the notification and confirmation gaps in the Housekeeping row above. |
+| Discharge TAT — correct definition, ending at the next admission into that bed | `dis.7.2.1#q15`; `bed.7.1#c6`; `dis.7.2.1#q14`, `bed.7.1#c2`, `bed.7.2.2#q7`, `dis.8#k1`, `dis.3b#d6`, `dis.3b#q5` | Defined in Discharge (`dis.7.2.1#q15`) and restated verbatim in Bed (`bed.7.1#c6`) because Bed needs the same clock to test whether a claimed vacancy is real. `dis.3b#d6` adds why the figure is incomparable between hospitals at all: the TPA window may or may not be inside it. |
+| Admission timestamps — bed allocation and physical admission, and Admission TAT | `bed.7.1#c4`, `bed.7.1#c8`–`bed.7.1#c12`, `bed.7.2.1#c4`, `bed.7.2.1#c6`, `bed.7.2.2#q10`, `bed.7.4.2#s7`, `bed.7.4.1#p1`, `bed.8#k19`; `dis.7.2#d4`, `dis.7.2.1#q13`, `dis.7.4.2#s8` | Bed owns the measurement, including the five-stage decomposition. Discharge asks for exactly the same timestamps from the other side. The same dependency on two tables, pointing opposite ways. |
+| The Discharge–Bed double control | `bed.7.4#s6`, `bed.7.4.1#s4`, `bed.3b#d1`, `bed.3b#q1`; `dis.7.4.2#s5`, `dis.7.4.2#s8`, `dis.3b#d7`, `dis.3b#q6` | Bed names it as a control it applies to Discharge's timings; Discharge names it as downstream functions reading its agent's output directly. The §3b rows are the first statement of it as one reciprocal edge rather than two obligations, and both carry the same probe: reconcile bed by bed, not in aggregate. |
+| The serialised shared team — discharges till 12–2 PM, then admissions at 4–8 PM | `dis.6#f5`; `bed.6#f5`; `dis.7.2.1#q16`, `bed.7.2.2#q8`; `dis.7.4.2#s7`, `bed.7.4.2#s1`, `bed.7.4#s4`; `bed.3b#d2` | One operational fact indexed eight times across two files — as a failure mode, as a verification question and as a fix, in each department. `bed.3b#d2` names the variant that survives a denial: a no-allocation-before-confirmed-ready rule reproduces the same late admissions by a different route. |
+| Provisional discharge as a formally tracked 24-hour-advance signal | `dis.2#a1`, `dis.8#k3`; `bed.7.4#s3`, `bed.7.4.2#s3`, `bed.8#k10`; `common.shared-considerations#c7` | Discharge owns the activity (early flagging) and measures how many discharges it triggers. Bed owns the service level demanded of it — 24 hours in advance — and measures the same signal as an inbound percentage. |
+| ICU step-down signal and step-down mapping | `common.shared-considerations#c8`; `bed.3#d4`, `bed.2#a6`, `bed.7.2.2#q5`, `bed.7.4#s10`, `bed.7.4.1#s3`, `bed.7.4.2#s3`, `bed.8#k3`, `bed.8#k11`, `bed.3b#d4`; `dis.3#d9` | The mapping requirement is defined in common. Bed instantiates it fully, down to the 1 PM signal deadline. `bed.3b#d4` adds the mechanism behind why ICU beds free in bursts: step-down is decided on a round, not in a queue. |
+| Mapping planned admissions against provisional discharges and expected bed availability | `common.shared-considerations#c7`; `bed.7.2.2#q4`, `bed.7.4#s2`, `bed.7.4.1#s2`, `bed.7.4.1#s7`, `bed.8#k1`, `bed.8#k2` | Defined in common as a shared consideration; Bed is where it becomes an actual daily mechanism with a 2 PM pass and a 6 PM freeze. |
+| Bed availability for admission ↔ timely bed release — the same edge, opposite directions | `bed.3#d1`; `dis.3#d10`; `bed.3#d8`, `bed.3#d9`, `bed.8#k7`, `bed.2#a8` | `bed.3#d1` lists Discharge as Bed's Critical upstream; `dis.3#d10` lists Bed Availability as Discharge's Critical downstream. One dependency, entered twice from either side. |
+| Housekeeping and transport turnaround capacity | `common.peak-load#k5`; `bed.3#d2`, `bed.7.1#c3`, `bed.7.2.1#c2`, `bed.8#k17`, `bed.6#f4`; `dis.3#d5`, `dis.3#d6`, `dis.7.1#c3`, `dis.7.2#d2`, `dis.8#k15`, `dis.3b#d9`; `opd.7.1.1#c7`, `opd.8#k13`, `opd.3b#d6`, `common.peak-load#k3` | The ratio method is owned by common. Bed and Discharge run it against the same staff pool for the same beds. OPD's version is a different duty for the same function: moving non-ambulatory patients to diagnostics, not turning beds. `dis.3b#d9` and `opd.3b#d6` add that the pool is shared across all of these with one peak. |
+| Peak-load staffing ratio method and its named instances | `common.peak-load#s1`–`#s6`, `#n1`–`#n3`; instances `common.peak-load#k1`–`#k6`; run as `opd.7.1.1#c3`, `opd.7.1.1#c5`, `opd.7.1.1#c7`, `dis.7.1#c2`, `dis.7.1#c3`, `bed.7.1#c3`, `bed.7.1#c5`, `sup.7.1#c10`, `sup.7.2.3.2#q21`; measured as `opd.8#k10`, `opd.8#k12`, `opd.8#k13`, `dis.8#k14`, `dis.8#k15`, `bed.8#k17`, `bed.8#k21`, `sup.8.2#k30` | One method, defined once in common, with named ratios and then a third copy of each as an ongoing KPI in the department files. Supply Chain adds the only two-peak instance in the library: inbound receipt and outbound issue are different pools at different hours (`sup.7.1#c10`). `common.peak-load`'s own "which ratio applies where" list does not yet name it. |
+| Staffing enables volume, not the reverse (the causality reversal) | `common.peak-load#f2`; `opd.7.1.2#c11`, `opd.0#f2`, `opd.6#f4`, `opd.7.2#q13`; `sup.7.2.3.2#q22`; `common.peak-load#n1` | Promoted to common as universal. OPD holds four separate instances of it; Supply Chain adds a fifth as a named probe in its HR cluster. |
+| A single named owner of the process end-to-end | `common.shared-considerations#c2`; `dis.6#f4`, `dis.7.2.1#q9`, `dis.1#a1`, `dis.7.4.4#s3`; `bed.7.2.2#q2`, `bed.7.4#s1`; `opd.6#f3`, `opd.7.1.1#c4`; `sup.7.4.4#s1` | The check is defined in common. Each department names its own absence of one as a failure mode and its own creation of one as a fix. Supply Chain's version is the Materials Manager. |
+| Whether the process is already automated — the maturity baseline | `common.shared-considerations#c1`; `dis.7.2.1#q10`; `bed.7.2.2#q1`; `opd.7.2#q8`; `sup.7.2.3.2#q19` | Defined in common; asked near-identically in every department's verification protocol. Supply Chain's variant is sharper: not whether a system exists, but whether it was built for perpetual inventory or adapted to it. |
+| Enforced by the system vs configured as policy | `sup.3b#d16`, `sup.7.2.3.2#q17`, `sup.7.2.3.2#q18`, `sup.7.4.1#s11`, `sup.8.2#k44`; `bed.3b#d10`; `bed.4#n3` | Introduced by Supply Chain and the sharpest control distinction in the library: a rule the system refuses to complete, versus one people are asked to follow. `bed.3b#d10` is the same distinction applied to bed status, and it is what makes `bed.4#n3`'s no-phantom-vacancies non-negotiable structurally achievable rather than a matter of diligence. |
+| **The 80% occupancy pivot** | `common.occupancy-pivot#c1`–`#c4`, `#s1`–`#s6`, `#n1`–`#n3`, `#p1`; `bed.7.4.4#c3`, `bed.7.4#c2`; `dis.7.4.4#s4`, `dis.7.2.1#q15`; `sup.7.4.4#s2`; `opd.7.4.4#s20` | **Owned by common.** One hospital-wide state change, not three departments' separate thresholds — it appeared independently in three files before being promoted. Above it, each function needs a *different* strategy and each warrants its own dedicated owner. `opd.7.4.4#s20` is the documented exception: OPD is ambulatory and scales with footfall, so the pivot reaches it only via OP-to-IP conversion. `bed.7.4#c2` is a sharper department-specific pivot that coexists with it rather than competing. |
+| The dedicated owner role each function gets at the pivot | `common.occupancy-pivot#s5`, `#p1`, `#n1`, `#n2`, `#n3`; `dis.7.4.4#s3`, `dis.7.4.4#p1`; `bed.7.4.4#s1`, `bed.7.4.1#p6`; `sup.7.4.4#s1`, `sup.7.4.4#p1`; `opd.7.4.3#s10`, `opd.7.4.4#s16`, `opd.7.4.4#s17` | Same trigger, different role, **different price**. Materials Manager ₹8–10 lakhs; Bed Manager and Discharge Manager ₹4–4.5 lakhs each; OPD's Scheduling Manager on its own footfall trigger with no figure yet. The salary follows the proficiency the role requires, not the threshold that surfaced it — `common.occupancy-pivot#n2` is the instruction not to benchmark one against another, and it is the error a hospital will make unprompted. |
+| Two separate role decisions, triggered and priced differently — don't collapse them | `dis.7.4.4#s2`; `bed.7.4.4#c1` | The identical instruction, in near-identical words, in two files. Treat `dis.7.4.4#s2` as the earlier statement. |
 | The volume-sized Executive hire at ₹3–3.5 lakhs/year each | `dis.7.4.4#s5`, `dis.7.4.4#p2`, `dis.7.4.4#s6`, `dis.7.4.4#s7`, `dis.7.4.4#s9`; `bed.7.4.4#s2`, `bed.7.4.1#p7`, `bed.7.4.4#c6` | Discharge Executives and Admissions Executives are the same hire at the same price, sized by the same peak-load check. The sizing rules differ in form — a flat 15 discharges/day rule in Discharge, a 5-admissions-per-hour throughput plus a coverage floor in Bed. |
-| Role-threshold tracking as its own KPI | `dis.8#k13`; `bed.8#k16` with its correction `bed.8#c1`; `opd.8#k15` | All three departments track their own hiring trigger as an operational metric. `bed.8#c1` records that the Bed version is stale against `bed.7.4.4`'s three current conditions — the one place this shared pattern is known to be out of date. |
-| Head of Operations / COO approves the process flows, not daily tasks | `dis.7.4.3#s6`; `bed.7.4.3#c1` | Word-for-word the same governance point in two departments' key-people sections. |
-| OPD prescription capture as the intake point for planned-admission data | `opd.2#a1`, `opd.7.4.1#s1`, `opd.7.4.2#s5`; `bed.7.4#s5`, `bed.7.4.2#s4`, `bed.8#k13` | OPD owns the capture activity and the bot that reads it. Bed consumes the same artefact as the start of its planned-admission pipeline and measures whether it arrives. The clearest OPD→Bed data dependency in the library, and it is stated only from each end, never as one edge. |
-| The four-aspect solution shape and its mandatory cost-benefit and before/after graphic | `common.solution-method#s1`–`#s4`, `#n1`–`#n4`; `dis.7.4#s1`, `dis.7.4#s2`; `opd.7.4#n1`; `play.3#s1`, `play.3#s2` | Defined in common. Discharge restates it as its own requirement; OPD re-orders it (process and manpower first) without changing the set; the playbook turns the same four plus KPIs into the five clickable parts. |
-| Whether the solution scales with hospital size | `dis.7.4#s3`; `common.solution-method#f1`; `bed.7.4#c1`, `bed.7.4#c2`, `bed.7.4#c3` | Discharge's finding is that the solution is size-invariant. `common.solution-method#f1` exists specifically to stop that being generalised, and `bed.7.4#c1` is the counter-case where the solution does scale. Three points, one argument — a retriever answering "does this hold for a smaller hospital?" needs all three. |
-| Reserved capacity held vacant with a defined release rule | `bed.7.4#s8`, `bed.7.4.1#s5`, `bed.8#k5`; `opd.7.1.2#c12`, `opd.7.4.1#s3`, `opd.7.4.2#s7`, `opd.8#k6` | The emergency bed reserve and the STAT diagnostic slot are the same mechanism applied to different resources: hold capacity back, release it to the next queued case if the emergency does not arrive. OPD states the release rule precisely; Bed states the derivation (2–3 years of trend) precisely. Each is missing what the other has. |
+| Role-threshold tracking as its own KPI | `dis.8#k13`; `bed.8#k16`; `opd.8#k15`; `sup.8.2#k31` | All four departments track their own hiring trigger as an operational metric. `bed.8#k16` was realigned to `bed.7.4.4`(a)'s three current conditions on 2026-09-22 and is no longer stale. |
+| Head of Operations / COO approves the process flows, not daily tasks | `dis.7.4.3#s6`; `bed.7.4.3#c1`; `sup.7.4.3#s9` | Word-for-word the same governance point in three departments' key-people sections. Supply Chain adds the reporting-line question behind it (`sup.3a#c2`). |
+| Reporting line as a diagnostic — Operations vs Finance | `sup.3a#c1`–`#c4`, `sup.7.1#c1`, `sup.7.2.3#q23`, `sup.8.2#k32` | Supply Chain only, and a promotion candidate for common-elements rather than a cross-department concept yet. Recorded here so the next department that raises an ownership-structure question can be checked against it. |
+| OPD prescription capture as the intake point for planned-admission data | `opd.2#a1`, `opd.7.4.1#s1`, `opd.7.4.2#s5`, `opd.3b#d9`, `opd.3b#q9`, `opd.8#k22`; `bed.7.4#s5`, `bed.7.4.2#s4`, `bed.8#k13`, `bed.3b#d6`, `bed.3b#q6` | OPD owns the capture activity and the bot that reads it. Bed consumes the same artefact as the start of its planned-admission pipeline and measures whether it arrives. Now stated as one edge from both ends via the §3b rows, where previously it was stated only from each end separately. |
+| The four-aspect solution shape and its mandatory cost-benefit and before/after graphic | `common.solution-method#s1`–`#s4`, `#n1`–`#n4`; `dis.7.4#s1`, `dis.7.4#s2`; `opd.7.4#n1`; `sup.7.4#s1`; `play.3#s1`, `play.3#s2` | Defined in common. Discharge restates it as its own requirement; OPD re-orders it (process and manpower first) without changing the set; the playbook turns the same four plus KPIs into the five clickable parts. |
+| Whether the solution scales with hospital size | `dis.7.4#s3`; `common.solution-method#f1`; `bed.7.4#c1`, `bed.7.4#c2`, `bed.7.4#c3`; `sup.7.4#s1`, `sup.7.4#s2`, `sup.7.4#s3` | Discharge's finding is that the solution is size-invariant; Bed's is the counter-case. Supply Chain is the third data point and the most refined: the solution scales, but the *automation* within it does not — only its configuration and surrounding staffing do (`sup.7.4#s2`). A retriever answering "does this hold for a smaller hospital?" needs all four. |
+| Reserved capacity held vacant with a defined release rule | `bed.7.4#s8`, `bed.7.4.1#s5`, `bed.8#k5`, `bed.3b#d5`, `bed.3b#q5`; `opd.7.1.2#c12`, `opd.7.4.1#s3`, `opd.7.4.2#s7`, `opd.8#k6`; `sup.7.4.1#s6` | The emergency bed reserve and the STAT diagnostic slot are the same mechanism applied to different resources. Supply Chain's shortage-allocation rule is the third instance: hold priority, not capacity. OPD states the release rule precisely; Bed states the derivation precisely; each is missing what the other has. |
 | Flagging Tojo's own constructed numbers as constructions | `bed.7.4.1#c2`; `play.2#n1`, `play.0#n2`, `play.8#n1` | The playbook owns the rule; `bed.7.4.1#c2` is the only department file that states it independently, and adds the "don't carry figures across hospitals" half. |
-| IT/HIS extraction and integration as a prerequisite | `bed.3#d7`, `bed.7.4.2#s6`, `bed.7.4.1#p9`; `dis.7.4.2#s3`, `dis.7.4.3#s1`; `opd.3#d9`, `opd.7.4.3#s14` | Each department names the same IT work — extend extraction to the records this department needs — as its own prerequisite and its own cost line. Bed is the most specific (IP records), Discharge the broadest (ERP, PACS, everything holding reports and notes). |
-| Doctors as the concentrated point of resistance | `bed.7.4.3#c2`, `bed.7.4.3#s1`, `bed.7.4.3#s2`; `dis.7.4.3#s3`, `dis.7.4.3#s7`; `opd.7.4.3#s11`, `opd.7.4.3#s12`; `common.solution-method#s3`; `play.4#s4`, `play.4#s5` | Common defines buy-in as an aspect; each department names doctors as where it concentrates, and each proposes the same mitigation shape — make the doctor's own work lighter. OPD is the exception, where the resistance may be a financial incentive to refer outside rather than workload. |
+| IT/HIS extraction and integration as a prerequisite | `bed.3#d7`, `bed.7.4.2#s6`, `bed.7.4.1#p9`; `dis.7.4.2#s3`, `dis.7.4.3#s1`; `opd.3#d9`, `opd.7.4.3#s14`; `sup.3#d3`, `sup.7.5#f5`, `sup.7.4.3#s1` | Each department names the same IT work as its own prerequisite and its own cost line. `sup.7.5#f5` is the one that says plainly it is *one* integration, not four. |
+| Doctors as the concentrated point of resistance | `bed.7.4.3#c2`, `bed.7.4.3#s1`, `bed.7.4.3#s2`; `dis.7.4.3#s3`, `dis.7.4.3#s7`; `opd.7.4.3#s11`, `opd.7.4.3#s12`; `sup.7.5#f9`; `common.solution-method#s3`; `play.4#s4`, `play.4#s5` | Common defines buy-in as an aspect; each department names doctors as where it concentrates. Supply Chain adds a distinct variety: surgeon resistance to documenting a preference card, because documenting it makes their cost comparable with a peer's — a status objection, not a workload one, and the standard mitigation does not work on it. |
+| Resistance where the current ambiguity is a feature | `sup.7.5#f10`, `sup.3b#d17`, `sup.7.1#c9`; `opd.7.1.2#c14`, `opd.7.2#q1` | Supply Chain states it plainly for shrinkage; OPD states it for deliberate patient diversion. The only two places the library names resistance that is not workload-based, and both note that the "extension of your role" framing does not resolve it. |
 
 ## Points by file
 
 ### bed.points.md — Bed Management
-
 ## bed.1
 
 | point | what it is | chunk | also called |
@@ -98,6 +111,35 @@ Each row is one underlying thing that is indexed under point ids in two or more 
 | bed.3#d12 | ALOS — bed pressure drives discharge urgency (High) | bed.3 | average length of stay, patients staying too long |
 | bed.3#d13 | Nursing workload distribution (Medium) | bed.3 | nurse workload, ward staffing, nurses overloaded |
 | bed.3#d14 | Patient experience/satisfaction (Medium-High) | bed.3 | patient complaints, satisfaction scores, feedback |
+
+## bed.3b
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| bed.3b#c1 | Bed Management's exposure is its own numbers being unbelievable | bed.3b | the board says one thing, the wards say another |
+| bed.3b#d1 | (A) Discharge — the double control on each other's timestamps | bed.3b | cross-checking discharge timings, neither number is the finding |
+| bed.3b#d2 | (B) Housekeeping — the ready-confirmation, not the cleaning speed | bed.3b | bed clean but not released, waiting for confirmation |
+| bed.3b#d3 | (C) OT Scheduling — post-op reservation pulling both ways | bed.3b | holding beds for surgery, reserved beds sitting empty |
+| bed.3b#d4 | (D) ICU — step-down gated by a rounds schedule, not a queue | bed.3b | ICU frees up only after rounds, no step-down queue |
+| bed.3b#d5 | (E) Emergency — an untested reserve forces an unrecognised choice | bed.3b | how many beds to keep for emergencies, boarding or bumping |
+| bed.3b#d6 | (F) OPD — the prescription is the planned-admission intake point | bed.3b | admissions arriving as surprises, no forecast input |
+| bed.3b#d7 | (G) Billing — the bill-close/bill-open join makes dead bed time measurable | bed.3b | nobody reports the idle hours, hidden loss |
+| bed.3b#d8 | (H) Nursing — allocation ignoring ward nurse-to-patient ratio | bed.3b | wards refusing beds, dumping into an overloaded ward |
+| bed.3b#d9 | (I) Supply Chain — the ward consumable kit as a condition on usability | bed.3b | bed ready but no stock, marked ready then wasn't |
+| bed.3b#d10 | (J) IT/HIS — status as a captured event vs. an entry someone makes | bed.3b | board drifts within hours, phantom vacancy |
+| bed.3b#d11 | (K) Finance — midnight-census occupancy hiding intraday loss | bed.3b | occupancy looks fine but revenue per bed doesn't |
+| bed.3b#q1 | (A) reconcile one day's discharges bed by bed, not in aggregate | bed.3b | check them one by one, averages hide it |
+| bed.3b#q2 | (B) time from cleaning complete to allocatable, and who confirms | bed.3b | who releases the bed in the system |
+| bed.3b#q3 | (C) when a post-op bed is reserved, and how many went unused | bed.3b | reservation timing, wasted holds |
+| bed.3b#q4 | (D) when ICU rounds happen, and is there a step-down queue at all | bed.3b | rounds timing, how step-down is decided |
+| bed.3b#q5 | (E) how the reserve number was arrived at, and how often it failed | bed.3b | where did that number come from, was it ever tested |
+| bed.3b#q6 | (F) share of planned admissions known over 24 hours ahead, and from where | bed.3b | how much notice we get, where the data comes from |
+| bed.3b#q7 | (G) bill-close and next bill-open on the same bed, and has anyone looked | bed.3b | the gap nobody has measured |
+| bed.3b#q8 | (H) does allocation consider ward nursing ratio, and how often wards push back | bed.3b | do we check the ward's load, refusals recorded |
+| bed.3b#q9 | (I) has a bed been marked ready then found unusable, and how recorded | bed.3b | ready then not ready, how it was logged |
+| bed.3b#q10 | (J) is a status change a system event or typed in, and when last audited | bed.3b | who updates the board, physical walk-round check |
+| bed.3b#q11 | (K) when occupancy is measured, and compared against billable bed-hours | bed.3b | census timing, occupancy versus earning |
+| bed.3b#c2 | treat the contradiction as the symptom and find the coupling behind it | bed.3b | two numbers that don't agree, where to start |
 
 ## bed.4
 
@@ -287,16 +329,17 @@ Each row is one underlying thing that is indexed under point ids in two or more 
 | bed.8#k13 | % of planned admissions with OPD-prescription-captured intake data available | bed.8 | is the OPD data coming through, intake capture |
 | bed.8#k14 | Admissions-desk-to-Bed-Management console sync accuracy | bed.8 | does the desk booking show up in the console, live link working |
 | bed.8#k15 | Daily/aggregate revenue attributable to bed-management efficiency | bed.8 | revenue from better bed handling, what it earned us |
-| bed.8#k16 | Bed Manager threshold tracking — occupancy % and admissions/day against the trigger | bed.8 | are we past the bed manager trigger, when do we hire |
+| bed.8#k16 | Bed Manager threshold — demand-vs-supply pivot, 80% occupancy pivot, TAT-overrun rate | bed.8 | are we past the bed manager trigger, when do we hire |
 | bed.8#k17 | housekeeping/transport staff available per shift per bed, for admissions and discharges | bed.8 | cleaning and porter staffing per shift, staff per bed |
 | bed.8#k18 | nursing workload distribution relative to occupancy/turnover volume | bed.8 | nurse workload versus occupancy, ward staffing balance |
-| bed.8#c1 | #16 is now wrong — it must track §7.4.4's three current Bed Manager conditions | bed.8 | the hiring trigger changed, KPI is out of date |
-| bed.8#c2 | Admission TAT needs KPIs — the headline against 30 minutes, plus five stage timings | bed.8 | no KPI for admission time, stage-wise tracking missing |
-| bed.8#c3 | dead bed time needs a KPI, bill to bill, with its three stretches separable | bed.8 | nobody tracks the idle bed hours, needs its own number |
-| bed.8#c4 | the bed-management/admissions team ratio needs a KPI, peak vs off-peak | bed.8 | no KPI for desk workload, admissions plus transfers per person |
+| bed.8#k19 | Admission TAT headline against the 30-minute target, plus five stage timings | bed.8 | how long an admission takes, stage-wise breakup |
+| bed.8#k20 | dead bed time bill-to-bill, three stretches separable, with % admitted by noon | bed.8 | idle bed hours, when the bed stops and starts earning |
+| bed.8#k21 | admissions plus internal transfers per team member per hour, peak vs off-peak | bed.8 | desk workload, how many one person handles |
+| bed.8#k22 | housekeeping ready-confirmation gap, separate from cleaning time | bed.8 | release delay not cleaning delay, bed clean but not allocatable |
+| bed.8#k23 | post-op bed reservations held but unused — count and bed-hours | bed.8 | cost of reserving early, wasted holds |
+| bed.8#k24 | % of allocations checked against ward nursing ratio, and push-backs with reason | bed.8 | do we check the ward's load before allocating |
 
 ### dis.points.md — Discharge Process
-
 ## dis.1
 
 | point | what it is | chunk | also called |
@@ -340,6 +383,36 @@ Each row is one underlying thing that is indexed under point ids in two or more 
 | dis.3#d12 | OT Utilisation — late-night slots for same-morning admissions (High) | dis.3 | how full our OTs are, empty OT slots |
 | dis.3#d13 | OT Revenue — follows from OT scheduling/utilisation (High) | dis.3 | surgery income, OT earnings |
 | dis.3#d14 | Daily Revenue — aggregate effect of all of the above (Critical) | dis.3 | day's collection, top line |
+
+## dis.3b
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| dis.3b#c1 | Discharge is the last visible step, so upstream delays surface as its symptom | dis.3b | discharge gets blamed, it's not really us |
+| dis.3b#d1 | (A) Doctors — the summary-authoring chain, and rounds timing gating the start | dis.3b | waiting for the consultant's round, who writes the summary |
+| dis.3b#d2 | (A) multidisciplinary cases have no summary owner at all | dis.3b | several doctors on one case, nobody signs |
+| dis.3b#d3 | (B) Nursing — the ward stock-take as a hard gate on billing closure | dis.3b | billing waiting for the ward count |
+| dis.3b#d4 | (C) Supply Chain — the returnable balance, computed or counted | dis.3b | pending pharmacy reconciliation, medicine returns |
+| dis.3b#d5 | (D) Billing — a late charge reopening a finalised bill | dis.3b | bill revised after closing, charge came in late |
+| dis.3b#d6 | (E) Insurance/TPA — a window outside our control, inside or outside the TAT | dis.3b | does the TAT include the insurance wait |
+| dis.3b#d7 | (F) Bed Management — the double control on each other's timestamps | dis.3b | good TAT but beds don't turn over, cross-checking timings |
+| dis.3b#d8 | (G) Housekeeping — the notification moment, not the cleaning speed | dis.3b | when housekeeping was told, not how fast they clean |
+| dis.3b#d9 | (H) Transport — porters pooled across every demand, one peak | dis.3b | waiting for a wheelchair, the last twenty minutes |
+| dis.3b#d10 | (I) OT Scheduling — the admission-hour gate on same-day slots | dis.3b | bed freed too late for tonight's list, empty evening slots |
+| dis.3b#d11 | (J) the briefing chain — several uncoordinated people before exit | dis.3b | dietitian, counselling, pharmacy advice before leaving |
+| dis.3b#d12 | (K) Finance/cash counter — peak staffing and release authority | dis.3b | queue at the counter, who can let them go with a balance |
+| dis.3b#q1 | (A) who drafts, reviews and signs — and who owns a multidisciplinary case | dis.3b | who actually writes it, who takes responsibility |
+| dis.3b#q2 | (B) how long after confirmation does the stock-take start, and why | dis.3b | the gap before the count starts |
+| dis.3b#q3 | (C) median time to post the return credit, and discharges waiting on it | dis.3b | how long returns take, how many are stuck |
+| dis.3b#q4 | (D) how many bills were reopened last month, and by what charge | dis.3b | bill revisions, what came in late |
+| dis.3b#q5 | (E) does the reported TAT include the TPA window end to end | dis.3b | is the insurance time counted |
+| dis.3b#q6 | (F) reconcile the same beds against Bed Management's own timestamps | dis.3b | check our times against the bed team's |
+| dis.3b#q7 | (G) time from physical discharge to housekeeping being notified | dis.3b | when did they actually get told |
+| dis.3b#q8 | (H) porters on duty at the discharge peak, and what else they serve | dis.3b | porter availability at the busy hour |
+| dis.3b#q9 | (I) latest hour a freed bed can still become a same-day OT slot | dis.3b | cut-off for tonight's surgery |
+| dis.3b#q10 | (J) who must reach the patient before exit, and who sequences them | dis.3b | who all has to see the patient first |
+| dis.3b#q11 | (K) counter staff at peak, and who authorises release with a balance | dis.3b | cash counter manning, settlement authority |
+| dis.3b#c2 | treat a query's stated cause as the symptom column, then run that probe | dis.3b | they already think they know the reason |
 
 ## dis.4
 
@@ -388,6 +461,7 @@ Section container (heading only) — no points.
 | dis.7.2#d3 | billing sign-off and insurance/TPA handoff logs | dis.7.2 | billing system records, when the file went to TPA |
 | dis.7.2#d4 | bed-allocation and physical-admission timestamps for the same bed | dis.7.2 | when the bed was given to the next patient, HIS bed log |
 | dis.7.2#d5 | insurance/TPA correspondence timestamps — first request sent, final approval | dis.7.2 | when we asked the insurer, when approval came back |
+| dis.7.2#c1 | run the §3b probe alongside these when the query came from another function | dis.7.2 | starting from another department's complaint |
 
 ## dis.7.2.1
 
@@ -516,13 +590,16 @@ Section container (heading only) — no points.
 | dis.8#k10 | ARPOB and Daily Average Revenue tracked as ongoing KPIs | dis.8 | revenue per bed, daily collection |
 | dis.8#k11 | OT Utilisation and OT Revenue from slots freed by faster discharge | dis.8 | extra surgeries we got, theatre usage from early discharge |
 | dis.8#k12 | realized vs. theoretical revenue impact of freed bed-days | dis.8 | how much of the projected gain we actually got |
-| dis.8#k13 | role threshold tracking — occupancy %, discharges/day, TAT-overrun proportion | dis.8 | are we past the threshold for hiring, do we qualify for a discharge manager |
+| dis.8#k13 | all three Discharge Manager conditions — 80% pivot, >40 discharges/day, TAT-overrun rate | dis.8 | are we past the threshold for hiring, do we qualify for a discharge manager |
 | dis.8#k14 | nursing ratio per bed for discharge functions, discharges per staff per hour peak vs off-peak | dis.8 | workload per nurse, how many discharges one person handles |
 | dis.8#k15 | housekeeping and transport staff availability per shift vs. discharge volume | dis.8 | enough housekeeping per shift, porter availability |
 | dis.8#k16 | family/patient briefing completion rate before physical discharge | dis.8 | how often counselling was actually done, documented instructions before leaving |
+| dis.8#k17 | housekeeping notification gap, tracked separately from cleaning time | dis.8 | when housekeeping was told versus how fast they clean |
+| dis.8#k18 | bills reopened after finalisation — count, value and the charge type | dis.8 | bill revisions, what keeps coming in late |
+| dis.8#k19 | transport wait from full clearance to the patient physically leaving | dis.8 | the last twenty minutes, waiting for a wheelchair |
+| dis.8#k20 | cash-counter settlements per staff per hour at peak, and discharges held by a disputed balance | dis.8 | queue at the counter, who can release with a balance |
 
 ### opd.points.md — OPD-to-Diagnostics Conversion
-
 ## opd.0
 
 | point | what it is | chunk | also called |
@@ -582,6 +659,35 @@ Section container (heading only) — no points.
 | opd.3#d19 | Service Excellence/Patient Experience (Medium) | opd.3 | patient experience, how patients feel about the visit |
 | opd.3#d20 | Marketing/Referral Engine — repeat-visit trust (Medium) | opd.3 | will they come back, word of mouth, referrals |
 
+## opd.3b
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| opd.3b#c1 | diagnostic leakage has no symptom of its own — nothing breaks, nobody complains | opd.3b | we only see it in the revenue, silent loss |
+| opd.3b#d1 | (A) Doctors and secretaries — who owns the patient in the thirty seconds after the consult | opd.3b | secretary takes the patient, we can't step in |
+| opd.3b#d2 | (B) Radiology — per-unit capacity, not modality capacity | opd.3b | one machine overloaded while another is free |
+| opd.3b#d3 | (C) Laboratory — report turnaround as a trust signal to the prescribing doctor | opd.3b | doctor stopped sending tests here, burned once |
+| opd.3b#d4 | (D) Billing and front office — the billing desk is the conversion window | opd.3b | staff take payment and point at a corridor |
+| opd.3b#d5 | (E) Guest services — the physical journey from consult to diagnostic to payment | opd.3b | nobody walks the patient, they wander off |
+| opd.3b#d6 | (F) Housekeeping and transport — mobility for non-ambulatory patients at peak | opd.3b | no wheelchair, slot missed and logged as a no-show |
+| opd.3b#d7 | (G) Pharmacy and Supply Chain — reagent availability, and pharmacy leakage as the same mechanism | opd.3b | same problem at the medicine counter, two halves of one thing |
+| opd.3b#d8 | (H) Biomedical — equipment downtime converting directly into leakage | opd.3b | the MRI was down, bad month for scans |
+| opd.3b#d9 | (I) Bed Management — OP-to-IP conversion, and OPD as planned-admission intake | opd.3b | admissions from findings, feeding the bed forecast |
+| opd.3b#d10 | (J) HR — training ownership and the blame culture | opd.3b | conversion varies by shift, who trains the counter staff |
+| opd.3b#d11 | (K) Finance — equipment ROI and authority over off-peak pricing | opd.3b | who can approve a discount, who owns the payback case |
+| opd.3b#q1 | (A) for the three lowest-redemption doctors, who books the next step | opd.3b | ask about those doctors specifically |
+| opd.3b#q2 | (B) utilisation per individual unit, and which unit a walk-in lands on | opd.3b | machine-wise load, who decides where it goes |
+| opd.3b#q3 | (C) report turnaround against redemption by doctor over six months | opd.3b | has any doctor ever complained about report delay |
+| opd.3b#q4 | (D) what staff say to a patient after payment, and does TAT include it | opd.3b | does the transaction end at the receipt |
+| opd.3b#q5 | (E) guest-services headcount at peak, and same-visit bookings not attended | opd.3b | who is on during the rush, booked but didn't turn up |
+| opd.3b#q6 | (F) mobility-assistance volume, wait time, and whether a missed slot was attributed | opd.3b | wheelchair waits, was it ever recorded as the cause |
+| opd.3b#q7 | (G) in-house dispensing share compared against diagnostic redemption | opd.3b | pharmacy conversion next to test conversion |
+| opd.3b#q8 | (H) equipment downtime by unit against redemption in the same weeks | opd.3b | put the breakdown log next to the numbers |
+| opd.3b#q9 | (I) share of OPD-originated planned admissions reaching Bed Management 24h ahead | opd.3b | how much notice the bed team gets from us |
+| opd.3b#q10 | (J) who trains the handoff, who checks it, and who is asked first on a complaint | opd.3b | training ownership, who gets blamed |
+| opd.3b#q11 | (K) who can approve an off-peak discount, and who sees redemption data | opd.3b | pricing authority, who owns the machine's payback |
+| opd.3b#c2 | the most commonly missed row is G — pharmacy and diagnostic leakage are one mechanism | opd.3b | fixing half the problem, two departments one cause |
+
 ## opd.4
 
 | point | what it is | chunk | also called |
@@ -621,6 +727,8 @@ _Section heading only — no individual points._
 | opd.7.1.1#c5 | guest services capacity ratio, or sizing the gap if absent | opd.7.1.1 | do we have anyone guiding patients, PROs, who walks the patient to radiology |
 | opd.7.1.1#c6 | off-peak discounted diagnostic slots as utilization, affordability and trust lever | opd.7.1.1 | cheaper rates in lean hours, discount for afternoon scans, filling idle machine time |
 | opd.7.1.1#c7 | housekeeping/transport support for non-ambulatory patients at peak | opd.7.1.1 | wheelchair and trolley support, who shifts the patient to radiology |
+| opd.7.1.1#c8 | the two-peak arrival curve — ~80% of footfall inside ~4 peak hours split across two shifts, not one block | opd.7.1.1 | when do the crowds actually come, morning rush and evening rush, peak hours at the counter, is the load even through the day |
+| opd.7.1.1#c9 | derive the real arrival curve from hourly OPD billing data, never from registration data | opd.7.1.1 | where do we get the arrival pattern from, registration only counts new patients, how do we count returning patients |
 
 ## opd.7.1.2
 
@@ -655,6 +763,8 @@ _Section heading only — no individual points._
 | opd.7.2#q12 | is a TAT defined at all, and is it realistic and guidance-inclusive | opd.7.2 | do we have a turnaround standard, does it include explaining to the patient |
 | opd.7.2#q13 | staffing-pivot-point / revenue-to-staff ratio defined, or decided ad hoc | opd.7.2 | at what volume do we add a person, when do we know to hire |
 | opd.7.2#q14 | culture-of-blame check on floor-level executives for delays and dissatisfaction | opd.7.2 | do we blame the counter staff, who gets pulled up when patients complain |
+| opd.7.2#q15 | who owns floor-staff training — HR, departmental head, floor managers or COO — and how that ownership is evidenced, monitored and analysed | opd.7.2 | whose job is it to train the counter staff, nobody owns training, is training recorded anywhere, who is accountable for the floor staff |
+| opd.7.2#c1 | run the §3b probe alongside these when the query came from another function | opd.7.2 | starting from another department's complaint |
 
 ## opd.7.3
 
@@ -699,7 +809,7 @@ _Section heading only — no individual points._
 | opd.7.4.3#s10 | Scheduling Manager considered above 200 daily OPD footfall excluding relatives | opd.7.4.3 | someone dedicated to scheduling, do we need a separate person for slots |
 | opd.7.4.3#s11 | doctors' and secretaries' buy-in, sensitive where outside-referral incentives exist | opd.7.4.3 | getting doctors on board, secretaries sending tests outside |
 | opd.7.4.3#s12 | buy-in from radiologists, cardiologists, pathologists, sonologists on scheduling | opd.7.4.3 | radiologist keeps changing the list, specialists overriding slots |
-| opd.7.4.3#s13 | HR to check staffing adequacy and training effectiveness | opd.7.4.3 | HR to confirm headcount, is the training actually working |
+| opd.7.4.3#s13 | HR to check staffing adequacy and training effectiveness, and to settle who owns training where §7.2 point 15 found no named owner | opd.7.4.3 | HR to confirm headcount, is the training actually working, who should own training |
 | opd.7.4.3#s14 | IT for all automations and integrations including ERP value extraction | opd.7.4.3 | IT team, integration with our HIS and ERP |
 | opd.7.4.3#s15 | executive management sign-off on open sharing of performance dashboards | opd.7.4.3 | management approval to share the numbers openly, CEO buy-in |
 
@@ -708,9 +818,11 @@ _Section heading only — no individual points._
 | point | what it is | chunk | also called |
 |---|---|---|---|
 | opd.7.4.4#s16 | Scheduling Manager is the clear new recruitment above 200 daily footfall | opd.7.4.4 | new post for scheduling, recruit a scheduling manager |
-| opd.7.4.4#s17 | cost figure for Scheduling Manager not yet given, to be confirmed | opd.7.4.4 | what will that role cost us, salary for the new post |
+| opd.7.4.4#s17 | Scheduling Manager cost scales with footfall across three bands — ₹3–3.5L (200–500), ₹5.5–6L (500–1,500), ₹7–7.5L (above 1,500) | opd.7.4.4 | what will that role cost us, salary for the new post, how much does a scheduling manager cost, budget for the scheduling role |
 | opd.7.4.4#s18 | guest-services headcount may be new, sized by peak-load ratio check | opd.7.4.4 | how many PROs do we need, adding guest relations staff |
 | opd.7.4.4#s19 | all other named roles are existing ones engaged, not new recruitment | opd.7.4.4 | no other new hiring, using our existing people |
+| opd.7.4.4#s20 | OPD is the exception to the 80% occupancy pivot — ambulatory load scales with footfall | opd.7.4.4 | does the occupancy rule apply to us, busy counter but empty wards |
+| opd.7.4.4#s21 | salary follows the proficiency the volume demands, not the fact that a threshold was crossed | opd.7.4.4 | why does the same role cost more at a bigger hospital, paying more for the same job title |
 
 ## opd.8
 
@@ -734,9 +846,479 @@ _Section heading only — no individual points._
 | opd.8#k16 | revenue-to-staff ratio by department/discipline against defined pivot points | opd.8 | revenue per staff, when to add the next person |
 | opd.8#k17 | training completion % and a proxy effectiveness measure | opd.8 | who has been trained, does training change conversion |
 | opd.8#k18 | best-performer information-share cadence adherence | opd.8 | is the daily share actually happening, has it lapsed |
+| opd.8#k19 | OPD prescription-to-pharmacy fill rate, reported beside diagnostic redemption | opd.8 | how many prescriptions we fill, medicine counter conversion |
+| opd.8#k20 | equipment downtime by unit set against redemption in the same period | opd.8 | the scanner was down, bad month for scans |
+| opd.8#k21 | tests deferred for want of a reagent, recorded under that cause not as a no-show | opd.8 | test couldn't run, no reagent, logged as patient didn't come |
+| opd.8#k22 | % of OPD-originated planned admissions reaching Bed Management over 24h ahead | opd.8 | how much notice the bed team gets from us |
+
+### sup.points.md — Supply Chain & Procurement
+## sup.0
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.0#c1 | vendor, stores, ERP, procure-to-pay and billing are one continuous chain | sup.0 | it's all connected, one long process from supplier to bill |
+| sup.0#c2 | a query naming one link is usually a query about this whole department | sup.0 | the problem isn't where it looks like it is |
+| sup.0#c3 | capital procurement is deliberately out of scope, in a separate file | sup.0 | equipment buying is different, machines vs consumables |
+
+## sup.1
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.1#a1 | every item available at the point of need, no patient waits on a stock-out | sup.1 | never run out, stock always on the floor |
+| sup.1#a2 | at a negotiated and controlled cost | sup.1 | buying at the right rate, controlling purchase price |
+| sup.1#a3 | unbroken system record from vendor to patient, always reconcilable | sup.1 | full traceability, being able to tie it all back |
+
+## sup.2
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.2#a1 | vendor sourcing, empanelment and approval | sup.2 | finding suppliers, adding a new vendor |
+| sup.2#a2 | category-wise negotiation and rate-contract finalization | sup.2 | rate contracts, annual price negotiation |
+| sup.2#a3 | MOQ and payment-terms/credit-period negotiation | sup.2 | minimum order quantity, credit period, payment terms |
+| sup.2#a4 | vendor scorecarding on fill rate, OTIF and quality rejection | sup.2 | rating our suppliers, which vendor is reliable |
+| sup.2#a5 | gate entry, invoice/challan match against the PO at receipt | sup.2 | material coming in at the gate, checking the challan |
+| sup.2#a6 | batch-number and expiry verification at receipt | sup.2 | checking batch and expiry when goods arrive |
+| sup.2#a7 | Goods Receipt Note creation in the ERP | sup.2 | GRN, booking the receipt in the system |
+| sup.2#a8 | discrepancy, short-receipt and damage handling, vendor debit note | sup.2 | short supply, damaged goods, raising a debit note |
+| sup.2#a9 | item master maintenance | sup.2 | item codes, the material master |
+| sup.2#a10 | store and sub-store stock ledgers | sup.2 | ward stock, floor stock, store registers |
+| sup.2#a11 | physical stock-taking and cycle counts | sup.2 | stock count, physical verification |
+| sup.2#a12 | ROL/ROQ monitoring and replenishment triggers | sup.2 | reorder level, when to reorder, minimum stock |
+| sup.2#a13 | ABC-VED classification and differentiated stocking policy | sup.2 | vital essential desirable, classifying items by criticality |
+| sup.2#a14 | near-expiry, expiry, slow-moving and dead-stock management | sup.2 | expiring stock, items not moving, dead inventory |
+| sup.2#a15 | item-master governance — one item, one code, one master | sup.2 | duplicate codes, same item twice, single master |
+| sup.2#a16 | store/sub-store hierarchy design | sup.2 | central store, pharmacy store, ward sub-store structure |
+| sup.2#a17 | user-rights configuration for indent, approval, transfer, returns | sup.2 | who can raise an indent, system rights |
+| sup.2#a18 | conflict and priority resolution for constrained shared items | sup.2 | two wards want the same thing, who gets it |
+| sup.2#a19 | indent aggregation into a consolidated purchase requirement | sup.2 | clubbing indents, consolidating requirements |
+| sup.2#a20 | PO creation, system-generated or manually raised for exceptions | sup.2 | raising a purchase order, auto PO |
+| sup.2#a21 | approval authority for a new vendor and a negotiated rate | sup.2 | who approves a vendor, who signs off on rates |
+| sup.2#a22 | three-way match of indent/PO, GRN and invoice before payment | sup.2 | three way matching, checking before we pay |
+| sup.2#a23 | issue of stock against an indent or requisition | sup.2 | issuing to the ward, giving out stock |
+| sup.2#a24 | point-of-care consumption recording | sup.2 | recording what was actually used at the bedside |
+| sup.2#a25 | real-time linkage of issued and consumed items to the running bill | sup.2 | charging it to the patient as it's used |
+| sup.2#a26 | returns processing for unused, unopened, in-date stock | sup.2 | returning medicines, pharmacy refund |
+| sup.2#a27 | write-off treatment for part-used, non-returnable items | sup.2 | opened but not fully used, wastage |
+| sup.2#a28 | OT preference cards / bill-of-materials definition | sup.2 | surgeon's list, case cart, what goes on the trolley |
+| sup.2#a29 | standardised bed and ICU daily-issue kits | sup.2 | daily kit, per bed-day consumables |
+| sup.2#a30 | billing-package presumed-consumption lists and their reconciliation | sup.2 | package rates, what's assumed inside a package |
+| sup.2#a31 | OPD walk-in retail sale — cash/card/insurance, immediate invoicing | sup.2 | pharmacy counter sale, outpatient pharmacy |
+| sup.2#a32 | IPD credit issue against the patient's running bill | sup.2 | ward issue, charging to the inpatient bill |
+| sup.2#a33 | daily reconciliation of revenue booked against cost of goods issued | sup.2 | daily pharmacy P&L, same-day reconciliation |
+| sup.2#a34 | inventory-linked working-capital monitoring | sup.2 | money tied up in stock, working capital in inventory |
+
+## sup.3
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.3#d1 | Finance — budget, payment release, credit-term mandate, working capital (Critical) | sup.3 | finance holding up payments, budget approval |
+| sup.3#d2 | Clinical/Nursing/OT/ICU — indent origination, the entire pull side (Critical) | sup.3 | the wards raising requirements, where demand starts |
+| sup.3#d3 | IT/ERP — item master, store configuration, rights, real-time capture (Critical) | sup.3 | our HIS, the ERP, system limitations |
+| sup.3#d4 | Vendors — supply reliability, rate/MOQ/lead-time compliance, quality (Critical) | sup.3 | suppliers not delivering, vendor reliability |
+| sup.3#d5 | Biomedical/Engineering — equipment-linked consumables, AMC spares (High) | sup.3 | reagents tied to a machine, spares under AMC |
+| sup.3#d6 | Quality/Regulatory — drug licensing, Schedule H1/X, biomedical waste (High) | sup.3 | drug licence, narcotics rules, waste segregation |
+| sup.3#d7 | Bed Management — forward occupancy and planned-admission picture (Medium-High) | sup.3 | knowing how full we'll be, upcoming admissions |
+| sup.3#d8 | Housekeeping — linen and cleaning consumables on the same structure (Medium-High) | sup.3 | housekeeping materials, cleaning supplies |
+| sup.3#d9 | Patient Billing — where most billing accuracy problems originate (Critical) | sup.3 | wrong bills, billing errors, items missed on the bill |
+| sup.3#d10 | Discharge Process — real-time tracking is what makes its automation possible (Critical) | sup.3 | discharge waiting on pharmacy, slow discharge |
+| sup.3#d11 | Clinical care continuity — a critical stock-out halts care (Critical) | sup.3 | running out of a life-saving drug, care delayed |
+| sup.3#d12 | OT Scheduling & Utilisation — consumable readiness gates the start (High) | sup.3 | OT not starting on time, trolley not ready |
+| sup.3#d13 | Finance / P&L and working capital — inventory is a major commitment (Critical) | sup.3 | too much money in stock, inventory investment |
+| sup.3#d14 | Quality/Accreditation — NABH checks traceability and expiry directly (High) | sup.3 | NABH audit, accreditation evidence |
+| sup.3#d15 | Pharmacy revenue (OPD retail) — a P&L line, not just a cost centre (High) | sup.3 | pharmacy income, retail counter revenue |
+| sup.3#d16 | Nursing clinical time absorbed by stock work (High) | sup.3 | nurses doing stock counts, time away from patients |
+
+## sup.3a
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.3a#c1 | hospitals default to Finance ownership for historical, not ideal, reasons | sup.3a | purchase reports to finance, the CFO owns it |
+| sup.3a#c2 | the ideal is COO reporting, with CFO approval only on rates, terms, accounting | sup.3a | should it sit under operations, who should this team report to |
+| sup.3a#c3 | financial control can be built into the system rather than the reporting line | sup.3a | automating the financial checks instead of the structure |
+| sup.3a#c4 | the gap between actual reporting line and the ideal is itself diagnostic | sup.3a | what their org chart tells you |
+
+## sup.3b
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.3b#c1 | cross-function failures are misattributed at the point they surface | sup.3b | blaming the wrong department, it's not where it shows up |
+| sup.3b#d1 | (A) OT — the preference card is the interface between schedule and trolley | sup.3b | surgeon's list, case cart, what the OT needs ready |
+| sup.3b#d2 | (A) the OT delay split — not in the hospital vs. not on the trolley | sup.3b | was it out of stock or just not sent up |
+| sup.3b#d3 | (A) cancelled case leaves opened packs and consignment nobody writes off | sup.3b | surgery cancelled after opening the set |
+| sup.3b#d4 | (B) Nursing — indent lead time creates the informal buffer drawer | sup.3b | nurses keeping their own stock, hidden ward stock |
+| sup.3b#d5 | (B) nursing clinical time absorbed into stock work, counted as nursing cost | sup.3b | nurses doing store work, time lost to indenting |
+| sup.3b#d6 | (C) Billing — item master and price master owned by different teams | sup.3b | purchase rate vs charge rate, two different masters |
+| sup.3b#d7 | (D) Discharge — the returnable balance is the coupling | sup.3b | pending pharmacy reconciliation, waiting on returns |
+| sup.3b#d8 | (E) Finance — the self-reinforcing payment-delay spiral | sup.3b | paying vendors late, suppliers deprioritising us |
+| sup.3b#d9 | (E) spot-purchase premium is the measurable signature of that loop | sup.3b | emergency purchases costing more, buying at market rate |
+| sup.3b#d10 | (F) Biomedical — closed-system contracts remove negotiating power for the machine's life | sup.3b | reagent rental, proprietary consumables, locked in |
+| sup.3b#d11 | (F) AMC-covered spares also purchased separately, bought twice | sup.3b | paying twice for the same part |
+| sup.3b#d12 | (G) Quality — a parallel manual record maintained for the audit | sup.3b | preparing files for NABH, audit-only records |
+| sup.3b#d13 | (H) Pharmacy/OPD — formulary not reconciled against actual prescribing | sup.3b | we don't stock what our doctors write |
+| sup.3b#d14 | (I) Housekeeping — its indents silently deprioritised, driving off-system buying | sup.3b | housekeeping buying on their own, parallel purchase |
+| sup.3b#d15 | (J) Bed Management — reorder blind to known future demand | sup.3b | stock-outs we could have seen coming, no forecasting |
+| sup.3b#d16 | (K) IT/ERP — enforced by the system vs. merely configured as policy | sup.3b | can people bypass it, is the rule actually checked |
+| sup.3b#d17 | (L) HR — receipt and issue peaks staffed to average | sup.3b | store short-staffed at the busy hour, GRN piling up |
+| sup.3b#c2 | when a query enters from another function, check the map before diagnosing | sup.3b | is this really our problem, where should we look first |
+
+## sup.4
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.4#n1 | no stock-out of a critical/emergency/life-saving item, ever | sup.4 | crash cart must be full, never run out of emergency drugs |
+| sup.4#n2 | no expired item ever administered or dispensed | sup.4 | expired medicine reaching a patient |
+| sup.4#n3 | no item billed that wasn't issued or consumed for that patient | sup.4 | charging for something not given |
+| sup.4#n4 | drug-licence and controlled-substance compliance on every transaction | sup.4 | narcotics register, Schedule H1, licence conditions |
+| sup.4#n5 | invoice rate must match the approved rate contract, no silent override | sup.4 | paying more than the contracted rate |
+| sup.4#n6 | every issue traceable to an indent and a requisitioning authority | sup.4 | no off-the-book issues, everything on system |
+| sup.4#n7 | cold-chain items under continuous temperature monitoring | sup.4 | vaccine fridge, temperature log |
+
+## sup.5
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.5#x1 | full stock-take cadence can extend for low-criticality Desirable items | sup.5 | counting the small stuff less often |
+| sup.5#x2 | rate-contract renewal can slip for low-value, low-volume items | sup.5 | not renegotiating everything every year |
+| sup.5#x3 | non-critical substitution within clinical protocol is acceptable | sup.5 | equivalent brand, generic alternative |
+| sup.5#x4 | GRN system entry may trail physical receipt briefly, if stock is issuable | sup.5 | entering it in the system later, catching up on paperwork |
+
+## sup.6
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.6#f1 | phantom inventory — system shows stock that physically isn't there | sup.6 | system says we have it but we don't |
+| sup.6#f2 | duplicate or store-local item masters breaking reorder and spend visibility | sup.6 | same item under two codes, each store's own list |
+| sup.6#f3 | GRN backlog making the ERP stale when reorder decisions are made | sup.6 | receipts entered days later, system out of date |
+| sup.6#f4 | off-system courtesy issue, the most common source of billing leakage | sup.6 | giving stock without an indent, emergency handouts |
+| sup.6#f5 | the ward buffer drawer held outside the sub-store ledger | sup.6 | nurses' private stock, just-in-case drawer |
+| sup.6#f6 | PO-to-invoice rate mismatch drifting unnoticed over time | sup.6 | paying a different rate than agreed |
+| sup.6#f7 | expired stock at ward sub-store level, unmonitored | sup.6 | expiry in the ward cupboard, nobody checks the floor stock |
+| sup.6#f8 | pilferage masked as adjustment or wastage entries | sup.6 | stock going missing, written off as wastage |
+| sup.6#f9 | unreconciled part-used returns falling out of bill and ledger | sup.6 | half-used items nobody accounts for |
+| sup.6#f10 | vendor concentration risk with no qualified backup | sup.6 | only one supplier, no alternative vendor |
+| sup.6#f11 | stale price master disagreeing with the negotiated rate | sup.6 | system price is old, wrong rate in the master |
+| sup.6#f12 | the payment-delay spiral, diagnosed at the wrong end | sup.6 | late payments causing supply problems |
+| sup.6#f13 | audit-only parallel record diverging from the real process | sup.6 | records made for the audit, two sets of books |
+| sup.6#f14 | predictable stock-outs, with the demand signal already in the hospital | sup.6 | we should have known, it was in the schedule |
+
+## sup.7
+
+Section container (heading only) — no points.
+
+## sup.7.1
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.7.1#c1 | reporting line (Operations vs Finance) is a live, high-leverage diagnostic | sup.7.1 | who owns purchase, does it sit under finance |
+| sup.7.1#c2 | check §3b for a coupling before accepting the query's own framing | sup.7.1 | is this really a supply chain problem |
+| sup.7.1#c3 | don't assume the EBITDA contribution has been quantified | sup.7.1 | have they put a number on it, or just a belief |
+| sup.7.1#c4 | ask what efficiency means to them; propose the discharge-duration proxy | sup.7.1 | how do you measure efficiency here |
+| sup.7.1#c5 | billing accuracy is decided here even though it surfaces at Billing | sup.7.1 | wrong bills start in the store |
+| sup.7.1#c6 | consumables and capital procurement are genuinely different problems | sup.7.1 | buying machines vs buying supplies |
+| sup.7.1#c7 | package billing is a silent margin-erosion risk, not a one-time price | sup.7.1 | package rates going underwater, consumption creeping up |
+| sup.7.1#c8 | OPD and IPD pharmacy are different businesses sharing one stock pool | sup.7.1 | retail counter vs ward issue, which pharmacy revenue |
+| sup.7.1#c9 | automation exposes shrinkage manual process kept ambiguous | sup.7.1 | some people don't want it visible |
+| sup.7.1#c10 | two distinct staffing peaks — inbound receipt and outbound issue | sup.7.1 | morning deliveries, pre-OT rush, discharge returns |
+| sup.7.1#c11 | retail practices worth carrying over — ABC-VED, OTIF, category owner, cycle counts, forecast-linked replenishment, central negotiation with decentralised fulfilment | sup.7.1 | what we can learn from retail, how big stores do it |
+
+## sup.7.2
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.7.2#c1 | the protocol runs in three parts: data, internal practice, couplings | sup.7.2 | how to work through this, what order to ask in |
+| sup.7.2#c2 | when the query comes from another function, run the §3b cluster first | sup.7.2 | start from the other department's symptom |
+| sup.7.2#c3 | the divergences carrying the largest effect are named explicitly | sup.7.2 | what matters most, where to focus |
+
+## sup.7.2.1
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.7.2.1#d1 | item master export across every store, with codes and creation dates | sup.7.2.1 | full item list, material master dump |
+| sup.7.2.1#d2 | four quarters of purchase register, each line flagged contract vs spot | sup.7.2.1 | purchase history, what we bought and how |
+| sup.7.2.1#d3 | vendor payment ledger — invoice, due and actual payment dates | sup.7.2.1 | when we actually paid, payment records |
+| sup.7.2.1#d4 | GRN log with gate-entry and system-entry timestamps | sup.7.2.1 | when goods arrived vs when we booked them |
+| sup.7.2.1#d5 | issue and consumption transactions by sub-store, plus cycle-count variance | sup.7.2.1 | ward issue records, count differences |
+| sup.7.2.1#d6 | charge master and item master side by side, with revision dates | sup.7.2.1 | selling price list and purchase price list together |
+| sup.7.2.1#d7 | OT schedule with booked vs actual starts and delay-reason codes | sup.7.2.1 | OT delay register, why cases started late |
+| sup.7.2.1#d8 | installed-equipment list with consumable contract type | sup.7.2.1 | which machines, what reagent contract |
+| sup.7.2.1#d9 | store, receiving and pharmacy rosters against hourly volume | sup.7.2.1 | store duty roster, who's on at what hour |
+| sup.7.2.1#d10 | forward planned-admission and elective OT schedules | sup.7.2.1 | next week's list, upcoming admissions |
+
+## sup.7.2.2
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.7.2.2#q1 | have they quantified the EBITDA effect, or is it a general belief | sup.7.2.2 | have you put a number to it |
+| sup.7.2.2#q2 | what is their working definition of efficiency, and how is it monitored | sup.7.2.2 | what does efficient mean here |
+| sup.7.2.2#q3 | which retail supply-chain concepts have they adopted or rejected | sup.7.2.2 | anything learned from retail |
+| sup.7.2.2#q4 | one de-duplicated item master, or a local list per store | sup.7.2.2 | single item master, does each store have its own codes |
+| sup.7.2.2#q5 | is GRN entered at physical receipt, or does it batch and lag | sup.7.2.2 | when do you do the GRN |
+| sup.7.2.2#q6 | is reorder automatic off ROL/ROQ or dependent on someone noticing | sup.7.2.2 | does the system tell you to reorder |
+| sup.7.2.2#q7 | who can raise and approve an indent — enforced in the ERP or convention | sup.7.2.2 | indent rights, who signs off |
+| sup.7.2.2#q8 | is inter-store transfer two-sided and confirmed by both ends | sup.7.2.2 | transfer between stores, does the receiver confirm |
+| sup.7.2.2#q9 | what happens when two sub-stores indent the same scarce item | sup.7.2.2 | who gets it when there isn't enough |
+| sup.7.2.2#q10 | is a PO auto-raised against an approved vendor/rate, or always manual | sup.7.2.2 | automatic purchase orders, straight-through PO |
+| sup.7.2.2#q11 | who approves a new vendor, and who approves a negotiated rate | sup.7.2.2 | vendor approval committee, rate sign-off |
+| sup.7.2.2#q12 | is three-way match enforced before payment release | sup.7.2.2 | do you check GRN before paying |
+| sup.7.2.2#q13 | does costing distinguish landed cost, net of rebates, from invoice price | sup.7.2.2 | true cost of an item, freight and rebates |
+| sup.7.2.2#q14 | is issued stock linked to the patient's bill in real time | sup.7.2.2 | does it hit the bill immediately |
+| sup.7.2.2#q15 | is consumption tracked separately from issue, to a returnable unit | sup.7.2.2 | do you know what was actually used, not just sent |
+| sup.7.2.2#q16 | what is the actual policy for a part-used, non-returnable item | sup.7.2.2 | opened strip, half-used bottle, who pays |
+| sup.7.2.2#q17 | is OPD sale on a separate POS with separate margin reporting | sup.7.2.2 | is the counter separate from ward issue |
+| sup.7.2.2#q18 | does anyone reconcile package consumption against the presumed BOM | sup.7.2.2 | checking what packages actually consume |
+| sup.7.2.2#q19 | is there a daily revenue-vs-cost reconciliation by ward or department | sup.7.2.2 | daily not monthly reconciliation |
+| sup.7.2.2#q20 | how is near-expiry surfaced at sub-store level, and can they show it now | sup.7.2.2 | ward expiry list, show me today's near-expiry |
+
+## sup.7.2.3
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.7.2.3#q1 | (A) what produces the trolley list — a documented card or a nurse's memory | sup.7.2.3 | is the surgeon's preference written down |
+| sup.7.2.3#q2 | (A) how far ahead is the OT list frozen, and how do changes reach the store | sup.7.2.3 | last-minute case changes, how the store finds out |
+| sup.7.2.3#q3 | (A) split last quarter's consumable-coded OT delays by actual cause | sup.7.2.3 | was it out of stock or not sent up |
+| sup.7.2.3#q4 | (A) what happens to opened packs when a case is cancelled | sup.7.2.3 | cancelled surgery, opened set |
+| sup.7.2.3#q5 | (A) consignment implants — ownership, billing moment, vendor invoice order | sup.7.2.3 | implant on consignment, when do we pay and charge |
+| sup.7.2.3#q6 | (A) is OT consumption reconciled against the card or only the package | sup.7.2.3 | checking actual usage per surgery |
+| sup.7.2.3#q7 | (B) actual indent-to-hand time, routine and urgent, as two numbers | sup.7.2.3 | how long from asking to getting it |
+| sup.7.2.3#q8 | (B) is there an informal buffer held outside the sub-store ledger | sup.7.2.3 | hidden ward stock, private drawer |
+| sup.7.2.3#q9 | (B) what actually happens when a drug is needed urgently at 2 AM | sup.7.2.3 | night emergency, store closed |
+| sup.7.2.3#q10 | (B) is the person who counts the ward stock also accountable for shortages | sup.7.2.3 | who counts and who answers for it |
+| sup.7.2.3#q11 | (B) nurse hours per shift on stock-taking, indenting and follow-up | sup.7.2.3 | how much nursing time goes on stores work |
+| sup.7.2.3#q12 | (B) is missing ward stock recorded as loss, adjustment or wastage | sup.7.2.3 | what do you call it when stock goes missing |
+| sup.7.2.3#q13 | (C) who owns the billable price and who owns the purchase price | sup.7.2.3 | two masters, who maintains each |
+| sup.7.2.3#q14 | (C) what triggers a billable-rate review when a purchase rate changes | sup.7.2.3 | does the selling price get updated |
+| sup.7.2.3#q15 | (C) what guarantees a new item exists in both masters before issue | sup.7.2.3 | new item created in one system only |
+| sup.7.2.3#q16 | (C) who detects an item issued but never billed, and when | sup.7.2.3 | items missed on the bill, when do you catch it |
+| sup.7.2.3#q17 | (C) does anyone compute realised margin against landed cost | sup.7.2.3 | real margin per item |
+| sup.7.2.3#q18 | (D) who verifies returns at discharge, and is credit posted before the bill closes | sup.7.2.3 | return credit timing, before or after the final bill |
+| sup.7.2.3#q19 | (D) median time to post the return credit, and discharges waiting on it | sup.7.2.3 | how long returns take, how many discharges stuck |
+| sup.7.2.3#q20 | (D) is the returnable balance computed by the system or counted by a nurse | sup.7.2.3 | manual count at discharge |
+| sup.7.2.3#q21 | (D) who decides on a part-used item at discharge, consistently or case by case | sup.7.2.3 | does every ward do it differently |
+| sup.7.2.3#q22 | (D) does the hospital know what share of discharge time this step is | sup.7.2.3 | how much of the delay is pharmacy |
+| sup.7.2.3#q23 | (E) who does the team report to, and would they move it to Operations | sup.7.2.3 | reporting line, finance or operations |
+| sup.7.2.3#q24 | (E) actual payment-days-outstanding by vendor, from the ledger not the policy | sup.7.2.3 | how late do we actually pay |
+| sup.7.2.3#q25 | (E) has any vendor raised rates, cut credit or deprioritised us this year | sup.7.2.3 | supplier pushing back, losing priority |
+| sup.7.2.3#q26 | (E) spot/emergency purchase share of value, and its price premium | sup.7.2.3 | emergency buying, what it costs extra |
+| sup.7.2.3#q27 | (E) is that premium attributed to payment delay or logged as a procurement failure | sup.7.2.3 | whose fault is the higher price |
+| sup.7.2.3#q28 | (E) who sets the inventory holding target and against what | sup.7.2.3 | how much stock should we hold |
+| sup.7.2.3#q29 | (E) are vendor rebates tracked and netted into per-item cost | sup.7.2.3 | volume discounts, annual rebates |
+| sup.7.2.3#q30 | (F) which equipment runs on closed-system consumables, and what spend share | sup.7.2.3 | proprietary reagents, locked-in machines |
+| sup.7.2.3#q31 | (F) was Procurement consulted on lifetime consumable cost before purchase | sup.7.2.3 | did anyone check the running cost before buying |
+| sup.7.2.3#q32 | (F) is the business-case cost-per-test tracked against actuals | sup.7.2.3 | did the machine deliver the cost it promised |
+| sup.7.2.3#q33 | (F) is the AMC inclusion list mapped into the item master | sup.7.2.3 | what's covered under AMC, buying it twice |
+| sup.7.2.3#q34 | (F) who negotiates a closed-system contract at renewal, or does it auto-renew | sup.7.2.3 | contract renewal, nobody renegotiates |
+
+## sup.7.2.3.2
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.7.2.3.2#q1 | (G) was the last audit's evidence produced from the live system or compiled | sup.7.2.3.2 | preparing for NABH, making files for the audit |
+| sup.7.2.3.2#q2 | (G) can they produce the near-expiry list and a batch trail right now | sup.7.2.3.2 | show me without preparing it |
+| sup.7.2.3.2#q3 | (G) is the narcotic register reconciled daily by someone independent | sup.7.2.3.2 | narcotics check, who counts it |
+| sup.7.2.3.2#q4 | (G) is a cold-chain excursion acted on or recorded and filed | sup.7.2.3.2 | fridge temperature breach, what happened next |
+| sup.7.2.3.2#q5 | (G) who owns biomedical-waste segregation at the point of disposal | sup.7.2.3.2 | waste segregation, who is accountable |
+| sup.7.2.3.2#q6 | (H) what share of own-consultant OPD prescriptions is dispensed in-house | sup.7.2.3.2 | how many prescriptions we actually fill |
+| sup.7.2.3.2#q7 | (H) of those not dispensed, how many were stock-out vs price vs preference | sup.7.2.3.2 | why patients go outside for medicines |
+| sup.7.2.3.2#q8 | (H) is the formulary reconciled against actual prescribing patterns | sup.7.2.3.2 | do we stock what our doctors write |
+| sup.7.2.3.2#q9 | (H) are OPD retail and IPD issue reported with separate margin | sup.7.2.3.2 | blended pharmacy number |
+| sup.7.2.3.2#q10 | (H) is a counter stock-out recorded as a lost-sale event at all | sup.7.2.3.2 | do we track the sale we didn't make |
+| sup.7.2.3.2#q11 | (I) are housekeeping consumables on the same master and workflow | sup.7.2.3.2 | housekeeping materials on the same system |
+| sup.7.2.3.2#q12 | (I) what happens to a housekeeping indent when the store is under pressure | sup.7.2.3.2 | whose indent gets dropped first |
+| sup.7.2.3.2#q13 | (I) does Housekeeping ever purchase directly, and at what value | sup.7.2.3.2 | buying outside the process |
+| sup.7.2.3.2#q14 | (J) does reorder read the forward admission or elective OT schedule | sup.7.2.3.2 | do you plan stock off the upcoming list |
+| sup.7.2.3.2#q15 | (J) who is told in advance about a known demand change | sup.7.2.3.2 | new unit opening, camp coming up |
+| sup.7.2.3.2#q16 | (J) at last high occupancy, which items stocked out and was it predictable | sup.7.2.3.2 | what ran out when we were full |
+| sup.7.2.3.2#q17 | (K) for each control — enforced by the system or configured as policy | sup.7.2.3.2 | can the system be bypassed |
+| sup.7.2.3.2#q18 | (K) who holds override rights, how often used, is it logged with a reason | sup.7.2.3.2 | who can override, override log |
+| sup.7.2.3.2#q19 | (K) is the materials module built for perpetual inventory or adapted to it | sup.7.2.3.2 | is our ERP actually made for this |
+| sup.7.2.3.2#q20 | (L) hourly profile of receipts and issues against the store roster | sup.7.2.3.2 | when is the store busiest, who's on then |
+| sup.7.2.3.2#q21 | (L) has the staffing ratio-check been run against peak, not daily average | sup.7.2.3.2 | staffing worked out properly |
+| sup.7.2.3.2#q22 | (L) is staffing held back until volume justifies it — the causality error | sup.7.2.3.2 | we'll hire when it gets busier |
+
+## sup.7.3
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.7.3#p1 | inventory turnover ratio and Days Inventory Outstanding | sup.7.3 | stock turns, how long stock sits |
+| sup.7.3#p2 | fill rate and stock-out incidents by criticality class | sup.7.3 | how often we run out |
+| sup.7.3#p3 | GRN-to-invoice price variance % | sup.7.3 | price differences at invoice |
+| sup.7.3#p4 | true landed cost vs invoice price, net of freight, taxes and rebates | sup.7.3 | real cost of an item |
+| sup.7.3#p5 | vendor payment days outstanding vs agreed credit terms | sup.7.3 | how late we pay, creditor days |
+| sup.7.3#p6 | spot/emergency purchase share and its price premium | sup.7.3 | emergency buying cost |
+| sup.7.3#p7 | pharmacy revenue and margin, OPD and IPD separately | sup.7.3 | pharmacy income split |
+| sup.7.3#p8 | cost of goods sold as % of pharmacy revenue | sup.7.3 | pharmacy COGS, gross margin |
+| sup.7.3#p9 | consumable and medicine cost as % of ARPOB | sup.7.3 | material cost per occupied bed |
+| sup.7.3#p10 | closed-system consumable spend as share of total consumable spend | sup.7.3 | how much we can't negotiate |
+| sup.7.3#p11 | expiry write-off value and % of inventory | sup.7.3 | expiry losses |
+| sup.7.3#p12 | shrinkage and unexplained-adjustment value and % | sup.7.3 | stock losses, unexplained differences |
+| sup.7.3#p13 | working capital tied up in inventory and its trend | sup.7.3 | money locked in stock |
+| sup.7.3#p14 | discharge-process delay attributable to this department specifically | sup.7.3 | how much discharge time is ours |
+
+## sup.7.4
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.7.4#s1 | this department's solution is scale-variant, unlike Discharge's | sup.7.4 | does the answer change by hospital size |
+| sup.7.4#s2 | the automation itself is not scale-gated — only its configuration | sup.7.4 | small hospitals can have the same system |
+| sup.7.4#s3 | store depth, sub-store levels and staffing are what vary by scale | sup.7.4 | how many stores do we actually need |
+
+## sup.7.4.1
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.7.4.1#s1 | one shared item master, one ledger per location, one closed loop | sup.7.4.1 | single system, one source of truth |
+| sup.7.4.1#s2 | location-specific reorder parameters against a shared master | sup.7.4.1 | each ward's own min-max on the same codes |
+| sup.7.4.1#s3 | central store to pharmacy/consumables store to ward, OT, ICU sub-stores | sup.7.4.1 | store structure, how many levels |
+| sup.7.4.1#s4 | rights-based workflow — indent, approval one level up, two-sided transfer | sup.7.4.1 | who raises, who approves, who confirms |
+| sup.7.4.1#s5 | returns require unopened, undamaged, in-date, and reverse approval | sup.7.4.1 | return rules, what can go back |
+| sup.7.4.1#s6 | defined shortage allocation rule — critical care and OT take priority | sup.7.4.1 | who gets it first when short |
+| sup.7.4.1#s7 | aggregate-demand visibility to prevent duplicate reorders | sup.7.4.1 | two wards ordering the same thing |
+| sup.7.4.1#s8 | straight-through PO on approved vendor/rate; exceptions to manual review | sup.7.4.1 | auto PO for routine, manual for the rest |
+| sup.7.4.1#s9 | vendor and rate approval sit with a defined committee on a cycle | sup.7.4.1 | rate contract committee, annual cycle |
+| sup.7.4.1#s10 | three-way match before payment — the single most effective control | sup.7.4.1 | matching before we pay |
+| sup.7.4.1#s11 | every control enforced by the system, not merely configured, with logged overrides | sup.7.4.1 | the system must refuse it, not just ask |
+
+## sup.7.4.1.2
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.7.4.1.2#s1 | GRN auto-generated from barcode/OCR/EDI match at the gate | sup.7.4.1.2 | scanning the invoice at receipt, automatic GRN |
+| sup.7.4.1.2#s2 | humans touch only exceptions — short receipt, damage, price mismatch | sup.7.4.1.2 | only handle the problems |
+| sup.7.4.1.2#s3 | issue decrements the location ledger and posts to the running bill | sup.7.4.1.2 | charging as it leaves the store |
+| sup.7.4.1.2#s4 | separate point-of-administration consumption capture to returnable unit | sup.7.4.1.2 | eMAR, recording what was given |
+| sup.7.4.1.2#s5 | the issued-vs-consumed gap determines returnable, billable and write-off | sup.7.4.1.2 | what goes back, what gets charged |
+| sup.7.4.1.2#s6 | returns and write-offs as a defined policy, not a ward judgment call | sup.7.4.1.2 | one rule for everyone |
+| sup.7.4.1.2#s7 | preference cards and bed-day kits auto-issue on their trigger | sup.7.4.1.2 | automatic issue when a case is booked |
+| sup.7.4.1.2#s8 | the preference card is a system object per surgeon per procedure | sup.7.4.1.2 | documented surgeon preferences in the system |
+| sup.7.4.1.2#s9 | an OT list change fires a store-side event, not a phone call | sup.7.4.1.2 | the store gets told automatically |
+| sup.7.4.1.2#s10 | predictive requirement flagging from consumption velocity, before any count | sup.7.4.1.2 | system predicts the need, before stock is checked |
+| sup.7.4.1.2#s11 | forward-demand input from planned admissions and the elective OT list | sup.7.4.1.2 | planning stock off the upcoming schedule |
+| sup.7.4.1.2#s12 | a purchase-rate change raises a mandatory billable-rate review | sup.7.4.1.2 | selling price follows the buying price |
+| sup.7.4.1.2#s13 | voice capture for consumption entries, indents and requisitions | sup.7.4.1.2 | speaking it instead of typing |
+| sup.7.4.1.2#s14 | daily P&L dashboard reconciling revenue against cost of items issued | sup.7.4.1.2 | same-day pharmacy P&L by ward |
+| sup.7.4.1.2#s15 | this and Discharge's automation are two halves of one build | sup.7.4.1.2 | do them together, one project not two |
+
+## sup.7.4.2
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.7.4.2#s1 | system indent every time, including urgent needs | sup.7.4.2 | no phone requests, everything on system |
+| sup.7.4.2#s2 | that discipline only holds if indent lead time is trustworthy | sup.7.4.2 | they'll go back to hoarding if it's slow |
+| sup.7.4.2#s3 | store staff confirm what the system shows rather than being its source | sup.7.4.2 | stock count becomes a check, not the truth |
+| sup.7.4.2#s4 | purchasing negotiates rate contracts up front, approves only exceptions | sup.7.4.2 | negotiate once, not per order |
+| sup.7.4.2#s5 | nursing consumption recording positioned as capturing existing work | sup.7.4.2 | not extra work, just recording what you do |
+| sup.7.4.2#s6 | predictive requisition replaces reactive requisition | sup.7.4.2 | system raises it, staff confirm |
+| sup.7.4.2#s7 | OT list freeze and post-freeze changes routed through the system | sup.7.4.2 | freezing the list, no more phone changes |
+| sup.7.4.2#s8 | payment-run discipline becomes a supply chain control, quantified to Finance | sup.7.4.2 | showing finance what late payment costs |
+| sup.7.4.2#s9 | IT must enforce the master, hierarchy, two-sided transfer and returns | sup.7.4.2 | no local workarounds |
+
+## sup.7.4.3
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.7.4.3#s1 | IT/ERP — the architecture must be built and enforced correctly | sup.7.4.3 | our systems team |
+| sup.7.4.3#s2 | purchasing — negotiation becomes periodic and higher-stakes | sup.7.4.3 | the purchase department |
+| sup.7.4.3#s3 | store and sub-store staff — real-time accountability replaces ambiguity | sup.7.4.3 | storekeepers, ward stock holders |
+| sup.7.4.3#s4 | nursing and clinical staff — consumption recording at the point of care | sup.7.4.3 | getting the nurses on board |
+| sup.7.4.3#s5 | OT scheduling and surgeons — preference cards become system objects | sup.7.4.3 | getting surgeons to document their lists |
+| sup.7.4.3#s6 | Finance — three-way match discipline and the payment-days conversation | sup.7.4.3 | finance sign-off, payment terms |
+| sup.7.4.3#s7 | Biomedical — the closed-system contract inventory | sup.7.4.3 | biomedical engineering, machine contracts |
+| sup.7.4.3#s8 | Pharmacy and Quality — scan discipline and live audit evidence | sup.7.4.3 | barcode scanning, audit readiness |
+| sup.7.4.3#s9 | COO approves the process flows, not daily materials activity | sup.7.4.3 | who authorises this across departments |
+| sup.7.4.3#s10 | introduce as extension of the role; audit framing guarantees resistance | sup.7.4.3 | how to pitch it to staff |
+
+## sup.7.4.4
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.7.4.4#s1 | Materials Manager — new dedicated role, Operations reporting line | sup.7.4.4 | a materials head, someone to own stores |
+| sup.7.4.4#p1 | Materials Manager cost — ₹8–10 lakhs/year | sup.7.4.4 | what that role costs, the salary |
+| sup.7.4.4#s2 | triggered by the 80% occupancy pivot, the universal hospital-wide inflection | sup.7.4.4 | when do we need this role, are we past the threshold |
+| sup.7.4.4#s3 | above the pivot the shortage rule fires and buffer policy inverts to care continuity | sup.7.4.4 | what changes when we're full, why now |
+| sup.7.4.4#s4 | the cost follows the proficiency the role requires, not the trigger it shares | sup.7.4.4 | why it costs double a bed manager |
+| sup.7.4.4#s5 | never reason from the Bed or Discharge Manager figure to this one, or back | sup.7.4.4 | we pay our bed manager less, benchmark the salaries |
+| sup.7.4.4#s6 | Procurement Head assumed already in place, not a threshold decision | sup.7.4.4 | we already have a purchase head |
+| sup.7.4.4#s7 | store-in-charge accountability changes materially under real-time visibility | sup.7.4.4 | the storekeeper's job changes |
+| sup.7.4.4#s8 | a named category owner per major consumable category | sup.7.4.4 | category management, someone owning each group |
+| sup.7.4.4#s9 | GRN/receiving clerk sized against peak receipt volume, not average | sup.7.4.4 | do we still need a receiving clerk |
+| sup.7.4.4#s10 | the cost-benefit case is still built per-role, against this department's own leakages | sup.7.4.4 | is it worth it for us, what does the role recover |
+| sup.7.4.4#s11 | where several functions cross the pivot at once, rank by cost — sequencing, not a verdict | sup.7.4.4 | which role do we hire first, can we do them all |
+| sup.7.4.4#s12 | a secondary volume trigger is optional, not owed — a refinement, not a gap | sup.7.4.4 | busy store but low occupancy, does the rule still fit |
+
+## sup.7.5
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.7.5#f1 | materials modules bolted on rather than built for perpetual inventory | sup.7.5 | our ERP wasn't designed for this |
+| sup.7.5#f2 | item-master de-duplication is a migration problem, not a setting | sup.7.5 | cleaning up the codes, it's a big job |
+| sup.7.5#f3 | resistance disguised as "our items are different" | sup.7.5 | they say their list is special |
+| sup.7.5#f4 | two-sided transfer and rate enforcement often unsupported out of the box | sup.7.5 | the system can't do it, or doesn't by default |
+| sup.7.5#f5 | PACS/lab/OT integration is the same work Discharge needs | sup.7.5 | one integration, not two |
+| sup.7.5#f6 | nursing resistance to real-time charting as added data entry | sup.7.5 | nurses say it's more work |
+| sup.7.5#f7 | pharmacy and store resistance to barcode and scan discipline | sup.7.5 | scanning slows them down |
+| sup.7.5#f8 | purchasing resistance to losing negotiation discretion | sup.7.5 | buyers losing their relationships |
+| sup.7.5#f9 | surgeon resistance to documenting preference cards — it makes cost comparable | sup.7.5 | surgeons won't write their list down |
+| sup.7.5#f10 | staff resistance where current ambiguity conceals shrinkage | sup.7.5 | some don't want it visible, pilferage |
+
+## sup.8
+
+Section container (heading and reading note) — no points.
+
+## sup.8.1
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.8.1#k1 | vendor OTIF delivery %, by vendor and category | sup.8.1 | on time in full, supplier reliability score |
+| sup.8.1#k2 | % of purchase spend under an active approved rate contract | sup.8.1 | how much we buy on contract |
+| sup.8.1#k3 | rate-contract price variance % — negotiated vs actually paid | sup.8.1 | are we paying the agreed rate |
+| sup.8.1#k4 | vendor concentration ratio by critical category | sup.8.1 | dependence on one supplier |
+| sup.8.1#k5 | gate-entry-to-GRN cycle time | sup.8.1 | how long to book a receipt |
+| sup.8.1#k6 | % of GRNs auto-generated vs manually keyed | sup.8.1 | automation level at receipt |
+| sup.8.1#k7 | short-receipt/damage rate and debit-note resolution time | sup.8.1 | short supplies, damage claims |
+| sup.8.1#k8 | inventory turnover and DIO by ABC-VED class | sup.8.1 | stock turns by criticality |
+| sup.8.1#k9 | stock-out incidents by ABC-VED/criticality class | sup.8.1 | how often vital items run out |
+| sup.8.1#k10 | fill rate — % of indents fully met on first issue | sup.8.1 | did the ward get everything asked for |
+| sup.8.1#k11 | cycle-count stock accuracy % | sup.8.1 | count accuracy, system vs physical |
+| sup.8.1#k12 | expiry write-off value and %, central store and sub-store separately | sup.8.1 | expiry losses by location |
+| sup.8.1#k13 | % of POs generated straight-through vs manually raised | sup.8.1 | automatic purchase orders |
+| sup.8.1#k14 | three-way match compliance % | sup.8.1 | payments properly matched |
+| sup.8.1#k15 | payment days actual vs agreed credit terms | sup.8.1 | are we paying on time |
+| sup.8.1#k16 | % of requisitions system-generated (predictive) vs manual | sup.8.1 | how much the system raises itself |
+| sup.8.1#k17 | % of entries captured via voice vs typed or scanned | sup.8.1 | voice adoption |
+
+## sup.8.2
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| sup.8.2#k18 | time from discharge confirmation to finalized chargeable-item list, post-returns | sup.8.2 | how long the pharmacy step takes at discharge |
+| sup.8.2#k19 | % of discharges with real-time issue/consumption reconciliation | sup.8.2 | how often no manual count was needed |
+| sup.8.2#k20 | unreconciled part-used, non-returnable write-off value | sup.8.2 | half-used items written off |
+| sup.8.2#k21 | off-system courtesy-issue incidents detected | sup.8.2 | issues without an indent |
+| sup.8.2#k22 | package/kit actual-vs-presumed-BOM variance % by package type | sup.8.2 | package consumption drift |
+| sup.8.2#k23 | OPD pharmacy revenue and margin, separate from IPD issue value | sup.8.2 | counter vs ward margin |
+| sup.8.2#k24 | OPD prescription fill/capture rate, in-house vs outside | sup.8.2 | how many prescriptions we keep |
+| sup.8.2#k25 | daily P&L variance by ward/department, same-day | sup.8.2 | daily reconciliation, not month-end |
+| sup.8.2#k26 | landed cost vs invoice price variance %, and rebate value captured | sup.8.2 | true cost tracking, rebates earned |
+| sup.8.2#k27 | consumable and medicine cost as % of ARPOB, trended | sup.8.2 | material cost per bed |
+| sup.8.2#k28 | quantified ₹ EBITDA contribution from supply chain efficiency | sup.8.2 | what this is worth to EBITDA |
+| sup.8.2#k29 | nurse/ward-staff hours lost per day to stock work | sup.8.2 | nursing time on stores |
+| sup.8.2#k30 | receiving and store staffing ratio against peak receipt and issue volume | sup.8.2 | store staffing at the busy hours |
+| sup.8.2#k31 | Materials Manager threshold tracking | sup.8.2 | are we past the hiring trigger |
+| sup.8.2#k32 | reporting-line status, Operations vs Finance | sup.8.2 | who we report to, reviewed periodically |
+| sup.8.2#k33 | Schedule H1/X and narcotic-handling audit compliance % | sup.8.2 | narcotics compliance |
+| sup.8.2#k34 | cold-chain excursion incidents and the proportion acted on | sup.8.2 | fridge breaches and what followed |
+| sup.8.2#k35 | OT delays coded to consumables, split not-in-hospital vs not-on-trolley | sup.8.2 | why the OT was late, which kind of failure |
+| sup.8.2#k36 | preference-card coverage and median age since last revision | sup.8.2 | documented surgeon lists, how current |
+| sup.8.2#k37 | ward buffer-stock value at cycle count, paired with indent lead time | sup.8.2 | hidden ward stock and why it exists |
+| sup.8.2#k38 | item-master-to-price-master reconciliation lag, in days | sup.8.2 | how long before selling price catches up |
+| sup.8.2#k39 | spot purchase price premium reported alongside payment-days-outstanding | sup.8.2 | emergency buying cost against how late we pay |
+| sup.8.2#k40 | closed-system consumable spend as share of total consumable spend | sup.8.2 | spend we can't negotiate |
+| sup.8.2#k41 | audit-evidence production time from the live system, unprepared | sup.8.2 | how fast can we show the auditor |
+| sup.8.2#k42 | OPD pharmacy lost-sale events recorded by cause | sup.8.2 | sales we didn't make and why |
+| sup.8.2#k43 | % of reorder value driven by forward demand signal vs trailing consumption | sup.8.2 | planning ahead vs reacting |
+| sup.8.2#k44 | system-enforced control overrides per quarter, by control, user and reason | sup.8.2 | who overrode what, override log |
 
 ### common.points.md — Common elements
-
 ## common.overview
 
 | point | what it is | chunk | also called |
@@ -792,8 +1374,26 @@ _Section heading only — no individual points._
 | common.peak-load#k5 | Discharge housekeeping/transport per shift vs bed-turnover and transport volume | common.peak-load | housekeeping per shift, bed cleaning staff, how fast beds get ready |
 | common.peak-load#k6 | Bed Management ratio for bed-turnover and admission-handling staff (method here, KPI #17 there) | common.peak-load | admission desk staff, bed turnover manpower, who manages beds |
 
-### play.points.md — Discharge conversation playbook
+## common.occupancy-pivot
 
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| common.occupancy-pivot#c1 | 80% occupancy is one hospital-wide pivot, not three separate department thresholds | common.occupancy-pivot | the eighty percent mark, when things change, are we past it |
+| common.occupancy-pivot#c2 | below it spare capacity absorbs coordination failure; above it, it converts to lost revenue | common.occupancy-pivot | we've always run like this, why is it a problem now, no room to recover |
+| common.occupancy-pivot#c3 | every function needs a different strategy above it, not the same strategy harder | common.occupancy-pivot | what changes when we're full, do we just work faster |
+| common.occupancy-pivot#s1 | Bed Management — prediction becomes the mechanism; cadence and reserve earn their cost here | common.occupancy-pivot | why plan beds twice a day, when the reserve is worth it |
+| common.occupancy-pivot#s2 | Discharge — TAT measured through to the next admission becomes an active check | common.occupancy-pivot | tighter discharge measurement, where the time actually goes |
+| common.occupancy-pivot#s3 | Supply Chain — buffer policy inverts; the shortage-allocation rule starts firing for real | common.occupancy-pivot | safety stock when we're full, who gets it when short |
+| common.occupancy-pivot#s4 | OPD is the exception — ambulatory load scales with footfall, not ward occupancy | common.occupancy-pivot | does this apply to OPD, busy counter but empty wards |
+| common.occupancy-pivot#s5 | the pivot triggers a dedicated owner role in each function, not one shared owner | common.occupancy-pivot | do we need a manager for each, one person for everything |
+| common.occupancy-pivot#p1 | Materials Manager ₹8–10 lakhs; Bed Manager and Discharge Manager ₹4–4.5 lakhs each | common.occupancy-pivot | what these roles cost, salary for each manager |
+| common.occupancy-pivot#n1 | a common trigger does not imply a common price — salary follows proficiency | common.occupancy-pivot | why does one cost double, same trigger different salary |
+| common.occupancy-pivot#n2 | never reason from one role's figure to another's, in either direction | common.occupancy-pivot | we pay our bed manager this much, benchmark the salaries |
+| common.occupancy-pivot#c4 | a department may carry a sharper pivot of its own — Bed's demand-vs-supply | common.occupancy-pivot | which pivot applies, two different thresholds |
+| common.occupancy-pivot#n3 | crossing the pivot warrants the roles; it does not sequence them | common.occupancy-pivot | do we hire all of them at once, which one first |
+| common.occupancy-pivot#s6 | rank by which function's failure costs most, using that department's §7.3 parameters | common.occupancy-pivot | where do we start, what's hurting most |
+
+### play.points.md — Discharge conversation playbook
 ## play.0
 
 | point | what it is | chunk | also called |

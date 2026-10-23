@@ -1,5 +1,5 @@
 # Department: Bed Management
-*Division: Patient Flow & Hospital Operations<!--m--> · Status: content complete (§1–8; KPIs drafted by Claude 2026-09-02, approved by Avishek as drafted 2026-09-09; Discharge-Process TAT-verification linkage added to §3/§7.1/§7.2/§7.4.2 2026-09-09; Peak-Load Staffing retrofit into §7.1/§7.2 completed 2026-09-09; §7.3/§7.4 finalisation pass and Admission-TAT / team-staffing / role-taxonomy additions 2026-09-10; dead bed time redefined as a bill-to-bill quantity 2026-09-10)<!--/m-->*
+*Division: Patient Flow & Hospital Operations<!--m--> · Status: content complete (§1–8; KPIs drafted by Claude 2026-09-02, approved by Avishek as drafted 2026-09-09; Discharge-Process TAT-verification linkage added to §3/§7.1/§7.2/§7.4.2 2026-09-09; Peak-Load Staffing retrofit into §7.1/§7.2 completed 2026-09-09; §7.3/§7.4 finalisation pass and Admission-TAT / team-staffing / role-taxonomy additions 2026-09-10; dead bed time redefined as a bill-to-bill quantity 2026-09-10; §3b cross-function interdependency map added 2026-09-16)<!--/m-->*
 
 <!--chunk
 id: bed.1
@@ -31,7 +31,7 @@ title: Dependencies
 summary: Which upstream teams Bed Management depends on and at what priority, what breaks downstream when it fails, and that Discharge's reported release timing must itself be verified.
 keys: upstream dependency, downstream effect, discharge, housekeeping, emergency, ER, ICU step-down, admission registration, OT scheduling, HIS, ALOS, revenue, boarding time
 needs: none
-see: bed.7.1, bed.7.2.2, bed.7.3, dis.7.2.1
+see: bed.7.1, bed.7.2.2, bed.7.3, bed.3b
 tokens: 380
 -->
 ## 3. Dependencies
@@ -61,13 +61,58 @@ tokens: 380
 <!--m-->*(Approved as drafted; the Discharge Process row above was expanded 2026-09-09 per Avishek's instruction — see §7.1/§7.2 for the verification detail this points to.)*<!--/m-->
 
 <!--chunk
+id: bed.3b
+title: Cross-function interdependency map
+summary: The eleven couplings through which Bed Management fails, each named as a mechanism with the failure that propagates along it and the probe that walks back to its origin.
+keys: interdependency, cross-function, root cause, misattribution, discharge double control, housekeeping ready confirmation, OT post-op reservation, step-down rounds, emergency reserve, OPD intake, dead bed time, nursing ratio allocation, ward kit, phantom vacancy, midnight census
+needs: bed.3
+see: bed.6, bed.7.2.2, dis.3b, sup.3b
+tokens: 2140
+-->
+### 3b. Cross-function interdependency map
+
+§3 says *who* Bed Management depends on and how hard. This section says *through what mechanism*, and *what failure travels along it* — because "we depend on Housekeeping for turnaround" cannot be verified and produces a generic question.
+
+Bed Management's particular exposure is the mirror image of Discharge's. Discharge is blamed for other departments' delays; Bed Management is blamed for its *own* department's numbers being unbelievable — a bed board that says one thing while the ward says another. In almost every case the divergence is a coupling nobody owns: a confirmation that arrives late, a reservation held too early, a step-down decided on a round rather than in a queue. The probes below walk backwards along each coupling. Ask the one whose symptom the hospital has described; they supplement §7.2's questions rather than replacing them.
+
+| | Coupled function | The coupling mechanism | What propagates, and where it surfaces |
+|---|---|---|---|
+| **A** | **Discharge Process** | The double control (§7.4.1(c)) — Bed Management predicts from Discharge's real timings, and Discharge's reported timings are verifiable only against Bed Management's allocation and admission timestamps. Reciprocal of `discharge-process.md` §3b(F). | Broken either way, both departments report defensible numbers that cannot be reconciled with each other. Surfaces as **a good reported Discharge TAT alongside beds that visibly don't turn over**. The reconciliation is the finding; neither number is. |
+| **B** | **Housekeeping** | Not cleaning speed — the **ready-confirmation**. A bed is allocatable only once someone confirms it is physically ready, and where that confirmation is manual or batched, the bed is functionally blocked while standing clean and empty. | The hospital allocates against confirmations, not against beds. Surfaces as **housekeeping being blamed for a turnaround that measured cleaning time doesn't explain** — and, per §7.2 question 8's branch, as the variant where a no-allocation-before-confirmed-ready rule reproduces late admissions by a different route. |
+| **C** | **OT Scheduling** | Post-op bed reservation, which is two-sided and pulls opposite ways: an elective case can't be confirmed without a reserved bed, but reserving early blocks a bed that could have been used. | Reserve late and elective cases get cancelled; reserve early and occupancy is consumed by beds held for patients not yet in the building. Surfaces as **either OT cancellations or unexplained blocked beds**, and hospitals usually have one without recognising it as the price of avoiding the other. |
+| **D** | **ICU & Intensivists** | Step-down is a clinical decision made on a round, so ICU bed availability is gated by a rounds schedule rather than by a queue. | ICU beds free in a burst after rounds, or not at all that day. Surfaces as **ICU always being full** and as ward discharge pressure that doesn't convert, when the real constraint is when the step-down conversation happens. |
+| **E** | **Emergency / ER** | The emergency reserve (§7.4.1(d)) is carved out of planned mapping. Where it isn't trend-derived, the hospital is choosing between boarding ER patients and cannibalising planned admissions without knowing it is choosing. | Surfaces as **ER boarding time** on one side, or **elective cases bumped on the day** on the other. Both are read as capacity problems; both are actually reserve-sizing problems. |
+| **F** | **OPD** | The OPD prescription is where a planned admission's date, procedure, anticipated LOS and OT need originate (§7.4.2). Without capture, §7.4.1(a)'s mapping has nothing to map from. Reciprocal of `opd-diagnostic-leakage.md` §3b(I). | Surfaces as **planned admissions arriving as surprises**, and is diagnosed as poor forecasting when the forecast has simply never been given an input. |
+| **G** | **Billing** | The bill-close / bill-open join against the same bed — the only way dead bed time (§7.3 point 5) becomes measurable. | Most billing systems hold both timestamps and have never joined them that way. Surfaces as **nothing at all**, which is precisely the problem: a loss of several hours per bed per turnover that no report in the hospital displays. |
+| **H** | **Nursing** | Allocation ignores nurse-to-patient ratio by ward, so a bed that is "available" may sit in a ward already at its clinical limit. | The bed is filled, care quality degrades, and the ward pushes back informally on future allocations — which then looks like obstruction. Surfaces as **wards "refusing" beds** and as nursing workload imbalance (§3's downstream row), and is almost never traced to the allocation rule that caused it. |
+| **I** | **Supply Chain** | Ward sub-store readiness and bed-day kits: a bed physically clean and confirmed is still not usable if its consumable kit isn't there. Reciprocal of `supply-chain-procurement.md` §3b(J). | Surfaces as **a bed that was marked ready and then wasn't**, which the bed board records as an allocation error and the ward experiences as a stock problem. |
+| **J** | **IT / HIS** | Real-time bed status is the substrate for everything above. The distinction that matters is whether status changes are *events the system captures* or *entries someone makes*. | Where status depends on entry, the board drifts from reality within hours. Surfaces as **phantom vacancies** — the §4 non-negotiable breached structurally rather than carelessly. |
+| **K** | **Finance / management reporting** | Occupancy is reported off a midnight census, which is a point-in-time snapshot of a quantity that varies all day. | A hospital can report healthy occupancy while losing hours of billable bed time daily, because the census is taken when the beds happen to be full. Surfaces as **occupancy that looks fine while revenue per bed doesn't**, and is the reason dead bed time has to be argued separately rather than inferred from occupancy. |
+
+**Root-cause probes**, keyed to the rows above:
+
+- **A.** Take one day's discharges and ask Discharge, separately, for its reported times; then read the allocation and physical-admission timestamps for those same beds. Reconcile them bed by bed rather than in aggregate — an average will hide the mismatch.
+- **B.** What is the elapsed time from housekeeping finishing a bed to that bed being allocatable in the system, and who makes that confirmation? Then: is there a rule preventing allocation before confirmed-ready, and if so, what does it cost in admission timing?
+- **C.** At what point is a post-op bed reserved relative to the case, and how many reserved beds went unused last month? Ask for both numbers; either alone is uninformative.
+- **D.** What time do ICU rounds happen, and what proportion of step-downs are decided outside them? Then: is there any step-down queue at all, or only a daily decision?
+- **E.** How was the emergency reserve number arrived at, and how often was it exceeded or unused last quarter? A reserve nobody has tested against history is a guess wearing a policy's clothes.
+- **F.** For planned admissions last month, what proportion had their date, procedure and anticipated LOS known more than 24 hours ahead — and where did that information come from?
+- **G.** Ask Billing for the final-bill-close time and the next patient's first-billable-entry time on the same bed. Then ask whether anyone has ever looked at the gap. The answer to the third question is the finding (§7.2 question 11).
+- **H.** Does bed allocation take ward nursing ratio into account at all? Then: in the last month, how often did a ward push back on an allocation, and what reason was recorded?
+- **I.** Has a bed ever been marked ready and then found unusable for want of consumables? How was that recorded — as an allocation error, or as a stock event?
+- **J.** Is a bed-status change captured as a system event (discharge posted, cleaning completed, patient admitted) or typed in by someone? Ask when the board was last audited against a physical walk-round.
+- **K.** At what moment is occupancy measured for reporting, and has anyone compared it against billable bed-hours for the same day?
+
+**Using this map.** Bed Management queries usually arrive as a contradiction — "we're at 85% but the ER is full", "the board says twelve free and the wards say three". Treat the contradiction as the symptom, find the coupling that would produce it, and run that probe before reasoning about allocation logic. Where a hospital has never reconciled a coupling from both ends, that absence is the finding.
+
+<!--chunk
 id: bed.4
 title: Non-negotiables
 summary: The three things that may never be overridden: isolation and infection-control placement, clinical-acuity ICU priority, and a bed shown available that is not actually available.
 keys: non-negotiable, patient safety, isolation, infection control, ICU priority, clinical acuity, phantom vacancy, bed status accuracy
 needs: none
 see: bed.7.2.1
-tokens: 70
+tokens: 80
 -->
 ## 4. Non-negotiables
 Patient safety in bed placement — isolation/infection-control requirements are never overridden for convenience · ICU bed prioritization by clinical acuity is never overridden administratively · bed status shown as available must actually be available — no phantom vacancies.
@@ -90,7 +135,7 @@ title: Failure modes & early warning signs
 summary: The department's signature failure mode — one team serialising discharges then admissions on a self-fulfilling assumption — and that the revenue loss starts at bill finalisation, not vacancy.
 keys: failure mode, early warning, whiteboard tracking, reactive allocation, serialised team, shared team, late admissions, 4 to 8 PM, dead bed time, bill finalisation, housekeeping lag, ALOS
 needs: none
-see: bed.7.1, bed.7.2.2, bed.7.3, bed.7.4.1
+see: bed.7.1, bed.7.2.2, bed.7.3, bed.3b
 tokens: 470
 -->
 ## 6. Failure modes & early warning signs
@@ -163,12 +208,12 @@ title: Dependency verification protocol — data/system access required
 summary: Which systems, rosters and timestamp sets must be obtained before any bed diagnosis, including the per-bed bill-close and bill-open times that alone make dead bed time measurable.
 keys: data access, bed board access, staff roster, shift roster, admission timestamps, bill finalisation timestamp, bill initiation timestamp, discharge timestamp, bed allocation timestamp, verification data
 needs: none
-see: bed.3, bed.4, bed.7.1, bed.7.3, bed.7.2.2
+see: bed.3, bed.3b, bed.7.1, bed.7.3, bed.7.2.2
 tokens: 460
 -->
 ### 7.2 Dependency verification protocol
 
-**Data/system access required**, to verify how this hospital's actual practice compares against the §3 baseline dependencies and the §7.1 considerations above:
+**Data/system access required**, to verify how this hospital's actual practice compares against the §3 baseline dependencies, the §3b couplings and the §7.1 considerations above:
 - **Bed board / bed-status system access**, to check whether bed status shown as available is actually, physically available (per §4's non-negotiable) rather than a stale or optimistic system entry.
 - **Housekeeping and Transport staff rosters per shift**, against actual admission and discharge (bed-turnover) volume — to run the peak-load ratio check in §7.1 point 3.
 - **Bed-management/admissions team roster per shift**, against actual admission volume *and* internal bed-transfer/reallocation volume — to run the ratio check in §7.1 point 5 against both its constraints.
@@ -182,10 +227,10 @@ title: Dependency verification protocol — practice-verification questions
 summary: The eleven questions that test reported practice against reality, including the one-team-or-two question and its branch for a claimed overlap, and that the gap found is the diagnosis.
 keys: verification questions, single owner, OT linkage, planned admission mapping, ICU mapping, staffing adequacy, Discharge TAT authenticity, one team or two, serialised team, Admission TAT, billing stop restart, diagnosis
 needs: bed.7.2.1
-see: common.shared-considerations, bed.6, bed.7.1, bed.7.3, dis.7.2.1
-tokens: 1650
+see: common.shared-considerations, bed.6, bed.3b, bed.7.1, dis.7.2.1
+tokens: 1680
 -->
-**Practice-verification questions to put to the hospital directly**, one at a time, once the data picture above is in hand — drawn substantially from the shared "Discharge / Bed Management / Admission / ALOS / Occupancy" consideration set in `references/common-elements.md`, restated here as pointed questions specific to Bed Management, plus questions on staffing, Admission TAT and Discharge-TAT authenticity:
+**Practice-verification questions to put to the hospital directly**, one at a time, once the data picture above is in hand — drawn substantially from the shared "Discharge / Bed Management / Admission / ALOS / Occupancy" consideration set in `references/common-elements.md`, restated here as pointed questions specific to Bed Management, plus questions on staffing, Admission TAT and Discharge-TAT authenticity. Where the query arrived from another function's side, run the matching §3b probe alongside these:
 
 1. Is any part of Discharge, Admission, or Bed Scheduling/Management currently automated — or is bed allocation still run off a whiteboard or a manually-updated spreadsheet?
 2. Is there a single, named owner of Bed Management end-to-end, or is it left to individual ward/unit staff operating off whatever guidelines Operations, Administrative, or Finance have stipulated?
@@ -196,7 +241,7 @@ tokens: 1650
 7. **Does the hospital's reported Discharge TAT and discharge timing actually hold up?** Cross-check directly against `discharge-process.md` §7.2 questions 13–15 — the bed-turnaround gap to the next admission on the same bed (inefficiency or a fudged discharge time if it exceeds ~30 minutes), whether the TAT's clock starts from provisional or confirmed discharge, whether it genuinely includes the Insurance/TPA approval window, and — for hospitals above 80% occupancy — whether TAT is measured through to the next admission rather than stopping at the patient leaving the bed. Running this check needs Bed Management's own allocation/admission timestamps (per the data-access list above) to be clean and available; if they aren't, that gap is itself a finding, not just a data-access inconvenience.
 8. **Does the hospital have the same team doubling with discharge and admission roles, or completely separate teams for the two roles?** Ask this directly and early — it is the single question that most often exposes §6's serialised-team failure mode. Where it is one team, follow it with what that team's day actually looks like: does it work discharges through the morning and only turn to admissions afterwards, and are admissions consequently scheduled for late afternoon or evening? A hospital that answers "one team, discharges first" has, in that answer, described the mechanism behind its own late admissions, its dead bed time and part of its ALOS — without necessarily recognising it as a problem at all. The same question appears in `discharge-process.md` §7.2, since it bears equally on both departments.
 
-    Where the answer is the other one — two separate teams, or one team that says it runs both functions *together* — do not rule the failure mode out on that answer alone. It is a claim about practice, and this section's whole discipline is not to accept reported practice at face value. Test it against the hospital's own admission clock times (question 10). A claimed overlap sitting alongside admissions that only complete in the late afternoon or evening means the overlap is nominal and the serialisation has moved somewhere else — most commonly into a rule that a bed is not allocated until it has been confirmed physically ready, which produces exactly the same late admissions by a different route and is just as self-fulfilling. Where the clock times genuinely do show admissions landing across the day, the failure mode really is absent for that hospital, and the dead bed time in §7.3 point 5 is coming from the discharge tail, the housekeeping turnaround or allocation instead; move the enquiry there rather than closing it.
+    Where the answer is the other one — two separate teams, or one team that says it runs both functions *together* — do not rule the failure mode out on that answer alone. It is a claim about practice, and this section's whole discipline is not to accept reported practice at face value. Test it against the hospital's own admission clock times (question 10). A claimed overlap sitting alongside admissions that only complete in the late afternoon or evening means the overlap is nominal and the serialisation has moved somewhere else — most commonly into a rule that a bed is not allocated until it has been confirmed physically ready, which produces exactly the same late admissions by a different route and is just as self-fulfilling (see §3b(B)). Where the clock times genuinely do show admissions landing across the day, the failure mode really is absent for that hospital, and the dead bed time in §7.3 point 5 is coming from the discharge tail, the housekeeping turnaround or allocation instead; move the enquiry there rather than closing it.
 9. **Bed-management/admissions team staffing adequacy** — has anyone at the hospital calculated admissions handled per team member per hour at peak, counting internal bed transfers and reallocations alongside admissions, against the roster actually on duty? Or is this team sized by headcount-per-shift habit and assumed adequate? This is the practice-verification counterpart to §7.1 point 5's ratio-check, and it needs both of that point's constraints tested, not just the more comfortable one.
 10. **Is Admission TAT defined, and are its stage timings actually available?** Ask for the hospital's own Admission TAT figure, then for the five stage timings behind it (§7.1 point 4). A hospital that has a headline number but cannot break it into stages cannot tell coordination delay from documentation time, which means it cannot know which part of its own admission process is the slow one.
 11. **When does billing on a bed actually stop, and when does it restart?** Ask for the typical clock time at which the outgoing patient's final bill is closed, and the typical clock time at which the first billable entry is raised against the next patient in that bed. Then ask whether anyone has ever looked at the gap between the two. Most hospitals will answer the first two and have no answer to the third — which is exactly the finding, since that gap is dead bed time (§7.3 point 5) and nothing in the hospital currently owns it.
@@ -244,7 +289,7 @@ Follows the two universal rules in `references/common-elements.md` (cost-benefit
 - Some real mapping of planned admissions against provisional discharges and provisional bed availability existing *at all*, rather than tomorrow's bed picture being assembled informally (§7.2 question 4).
 - Provisional discharge and provisional step-down as formally tracked concepts (§7.4.2).
 - Admissions and discharges not being run serially by one team (§7.2 question 8, §7.4.2) — this costs a hospital of any size, and costs nothing to stop.
-- OPD prescription capture as the intake point for planned-admission data (§7.4.2).
+- OPD prescription capture as the intake point for planned-admission data (§7.4.2, §3b(F)).
 - The Discharge-linkage double control (§7.4.1(c)) — cross-checking Discharge's reported timings against Bed Management's own timestamps.
 
 *Scales with the demand-vs-supply pivot above:*
@@ -338,10 +383,10 @@ Teams whose cooperation is required: the Discharge Team/Discharge Managers · Ad
 id: bed.7.4.4
 title: Solution construction — team/role changes
 summary: The two separate role decisions — a condition-triggered Bed Manager and volume-sized Admissions Executives — their triggers, sizing and costs, plus scope-augmentation for everyone else.
-keys: Bed Manager, hiring trigger, occupancy above 80%, TAT breach, demand exceeds supply, Admissions Executive, headcount, salary cost, 4-4.5 lakhs, 3-3.5 lakhs, coverage floor, scope augmentation
-needs: none
+keys: Bed Manager, hiring trigger, occupancy pivot, TAT breach, demand exceeds supply, Admissions Executive, salary cost, 4-4.5 lakhs, 3-3.5 lakhs, coverage floor, proficiency not trigger
+needs: common.occupancy-pivot
 see: bed.7.1, bed.7.3, bed.7.4, bed.7.4.1, bed.7.4.3, dis.7.4.4
-tokens: 1000
+tokens: 1190
 -->
 #### 4. Team/role changes
 
@@ -351,9 +396,11 @@ There are **two separate role decisions** here, triggered differently and priced
 A dedicated Bed Manager owns the entire bed-scheduling process end-to-end as its single point of contact. The role is about **coordination with other departments and ownership of the whole process**, not about processing volume — which is why it is not sized per admission. It sits at the same level as the Discharge Manager in `discharge-process.md` §7.4.4: the two are peers, coordination runs between their departments, and both report to the Head of Operations / COO (§7.4.3).
 
 Three conditions trigger the role. Any one of them is sufficient:
-- **Demand exceeds supply (the pivot).** On a monthly average, daily admissions exceed the average number of beds that were available the previous night. This is the primary trigger and is deliberately not an occupancy measure — it shows directly how critical discharge efficiency and admission planning have become for this hospital.
-- **Occupancy above 80%.** Any hospital above this level should ideally have a Bed Manager on board.
+- **Demand exceeds supply (this department's own pivot).** On a monthly average, daily admissions exceed the average number of beds that were available the previous night. Deliberately not an occupancy measure: it shows directly how critical discharge efficiency and admission planning have become for this hospital, and it is sharper than occupancy for sizing *this department's* solution (§7.4).
+- **The 80% occupancy pivot**, per `common-elements.md`. This is the universal hospital-wide inflection, and it triggers a dedicated owner in every function rather than only this one. It does not compete with the demand-vs-supply pivot above: that one governs how much of §7.4's design this department gets, while this one governs whether the hospital has entered the state at all.
 - **Sustained TAT breach.** Where the hospital continually overruns its expected TAT — for example, more than 50% of admissions taking longer than the expected Admission TAT — a Bed Manager is required. A breach at that rate signifies coordination failure, and coordination with the Discharge Manager and the other dependent departments is precisely what this role, and only this role, can do.
+
+The ₹4–4.5 lakh figure follows the proficiency this role requires — coordination across a defined process with a defined counterpart — and **not the trigger it shares with other functions**. A Materials Manager crosses the same 80% pivot at ₹8–10 lakhs because its scope is wider, not because its trigger differs; see the occupancy pivot's own table before quoting either figure at a hospital that has priced the other.
 
 Below all three conditions, the same hire is better framed as an investment in future efficiency — and notably also as direct stress reduction for the bed management team's daily workload, not purely a financial argument. The cost-benefit case, where the conditions are met, is built on §7.4.1's net-effect lines: earlier admissions bring billing forward, remove dead bed time, allow procedures to be scheduled earlier, and pull ALOS down in conjunction with an efficient discharge process.
 
@@ -374,7 +421,7 @@ summary: What was settled in each section and when, including the bill-to-bill r
 keys: status, change log, approvals, revision history, dead bed time redefinition, question 8 branch, practice conversation, open items, pending sync
 needs: none
 see: none
-tokens: 1510
+tokens: 1770
 retrieve: never
 -->
 ---
@@ -387,16 +434,18 @@ On 2026-09-10 the department was worked through point by point with Avishek ahea
 
 **Later on 2026-09-10, dead bed time was redefined as a bill-to-bill quantity**, per Avishek's correction during the Bed Management practice conversation. The previous wording — "time a bed sits vacant, or has nothing billed against it, because of a discharge or admission delay" — allowed the quantity to be read as physical vacancy, which understates it by hours. It is now defined in §7.3 point 5 as running **from the finalisation of the outgoing patient's bill to the initiation of the incoming patient's bill**: billing on a bed stops when the final bill is closed and sent for insurance approval, typically late morning, while the patient normally remains in the bed through approval, payment, briefing and physical exit; every allied revenue line through that bed — pharmacy, diagnostics, procedures, dependent OT slots — stops at the same moment and cannot restart until the next patient's bill is opened. The measure therefore spans three parts: the discharge tail after billing closes, the housekeeping turnaround, and the admission delay. Corresponding changes: §6 gained a note that the loss does not begin at physical vacancy; §7.1 point 2 now distinguishes the TAT clock from the revenue clock; §7.2's data-access list gained bill-finalisation and bill-initiation timestamps per bed, and §7.2 gained question 11 on when billing actually stops and restarts; §7.4.1(e) and the net-effect block now describe both ends of the stretch as separately attackable; §7.4.2 gained the bill-close/bill-open join as a reporting change; and §7.4.3 and §7.4.4(c) added Billing to the cooperating teams and to scope-augmentation respectively.
 
-Still open: the worked ratio-check example in §7.4.4(b); §8's KPI list, which Avishek has agreed to extend but which has not yet been revised (see the note at its foot); the consistency and sync items shared with `references/common-elements.md`, `SKILL.md` and `README.md`, none of which reflect the 2026-09-09 or 2026-09-10 passes; and the playbook restructure provisionally agreed for after the practice conversation.
+**On 2026-09-16, §3b was added** — the cross-function interdependency map, applied as a template change across all four department files alongside its introduction in `supply-chain-procurement.md`. Eleven couplings, each stated as a mechanism with the failure that propagates along it and a root-cause probe. Row A is the reciprocal of Discharge's §3b(F), row F of OPD's §3b(I) and row I of Supply Chain's §3b(J). Three couplings the file had not previously named in any form: **H**, bed allocation ignoring ward nursing ratio (which makes §3's "Nursing workload distribution" downstream row mechanical rather than qualitative); **K**, midnight-census occupancy reporting concealing intraday dead bed time; and **I**, ward consumable-kit readiness as a condition on a bed being usable. §3, §6, §7.2.1, §7.2.2 and §7.4 gained pointers to it, and §7.2.2 question 8's branch now cross-references §3b(B), which names the confirmed-ready mechanism that branch was written to catch.
+
+Still open: the worked ratio-check example in §7.4.4(b); §8's KPI list, which Avishek has agreed to extend but which has not yet been revised (see the note at its foot, now carrying three further gaps from §3b); the consistency and sync items shared with `references/common-elements.md`, `SKILL.md` and `README.md`, none of which reflect the 2026-09-09 or 2026-09-10 passes; and the playbook restructure provisionally agreed for after the practice conversation.
 
 <!--chunk
 id: bed.8
 title: KPIs
-summary: The eighteen approved KPIs across mapping accuracy, turnaround, process adoption and finance, and the four KPI revisions agreed but not yet made, including that #16 is now wrong.
-keys: KPI, metrics, mapping accuracy, LOS accuracy, emergency reserve adequacy, bed turnaround time, boarding time, occupancy, ALOS, process adoption, console sync, revenue, staffing ratio, KPI gaps
+summary: Twenty-four approved KPIs across mapping accuracy, turnaround, process adoption, finance, Admission TAT and dead bed time, and the three cross-function couplings.
+keys: KPI, mapping accuracy, LOS accuracy, emergency reserve, bed turnaround, boarding time, occupancy, ALOS, console sync, staffing ratio, Admission TAT, dead bed time, ready-confirmation gap, unused reservations, allocation versus nursing ratio
 needs: none
-see: common.peak-load, bed.7.1, bed.7.3, bed.7.4.1, bed.7.4.2, bed.7.4.4, dis.8
-tokens: 1340
+see: common.peak-load, bed.7.1, bed.7.3, bed.7.4.1, bed.7.4.4, bed.3b, dis.8
+tokens: 1550
 -->
 ## 8. KPIs <!--m-->(drafted by Claude 2026-09-02, approved by Avishek as drafted 2026-09-09)<!--/m-->
 
@@ -417,19 +466,25 @@ tokens: 1340
 10. **% of ward patients with a provisional discharge signal given the full 24 hours in advance** required by §7.4.2.
 11. **% of ICU patients with a provisional step-down signal given by 1 PM** as required by §7.4.2.
 12. **% of Medical Supervisory 5 PM rounds completed on schedule** — a direct process-discipline check on the checkpoint §7.4.2 introduces, since the 6 PM final mapping depends on this happening reliably.
-13. **% of planned admissions with OPD-prescription-captured intake data available** — measures whether the OPD-as-intake-point requirement (§7.4.2) is actually being fed, since without it the planned-admission-to-bed mapping in §7.4.1(a) has nothing to map from.
+13. **% of planned admissions with OPD-prescription-captured intake data available** — measures whether the OPD-as-intake-point requirement (§7.4.2, §3b(F)) is actually being fed, since without it the planned-admission-to-bed mapping in §7.4.1(a) has nothing to map from.
 14. **Admissions-desk-to-Bed-Management console sync accuracy** — how often a confirmed admission date at the Admissions desk correctly and immediately reflects in the Bed Management console with a tentative bed attached (§7.4.2's two-way live link).
 
 ### Financial & staffing
 15. **Daily/aggregate Revenue attributable to bed-management efficiency** — the direct downstream effect named in §3, made explicit as a tracked KPI rather than left as a qualitative dependency.
-16. **Bed Manager threshold tracking** — occupancy % and admissions/day tracked against the **>80% occupancy or ~40 admissions/day** trigger in §7.4.4, as an operational trigger metric in its own right.
+16. **Bed Manager threshold tracking** — all three §7.4.4(a) conditions tracked as operational trigger metrics in their own right: monthly-average daily admissions against the previous night's average available beds (this department's own demand-vs-supply pivot), occupancy % against the **80% pivot** (`common-elements.md`, the universal hospital-wide inflection), and the proportion of admissions overrunning expected Admission TAT.
 17. **Housekeeping/transport staff available per shift per bed, for admissions and discharges** — the Bed-Management-specific instance of the universal Peak-Load Staffing & Manpower Cost-Benefit Method in `references/common-elements.md`.
 18. **Nursing workload distribution relative to occupancy/turnover volume** — the §3 downstream dependency made explicit as a tracked metric, to catch workload imbalance before it becomes a retention or care-quality issue.
 
-<!--m-->*(All 18 were Claude's first draft, delivered per Avishek's 2026-09-02 request alongside OPD-Diagnostics' and Discharge Process's KPI lists, and approved by Avishek as drafted on 2026-09-09 — all three departments' KPI lists are now approved.)*<!--/m-->
+### Admission TAT, dead bed time & team ratio
+19. **Admission TAT** — the headline figure against §7.4.1's sub-30-minute target, plus the five stage timings in §7.1 point 4 tracked individually, so coordination delay stays separable from documentation time. A single blended TAT cannot tell the hospital which of its own stages is the slow one.
+20. **Dead bed time**, defined bill to bill per §7.3 point 5 — hours from the outgoing patient's final-bill closure to the incoming patient's first billable entry on the same bed. Tracked as one number, kept distinct from both ordinary vacancy and physical bed-turnaround time (#6), with its three component stretches — post-billing discharge tail, housekeeping turnaround, admission delay — separable underneath it. Track alongside it the **% of admissions completed by around 12 PM** rather than in the 4–8 PM window.
+21. **Bed-management/admissions team ratio** — admissions *plus internal transfers* handled per team member per hour, peak vs. off-peak, per §7.1 point 5. The ongoing counterpart to #17's housekeeping/transport ratio, and transfers must be counted or the workload is understated.
 
-**KPI revision agreed but not yet made.** <!--m-->Avishek agreed on 2026-09-10 to extend this list, deferring the actual revision. <!--/m-->Four things need doing, and until they are done §8 is out of step with §7:
-- **#16 is now wrong.** It tracks *"occupancy % and admissions/day"* against a *">80% occupancy or ~40 admissions/day"* trigger that §7.4.4(a) has replaced. It needs to track the three current conditions instead: monthly-average daily admissions against the previous night's average available beds, occupancy above 80%, and the proportion of admissions overrunning expected Admission TAT.
-- **Admission TAT needs KPIs** — the headline figure against the sub-30-minute target, and the five stage timings in §7.1 point 4 tracked individually so coordination delay stays separable from documentation time.
-- **Dead bed time needs a KPI**, defined bill to bill per §7.3 point 5 — hours from the outgoing patient's final-bill closure to the incoming patient's first billable entry on the same bed, tracked as one number and kept distinct from both ordinary vacancy and physical bed-turnaround time (#6), with its three component stretches (post-billing discharge tail, housekeeping turnaround, admission delay) separable underneath it — alongside admissions actually being completed by around 12 PM rather than in the 4–8 PM window.
-- **The bed-management/admissions team ratio needs a KPI** — admissions plus internal transfers handled per team member per hour, peak vs. off-peak, per §7.1 point 5 — as the ongoing counterpart to #17's housekeeping/transport ratio.
+### Cross-function interdependency
+*Each measures a §3b coupling that no KPI above reaches.*
+
+22. **Housekeeping ready-confirmation gap** (§3b(B)) — elapsed time from cleaning complete to the bed being allocatable in the system, tracked separately from cleaning time itself. #6 blends the two, which is exactly what the map says conceals the real failure: a bed standing clean, empty and unallocatable is not a cleaning problem.
+23. **Post-op bed reservations held but unused** (§3b(C)) — count and bed-hours per month. Without it the reserve-timing trade-off can only be argued in one direction, since the cost of reserving late (a cancelled case) is visible and the cost of reserving early is not.
+24. **Allocation against ward nursing ratio** (§3b(H)) — % of allocations where the receiving ward's nurse-to-patient ratio was checked before the bed was assigned, and the count of ward push-backs with reason recorded. #18 tracks nursing workload as an *outcome*; this tracks whether it was ever an *input*, which is the actual decision point.
+
+<!--m-->*(#1–18 approved as drafted 2026-09-09. #19–21 were the extensions agreed 2026-09-10 and deferred; #22–24 follow from the §3b pass. All six, and #16's revision to §7.4.4(a)'s three current conditions, approved 2026-09-22.)*<!--/m-->

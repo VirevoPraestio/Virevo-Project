@@ -44,6 +44,36 @@
 | dis.3#d13 | OT Revenue — follows from OT scheduling/utilisation (High) | dis.3 | surgery income, OT earnings |
 | dis.3#d14 | Daily Revenue — aggregate effect of all of the above (Critical) | dis.3 | day's collection, top line |
 
+## dis.3b
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| dis.3b#c1 | Discharge is the last visible step, so upstream delays surface as its symptom | dis.3b | discharge gets blamed, it's not really us |
+| dis.3b#d1 | (A) Doctors — the summary-authoring chain, and rounds timing gating the start | dis.3b | waiting for the consultant's round, who writes the summary |
+| dis.3b#d2 | (A) multidisciplinary cases have no summary owner at all | dis.3b | several doctors on one case, nobody signs |
+| dis.3b#d3 | (B) Nursing — the ward stock-take as a hard gate on billing closure | dis.3b | billing waiting for the ward count |
+| dis.3b#d4 | (C) Supply Chain — the returnable balance, computed or counted | dis.3b | pending pharmacy reconciliation, medicine returns |
+| dis.3b#d5 | (D) Billing — a late charge reopening a finalised bill | dis.3b | bill revised after closing, charge came in late |
+| dis.3b#d6 | (E) Insurance/TPA — a window outside our control, inside or outside the TAT | dis.3b | does the TAT include the insurance wait |
+| dis.3b#d7 | (F) Bed Management — the double control on each other's timestamps | dis.3b | good TAT but beds don't turn over, cross-checking timings |
+| dis.3b#d8 | (G) Housekeeping — the notification moment, not the cleaning speed | dis.3b | when housekeeping was told, not how fast they clean |
+| dis.3b#d9 | (H) Transport — porters pooled across every demand, one peak | dis.3b | waiting for a wheelchair, the last twenty minutes |
+| dis.3b#d10 | (I) OT Scheduling — the admission-hour gate on same-day slots | dis.3b | bed freed too late for tonight's list, empty evening slots |
+| dis.3b#d11 | (J) the briefing chain — several uncoordinated people before exit | dis.3b | dietitian, counselling, pharmacy advice before leaving |
+| dis.3b#d12 | (K) Finance/cash counter — peak staffing and release authority | dis.3b | queue at the counter, who can let them go with a balance |
+| dis.3b#q1 | (A) who drafts, reviews and signs — and who owns a multidisciplinary case | dis.3b | who actually writes it, who takes responsibility |
+| dis.3b#q2 | (B) how long after confirmation does the stock-take start, and why | dis.3b | the gap before the count starts |
+| dis.3b#q3 | (C) median time to post the return credit, and discharges waiting on it | dis.3b | how long returns take, how many are stuck |
+| dis.3b#q4 | (D) how many bills were reopened last month, and by what charge | dis.3b | bill revisions, what came in late |
+| dis.3b#q5 | (E) does the reported TAT include the TPA window end to end | dis.3b | is the insurance time counted |
+| dis.3b#q6 | (F) reconcile the same beds against Bed Management's own timestamps | dis.3b | check our times against the bed team's |
+| dis.3b#q7 | (G) time from physical discharge to housekeeping being notified | dis.3b | when did they actually get told |
+| dis.3b#q8 | (H) porters on duty at the discharge peak, and what else they serve | dis.3b | porter availability at the busy hour |
+| dis.3b#q9 | (I) latest hour a freed bed can still become a same-day OT slot | dis.3b | cut-off for tonight's surgery |
+| dis.3b#q10 | (J) who must reach the patient before exit, and who sequences them | dis.3b | who all has to see the patient first |
+| dis.3b#q11 | (K) counter staff at peak, and who authorises release with a balance | dis.3b | cash counter manning, settlement authority |
+| dis.3b#c2 | treat a query's stated cause as the symptom column, then run that probe | dis.3b | they already think they know the reason |
+
 ## dis.4
 
 | point | what it is | chunk | also called |
@@ -91,6 +121,7 @@ Section container (heading only) — no points.
 | dis.7.2#d3 | billing sign-off and insurance/TPA handoff logs | dis.7.2 | billing system records, when the file went to TPA |
 | dis.7.2#d4 | bed-allocation and physical-admission timestamps for the same bed | dis.7.2 | when the bed was given to the next patient, HIS bed log |
 | dis.7.2#d5 | insurance/TPA correspondence timestamps — first request sent, final approval | dis.7.2 | when we asked the insurer, when approval came back |
+| dis.7.2#c1 | run the §3b probe alongside these when the query came from another function | dis.7.2 | starting from another department's complaint |
 
 ## dis.7.2.1
 
@@ -219,7 +250,11 @@ Section container (heading only) — no points.
 | dis.8#k10 | ARPOB and Daily Average Revenue tracked as ongoing KPIs | dis.8 | revenue per bed, daily collection |
 | dis.8#k11 | OT Utilisation and OT Revenue from slots freed by faster discharge | dis.8 | extra surgeries we got, theatre usage from early discharge |
 | dis.8#k12 | realized vs. theoretical revenue impact of freed bed-days | dis.8 | how much of the projected gain we actually got |
-| dis.8#k13 | role threshold tracking — occupancy %, discharges/day, TAT-overrun proportion | dis.8 | are we past the threshold for hiring, do we qualify for a discharge manager |
+| dis.8#k13 | all three Discharge Manager conditions — 80% pivot, >40 discharges/day, TAT-overrun rate | dis.8 | are we past the threshold for hiring, do we qualify for a discharge manager |
 | dis.8#k14 | nursing ratio per bed for discharge functions, discharges per staff per hour peak vs off-peak | dis.8 | workload per nurse, how many discharges one person handles |
 | dis.8#k15 | housekeeping and transport staff availability per shift vs. discharge volume | dis.8 | enough housekeeping per shift, porter availability |
 | dis.8#k16 | family/patient briefing completion rate before physical discharge | dis.8 | how often counselling was actually done, documented instructions before leaving |
+| dis.8#k17 | housekeeping notification gap, tracked separately from cleaning time | dis.8 | when housekeeping was told versus how fast they clean |
+| dis.8#k18 | bills reopened after finalisation — count, value and the charge type | dis.8 | bill revisions, what keeps coming in late |
+| dis.8#k19 | transport wait from full clearance to the patient physically leaving | dis.8 | the last twenty minutes, waiting for a wheelchair |
+| dis.8#k20 | cash-counter settlements per staff per hour at peak, and discharges held by a disputed balance | dis.8 | queue at the counter, who can release with a balance |

@@ -59,6 +59,35 @@
 | opd.3#d19 | Service Excellence/Patient Experience (Medium) | opd.3 | patient experience, how patients feel about the visit |
 | opd.3#d20 | Marketing/Referral Engine — repeat-visit trust (Medium) | opd.3 | will they come back, word of mouth, referrals |
 
+## opd.3b
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| opd.3b#c1 | diagnostic leakage has no symptom of its own — nothing breaks, nobody complains | opd.3b | we only see it in the revenue, silent loss |
+| opd.3b#d1 | (A) Doctors and secretaries — who owns the patient in the thirty seconds after the consult | opd.3b | secretary takes the patient, we can't step in |
+| opd.3b#d2 | (B) Radiology — per-unit capacity, not modality capacity | opd.3b | one machine overloaded while another is free |
+| opd.3b#d3 | (C) Laboratory — report turnaround as a trust signal to the prescribing doctor | opd.3b | doctor stopped sending tests here, burned once |
+| opd.3b#d4 | (D) Billing and front office — the billing desk is the conversion window | opd.3b | staff take payment and point at a corridor |
+| opd.3b#d5 | (E) Guest services — the physical journey from consult to diagnostic to payment | opd.3b | nobody walks the patient, they wander off |
+| opd.3b#d6 | (F) Housekeeping and transport — mobility for non-ambulatory patients at peak | opd.3b | no wheelchair, slot missed and logged as a no-show |
+| opd.3b#d7 | (G) Pharmacy and Supply Chain — reagent availability, and pharmacy leakage as the same mechanism | opd.3b | same problem at the medicine counter, two halves of one thing |
+| opd.3b#d8 | (H) Biomedical — equipment downtime converting directly into leakage | opd.3b | the MRI was down, bad month for scans |
+| opd.3b#d9 | (I) Bed Management — OP-to-IP conversion, and OPD as planned-admission intake | opd.3b | admissions from findings, feeding the bed forecast |
+| opd.3b#d10 | (J) HR — training ownership and the blame culture | opd.3b | conversion varies by shift, who trains the counter staff |
+| opd.3b#d11 | (K) Finance — equipment ROI and authority over off-peak pricing | opd.3b | who can approve a discount, who owns the payback case |
+| opd.3b#q1 | (A) for the three lowest-redemption doctors, who books the next step | opd.3b | ask about those doctors specifically |
+| opd.3b#q2 | (B) utilisation per individual unit, and which unit a walk-in lands on | opd.3b | machine-wise load, who decides where it goes |
+| opd.3b#q3 | (C) report turnaround against redemption by doctor over six months | opd.3b | has any doctor ever complained about report delay |
+| opd.3b#q4 | (D) what staff say to a patient after payment, and does TAT include it | opd.3b | does the transaction end at the receipt |
+| opd.3b#q5 | (E) guest-services headcount at peak, and same-visit bookings not attended | opd.3b | who is on during the rush, booked but didn't turn up |
+| opd.3b#q6 | (F) mobility-assistance volume, wait time, and whether a missed slot was attributed | opd.3b | wheelchair waits, was it ever recorded as the cause |
+| opd.3b#q7 | (G) in-house dispensing share compared against diagnostic redemption | opd.3b | pharmacy conversion next to test conversion |
+| opd.3b#q8 | (H) equipment downtime by unit against redemption in the same weeks | opd.3b | put the breakdown log next to the numbers |
+| opd.3b#q9 | (I) share of OPD-originated planned admissions reaching Bed Management 24h ahead | opd.3b | how much notice the bed team gets from us |
+| opd.3b#q10 | (J) who trains the handoff, who checks it, and who is asked first on a complaint | opd.3b | training ownership, who gets blamed |
+| opd.3b#q11 | (K) who can approve an off-peak discount, and who sees redemption data | opd.3b | pricing authority, who owns the machine's payback |
+| opd.3b#c2 | the most commonly missed row is G — pharmacy and diagnostic leakage are one mechanism | opd.3b | fixing half the problem, two departments one cause |
+
 ## opd.4
 
 | point | what it is | chunk | also called |
@@ -98,6 +127,8 @@ _Section heading only — no individual points._
 | opd.7.1.1#c5 | guest services capacity ratio, or sizing the gap if absent | opd.7.1.1 | do we have anyone guiding patients, PROs, who walks the patient to radiology |
 | opd.7.1.1#c6 | off-peak discounted diagnostic slots as utilization, affordability and trust lever | opd.7.1.1 | cheaper rates in lean hours, discount for afternoon scans, filling idle machine time |
 | opd.7.1.1#c7 | housekeeping/transport support for non-ambulatory patients at peak | opd.7.1.1 | wheelchair and trolley support, who shifts the patient to radiology |
+| opd.7.1.1#c8 | the two-peak arrival curve — ~80% of footfall inside ~4 peak hours split across two shifts, not one block | opd.7.1.1 | when do the crowds actually come, morning rush and evening rush, peak hours at the counter, is the load even through the day |
+| opd.7.1.1#c9 | derive the real arrival curve from hourly OPD billing data, never from registration data | opd.7.1.1 | where do we get the arrival pattern from, registration only counts new patients, how do we count returning patients |
 
 ## opd.7.1.2
 
@@ -132,6 +163,8 @@ _Section heading only — no individual points._
 | opd.7.2#q12 | is a TAT defined at all, and is it realistic and guidance-inclusive | opd.7.2 | do we have a turnaround standard, does it include explaining to the patient |
 | opd.7.2#q13 | staffing-pivot-point / revenue-to-staff ratio defined, or decided ad hoc | opd.7.2 | at what volume do we add a person, when do we know to hire |
 | opd.7.2#q14 | culture-of-blame check on floor-level executives for delays and dissatisfaction | opd.7.2 | do we blame the counter staff, who gets pulled up when patients complain |
+| opd.7.2#q15 | who owns floor-staff training — HR, departmental head, floor managers or COO — and how that ownership is evidenced, monitored and analysed | opd.7.2 | whose job is it to train the counter staff, nobody owns training, is training recorded anywhere, who is accountable for the floor staff |
+| opd.7.2#c1 | run the §3b probe alongside these when the query came from another function | opd.7.2 | starting from another department's complaint |
 
 ## opd.7.3
 
@@ -176,7 +209,7 @@ _Section heading only — no individual points._
 | opd.7.4.3#s10 | Scheduling Manager considered above 200 daily OPD footfall excluding relatives | opd.7.4.3 | someone dedicated to scheduling, do we need a separate person for slots |
 | opd.7.4.3#s11 | doctors' and secretaries' buy-in, sensitive where outside-referral incentives exist | opd.7.4.3 | getting doctors on board, secretaries sending tests outside |
 | opd.7.4.3#s12 | buy-in from radiologists, cardiologists, pathologists, sonologists on scheduling | opd.7.4.3 | radiologist keeps changing the list, specialists overriding slots |
-| opd.7.4.3#s13 | HR to check staffing adequacy and training effectiveness | opd.7.4.3 | HR to confirm headcount, is the training actually working |
+| opd.7.4.3#s13 | HR to check staffing adequacy and training effectiveness, and to settle who owns training where §7.2 point 15 found no named owner | opd.7.4.3 | HR to confirm headcount, is the training actually working, who should own training |
 | opd.7.4.3#s14 | IT for all automations and integrations including ERP value extraction | opd.7.4.3 | IT team, integration with our HIS and ERP |
 | opd.7.4.3#s15 | executive management sign-off on open sharing of performance dashboards | opd.7.4.3 | management approval to share the numbers openly, CEO buy-in |
 
@@ -185,9 +218,11 @@ _Section heading only — no individual points._
 | point | what it is | chunk | also called |
 |---|---|---|---|
 | opd.7.4.4#s16 | Scheduling Manager is the clear new recruitment above 200 daily footfall | opd.7.4.4 | new post for scheduling, recruit a scheduling manager |
-| opd.7.4.4#s17 | cost figure for Scheduling Manager not yet given, to be confirmed | opd.7.4.4 | what will that role cost us, salary for the new post |
+| opd.7.4.4#s17 | Scheduling Manager cost scales with footfall across three bands — ₹3–3.5L (200–500), ₹5.5–6L (500–1,500), ₹7–7.5L (above 1,500) | opd.7.4.4 | what will that role cost us, salary for the new post, how much does a scheduling manager cost, budget for the scheduling role |
 | opd.7.4.4#s18 | guest-services headcount may be new, sized by peak-load ratio check | opd.7.4.4 | how many PROs do we need, adding guest relations staff |
 | opd.7.4.4#s19 | all other named roles are existing ones engaged, not new recruitment | opd.7.4.4 | no other new hiring, using our existing people |
+| opd.7.4.4#s20 | OPD is the exception to the 80% occupancy pivot — ambulatory load scales with footfall | opd.7.4.4 | does the occupancy rule apply to us, busy counter but empty wards |
+| opd.7.4.4#s21 | salary follows the proficiency the volume demands, not the fact that a threshold was crossed | opd.7.4.4 | why does the same role cost more at a bigger hospital, paying more for the same job title |
 
 ## opd.8
 
@@ -211,3 +246,7 @@ _Section heading only — no individual points._
 | opd.8#k16 | revenue-to-staff ratio by department/discipline against defined pivot points | opd.8 | revenue per staff, when to add the next person |
 | opd.8#k17 | training completion % and a proxy effectiveness measure | opd.8 | who has been trained, does training change conversion |
 | opd.8#k18 | best-performer information-share cadence adherence | opd.8 | is the daily share actually happening, has it lapsed |
+| opd.8#k19 | OPD prescription-to-pharmacy fill rate, reported beside diagnostic redemption | opd.8 | how many prescriptions we fill, medicine counter conversion |
+| opd.8#k20 | equipment downtime by unit set against redemption in the same period | opd.8 | the scanner was down, bad month for scans |
+| opd.8#k21 | tests deferred for want of a reagent, recorded under that cause not as a no-show | opd.8 | test couldn't run, no reagent, logged as patient didn't come |
+| opd.8#k22 | % of OPD-originated planned admissions reaching Bed Management over 24h ahead | opd.8 | how much notice the bed team gets from us |

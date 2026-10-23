@@ -10,6 +10,7 @@ Covers bed allocation, availability and turnover, the admissions desk that runs 
 | bed.1 | what the department owns and balances |
 | bed.2 | activity list; admissions desk is same team |
 | bed.3 | upstream and downstream dependencies, by priority |
+| bed.3b | eleven couplings as mechanisms; where each is misattributed |
 | bed.4 | placement rules never overridden |
 | bed.5 | what flexes under pressure |
 | bed.6 | serialised discharge-then-admission failure; loss starts at billing |
@@ -23,6 +24,6 @@ Covers bed allocation, availability and turnover, the admissions desk that runs 
 | bed.7.4.3 | cooperating teams, COO sign-off, doctor buy-in |
 | bed.7.4.4 | Bed Manager triggers; Admissions Executive sizing, cost |
 | bed.status | maintainer changelog — never fetched (`retrieve: never`) |
-| bed.8 | eighteen KPIs; four revisions not yet made |
+| bed.8 | eighteen KPIs; seven revisions not yet made |
 
 **Retired ids:** none

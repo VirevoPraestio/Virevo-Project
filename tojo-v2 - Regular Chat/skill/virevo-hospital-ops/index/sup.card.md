@@ -29,7 +29,7 @@ Covers consumables, medicines, surgical items and general materials end to end: 
 | sup.7.4.1.2 | automation 1b: GRN capture, prediction, Discharge tie-in, voice |
 | sup.7.4.2 | eight process changes; indent discipline needs trustworthy lead time |
 | sup.7.4.3 | cooperating teams incl. surgeons; COO approves the flows |
-| sup.7.4.4 | Materials Manager ₹8–10L; ported trigger no longer fits |
+| sup.7.4.4 | Materials Manager ₹8–10L on the 80% pivot, priced by proficiency |
 | sup.7.5 | systems and manpower resistance, incl. where ambiguity is a feature |
 | sup.8 | container heading; how the KPI list is organised |
 | sup.8.1 | KPIs 1–17, supply side |

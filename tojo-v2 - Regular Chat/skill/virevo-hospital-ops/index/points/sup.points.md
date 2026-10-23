@@ -381,14 +381,17 @@ Section container (heading only) — no points.
 |---|---|---|---|
 | sup.7.4.4#s1 | Materials Manager — new dedicated role, Operations reporting line | sup.7.4.4 | a materials head, someone to own stores |
 | sup.7.4.4#p1 | Materials Manager cost — ₹8–10 lakhs/year | sup.7.4.4 | what that role costs, the salary |
-| sup.7.4.4#s2 | trigger ported from Discharge Executive — >80% occupancy or >40 discharges/day | sup.7.4.4 | when do we need this role |
-| sup.7.4.4#s3 | the role is a senior functional owner, not a processing-layer coordinator | sup.7.4.4 | why it costs more than a coordinator |
-| sup.7.4.4#s4 | at this cost, sequence automation first and the role second at small hospitals | sup.7.4.4 | can we afford it yet, what comes first |
-| sup.7.4.4#s5 | a single ported trigger cannot be right for a role costing three times as much | sup.7.4.4 | the threshold doesn't fit the salary |
+| sup.7.4.4#s2 | triggered by the 80% occupancy pivot, the universal hospital-wide inflection | sup.7.4.4 | when do we need this role, are we past the threshold |
+| sup.7.4.4#s3 | above the pivot the shortage rule fires and buffer policy inverts to care continuity | sup.7.4.4 | what changes when we're full, why now |
+| sup.7.4.4#s4 | the cost follows the proficiency the role requires, not the trigger it shares | sup.7.4.4 | why it costs double a bed manager |
+| sup.7.4.4#s5 | never reason from the Bed or Discharge Manager figure to this one, or back | sup.7.4.4 | we pay our bed manager less, benchmark the salaries |
 | sup.7.4.4#s6 | Procurement Head assumed already in place, not a threshold decision | sup.7.4.4 | we already have a purchase head |
 | sup.7.4.4#s7 | store-in-charge accountability changes materially under real-time visibility | sup.7.4.4 | the storekeeper's job changes |
 | sup.7.4.4#s8 | a named category owner per major consumable category | sup.7.4.4 | category management, someone owning each group |
 | sup.7.4.4#s9 | GRN/receiving clerk sized against peak receipt volume, not average | sup.7.4.4 | do we still need a receiving clerk |
+| sup.7.4.4#s10 | the cost-benefit case is still built per-role, against this department's own leakages | sup.7.4.4 | is it worth it for us, what does the role recover |
+| sup.7.4.4#s11 | where several functions cross the pivot at once, rank by cost — sequencing, not a verdict | sup.7.4.4 | which role do we hire first, can we do them all |
+| sup.7.4.4#s12 | a secondary volume trigger is optional, not owed — a refinement, not a gap | sup.7.4.4 | busy store but low occupancy, does the rule still fit |
 
 ## sup.7.5
 

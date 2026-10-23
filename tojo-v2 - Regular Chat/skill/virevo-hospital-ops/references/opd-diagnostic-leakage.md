@@ -5,10 +5,10 @@ summary: That this department is the Diagnostics/OPD-linked function whose basel
 keys: diagnostic leakage, OPD to diagnostics conversion, case study baseline, MRI scheduling bottleneck, revenue loss, EBITDA, prescription redemption, walk-in buffer
 needs: none
 see: opd.1, opd.7.3, opd.8
-tokens: 210
+tokens: 220
 -->
 # Department: OPD-to-Diagnostics Conversion (Diagnostic Leakage)
-*Division: Diagnostics & Clinical Support Services (cross-linked to OPD/Clinical Care Delivery and Marketing/Referral Engine)<!--m--> · Status: content complete (§1–8, approved 2026-09-02)<!--/m-->*
+*Division: Diagnostics & Clinical Support Services (cross-linked to OPD/Clinical Care Delivery and Marketing/Referral Engine)<!--m--> · Status: content complete (§1–8, approved 2026-09-02; §3b cross-function interdependency map added 2026-09-16)<!--/m-->*
 
 Grounded in the existing Tojo demo's Problem 2 case study (`virevo-tojo-chat/references/case-studies.md`): 40 new + 400 returning OPD patients/day; only 10% of new patients and 20% of returning patients complete prescribed tests at this hospital; ₹1.5L/day revenue loss, 5% of EBITDA. Root cause per that case study: sequential MRI scheduling with no buffer for walk-in prescriptions — not patient unwillingness — plus a "revenue must come first to justify staffing" causality reversal, and no one having visibility into the whole process to plan overlapping activity.
 
@@ -42,7 +42,7 @@ title: Dependencies
 summary: Which teams this function depends on and which depend on it, with priority, including the booking-protocol gatekeeper, per-unit imaging capacity and doctor compensation structure.
 keys: upstream dependencies, downstream impact, doctor secretary booking protocol, MRI CT multi-unit capacity, doctor compensation, HR training, IT HIS slot visibility, billing, EBITDA, OP to IP conversion
 needs: none
-see: opd.0, opd.7.1.1, opd.7.2
+see: opd.0, opd.7.1.1, opd.7.2, opd.3b
 tokens: 840
 -->
 ## 3. Dependencies
@@ -76,6 +76,51 @@ tokens: 840
 | Marketing/Referral Engine | Repeat-visit trust | Medium |
 
 <!--chunk
+id: opd.3b
+title: Cross-function interdependency map
+summary: The eleven couplings through which OPD-to-diagnostics conversion fails, each named as a mechanism with the failure that propagates along it and the probe that walks back to its origin.
+keys: interdependency, cross-function, root cause, misattribution, secretary gatekeeper, per-unit capacity, report turnaround trust, billing desk conversion window, guest services, mobility, pharmacy leakage, equipment uptime, OP to IP, training ownership, equipment ROI
+needs: opd.3
+see: opd.6, opd.7.2, bed.3b, sup.3b
+tokens: 2090
+-->
+### 3b. Cross-function interdependency map
+
+§3 says *who* this function depends on and how hard. This section says *through what mechanism*, and *what failure travels along it* — because "we depend on Radiology for capacity" cannot be verified and produces a generic question.
+
+Diagnostic leakage is unusual among the departments in this library: it has no symptom of its own. Nothing breaks, no patient complains, no queue forms. The patient simply leaves and the test happens elsewhere or not at all, and the loss appears months later as a revenue number nobody can attribute. Every coupling below is therefore a place where the conversion is lost *silently*, which is why the probes ask what was recorded rather than what went wrong. Ask the one whose symptom the hospital has described; they supplement §7.2's fifteen questions rather than replacing them.
+
+| | Coupled function | The coupling mechanism | What propagates, and where it surfaces |
+|---|---|---|---|
+| **A** | **Doctors & their secretaries** | Who owns the patient interaction in the thirty seconds after the consult ends. Where a secretary controls it and doesn't cede it, the conversion moment is closed before any scheduling logic can apply (§3's booking-protocol row). | Surfaces as **leakage concentrated around specific doctors** — visible only if redemption is tracked by doctor (§7.3 point 1), and invisible in a hospital-wide rate. Diagnosed as patient preference; actually a question of who holds the patient at the door. |
+| **B** | **Radiology / imaging units** | Per-*unit* capacity, not modality capacity. A hospital with three CTs has three queues, and an aggregate utilisation figure can look healthy while one unit is the binding constraint for every walk-in. | Surfaces as **"we have capacity"** alongside patients being told to come back — both true, about different units. Compounded where seniority overrides the schedule (§7.1 point 4), which redistributes the constraint invisibly. |
+| **C** | **Laboratory** | Report turnaround as a *trust* signal to the prescribing doctor, not just a service level. A doctor who has been burned on turnaround stops prescribing in-house — quietly, permanently, and without telling anyone. | Surfaces as **a doctor's redemption rate declining over months** with no incident behind it. The cause is historical and the effect is current, which is why it is almost never connected. |
+| **D** | **Billing & front office** | The billing desk *is* the conversion window: it is the last point at which a human can direct the patient onward, and the TAT that governs it usually measures only the billing mechanics (§7.2 point 12). | Where TAT excludes guidance, staff complete the payment and point at a corridor. Surfaces as **leakage attributed to scheduling** when the patient was in fact released, correctly per process, before anyone scheduled anything. |
+| **E** | **Guest services** | Handholding through the physical journey from consult to diagnostic to payment, sized by the ratio in §7.1 point 5. | Where absent or under-covered at peak, the patient navigates alone and a fraction don't arrive. Surfaces as **no-shows for tests booked minutes earlier**, which reads as patient behaviour rather than a coverage gap. |
+| **F** | **Housekeeping & transport** | Mobility support for non-ambulatory patients between OPD and diagnostics (§7.1 point 7) — roughly 5% of patients, concentrated in the same peak window as everything else. | A booked slot is missed because nobody moved the patient. Surfaces as **an unused slot recorded as a no-show**, with the cause never captured. |
+| **G** | **Pharmacy & Supply Chain** | Two distinct couplings. First, reagent and consumable availability gates whether a test can run at all. Second — and larger — the OPD prescription-to-pharmacy conversion runs on exactly the same mechanism as prescription-to-diagnostics, at the same moment, for the same patient. Reciprocal of `supply-chain-procurement.md` §3b(H). | Surfaces as **two separately-owned leakage problems that are one problem**, each measured by a different department if measured at all. A hospital fixing diagnostic conversion while ignoring pharmacy conversion is fixing half a mechanism. |
+| **H** | **Biomedical** | Equipment uptime, and — via `supply-chain-procurement.md` §3b(F) — closed-system reagent contracts that set the cost-per-test the conversion is being valued at. | Downtime converts directly into leakage for its duration, with no record linking the two. Surfaces as **a bad month for redemption** that nobody maps against the maintenance log. |
+| **I** | **Bed Management & Admissions** | Two directions. OP-to-IP conversion depends on findings reaching an admission decision; and the OPD prescription is the intake point for planned-admission data (`bed-management.md` §3b(F), §7.4.2). | Surfaces downstream as **planned admissions arriving unforecast**, which Bed Management experiences as its own forecasting failure. The data existed, in OPD, and was never captured. |
+| **J** | **HR** | Training ownership and the blame culture (§7.1 point 13, §7.2 points 14 and 15). The juniormost staff carry the conversion, and nobody owns whether they are equipped or willing to. | Surfaces as **conversion varying by shift or by individual**, treated as a performance-management issue when it is a training-ownership gap — or actively produced by a blame culture that makes upselling personally risky. |
+| **K** | **Finance** | Equipment ROI and break-even (§3's downstream row), and authority over the off-peak discount decision (§7.1 point 6). | Utilisation improvements are argued departmentally while the ROI case sits with Finance, and off-peak pricing — the cheapest available conversion lever — needs a pricing authority this department doesn't hold. Surfaces as **a utilisation problem that has an owner and a pricing fix that doesn't**. |
+
+**Root-cause probes**, keyed to the rows above:
+
+- **A.** For the three doctors with the lowest redemption rates, who books the patient's next step — hospital staff or the doctor's own secretary? Ask about those three specifically; the hospital-wide answer will be the polite one.
+- **B.** Pull utilisation per individual unit, not per modality. Then ask which unit a fresh walk-in prescription actually lands on, and who decides.
+- **C.** Report turnaround by modality over the last six months, set against redemption rate by prescribing doctor over the same period. Ask whether any doctor has ever complained about turnaround — and what happened next.
+- **D.** Stand at the billing desk, or ask what a staff member says to a patient after payment. Then: does the hospital's TAT include that sentence, or end at the receipt?
+- **E.** Guest-services headcount on duty during the peak two hours, against patients in those hours. Then: how many tests booked same-visit were not attended?
+- **F.** How many patients needed mobility assistance last month, how long did they wait, and was a missed slot ever attributed to it?
+- **G.** What share of OPD prescriptions are dispensed in-house, and does anyone compare that number with the diagnostic redemption rate? Then: has a test ever been deferred for want of a reagent, and how was it recorded?
+- **H.** Equipment downtime by unit for the last quarter, set against redemption in the same weeks. Ask whether anyone has ever put those two series side by side.
+- **I.** For planned admissions arising from OPD findings, what proportion reached Bed Management more than 24 hours ahead — and through what channel?
+- **J.** Who trains floor staff on the handoff conversation, who checks it happened, and when a patient complains about a delay, who is asked about it first?
+- **K.** Who can approve an off-peak diagnostic discount, and has it ever been proposed? Then: who owns the equipment's break-even case, and do they see redemption data at all?
+
+**Using this map.** Because this department's failure is silent, the usual entry point is a revenue question rather than an operational complaint — "diagnostics is underperforming", "the MRI isn't paying for itself". Treat that as the symptom, and work the couplings before accepting a capacity or pricing diagnosis. The most commonly missed row is **G**: pharmacy and diagnostic leakage are the same mechanism, at the same moment, and hospitals almost always own them separately.
+
+<!--chunk
 id: opd.4
 title: Non-negotiables
 summary: That STAT/urgent tests are never delayed for scheduling convenience and that test accuracy and prep/contrast protocol are never traded for throughput.
@@ -105,7 +150,7 @@ title: Failure modes & early warning signs
 summary: Which four patterns signal leakage: no walk-in buffer slots, no prescription-to-redemption tracking, no manager-level process ownership, and reversed staffing/revenue causality.
 keys: failure modes, early warning, sequential scheduling, no buffer slots, redemption tracking gap, process ownership, staffing before revenue, causality reversal
 needs: none
-see: opd.0, opd.7.1.1, opd.7.1.2
+see: opd.0, opd.7.1.1, opd.7.1.2, opd.3b
 tokens: 120
 -->
 ## 6. Failure modes & early warning signs
@@ -126,10 +171,10 @@ tokens: 10
 id: opd.7.1.1
 title: Subject-matter considerations — points 1-7 (first round)
 summary: Which seven things must be established first: how leakage is known, why tracking is absent, floor-staff bandwidth, scheduling ownership, guest-services ratio, off-peak pricing and mobility.
-keys: leakage measurement basis, prescription tracking, floor staff ratio, billing bandwidth, peak loading, scheduling ownership, STAT slots, guest services ratio, off-peak discount, PACS reports, housekeeping transport, non-ambulatory patients
+keys: leakage measurement basis, prescription tracking, floor staff ratio, billing bandwidth, peak loading, two peak arrival curve, 80 percent in 4 hours, OPD billing data not registration data, scheduling ownership, STAT slots, guest services ratio, off-peak discount, PACS reports, housekeeping transport, non-ambulatory patients
 needs: common.peak-load
 see: opd.7.1.2, opd.3, opd.7.2, opd.7.4.1, common.solution-method
-tokens: 2000
+tokens: 2300
 -->
 ### 7.1 Subject-matter considerations
 
@@ -139,7 +184,7 @@ These are the things Tojo needs to establish before it can reason usefully about
 First and foremost, establish whether the diagnostic-leakage claim is an *observation based on empirical/estimated calculation* — i.e. modeling expected diagnostic volume, department-by-department, by quantity and by revenue, off of OPD footfall and typical prescription rates, then comparing that estimate to actuals — or whether the hospital *actually tracks every prescription*: what was prescribed, in what quantities, mapping an estimated total revenue value of everything prescribed, and then checking that against what was finally carried out and the revenue actually collected. These are fundamentally different starting points — one is a modeled inference, the other is a measured fact — and the confidence Tojo can place in any leakage number, and the kind of solution that follows, depends on which one this hospital is working from. *(§7.2 restates this directly as a practice-verification question — has the hospital actually measured it, or just sensed it?)*
 
 **2. If there's no prescription-tracking system, why not?**
-If the hospital does not record every prescription and produce daily prescribed-vs-completed reports, find out *why*: lack of facilities to scan/capture every prescription, lack of manpower to do it, the hospital simply not deeming it important or relevant, non-cooperation from patients, doctors, or doctors' secretaries, or some other reason. The reason matters because it points to a different fix — a facilities gap is solved with capture infrastructure, a manpower gap with staffing or automation, a priority gap with making the revenue case visible, and a cooperation gap with the incentive/authority questions in points 1 and 4 of §3 upstream dependencies (doctor booking protocol, doctor compensation structure).
+If the hospital does not record every prescription and produce daily prescribed-vs-completed reports, find out *why*: lack of facilities to scan/capture every prescription, lack of manpower to do it, the hospital simply not deeming it important or relevant, non-cooperation from patients, doctors, or doctors' secretaries, or some other reason. The reason matters because it points to a different fix — a facilities gap is solved with capture infrastructure, a manpower gap with staffing or automation, a priority gap with making the revenue case visible, and a cooperation gap with the incentive/authority questions in §3's upstream dependencies on the doctor booking protocol and the doctor compensation structure.
 
 **3. OPD floor-staff capacity ratio (billing bandwidth check).**
 Calculate the ratio of patients to floor-level OPD staff to determine whether staff actually have spare time to do anything beyond billing — such as the follow-up/handoff work that drives diagnostic conversion. Method:
@@ -148,7 +193,8 @@ Calculate the ratio of patients to floor-level OPD staff to determine whether st
 - Take total average OPD footfall: new patients + returning/old patients + diagnostic-services patients.
 - Estimate total bills to be generated at a minimum of 1 per patient, more realistically ~1.25 bills per patient.
 - Assume ~3–4 minutes per complete billing transaction. *(This figure is the billing mechanics alone — selecting line items, generating the bill, taking payment. It does not include the guidance/query-handling time §7.2's TAT-definition question raises; once this hospital's actual TAT is established, the ratio check should ideally be re-run against that fuller, TAT-inclusive time rather than the billing-only estimate.)*
-- **Do not assume uniform/linear patient flow across the day** — most hospitals wrongly do. Instead assume peak-loading: ~80% of patients arrive crammed into a 4-hour window, with the remaining 20% spread across the rest of the operating duration.
+- **Do not assume uniform/linear patient flow across the day** — most hospitals wrongly do. Instead assume peak-loading: **~80% of patients arrive inside roughly 4 peak hours, and those 4 hours are split across two shifts rather than falling in one continuous block** — about 40% in a ~2-hour peak during the first shift and about 40% in a ~2-hour peak during the second, with the remaining 20% spread across the rest of the operating duration. Illustratively, for a hospital whose first shift starts at 8 AM and whose second runs 12 PM–8 PM, those peaks might land at 10 AM–12 PM and 3 PM–5 PM. The peaks are **not** necessarily at the start or the end of a shift, and these hours are a starting default, not a finding.
+- **Replace the default with the hospital's own hourly OPD *billing* data, not its registration data.** Registration captures new patients only, and this ratio is against *total* footfall — new, returning and diagnostic-services patients alike. Billing records every one of them, so hourly bill counts are the only defensible basis for this hospital's actual peak shape. Use the 80% / two-peak default only until that data is in hand, and say plainly that it is a default when you do. *(Points 5 and 7 below run their own ratios against this same curve — there is one arrival shape for the OPD day, not one per function.)*
 - Combining shift headcount, hourly patient/bill volume (peak vs. off-peak), and time-per-bill gives the actual hourly time available per staff member — which tells you concretely whether that staff realistically has bandwidth, hour by hour, to do the other work needed to convert diagnostics, or whether they're fully consumed by billing alone, especially during the peak window.
 - *(This is the OPD-specific instance of the universal Peak-Load Staffing & Manpower Cost-Benefit Method in `references/common-elements.md` — see that file for the general method and its two points of application.)*
 
@@ -163,14 +209,14 @@ For every diagnostic service/equipment, establish:
 
 **5. Guest services capacity ratio.**
 Find out whether the hospital has guest services staff who guide patients through the hospital, help with diagnostic bookings, and see the process through to completion.
-- If yes: run the same kind of ratio as point 3 — guest-service staff available per hour vs. total patients for that hour — using a peak-loading assumption of 40% of patients in the first 2 hours of the first shift, 40% in the last 2 hours of the second shift, and the balance spread across the rest of the duration. Assume 5–10 minutes per patient interaction. This tells you exactly how many patients guest services can realistically handle during peak vs. off-peak hours, and where the gap is.
+- If yes: run the same kind of ratio as point 3 — guest-service staff available per hour vs. total patients for that hour — **against the same two-peak arrival curve point 3 establishes** (~40% in each of the two ~2-hour peaks, the balance spread across the rest of the duration), replaced by the hospital's own hourly OPD billing data as soon as that is available. Assume 5–10 minutes per patient interaction. This tells you exactly how many patients guest services can realistically handle during peak vs. off-peak hours, and where the gap is.
 - If no: this becomes a gap to size, not just note. The hospital may need to add this function. Build a sample cost-benefit: monthly cost of new/additional guest-services staff, translated against the diagnostic (and other) revenue that better guided-conversion could realistically capture.
 
 **6. Off-peak discounted diagnostic slots.**
 Check whether the hospital offers discounted rates for off-peak diagnostic slots, and whether they'd be open to introducing this if they don't. The case for it: it improves equipment utilization (fills otherwise-idle off-peak capacity), gives patients with genuine affordability constraints a way to still get tests done in-house rather than walking out, and — because the tests are then done at the hospital's own facility — reports flow directly to the treating doctor through PACS or the hospital's own reporting systems, and doctors are generally more comfortable relying on reports from trusted in-house/known colleagues than from an unknown external facility. This is both a conversion lever and a trust/quality lever, not purely a pricing one.
 
 **7. Housekeeping/transport support for non-ambulatory patients.**
-Check availability of housekeeping and transport staff during peak hours and shifts, specifically to ensure timely mobility of non-ambulatory patients between OPD and diagnostic areas — a mobility bottleneck here can silently cause missed or delayed diagnostic slots regardless of how well scheduling itself is designed. Run the same style of ratio calculation as points 3 and 5, assuming ~5% of patients require ambulatory/mobility support, against available housekeeping/transport headcount per shift.
+Check availability of housekeeping and transport staff during peak hours and shifts, specifically to ensure timely mobility of non-ambulatory patients between OPD and diagnostic areas — a mobility bottleneck here can silently cause missed or delayed diagnostic slots regardless of how well scheduling itself is designed. Run the same style of ratio calculation as points 3 and 5 — **against that same two-peak curve** — assuming ~5% of patients require ambulatory/mobility support, against available housekeeping/transport headcount per shift.
 
 <!--chunk
 id: opd.7.1.2
@@ -207,20 +253,20 @@ Everything above (points 9, 11, 13 especially) assumes a high-volume hospital wh
 <!--chunk
 id: opd.7.2
 title: Dependency verification protocol
-summary: Which data access and which fourteen direct questions verify a hospital actual practice, forcing a primary-cause selection and exposing TAT, scheduling-logic, incentive and blame-culture gaps.
-keys: verification questions, data access, department-wise billing, staff roster HR cost, primary cause, manpower versus process, OP versus IP EBITDA, doctor employment type, secretary cooperation, scheduling logic, bump versus vacant slot, automation maturity, TAT definition, staffing pivot point, blame culture
+summary: Which data access and which fifteen questions verify actual practice, forcing a primary-cause selection and exposing TAT, scheduling-logic, incentive, blame-culture and training-ownership gaps.
+keys: verification questions, data access, department-wise billing, staff roster HR cost, primary cause, manpower versus process, OP versus IP EBITDA, doctor employment type, secretary cooperation, scheduling logic, bump versus vacant slot, automation maturity, TAT definition, staffing pivot point, blame culture, training ownership, who owns training, training evidenced monitored
 needs: none
-see: opd.3, opd.7.1.1, opd.7.1.2, opd.7.3, opd.7.4.1, opd.7.4.3
-tokens: 2060
+see: opd.3, opd.3b, opd.7.1.1, opd.7.1.2, opd.7.3, opd.7.4.1
+tokens: 2330
 -->
 ### 7.2 Dependency verification protocol
 
-**Data/system access required**, to verify how this hospital's actual practice compares against the §3 baseline dependencies and the §7.1 considerations above:
+**Data/system access required**, to verify how this hospital's actual practice compares against the §3 baseline dependencies, the §3b couplings and the §7.1 considerations above:
 - **Entire OPD billing details, by department** — Consultation, Basic Radiology, Radiology, Cardio Diagnostics, Sonology, Dermatology, Pathology, etc. — broken out individually rather than as one aggregate OPD revenue figure, since the weakest-link principle (§7.1 point 8) requires seeing each department's numbers separately, not a blended average that could hide a single underperforming modality.
 - **OPD staff roster and HR costs** — to run the manpower/peak-load ratio checks in §7.1 (points 3, 5, 7, 9, 11, 13) and feed the cost-benefit comparisons those checks require.
 - **Scheduling systems and ownership of the scheduling protocol** — to verify §7.1 points 4 and 12, and §3's scheduling-related dependencies, directly against the actual system rather than a described-but-unverified process.
 
-**Practice-verification questions to put to the hospital directly**, once the data picture above is in hand — these are designed to force a specific, defensible answer rather than let the hospital settle on a vague or comfortable one:
+**Practice-verification questions to put to the hospital directly**, once the data picture above is in hand — these are designed to force a specific, defensible answer rather than let the hospital settle on a vague or comfortable one. Where the query arrived from another function's side, run the matching §3b probe alongside these:
 
 1. **Force a primary-cause selection.** Ask directly: is this a manpower issue, a process issue, a scheduling issue, or a corruption/diversion-related issue? It may genuinely be a combination of all four — but push for which one is the *primary* driver. This selection is what determines where §7.4's solution construction should place its emphasis first, rather than trying to fix all four with equal weight.
 2. **If manpower is selected as primary, push one level deeper.** Is the actual shortfall at the manager level, or at the floor-level-executive level? These point to different fixes — a manager-level gap is a supervision/ownership problem (per §7.1 point 4's process-ownership question), while a floor-level gap is a headcount/ratio problem (per §7.1 points 3, 5, 7, 9, 11).
@@ -236,6 +282,7 @@ tokens: 2060
 12. **Does the hospital even have a TAT defined — and is it realistic?** A TAT calculation has to account for the *entire* transaction, not just the mechanical billing step: selecting line items that may span 5 different tests across 5 different departments, generating the bill, taking payment, **and then actually guiding the patient** — explaining what needs to be done next, how long it will take, and addressing at least one follow-up query — before handing the patient over to Guest Services. At most hospitals, staff completes the bill and payment and simply points the patient toward the next station, treating that as the end of the transaction; a properly defined TAT does not stop there. Where a hospital's TAT is undefined, or is defined but only measures the billing mechanics, this is a gap to name explicitly — and it's the reason §7.1 point 3's 3–4-minutes-per-bill figure is flagged there as billing-mechanics-only, not TAT-inclusive.
 13. **Staffing-pivot-point / revenue-to-staff ratio check.** Does the hospital have a defined way of knowing, for each department or discipline, at what level of daily patients/bills it needs to add staff — i.e. actual revenue-to-staff ratios that identify the pivot point — or do they decide ad hoc, only once wait-time complaints have already gotten bad? The ad hoc version is itself an instance of §7.1 point 11's backwards causality (waiting for the problem to become visible before adding capacity, rather than staffing ahead of it).
 14. **Culture-of-blame check.** Does the hospital have a culture of blaming floor-level executives for all delays and patient dissatisfaction — specifically dissatisfaction rooted in service-level professionalism or delays, not dissatisfaction on medical grounds? This matters directly for §7.1 point 13: a blame culture actively undermines the morale and training investment that point argues is just as important as headcount, and any people-and-buy-in strategy in §7.4 needs to reckon with it if it's present.
+15. **Training ownership — who owns it, and what evidences it.** Ask directly **who owns the training of OPD floor staff: HR, the departmental head, the floor managers, or the COO?** A named owner is the answer; "everyone" and "nobody" are the same answer. Then ask how that ownership is **evidenced, monitored and analysed** — is there a record of what training was delivered to whom, is completion tracked, and is its effect on conversion ever looked at? §7.1 point 13 argues training and morale matter as much as headcount; this is the question that establishes whether anyone in this hospital is accountable for either. *(Stop at owner and evidence at this stage. Who performs the monitoring, at what cadence, and how it feeds appraisals are follow-ups for the solution stage, not the verification stage. Read this alongside point 14: an unowned training process and a blame culture usually travel together, and §3b row J is the coupling they produce.)*
 
 <!--chunk
 id: opd.7.3
@@ -244,7 +291,7 @@ summary: Which five financial figures anchor the case: OPD revenue at doctor gra
 keys: financial parameters, OPD revenue by doctor, HR cost split, guest services cost, housekeeping cost, leakage quantified, unredeemed prescription value, equipment utilization, EBITDA contribution, cost benefit anchor
 needs: none
 see: opd.0, opd.3, opd.7.1.1, opd.7.1.2, opd.7.2, opd.7.4
-tokens: 500
+tokens: 510
 -->
 ### 7.3 Financial parameters to check
 
@@ -308,70 +355,94 @@ summary: Whose cooperation the solution needs, from floor executives and a >200-
 keys: key people, buy-in, floor level executives, scheduling manager threshold, 200 OPD footfall, doctor buy-in, secretary resistance, radiologist override, HR staffing adequacy, IT integration, CEO CFO COO, dashboard transparency
 needs: opd.7.4.1
 see: opd.7.4, opd.7.4.4, opd.7.1.2, opd.7.2, bed.7.4, dis.7.4
-tokens: 560
+tokens: 620
 -->
 #### Key people & buy-in
 
 9. **All floor-level executives** are key to this entire process — they're the ones actually executing the prescription-capture, billing, and follow-up work day to day.
 10. **A Scheduling Manager threshold.** For a hospital with **more than 200 daily OPD patient footfall (excluding accompanying relatives)**, a dedicated Scheduling Manager should be considered — at that volume, enough prescriptions get generated that scheduling becomes a genuinely critical function in its own right, not something that can be left as a side responsibility. *(This is a new-role recommendation — carried into Team/role changes below, since it follows the same threshold-based-recruitment shape already established for Discharge Executive and Bed Manager, though note the metric here is OPD footfall specifically, not occupancy or a per-day-handled figure like the other two roles.)*
-11. **Doctors and their secretaries' buy-in.** Genuinely important, and especially sensitive where there's a possibility that doctors or secretaries have any incentive — financial or otherwise — to send tests to outside agencies instead of keeping them in-house. Ties directly to §3's doctor-compensation-structure dependency and §7.1 points 2 and 12, and to §7.2's doctor-employment-type and cooperativeness questions.
+11. **Doctors and their secretaries' buy-in.** Genuinely important, and especially sensitive where there's a possibility that doctors or secretaries have any incentive — financial or otherwise — to send tests to outside agencies instead of keeping them in-house. Ties directly to §3's doctor-compensation-structure dependency, §3b(A), §7.1 point 14 (intentional diversion) and §7.1 point 4 (doctor authority to override scheduling), and §7.2's doctor-employment-type and cooperativeness questions.
 12. **Buy-in from radiologists, cardiologists, pathologists, sonologists, etc.** — specifically so they understand the (now logic-driven) scheduling process and don't try to influence or override it. Ties directly to §7.1 point 4's question about doctor authority over scheduling.
-13. **HR** — needs to check staffing adequacy, and the effectiveness of the training currently being given (per §7.1 point 13's training-ownership question).
+13. **HR** — needs to check staffing adequacy, and the effectiveness of the training currently being given (per §7.1 point 13 and §7.2 point 15's training-ownership question). Where §7.2 point 15 found that HR is *not* the named owner, this item is where that gets settled — the solution has to name an owner, not assume one.
 14. **IT** — for all the automations and integrations (prescription-reading bot, scheduling bot, patient-facing bot, ERP value extraction).
 15. **Executive Management (CEO, CFO, COO, etc.)** — buy-in specifically to agree to sharing the performance dashboards from process item 4 openly with everyone, so the intrinsic competitive effect described there can actually take hold. Without this level's sign-off, the transparency the whole mechanism depends on doesn't happen.
 
 <!--chunk
 id: opd.7.4.4
 title: Solution construction — team/role changes
-summary: That the only clear new recruitment is a Scheduling Manager above 200 daily OPD footfall, with guest-services headcount sized by ratio check and all other named roles being existing ones.
-keys: team changes, role changes, new recruitment, scheduling manager, cost figure pending, discharge executive, bed manager, guest services headcount, peak load ratio, existing roles, status closeout
+summary: That the only clear new recruitment is a Scheduling Manager above 200 daily OPD footfall, costed in three footfall bands, with guest-services headcount sized by ratio and other roles existing ones.
+keys: team changes, role changes, new recruitment, scheduling manager, footfall trigger, scheduling manager salary, 3 to 3.5 lakhs, 5.5 to 6 lakhs, 7 to 7.5 lakhs, cost scales with footfall, occupancy pivot exception, ambulatory load, guest services headcount, peak load ratio, existing roles
 needs: opd.7.4.1, opd.7.4.3
-see: opd.7.4, opd.7.1.1, bed.7.4, dis.7.4, common.peak-load
-tokens: 300
+see: opd.7.4, opd.7.1.1, common.occupancy-pivot, common.peak-load
+tokens: 720
 -->
 #### Team/role changes
 
-The clear new-recruitment case here is the **Scheduling Manager** from point 10 above: for hospitals crossing **>200 daily OPD footfall (excluding relatives)**, this role becomes justified by the sheer volume of prescriptions requiring active scheduling logic, not left as a secondary duty for existing staff. *(Cost figure not yet given for this role — unlike the ~₹3–3.5 lakhs/year quoted for the Discharge Executive and Bed Manager roles — to be confirmed. Also note: unlike those two roles' occupancy/volume-handled thresholds, this one is anchored to OPD footfall specifically, since scheduling load here scales with prescriptions generated, not beds or discharges.)*
+The clear new-recruitment case here is the **Scheduling Manager** from point 10 above: for hospitals crossing **>200 daily OPD footfall (excluding relatives)**, this role becomes justified by the sheer volume of prescriptions requiring active scheduling logic, not left as a secondary duty for existing staff.
+
+**The cost of this role scales with footfall<!--m--> (approved 2026-09-22)<!--/m-->**, because the scheduling load does — unlike the Discharge Executive, Bed Manager and Materials Manager, whose costs are single figures attached to a single trigger:
+
+| Daily OPD footfall (excluding relatives) | Scheduling Manager cost |
+|---|---|
+| 200–500 | ₹3–3.5 lakhs/year |
+| 500–1,500 | ₹5.5–6 lakhs/year |
+| Above 1,500 | ₹7–7.5 lakhs/year |
+
+Read the band, not the midpoint: a hospital at 520 footfall is at the bottom of the second band and should be quoted accordingly. The bands reflect proficiency, not hours — a manager scheduling 1,500 prescriptions a day is running a genuine queueing system across multiple modalities, which is a different job from coordinating 250, and hiring at the lower band's salary for the upper band's volume is the failure this table exists to prevent. This is the same principle `common.occupancy-pivot` states for the roles the 80% pivot triggers: **salary follows the proficiency the volume demands, not the fact that a threshold was crossed.**
+
+*(Note the trigger itself: unlike the occupancy/volume-handled thresholds on the other roles, this one is anchored to OPD footfall specifically, since scheduling load here scales with prescriptions generated, not beds or discharges.)*
+
+**OPD is the exception to the 80% occupancy pivot** in `common-elements.md`, and the exception is worth stating rather than leaving implicit. That pivot is the universal trigger for a dedicated owner in Bed Management, Discharge and Supply Chain — but this department is ambulatory, so its load scales with footfall, not with how full the wards are. A hospital at 70% occupancy can still be overwhelmed at the OPD counter, and one at 90% can have a quiet diagnostics floor. Occupancy reaches this department only indirectly, through OP-to-IP conversion: above the pivot, a finding that would have become an admission may not. So the footfall trigger above is this department's own, not a substitute for a threshold it failed to inherit.
 
 Beyond that, the guest-services staffing decision from process item 2 may itself require new headcount if the function doesn't currently exist — sized using the same peak-load ratio-check method as §7.1 point 5, per the universal method in `references/common-elements.md`. All other roles listed under Key people & buy-in (floor executives, HR, IT, doctors, diagnostic specialists, executive management) are existing roles being engaged for cooperation and scope, not new recruitment.
 
 <!--chunk
 id: opd.status
 title: Status note (maintainer changelog — not retrievable)
-summary: That the department was signed off as content complete with all eight sections filled and approved; a maintainer changelog carrying no operational content.
-keys: status note, changelog, content complete, sign-off, approval record, maintainer metadata, not for retrieval
+summary: That the department was signed off as content complete, what the 2026-09-16 interdependency pass added, and the four consistency defects closed on 2026-09-22.
+keys: status note, changelog, content complete, sign-off, approval record, maintainer metadata, not for retrieval, interdependency map, peak curve ruling, training ownership question, scheduling manager bands
 needs: none
 see: none
-tokens: 60
+tokens: 770
 retrieve: never
 -->
 ---
 
-**Status: OPD-to-Diagnostics Conversion (Diagnostic Leakage) content complete.** §1–8 all filled and approved (§8 approved by Avishek 2026-09-02 without changes to Claude's draft). This department is fully closed out.
+**Status: OPD-to-Diagnostics Conversion (Diagnostic Leakage) content complete.** §1–8 all filled and approved (§8 approved by Avishek 2026-09-02 without changes to Claude's draft).
+
+**On 2026-09-16, §3b was added** — the cross-function interdependency map, applied as a template change across all four department files alongside its introduction in `supply-chain-procurement.md`. Eleven couplings, each stated as a mechanism with the failure that propagates along it and a root-cause probe. Row G is the reciprocal of Supply Chain's §3b(H) and row I of Bed Management's §3b(F). Two couplings this file had not previously named: **G**, that OPD prescription-to-pharmacy leakage runs on the same mechanism as prescription-to-diagnostics leakage at the same moment for the same patient — the largest single addition, since it means a hospital fixing one while ignoring the other is fixing half a mechanism; and **H**, equipment downtime converting directly into leakage with no record linking the two. §3, §6, §7.2 and §7.4.3 gained pointers to it. §8 gained a note recording the four couplings no KPI currently measures.
+
+**On 2026-09-22, four internal-consistency defects were closed** (raised by Claude, ruled on by Avishek):
+1. **The peak-load curve conflict.** §7.1 point 3 assumed 80% of arrivals in one 4-hour window; point 5 assumed 40% + 40% in two 2-hour windows; point 7 said "same as points 3 and 5" without choosing. Ruled: **these are the same curve.** The 4 peak hours are split across two shifts rather than falling in one block — ~40% in a ~2-hour peak per shift — and the peaks need not sit at a shift's start or end. Points 3, 5 and 7 now all run against that one curve. Point 3 also gained the instruction to replace the default with the hospital's own hourly **OPD billing** data — explicitly *not* registration data, which captures new patients only while this ratio is against total footfall.
+2. **KPI #17 cited a question that did not exist** (§7.2 point 8, which is automation history). Ruled: repoint to §7.2 point 14, **and** add the missing question. §7.2 point 15 is new — who owns floor-staff training (HR, departmental head, floor managers or COO) and how that ownership is evidenced, monitored and analysed, deliberately stopping short of who performs the monitoring. §3b row J and §7.4.3 item 13 now cite it.
+3. **The Scheduling Manager was the last unpriced role.** Ruled: its cost **scales with footfall** — ₹3–3.5L (200–500), ₹5.5–6L (500–1,500), ₹7–7.5L (above 1,500) — making it the only banded role in the library. The banding follows the same proficiency principle as `common.occupancy-pivot`.
+4. **Two stale cross-references** corrected: §7.4.3 item 11 repointed from §7.1 points 2 and 12 to points 14 and 4; §7.1 point 2 stopped numbering §3's unnumbered rows and names them instead.
+
+Token counts were recomputed across every chunk in this pass; several were stale from earlier edits. `opd.7.1.1` (2,300), `opd.7.2` (2,330) and `opd.3b` (2,090) now sit above the 2,000 target and are candidates for a split — see the README's open items.
 
 <!--chunk
 id: opd.8
 title: KPIs
-summary: Which eighteen metrics track the department across four groups: leakage and conversion, scheduling and capacity, staffing/TAT/service, and staffing decisions and adoption.
-keys: KPIs, redemption rate, new versus returning, revenue leakage, same-visit conversion, walk-in accommodation, STAT slot compliance, equipment utilization, off-peak uptake, report turnaround, staff ratio, TAT compliance, guest services coverage, patient satisfaction, scheduling manager threshold, revenue to staff ratio, training effectiveness, information share adherence
+summary: Twenty-two metrics across five groups: leakage and conversion, scheduling and capacity, staffing and service, staffing decisions, and the four cross-function couplings.
+keys: KPIs, redemption rate, revenue leakage, same-visit conversion, walk-in accommodation, STAT slot compliance, equipment utilization, report turnaround, TAT compliance, guest services coverage, scheduling manager threshold, training effectiveness, pharmacy fill rate, equipment downtime, reagent-blocked tests, admission data handoff
 needs: none
-see: opd.0, opd.7.1.1, opd.7.1.2, opd.7.2, opd.7.3, opd.7.4.1
-tokens: 1150
+see: opd.0, opd.3b, opd.7.1.1, opd.7.2, opd.7.3, opd.7.4.1
+tokens: 1600
 -->
 ## 8. KPIs<!--m--> (approved 2026-09-02)<!--/m-->
 
 ### Core leakage & conversion
 1. **Prescription redemption rate** — % of prescribed tests actually completed at this hospital's own facility, tracked separately for new vs. returning patients (per the case study's own 10%/20% split — the two populations behave differently and should never be blended into one number).
 2. **Revenue leakage, in ₹/day and as % of OPD EBITDA** — the direct financial expression of (1), tying straight back to §7.3 points 3 and 5.
-3. **Redemption rate by department/modality** (Radiology, Lab, Cardiology diagnostics, Endoscopy, etc.) and **by specialty and by doctor** — per §7.1 point 8's weakest-link principle, a single blended hospital-wide rate can hide where the actual problem concentrates.
+3. **Redemption rate by department/modality** (Radiology, Lab, Cardiology diagnostics, Endoscopy, etc.) and **by specialty and by doctor** — per §7.1 point 8's weakest-link principle, a single blended hospital-wide rate can hide where the actual problem concentrates. Also the only view in which §3b(A)'s secretary-gatekeeper effect is visible at all.
 4. **Same-visit conversion rate** — % of prescriptions redeemed on the same day as the OPD consultation, vs. redeemed later, vs. not redeemed at all — distinguishes a scheduling/capacity problem (same-visit conversion low, eventual redemption acceptable) from a genuine leakage problem (redeemed elsewhere or not at all).
 
 ### Scheduling & capacity
 5. **Walk-in/same-day accommodation rate** — % of freshly-prescribed tests successfully slotted in without the patient being turned away or told to come back another day.
 6. **STAT-slot mechanism compliance** — % of STAT/emergency needs handled via the correct vacant-slot-release mechanism (§7.1 point 12 / §7.4 process item 3) vs. the more disruptive bump/push-down variant (§7.2 point 7) vs. fully ad hoc handling — a direct read on scheduling-process maturity.
-7. **Equipment utilization %, by modality and by individual unit** (not aggregated across multiple MRI/CT/Mammography units — per §3's multi-unit dependency) — both overall and split by peak vs. off-peak windows.
+7. **Equipment utilization %, by modality and by individual unit** (not aggregated across multiple MRI/CT/Mammography units — per §3's multi-unit dependency and §3b(B)) — both overall and split by peak vs. off-peak windows.
 8. **Off-peak slot utilization %** specifically, and uptake rate of any off-peak discounted pricing (§7.1 point 6) — measures whether the off-peak lever is actually being used, not just offered.
-9. **Report turnaround time** — from test completion to report delivered to the prescribing doctor, since a slow report loop discourages doctors from trusting/using in-house diagnostics for future prescriptions (§7.1 point 6's trust argument).
+9. **Report turnaround time** — from test completion to report delivered to the prescribing doctor, since a slow report loop discourages doctors from trusting/using in-house diagnostics for future prescriptions (§7.1 point 6's trust argument, and §3b(C)'s delayed-effect mechanism).
 
 ### Staffing, TAT & service
 10. **OPD floor-staff patient/bill ratio, peak vs. off-peak** — actual hourly bandwidth per staff member against the §7.1 point 3 method, tracked over time rather than calculated once — this is the ongoing operating version of that one-time diagnostic ratio check.
@@ -383,5 +454,15 @@ tokens: 1150
 ### Staffing decisions & adoption
 15. **Scheduling Manager threshold tracking** — daily OPD footfall (excluding relatives) tracked against the >200/day trigger in §7.4, as an operational trigger metric in its own right, the same way Discharge Executive and Bed Manager thresholds are tracked in their departments.
 16. **Revenue-to-staff ratio, by department/discipline** — the hospital's own defined staffing pivot-points (§7.2 point 13), tracked over time to confirm staffing decisions are being made ahead of demand rather than reactively.
-17. **Training completion & effectiveness** — % of floor staff who've completed defined training (§7.1 point 13 / §7.2 point 8's training-ownership question), and a proxy effectiveness measure such as conversion-rate difference between trained and newly-onboarded-but-not-yet-trained staff.
+17. **Training completion & effectiveness** — % of floor staff who've completed defined training (§7.1 point 13, §7.2 point 14's blame-culture check and §7.2 point 15's training-ownership question — this KPI is the evidence point 15 asks whether the hospital keeps), and a proxy effectiveness measure such as conversion-rate difference between trained and newly-onboarded-but-not-yet-trained staff.
 18. **Best-performer information-share cadence adherence** — % of days the daily performance-sharing process (§7.4 process item 4) actually ran, as a simple process-discipline check on whether this mechanism is being kept up or has quietly lapsed.
+
+### Cross-function interdependency
+*Each measures a §3b coupling that no KPI above reaches. A named coupling with nothing measuring it is a gap in the library, not in the hospital.*
+
+19. **OPD prescription-to-pharmacy fill rate**, reported on the same page as #1's diagnostic redemption rate (§3b(G)). The most consequential of these four: the same patient, at the same moment, decides both, and the mechanism is identical. Reporting them separately — in different departments, to different owners — is precisely what lets a hospital fix half a mechanism and wonder why the number barely moved. Track them together or the pairing is lost.
+20. **Equipment downtime by unit, set against redemption in the same period** (§3b(H)). Downtime converts directly into leakage for its duration; nothing currently links the maintenance log to the conversion rate, so a bad month reads as a demand problem.
+21. **Tests deferred or not run for want of a reagent or consumable**, recorded under that cause rather than as a patient no-show (§3b(G)). The recording is the metric: a hospital that codes these as no-shows has made a Supply Chain failure permanently invisible.
+22. **% of OPD-originated planned admissions reaching Bed Management more than 24 hours ahead** (§3b(I)). `bed-management.md` KPI #13 measures the receiving end of this handoff; nothing measured the sending end, so a shortfall was always attributable to the wrong department.
+
+<!--m-->*(#1–18 approved 2026-09-02; #19–22 follow from the §3b pass and were approved 2026-09-17.)*<!--/m-->

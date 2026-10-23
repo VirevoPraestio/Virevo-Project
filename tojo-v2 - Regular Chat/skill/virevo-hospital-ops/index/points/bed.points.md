@@ -46,6 +46,35 @@
 | bed.3#d13 | Nursing workload distribution (Medium) | bed.3 | nurse workload, ward staffing, nurses overloaded |
 | bed.3#d14 | Patient experience/satisfaction (Medium-High) | bed.3 | patient complaints, satisfaction scores, feedback |
 
+## bed.3b
+
+| point | what it is | chunk | also called |
+|---|---|---|---|
+| bed.3b#c1 | Bed Management's exposure is its own numbers being unbelievable | bed.3b | the board says one thing, the wards say another |
+| bed.3b#d1 | (A) Discharge — the double control on each other's timestamps | bed.3b | cross-checking discharge timings, neither number is the finding |
+| bed.3b#d2 | (B) Housekeeping — the ready-confirmation, not the cleaning speed | bed.3b | bed clean but not released, waiting for confirmation |
+| bed.3b#d3 | (C) OT Scheduling — post-op reservation pulling both ways | bed.3b | holding beds for surgery, reserved beds sitting empty |
+| bed.3b#d4 | (D) ICU — step-down gated by a rounds schedule, not a queue | bed.3b | ICU frees up only after rounds, no step-down queue |
+| bed.3b#d5 | (E) Emergency — an untested reserve forces an unrecognised choice | bed.3b | how many beds to keep for emergencies, boarding or bumping |
+| bed.3b#d6 | (F) OPD — the prescription is the planned-admission intake point | bed.3b | admissions arriving as surprises, no forecast input |
+| bed.3b#d7 | (G) Billing — the bill-close/bill-open join makes dead bed time measurable | bed.3b | nobody reports the idle hours, hidden loss |
+| bed.3b#d8 | (H) Nursing — allocation ignoring ward nurse-to-patient ratio | bed.3b | wards refusing beds, dumping into an overloaded ward |
+| bed.3b#d9 | (I) Supply Chain — the ward consumable kit as a condition on usability | bed.3b | bed ready but no stock, marked ready then wasn't |
+| bed.3b#d10 | (J) IT/HIS — status as a captured event vs. an entry someone makes | bed.3b | board drifts within hours, phantom vacancy |
+| bed.3b#d11 | (K) Finance — midnight-census occupancy hiding intraday loss | bed.3b | occupancy looks fine but revenue per bed doesn't |
+| bed.3b#q1 | (A) reconcile one day's discharges bed by bed, not in aggregate | bed.3b | check them one by one, averages hide it |
+| bed.3b#q2 | (B) time from cleaning complete to allocatable, and who confirms | bed.3b | who releases the bed in the system |
+| bed.3b#q3 | (C) when a post-op bed is reserved, and how many went unused | bed.3b | reservation timing, wasted holds |
+| bed.3b#q4 | (D) when ICU rounds happen, and is there a step-down queue at all | bed.3b | rounds timing, how step-down is decided |
+| bed.3b#q5 | (E) how the reserve number was arrived at, and how often it failed | bed.3b | where did that number come from, was it ever tested |
+| bed.3b#q6 | (F) share of planned admissions known over 24 hours ahead, and from where | bed.3b | how much notice we get, where the data comes from |
+| bed.3b#q7 | (G) bill-close and next bill-open on the same bed, and has anyone looked | bed.3b | the gap nobody has measured |
+| bed.3b#q8 | (H) does allocation consider ward nursing ratio, and how often wards push back | bed.3b | do we check the ward's load, refusals recorded |
+| bed.3b#q9 | (I) has a bed been marked ready then found unusable, and how recorded | bed.3b | ready then not ready, how it was logged |
+| bed.3b#q10 | (J) is a status change a system event or typed in, and when last audited | bed.3b | who updates the board, physical walk-round check |
+| bed.3b#q11 | (K) when occupancy is measured, and compared against billable bed-hours | bed.3b | census timing, occupancy versus earning |
+| bed.3b#c2 | treat the contradiction as the symptom and find the coupling behind it | bed.3b | two numbers that don't agree, where to start |
+
 ## bed.4
 
 | point | what it is | chunk | also called |
@@ -234,10 +263,12 @@
 | bed.8#k13 | % of planned admissions with OPD-prescription-captured intake data available | bed.8 | is the OPD data coming through, intake capture |
 | bed.8#k14 | Admissions-desk-to-Bed-Management console sync accuracy | bed.8 | does the desk booking show up in the console, live link working |
 | bed.8#k15 | Daily/aggregate revenue attributable to bed-management efficiency | bed.8 | revenue from better bed handling, what it earned us |
-| bed.8#k16 | Bed Manager threshold tracking — occupancy % and admissions/day against the trigger | bed.8 | are we past the bed manager trigger, when do we hire |
+| bed.8#k16 | Bed Manager threshold — demand-vs-supply pivot, 80% occupancy pivot, TAT-overrun rate | bed.8 | are we past the bed manager trigger, when do we hire |
 | bed.8#k17 | housekeeping/transport staff available per shift per bed, for admissions and discharges | bed.8 | cleaning and porter staffing per shift, staff per bed |
 | bed.8#k18 | nursing workload distribution relative to occupancy/turnover volume | bed.8 | nurse workload versus occupancy, ward staffing balance |
-| bed.8#c1 | #16 is now wrong — it must track §7.4.4's three current Bed Manager conditions | bed.8 | the hiring trigger changed, KPI is out of date |
-| bed.8#c2 | Admission TAT needs KPIs — the headline against 30 minutes, plus five stage timings | bed.8 | no KPI for admission time, stage-wise tracking missing |
-| bed.8#c3 | dead bed time needs a KPI, bill to bill, with its three stretches separable | bed.8 | nobody tracks the idle bed hours, needs its own number |
-| bed.8#c4 | the bed-management/admissions team ratio needs a KPI, peak vs off-peak | bed.8 | no KPI for desk workload, admissions plus transfers per person |
+| bed.8#k19 | Admission TAT headline against the 30-minute target, plus five stage timings | bed.8 | how long an admission takes, stage-wise breakup |
+| bed.8#k20 | dead bed time bill-to-bill, three stretches separable, with % admitted by noon | bed.8 | idle bed hours, when the bed stops and starts earning |
+| bed.8#k21 | admissions plus internal transfers per team member per hour, peak vs off-peak | bed.8 | desk workload, how many one person handles |
+| bed.8#k22 | housekeeping ready-confirmation gap, separate from cleaning time | bed.8 | release delay not cleaning delay, bed clean but not allocatable |
+| bed.8#k23 | post-op bed reservations held but unused — count and bed-hours | bed.8 | cost of reserving early, wasted holds |
+| bed.8#k24 | % of allocations checked against ward nursing ratio, and push-backs with reason | bed.8 | do we check the ward's load before allocating |
