@@ -1,0 +1,202 @@
+/* ============================================================
+   THE CREDIT COUNTER
+   ------------------------------------------------------------
+   One component, three sizes, worn by four pages that do NOT
+   share a stylesheet — chat and automation load chat.css, while
+   discharge and bed-management load discharge.css. So this file
+   is loaded by all four and carries its own colour tokens rather
+   than reaching for either sheet's variables: a counter that
+   borrowed --d-gold would be a different colour on the two pages
+   that do not define it, and the same pill has to read as the
+   same object wherever it sits.
+
+   Colours are sampled from the reference: #1e1c12 field,
+   #d1ab5d gold. The Upgrade control inverts — gold field, dark
+   label — so it reads as the one thing here you press.
+
+   Only Discharge and Bed Management wear these — Chat and
+   Automation already have .top-cr in their own top bar, styled by
+   chat.css, and a second pill there would be a second balance to
+   keep in step. This file is loaded by those two pages only.
+
+   TWO SIZES, ONE MARKUP. The size is a class on the root and
+   nothing inside has to change:
+
+     .cr        the base, which neither page uses on its own.
+     .cr-sm     the chat panel header on discharge and bed
+                management, beside the expand control. That
+                header is a fixed 44px band already holding an
+                avatar, two lines of type and a button, so the
+                pill has to come down to fit rather than make
+                the band taller.
+     .cr-xs     the phone top bar, before Tour. Half the full
+                size, and the Upgrade label drops to its icon —
+                at that width the word would either wrap or push
+                Tour off the edge.
+   ============================================================ */
+.cr{
+  --cr-field:#1e1c12;
+  --cr-gold:#d1ab5d;
+  --cr-edge:rgba(209,171,93,.26);
+
+  display:inline-flex;align-items:center;gap:10px;
+  padding:5px 5px 5px 14px;
+  border:1px solid var(--cr-edge);
+  border-radius:999px;
+  background:var(--cr-field);
+  /* tabular figures: the balance changes as you send, and proportional
+     digits make the pill twitch wider and narrower as it counts down */
+  font-variant-numeric:tabular-nums;
+  line-height:1;
+  white-space:nowrap;
+  max-width:100%;
+}
+/* Hidden until the balance is known. Without this the pill paints empty for
+   a frame on every page load, which on the phone bar shunts Tour sideways
+   and back. [hidden] alone cannot do it: the display above would win. */
+.cr[hidden]{display:none;}
+
+.cr-ic{
+  flex:0 0 auto;width:15px;height:15px;
+  fill:var(--cr-gold);
+}
+.cr-n{
+  color:var(--cr-gold);
+  font-size:15px;font-weight:600;letter-spacing:.01em;
+}
+.cr-u{
+  flex:0 0 auto;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:8px 16px;
+  border:0;border-radius:999px;
+  background:var(--cr-gold);color:var(--cr-field);
+  font:inherit;font-size:14px;font-weight:700;line-height:1;
+  text-decoration:none;cursor:pointer;
+  transition:filter .18s ease;
+}
+.cr-u:hover,
+.cr-u:focus-visible{filter:brightness(1.08);}
+.cr-u:focus-visible{outline:2px solid var(--cr-gold);outline-offset:2px;}
+/* the icon only ever shows at .cr-xs, where the word goes */
+.cr-u-ic{display:none;width:14px;height:14px;fill:currentColor;}
+
+/* ---- small: the chat panel header ---- */
+/* MUCH reduced, and the reduction is not vanity. That panel is 396px wide
+   and the header already carries an avatar, a name, a two-line subtitle and
+   the expand control. A pill with the word "credits" in it took 194px of
+   that and squeezed the subtitle into a four-line column.
+
+   So at this size the pill is the figure and nothing else: the word goes,
+   and Upgrade becomes its chevron. About 95px, which the row can give. */
+.cr.cr-sm{gap:6px;padding:2px 2px 2px 8px;}
+.cr-sm .cr-ic{width:11px;height:11px;}
+.cr-sm .cr-n{font-size:11.5px;font-weight:700;letter-spacing:.02em;}
+.cr-sm .cr-n-w{display:none;}
+.cr-sm .cr-u{padding:0;width:22px;height:22px;gap:0;}
+.cr-sm .cr-u-ic{display:block;}
+.cr-sm .cr-u-t{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;
+}
+
+/* ---- extra small: the phone top bar ---- */
+/* Half the full size, and the label becomes the icon. A chevron rather than
+   a word: at 10px the word "Upgrade" is either unreadable or wider than the
+   thing it sits next to. */
+.cr.cr-xs{gap:6px;padding:2px 2px 2px 8px;}
+.cr-xs .cr-ic{width:10px;height:10px;}
+.cr-xs .cr-n{font-size:11px;font-weight:700;}
+.cr-xs .cr-u{padding:0;width:22px;height:22px;gap:0;}
+.cr-xs .cr-u-t{
+  /* gone from the picture but not from the page: a screen reader still has
+     to be told what the button does, so the word is hidden rather than
+     removed */
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;
+}
+.cr-xs .cr-u-ic{display:block;}
+
+/* ============================================================
+   WHERE EACH ONE SITS
+   ============================================================ */
+
+/* ---- discharge + bed management: the chat panel header ---- */
+/* The header is a grid of avatar · name · control. The pill is an extra
+   item before the expand button; margin-left:auto pushes the pair right
+   whatever the name beside them is. */
+.ct-head .cr{margin-left:auto;align-self:center;}
+.ct-head .cr + .ct-exp{margin-left:8px;}
+/* The name block gives up the width, not the pill — without this the flex
+   item refuses to go below its longest word and the pill is pushed out of
+   the panel instead. */
+.ct-head .ct-id{min-width:0;}
+/* The subtitle's tail goes while the pill is there. "Discharge Process ·
+   this conversation stays with this tool" is a sentence written for a row
+   with nothing else in it; beside the counter it wraps to four lines and
+   makes the header twice as tall. The part that says WHICH tool stays. */
+.ct-head .cr ~ .ct-id .ct-sub-1,
+.ct-head .ct-id:has(~ .cr) .ct-sub-1{display:none;}
+/* Below 760px that header is not the one in use — the phone wears the
+   counter in the top bar instead, and two of them would be two balances to
+   keep in step. */
+@media (max-width:760px){
+  .ct-head .cr{display:none;}
+}
+
+/* ---- discharge + bed management: the phone top bar ---- */
+/* Two bars, not one. Discharge shows .dis-top.v1 on its landing and
+   .dis-top.bar-2 once you are inside a section, so the counter is mounted
+   to both — one that followed whichever happened to be up at load would
+   vanish the moment you moved.
+
+   Only bar-2 needs the wrapper. That bar lays itself out by named grid
+   areas and Tour owns the one on the right, so the pill takes that cell and
+   brings Tour with it rather than the area map having to grow a column it
+   only wants on a phone. The v1 bar is a plain row, where the pill is just
+   another item before Tour and a wrapper would only add a box to reason
+   about. */
+.dis-top.bar-2 .cr-wrap{
+  grid-area:tour;
+  display:flex;align-items:center;gap:8px;
+  justify-self:end;
+  min-width:0;
+}
+.dis-top .cr{min-width:0;}
+.dis-top .cr-n{overflow:hidden;text-overflow:ellipsis;}
+/* On a wide window neither bar carries it — the chat panel header does, and
+   two counters on one screen are two balances to keep in step. Both bars,
+   because the landing is .v1 and a rule written only for .bar-2 left the
+   landing wearing one at every width. */
+@media (min-width:761px){
+  .dis-top .cr{display:none;}
+}
+/* THE BAR'S SECOND LINE GIVES UP ITS PREFIX, NOT ITS POINT.
+   With the counter and Tour both in the right-hand cell, the middle column
+   loses about half its width and "Bed Management · Home" stacked to three
+   lines, which made the bar taller than the thing it labels.
+
+   What goes is the prefix — the tool's own name — because the wordmark is
+   already beside it and the title underneath says it again in 40px letters.
+   What stays is the part that is NOT repeated anywhere: which section you
+   are actually in. The clamp below is the backstop for a section name long
+   enough to wrap on its own. */
+/* !important, and not as a habit: discharge.css declares
+   .n-only{display:inline !important} inside its own phone block, so no
+   amount of specificity here reaches it. Matching the flag is the only way
+   to turn one of those spans off, and this turns off exactly one. */
+.dis-top:has(.cr) .bar-w .n-only:not(#barW){display:none !important;}
+.dis-top:has(.cr) .bar-w{
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+/* The narrowest phones cannot hold the balance, Tour and the home button on
+   one line. The word "credits" goes first, then the figure itself, rather
+   than letting the row wrap or push Tour off the screen. */
+@media (max-width:400px){
+  .dis-top.bar-2 .cr-wrap{gap:6px;}
+  .dis-top .cr-n-w{display:none;}
+}
+@media (max-width:330px){
+  .dis-top .cr-n{display:none;}
+  .dis-top .cr{padding:2px;}
+}

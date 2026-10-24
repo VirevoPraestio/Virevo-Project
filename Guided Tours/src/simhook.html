@@ -1,0 +1,5 @@
+<style>html.tour-lock body *{pointer-events:none!important}html.tour-lock .tour-live,html.tour-lock .tour-live *{pointer-events:auto!important}</style>
+<script>
+/* Tour hook: the way back to Tojo is handed to the tour instead of leaving the page. */
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href="/chat"]');if(!a)return;e.preventDefault();e.stopImmediatePropagation();try{parent.__tojoSim('/chat')}catch(x){}},true);
+</script>

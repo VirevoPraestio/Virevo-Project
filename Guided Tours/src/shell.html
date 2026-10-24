@@ -1,0 +1,213 @@
+<title>Tojo Guided Tours</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@700&family=Poppins:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a 1440x900 replica of the Tojo app, scaled to fit, under a spotlight. The tour card is a tilted 3D panel beside the lit area (docked under the stage on phones). Each tour has its own card and highlight colours; the design language stays the same. One committed dark look, as the app ships. */
+:root{
+  color-scheme:dark;
+  --forest:#10241a; --forest-2:#183528; --cream:#F3F1EA; --cream-dim:#C3CBBF; --gold:#d4a94f; --gold-deep:#b98d33;
+  --page:#070a08; --ink-on-gold:#1d1606;
+  --f-display:'Bebas Neue','Oswald','Arial Narrow',sans-serif;
+  --f-body:'Poppins','Segoe UI',system-ui,sans-serif;
+  --f-hand:'Caveat','Segoe Print',cursive;
+  /* tour theme: set per tour from script (Tour 1 = indigo, pink, sun) */
+  --c1:#3D52C9; --c2:#1E2A7A; --hl:#FF4FA3; --hl-soft:#FFB3D9; --key:#FFD86B; --key-ink:#1E2A7A;
+  --a-bg:#0a0d0b; --a-side:#0d110e; --a-panel:#131815; --a-card:#151b17; --a-card-2:#1b231e; --a-line:#222b25;
+  --a-fg:#EDEFEA; --a-muted:#8E978F; --a-dim:#5b645d; --a-green:#2b8a4f; --a-green-2:#1f6e3d; --a-mint:#4cc47a;
+  --a-gold-bg:#1a170e; --a-gold-line:#4b3e1c; --a-gold:#e2b448; --a-blue:#1d2b45; --a-blue-fg:#8fb2ec;
+}
+html,body{background:var(--page);color:var(--cream)}
+body{font-family:var(--f-body);margin:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 28px}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0}
+:focus-visible{outline:3px solid var(--key);outline-offset:2px}
+
+.bar{max-width:1440px;margin:0 auto;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding-block:16px 12px}
+.brand{font-family:var(--f-display);font-size:34px;line-height:1;color:var(--gold);letter-spacing:.02em}
+.bar h1{margin:0;font-family:var(--f-display);font-weight:400;font-size:26px;letter-spacing:.03em;line-height:1}
+.bar .sub{font-size:13px;color:var(--cream-dim);flex:1 1 240px;min-width:0}
+.ghost{border:1px solid #2c4335;border-radius:999px;padding:6px 14px;font-size:13px;color:var(--cream)}
+.ghost:hover{border-color:var(--gold)}
+
+/* ---------- picker ---------- */
+#picker{max-width:1100px;margin:8px auto 0;background:radial-gradient(1200px 500px at 85% -10%,#1d3a2a 0,transparent 60%),var(--forest);border-radius:14px;padding:clamp(22px,4vw,48px)}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600}
+#picker h2{font-family:var(--f-display);font-weight:400;font-size:clamp(44px,7vw,84px);line-height:.92;margin:10px 0 12px;letter-spacing:.01em;text-wrap:balance}
+#picker h2 em{font-style:normal;color:var(--gold)}
+#picker .lede{max-width:60ch;color:var(--cream-dim);font-size:15px;line-height:1.6;margin:0}
+.pk-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:26px 0 30px}
+.btn-gold{background:var(--gold);color:var(--ink-on-gold);font-weight:600;border-radius:999px;padding:12px 22px;font-size:15px;box-shadow:0 6px 0 -2px var(--gold-deep)}
+.btn-gold:hover{filter:brightness(1.06)}
+.btn-line{border:1.5px solid var(--cream-dim);border-radius:999px;padding:11px 20px;font-size:15px;font-weight:500}
+.btn-line:hover{border-color:var(--gold);color:var(--gold)}
+.resume{font-size:13px;color:var(--gold);text-decoration:underline;text-underline-offset:3px}
+.tours{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;list-style:none;margin:0;padding:0}
+.tour{width:100%;background:var(--forest-2);border:1px solid #2a4a38;border-radius:10px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:8px;text-align:left;min-height:178px;position:relative;overflow:hidden}
+.tour::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:linear-gradient(90deg,var(--t1),var(--t2))}
+.tour .n{font-family:var(--f-display);font-size:40px;line-height:.8;color:var(--th);margin-top:6px}
+.tour h3{margin:0;font-size:16px;font-weight:600}
+.tour p{margin:0;font-size:13px;line-height:1.5;color:var(--cream-dim);flex:1}
+.tour .meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--cream-dim);gap:8px}
+.tour.ready{cursor:pointer;background:linear-gradient(150deg,var(--t1),var(--t2));border-color:transparent;box-shadow:inset 0 2px 0 rgba(255,255,255,.3),inset 0 -5px 0 rgba(0,0,0,.25),10px 16px 30px rgba(0,0,0,.45);transform:perspective(900px) rotateY(-5deg) rotateX(4deg);transition:transform .35s}
+.tour.ready::before{display:none}
+.tour.ready p,.tour.ready .meta{color:rgba(255,255,255,.82)}
+.tour.ready:hover{transform:perspective(900px) rotateY(0) rotateX(0) translateY(-3px)}
+.tour .tag{font-size:11px;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:3px 9px;border:1px solid #3a5a48;white-space:nowrap}
+.tour.ready .tag{background:var(--tk);color:var(--tki);border-color:var(--tk);font-weight:700}
+.pk-foot{display:flex;gap:18px;margin-top:22px;font-size:13px;color:var(--cream-dim);flex-wrap:wrap}
+.pk-foot button{text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- stage ---------- */
+#tourArea{max-width:1440px;margin:0 auto;position:relative}
+#stageBox{position:relative;width:100%;overflow:hidden;border-radius:10px;background:var(--a-bg);box-shadow:0 0 0 1px #1b241e}
+#stage{position:absolute;left:0;top:0;width:1440px;height:900px;transform-origin:0 0}
+#suiteFrame{position:absolute;left:0;top:0;width:1440px;height:900px;border:0;z-index:4;background:#e8eef3}
+#simFrame{position:absolute;left:0;top:0;width:1440px;height:900px;border:0;z-index:4;background:#eef1f4}
+#toolFrame{position:absolute;left:0;top:0;width:1440px;height:900px;border:0;z-index:4;background:#efede6}
+#ov{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:5}
+#toast{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);background:var(--cream);color:var(--forest);font-size:13px;font-weight:500;padding:9px 16px;border-radius:999px;z-index:8;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+#toast.on{opacity:1}
+.under{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--cream-dim);padding-top:10px}
+.under button{text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- the tilted 3D card (from "Same Question, Two Answers") ---------- */
+#card{position:absolute;z-index:6;width:340px;color:#fff;border-radius:10px;padding:20px 22px 18px;
+  background:linear-gradient(150deg,var(--c1),var(--c2));
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.35),inset 0 -6px 0 rgba(0,0,0,.25),18px 28px 46px rgba(0,0,0,.55);
+  transform:perspective(1000px) rotateX(5deg);
+  transition:left .5s cubic-bezier(.65,.02,.25,1),top .5s cubic-bezier(.65,.02,.25,1),transform .5s cubic-bezier(.65,.02,.25,1),background .4s}
+#card.r{transform:perspective(1000px) rotateY(-9deg) rotateX(5deg)}
+#card.l{transform:perspective(1000px) rotateY(9deg) rotateX(5deg);box-shadow:inset 0 2px 0 rgba(255,255,255,.35),inset 0 -6px 0 rgba(0,0,0,.25),-18px 28px 46px rgba(0,0,0,.55)}
+#card .eh{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--hl-soft);font-weight:600;display:flex;justify-content:space-between;gap:8px}
+#card h2{font-family:var(--f-display);font-weight:400;font-size:36px;line-height:.95;margin:8px 0 10px;letter-spacing:.01em;text-wrap:balance}
+#card .body p{margin:0 0 8px;font-size:13.5px;line-height:1.55;color:rgba(255,255,255,.9)}
+#card .body b{color:var(--key);font-weight:600}
+#card .note{font-family:var(--f-hand);font-size:24px;color:var(--key);line-height:1.15;margin:4px 0 8px}
+#card .later{font-size:12px;color:var(--hl-soft);font-style:italic;margin:2px 0 10px}
+.dots{display:flex;gap:5px;margin:2px 0 12px}
+.dots i{width:18px;height:4px;border-radius:2px;background:rgba(255,255,255,.2)}
+.dots i.on{background:var(--key)}
+.dots i.seen{background:var(--hl-soft);opacity:.7}
+.try{border:1.5px dashed var(--hl-soft);border-radius:8px;padding:9px 12px;font-size:13px;display:flex;gap:10px;align-items:flex-start;margin:6px 0 12px;line-height:1.45;background:rgba(0,0,0,.14)}
+.try .k{flex:none;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;background:var(--hl);color:#fff;border-radius:999px;padding:3px 9px;margin-top:1px}
+.try.done{border-style:solid;border-color:var(--key)}
+.try.done .k{background:var(--key);color:var(--key-ink)}
+.try .res{display:block;color:rgba(255,255,255,.75);margin-top:4px}
+.cfoot{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.cfoot .sp{flex:1}
+.cfoot .lnk{font-size:13px;color:rgba(255,255,255,.75);text-decoration:underline;text-underline-offset:3px}
+.cfoot .lnk:hover{color:#fff}
+.go{background:var(--key);color:var(--key-ink);font-weight:700;border-radius:999px;padding:9px 18px;font-size:14px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.18)}
+.go:disabled{opacity:.35;cursor:not-allowed}
+.go2{border:1.5px solid rgba(255,255,255,.6);border-radius:999px;padding:8px 14px;font-size:14px}
+/* card controls: move, shrink, auto-place */
+#card .ctl{display:flex;align-items:center;gap:8px;margin:-6px -6px 6px;font-size:11.5px}
+#card .ctl .sp{flex:1}
+#card .ctl button{border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:2px 9px;color:rgba(255,255,255,.85);font-size:11.5px;line-height:1.5}
+#card .ctl button:hover{border-color:var(--key);color:var(--key)}
+#card .grip{cursor:grab;letter-spacing:-.05em}
+#card .eh{cursor:grab}
+#card.drag{transition:none;cursor:grabbing;box-shadow:0 30px 60px rgba(0,0,0,.6),0 0 0 2px var(--key)}
+#card.drag .eh,#card.drag .grip{cursor:grabbing}
+#card.pinned{transform:perspective(1000px) rotateX(3deg)}
+#card.docked{transform:perspective(1000px) rotateY(9deg) rotateX(3deg)}
+#tourArea.dock #stageBox{transition:width .4s}
+#tourArea.dock{min-height:620px}
+#card.compact .body,#card.compact .note,#card.compact .later,#card.compact .dots,#card.compact .ceo,#card.compact .try .res,#card.compact .dmx{display:none}
+#card.compact h2{font-size:26px;margin:4px 0 8px}
+#card.compact .try{margin:4px 0 10px}
+@media (max-width:860px){#card .grip,#card #cAuto{display:none}#card .eh{cursor:auto}}
+/* projection demo (Tour 5) */
+.demo{background:rgba(0,0,0,.18);border-radius:8px;padding:10px 12px;margin:4px 0 12px}
+.dmr{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600}
+.dmr input{flex:1;accent-color:var(--key)}
+.dmr b{font-family:var(--f-display);font-size:22px;color:var(--key);min-width:36px;text-align:right}
+.dm2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.dm2 small{display:block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--hl-soft);font-weight:700;margin-bottom:4px}
+.dm2 svg{width:100%;height:70px}
+.dm2 p{margin:4px 0 0;font-size:11.5px;line-height:1.35;color:rgba(255,255,255,.75)}
+#dmL{transition:d .4s}
+#dmN{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
+#dmN li{font-size:11.5px;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:2px 7px;display:flex;justify-content:space-between;gap:6px;transition:background .3s,border-color .3s}
+#dmN li::after{content:attr(data-d);color:var(--key);font-weight:600;white-space:nowrap}
+#dmN li.on{border-color:var(--hl);background:rgba(255,176,32,.12)}
+.dmx{display:block;font-size:11px;color:rgba(255,255,255,.6);margin-top:8px}
+/* Tour 6 card extras */
+.loop{background:rgba(0,0,0,.18);border-radius:8px;padding:10px 12px;margin:4px 0 12px}
+#lpN{list-style:none;margin:0 0 10px;padding:0;display:flex;flex-direction:column;gap:5px}
+#lpN li{display:grid;grid-template-columns:62px 1fr;gap:8px;font-size:12px;line-height:1.35;border-radius:6px;padding:4px 6px;opacity:.45;transition:opacity .35s,background .35s}
+#lpN li b{font-family:var(--f-display);font-weight:400;font-size:18px;letter-spacing:.03em;color:var(--hl-soft);line-height:1}
+#lpN li.on{opacity:1;background:rgba(71,199,255,.14)}
+#lpN li.on b{color:var(--key)}
+.spick{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 12px}
+.spick button{font-size:12px;font-weight:600;border:1.5px solid var(--hl-soft);border-radius:999px;padding:5px 11px}
+.spick button.seen{border-color:var(--key);color:var(--key)}
+.spick button.on{background:var(--key);color:var(--key-ink);border-color:var(--key)}
+.ceo{display:flex;flex-direction:column;gap:6px;margin:4px 0 12px}
+.ceo .c0{background:var(--key);color:var(--key-ink);border-radius:8px;padding:8px 10px;font-size:12px;line-height:1.4}
+.ceo .c0 b{display:block;font-family:var(--f-display);font-weight:400;font-size:22px;letter-spacing:.03em}
+.ceo .c1{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ceo .c1 span{border:1.5px solid var(--hl-soft);border-radius:8px;padding:6px 8px;font-size:11.5px;color:rgba(255,255,255,.8)}
+.ceo .c1 b{display:block;font-size:13px;color:#fff}
+.ceo .c2{font-size:11.5px;color:rgba(255,255,255,.7);border-top:1px dashed rgba(255,255,255,.3);padding-top:6px}
+/* sorter (Tour 2) */
+.sort{display:flex;flex-direction:column;gap:8px;margin:4px 0 12px}
+.sq{background:rgba(0,0,0,.18);border-radius:8px;padding:9px 11px;font-size:13px;line-height:1.4}
+.sq .q{display:block;margin-bottom:7px}
+.sq .bb{display:flex;gap:6px}
+.sq .bb button{font-size:12px;font-weight:600;border:1.5px solid var(--hl-soft);border-radius:999px;padding:4px 12px}
+.sq .bb button:hover{background:rgba(255,255,255,.1)}
+.sq .why{display:block;margin-top:6px;font-size:12.5px;color:var(--hl-soft)}
+.sq.ok{box-shadow:inset 0 0 0 1.5px var(--key)}
+.sq.ok .why{color:var(--key)}
+.sq.no{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.live-lbl{display:inline-block;background:var(--hl);color:#fff;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600;margin-bottom:10px}
+@media (max-width:860px){
+  #card{position:relative;left:auto!important;top:auto!important;width:auto!important;margin-top:14px;transform:perspective(1000px) rotateX(4deg)!important}
+}
+@media (prefers-reduced-motion:reduce){#card{transition:none}.sq.no{animation:none}}
+{{APPCSS}}
+{{THREADCSS}}
+</style>
+
+<header class="bar">
+  <span class="brand">TOJO</span>
+  <h1>Guided tours</h1>
+  <span class="sub" id="barSub">Six short tours of Tojo. Everything runs on a sample hospital; nothing is sent or billed.</span>
+  <span><button class="ghost" id="toPicker" type="button">All tours</button></span>
+</header>
+
+<section id="picker" aria-labelledby="pkTitle">
+  <div class="eyebrow">Welcome to Tojo · Hospital operations agent</div>
+  <h2 id="pkTitle">Meet Tojo.<br><em>Six short tours.</em></h2>
+  <p class="lede" id="lede">About eighteen minutes in all. Take them in one run, or pick the one you need now and come back for the rest. Every step lights up one part of the screen; most let you try it.</p>
+  <div class="pk-actions">
+    <button class="btn-gold" id="fullTour" type="button">Take the full tour</button>
+    <button class="btn-line" id="pickOne" type="button">Pick a tour</button>
+    <button class="resume" id="resume" type="button" hidden></button>
+  </div>
+  <ul class="tours" id="tourList"></ul>
+  <div class="pk-foot"><button type="button" id="notNow">Not now</button><span>Reopen any time from Help → Guided tours.</span></div>
+</section>
+
+<section id="tourArea" hidden>
+  <div id="stageBox">
+    <div id="stage">
+{{APP}}
+      <iframe id="toolFrame" title="Discharge Tool" hidden></iframe>
+      <iframe id="simFrame" title="Simulation" hidden></iframe>
+      <iframe id="suiteFrame" title="Automation suite" hidden></iframe>
+    </div>
+    <svg id="ov" aria-hidden="true"></svg>
+    <div id="toast" role="status"></div>
+  </div>
+  <div id="card" role="dialog" aria-live="polite" aria-labelledby="cTitle"></div>
+  <div class="under"><span id="underTxt"></span><span><button type="button" id="restart">Restart this tour</button></span></div>
+</section>
+
+<script>
+{{JS}}
+</script>

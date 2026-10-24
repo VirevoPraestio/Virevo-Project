@@ -1,0 +1,2171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<title>Discharge Process — Virevo AI</title>
+<meta name="description" content="Virevo — discharge as one process, from the doctor's decision to the bed being ready again.">
+<meta name="theme-color" content="#f3f1eb">
+<link rel="icon" href="Images/fav_icon.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Poppins as everywhere else, plus Caveat — Tojo's margin hand, which is a
+     voice on this screen rather than styling, and the one face the site does
+     not already have. The title uses the self-hosted Bebas Neue, so it costs
+     nothing here. -->
+<!-- ALPHABETICAL, and not by preference. The css2 endpoint rejects a
+     multi-family request whose families are out of order, and the whole
+     stylesheet fails with it. Poppins came first here and Caveat never
+     arrived — the handwriting quietly rendered as Poppins, which was only
+     hard to spot because Poppins was already cached from the other pages.
+     400 is requested too, so nothing has to be substituted by weight. -->
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/discharge.css?v=39">
+<link rel="stylesheet" href="assets/css/credits.css?v=1">
+<script>
+/* Inline and in the head on purpose: this runs BEFORE the first paint, so
+   the opening sequence never shows a frame of the finished page first. The
+   timer is the failsafe — if discharge.js fails to load or throws, the page
+   still reveals itself rather than staying blank. */
+(function(d){var r=d.documentElement;r.className+=" intro";
+ setTimeout(function(){r.classList.add("go");},2500);})(document);
+</script>
+</head>
+<body class="dis-body dg-body">
+
+<!-- ============================================================
+     The discharge screen is its own document, not a state of
+     automation.html. It shares no layout with the rest of the app:
+     a fixed tab rail, one scrolling column of worksheet cards and a
+     chat panel held at the window's full height.
+     ============================================================ -->
+<div class="dis dg" id="dis" data-view="1">
+
+  <!-- ============ 1 · the rail ============ -->
+  <aside class="dis-rail" aria-label="Sections">
+    <a class="rail-home" href="/chat" aria-label="Back to the chat">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 10.5L12 4l8 6.5"/><path d="M6 9.8V20h12V9.8"/>
+      </svg>
+    </a>
+
+    <!-- A way back to the start of the tool, from wherever the walk has got
+         to. It sits in the rail with the sections rather than in the bar:
+         the bar changes between screens, and this must not. -->
+    <a class="rail-back" href="/discharge" aria-label="Back to the start of Discharge">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/>
+      </svg>
+    </a>
+
+    <nav class="rail-tabs" aria-label="Jump to a section">
+      <!-- No Chat tab. The conversation is never somewhere you have to
+           navigate to on this page — it is the column on the right, in
+           view the whole time — so a tab for it pointed at what you were
+           already looking at. -->
+      <a class="rail-tab is-soon" aria-disabled="true" href="#resources" style="--tint:var(--t-resources)"><span class="rail-tab-t">Resources</span></a>
+      <a class="rail-tab" href="#diagnosis" style="--tint:var(--t-diagnosis)"><span class="rail-tab-t">Diagnosis</span></a>
+      <a class="rail-tab" href="#solutions" style="--tint:var(--t-solutions)"><span class="rail-tab-t">Solutions</span></a>
+      <a class="rail-tab" href="#automations" style="--tint:var(--t-automations)"><span class="rail-tab-t">Automations</span></a>
+      <a class="rail-tab" href="#processes" style="--tint:var(--t-processes)"><span class="rail-tab-t">Processes</span></a>
+    </nav>
+  </aside>
+
+  <!-- ============ 2 · the worksheet ============ -->
+  <div class="dis-col">
+
+    <!-- Stays put. Everything below it scrolls under it, starting at the
+         title — the tool's name and the tour are worth having at any
+         point in the page. -->
+    <div class="dis-topbar">
+      <div class="dis-top v1">
+        <!-- On a phone the rail is gone, so the way home comes here beside the
+             mark. Both are hidden on a wide window, where the rail already has
+             the house and a mark here would be a second one. -->
+        <a class="dis-home" href="/chat" aria-label="Back to the chat">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 10.5L12 4l8 6.5"/><path d="M6 9.8V20h12V9.8"/>
+          </svg>
+        </a>
+        <span class="dis-mark">Virevo</span>
+        <p class="dis-eyebrow eyebrow-w">Tool &mdash; Patient flow &amp; hospital operations</p>
+        <button class="dis-tour" type="button" id="disTour">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.2"/>
+          </svg>
+          <span><span class="w-only">Guided </span>Tour</span>
+        </button>
+      </div>
+
+      <!-- Once the walk has started the page title stops being the page's
+           subject and becomes its address, so it shrinks into the bar and
+           the day's tasks come up beside it. -->
+      <div class="dis-top bar-2">
+        <a class="dis-home" href="/chat" aria-label="Back to the chat">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 10.5L12 4l8 6.5"/><path d="M6 9.8V20h12V9.8"/>
+          </svg>
+        </a>
+        <p class="bar-t"><span class="w-only">Discharge<br>Process</span><span class="n-only">Virevo</span></p>
+        <!-- On a phone the second line is the address: which tool, and where
+             inside it. The script writes only the last span, so the prefix and
+             the wide-window wording are the stylesheet's business and not
+             something a navigation handler has to remember to rebuild. -->
+        <p class="bar-w"><span class="w-only">In conversation with Tojo</span><span class="n-only">Discharge Process &middot; </span><span class="n-only" id="barW">with Tojo</span></p>
+        <button class="dis-tour" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.2"/>
+          </svg>
+          <span><span class="w-only">Guided </span>Tour</span>
+        </button>
+        <button class="dis-tasks bar-tasks" type="button">
+          <span>Your tasks for the day</span>
+          <span class="dis-tasks-n" aria-label="3 tasks">3</span>
+        </button>
+      </div>
+    </div>
+
+    <main class="dis-main" id="disMain">
+      <div class="dis-wrap v1">
+
+      <header class="dis-head">
+        <!-- The same line, in the other place. It cannot be one element moved
+             by CSS: on a wide window it belongs to the fixed bar and on a phone
+             it scrolls with the title, and those are different parents.
+             Whichever is display:none is also out of the a11y tree, so it is
+             never announced twice. -->
+        <p class="dis-eyebrow eyebrow-n">Tool &mdash; Patient flow</p>
+
+        <!-- Two words, two boxes. PROCESS carries the drop on its outer span and
+             the recoil on its inner one, because a single element cannot run two
+             transform animations at once without them overwriting each other. -->
+        <h1 class="dis-title"><span class="t-a">Discharge</span> <span class="dim t-b"><i class="t-in">Process</i></span></h1>
+
+        <p class="dis-lede">
+          <b>Discharge</b> is everything between the doctor&rsquo;s decision and the bed
+          being ready again<span class="w-only"> &mdash; run as one process, not a chain
+          of handoffs</span>.
+        </p>
+
+        <div class="dis-cta">
+          <button class="dis-tasks" type="button" id="disTasks">
+            <span>Your tasks for the day</span>
+            <span class="dis-tasks-n" aria-label="3 tasks">3</span>
+          </button>
+
+          <!-- Tojo's note, pointing back at the button it is about. The arrow
+               is drawn rather than typed so it can curve. -->
+          <span class="dis-note">
+            <!-- Two arrows, because they point different ways. On a wide
+                 window the note sits right of the button and the arrow runs
+                 back to it; on a phone the note sits above and the arrow
+                 drops down-left onto it. --len is given a safe over-estimate
+                 so the hidden one still animates correctly if the window is
+                 resized across the breakpoint before JS can measure it. -->
+            <svg class="arw-w" viewBox="0 0 52 30" aria-hidden="true">
+              <path style="--len:56" d="M50 6C36 4 22 8 8 19"/>
+              <path style="--len:26" d="M4 20l10 .4M4 20l7-6.6"/>
+            </svg>
+            <svg class="arw-n" viewBox="0 0 40 46" aria-hidden="true">
+              <path style="--len:56" d="M31 4c6 11 5 22-6 31"/>
+              <path style="--len:26" d="M22 36l3-9M22 36l9 1"/>
+            </svg>
+            <span class="hand w-only"><i class="hw">start here &mdash; Tojo needs three</i><i class="hw">files from you</i></span>
+            <span class="hand n-only"><i class="hw">start here &mdash; 3 files</i><i class="hw">needed</i></span>
+          </span>
+        </div>
+      </header>
+
+      <div class="dis-rule" role="presentation"><i></i></div>
+
+      <div class="dis-grid">
+
+        <!-- ---------- 01 · the numbers ---------- -->
+        <section class="card" id="resources" aria-labelledby="h-numbers">
+          <div class="card-k">
+            <p class="card-n">01 &mdash; The numbers</p>
+          </div>
+          <h2 class="card-h" id="h-numbers">Parameters that shape discharge</h2>
+
+          <div class="pills" role="group" aria-label="Which parameters to show">
+            <button class="pill" type="button" aria-pressed="true">Timing</button>
+            <button class="pill" type="button" aria-pressed="false">Money</button>
+            <button class="pill" type="button" aria-pressed="false">Staffing</button>
+          </div>
+
+          <!-- Four charts with nothing in them yet. The axes are drawn so the
+               empty state says "a chart lands here", which "no data" alone
+               does not. -->
+          <div class="stats">
+            <div class="stat">
+              <h3 class="stat-h">Order to<span class="w-only"> physical</span> discharge</h3>
+              <div class="stat-plot"><span>no data yet</span></div>
+              <p class="stat-c">hours, median</p>
+            </div>
+            <div class="stat">
+              <h3 class="stat-h"><span class="w-only">Cash discharges</span><span class="n-only">Cash out</span> by 10 AM</h3>
+              <div class="stat-plot"><span>no data yet</span></div>
+              <p class="stat-c">% of the day&rsquo;s discharges</p>
+            </div>
+            <div class="stat">
+              <h3 class="stat-h">Insured<span class="w-only"> discharges</span> by 1 PM</h3>
+              <div class="stat-plot"><span>no data yet</span></div>
+              <p class="stat-c">% of the day&rsquo;s discharges</p>
+            </div>
+            <div class="stat">
+              <h3 class="stat-h">Bed turnaround</h3>
+              <div class="stat-plot"><span>no data yet</span></div>
+              <p class="stat-c">minutes, discharge to ready</p>
+            </div>
+          </div>
+
+          <span class="hand">Tojo hasn&rsquo;t been given these numbers yet.
+            Share them in chat and the charts fill in here.</span>
+
+          <div class="acts">
+            <button class="btn btn-solid" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18 8.5l-7.4 7.4a3 3 0 11-4.2-4.2l7.8-7.8a4.4 4.4 0 016.2 6.2l-8 8"/>
+              </svg>
+              <span>Upload data</span>
+            </button>
+            <button class="btn" type="button">Type the numbers in</button>
+          </div>
+        </section>
+
+        <!-- ---------- 02 · diagnosis ---------- -->
+        <section class="card card-ruled" id="diagnosis" aria-labelledby="h-diag">
+          <div class="card-k">
+            <p class="card-n">02 &mdash; Diagnosis</p>
+            <span class="card-stamp">Awaiting data</span>
+          </div>
+          <h2 class="card-h" id="h-diag">Where discharge usually gets stuck</h2>
+          <p class="card-sub">
+            Tojo will test each of these against your data.
+            Mark the ones you already suspect.
+          </p>
+
+          <ul class="rows">
+            <li class="row">
+              <div class="row-tx">
+                <h3 class="row-h">Handoffs run one after another</h3>
+                <p class="row-p">Nothing starts until the team before has fully finished.</p>
+              </div>
+              <button class="row-b" type="button" aria-pressed="false">I suspect this</button>
+            </li>
+            <li class="row">
+              <div class="row-tx">
+                <h3 class="row-h">No single owner</h3>
+                <p class="row-p">Delays get blamed on &ldquo;the process&rdquo;, not on a stage anyone owns.</p>
+              </div>
+              <button class="row-b" type="button" aria-pressed="false">I suspect this</button>
+            </li>
+            <li class="row">
+              <div class="row-tx">
+                <h3 class="row-h">The summary waits on the round</h3>
+                <p class="row-p">A consultant&rsquo;s round time decides when discharge can even begin.</p>
+              </div>
+              <button class="row-b" type="button" aria-pressed="false">I suspect this</button>
+            </li>
+            <li class="row">
+              <div class="row-tx">
+                <h3 class="row-h">Stock-take holds up billing</h3>
+                <p class="row-p">Billing can&rsquo;t close until a nurse is free to count.</p>
+              </div>
+              <button class="row-b" type="button" aria-pressed="false">I suspect this</button>
+            </li>
+            <li class="row">
+              <div class="row-tx">
+                <h3 class="row-h">Pharmacy returns counted by hand</h3>
+                <p class="row-p">The returnable balance is reconciled manually, then billed twice.</p>
+              </div>
+              <button class="row-b" type="button" aria-pressed="false">I suspect this</button>
+            </li>
+            <li class="row">
+              <div class="row-tx">
+                <h3 class="row-h">Housekeeping is told late</h3>
+                <p class="row-p">The gap sits before the cleaning, not in it.</p>
+              </div>
+              <button class="row-b" type="button" aria-pressed="false">I suspect this</button>
+            </li>
+          </ul>
+
+          <div class="card-f">
+            <p id="diagCount">None marked yet</p>
+            <button class="btn btn-solid" type="button">Start the diagnosis</button>
+          </div>
+        </section>
+
+        <!-- ---------- 03 · solutions ---------- -->
+        <section class="card" id="solutions" aria-labelledby="h-sol">
+          <div class="card-k">
+            <p class="card-n">03 &mdash; Solutions</p>
+          </div>
+          <h2 class="card-h" id="h-sol">What the fix is made of</h2>
+
+          <div class="pills" role="group" aria-label="Which part of the fix to show">
+            <button class="pill" type="button" aria-pressed="true">Automation</button>
+            <button class="pill" type="button" aria-pressed="false">Process changes</button>
+            <button class="pill" type="button" aria-pressed="false">People &amp; buy-in</button>
+            <button class="pill" type="button" aria-pressed="false">Team &amp; roles</button>
+          </div>
+
+          <div class="fix">
+            <h3 class="fix-h">Act on the first mention of discharge</h3>
+            <p class="fix-p">
+              The moment a doctor mentions discharge &mdash; even in passing on an
+              evening round &mdash; the summary, the bill to date and the expected pharmacy
+              returns are already assembled.
+            </p>
+            <p class="fix-fig"><b>6&ndash;8 hrs</b> <span>typically saved per discharge</span></p>
+          </div>
+
+          <span class="hand">the general shape &mdash; Tojo sizes it to your hospital
+            once the numbers are in</span>
+
+          <div class="acts">
+            <button class="btn btn-solid" type="button">Build my business case</button>
+            <button class="btn" type="button">Start a project</button>
+          </div>
+        </section>
+
+        <!-- ---------- 04 · automations ---------- -->
+        <section class="card" id="automations" aria-labelledby="h-auto">
+          <div class="card-k">
+            <p class="card-n">04 &mdash; Automations</p>
+          </div>
+          <h2 class="card-h" id="h-auto">Agents Tojo suggests</h2>
+
+          <ul class="agents">
+            <li class="agent">
+              <div class="agent-tx">
+                <h3 class="agent-h">Evening-round capture</h3>
+                <p class="agent-p">A passing mention drafts the discharge summary for the doctor to approve.</p>
+              </div>
+              <button class="row-b" type="button" aria-pressed="false">Add to plan</button>
+            </li>
+            <li class="agent">
+              <div class="agent-tx">
+                <h3 class="agent-h">Live bill to date</h3>
+                <p class="agent-p">Every event is costed as it happens; the bill closes when discharge is confirmed.</p>
+              </div>
+              <button class="row-b" type="button" aria-pressed="false">Add to plan</button>
+            </li>
+            <li class="agent">
+              <div class="agent-tx">
+                <h3 class="agent-h">Evening TPA pre-approval</h3>
+                <p class="agent-p">The provisional bill goes to the insurer the night before.</p>
+              </div>
+              <button class="row-b" type="button" aria-pressed="false">Add to plan</button>
+            </li>
+            <li class="agent">
+              <div class="agent-tx">
+                <h3 class="agent-h">Sign-off on mobile</h3>
+                <p class="agent-p">The doctor reviews and signs the final summary on the morning round.</p>
+              </div>
+              <button class="row-b" type="button" aria-pressed="false">Add to plan</button>
+            </li>
+            <li class="agent">
+              <div class="agent-tx">
+                <h3 class="agent-h">Call housekeeping &amp; transport</h3>
+                <p class="agent-p">The bed and the wheelchair are requested the moment the patient is cleared.</p>
+              </div>
+              <button class="row-b" type="button" aria-pressed="false">Add to plan</button>
+            </li>
+          </ul>
+
+          <div class="card-f">
+            <p id="planCount">Nothing added yet</p>
+            <button class="btn btn-solid" type="button">Check ERP &amp; PACS access</button>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- anchors the rail points at; the sections above carry the rest -->
+      <div id="processes" aria-hidden="true"></div>
+      </div>
+
+      <!-- ============================================================
+           The second screen. Same shell, different worksheet: the route
+           map of the eleven stops, and the card for whichever one Tojo is
+           asking about. It is a sibling of the first rather than another
+           document so the conversation beside it is never reloaded.
+           ============================================================ -->
+      <div class="dis-wrap v2">
+
+        <!-- On a phone the conversation is behind a sheet, so the message that
+             brought you here is echoed at the top of the page. On a wide
+             window the panel is right there and this would be a second copy. -->
+        <div class="rm-echo n-only">
+          <p class="rm-echo-said" id="rmEcho">Discharge delays. Our patients are medically
+            fit by mid-morning but most don&rsquo;t leave till late afternoon.</p>
+          <p class="rm-echo-who"><span class="rm-echo-av" aria-hidden="true">T</span>Tojo</p>
+        </div>
+
+        <header class="dis-head">
+          <p class="dis-eyebrow rm-kicker">Route map &middot; Stop <b id="rmNo">1</b> of 11</p>
+          <h1 class="dis-title rm-title">From the doctor&rsquo;s decision to an empty bed</h1>
+          <p class="dis-lede rm-lede">
+            Eleven stops, each run by a different team. Tap any stop to
+            <span class="w-only">see what happens there &mdash; we start at the first, and walk
+            them one at a time.</span><span class="n-only">open it &mdash; we start at the
+            first.</span>
+          </p>
+        </header>
+
+        <!-- The key is four states, not four colours: what is being asked, what
+             has been answered, what is next and what is still to come. -->
+        <ul class="rm-key">
+          <li class="is-now"><i></i>Asking now</li>
+          <li class="is-done"><i></i>Answered</li>
+          <li class="is-next"><i></i>Next</li>
+          <li class="is-later"><i></i>Later</li>
+        </ul>
+
+        <!-- The map reads as one line that turns back on itself. The turn is
+             an SVG because a border-radius cannot join two rows of a grid;
+             everything else is ordinary layout, so the stops stay real
+             elements you can press and label. -->
+        <!-- The map reads as one line that doubles back. Both rows sit on the
+             SAME seven-column grid, which is what keeps every stop on the same
+             pitch and lets the second row start one column in, under the
+             first. The line is not a separate element: each slot draws the
+             segment arriving from its left neighbour, so the line cannot end
+             up somewhere the stops are not. Only the turn is drawn, because
+             no border-radius can join two rows. -->
+        <div class="rm" id="routeMap">
+          <!-- One gold disc for the whole map. It is a single element that
+               moves rather than a class that jumps from stop to stop,
+               because a class cannot travel — and the travelling is the
+               point: you should see which stop you came from. -->
+          <span class="rm-puck" id="rmPuck" aria-hidden="true" hidden></span>
+          <ul class="rm-row rm-row-1" role="list">
+            <li class="rm-slot rm-term" style="--i:-1">
+              <span class="rm-cap rm-cap-a"></span>
+              <span class="rm-lb rm-end">Doctor decides</span>
+            </li>
+            <li class="rm-slot rm-stop is-now is-open" style="--i:0" data-stop="A">
+              <button class="rm-hit" type="button" data-go="A" aria-pressed="true">
+                <span class="rm-dot"><i>A</i></span>
+                <span class="rm-lb">The doctors</span>
+                <span class="rm-st">Asking now</span>
+              </button>
+            </li>
+            <li class="rm-slot rm-stop is-next" style="--i:1" data-stop="B">
+              <button class="rm-hit" type="button" data-go="B" aria-pressed="false">
+                <span class="rm-dot"><i>B</i></span>
+                <span class="rm-lb">Nursing stock-take</span>
+                <span class="rm-st">Next</span>
+              </button>
+            </li>
+            <li class="rm-slot rm-stop is-next" style="--i:2" data-stop="C">
+              <button class="rm-hit" type="button" data-go="C" aria-pressed="false">
+                <span class="rm-dot"><i>C</i></span>
+                <span class="rm-lb">Pharmacy returns</span>
+                <span class="rm-st">Later</span>
+              </button>
+            </li>
+            <li class="rm-slot rm-stop is-next" style="--i:3" data-stop="D">
+              <button class="rm-hit" type="button" data-go="D" aria-pressed="false">
+                <span class="rm-dot"><i>D</i></span>
+                <span class="rm-lb">Billing</span>
+                <span class="rm-st">Later</span>
+              </button>
+            </li>
+            <li class="rm-slot rm-stop is-next" style="--i:4" data-stop="E">
+              <button class="rm-hit" type="button" data-go="E" aria-pressed="false">
+                <span class="rm-dot"><i>E</i></span>
+                <span class="rm-lb">Insurance / TPA</span>
+                <span class="rm-st">Later</span>
+              </button>
+            </li>
+            <li class="rm-slot rm-stop is-next" style="--i:5" data-stop="F">
+              <button class="rm-hit" type="button" data-go="F" aria-pressed="false">
+                <span class="rm-dot"><i>F</i></span>
+                <span class="rm-lb">Bed Management</span>
+                <span class="rm-st">Later</span>
+              </button>
+            </li>
+          </ul>
+
+          <svg class="rm-turn" viewBox="0 0 64 122" aria-hidden="true">
+            <path style="--len:200" d="M21 0h1c19 0 34 13 34 30v62c0 17-15 30-34 30h-1"/>
+          </svg>
+
+          <ul class="rm-row rm-row-2" role="list">
+            <li class="rm-slot rm-void" aria-hidden="true" style="--i:-1"></li>
+            <li class="rm-slot rm-term" style="--i:11">
+              <span class="rm-cap rm-cap-b"></span>
+              <span class="rm-lb rm-end">Bed ready</span>
+            </li>
+            <li class="rm-slot rm-stop is-later" style="--i:10" data-stop="K">
+              <button class="rm-hit" type="button" data-go="K" aria-pressed="false">
+                <span class="rm-dot"><i>K</i></span>
+                <span class="rm-lb">Cash counter</span>
+                <span class="rm-st">Later</span>
+              </button>
+            </li>
+            <li class="rm-slot rm-stop is-later" style="--i:9" data-stop="J">
+              <button class="rm-hit" type="button" data-go="J" aria-pressed="false">
+                <span class="rm-dot"><i>J</i></span>
+                <span class="rm-lb">The briefing chain</span>
+                <span class="rm-st">Later</span>
+              </button>
+            </li>
+            <li class="rm-slot rm-stop is-later" style="--i:8" data-stop="I">
+              <button class="rm-hit" type="button" data-go="I" aria-pressed="false">
+                <span class="rm-dot"><i>I</i></span>
+                <span class="rm-lb">OT scheduling</span>
+                <span class="rm-st">Later</span>
+              </button>
+            </li>
+            <li class="rm-slot rm-stop is-later" style="--i:7" data-stop="H">
+              <button class="rm-hit" type="button" data-go="H" aria-pressed="false">
+                <span class="rm-dot"><i>H</i></span>
+                <span class="rm-lb">Transport</span>
+                <span class="rm-st">Later</span>
+              </button>
+            </li>
+            <li class="rm-slot rm-stop is-later" style="--i:6" data-stop="G">
+              <button class="rm-hit" type="button" data-go="G" aria-pressed="false">
+                <span class="rm-dot"><i>G</i></span>
+                <span class="rm-lb">Housekeeping</span>
+                <span class="rm-st">Later</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <!-- The stop Tojo is on. Two columns: what happens here on the left,
+             and the one question being asked about it on the right. -->
+        <!-- The card is a frame; the eleven bodies live inside it and one is
+             shown at a time. Keeping them all in the markup rather than
+             building them from a script means the content is in the document
+             whether or not the script runs. -->
+        <div class="rm-slotc" id="cardSlot">
+        <section class="card rm-card rm-intro" id="stopCard" aria-live="polite">
+          <div class="rm-body" data-stop="A">
+            <div class="rm-card-l">
+              <div class="rm-card-k">
+                <h2 class="rm-card-h">A &middot; The doctors</h2>
+                <span class="rm-badge is-asking-now">Asking now</span>
+              </div>
+              <p class="rm-card-p">The summary passes through drafting, review and signing &mdash; and the round schedule decides when any of it can start.</p>
+              <p class="rm-card-lb">Heard as</p>
+              <p class="hand rm-quote">&ldquo;discharges are just slow&rdquo;</p>
+            </div>
+            <div class="rm-q">
+              <p class="rm-q-lb">Tojo&rsquo;s question at this stop</p>
+              <p class="rm-q-t">Who writes the summary, who reviews it, who signs it &mdash; and what time do rounds finish on your busiest wards?</p>
+              <p class="rm-q-f">This is the one I&rsquo;m asking now &mdash; answer in the chat.</p>
+            </div>
+          </div>
+          <div class="rm-body" data-stop="B" hidden>
+            <div class="rm-card-l">
+              <div class="rm-card-k">
+                <h2 class="rm-card-h">B &middot; Nursing stock-take</h2>
+                <span class="rm-badge is-next">Next</span>
+              </div>
+              <p class="rm-card-p">Ward stock has to be counted and sent back before the bill can close, and the count waits for a nurse to be free to do it.</p>
+              <p class="rm-card-lb">Heard as</p>
+              <p class="hand rm-quote">&ldquo;the ward hasn&rsquo;t sent it up yet&rdquo;</p>
+            </div>
+            <div class="rm-q">
+              <p class="rm-q-lb">Tojo&rsquo;s question at this stop</p>
+              <p class="rm-q-t">When does the stock-take actually begin &mdash; at the doctor&rsquo;s decision, or once the patient is already packing?</p>
+              <p class="rm-q-f">This is the one I&rsquo;m asking now &mdash; answer in the chat.</p>
+            </div>
+          </div>
+          <div class="rm-body" data-stop="C" hidden>
+            <div class="rm-card-l">
+              <div class="rm-card-k">
+                <h2 class="rm-card-h">C &middot; Pharmacy returns</h2>
+                <span class="rm-badge is-later">Later</span>
+              </div>
+              <p class="rm-card-p">Unused medicines come back to be credited. Counted by hand, they get reconciled twice &mdash; and often billed twice with it.</p>
+              <p class="rm-card-lb">Heard as</p>
+              <p class="hand rm-quote">&ldquo;pharmacy is still checking&rdquo;</p>
+            </div>
+            <div class="rm-q">
+              <p class="rm-q-lb">Tojo&rsquo;s question at this stop</p>
+              <p class="rm-q-t">Are returns counted on the ward or at the pharmacy, and how long sits between the two?</p>
+              <p class="rm-q-f">This is the one I&rsquo;m asking now &mdash; answer in the chat.</p>
+            </div>
+          </div>
+          <div class="rm-body" data-stop="D" hidden>
+            <div class="rm-card-l">
+              <div class="rm-card-k">
+                <h2 class="rm-card-h">D &middot; Billing</h2>
+                <span class="rm-badge is-later">Later</span>
+              </div>
+              <p class="rm-card-p">The bill closes only once every department has stopped adding to it, and any one of them can open it again.</p>
+              <p class="rm-card-lb">Heard as</p>
+              <p class="hand rm-quote">&ldquo;the bill isn&rsquo;t final&rdquo;</p>
+            </div>
+            <div class="rm-q">
+              <p class="rm-q-lb">Tojo&rsquo;s question at this stop</p>
+              <p class="rm-q-t">How often does a bill reopen after it has been closed, and which department reopens it most?</p>
+              <p class="rm-q-f">This is the one I&rsquo;m asking now &mdash; answer in the chat.</p>
+            </div>
+          </div>
+          <div class="rm-body" data-stop="E" hidden>
+            <div class="rm-card-l">
+              <div class="rm-card-k">
+                <h2 class="rm-card-h">E &middot; Insurance / TPA</h2>
+                <span class="rm-badge is-later">Later</span>
+              </div>
+              <p class="rm-card-p">An insured discharge waits on an approval that is usually asked for after everything else is already done.</p>
+              <p class="rm-card-lb">Heard as</p>
+              <p class="hand rm-quote">&ldquo;we&rsquo;re waiting on approval&rdquo;</p>
+            </div>
+            <div class="rm-q">
+              <p class="rm-q-lb">Tojo&rsquo;s question at this stop</p>
+              <p class="rm-q-t">When is the TPA request raised &mdash; the night before, or the morning the patient is due to leave?</p>
+              <p class="rm-q-f">This is the one I&rsquo;m asking now &mdash; answer in the chat.</p>
+            </div>
+          </div>
+          <div class="rm-body" data-stop="F" hidden>
+            <div class="rm-card-l">
+              <div class="rm-card-k">
+                <h2 class="rm-card-h">F &middot; Bed Management</h2>
+                <span class="rm-badge is-later">Later</span>
+              </div>
+              <p class="rm-card-p">The bed is released only once someone records the discharge, and recording it is often the last thing anyone does.</p>
+              <p class="rm-card-lb">Heard as</p>
+              <p class="hand rm-quote">&ldquo;the system still shows it occupied&rdquo;</p>
+            </div>
+            <div class="rm-q">
+              <p class="rm-q-lb">Tojo&rsquo;s question at this stop</p>
+              <p class="rm-q-t">Who marks the bed free, and how long after the patient has actually walked out?</p>
+              <p class="rm-q-f">This is the one I&rsquo;m asking now &mdash; answer in the chat.</p>
+            </div>
+          </div>
+          <div class="rm-body" data-stop="G" hidden>
+            <div class="rm-card-l">
+              <div class="rm-card-k">
+                <h2 class="rm-card-h">G &middot; Housekeeping</h2>
+                <span class="rm-badge is-later">Later</span>
+              </div>
+              <p class="rm-card-p">The gap sits before the cleaning, not in it. The team has to be told, and the telling is usually a phone call.</p>
+              <p class="rm-card-lb">Heard as</p>
+              <p class="hand rm-quote">&ldquo;housekeeping is slow&rdquo;</p>
+            </div>
+            <div class="rm-q">
+              <p class="rm-q-lb">Tojo&rsquo;s question at this stop</p>
+              <p class="rm-q-t">How do housekeeping hear that a bed needs turning, and how long is it between the patient leaving and them knowing?</p>
+              <p class="rm-q-f">This is the one I&rsquo;m asking now &mdash; answer in the chat.</p>
+            </div>
+          </div>
+          <div class="rm-body" data-stop="H" hidden>
+            <div class="rm-card-l">
+              <div class="rm-card-k">
+                <h2 class="rm-card-h">H &middot; Transport</h2>
+                <span class="rm-badge is-later">Later</span>
+              </div>
+              <p class="rm-card-p">A chair or a porter is asked for once the patient is cleared, not when it first became obvious they would be.</p>
+              <p class="rm-card-lb">Heard as</p>
+              <p class="hand rm-quote">&ldquo;we&rsquo;re waiting for a porter&rdquo;</p>
+            </div>
+            <div class="rm-q">
+              <p class="rm-q-lb">Tojo&rsquo;s question at this stop</p>
+              <p class="rm-q-t">How far ahead can a porter be booked, and how often is the patient the one waiting?</p>
+              <p class="rm-q-f">This is the one I&rsquo;m asking now &mdash; answer in the chat.</p>
+            </div>
+          </div>
+          <div class="rm-body" data-stop="I" hidden>
+            <div class="rm-card-l">
+              <div class="rm-card-k">
+                <h2 class="rm-card-h">I &middot; OT scheduling</h2>
+                <span class="rm-badge is-later">Later</span>
+              </div>
+              <p class="rm-card-p">The next admission is planned against theatre lists, so a bed freed late moves a case, not just a patient.</p>
+              <p class="rm-card-lb">Heard as</p>
+              <p class="hand rm-quote">&ldquo;we had no bed for the list&rdquo;</p>
+            </div>
+            <div class="rm-q">
+              <p class="rm-q-lb">Tojo&rsquo;s question at this stop</p>
+              <p class="rm-q-t">How many cases in a month start late because the bed was not ready in time?</p>
+              <p class="rm-q-f">This is the one I&rsquo;m asking now &mdash; answer in the chat.</p>
+            </div>
+          </div>
+          <div class="rm-body" data-stop="J" hidden>
+            <div class="rm-card-l">
+              <div class="rm-card-k">
+                <h2 class="rm-card-h">J &middot; The briefing chain</h2>
+                <span class="rm-badge is-later">Later</span>
+              </div>
+              <p class="rm-card-p">Each team briefs the next, and a handover that is a conversation rather than a record has to be given again.</p>
+              <p class="rm-card-lb">Heard as</p>
+              <p class="hand rm-quote">&ldquo;nobody told us&rdquo;</p>
+            </div>
+            <div class="rm-q">
+              <p class="rm-q-lb">Tojo&rsquo;s question at this stop</p>
+              <p class="rm-q-t">Which handovers along this chain are written down, and which are only spoken?</p>
+              <p class="rm-q-f">This is the one I&rsquo;m asking now &mdash; answer in the chat.</p>
+            </div>
+          </div>
+          <div class="rm-body" data-stop="K" hidden>
+            <div class="rm-card-l">
+              <div class="rm-card-k">
+                <h2 class="rm-card-h">K &middot; Cash counter</h2>
+                <span class="rm-badge is-later">Later</span>
+              </div>
+              <p class="rm-card-p">The last step is a queue. The patient is ready and the bill is ready, and both wait on a window being open.</p>
+              <p class="rm-card-lb">Heard as</p>
+              <p class="hand rm-quote">&ldquo;they&rsquo;re still at the counter&rdquo;</p>
+            </div>
+            <div class="rm-q">
+              <p class="rm-q-lb">Tojo&rsquo;s question at this stop</p>
+              <p class="rm-q-t">What are the counter&rsquo;s busiest hours, and do they line up with when your patients are ready to go?</p>
+              <p class="rm-q-f">This is the one I&rsquo;m asking now &mdash; answer in the chat.</p>
+            </div>
+          </div>
+        </section>
+        </div>
+
+      </div>
+
+      <!-- ============================================================
+           The third screen: what the numbers add up to once Tojo has
+           them, and what the gap is worth.
+           ============================================================ -->
+      <div class="dis-wrap v3">
+
+        <div class="rm-echo n-only">
+          <p class="rm-echo-said" id="wrEcho"></p>
+          <p class="rm-echo-who"><span class="rm-echo-av" aria-hidden="true">T</span>Tojo</p>
+        </div>
+
+        <header class="dis-head">
+          <p class="dis-eyebrow">What is really wrong</p>
+          <h1 class="dis-title wr-title">Unused hours, and nobody in charge</h1>
+        </header>
+
+        <!-- The day in the order it happens. The arrows are drawn BETWEEN the
+             steps rather than inside them, so a step can be removed without
+             leaving an arrow pointing at nothing. -->
+        <div class="wr-flowwrap">
+          <ol class="wr-flow">
+            <li style="--n:0" class="wr-step ">
+              <p class="wr-step-n">Doctor decides</p>
+              <p class="wr-step-f">7 PM</p>
+            </li>
+            <li style="--n:1" class="wr-step is-gold">
+              <span class="wr-tab">Time unused</span>
+              <p class="wr-step-n">Nothing happens overnight</p>
+              <p class="wr-step-f">16 hours</p>
+            </li>
+            <li style="--n:2" class="wr-step ">
+              <p class="wr-step-n">Doctor signs</p>
+              <p class="wr-step-f">11 AM</p>
+            </li>
+            <li style="--n:3" class="wr-step ">
+              <p class="wr-step-n">Papers and bill made</p>
+            </li>
+            <li style="--n:4" class="wr-step is-red">
+              <p class="wr-step-n">Patient goes home</p>
+              <p class="wr-step-f">About 3 PM</p>
+            </li>
+          </ol>
+        </div>
+        <p class="wr-cap">Ready by 10&nbsp;AM, home by 3&nbsp;PM: about 5 hours of waiting.
+          All times are yours.</p>
+
+        <div class="wr-grid">
+          <section style="--n:0" class="wr-card wr-gauge">
+            <h2 class="wr-h">Beds in use</h2>
+            <p class="wr-sub">Over 80&#37; needs one person in charge</p>
+            <div class="wr-bar" style="--fill:80&#37;;--at:88&#37;">
+              <span class="wr-bar-you">You: 88&#37;</span>
+              <span class="wr-bar-line"></span>
+              <span class="wr-bar-lim">80&#37;</span>
+            </div>
+          </section>
+
+          <section style="--n:1" class="wr-card wr-gauge">
+            <h2 class="wr-h">Patients going home each day</h2>
+            <p class="wr-sub">Over 40 a day needs the same</p>
+            <div class="wr-bar" style="--fill:74&#37;;--at:82&#37;">
+              <span class="wr-bar-you">40 to 45</span>
+              <span class="wr-bar-line"></span>
+              <span class="wr-bar-lim">40</span>
+            </div>
+          </section>
+
+          <section style="--n:2" class="wr-card wr-nums">
+            <ul class="wr-numlist">
+            <li class="wr-num">
+              <span class="wr-num-t">Patients going home each day<span class="wr-tag is-derived">From your numbers</span></span>
+              <span class="wr-num-v">42.5</span>
+            </li>
+            <li class="wr-num">
+              <span class="wr-num-t">Hours each one waits to leave<span class="wr-tag ">Your number</span></span>
+              <span class="wr-num-v">5 hours</span>
+            </li>
+            <li class="wr-num">
+              <span class="wr-num-t">What one bed earns in a day<span class="wr-tag ">Your number</span></span>
+              <span class="wr-num-v">&#8377;32,000</span>
+            </li>
+            </ul>
+          </section>
+
+          <div class="wr-stack">
+            <section style="--n:3" class="wr-card wr-row">
+              <span class="wr-row-t">Hours beds sit waiting each day</span>
+              <span class="wr-row-v">213</span>
+            </section>
+            <section style="--n:4" class="wr-card wr-row">
+              <span class="wr-row-t">Full days of bed time lost each year</span>
+              <span class="wr-row-v">3,232</span>
+            </section>
+            <section style="--n:5" class="wr-card wr-row is-red">
+              <span class="wr-row-t">Money those beds could earn
+                <i>the most it could be, not a promise</i></span>
+              <span class="wr-row-v">&#8377;10.3 crore</span>
+            </section>
+          </div>
+        </div>
+
+        <p class="wr-cap">True only if each freed bed gets a new patient that day.
+          42.5 is the middle of your 40 to 45.</p>
+      </div>
+
+      <!-- ============================================================
+           The fourth screen: the fix, in five parts you can open.
+           ============================================================ -->
+      <div class="dis-wrap v4">
+
+        <div class="rm-echo n-only">
+          <p class="rm-echo-said" id="fxEcho"></p>
+          <p class="rm-echo-who"><span class="rm-echo-av" aria-hidden="true">T</span>Tojo</p>
+        </div>
+
+        <header class="dis-head">
+          <p class="dis-eyebrow">The fix</p>
+          <h1 class="dis-title fx-title">What the fix is made of</h1>
+          <p class="dis-lede fx-lede">Five parts. Open any one to see what&rsquo;s in it.</p>
+        </header>
+
+        <ul class="fx-grid">
+            <li class="fx-part is-green" style="--n:0">
+              <div class="fx-k">
+                <h2 class="fx-h">Automatic paperwork</h2>
+                <span class="fx-tag">Start here</span>
+              </div>
+              <p class="fx-p">What the software does, so nobody does the work twice.</p>
+              <button class="fx-open" type="button" aria-expanded="false">
+                <span>See what it does</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg>
+              </button>
+              <div class="fx-body" hidden>
+                <ul>
+                <li>The summary is drafted from the notes already written, ready for the doctor to check.</li>
+                <li>The bill builds itself as the stay happens, so closing it is a signature and not an assembly.</li>
+                <li>Pharmacy returns are counted once, at the ward, and credited from that count.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="fx-part " style="--n:1">
+              <div class="fx-k">
+                <h2 class="fx-h">Changes on the wards</h2>
+                <span class="fx-tag">Part 2</span>
+              </div>
+              <p class="fx-p">What each team does differently, step by step.</p>
+              <button class="fx-open" type="button" aria-expanded="false">
+                <span>See the changes</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg>
+              </button>
+              <div class="fx-body" hidden>
+                <ul>
+                <li>Nursing starts the stock-take on the evening decision, not on the morning signature.</li>
+                <li>Housekeeping is told the moment the bed is released, without a phone call.</li>
+                <li>Transport is booked against the expected hour rather than the actual one.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="fx-part " style="--n:2">
+              <div class="fx-k">
+                <h2 class="fx-h">People who must agree</h2>
+                <span class="fx-tag">Part 3</span>
+              </div>
+              <p class="fx-p">Who has to say yes, and what each is asked to do.</p>
+              <button class="fx-open" type="button" aria-expanded="false">
+                <span>See who and why</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg>
+              </button>
+              <div class="fx-body" hidden>
+                <ul>
+                <li>The medical director, to let the evening round carry weight.</li>
+                <li>Finance, to accept a bill that closes without a final manual check.</li>
+                <li>The TPA desk, to raise approvals the night before.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="fx-part " style="--n:3">
+              <div class="fx-k">
+                <h2 class="fx-h">Who is in charge</h2>
+                <span class="fx-tag">Part 4</span>
+              </div>
+              <p class="fx-p">Whether you need someone new to run this.</p>
+              <button class="fx-open" type="button" aria-expanded="false">
+                <span>See the roles</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg>
+              </button>
+              <div class="fx-body" hidden>
+                <ul>
+                <li>One discharge coordinator per shift, not per ward.</li>
+                <li>It can be an existing role with the time protected, if the wards run under 80%.</li>
+                <li>Above that, your own numbers say it needs to be someone&rsquo;s whole job.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="fx-part " style="--n:4">
+              <div class="fx-k">
+                <h2 class="fx-h">How we&rsquo;ll know it worked</h2>
+                <span class="fx-tag">Part 5</span>
+              </div>
+              <p class="fx-p">The few numbers we will watch, week by week.</p>
+              <button class="fx-open" type="button" aria-expanded="false">
+                <span>See what we&rsquo;ll track</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg>
+              </button>
+              <div class="fx-body" hidden>
+                <ul>
+                <li>Hours from the decision to the patient actually leaving.</li>
+                <li>The share of patients out before 2&nbsp;PM.</li>
+                <li>Hours a bed sits empty between two patients.</li>
+                </ul>
+              </div>
+            </li>
+        </ul>
+
+        <p class="hand fx-note">your doctors sign in the morning what they already decided
+          the night before</p>
+
+        <ul class="fx-stats">
+            <li class="fx-stat is-gold" style="--n:0">
+              <p class="fx-stat-t">Hours each patient waits to leave</p>
+              <p class="fx-stat-v">5 hours</p>
+              <span class="wr-tag ">Your number</span>
+            </li>
+            <li class="fx-stat is-red is-derived" style="--n:1">
+              <p class="fx-stat-t">Yearly cost of the waiting</p>
+              <p class="fx-stat-v">&#8377;10.3 crore</p>
+              <span class="wr-tag is-derived">From your numbers</span>
+              <p class="fx-stat-f">the most it could be</p>
+            </li>
+            <li class="fx-stat is-need" style="--n:2">
+              <p class="fx-stat-t">Days a patient stays, on average</p>
+              <p class="fx-stat-v">&mdash;</p>
+              <span class="wr-tag is-need">Need from you</span>
+              <p class="fx-stat-f">a short trial will tell us</p>
+            </li>
+        </ul>
+      </div>
+
+      <!-- ============ the Diagnosis landing ============
+           Reached from the rail rather than from the conversation, so it
+           lives outside the numbered chain and is switched by data-panel.
+           The chat keeps whatever step it was on: arriving here is looking
+           something up, not answering Tojo.
+           ================================================ -->
+      <div class="dis-wrap dx" id="dxWrap">
+
+        <header class="dx-top">
+          <span class="dx-mag" aria-hidden="true">
+            <svg viewBox="0 0 44 44">
+              <circle cx="18" cy="18" r="13.5"/>
+              <path d="M28 28l11 11"/>
+              <path class="dx-mag-p" d="M11 18h3.4l2-4.6 3 9 2.4-6 1.8 3.2h3.6"/>
+            </svg>
+          </span>
+          <p class="dx-eyebrow">Discharge Process</p>
+          <h1 class="dx-title">Diagnosis</h1>
+          <div class="dx-when">
+            <p class="dx-when-t">Brought up to date at midnight, 28 September</p>
+            <p class="dx-when-s">2 conversations since then are not in yet</p>
+          </div>
+          <button class="dx-refresh" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/>
+            </svg>
+            <span>Refresh now</span>
+          </button>
+        </header>
+
+        <div class="dx-grid">
+
+          <!-- left: the glass -->
+          <div class="dx-glass">
+            <!-- One drawing, not a ring plus a picture: the segments, the
+                 disc and the handle share a coordinate space so the gap
+                 between them cannot drift as the column narrows. -->
+            <!-- What the dial reads. One block, so a real feed replaces this
+                 and nothing else: the ring, the count, the finding and the
+                 stage list are all drawn from it. Ship it empty and the page
+                 opens honestly at "0 of 5 stages done" and stays there. -->
+            <script type="application/json" id="dxData">
+            {
+              "finding": "Unused hours overnight, and nobody in charge",
+              "empty": "Nothing found yet",
+              "stages": [
+                { "label": "Walk the chain",    "state": "done" },
+                { "label": "Price the wait",    "state": "done" },
+                { "label": "Name the cause",    "state": "done" },
+                { "label": "Check real times",  "state": "done" },
+                { "label": "Last stops",        "state": "now"  }
+              ]
+            }
+            </script>
+
+            <div class="dx-dial" id="dxDial">
+              <svg class="dx-dial-svg" viewBox="60 175 490 490" aria-hidden="true">
+                <!-- The track is the dial with nothing in it: five places a
+                     stage can land. It is drawn first so an empty diagnosis
+                     still looks like an instrument and not a broken one. -->
+                <g class="dx-arcs" id="dxTrack" transform="rotate(-90 303 417)"></g>
+                <g class="dx-arcs" id="dxArcs" transform="rotate(-90 303 417)"></g>
+                <line class="dx-handle" x1="455" y1="569" x2="530" y2="650"/>
+                <circle class="dx-disc" cx="303" cy="417" r="192"/>
+              </svg>
+              <div class="dx-inner">
+                <p class="dx-k">Under the glass</p>
+                <p class="dx-find" id="dxFind">Nothing found yet</p>
+                <p class="dx-done"><b id="dxN">0</b> of <span id="dxT">5</span> stages done</p>
+              </div>
+            </div>
+
+            <ol class="dx-stages" id="dxStages"></ol>
+          </div>
+
+          <!-- right: what it found, and what is left -->
+          <div class="dx-right">
+            <p class="dx-lb">The evidence</p>
+            <ul class="dx-ev">
+              <li class="dx-e" style="--n:0">
+                <p class="dx-e-t">Hours each patient waits to leave</p>
+                <p class="dx-e-v">5 hours 15 minutes</p>
+                <span class="wr-tag">Your number</span>
+              </li>
+              <li class="dx-e is-red" style="--n:1">
+                <p class="dx-e-t">Yearly cost of the waiting</p>
+                <p class="dx-e-v">&#8377;10.9 crore</p>
+                <span class="wr-tag is-derived">Worked out from yours</span>
+              </li>
+              <li class="dx-e" style="--n:2">
+                <p class="dx-e-t">When doctors decide who goes home</p>
+                <p class="dx-e-v">6 to 9 pm</p>
+                <span class="wr-tag">Your number</span>
+              </li>
+              <li class="dx-e is-gold" style="--n:3">
+                <p class="dx-e-t">Bed empty after the patient leaves</p>
+                <p class="dx-e-v">75 minutes</p>
+                <span class="wr-tag">Your number</span>
+              </li>
+            </ul>
+
+            <p class="dx-lb">What Tojo still has to do</p>
+            <ul class="dx-todo">
+              <li class="dx-t"><span class="dx-ring" aria-hidden="true"></span>
+                <p>Walk the last four stops: housekeeping, transport, the operating
+                   theatre and the family briefing.</p></li>
+              <li class="dx-t"><span class="dx-ring" aria-hidden="true"></span>
+                <p>Find out why the bed stays empty for 75 minutes after the
+                   patient leaves.</p></li>
+              <li class="dx-t is-blocked"><span class="dx-ring" aria-hidden="true"></span>
+                <p>Work out how many days the wait adds to each stay.
+                   <b>Needs your average stay in days</b></p></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="dx-acts">
+          <button class="dx-act is-go" type="button">
+            <span class="dx-act-t">Proceed with next step</span>
+            <span class="dx-act-s">Walk the housekeeping stop</span>
+          </button>
+          <button class="dx-act" type="button">
+            <span class="dx-act-t">Add more</span>
+            <span class="dx-act-s">Tell Tojo something new</span>
+          </button>
+          <button class="dx-act" type="button">
+            <span class="dx-act-t">Jump to Solutions</span>
+            <span class="dx-act-s">Five solutions are waiting</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ============ the Solutions desk ============
+           Another rail destination, switched by the same data-panel as the
+           Diagnosis landing. Its colours are set on the section rather than
+           taken from the page, so this desk can read differently from the
+           walk without redefining anything the other screens use.
+           ============================================== -->
+      <div class="dis-wrap sol" id="solWrap">
+
+        <header class="sl-top">
+          <span class="sl-mark" aria-hidden="true">
+            <svg viewBox="0 0 44 44">
+              <path d="M22 7a9 9 0 0 1 5 16.5V28h-10v-4.5A9 9 0 0 1 22 7z"/>
+              <path d="M18 32h8M19 36h6"/>
+              <path d="M22 2v3M8.5 8.5l2 2M35.5 8.5l-2 2M3 21h3M38 21h3"/>
+            </svg>
+          </span>
+          <p class="sl-eyebrow">Discharge Process</p>
+          <h1 class="sl-title">Solutions</h1>
+
+          <div class="sl-when">
+            <p class="sl-when-k">Updated every night at midnight</p>
+            <div class="sl-when-b">
+              <div>
+                <p class="sl-when-t">Brought up to date at midnight, 28 September</p>
+                <p class="sl-when-s">1 conversation since then is not in yet</p>
+              </div>
+              <button class="sl-refresh" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/>
+                </svg>
+                <span>Refresh now</span>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <h2 class="sl-head">Five solutions on the table. Two are agreed.</h2>
+        <p class="sl-lede">Each comes from a cause Diagnosis found, is tested against
+           what it depends on, and is redrawn when something changes.</p>
+
+        <div class="sl-card">
+          <div class="sl-hrow">
+            <span class="sl-h-sol">Solution</span>
+            <span class="sl-h-steps">
+              <i>Idea</i><i>Shaped</i><i>Tested<br>with you</i><i>Agreed</i>
+            </span>
+            <span class="sl-h-dep">Depends on</span>
+          </div>
+          <ol class="sl-rows">
+        <li class="sl-row" style="--n:0">
+          <div class="sl-lead">
+            <span class="sl-no">1</span>
+            <div>
+            <p class="sl-t">Start the going-home work on the evening round</p>
+            <p class="sl-s">
+          <span class="sl-warn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/></svg><b>2</b></span><span>Start with the consultants who decide latest</span></p>
+            </div>
+          </div>
+          <ol class="sl-track">
+            <li class="sl-step is-done" style="--i:0"></li>
+            <li class="sl-step is-done" style="--i:1"></li>
+            <li class="sl-step is-done" style="--i:2"></li>
+            <li class="sl-step is-agreed" style="--i:3"></li>
+          </ol>
+          <div class="sl-dep-cell">
+            <span class="sl-deps"><i class="sl-dep is-on"></i><i class="sl-dep is-on"></i><i class="sl-dep is-off"></i></span>
+            <span class="sl-settled">2 of 3 settled</span>
+          </div>
+        </li>
+        <li class="sl-row" style="--n:1">
+          <div class="sl-lead">
+            <span class="sl-no">2</span>
+            <div>
+            <p class="sl-t">Papers and bill that prepare themselves</p>
+            <p class="sl-s">
+          <span class="sl-warn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/></svg><b>1</b></span><span>Bill kept up to date from the first day</span></p>
+            </div>
+          </div>
+          <ol class="sl-track">
+            <li class="sl-step is-done" style="--i:0"></li>
+            <li class="sl-step is-now" style="--i:1"></li>
+            <li class="sl-step is-open" style="--i:2"></li>
+            <li class="sl-step is-open" style="--i:3"></li>
+          </ol>
+          <div class="sl-dep-cell">
+            <span class="sl-deps"><i class="sl-dep is-on"></i><i class="sl-dep is-off"></i><i class="sl-dep is-off"></i></span>
+            <span class="sl-settled">1 of 3 settled</span>
+          </div>
+        </li>
+        <li class="sl-row" style="--n:2">
+          <div class="sl-lead">
+            <span class="sl-no">3</span>
+            <div>
+            <p class="sl-t">One person in charge of discharge</p>
+            <p class="sl-s">
+          <span class="sl-warn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/></svg><b>2</b></span><span>Two helpers, not three, sized to your busy hours</span></p>
+            </div>
+          </div>
+          <ol class="sl-track">
+            <li class="sl-step is-done" style="--i:0"></li>
+            <li class="sl-step is-done" style="--i:1"></li>
+            <li class="sl-step is-done" style="--i:2"></li>
+            <li class="sl-step is-agreed" style="--i:3"></li>
+          </ol>
+          <div class="sl-dep-cell">
+            <span class="sl-deps"><i class="sl-dep is-on"></i><i class="sl-dep is-off"></i></span>
+            <span class="sl-settled">1 of 2 settled</span>
+          </div>
+        </li>
+        <li class="sl-row" style="--n:3">
+          <div class="sl-lead">
+            <span class="sl-no">4</span>
+            <div>
+            <p class="sl-t">Get the bed ready sooner after the patient leaves</p>
+            <p class="sl-s"><span>Your real times showed the bed empty for 75 minutes</span></p>
+            </div>
+          </div>
+          <ol class="sl-track">
+            <li class="sl-step is-now" style="--i:0"></li>
+            <li class="sl-step is-open" style="--i:1"></li>
+            <li class="sl-step is-open" style="--i:2"></li>
+            <li class="sl-step is-open" style="--i:3"></li>
+          </ol>
+          <div class="sl-dep-cell">
+            <span class="sl-deps"><i class="sl-dep is-off"></i><i class="sl-dep is-off"></i></span>
+            <span class="sl-settled">0 of 2 settled</span>
+          </div>
+        </li>
+        <li class="sl-row" style="--n:4">
+          <div class="sl-lead">
+            <span class="sl-no">5</span>
+            <div>
+            <p class="sl-t">Separate discharge work from admission work</p>
+            <p class="sl-s"><span>Opened by a question Diagnosis still has to ask</span></p>
+            </div>
+          </div>
+          <ol class="sl-track">
+            <li class="sl-step is-ask" style="--i:0"></li>
+            <li class="sl-step is-open" style="--i:1"></li>
+            <li class="sl-step is-open" style="--i:2"></li>
+            <li class="sl-step is-open" style="--i:3"></li>
+          </ol>
+          <div class="sl-dep-cell">
+            <span class="sl-deps"><i class="sl-dep is-ask"></i></span>
+            <span class="sl-settled">0 of 1 settled</span>
+          </div>
+        </li>
+        </ol>
+        </div>
+
+        <div class="sl-foot">
+          <div class="sl-todo">
+            <p class="sl-lb">What Tojo still has to do</p>
+            <ul>
+              <li><span class="sl-dia" aria-hidden="true"></span>
+                <p>Redraw the evening plan for consultants who decide after 8 PM.</p></li>
+              <li><span class="sl-dia" aria-hidden="true"></span>
+                <p>Weigh cash and insured patients separately.</p></li>
+              <li><span class="sl-dia" aria-hidden="true"></span>
+                <p>Draft the case for your Head of Operations.</p></li>
+              <li class="is-ask"><span class="sl-dia" aria-hidden="true"></span>
+                <p>Ask if one team does both discharges and admissions.
+                   <b>Needs your answer</b></p></li>
+            </ul>
+          </div>
+
+          <div class="sl-acts">
+            <button class="sl-act is-go" type="button">
+              <span class="sl-act-t">Proceed with next step</span>
+              <span class="sl-act-s">Settle the open points on the paperwork</span>
+            </button>
+            <button class="sl-act" type="button">
+              <span class="sl-act-t">Add more</span>
+              <span class="sl-act-s">Add a solution or a worry of your own</span>
+            </button>
+            <button class="sl-act" type="button">
+              <span class="sl-act-t">Jump to Automations</span>
+              <span class="sl-act-s">Two solutions run as automations</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ the Automations desk ============
+           Third rail destination on the same data-panel switch. The dial is
+           one drawing: the arcs, the hour marks and the six pins share a
+           coordinate space, so a pin cannot drift off its hour when the
+           column narrows.
+           ============================================== -->
+      <div class="dis-wrap aut" id="autWrap">
+
+        <header class="au-top">
+          <span class="au-mark" aria-hidden="true">
+            <svg viewBox="0 0 44 44">
+              <circle cx="22" cy="22" r="17"/>
+              <path d="M24 11l-8 12h7l-2 10 8-12h-7z"/>
+            </svg>
+          </span>
+          <p class="au-eyebrow">Discharge Process</p>
+          <h1 class="au-title">Automations</h1>
+
+          <div class="au-when">
+            <div class="au-when-b">
+              <div>
+                <p class="au-when-t">Brought up to date at midnight, 28 September</p>
+                <p class="au-when-s"><i></i>1 conversation since then is not in yet</p>
+              </div>
+              <button class="au-refresh" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/>
+                </svg>
+                <span>Refresh now</span>
+              </button>
+            </div>
+            <p class="au-when-k">Updates itself every night at midnight</p>
+          </div>
+        </header>
+
+        <h2 class="au-head">Six automations designed. None switched on yet.</h2>
+        <p class="au-lede">All of them wait on one link: your IT team connecting the
+           hospital software and the report system.</p>
+
+        <div class="au-card">
+          <div class="au-dial" id="auDial">
+            <!-- What the dial reads. Times, not coordinates: the angles,
+                 the hour marks, the night/morning split and where each pin
+                 sits are all worked out from these at run time, so moving an
+                 automation an hour later moves it on the chart. -->
+            <script type="application/json" id="autData">
+            {
+              "from": "18:00", "to": "14:00",
+              "nightEnds": "06:00",
+              "everyHours": 4,
+              "items": [
+                { "at": "19:30", "state": "designed" },
+                { "at": "21:00", "state": "designed" },
+                { "at": "22:00", "state": "designed" },
+                { "at": "21:00", "state": "designed" },
+                { "at": "08:00", "state": "designed" },
+                { "at": "12:00", "state": "idea" }
+              ]
+            }
+            </script>
+
+            <svg class="au-dial-svg" viewBox="0 0 524 300" aria-hidden="true">
+              <g id="auArcs"></g>
+              <g id="auMarks"></g>
+              <g id="auPins"></g>
+            </svg>
+            <p class="au-band is-l">Overnight, while the ward sleeps</p>
+            <p class="au-band is-r">Morning to going home</p>
+          </div>
+
+          <div class="au-list">
+            <div class="au-lock">
+              <span aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <rect x="4.5" y="10.5" width="15" height="10" rx="2"/>
+                  <path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>
+                </svg>
+              </span>
+              <div>
+                <p class="au-lock-t">Link to the hospital software</p>
+                <p class="au-lock-s">Every automation waits on this</p>
+              </div>
+            </div>
+
+            <ol class="au-items">
+            <li class="au-item" style="--n:0">
+              <span class="au-no">1</span>
+              <div>
+                <p class="au-t">Discharge summary written from the evening round</p>
+                <p class="au-s">Evening round, 6 to 9 PM &middot; Designed</p>
+              </div>
+            </li>
+            <li class="au-item" style="--n:1">
+              <span class="au-no">2</span>
+              <div>
+                <p class="au-t">Running bill kept up to date</p>
+                <p class="au-s">All through the stay &middot; Designed</p>
+              </div>
+            </li>
+            <li class="au-item" style="--n:2">
+              <span class="au-no">3</span>
+              <div>
+                <p class="au-t">Supply count worked out for the nurses</p>
+                <p class="au-s">When the bill is drawn up &middot; Designed</p>
+              </div>
+            </li>
+            <li class="au-item" style="--n:3">
+              <span class="au-no">4</span>
+              <div>
+                <p class="au-t">Insurance request sent the evening before</p>
+                <p class="au-s">About 9 PM &middot; Designed</p>
+              </div>
+            </li>
+            <li class="au-item" style="--n:4">
+              <span class="au-no">5</span>
+              <div>
+                <p class="au-t">Final summary signed on a phone</p>
+                <p class="au-s">Morning round &middot; Designed</p>
+              </div>
+            </li>
+            <li class="au-item is-idea" style="--n:5">
+              <span class="au-no">6</span>
+              <div>
+                <p class="au-t">Alerts to housekeeping and transport</p>
+                <p class="au-s">When the patient leaves &middot; Idea</p>
+              </div>
+            </li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="au-foot">
+          <div class="au-todo">
+            <p class="au-lb">What Tojo still has to do</p>
+            <ul>
+              <li><span class="au-dot" aria-hidden="true"></span>
+                <p>List exactly what your IT team must link first.</p></li>
+              <li><span class="au-dot" aria-hidden="true"></span>
+                <p>Check which reports arrive late and would hold up the summary.</p></li>
+              <li><span class="au-dot" aria-hidden="true"></span>
+                <p>Design the alerts for the bed left empty.</p></li>
+              <li class="is-ask"><span class="au-dot" aria-hidden="true"></span>
+                <p>Confirm the insurance desk will accept an evening request.
+                   <b>Needs your insurance desk&rsquo;s answer</b></p></li>
+            </ul>
+          </div>
+
+          <div class="au-acts">
+            <button class="au-act is-go" type="button">
+              <span class="au-act-d" aria-hidden="true"></span>
+              <span>
+                <span class="au-act-t">Proceed with next step</span>
+                <span class="au-act-s">Map what your IT team must link</span>
+              </span>
+            </button>
+            <button class="au-act" type="button">
+              <span>
+                <span class="au-act-t">Add more</span>
+                <span class="au-act-s">Name a task you&rsquo;d like done for you</span>
+              </span>
+            </button>
+            <button class="au-act" type="button">
+              <span>
+                <span class="au-act-t">Jump to Processes</span>
+                <span class="au-act-s">See what changes on the wards</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ the Processes desk ============
+           Fourth and last rail destination, on the same data-panel switch.
+           Three columns of one card, because the changes, the measures and
+           the people are one plan seen three ways — and the trial that has
+           to happen before any of it is real runs along the foot of them.
+           ============================================= -->
+      <div class="dis-wrap prc" id="prcWrap">
+
+        <header class="pr-top">
+          <span class="pr-mark" aria-hidden="true">
+            <svg viewBox="0 0 44 44">
+              <path d="M9 17a13 13 0 0121.5-4.8l3.5 3.3"/>
+              <path d="M35 27a13 13 0 01-21.5 4.8L10 28.5"/>
+              <path d="M34 8.5V15h-6.4"/><path d="M10 35.5V29h6.4"/>
+            </svg>
+          </span>
+          <p class="pr-eyebrow">Discharge Process</p>
+          <h1 class="pr-title">Processes</h1>
+          <p class="pr-kicker">Process changes &middot; Measures we watch &middot; Team and role changes</p>
+
+          <div class="pr-when">
+            <div class="pr-when-b">
+              <div>
+                <p class="pr-when-t">Brought up to date at midnight, 28 September</p>
+                <p class="pr-when-s">1 conversation since then is not in yet</p>
+              </div>
+              <button class="pr-refresh" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/>
+                </svg>
+                <span>Refresh now</span>
+              </button>
+            </div>
+            <p class="pr-when-k">Refreshed every night at midnight</p>
+          </div>
+        </header>
+
+        <h2 class="pr-head">The trial is planned. Nothing has changed on the wards yet.</h2>
+        <p class="pr-lede">Changes, measures and new roles in one place. A two-week trial
+           on one ward comes first.</p>
+
+        <div class="pr-card">
+          <div class="pr-cols">
+
+            <section class="pr-col" style="--n:0">
+              <p class="pr-col-h">
+                <span aria-hidden="true"><svg viewBox="0 0 24 24">
+                  <path d="M4 8h12.5"/><path d="M13 4.5L16.5 8 13 11.5"/>
+                  <path d="M20 16H7.5"/><path d="M11 12.5L7.5 16 11 19.5"/>
+                </svg></span>
+                Process changes
+              </p>
+              <p class="pr-col-s">5 agreed on paper &middot; 1 new &middot; 0 tried</p>
+              <ul class="pr-chs">
+              <li class="pr-ch is-on" style="--n:0">
+                <i aria-hidden="true"></i>
+                <span>The evening round starts the paperwork</span>
+              </li>
+              <li class="pr-ch is-on" style="--n:1">
+                <i aria-hidden="true"></i>
+                <span>Discharge papers drafted before signing<b class="pr-flag">Biggest hold-up</b></span>
+              </li>
+              <li class="pr-ch is-on" style="--n:2">
+                <i aria-hidden="true"></i>
+                <span>Bill and supply count kept up to date</span>
+              </li>
+              <li class="pr-ch is-on" style="--n:3">
+                <i aria-hidden="true"></i>
+                <span>Insurance asked the evening before</span>
+              </li>
+              <li class="pr-ch is-on" style="--n:4">
+                <i aria-hidden="true"></i>
+                <span>Family and transport told the night before</span>
+              </li>
+              <li class="pr-ch is-new" style="--n:5">
+                <i aria-hidden="true"></i>
+                <span>Bed made ready as the patient leaves</span>
+              </li>
+              </ul>
+            </section>
+
+            <section class="pr-col" style="--n:1">
+              <p class="pr-col-h">
+                <span aria-hidden="true"><svg viewBox="0 0 24 24">
+                  <path d="M3.5 14a8.5 8.5 0 0117 0"/>
+                  <path d="M12 14l4-4.2"/>
+                </svg></span>
+                Measures we watch
+              </p>
+              <p class="pr-col-s">3 with a starting number &middot; 3 new</p>
+              <ul class="pr-mes">
+              <li class="pr-me is-has" style="--n:0">
+                <i aria-hidden="true"></i>
+                <span class="pr-me-t">Hours from ready to home</span>
+                <span class="pr-me-v">5 hours 15 minutes</span>
+              </li>
+              <li class="pr-me is-has" style="--n:1">
+                <i aria-hidden="true"></i>
+                <span class="pr-me-t">Insurance approval time</span>
+                <span class="pr-me-v">About 1 hour</span>
+              </li>
+              <li class="pr-me is-has" style="--n:2">
+                <i aria-hidden="true"></i>
+                <span class="pr-me-t">Bed empty after the patient leaves</span>
+                <span class="pr-me-v">75 minutes</span>
+              </li>
+              <li class="pr-me is-new" style="--n:3">
+                <i aria-hidden="true"></i>
+                <span class="pr-me-t">Patients home by 10 AM</span>
+                <span class="pr-me-v">New</span>
+              </li>
+              <li class="pr-me is-new" style="--n:4">
+                <i aria-hidden="true"></i>
+                <span class="pr-me-t">Decisions made on the evening round</span>
+                <span class="pr-me-v">New</span>
+              </li>
+              <li class="pr-me is-new" style="--n:5">
+                <i aria-hidden="true"></i>
+                <span class="pr-me-t">Money won back each month</span>
+                <span class="pr-me-v">New</span>
+              </li>
+              </ul>
+            </section>
+
+            <section class="pr-col" style="--n:2">
+              <p class="pr-col-h">
+                <span aria-hidden="true"><svg viewBox="0 0 24 24">
+                  <circle cx="9" cy="8.5" r="3.4"/><path d="M3 19a6 6 0 0112 0"/>
+                  <path d="M16 6.2a3.4 3.4 0 010 4.6"/><path d="M17.5 14.4A6 6 0 0121 19"/>
+                </svg></span>
+                Team and role changes
+              </p>
+              <p class="pr-col-s">3 people to hire &middot; &#8377;10 to 11.5 lakh a year</p>
+              <ul class="pr-roles">
+                <li style="--n:0">
+                  <span class="pr-who" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0115 0"/></svg></span>
+                  <p class="pr-role-t">Discharge Manager</p>
+                  <p class="pr-role-s">Recommended now, before the trial</p>
+                </li>
+                <li style="--n:1">
+                  <span class="pr-who" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0115 0"/></svg><svg viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0115 0"/></svg></span>
+                  <p class="pr-role-t">Discharge Executives</p>
+                  <p class="pr-role-s">One for 8 to 11 AM, one for 6 to 9 PM</p>
+                </li>
+              </ul>
+              <p class="pr-pay">&#8377;10 to 11.5 lakh a year. Your Head of Operations approves.</p>
+            </section>
+          </div>
+
+          <!-- Nothing above this is real until the trial has run, so the trial
+               sits across the foot of all three rather than inside one. -->
+          <div class="pr-trial">
+            <div>
+              <p class="pr-trial-t">Two-week trial on one ward</p>
+              <p class="pr-trial-s">No new staff and no new system needed</p>
+            </div>
+            <span class="pr-weeks"><i>Week 1</i><i>Week 2</i></span>
+            <span class="pr-state">Not started</span>
+          </div>
+        </div>
+
+        <div class="pr-foot">
+          <div class="pr-todo">
+            <p class="pr-lb">What Tojo still has to do</p>
+            <ul>
+              <li><span class="pr-box" aria-hidden="true"></span>
+                <p>Pick the trial ward with you, starting with the latest-deciding consultants.</p></li>
+              <li><span class="pr-box" aria-hidden="true"></span>
+                <p>Write the job outline for the Discharge Manager.</p></li>
+              <li><span class="pr-box" aria-hidden="true"></span>
+                <p>Set a goal for each measure after the first trial week.</p></li>
+              <li class="is-ask"><span class="pr-box" aria-hidden="true"></span>
+                <p>Name who will record the times on the trial ward.
+                   <b>Needs a name from you</b></p></li>
+            </ul>
+          </div>
+
+          <div class="pr-acts">
+            <button class="pr-act is-go" type="button">
+              <span class="pr-act-t">Proceed with next step</span>
+              <span class="pr-act-s">Pick the trial ward</span>
+            </button>
+            <button class="pr-act" type="button">
+              <span class="pr-act-t">Add more</span>
+              <span class="pr-act-s">Add a change, a measure or a role</span>
+            </button>
+            <button class="pr-act" type="button">
+              <span class="pr-act-t">Jump to Diagnosis</span>
+              <span class="pr-act-s">Four stops still to walk</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ============ 3 · Tojo ============ -->
+  <aside class="dis-chat" id="chat" aria-label="Chat with Tojo">
+
+    <header class="ct-head">
+      <!-- Only on a phone, where this panel is a full screen that has to be
+           got out of. On a wide window it is simply a column and there is
+           nothing to go back to. -->
+      <button class="ct-back" type="button" id="ctBack" aria-label="Back to the worksheet">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <span class="ct-av" aria-hidden="true">T</span>
+      <div class="ct-id">
+        <p class="ct-name">Tojo</p>
+        <p class="ct-sub">Discharge Process<span class="w-only ct-sub-1"> &middot; this conversation stays with this tool</span><span class="w-only ct-sub-2"> &middot; 250-bed hospital, Bhubaneswar</span></p>
+      </div>
+      <button class="ct-exp" type="button" aria-label="Expand the conversation">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M14 4h6v6"/><path d="M20 4l-7 7"/>
+          <path d="M10 20H4v-6"/><path d="M4 20l7-7"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="ct-body" id="ctBody">
+      <div class="v1">
+      <p class="ct-day">Today</p>
+
+      <div class="ct-msg">
+        <p>Hello &mdash; I&rsquo;m Tojo. I haven&rsquo;t seen any of your discharge data
+           yet<span class="w-only">, so the six blocks are showing what I&rsquo;ll look
+           at, not what I&rsquo;ve found.</span><span class="n-only">. Share these and the
+           numbers block fills in:</span></p>
+      </div>
+
+      <div class="ct-msg">
+        <p class="ct-msg-h w-only">The quickest way to start is to share these:</p>
+        <ul class="ct-files">
+          <li class="ct-file">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4v13H6z"/><path d="M13.6 3.7V8h4.2"/></svg>
+            <span>Discharge register, <span class="w-only">last </span>30 days</span>
+            <b role="button" tabindex="0">Attach</b>
+          </li>
+          <li class="ct-file">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4v13H6z"/><path d="M13.6 3.7V8h4.2"/></svg>
+            <span>Bed allocation &amp; admission times</span>
+            <b role="button" tabindex="0">Attach</b>
+          </li>
+          <li class="ct-file w-only">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4v13H6z"/><path d="M13.6 3.7V8h4.2"/></svg>
+            <span>Bill finalisation times</span>
+            <b role="button" tabindex="0">Attach</b>
+          </li>
+          <li class="ct-file">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4v13H6z"/><path d="M13.6 3.7V8h4.2"/></svg>
+            <span>TPA request &amp; approval log</span>
+            <b role="button" tabindex="0">Attach</b>
+          </li>
+        </ul>
+      </div>
+
+      <p class="ct-hand">or just drop the files anywhere in here</p>
+
+      <div class="ct-chips" id="ctChips">
+        <button class="ct-chip w-only" type="button">We do about 40 a day</button>
+        <button class="ct-chip" type="button">Where do I find these<span class="w-only"> files</span>?</button>
+        <button class="ct-chip" type="button">Explain the six blocks</button>
+      </div>
+      </div>
+
+      <!-- ---------- the conversation, once the walk has begun ----------
+           What you said, where Tojo's answer went, the answer itself, and
+           then the two ways on: a point to add to, or a question to ask
+           next. -->
+
+<!-- What Tojo says at each stop. The route map and the chat are two views of
+     the same walk, so pressing a stop has to move both — and keeping the
+     eleven scripts here, in one block, means the wording is edited in one
+     place rather than hunted through the markup. -->
+<script type="application/json" id="stopChat">
+{
+ "A": {
+  "msg": ["Before I suggest anything, I want to see how discharge really runs in your hospital. Most delays that look like discharge problems start further up the chain.",
+          "First stop, the doctors: who writes the discharge summary, who reviews it, who signs it \u2014 and when do rounds finish on your busiest wards?",
+          "The whole route is laid out for you \u2014 tap any stop to see what I\u2019ll ask there."],
+  "note": "Most delays start long before the billing desk.",
+  "pts": [["A","The doctors \u2014 who writes, reviews and signs"],
+          ["B","Nurses \u2014 when they count used supplies"],
+          ["C","Pharmacy \u2014 returns counted by hand or system"],
+          ["D","Billing \u2014 bills reopened after closing"]],
+  "asks": ["Rounds finish around 11 AM",
+           "A junior doctor writes it, the consultant signs",
+           "Why start with the doctors?"]
+ },
+ "B": {
+  "msg": ["The stock-take is the quiet one. On paper it takes minutes; in practice it starts whenever the ward has a spare pair of hands.",
+          "So: at what point does the nurse actually begin counting what the patient used \u2014 when the doctor decides, or when the family asks to leave?",
+          "If it starts late, everything behind it starts late too."],
+  "note": "The stock-take does not take long. Starting it does.",
+  "pts": [["B","When the count begins, not how long it takes"],
+          ["C","What goes back to pharmacy"],
+          ["D","What reaches billing, and when"],
+          ["A","Whether the ward hears the decision at all"]],
+  "asks": ["It starts when the family asks",
+           "We count twice, ward and pharmacy",
+           "How much time does this really cost?"]
+ },
+ "C": {
+  "msg": ["Pharmacy returns are where a bill stops being a number and becomes an argument.",
+          "Are unused medicines counted back by hand at the counter, or does the system credit them from the ward\u2019s own record?",
+          "Every hand-count is a second queue between the decision and the bill."],
+  "note": "A credit counted twice is a bed held twice.",
+  "pts": [["C","Returns counted by hand or by system"],
+          ["B","Where the count starts on the ward"],
+          ["D","When the credit reaches the bill"],
+          ["K","Whether the counter waits on it"]],
+  "asks": ["The counter recounts everything",
+           "The ward sends a list, pharmacy checks it",
+           "Could this run before signing?"]
+ },
+ "D": {
+  "msg": ["Billing is where the waiting becomes visible, and it is almost never where the waiting was made.",
+          "The question I have is about reopening: once a bill is closed, how often does a late charge force it open again \u2014 and who has to approve that?",
+          "A bill that can be reopened cannot be finalised early."],
+  "note": "A bill reopened at four undoes a morning of good work.",
+  "pts": [["D","Bills reopened after closing"],
+          ["C","Late pharmacy credits"],
+          ["E","The insurance approval it waits on"],
+          ["K","What the family is asked to settle"]],
+  "asks": ["It happens most days",
+           "Only the manager can reopen one",
+           "What would let us close it once?"]
+ },
+ "E": {
+  "msg": ["Insurance is the stop most hospitals have given up measuring, because the wait belongs to someone else.",
+          "But it still sits inside your discharge time: when the TPA approval is slow, the bed is held by your hospital, not by theirs.",
+          "Do you count that wait as discharge time, or do you keep it separate?"],
+  "note": "A wait you do not count is a wait you cannot fix.",
+  "pts": [["E","Whether the TPA wait sits inside your number"],
+          ["D","The bill it is holding up"],
+          ["F","The bed being held meanwhile"],
+          ["K","What the family settles at the end"]],
+  "asks": ["We send the file after signing",
+           "Approval usually comes the same day",
+           "Can the file go earlier?"]
+ },
+ "F": {
+  "msg": ["This is the bed desk \u2014 the stop that decides whether an empty bed is a bed anyone can use.",
+          "What I want to know here is who is told a bed has come free, and how: does housekeeping and admissions find out the moment the patient walks out, or does someone have to notice and make a call?",
+          "Between the patient leaving and the next one arriving, the bed is empty and earning nothing. That gap is yours to close, and it is usually the cheapest one on the whole route."],
+  "note": "A free bed nobody has been told about is not a free bed.",
+  "pts": [["F","Who is told the bed is free, and how"],
+          ["G","When housekeeping actually starts"],
+          ["H","Whether transport is waiting or called"],
+          ["I","The admission already queued for that bed"]],
+  "asks": ["The ward phones the bed desk",
+           "It shows in the system straight away",
+           "How long is our bed sitting empty?"]
+ },
+ "G": {
+  "msg": ["Housekeeping is the stop that gets blamed and is almost never the cause.",
+          "I am not asking how fast your team cleans \u2014 I am asking when they are told. A twenty-minute clean that starts forty minutes late is an hour-long bed.",
+          "So who tells them, and at what moment?"],
+  "note": "Judge the telling, not the cleaning.",
+  "pts": [["G","When they are told, not how fast they clean"],
+          ["F","Who passes the bed on"],
+          ["H","Whether the patient has actually left"],
+          ["I","The list waiting on that bed"]],
+  "asks": ["They see it on a board",
+           "The ward calls when it can",
+           "What would a clean look like at best?"]
+ },
+ "H": {
+  "msg": ["Transport is the last thing between a finished discharge and an empty bed.",
+          "Is the porter or the wheelchair booked when the decision is made, or called for once the papers are in the family\u2019s hand?",
+          "Booked ahead, this stop costs nothing. Called for, it costs whatever the queue costs."],
+  "note": "Book it with the decision, not with the paperwork.",
+  "pts": [["H","Booked ahead or called for"],
+          ["J","Whether the family was told to expect it"],
+          ["G","The clean that follows"],
+          ["K","The counter they stop at on the way"]],
+  "asks": ["We call when the papers are ready",
+           "There is usually a queue at noon",
+           "Could we book it at the round?"]
+ },
+ "I": {
+  "msg": ["OT scheduling sits oddly on a discharge route, and it belongs here for one reason: the theatre list decides which beds are needed and when.",
+          "If tomorrow\u2019s list is set before today\u2019s discharges are known, the two never meet \u2014 and a bed that came free at noon waits for a patient booked at six.",
+          "Who sees both lists, and when?"],
+  "note": "Two lists, one bed, and nobody holding both.",
+  "pts": [["I","Who sees the list and the free beds together"],
+          ["F","How a free bed is announced"],
+          ["A","When the decisions are made"],
+          ["G","Whether the bed is ready in time"]],
+  "asks": ["The list is fixed the evening before",
+           "Admissions and theatre do not share a view",
+           "What would joining them change?"]
+ },
+ "J": {
+  "msg": ["The briefing chain is the stop nobody schedules, and it is the one families remember.",
+          "Somebody has to explain the medicines, the follow-up and the warning signs \u2014 and until that happens the patient does not leave, however finished the paperwork is.",
+          "When does that conversation happen: with the round, or once everything else is done?"],
+  "note": "The last conversation decides the last hour.",
+  "pts": [["J","When the family is actually briefed"],
+          ["A","Whether the decision reached them"],
+          ["H","The transport waiting on it"],
+          ["K","What is still to settle"]],
+  "asks": ["A nurse does it at the end",
+           "The doctor briefs them on the round",
+           "Could this move to the morning?"]
+ },
+ "K": {
+  "msg": ["The cash counter is the last stop, and the only one the family experiences as a queue.",
+          "By the time they reach it, every earlier delay has already happened \u2014 so the length of this queue tells you less about the counter than about everything upstream of it.",
+          "How long do they wait here, and what are they waiting on?"],
+  "note": "The queue at the end is the bill of everything before it.",
+  "pts": [["K","What the family waits on at the counter"],
+          ["D","The bill still being closed"],
+          ["E","The approval still outstanding"],
+          ["C","The credit still being counted"]],
+  "asks": ["Around forty minutes at the busy hour",
+           "They wait for the final bill",
+           "What could be settled earlier?"]
+ }
+}
+</script>
+
+      <div class="v2">
+        <div class="ct-said" id="ctSaid">Discharge delays. Our patients are medically
+          fit by mid-morning but most don&rsquo;t leave till late afternoon.</div>
+
+        <p class="ct-where">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5"/><path d="M10.5 6.5L5 12l5.5 5.5"/></svg>
+          <span>Tojo&rsquo;s full answer is open on the left</span>
+        </p>
+
+        <div class="ct-msg" id="ctMsg2">
+          <p>Before I suggest anything, I want to see how discharge actually runs in
+             your hospital. Discharge is the last visible step in a chain of eleven,
+             so most delays that look like discharge problems start somewhere else.
+             I&rsquo;ve laid the chain out for you &mdash; let&rsquo;s walk it one link
+             at a time, starting with your doctors.</p>
+        </div>
+
+        <p class="ct-lb">Tojo&rsquo;s note</p>
+        <p class="ct-hand ct-hand-2" id="ctNote2">Every upstream delay shows up wearing a discharge symptom.</p>
+
+        <p class="ct-lb">Add to a point &mdash; pick one or more</p>
+        <div class="ct-pts" id="ctPts2">
+        <button class="ct-pt" type="button" data-go="A">
+          <span class="ct-pt-n">P1</span>
+          <span class="ct-pt-t">Doctors &mdash; who writes, reviews and signs the summary</span>
+        </button>
+        <button class="ct-pt" type="button" data-go="B">
+          <span class="ct-pt-n">P2</span>
+          <span class="ct-pt-t">Nursing &mdash; when the stock-take really starts</span>
+        </button>
+        <button class="ct-pt" type="button" data-go="C">
+          <span class="ct-pt-n">P3</span>
+          <span class="ct-pt-t">Pharmacy &mdash; returns counted by hand or by system</span>
+        </button>
+        <button class="ct-pt" type="button" data-go="D">
+          <span class="ct-pt-n">P4</span>
+          <span class="ct-pt-t">Billing &mdash; bills reopened after closing</span>
+        </button>
+        <button class="ct-pt" type="button" data-go="E">
+          <span class="ct-pt-n">P5</span>
+          <span class="ct-pt-t">Insurance &mdash; is the TPA wait inside your discharge time?</span>
+        </button>
+        <button class="ct-pt" type="button" data-go="G">
+          <span class="ct-pt-n">P6</span>
+          <span class="ct-pt-t">Housekeeping &mdash; when they&rsquo;re told, not how fast they clean</span>
+        </button>
+        </div>
+
+        <p class="ct-lb">Or ask next</p>
+        <div class="ct-asks" id="ctAsks2">
+        <button class="ct-ask" type="button">
+          <span>Rounds finish around 11 AM</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"/><path d="M13.5 6.5L19.5 12l-6 5.5"/></svg>
+        </button>
+        <button class="ct-ask" type="button">
+          <span>The RMO drafts, the consultant signs</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"/><path d="M13.5 6.5L19.5 12l-6 5.5"/></svg>
+        </button>
+        <button class="ct-ask" type="button">
+          <span>Why start with the doctors?</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"/><path d="M13.5 6.5L19.5 12l-6 5.5"/></svg>
+        </button>
+        </div>
+      </div>
+
+      <!-- ---------- the conversation, with the numbers in ---------- -->
+      <div class="v3">
+        <div class="ct-said">
+          <span class="ct-tags" id="ctTags3"></span>
+          <span id="ctSaidT3">One bed earns about &#8377;32,000 a day. Most patients are ready
+            by 10 and leave around 3, so they wait about 5 hours. The doctors usually decide
+            who&rsquo;s going home on the 7&nbsp;PM round, but they don&rsquo;t sign till morning.</span>
+        </div>
+
+        <div class="ct-msg">
+          <p>Your real problem isn&rsquo;t slow discharge. It&rsquo;s time nobody uses, and
+             nobody being in charge.</p>
+          <p>Here&rsquo;s why. Your doctors already decide in the evening. But nothing happens
+             until they sign the next morning. Most of the going-home work could be done
+             overnight. Nobody does it today because:</p>
+          <ul class="ct-bul">
+            <li>Nothing is automatic, so starting early means doing the work twice.</li>
+            <li>No team moves until the doctor signs.</li>
+            <li>Nobody has ever been asked to use the evening.</li>
+          </ul>
+          <p>The second reason: your own numbers show you now need one person in charge of
+             discharge. Does this match what you see on the wards?</p>
+        </div>
+
+        <p class="ct-lb">Tojo&rsquo;s note</p>
+        <p class="ct-hand ct-hand-2">The time is already there. Nobody uses it.</p>
+
+        <p class="ct-lb">Add to a point &mdash; pick one or more</p>
+        <div class="ct-pts">
+        <button class="ct-pt" type="button" aria-pressed="false">
+          <span class="ct-pt-n">P1</span>
+          <span class="ct-pt-t">The hours nobody uses overnight</span>
+        </button>
+        <button class="ct-pt" type="button" aria-pressed="false">
+          <span class="ct-pt-n">P2</span>
+          <span class="ct-pt-t">Papers and bill made only after signing</span>
+        </button>
+        <button class="ct-pt" type="button" aria-pressed="false">
+          <span class="ct-pt-n">P3</span>
+          <span class="ct-pt-t">Needing one person in charge</span>
+        </button>
+        <button class="ct-pt" type="button" aria-pressed="false">
+          <span class="ct-pt-n">P4</span>
+          <span class="ct-pt-t">What the waiting costs</span>
+        </button>
+        </div>
+
+        <p class="ct-lb">Or ask next</p>
+        <div class="ct-asks">
+        <button class="ct-ask" type="button">
+          <span>Yes &mdash; show me how to fix it</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"/><path d="M13.5 6.5L19.5 12l-6 5.5"/></svg>
+        </button>
+        <button class="ct-ask" type="button">
+          <span>Why doesn&rsquo;t anyone use the evening now?</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"/><path d="M13.5 6.5L19.5 12l-6 5.5"/></svg>
+        </button>
+        <button class="ct-ask" type="button">
+          <span>Our doctors won&rsquo;t sign at night</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"/><path d="M13.5 6.5L19.5 12l-6 5.5"/></svg>
+        </button>
+        </div>
+      </div>
+
+      <!-- ---------- the conversation, on the fix ---------- -->
+      <div class="v4">
+        <div class="ct-said is-short">
+          <span class="ct-tags" id="ctTags4"></span>
+          <span id="ctSaidT4">Yes, that&rsquo;s exactly it. Show me how to fix it.</span>
+        </div>
+
+        <div class="ct-msg">
+          <p>Here&rsquo;s what the fix is made of. It has five parts.</p>
+          <p>None of them needs a new hospital system on day one. They sit on top of how you
+             work today.</p>
+          <p>Each part opens to show what&rsquo;s in it. Pick the one you want to start with.</p>
+        </div>
+
+        <p class="ct-lb">Tojo&rsquo;s note</p>
+        <p class="ct-hand ct-hand-2">Five parts, one aim: put the evening to work.</p>
+
+        <p class="ct-lb">Add to a point &mdash; pick one or more</p>
+        <div class="ct-pts">
+        <button class="ct-pt" type="button" aria-pressed="false">
+          <span class="ct-pt-n">P1</span>
+          <span class="ct-pt-t">Automatic paperwork</span>
+        </button>
+        <button class="ct-pt" type="button" aria-pressed="false">
+          <span class="ct-pt-n">P2</span>
+          <span class="ct-pt-t">Changes on the wards</span>
+        </button>
+        <button class="ct-pt" type="button" aria-pressed="false">
+          <span class="ct-pt-n">P3</span>
+          <span class="ct-pt-t">People who must agree</span>
+        </button>
+        <button class="ct-pt" type="button" aria-pressed="false">
+          <span class="ct-pt-n">P4</span>
+          <span class="ct-pt-t">Who is in charge</span>
+        </button>
+        <button class="ct-pt" type="button" aria-pressed="false">
+          <span class="ct-pt-n">P5</span>
+          <span class="ct-pt-t">How we&rsquo;ll know it worked</span>
+        </button>
+        </div>
+
+        <p class="ct-lb">Or ask next</p>
+        <div class="ct-asks">
+        <button class="ct-ask" type="button">
+          <span>Start with the automatic paperwork</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"/><path d="M13.5 6.5L19.5 12l-6 5.5"/></svg>
+        </button>
+        <button class="ct-ask" type="button">
+          <span>Which part saves the most time?</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"/><path d="M13.5 6.5L19.5 12l-6 5.5"/></svg>
+        </button>
+        <button class="ct-ask" type="button">
+          <span>Do we need to hire anyone?</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15"/><path d="M13.5 6.5L19.5 12l-6 5.5"/></svg>
+        </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- One composer, both screens. The two controls live inside the field
+         and the send button stands beside it; the only thing that changes
+         between a phone and a wide window is how tall the field starts. -->
+    <form class="ct-foot" id="ctForm">
+      <label class="ct-lbl" for="ctIn" hidden>Write to Tojo</label>
+      <div class="ct-field">
+        <!-- What you have picked in the conversation, shown in the field you
+             are about to send from. Chips rather than words typed into the
+             box: the selection is the page's and your words are yours, and
+             mixed into one string the two fight — a half-deleted "P1," is a
+             point still pressed above and no longer picked below. -->
+        <div class="ct-picks" id="ctPicks" hidden></div>
+        <textarea class="ct-in" id="ctIn" rows="1" placeholder="Write to Tojo&hellip;"></textarea>
+        <span class="ct-mini">
+          <button class="ct-ic" type="button" aria-label="Attach a file">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8.5l-7.4 7.4a3 3 0 11-4.2-4.2l7.8-7.8a4.4 4.4 0 016.2 6.2l-8 8"/></svg>
+          </button>
+          <button class="ct-ic ct-ic-on" type="button" aria-label="Record a voice note">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9.4" y="3.2" width="5.2" height="10.4" rx="2.6"/><path d="M6 11.4a6 6 0 0012 0M12 17.4V21"/></svg>
+          </button>
+        </span>
+      </div>
+      <button class="ct-send" type="submit" aria-label="Send">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 3.4L2.6 10.6l7.5 2.9 2.9 7.5z"/><path d="M10.1 13.5L21 3.4"/>
+        </svg>
+      </button>
+    </form>
+
+  </aside>
+
+  <!-- ============ 4 · the dock ============
+       A phone has no room for the rail or for a column of conversation, so
+       both move to the foot of the screen and stay there: the composer, and
+       under it the five sections the rail carries as tabs. Chat is not among
+       them because the strip above IS chat. Pressing the strip raises the
+       panel to full screen; the icons stay above it, which is why the sheet
+       stops short of the bottom rather than covering the window. -->
+  <div class="dis-dock" id="disDock">
+    <div class="dock-bar">
+      <span class="dock-av" aria-hidden="true">T</span>
+      <button class="dock-field" type="button" id="dockOpen">
+        <span class="dock-ph">Write to Tojo&hellip;</span>
+        <i class="dock-ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M18 8.5l-7.4 7.4a3 3 0 11-4.2-4.2l7.8-7.8a4.4 4.4 0 016.2 6.2l-8 8"/></svg>
+        </i>
+        <i class="dock-ic dock-ic-on" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="9.4" y="3.2" width="5.2" height="10.4" rx="2.6"/><path d="M6 11.4a6 6 0 0012 0M12 17.4V21"/></svg>
+        </i>
+      </button>
+    </div>
+    <!-- On a phone this bar is the way between the tools, not between the
+         sections of this one: the same five the sidebar carries on a wide
+         window, in the same order and pointing at the same places. -->
+    <!-- On a phone there is no rail, so this strip is the rail: the way back
+         to the start of the walk, then the five sections. Each icon is the
+         one its desk wears in its own header, so the strip and the page
+         agree about what each section looks like. -->
+    <nav class="dock-nav" aria-label="Sections">
+      <a class="dock-i dock-back" href="/discharge" aria-label="Back to the start of Discharge">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/>
+        </svg>
+      </a>
+      <a class="dock-i is-soon" href="#resources" aria-label="Resources (not built yet)" aria-disabled="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 6.6C10.2 5.3 7.8 4.7 4.5 4.7v12.7c3.3 0 5.7.6 7.5 1.9 1.8-1.3 4.2-1.9 7.5-1.9V4.7c-3.3 0-5.7.6-7.5 1.9z"/>
+          <path d="M12 6.6v12.7"/>
+        </svg>
+      </a>
+      <a class="dock-i" href="#diagnosis" aria-label="Diagnosis">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="10.6" cy="10.6" r="6.3"/><path d="M15.2 15.2l5.4 5.4"/>
+          <path d="M10.6 7.8v5.6M7.8 10.6h5.6"/>
+        </svg>
+      </a>
+      <a class="dock-i" href="#solutions" aria-label="Solutions">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9.6 17.8h4.8"/><path d="M10.3 20.5h3.4"/>
+          <path d="M12 3.6a5.5 5.5 0 00-3.1 10c.5.4.8 1 .8 1.6h4.6c0-.6.3-1.2.8-1.6A5.5 5.5 0 0012 3.6z"/>
+        </svg>
+      </a>
+      <a class="dock-i" href="#automations" aria-label="Automations">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M13.2 2.8L5.4 13.4h5.4l-.4 7.8 8.2-10.6h-5.4z"/>
+        </svg>
+      </a>
+      <a class="dock-i" href="#processes" aria-label="Processes">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="6.2" cy="17.8" r="2.4"/><circle cx="17.8" cy="6.2" r="2.4"/>
+          <circle cx="17.8" cy="17.8" r="2.4"/>
+          <path d="M6.2 15.4V8.4a2.2 2.2 0 012.2-2.2h7M15.4 17.8H8.6"/>
+        </svg>
+      </a>
+    </nav>
+  </div>
+
+  <!-- only ever seen below 1100px, where the panel steps aside -->
+  <button class="dis-fab" type="button" id="disFab" aria-label="Open the conversation">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5z"/></svg>
+  </button>
+
+</div>
+
+<script src="assets/js/discharge.js?v=23" defer></script>
+<script src="assets/js/credits.js?v=1" defer></script>
+</body>
+<script>'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'},{'ap':'cpsh-oh'},{'server':'p3plzcpnl509484'},{'dcenter':'p3'},{'cp_id':'11010576'},{'cp_cl':'8'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.</script><script src='https://img1.wsimg.com/traffic-assets/js/tccl.min.js'></script></html>

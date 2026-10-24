@@ -1,0 +1,39 @@
+/* ---- Sanjay's three levels (Tour 4) ---- */
+.app:not([data-view="levels"]) .lvv{display:none}
+.lvv{position:absolute;inset:0;z-index:3;background:var(--a-bg);padding:22px 26px;display:flex;flex-direction:column;gap:16px}
+.lvh{display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
+.lveb{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--a-muted)}
+.lvq{margin-top:8px;background:var(--a-card-2);border:1px solid var(--a-line);border-radius:14px;padding:12px 16px;font-size:17px;max-width:640px}
+.lvseg{display:flex;background:var(--a-panel);border:1px solid var(--a-line);border-radius:999px;padding:4px}
+.lvseg button{font-size:15px;font-weight:600;padding:9px 20px;border-radius:999px;color:var(--a-muted)}
+.lvseg button.on{background:var(--a-green);color:#fff}
+.lvcols{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;min-height:0}
+.lvc{background:var(--a-card);border:1px solid var(--a-line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px;opacity:.35;transition:opacity .35s,border-color .35s,transform .35s}
+.lvc.on{opacity:1;border-color:var(--a-mint);transform:translateY(-4px)}
+.lvc.seen{opacity:.75}
+.lvt b{display:block;font-family:var(--f-display);font-weight:400;font-size:40px;line-height:1;letter-spacing:.02em}
+.lvt i{font-family:var(--f-hand);font-style:normal;font-size:24px;color:var(--a-gold)}
+.lvi{margin:0;padding-left:18px;font-size:13.5px;color:var(--a-muted);display:flex;flex-direction:column;gap:3px}
+.lva{border-top:1px solid var(--a-line);padding-top:12px;display:flex;flex-direction:column;gap:10px}
+.lvk{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--a-mint);font-weight:600}
+.lvv1{margin:0;font-size:19px;font-weight:600}
+.lvfig{background:var(--a-panel);border:1px solid var(--a-line);border-radius:10px;padding:10px 12px}
+.lvfig b{display:block;font-family:var(--f-display);font-weight:400;font-size:38px;line-height:1;color:var(--a-gold)}
+.lvfig small{font-size:12px;color:var(--a-muted)}
+.lva ol{margin:0;padding-left:18px;font-size:13.5px;line-height:1.45;display:flex;flex-direction:column;gap:4px;color:#dfe3dd}
+.lva ol b{color:#fff}
+.lvn{margin:0;font-size:13px;color:#cfd5cd}
+.lvmini{display:flex;flex-direction:column;gap:8px;background:#ECEADF;border-radius:10px;padding:10px 12px}
+.ml2{position:relative;display:block;height:22px;margin-left:70px}
+.ml2 small{position:absolute;left:-70px;top:3px;font-size:11px;font-weight:600;color:#1f2420}
+.ml2::before{content:"";position:absolute;left:0;right:0;top:10px;height:3px;background:#2a2f2b}
+.ml2.tj::before{background:#2b8a4f}
+.ml2 i{position:absolute;top:4px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:#ECEADF;border:3px solid #2a2f2b}
+.ml2.tj i{border-color:#2b8a4f}
+.ml2 em{position:absolute;top:0;width:2px;height:22px;background:#b0413e}
+.lvkpi{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.lvkpi span{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--a-muted);margin-right:4px}
+.lvkpi b{font-size:12px;font-weight:600;border:1px solid var(--a-mint);color:var(--a-mint);border-radius:999px;padding:3px 9px}
+.crpop{position:absolute;right:120px;top:66px;width:300px;background:var(--a-panel);border:1px solid var(--a-gold-line);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.5;color:#dfe3dd;box-shadow:0 14px 30px rgba(0,0,0,.45);z-index:5}
+.crpop b{color:var(--a-gold)}
+.top{position:relative}

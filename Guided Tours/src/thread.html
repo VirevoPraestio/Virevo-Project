@@ -1,0 +1,53 @@
+          <div class="thread" id="threadView">
+            <div class="thead"><span class="tt">Discharges slipping past 2pm on Ward 4</span><span class="tag">CHAT</span><span class="tmeta">Sample answer · nothing sent</span><button class="ctxbtn" id="ctxBtn" type="button" aria-label="Open the side panel"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M15 4v16"/></svg></button></div>
+            <div class="tbody">
+              <div class="tchat" id="threadChat">
+                <div class="ubub">Discharges are slipping past 2pm on Ward 4 — where is it going wrong?</div>
+                <div class="tojo-h"><span class="tav">T</span><b>Tojo</b><small>Chat · reading Discharge references</small></div>
+                <div class="part" id="pVerdict"><p class="verdict">Ward 4 isn't slow at the end. <span>Its discharge starts too late.</span></p></div>
+                <div class="part" id="pCauses"><p>Today the work starts only when the doctor says yes. Then the summary is typed, supplies are counted and the bill is made. The insurer gets the bill last, so it gets the blame.</p><p class="sm">Three things keep it that way:</p><ol><li>The bill and the summary are made after the decision, not built day by day.</li><li>Medicines and supplies are counted by hand before the bill can close.</li><li>Doctors' advice and notes are on paper, so someone types them up later.</li></ol></div>
+                <div class="part" id="pNote"><div class="tnote"><span>Tojo's Note</span>The doctor's yes should close the discharge, not start it.</div></div>
+                <div class="part" id="pPoints"><div class="pts"><button type="button" data-pt="lane-today">@Point1 Work starts only after the doctor says yes</button><button type="button" data-pt="st-bill">@Point2 The insurer gets the bill last</button><button type="button" data-pt="lane-tojo">@Point3 Four things to build from day one</button><button type="button" data-pt="beds">@Point4 Bed time you could win back</button></div></div>
+                <div class="part" id="pAsk"><div class="ask1"><b>Where shall we go next?</b><span class="opts"><span>What these late hours cost us</span><span>How the bill and summary build themselves</span><span>Who has to change what</span></span></div></div>
+                <div class="part" id="prompts"><div class="nexts"><span>Show me what the late hours cost us</span><span>Our doctors won't decide the evening before</span><span>How long would this take to set up?</span></div></div>
+              </div>
+              <div class="part canvas" id="canvasDraw">
+                <div class="cv-eb">What is really wrong</div>
+                <div class="cv-h">Your discharge starts too late</div>
+                <div class="lane" id="lane-today">
+                  <div class="ln"><b>Today</b><small>Starts when the doctor says yes</small></div>
+                  <div class="trk"><i class="yes" style="left:74%"><em>Doctor says yes</em></i>
+                    <button type="button" class="stp" data-s="0" style="left:78%" aria-label="The bill, today"></button>
+                    <button type="button" class="stp" data-s="1" style="left:83%" aria-label="The summary, today"></button>
+                    <button type="button" class="stp" data-s="2" style="left:88%" aria-label="Medicines, today"></button>
+                    <button type="button" class="stp" data-s="3" style="left:93%" aria-label="Notes, today"></button>
+                  </div>
+                </div>
+                <div class="lane tojo" id="lane-tojo">
+                  <div class="ln"><b>The Tojo way</b><small>Starts the day they are admitted</small></div>
+                  <div class="trk"><i class="yes" style="left:74%"><em>Doctor says yes</em></i>
+                    <button type="button" class="stp" id="st-bill" data-s="0" style="left:6%" aria-label="The bill, Tojo way"></button>
+                    <button type="button" class="stp" data-s="1" style="left:26%" aria-label="The summary, Tojo way"></button>
+                    <button type="button" class="stp" data-s="2" style="left:46%" aria-label="Medicines, Tojo way"></button>
+                    <button type="button" class="stp" data-s="3" style="left:62%" aria-label="Notes, Tojo way"></button>
+                  </div>
+                </div>
+                <div class="axis"><span>Admitted</span><span>Day 2</span><span>Day 3</span><span>Discharge day</span></div>
+                <div class="stopd" id="stopD"><b>Tap any stop.</b> Each shows what changes, today against the Tojo way.</div>
+                <div class="beds" id="beds"><span class="big">≈16</span><span><b>beds' worth of time won back every day</b><small>65 patients home a day × 6 hours earlier ÷ 24 hours. Example only: 6 hours is the low end of what other hospitals won back.</small></span></div>
+              </div>
+              <aside class="ctx" id="ctxPanel" aria-label="Side panel">
+                <div class="ctabs"><button type="button" data-ct="src">Sources</button><button type="button" data-ct="vis" class="on">Visuals</button><button type="button" data-ct="task">Taskboard</button><button type="button" data-ct="sum">Summarise</button></div>
+                <div class="cpane" data-cp="vis"><div class="ci"><b>fig 01 · Your discharge starts too late</b><small>this conversation</small></div><div class="ci dim"><b>fig 02 · What the late hours cost</b><small>ask for it next</small></div></div>
+                <div class="cpane" data-cp="src" hidden>
+                  <div class="ci"><b>HIS · Discharge register</b><small>1 Jul – 30 Sep · fed the verdict</small><span class="live">LIVE</span></div>
+                  <div class="ci"><b>Bill finalisation times</b><small>uploaded by you · fed the Today line</small></div>
+                  <div class="ci"><b>TPA request &amp; approval log</b><small>synced 06:00 today · fed @Point2</small><span class="live">LIVE</span></div>
+                  <div class="ci"><b>Discharge Process reference</b><small>Tojo library · fed the Tojo way</small></div>
+                  <div class="ci"><b>Hospital cases</b><small>3 hospitals, same problem · fed the 6 hours</small></div>
+                </div>
+                <div class="cpane" data-cp="task" hidden><div class="ci"><b>No tasks yet</b><small>Ask Tojo to build the taskboard</small></div></div>
+                <div class="cpane" data-cp="sum" hidden><div class="ci"><b>One line</b><small>Ward 4 starts discharge on the doctor's yes; build the bill and summary from day one.</small></div></div>
+              </aside>
+            </div>
+          </div>

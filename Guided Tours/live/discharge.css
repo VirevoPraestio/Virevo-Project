@@ -1,0 +1,4163 @@
+/* ============================================================
+   discharge.css — the Discharge Process screen
+   ------------------------------------------------------------
+   This screen does not share chat.css, deliberately. The rest of
+   the app is a dark three-column workspace; this is a light,
+   printed-worksheet layout with its own rail, its own type and
+   its own colour. Bolting it onto a 119KB stylesheet that two
+   other screens depend on would mean every future change to
+   either risked the other. One screen, one stylesheet.
+
+   The layout is three fixed parts and one scrolling one:
+
+     · the RAIL is fixed, full height, and never scrolls;
+     · the MAIN column scrolls, and is the only thing that does;
+     · the CHAT panel is fixed, full height, and scrolls only
+       inside its own message list, with the composer pinned.
+
+   Colours are sampled from the design rather than guessed, and
+   named for what they are rather than where they were first
+   used, so a second use does not have to read like a borrowing.
+   ============================================================ */
+
+:root{
+  /* --- surface --- */
+  --d-bg:#f3f1eb;          /* the paper */
+  --d-card:#fffefb;        /* a card on it, a shade warmer than white */
+  --d-ink:#15241b;         /* near-black with green in it: all strong text */
+  --d-panel:#15241b;       /* the chat panel, same colour as the ink */
+  --d-panel-foot:#0d1712;  /* the composer well, a step darker still */
+  --d-gold:#cdab5e;        /* the one accent */
+  --d-gold-ink:#a8873f;    /* the same accent where it sits on paper and
+                              has to pass contrast: the handwriting, links */
+
+  /* --- text --- */
+  --d-dim:#8a968a;         /* the second half of the title, muted heads */
+  --d-mute:#5f665e;        /* body copy that is not the point */
+  --d-faint:#8d948c;       /* captions, placeholders */
+  --d-line:#dcdbd4;        /* hairlines on paper */
+  --d-line-soft:#e6e5de;   /* the lighter ones inside cards */
+
+  /* --- the rail tints ---
+     Six sections, six tints. They are fixed per section rather than
+     a hover or active state: the rail is a colour-coded index, and a
+     tint that only appeared on the current tab would make the other
+     five look disabled. */
+  /* --t-chat is gone with the Chat tab: the conversation is always in view
+     on this page, so a tab that jumped to it pointed at nothing new. */
+  --t-resources:#e4e6e0;
+  --t-diagnosis:#ebe4ce;
+  --t-solutions:#dee3df;
+  --t-automations:#e7e1d6;
+  --t-processes:#daddd7;
+
+  /* --- metrics --- */
+  --d-rail:58px;           /* the tab strip itself */
+  --d-rail-col:80px;       /* the column it sits in, gap included */
+  --d-chat:396px;
+  --d-gap:30px;
+  --d-radius:10px;
+  --d-pad-l:42px;          /* paper margin between the rail and the text */
+
+  --d-sans:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+  /* Bebas Neue, which the site already self-hosts and which the type scale
+     names as the page-title face. Measured off the design rather than
+     assumed: its caps advance 0.571 of their own cap height, and Bebas is
+     0.571 exactly, where a heavy condensed like Anton is 0.80. The design's
+     heavier stroke is the browser's synthetic bold on the same single
+     weight — see .dis-title. */
+  --d-display:'Bebas Neue',var(--d-sans);
+  /* Tojo's margin notes. They are a voice, not decoration, which is why
+     they are a different hand rather than an italic. */
+  --d-hand:'Caveat',var(--d-sans);
+}
+
+/* The same face and the same file the rest of the site loads, so this
+   screen costs no extra font request. */
+@font-face{
+  font-family:'Bebas Neue';
+  src:url('../../fonts/BebasNeue-Regular.ttf?v=1') format('truetype');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+
+html,body{height:100%;}
+body.dis-body{
+  margin:0;
+  background:var(--d-bg);
+  color:var(--d-ink);
+  font-family:var(--d-sans);
+  font-size:18px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  /* The page itself never scrolls. Two of the three columns are fixed,
+     so a document-level scrollbar would move the rail and the chat panel
+     out from under the thing they are anchored to. */
+  overflow:hidden;
+}
+
+button{font:inherit;color:inherit;}
+a{color:inherit;}
+
+/* the shell ------------------------------------------------- */
+.dis{
+  display:flex;
+  height:100%;
+  min-height:0;
+  /* The panel's arrival transform carries it briefly outside the window.
+     Clipping here rather than on <body> keeps that off the page metrics;
+     the drawer below 1100px is position:fixed and this does not reach it,
+     because overflow only clips fixed descendants under a transformed
+     ancestor and there is none. */
+  overflow:hidden;
+}
+
+/* ============================================================
+   1 · THE RAIL
+   ============================================================ */
+/* Everything here is sized against the WINDOW's height, not in fixed px.
+   The six labels have a natural stacked height of roughly 690px, and on a
+   laptop window with browser chrome the last tab fell off the bottom. The
+   clamps give back about 150px on a short window and are inert on a tall
+   one, so the rail reaches its designed size where there is room and gets
+   out of its own way where there is not. */
+.dis-rail{
+  flex:0 0 var(--d-rail-col);
+  width:var(--d-rail-col);
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  padding:clamp(14px,3.4vh,34px) 0 clamp(10px,2.4vh,24px);
+  overflow:hidden;
+}
+
+.rail-home{
+  flex:0 0 auto;
+  width:clamp(42px,5.6vh,56px);
+  height:clamp(42px,5.6vh,56px);
+  /* The back tab now provides the separation the margin used to, so the
+     gap shrinks rather than the rail growing by a whole tab's height and
+     pushing PROCESSES off a short window. */
+  margin:0 0 clamp(8px,1.6vh,16px) 5px;
+  display:grid;place-items:center;
+  border-radius:50%;
+  background:var(--d-ink);
+  color:var(--d-gold);
+  text-decoration:none;
+  transition:transform .18s ease;
+}
+.rail-home:hover{transform:scale(1.05);}
+.rail-home:focus-visible{outline:2px solid var(--d-gold);outline-offset:3px;}
+.rail-home svg{
+  width:clamp(19px,2.4vh,24px);height:clamp(19px,2.4vh,24px);
+  fill:none;stroke:currentColor;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* Shaped like a tab, not like the house: it belongs to the strip of places
+   you can go, and it is short because it carries no word. Same right-only
+   radius as the tabs — the rail is flush to the window, so a radius on the
+   left would open a gap. */
+.rail-back{
+  flex:0 0 auto;
+  display:grid;place-items:center;
+  width:var(--d-rail);height:30px;
+  margin:0 0 clamp(5px,1vh,10px);
+  border-radius:0 6px 6px 0;
+  background:#454b47;
+  color:var(--d-gold);        /* the same gold the house carries */
+  text-decoration:none;
+  transition:width .2s var(--e-out),background .18s ease;
+}
+/* The tints lighten on hover; a dark tab has to go the other way, so this
+   one lifts rather than dims — brightness(.97) on #454b47 is invisible. */
+.rail-back:hover{width:calc(var(--d-rail) + 10px);background:#565d58;}
+.rail-back:focus-visible{outline:2px solid var(--d-gold);outline-offset:2px;}
+.rail-back svg{
+  width:18px;height:18px;
+  fill:none;stroke:currentColor;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+.rail-tabs{
+  flex:0 1 auto;min-height:0;
+  display:flex;flex-direction:column;
+  align-items:flex-start;
+  gap:clamp(3px,.6vh,6px);
+  /* The last line of defence, on a window too short even for the clamped
+     padding. A rail you can nudge beats a tab sliced in half, and the bar
+     is hidden because 58px of scrollbar in a 58px column is all scrollbar. */
+  overflow-y:auto;
+  scrollbar-width:none;
+}
+.rail-tabs::-webkit-scrollbar{width:0;height:0;}
+
+/* The tab is sized by its own label, not to a common height — which is
+   what writing-mode gives for free, and is why RESOURCES is taller than
+   CHAT in the design. Rounded on the right only: the strip is flush to
+   the window edge, so a radius on the left would be a gap.
+
+   The rotation lives on the LABEL, not on the tab. With writing-mode on the
+   tab itself the flex and grid axes rotate too, so "centre it" no longer
+   means what it says and the text sat left of centre. Keeping the tab an
+   ordinary horizontal box and spinning only its child means place-items
+   centres on both axes, which is what it looks like it should do. */
+.rail-tab{
+  flex:0 0 auto;
+  display:grid;place-items:center;
+  width:var(--d-rail);
+  padding:clamp(7px,1.7vh,18px) 0;
+  border:0;
+  border-radius:0 6px 6px 0;
+  background:var(--tint,#e4e6e0);
+  color:var(--d-ink);
+  text-decoration:none;
+  cursor:pointer;
+  transition:width .2s var(--e-out),filter .18s ease;
+}
+.rail-tab-t{
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);        /* so it reads bottom-to-top */
+  font-size:11.5px;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  text-align:center;
+  line-height:1;
+}
+/* On hover the tab reaches 10px further into the page. The width is what
+   moves, not a transform: a scale would stretch the label with it, and the
+   tabs are a flex column aligned to the start, so one growing moves nothing
+   else — 68px still sits inside the 80px the rail reserves. The label is
+   centred, so it drifts 5px with the box, which is the whole of what makes
+   it read as the tab breathing rather than a panel sliding out.
+
+   Focus gets the same, or a keyboard is told less than a mouse. */
+.rail-tab:hover,
+.rail-tab:focus-visible{width:calc(var(--d-rail) + 10px);}
+.rail-tab:hover{filter:brightness(.97);}
+.rail-tab:focus-visible{outline:2px solid var(--d-gold);outline-offset:2px;}
+/* aria-current is set by the scroll spy for screen readers, and gets no
+   colour of its own: the tints already say which section is which, and a
+   mark that moved as you scrolled read as a fault rather than a state.
+
+   Opening a section is different. Diagnosis is somewhere you went, not
+   somewhere you scrolled past, so while its landing is up the tab holds the
+   reaching-out it has on hover and carries a gold edge against the window
+   — a mark that stays put, because the state it reports does. */
+.rail-tab[aria-current="true"]{}
+.dis[data-panel="dx"] .rail-tab[href="#diagnosis"],
+.dis[data-panel="sol"] .rail-tab[href="#solutions"],
+.dis[data-panel="aut"] .rail-tab[href="#automations"],
+.dis[data-panel="prc"] .rail-tab[href="#processes"]{
+  width:calc(var(--d-rail) + 10px);
+  box-shadow:inset 5px 0 0 var(--d-gold);
+  filter:none;
+}
+.dis[data-panel="dx"] .rail-tab[href="#diagnosis"] .rail-tab-t,
+.dis[data-panel="sol"] .rail-tab[href="#solutions"] .rail-tab-t,
+.dis[data-panel="aut"] .rail-tab[href="#automations"] .rail-tab-t,
+.dis[data-panel="prc"] .rail-tab[href="#processes"] .rail-tab-t{
+  font-weight:700;
+  transform:rotate(180deg) translateY(-2px);
+}
+
+/* ============================================================
+   2 · THE MIDDLE COLUMN
+   ------------------------------------------------------------
+   Two parts: a top bar that stays, and the worksheet that moves
+   under it. The tool's name and the way into the guided tour are
+   the two things you may want at any point in a long page, so
+   they are the one thing here that does not scroll away; the
+   scroll starts at the title.
+   ============================================================ */
+.dis-col{
+  flex:1 1 auto;
+  min-width:0;min-height:0;
+  display:flex;flex-direction:column;
+}
+
+.dis-topbar{
+  flex:0 0 auto;
+  padding:38px 46px 19px var(--d-pad-l);
+  /* opaque, or the title slides through it on its way up */
+  background:var(--d-bg);
+}
+.dis-topbar .dis-top{max-width:846px;}
+
+.dis-main{
+  flex:1 1 auto;
+  min-width:0;min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:0 46px 64px var(--d-pad-l);
+  scrollbar-width:thin;
+  scrollbar-color:#c7c6bf transparent;
+}
+.dis-main::-webkit-scrollbar{width:8px;}
+.dis-main::-webkit-scrollbar-thumb{background:#c7c6bf;border-radius:4px;}
+.dis-main::-webkit-scrollbar-track{background:transparent;}
+
+.dis-wrap{max-width:846px;}
+
+/* ---- the page head ---- */
+.dis-head{padding:0;}
+
+.dis-top{
+  display:flex;align-items:center;gap:20px;
+  margin:0;
+}
+.dis-eyebrow{
+  margin:0;flex:1 1 auto;min-width:0;
+  font-size:11.5px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--d-ink);
+}
+.dis-tour{
+  flex:0 0 auto;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 22px;
+  border:1px solid var(--d-ink);
+  border-radius:999px;
+  background:transparent;
+  font-size:13.5px;font-weight:500;
+  cursor:pointer;
+  transition:background .18s ease,color .18s ease;
+}
+.dis-tour:hover{background:var(--d-ink);color:var(--d-bg);}
+.dis-tour:focus-visible{outline:2px solid var(--d-gold);outline-offset:2px;}
+.dis-tour svg{
+  width:15px;height:15px;flex:0 0 auto;
+  fill:none;stroke:currentColor;stroke-width:1.7;
+}
+
+/* The one shout on the page. clamp so it keeps its proportion to the
+   column rather than its pixel size — at this weight a title that does
+   not scale is a title that wraps mid-word on the first narrow window. */
+.dis-title{
+  margin:0 0 25px;
+  font-family:var(--d-display);
+  /* Synthetic bold, on purpose. Bebas Neue ships one weight, so 700 asks
+     the browser to thicken it — normally a smell, here it is what the
+     design is: measured stem is 0.167 of cap height where Bebas draws
+     0.129, and the letter WIDTHS are unchanged, which is exactly what
+     stroke-expansion does and what a genuinely bolder cut would not. */
+  font-weight:700;
+  font-size:clamp(56px,8.31vw,124px);
+  line-height:.86;
+  letter-spacing:0;
+  text-transform:uppercase;
+  color:var(--d-ink);
+}
+.dis-title .dim{color:var(--d-dim);}
+
+.dis-lede{
+  margin:0 0 19px;
+  max-width:35em;
+  font-size:18px;
+  line-height:1.62;
+  color:var(--d-ink);
+}
+.dis-lede b{font-weight:600;}
+
+.dis-cta{
+  display:flex;align-items:center;gap:26px;
+  flex-wrap:wrap;
+  margin:0 0 35px;
+}
+.dis-tasks{
+  display:inline-flex;align-items:center;gap:14px;
+  padding:15px 24px;
+  border:0;border-radius:5px;
+  background:var(--d-gold);
+  color:var(--d-ink);
+  font-size:13.5px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  cursor:pointer;
+  box-shadow:0 2px 0 rgba(21,36,27,.13);
+  transition:transform .16s ease,box-shadow .16s ease;
+}
+.dis-tasks:hover{transform:translateY(-1px);box-shadow:0 4px 0 rgba(21,36,27,.13);}
+.dis-tasks:focus-visible{outline:2px solid var(--d-ink);outline-offset:3px;}
+.dis-tasks-n{
+  display:grid;place-items:center;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--d-ink);color:var(--d-gold);
+  font-size:11.5px;font-weight:600;letter-spacing:0;
+}
+
+/* the margin note and its arrow */
+.dis-note{
+  display:flex;align-items:center;gap:10px;
+  color:var(--d-gold-ink);
+}
+.dis-note svg{
+  flex:0 0 auto;width:52px;height:30px;
+  fill:none;stroke:currentColor;stroke-width:1.6;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.hand{
+  font-family:var(--d-hand);
+  font-size:21px;
+  line-height:1.25;
+  color:var(--d-gold-ink);
+}
+
+/* The rule that closes the head. The crosses are the ends of a drawing
+   sheet's trim marks — they are why it reads as a worksheet and not a
+   <hr>, so they are drawn rather than left to a border. */
+.dis-rule{
+  display:flex;align-items:center;gap:10px;
+  margin:0 0 36px;
+  color:var(--d-ink);
+}
+.dis-rule::before,.dis-rule::after{
+  content:"+";
+  flex:0 0 auto;
+  font-size:15px;line-height:1;
+  transform:translateY(-1px);
+}
+.dis-rule i{
+  flex:1 1 auto;height:1px;
+  background:#bbbeb7;
+}
+
+/* ============================================================
+   3 · THE CARD GRID
+   ============================================================ */
+.dis-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:var(--d-gap);
+  /* start, not stretch: in the design the cards in a row are different
+     heights and each ends where its content ends. Stretching them would
+     leave the shorter one with a pool of empty paper at the bottom. */
+  align-items:start;
+}
+
+.card{
+  background:var(--d-card);
+  border-radius:6px;
+  padding:26px 24px 26px;
+  box-shadow:0 1px 2px rgba(21,36,27,.05);
+}
+/* 02 is the card the screen is actually about, and the rule across its
+   top is the whole of how that is said. */
+/* The rule sits PROUD of the grid line rather than inside it — in the
+   design card 02's bar starts 6px above card 01's top edge, which is
+   what makes it read as a tab on the page rather than a border. */
+/* The rule follows the card's top corners, or it would square off a
+   rounded box. */
+.card-ruled{border-top:6px solid var(--d-ink);margin-top:-6px;overflow:hidden;}
+
+.card-k{
+  display:flex;align-items:flex-start;gap:12px;
+  margin:0 0 13px;
+}
+.card-n{
+  margin:0;flex:1 1 auto;
+  font-size:13px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--d-ink);
+}
+.card-h{
+  margin:0 0 20px;
+  font-size:25.5px;
+  font-weight:400;
+  line-height:1.15;
+  letter-spacing:.005em;
+  text-transform:uppercase;
+  color:var(--d-dim);
+}
+.card-sub{
+  margin:0 0 18px;
+  font-size:14.5px;line-height:1.5;
+  color:var(--d-mute);
+}
+
+/* the stamped badge. Rotated because it is a stamp, and a stamp that
+   lines up with the grid is a label. */
+.card-stamp{
+  flex:0 0 auto;
+  padding:6px 14px;
+  border:1.5px solid var(--d-gold-ink);
+  color:var(--d-gold-ink);
+  font-size:11px;font-weight:700;
+  letter-spacing:.11em;text-transform:uppercase;
+  transform:rotate(-3.2deg);
+  white-space:nowrap;
+}
+
+/* ---- pill switches ---- */
+.pills{
+  display:flex;flex-wrap:wrap;gap:9px;
+  margin:0 0 14px;
+}
+.pill{
+  padding:10px 15px;
+  border:1px solid var(--d-line);
+  border-radius:999px;
+  background:var(--d-card);
+  font-size:13px;font-weight:500;
+  cursor:pointer;
+  transition:background .18s ease,color .18s ease,border-color .18s ease;
+}
+.pill:hover{border-color:var(--d-ink);}
+.pill:focus-visible{outline:2px solid var(--d-gold);outline-offset:2px;}
+.pill[aria-pressed="true"]{
+  background:var(--d-ink);border-color:var(--d-ink);color:var(--d-bg);
+  font-weight:600;
+}
+
+/* ---- 01 · the stat boxes ---- */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin:0 0 18px;
+}
+.stat{
+  display:flex;flex-direction:column;
+  border:1px solid var(--d-line-soft);
+  border-radius:3px;
+  padding:14px 14px 13px;
+}
+.stat-h{
+  margin:0 0 12px;
+  font-size:13px;font-weight:600;line-height:1.3;
+  color:var(--d-ink);
+}
+/* An empty chart, drawn as an empty chart. A box that said "no data" and
+   nothing else would not tell you a chart is what arrives here. */
+.stat-plot{
+  position:relative;
+  flex:1 1 auto;
+  min-height:62px;
+  margin:0 0 11px;
+  border-left:1px solid var(--d-line);
+  border-bottom:1px solid var(--d-line);
+  display:grid;place-items:center;
+}
+.stat-plot span{
+  font-size:12.5px;font-style:italic;
+  color:var(--d-faint);
+  transform:translateY(-4px);
+}
+.stat-c{
+  margin:0;
+  font-size:12px;line-height:1.35;
+  color:var(--d-faint);
+}
+
+/* ---- buttons that end a card ---- */
+.acts{display:flex;flex-wrap:wrap;gap:11px;}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:12px 18px;
+  border:1px solid var(--d-ink);
+  border-radius:4px;
+  background:transparent;
+  font-size:13px;font-weight:600;
+  cursor:pointer;
+  transition:background .18s ease,color .18s ease;
+}
+.btn:hover{background:var(--d-ink);color:var(--d-bg);}
+.btn:focus-visible{outline:2px solid var(--d-gold);outline-offset:2px;}
+.btn-solid{background:var(--d-ink);border-color:var(--d-ink);color:var(--d-bg);}
+.btn-solid:hover{background:#0d1712;color:var(--d-bg);}
+.btn svg{
+  width:15px;height:15px;flex:0 0 auto;
+  fill:none;stroke:var(--d-gold);stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+.card .hand{margin:0 0 16px;display:block;}
+
+/* ---- 02 · the suspect list ---- */
+.rows{margin:0;padding:0;list-style:none;}
+.row{
+  display:flex;align-items:center;gap:14px;
+  padding:10px 0;
+  border-bottom:1px dotted var(--d-line);
+}
+.row:first-child{padding-top:4px;}
+.row-tx{flex:1 1 auto;min-width:0;}
+.row-h{
+  margin:0 0 3px;
+  font-size:14px;font-weight:600;line-height:1.3;
+  color:var(--d-ink);
+}
+.row-p{
+  margin:0;
+  font-size:13px;line-height:1.4;
+  color:var(--d-mute);
+}
+.row-b{
+  flex:0 0 auto;
+  padding:8px 13px;
+  border:1px solid var(--d-line);
+  border-radius:999px;
+  background:transparent;
+  font-size:12px;font-weight:500;
+  white-space:nowrap;
+  cursor:pointer;
+  transition:border-color .18s ease,background .18s ease,color .18s ease;
+}
+.row-b:hover{border-color:var(--d-ink);}
+.row-b:focus-visible{outline:2px solid var(--d-gold);outline-offset:2px;}
+.row-b[aria-pressed="true"]{
+  background:var(--d-ink);border-color:var(--d-ink);color:var(--d-bg);
+}
+
+.card-f{
+  display:flex;align-items:center;gap:16px;
+  padding:18px 0 0;
+}
+.card-f p{
+  margin:0;flex:1 1 auto;
+  font-size:13px;color:var(--d-faint);
+}
+
+/* ---- 03 · the fix ---- */
+.fix{
+  border:0;
+  border-radius:3px;
+  padding:17px 17px 19px;
+  margin:0 0 18px;
+  background:#f1efe9;
+}
+.fix-h{
+  margin:0 0 9px;
+  font-size:15px;font-weight:600;line-height:1.3;
+}
+.fix-p{
+  margin:0 0 16px;
+  font-size:14px;line-height:1.52;
+  color:var(--d-mute);
+}
+.fix-fig{
+  display:flex;align-items:baseline;gap:10px;
+  flex-wrap:wrap;
+}
+/* Not the display face. The design sets this figure in the body type at a
+   large size — round, geometric digits — where Bebas would give condensed
+   ones, and it is the one number on the page, so the difference shows. */
+.fix-fig b{
+  font-weight:500;
+  font-size:31px;
+  line-height:1;
+  letter-spacing:.005em;
+  text-transform:uppercase;
+}
+.fix-fig span{
+  font-size:12px;
+  color:var(--d-mute);
+}
+
+/* ---- 04 · the agents ---- */
+.agents{margin:0 0 18px;padding:0;list-style:none;}
+.agent{
+  display:flex;align-items:center;gap:14px;
+  padding:12px 14px;
+  margin:0 0 10px;
+  border:1px solid var(--d-line-soft);
+  border-left:3px solid var(--d-gold);
+  border-radius:3px;
+}
+.agent-tx{flex:1 1 auto;min-width:0;}
+.agent-h{
+  margin:0 0 3px;
+  font-size:13.5px;font-weight:600;line-height:1.3;
+}
+.agent-p{
+  margin:0;
+  font-size:12.5px;line-height:1.42;
+  color:var(--d-mute);
+}
+
+/* ============================================================
+   4 · THE CHAT PANEL
+   ------------------------------------------------------------
+   Fixed to the window's full height, as asked. The consequence is
+   that the message list — not the panel — is what scrolls, and the
+   composer is pinned below it rather than sitting at the end of
+   the conversation. A panel that scrolled as a whole would take
+   the composer off screen the moment the thread grew.
+   ============================================================ */
+.dis-chat{
+  flex:0 0 var(--d-chat);
+  width:var(--d-chat);
+  display:flex;flex-direction:column;
+  min-height:0;
+  margin:10px 12px 10px 0;
+  border-radius:14px;
+  background:var(--d-panel);
+  color:var(--d-bg);
+  overflow:hidden;
+}
+
+.ct-head{
+  flex:0 0 auto;
+  display:flex;align-items:flex-start;gap:12px;
+  padding:18px 18px 16px;
+  border-bottom:1px solid rgba(243,241,235,.08);
+}
+.ct-av{
+  flex:0 0 auto;
+  width:38px;height:38px;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--d-gold);color:var(--d-ink);
+  font-size:15px;font-weight:600;
+}
+.ct-id{flex:1 1 auto;min-width:0;}
+.ct-name{
+  margin:0 0 2px;
+  font-family:var(--d-display);
+  font-weight:400;
+  font-size:21px;line-height:1;
+  letter-spacing:.02em;
+  text-transform:uppercase;
+}
+.ct-sub{
+  margin:0;
+  font-size:11.5px;line-height:1.38;
+  color:rgba(243,241,235,.55);
+}
+.ct-exp{
+  flex:0 0 auto;
+  width:32px;height:32px;
+  display:grid;place-items:center;
+  border:1px solid rgba(243,241,235,.22);
+  border-radius:50%;
+  background:transparent;
+  cursor:pointer;
+  transition:background .18s ease;
+}
+.ct-exp:hover{background:rgba(243,241,235,.08);}
+.ct-exp:focus-visible{outline:2px solid var(--d-gold);outline-offset:2px;}
+.ct-exp svg{
+  width:15px;height:15px;
+  fill:none;stroke:currentColor;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+.ct-body{
+  flex:1 1 auto;min-height:0;
+  overflow-y:auto;
+  padding:16px 18px 20px;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(243,241,235,.2) transparent;
+}
+.ct-body::-webkit-scrollbar{width:7px;}
+.ct-body::-webkit-scrollbar-thumb{background:rgba(243,241,235,.2);border-radius:4px;}
+.ct-body::-webkit-scrollbar-track{background:transparent;}
+
+.ct-day{
+  margin:0 0 14px;
+  text-align:center;
+  font-size:10.5px;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(243,241,235,.45);
+}
+
+.ct-msg{
+  background:var(--d-bg);
+  color:var(--d-ink);
+  border-radius:11px;
+  padding:15px 16px;
+  margin:0 0 12px;
+  font-size:14px;line-height:1.5;
+}
+/* several paragraphs now, so they need air between them — the last one
+   still sits flush against the bubble's floor */
+.ct-msg p{margin:0 0 11px;}
+.ct-msg p:last-child{margin-bottom:0;}
+.ct-msg-h{
+  margin:0 0 11px;
+  font-size:14px;line-height:1.45;
+}
+
+/* the files Tojo is asking for */
+.ct-files{margin:0;padding:0;list-style:none;}
+.ct-file{
+  display:flex;align-items:center;gap:11px;
+  padding:10px 12px;
+  margin:0 0 7px;
+  border:1px dotted #c9c7c0;
+  border-radius:5px;
+  background:rgba(255,255,255,.55);
+}
+.ct-file:last-child{margin-bottom:0;}
+.ct-file svg{
+  flex:0 0 auto;width:15px;height:15px;
+  fill:none;stroke:var(--d-mute);stroke-width:1.5;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.ct-file span{
+  flex:1 1 auto;min-width:0;
+  font-size:13.5px;line-height:1.35;
+}
+.ct-file b{
+  flex:0 0 auto;
+  font-size:13px;font-weight:600;
+  color:var(--d-gold-ink);
+  text-decoration:underline;
+  text-underline-offset:2px;
+  cursor:pointer;
+}
+
+.ct-hand{
+  /* Tojo's own hand: the written face, and slanted with it. Left upright it
+     reads as a pull-quote in the body type rather than something jotted. */
+  font-family:var(--d-hand);
+  font-style:italic;
+  font-weight:500;
+  font-size:18px;line-height:1.3;
+  color:var(--d-gold);
+  margin:14px 2px 0;
+}
+
+.ct-chips{
+  display:flex;flex-direction:column;
+  align-items:flex-start;gap:9px;
+  margin:26px 0 0;
+}
+.ct-chip{
+  padding:9px 17px;
+  border:1px solid rgba(243,241,235,.24);
+  border-radius:999px;
+  background:transparent;
+  color:var(--d-bg);
+  font-size:13px;font-weight:500;
+  text-align:left;
+  cursor:pointer;
+  transition:background .18s ease,border-color .18s ease;
+}
+.ct-chip:hover{background:rgba(243,241,235,.08);border-color:rgba(243,241,235,.45);}
+.ct-chip:focus-visible{outline:2px solid var(--d-gold);outline-offset:2px;}
+
+/* ---- the composer, pinned ----
+   The field carries its two controls inside it and the send button stands
+   beside it, on every screen. The field was briefly a plain block with an
+   unsized <span> of SVGs in it: an <svg> with no width defaults to 300x150,
+   so two of them grew the footer to 917px and squeezed the conversation
+   above it down to 36. Sizing them is not decoration — it is what keeps the
+   thread on screen. */
+.ct-foot{
+  flex:0 0 auto;
+  display:flex;align-items:flex-end;gap:10px;
+  background:var(--d-panel-foot);
+  padding:14px 14px 14px;
+}
+.ct-field{
+  position:relative;
+  flex:1 1 auto;min-width:0;
+}
+.ct-in{
+  display:block;width:100%;
+  min-height:74px;max-height:190px;
+  padding:13px 78px 13px 14px;
+  border:0;border-radius:9px;
+  background:var(--d-bg);
+  color:var(--d-ink);
+  font-family:inherit;font-size:14px;line-height:1.45;
+  resize:none;
+}
+.ct-in::placeholder{color:#9a9a97;}
+.ct-in:focus{outline:2px solid var(--d-gold);outline-offset:1px;}
+
+/* Bottom-anchored, so a field that grows with what is typed keeps them
+   beside the last line rather than stranded at the top. */
+.ct-mini{
+  position:absolute;right:8px;bottom:9px;
+  display:flex;align-items:center;gap:2px;
+}
+.ct-ic{
+  width:30px;height:30px;
+  display:grid;place-items:center;
+  border:0;border-radius:50%;
+  background:transparent;
+  color:var(--d-mute);
+  cursor:pointer;
+  transition:background .18s ease,color .18s ease;
+}
+.ct-ic:hover{background:#e3e1db;color:var(--d-ink);}
+.ct-ic:focus-visible{outline:2px solid var(--d-gold);outline-offset:1px;}
+.ct-ic-on{background:#e3e1db;}
+.ct-ic svg{
+  width:17px;height:17px;
+  fill:none;stroke:currentColor;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+.ct-send{
+  flex:0 0 auto;
+  width:44px;height:44px;
+  display:grid;place-items:center;
+  border:0;border-radius:50%;
+  background:var(--d-gold);color:var(--d-ink);
+  cursor:pointer;
+  transition:transform .16s ease,filter .16s ease;
+}
+.ct-send:hover{transform:scale(1.06);filter:brightness(1.04);}
+.ct-send:focus-visible{outline:2px solid var(--d-bg);outline-offset:2px;}
+.ct-send svg{
+  width:18px;height:18px;
+  fill:none;stroke:currentColor;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round;
+  /* the plane points up-right; nudged so it sits optically centred */
+  transform:translate(-1px,1px);
+}
+
+/* The button that calls the panel back, hidden while the panel is simply
+   there. It must be DECLARED before the query that turns it on: equal
+   specificity, so source order is what decides. */
+.dis-fab{
+  display:none;
+  position:fixed;right:18px;bottom:18px;
+  width:54px;height:54px;
+  place-items:center;
+  border:0;border-radius:50%;
+  background:var(--d-ink);color:var(--d-gold);
+  box-shadow:0 6px 20px rgba(21,36,27,.3);
+  cursor:pointer;z-index:41;
+}
+.dis-fab svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;}
+
+/* ============================================================
+   5 · NARROWER WINDOWS
+   ------------------------------------------------------------
+   The split is at 1100px rather than the site's usual 980: this
+   screen has a 396px panel and a two-column grid beside it, and
+   the cards stop reading well long before the phone breakpoint.
+   ============================================================ */
+@media (max-width:1280px){
+  :root{--d-chat:340px;--d-gap:22px;}
+}
+
+@media (max-width:1100px){
+  :root{--d-rail-col:64px;--d-rail:48px;}
+  .dis-grid{grid-template-columns:minmax(0,1fr);}
+  .dis-chat{
+    /* Off to the side and reachable, rather than squeezed to a width
+       where neither it nor the cards work. discharge.js opens it. */
+    position:fixed;top:0;right:0;bottom:0;
+    width:min(92vw,396px);
+    margin:0;border-radius:0;
+    transform:translateX(100%);
+    transition:transform .32s cubic-bezier(.4,0,.2,1);
+    z-index:40;
+    box-shadow:-18px 0 44px rgba(21,36,27,.25);
+  }
+  .dis.chat-open .dis-chat{transform:none;}
+  /* The base rule above is display:none; this is what turns it on, and it
+     only works because that rule is declared first — equal specificity, so
+     source order decides. It was the other way round and the panel was
+     unreachable below 1100px. */
+  .dis-fab{display:grid;}
+  /* ...and off again once the panel is up. It is fixed to the bottom right,
+     which is exactly where the panel puts its send button, so leaving it
+     there meant the thing that opens the conversation sat on top of the
+     thing that sends the message. The way out is the chevron instead. */
+  .dis.chat-open .dis-fab{display:none;}
+  .ct-back{display:grid;}
+}
+
+/* ============================================================
+   THE PHONE
+   ------------------------------------------------------------
+   Not a squeezed version of the desktop screen — a different
+   arrangement of the same parts:
+
+     · the rail's house and a wordmark move into the top bar,
+       which stays put while the worksheet scrolls under it;
+     · the rail's six tabs become five icons at the foot of the
+       screen, Chat excepted, because the strip above them IS
+       chat;
+     · that strip and the icons are fixed; everything else is one
+       scrolling column;
+     · pressing the strip raises the conversation to full screen,
+       stopping just short of the icons so they stay reachable,
+       and the chevron in its corner puts it back.
+
+   The copy forks in a few places, which is what .w-only and
+   .n-only are for: a wide window shows the first, a phone the
+   second. Where the phone's line is the desktop's with the tail
+   cut off, only the tail is marked, so there is still one source
+   of those words.
+   ============================================================ */
+
+/* These two only ever HIDE — they never say what an element's display is.
+   An earlier version set .w-only{display:inline}, which won on source order
+   against .ct-file{display:flex} and turned a file row into a line of
+   running text on the wide screen.
+
+   !important, deliberately and only here. A variant is either in the
+   document or it is not, and that has to beat every layout rule that gives
+   the element a display — .dis-note .hand{display:block} is more specific
+   than a single class, so without this the phone's note and the desktop's
+   both appeared, side by side. */
+.n-only{display:none !important;}
+/* The phone-only parts, off by default. .n-only covers the inline text
+   variants; these are elements with a display of their own to restore, so
+   they have to be named. */
+.dis-home,.dis-mark,.ct-back,.dis-dock,.eyebrow-n,.arw-n{display:none;}
+
+@media (max-width:760px){
+
+  /* ---- what shows and what does not ---- */
+  .w-only{display:none !important;}
+  .n-only{display:inline !important;}
+  li.ct-file.w-only,p.ct-msg-h.w-only,span.hand.w-only,
+  button.ct-chip.w-only{display:none;}
+  span.hand.n-only{display:block !important;}
+  .arw-w{display:none;}
+  .arw-n{display:block;}
+  .dis-rail,.dis-fab{display:none;}
+  .dis-home{display:grid;}
+  .dis-mark{display:block;}
+  .ct-back{display:grid;}
+  .dis-dock{display:block;}
+  .eyebrow-w{display:none;}
+  .eyebrow-n{display:block;}
+
+  body.dis-body{font-size:16px;}
+  :root{
+    --d-rail-col:0px;
+    --dock-nav:67px;          /* the icon strip */
+    --dock-bar:66px;          /* the composer above it */
+  }
+
+  /* ---- 1 · the bar that stays ---- */
+  .dis-topbar{
+    padding:14px 22px 0;
+    border-bottom:0;
+  }
+  .dis-top{
+    gap:12px;
+    padding-bottom:13px;
+    border-bottom:1px solid var(--d-ink);
+  }
+  .dis-home{
+    flex:0 0 auto;
+    width:44px;height:44px;
+    place-items:center;
+    border-radius:50%;
+    background:var(--d-ink);color:var(--d-gold);
+    text-decoration:none;
+  }
+  .dis-home svg{
+    width:20px;height:20px;
+    fill:none;stroke:currentColor;stroke-width:1.8;
+    stroke-linecap:round;stroke-linejoin:round;
+  }
+  .dis-mark{
+    flex:1 1 auto;min-width:0;
+    font-family:var(--d-display);
+    font-weight:700;
+    font-size:27px;line-height:1;
+    letter-spacing:.02em;
+    text-transform:uppercase;
+  }
+  .dis-tour{padding:9px 16px;font-size:14px;}
+  .dis-tour svg{width:14px;height:14px;}
+
+  /* ---- 2 · the column that moves ----
+     The dock is fixed over the foot of the screen, so the scroller has to
+     end above it or the last card sits under the icons for ever. */
+  .dis-main{
+    padding:0 22px;
+    padding-bottom:calc(var(--dock-nav) + var(--dock-bar) + 26px);
+  }
+  .dis-head{padding:16px 0 0;}
+  .eyebrow-n{
+    margin:0 0 6px;
+    font-size:13px;letter-spacing:.13em;
+  }
+
+  /* The title breaks in two, and PROCESS is pushed to the right-hand end of
+     a measure narrower than the column — which is what puts it under the
+     middle of DISCHARGE rather than hard against the margin. */
+  /* PROCESS is pushed right, but stopped short of the margin — which is
+     what sets it under the middle of DISCHARGE rather than hard against the
+     edge. A right margin rather than a narrow measure on the whole title:
+     capping the title would also cap DISCHARGE, and the first window where
+     that word did not fit would push it out of its own box. */
+  .dis-title{
+    display:flex;flex-direction:column;align-items:flex-start;
+    margin:0 0 16px;
+    /* The cap matters more than it looks: 19.3vw is right at phone widths,
+       but the phone layout runs up to 760px, where it would otherwise set a
+       title half again as large as the desktop one. */
+    font-size:clamp(44px,19.3vw,88px);
+    line-height:1.02;
+  }
+  .dis-title .t-b{align-self:flex-end;margin-right:19%;}
+
+  .dis-lede{font-size:16px;line-height:1.45;margin:0 0 14px;max-width:none;}
+
+  /* The note moves above the button and the arrow drops onto it, so the row
+     reverses and the whole block goes to the right. */
+  .dis-cta{
+    flex-direction:column;
+    align-items:stretch;
+    gap:2px;
+    margin:0 0 26px;
+  }
+  /* The note sits above the button here, so the arrow has to come down onto
+     it rather than across — which puts the arrow after the words, not before
+     them. Reversing the row is cheaper than a second element. */
+  .dis-note{
+    order:-1;
+    align-self:flex-end;
+    flex-direction:row-reverse;
+    align-items:flex-start;
+    gap:6px;
+    margin:0 2px 8px 0;
+  }
+  .dis-note .hand{text-align:right;}
+  .dis-note svg{width:34px;height:40px;}
+  .hand{font-size:19px;}
+  .dis-tasks{
+    justify-content:center;
+    width:100%;
+    padding:17px 20px;
+    font-size:13.5px;
+  }
+
+  .dis-rule{margin:0 0 22px;}
+
+  /* ---- 3 · the cards ---- */
+  .dis-grid{grid-template-columns:minmax(0,1fr);gap:18px;}
+  .card{
+    padding:20px 18px 22px;
+    /* The faint squared ground the design gives these on a phone. It is
+       drawn rather than an image so it costs nothing and stays crisp. */
+    background-image:
+      linear-gradient(rgba(21,36,27,.045) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(21,36,27,.045) 1px,transparent 1px);
+    background-size:27px 27px,27px 27px;
+    background-position:-1px -1px,-1px -1px;
+  }
+  .card-h{font-size:23px;}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;}
+  .stat{padding:12px 11px 11px;}
+  .stat-h{font-size:12.5px;}
+  .row{align-items:flex-start;flex-wrap:wrap;gap:8px 12px;}
+  .row-b{margin-left:0;}
+  .card-f{flex-wrap:wrap;gap:12px;}
+
+  /* ---- 4 · the dock ---- */
+  /* Above the sheet, not below it. The sheet is parked at translateY(100%)
+     of its own height, which leaves its top edge sitting exactly in the strip
+     the icons occupy — so at z-index 46 the parked conversation covered the
+     navigation. The composer half hides itself when the sheet is up, so
+     nothing here needs to be underneath. */
+  .dis-dock{
+    position:fixed;left:0;right:0;bottom:0;
+    z-index:50;
+  }
+  .dock-bar{
+    display:flex;align-items:center;gap:11px;
+    height:var(--dock-bar);
+    padding:0 14px;
+    background:var(--d-panel);
+  }
+  .dock-av{
+    flex:0 0 auto;
+    width:40px;height:40px;border-radius:50%;
+    display:grid;place-items:center;
+    background:var(--d-gold);color:var(--d-ink);
+    font-size:16px;font-weight:600;
+  }
+  /* A button, not a text field. Nothing is typed here — pressing it raises
+     the real composer, which is where the caret belongs. */
+  .dock-field{
+    flex:1 1 auto;min-width:0;
+    display:flex;align-items:center;gap:8px;
+    height:46px;
+    padding:0 8px 0 18px;
+    border:0;border-radius:999px;
+    background:var(--d-bg);
+    color:#9a9a97;
+    font-size:15px;
+    text-align:left;
+    cursor:pointer;
+  }
+  .dock-ph{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .dock-ic{
+    flex:0 0 auto;
+    display:grid;place-items:center;
+    width:30px;height:30px;border-radius:50%;
+    color:var(--d-mute);
+  }
+  .dock-ic-on{background:#e3e1db;}
+  .dock-ic svg{
+    width:18px;height:18px;
+    fill:none;stroke:currentColor;stroke-width:1.7;
+    stroke-linecap:round;stroke-linejoin:round;
+  }
+
+  .dock-nav{
+    display:flex;align-items:center;justify-content:space-around;
+    height:var(--dock-nav);
+    padding:0 10px;
+    background:var(--d-panel-foot);
+    /* clear of the home indicator on a phone that has one */
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    box-sizing:content-box;
+  }
+  .dock-i{
+    display:grid;place-items:center;
+    width:46px;height:46px;
+    border-radius:12px;
+    color:var(--d-bg);
+    text-decoration:none;
+  }
+  .dock-i svg{
+    width:23px;height:23px;
+    fill:none;stroke:currentColor;stroke-width:1.6;
+    stroke-linecap:round;stroke-linejoin:round;
+  }
+  /* aria-current is now "page" — the tool you are in — rather than the
+     section you have scrolled to. */
+  .dock-i[aria-current]{background:rgba(243,241,235,.1);color:var(--d-gold);}
+
+  /* ---- 5 · the conversation, as a screen ----
+     It stops above the icon strip rather than covering it, so the five
+     sections stay one press away from inside the conversation. */
+  .dis-chat{
+    position:fixed;
+    top:0;left:0;right:0;
+    bottom:calc(var(--dock-nav) + env(safe-area-inset-bottom,0px));
+    width:auto;
+    margin:0;border-radius:0;
+    transform:translateY(100%);
+    transition:transform .34s cubic-bezier(.32,.72,.3,1);
+    z-index:48;
+    box-shadow:none;
+  }
+  .dis.chat-open .dis-chat{transform:none;}
+  /* while it is up, the strip underneath would be a second composer */
+  .dis.chat-open .dock-bar{display:none;}
+
+  .ct-head{gap:12px;padding:14px 16px 13px;}
+  .ct-back{
+    flex:0 0 auto;
+    width:34px;height:34px;
+    place-items:center;
+    border:0;border-radius:50%;
+    background:transparent;color:var(--d-bg);
+    cursor:pointer;
+  }
+  .ct-back svg{
+    width:22px;height:22px;
+    fill:none;stroke:currentColor;stroke-width:1.9;
+    stroke-linecap:round;stroke-linejoin:round;
+  }
+  .ct-av{width:44px;height:44px;font-size:17px;}
+  .ct-name{font-size:24px;}
+  .ct-sub{font-size:13px;}
+  .ct-exp{display:none;}
+
+  .ct-body{padding:14px 16px 18px;}
+  .ct-msg{font-size:15px;padding:16px 17px;border-radius:14px;}
+
+  /* The file rows come out of their card here: the prompt has moved up into
+     the greeting, so what is left is a list, and a panel around a list with
+     no heading is just a box. */
+  .ct-msg:has(.ct-files){background:transparent;padding:0;}
+  .ct-file{
+    border:0;border-radius:11px;
+    background:var(--d-bg);
+    padding:14px 16px;
+    margin:0 0 9px;
+  }
+  .ct-file span{font-size:14.5px;}
+  .ct-file b{font-size:14.5px;}
+  .ct-file svg{display:none;}
+
+  .ct-hand{font-size:17px;}
+  .ct-chips{flex-direction:row;flex-wrap:wrap;gap:10px;margin-top:20px;}
+  /* Two across, which only works if they actually fit: measured at 182+174
+     against 360 of room, so the padding comes in rather than the words. */
+  .ct-chip{font-size:13.5px;padding:11px 12px;}
+
+  /* The composer is already one row; the phone only changes its measure.
+     6px, as asked — a pill at this width reads as a search box. */
+  .ct-foot{padding:12px 14px 14px;}
+  .ct-in{
+    min-height:54px;height:54px;
+    padding:16px 76px 16px 18px;
+    border-radius:6px;
+    font-size:15px;
+  }
+  .ct-mini{right:8px;bottom:11px;}
+  .ct-ic svg{width:19px;height:19px;}
+  .ct-send{width:52px;height:52px;}
+  .ct-send svg{width:20px;height:20px;}
+}
+
+/* A phone that is also short: the dock is fixed, so it is the scroller that
+   has to give, not the dock. */
+@media (max-width:760px) and (max-height:680px){
+  :root{--dock-nav:58px;--dock-bar:58px;}
+  .dock-av{width:34px;height:34px;}
+  .dock-field{height:40px;}
+  .dock-i{width:40px;height:40px;}
+  .dock-i svg{width:21px;height:21px;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important;}
+}
+
+/* ============================================================
+   6 · THE OPENING SEQUENCE
+   ------------------------------------------------------------
+   Seven beats, played once on load. The whole thing hangs off two
+   classes on <html>:
+
+     .intro   added inline in the head, BEFORE the first paint, so
+              the finished page is never shown for a frame first;
+     .go      added by discharge.js once the fonts have settled,
+              which is what actually starts the clock. A failsafe
+              timer in that same inline script adds it anyway, so a
+              script that fails to load cannot leave a blank page.
+
+   Between the two, everything in the sequence is simply invisible.
+   After .go, each piece runs one animation with fill-mode BOTH —
+   so the delay holds it at its from-state and it stays at its
+   to-state afterwards — except the panel, which uses BACKWARDS so
+   its clip-path is dropped entirely at the end and the border
+   radius comes back.
+
+   The schedule, in ms from .go:
+
+       0    eyebrow fades up                      380
+     200    PROCESS drops and bounces             620
+     700    DISCHARGE flies in from the left      560
+    1140    PROCESS recoils from the impact       360
+    1500    lede fades up                         380
+    1620    tasks button fades up                 380
+    1900    handwriting, first line               760
+    2660    handwriting, second line              500
+    3160    the arrow draws, text to button       520
+    3560    its head                              240
+    3300    the six tabs, 70 apart                380 each
+    3900    the rule: left cross                  200
+    4050         the line, drawn rightwards       460
+    4510         right cross                      200
+    4600    the four cards, 110 apart             440 each
+    5250    the AWAITING DATA stamp is pressed    620
+    5200    the panel arrives                     820
+
+   Nothing here changes a finished position: every animation ends
+   at the element's natural state, so the page this leaves behind
+   is the page that was there before the sequence existed.
+   ============================================================ */
+
+:root{
+  --e-out:cubic-bezier(.22,.7,.3,1);        /* arrive and settle */
+  --e-bounce:cubic-bezier(.3,1.5,.5,1);     /* arrive and overshoot */
+}
+
+/* Before the clock starts, the cast is off stage. Scoped to
+   :not(.go) so that if anything goes wrong after .go is added the
+   page is merely unanimated rather than invisible. */
+html.intro:not(.go) .dis-eyebrow,
+html.intro:not(.go) .dis-tour,
+html.intro:not(.go) .dis-title .t-a,
+html.intro:not(.go) .dis-title .t-b,
+html.intro:not(.go) .dis-lede,
+html.intro:not(.go) .dis-tasks,
+html.intro:not(.go) .dis-note .hw,
+html.intro:not(.go) .dis-note svg,
+html.intro:not(.go) .rail-back,
+html.intro:not(.go) .rail-tab,
+html.intro:not(.go) .dis-home,
+html.intro:not(.go) .dis-mark,
+html.intro:not(.go) .dock-i,
+html.intro:not(.go) .dock-bar,
+html.intro:not(.go) .dis-rule i,
+html.intro:not(.go) .card,
+html.intro:not(.go) .card-stamp,
+html.intro:not(.go) .dis-chat{opacity:0;}
+
+/* ---------- 1 · the tool's name ---------- */
+@keyframes dis-fade{
+  from{opacity:0;transform:translateY(9px);}
+  to  {opacity:1;transform:none;}
+}
+html.intro.go .dis-eyebrow{animation:dis-fade .38s var(--e-out) 0ms both;}
+html.intro.go .dis-tour   {animation:dis-fade .38s var(--e-out) 60ms both;}
+/* the phone's bar carries two more things, on the same beat */
+html.intro.go .dis-home   {animation:dis-fade .38s var(--e-out) 0ms both;}
+html.intro.go .dis-mark   {animation:dis-fade .38s var(--e-out) 30ms both;}
+
+/* ---------- 2 · the title ---------- */
+/* Both words need transforms, so both are inline-block. They are single
+   words, so nothing can break inside them and the line box is unchanged. */
+.dis-title .t-a,.dis-title .t-b{display:inline-block;}
+.dis-title .t-in{display:inline-block;font-style:normal;}
+
+@keyframes dis-drop{
+  0%  {opacity:0;transform:translateY(-135%);}
+  55% {opacity:1;transform:translateY(6%);}     /* past the mark */
+  75% {transform:translateY(-3%);}
+  100%{opacity:1;transform:none;}
+}
+/* Comes in fast, overshoots RIGHT into PROCESS, then rocks back. The
+   overshoot is what the recoil below is reacting to, so the two share a
+   moment: this hits at 55% of 560ms after 700ms, or about 1010ms, and the
+   recoil starts at 1140. */
+@keyframes dis-fly{
+  0%  {opacity:0;transform:translateX(-118%);}
+  60% {opacity:1;transform:translateX(3.5%);}
+  80% {transform:translateX(-1.2%);}
+  100%{opacity:1;transform:none;}
+}
+/* What being hit looks like: shoved right, then back. */
+@keyframes dis-jolt{
+  0%  {transform:none;}
+  30% {transform:translateX(11px);}
+  60% {transform:translateX(-3px);}
+  100%{transform:none;}
+}
+html.intro.go .dis-title .t-b  {animation:dis-drop .62s var(--e-bounce) 200ms both;}
+html.intro.go .dis-title .t-a  {animation:dis-fly  .56s var(--e-out)    700ms both;}
+html.intro.go .dis-title .t-in {animation:dis-jolt .36s var(--e-out)   1140ms both;}
+
+/* ---------- 3 · the lede, the button, the note ---------- */
+html.intro.go .dis-lede {animation:dis-fade .38s var(--e-out) 1500ms both;}
+html.intro.go .dis-tasks{animation:dis-fade .38s var(--e-out) 1620ms both;}
+
+/* Written, not faded. A mask wider than the line sweeps across it, and
+   the gradient's ramp is kept tight — about a tenth of the line — so the
+   edge reads as a nib moving rather than as a dissolve. Two lines, two
+   sweeps, because that is the order a hand would do it in. */
+.dis-note .hand{display:block;}
+.dis-note .hw{
+  display:block;
+  font-style:normal;
+  -webkit-mask-image:linear-gradient(90deg,#000 0%,#000 44%,rgba(0,0,0,0) 52%);
+          mask-image:linear-gradient(90deg,#000 0%,#000 44%,rgba(0,0,0,0) 52%);
+  -webkit-mask-size:230% 100%;
+          mask-size:230% 100%;
+  -webkit-mask-repeat:no-repeat;
+          mask-repeat:no-repeat;
+}
+@keyframes dis-write{
+  from{opacity:1;-webkit-mask-position:100% 0;mask-position:100% 0;}
+  to  {opacity:1;-webkit-mask-position:0% 0;  mask-position:0% 0;}
+}
+html.intro.go .dis-note .hw:nth-child(1){animation:dis-write .76s linear 1900ms both;}
+html.intro.go .dis-note .hw:nth-child(2){animation:dis-write .50s linear 2660ms both;}
+
+/* The arrow is drawn from the end nearest the text towards the button,
+   which is the direction the path is already written in — its start sits
+   by the "s" of "start" and its head lands on the button. */
+.dis-note svg path{
+  stroke-dasharray:var(--len,70);
+  stroke-dashoffset:0;
+}
+@keyframes dis-stroke{
+  from{stroke-dashoffset:var(--len,70);}
+  to  {stroke-dashoffset:0;}
+}
+@keyframes dis-appear{from{opacity:0;}to{opacity:1;}}
+html.intro.go .dis-note svg{animation:dis-appear .01s linear 3160ms both;}
+html.intro.go .dis-note svg path:nth-of-type(1){animation:dis-stroke .52s var(--e-out) 3160ms both;}
+html.intro.go .dis-note svg path:nth-of-type(2){animation:dis-stroke .24s var(--e-out) 3560ms both;}
+
+/* ---------- 4 · the tabs ---------- */
+@keyframes dis-slide-x{
+  from{opacity:0;transform:translateX(-115%);}
+  to  {opacity:1;transform:none;}
+}
+html.intro.go .rail-back{animation:dis-slide-x .38s var(--e-out) 3240ms both;}
+html.intro.go .rail-tab{animation:dis-slide-x .38s var(--e-out) both;}
+html.intro.go .rail-tab:nth-child(1){animation-delay:3300ms;}
+html.intro.go .rail-tab:nth-child(2){animation-delay:3370ms;}
+html.intro.go .rail-tab:nth-child(3){animation-delay:3440ms;}
+html.intro.go .rail-tab:nth-child(4){animation-delay:3510ms;}
+html.intro.go .rail-tab:nth-child(5){animation-delay:3580ms;}
+
+
+/* ---------- 5 · the rule ---------- */
+/* The crosses are pseudo-elements, which animate like anything else. The
+   line is scaled from its left edge rather than having its width animated,
+   so it costs no layout. */
+@keyframes dis-pop{
+  0%  {opacity:0;transform:scale(.3);}
+  70% {opacity:1;transform:scale(1.15);}
+  100%{opacity:1;transform:scale(1);}
+}
+@keyframes dis-draw-x{
+  from{opacity:1;transform:scaleX(0);}
+  to  {opacity:1;transform:scaleX(1);}
+}
+.dis-rule i{transform-origin:left center;}
+html.intro:not(.go) .dis-rule::before,
+html.intro:not(.go) .dis-rule::after{opacity:0;}
+html.intro.go .dis-rule::before{animation:dis-pop    .20s var(--e-out) 3900ms both;}
+html.intro.go .dis-rule i      {animation:dis-draw-x .46s var(--e-out) 4050ms both;}
+html.intro.go .dis-rule::after {animation:dis-pop    .20s var(--e-out) 4510ms both;}
+
+/* ---------- 6 · the cards ---------- */
+@keyframes dis-zoom{
+  from{opacity:0;transform:scale(.93) translateY(14px);}
+  to  {opacity:1;transform:none;}
+}
+/* .dis-grid, not .card: the route map's card is also a .card, and it is
+   moved around at runtime — every move replayed this. The four cards this
+   is for never move. */
+html.intro.go .dis-grid .card{animation:dis-zoom .44s var(--e-out) both;}
+html.intro.go .dis-grid .card:nth-child(1){animation-delay:4600ms;}
+html.intro.go .dis-grid .card:nth-child(2){animation-delay:4710ms;}
+html.intro.go .dis-grid .card:nth-child(3){animation-delay:4820ms;}
+html.intro.go .dis-grid .card:nth-child(4){animation-delay:4930ms;}
+
+/* The stamp goes on AFTER its card has settled, the way a stamp is used:
+   card 02 finishes at 5150, and this lands on it at 5250. It comes down
+   big, fast and out of true, compresses on contact, then rocks back to
+   the angle it keeps. The blur is only on the way down — that is what
+   makes the arrival read as speed rather than as something scaling. */
+@keyframes dis-stamp{
+  0%  {opacity:0;transform:rotate(-15deg) scale(2.7);filter:blur(2.6px);}
+  55% {opacity:1;transform:rotate(-3.2deg) scale(.93);filter:blur(0);}
+  72% {opacity:1;transform:rotate(-3.2deg) scale(1.07);}
+  86% {opacity:1;transform:rotate(-3.2deg) scale(.98);}
+  100%{opacity:1;transform:rotate(-3.2deg) scale(1);filter:blur(0);}
+}
+html.intro.go .card-stamp{animation:dis-stamp .62s cubic-bezier(.3,.9,.25,1) 5250ms both;}
+
+/* ---------- 4 and 7, on a phone ----------
+   The rail and the side panel are not there, so the two beats they carry
+   go to the parts that replaced them: the five dock icons arrive from the
+   left in turn, where the tabs would have, and the composer strip rises at
+   the end, where the panel would have. Same order, same clock. */
+html.intro.go .dock-i{animation:dis-slide-x .38s var(--e-out) both;}
+html.intro.go .dock-i:nth-child(1){animation-delay:3300ms;}
+html.intro.go .dock-i:nth-child(2){animation-delay:3370ms;}
+html.intro.go .dock-i:nth-child(3){animation-delay:3440ms;}
+html.intro.go .dock-i:nth-child(4){animation-delay:3510ms;}
+html.intro.go .dock-i:nth-child(5){animation-delay:3580ms;}
+
+@keyframes dis-rise{
+  from{opacity:0;transform:translateY(100%);}
+  to  {opacity:1;transform:none;}
+}
+html.intro.go .dock-bar{animation:dis-rise .5s var(--e-out) 5200ms both;}
+
+/* ---------- 7 · the panel ---------- */
+/* The genie. A real one is a non-affine warp, which no CSS transform can
+   do; what makes it read is the CLIP, not the scale — a narrow stream out
+   of the top-right corner that flares as it fills. Six points, the same
+   six at every step, because polygon() only interpolates between shapes
+   with matching vertex counts.
+
+   fill-mode is BACKWARDS, not both: it holds the collapsed state through
+   the delay, then hands the element back untouched at the end, so the
+   panel's own 14px radius returns rather than being squared off by a
+   clip-path left behind. */
+@keyframes dis-genie{
+  0%{
+    opacity:0;
+    transform:translate(17%,-6%) scale(.55);
+    clip-path:polygon(100% 0%,100% 0%,100% 1%,100% 2%,97% 2%,97% 1%);
+  }
+  30%{
+    opacity:.9;
+    transform:translate(8%,-2%) scale(.74);
+    clip-path:polygon(86% 0%,100% 0%,100% 20%,100% 40%,88% 34%,89% 16%);
+  }
+  60%{
+    opacity:1;
+    transform:translate(2%,0) scale(.9);
+    clip-path:polygon(40% 0%,100% 0%,100% 55%,100% 88%,34% 76%,44% 34%);
+  }
+  85%{
+    transform:none;
+    clip-path:polygon(4% 0%,100% 0%,100% 62%,100% 100%,0% 97%,2% 45%);
+  }
+  100%{
+    opacity:1;
+    transform:none;
+    clip-path:polygon(0% 0%,100% 0%,100% 50%,100% 100%,0% 100%,0% 50%);
+  }
+}
+.dis-chat{transform-origin:100% 0;}
+html.intro.go .dis-chat{animation:dis-genie .82s var(--e-out) 5200ms backwards;}
+/* Off a phone only. There the panel is a sheet parked below the screen, and
+   a genie played on something nobody can see would simply hold it hidden
+   past the point where a press should raise it. */
+@media (max-width:760px){
+  html.intro.go .dis-chat{animation:none;}
+  html.intro:not(.go) .dis-chat{opacity:1;}
+}
+
+/* ---------- when motion is not wanted ----------
+   Everything off, nothing hidden. Each animation ends at the element's
+   natural state, so switching them off simply shows the finished page. */
+@media (prefers-reduced-motion:reduce){
+  html.intro *,html.intro *::before,html.intro *::after{
+    animation:none !important;
+  }
+  html.intro:not(.go) .dis-eyebrow,
+  html.intro:not(.go) .dis-tour,
+  html.intro:not(.go) .dis-title .t-a,
+  html.intro:not(.go) .dis-title .t-b,
+  html.intro:not(.go) .dis-lede,
+  html.intro:not(.go) .dis-tasks,
+  html.intro:not(.go) .dis-note .hw,
+  html.intro:not(.go) .dis-note svg,
+  html.intro:not(.go) .rail-back,
+html.intro:not(.go) .rail-tab,
+  html.intro:not(.go) .dis-home,
+  html.intro:not(.go) .dis-mark,
+  html.intro:not(.go) .dock-i,
+  html.intro:not(.go) .dock-bar,
+  html.intro:not(.go) .dis-rule i,
+  html.intro:not(.go) .dis-rule::before,
+  html.intro:not(.go) .dis-rule::after,
+  html.intro:not(.go) .card,
+  html.intro:not(.go) .card-stamp,
+  html.intro:not(.go) .dis-chat{opacity:1;}
+  .dis-note .hw{-webkit-mask-image:none;mask-image:none;}
+}
+
+/* ============================================================
+   7 · THE SECOND SCREEN — the route map
+   ------------------------------------------------------------
+   Same shell, different worksheet. Which one is showing is one
+   attribute on .dis, and .v1 / .v2 mark what belongs to each.
+
+   The paper cools a shade here and the cards warm a shade, which
+   is done by redefining the two tokens rather than restyling
+   anything: everything in the column follows. The conversation
+   keeps the original warm cream, so it redefines --d-bg back —
+   a panel that had gone grey-green would read as disabled.
+   ============================================================ */
+.dis[data-view="1"] .v2{display:none !important;}
+.dis[data-view="2"] .v1{display:none !important;}
+
+.dis{background:var(--d-bg);}
+.dis[data-view="2"]{--d-bg:#dde3db;--d-card:#f8f9f6;}
+.dis[data-view="2"] .dis-chat{--d-bg:#f3f1eb;}
+
+
+/* ---- the bar ---- */
+/* The bar is shared by every screen after the first, so it is NOT tagged as
+   belonging to one of them — it was .v2, and the third screen's rule hiding
+   everything .v2 took the bar with it. */
+.dis[data-view="1"] .dis-top.bar-2{display:none;}
+.dis-top.bar-2{
+  display:flex;align-items:center;gap:22px;
+  max-width:none;
+}
+.bar-t{
+  margin:0;flex:0 0 auto;
+  font-family:var(--d-display);
+  font-weight:700;
+  font-size:25px;line-height:1.02;
+  letter-spacing:.015em;
+  text-transform:uppercase;
+}
+.bar-w{
+  margin:0;flex:1 1 auto;min-width:0;
+  font-size:12.5px;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;
+  color:var(--d-mute);
+}
+.dis-top.bar-2 .dis-tour{padding:9px 16px;font-size:13px;line-height:1.2;}
+.bar-tasks{flex:0 0 auto;padding:12px 18px;font-size:12px;}
+.bar-tasks .dis-tasks-n{width:20px;height:20px;font-size:11px;}
+.dis[data-view="2"] .dis-topbar{padding-bottom:0;}
+.dis[data-view="2"] .dis-top.bar-2{padding:14px 0 16px;}
+
+/* ---- the head ---- */
+.rm-kicker{margin:0 0 12px;}
+.rm-kicker b{font-weight:700;}
+.rm-title{
+  display:block;
+  margin:0 0 18px;
+  /* 4.84vw is 70px at the width this was drawn for, which is the cap height
+     measured off it divided by Bebas's 0.70. Two lines, breaking after "AN". */
+  font-size:clamp(38px,4.84vw,74px);
+  line-height:.9;
+  letter-spacing:.005em;
+  max-width:16em;
+}
+.rm-lede{margin:0 0 22px;max-width:44em;}
+
+/* ---- the key ---- */
+.rm-key{
+  display:flex;flex-wrap:wrap;gap:22px;
+  margin:0 0 30px;padding:0;
+  list-style:none;
+  font-size:13.5px;
+}
+.rm-key li{display:flex;align-items:center;gap:8px;}
+.rm-key i{
+  width:13px;height:13px;border-radius:50%;
+  border:2px solid var(--d-ink);
+}
+.rm-key .is-now i{background:var(--d-gold);border-color:var(--d-gold);}
+.rm-key .is-done i{background:var(--d-ink);}
+.rm-key .is-next i{background:transparent;}
+.rm-key .is-later i{background:transparent;border-color:#b5bdb5;}
+
+/* ============ the map ============
+   Two rows on one seven-column grid, and a drawn turn between them. Row 2
+   starts one column in, which is why the second row's first slot is an
+   empty one rather than a margin: a margin would put it on a different
+   pitch from row 1 and the two would stop lining up the moment the column
+   width changed.
+
+   Row heights are fixed rather than content-sized, because the turn has to
+   know how far it is falling. 20px to the first dot's centre, 122px between
+   the two — those three numbers are the whole geometry. */
+.rm{
+  position:relative;
+  margin:0 0 30px;
+  padding-right:64px;          /* the turn lives here */
+}
+.rm-row{
+  position:relative;
+  display:grid;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  min-height:84px;
+  margin:0;padding:0;
+  list-style:none;
+}
+.rm-row-1{margin-bottom:38px;}
+
+.rm-slot{
+  position:relative;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;
+  min-width:0;
+}
+/* The whole stop is the target, not just the circle: a 41px dot is a small
+   thing to hit, and the label is the part people read. */
+.rm-hit{
+  display:flex;flex-direction:column;align-items:center;
+  width:100%;
+  padding:0;
+  border:0;background:transparent;
+  color:inherit;font:inherit;
+  text-align:center;
+  cursor:pointer;
+}
+.rm-hit:focus-visible{outline:2px solid var(--d-gold);outline-offset:4px;border-radius:6px;}
+.rm-st{display:none;}
+/* The segment arriving from the left, drawn EDGE TO EDGE rather than centre
+   to centre. Centre to centre was simpler and wrong: the next slot's segment
+   reaches back over this slot's dot, and since the reveal gives every slot a
+   transform each becomes its own stacking context, so a later sibling paints
+   over an earlier one whatever z-index the dot carries. The line ran straight
+   through every letter — a C read as a G. Stopping the line at the circles
+   removes the question instead of answering it.
+
+   --r is this slot's radius, --pr the one before it; the only slots with a
+   different radius are the two terminals. */
+.rm-slot{--r:20.5px;--pr:20.5px;}
+.rm-term{--r:10.5px;}
+.rm-term + .rm-slot{--pr:10.5px;}
+.rm-slot::before{
+  content:"";
+  position:absolute;
+  top:20px;
+  left:calc(-50% + var(--pr));
+  right:calc(50% + var(--r));
+  height:3px;
+  background:var(--d-ink);
+  transform-origin:left center;
+}
+/* nothing arrives at the first slot of a row, or at the one after the gap */
+.rm-row > .rm-slot:first-child::before,
+.rm-void::before,
+.rm-void + .rm-slot::before{display:none;}
+
+/* The gold marks the stop you have open, and it TRAVELS there. It is the
+   .rm-puck below, not a class on the stop: the open stop simply goes
+   transparent so the disc behind shows through, and its letter — which sits
+   inside the dot — stays on top of the gold the whole way.
+
+   Keeping the fill on the dot would mean the colour disappearing in one
+   place and appearing in another, which says nothing about where you came
+   from. */
+.rm-stop.is-open .rm-dot{background:transparent;border-color:transparent;}
+.rm-hit:hover .rm-dot{transform:scale(1.07);}
+.rm-dot{
+  transition:transform .16s var(--e-out);
+  position:relative;z-index:1;
+  width:41px;height:41px;
+  display:grid;place-items:center;
+  border-radius:50%;
+  border:2.5px solid var(--d-ink);
+  background:#f3f1eb;
+  font-family:var(--d-display);
+  font-weight:700;
+  font-size:19px;line-height:1;
+  letter-spacing:.02em;
+}
+.rm-dot i{font-style:normal;transform:translateY(1px);}
+.rm-lb{
+  margin-top:9px;
+  max-width:13ch;
+  font-size:12.5px;line-height:1.24;
+  color:var(--d-ink);
+}
+
+/* the states a stop can be in, gold excepted — that belongs to the puck */
+.rm-stop.is-done .rm-dot{background:var(--d-ink);color:var(--d-card);}
+/* A stop still to come is drawn lighter, but the LINE between stops is not:
+   the route is the same route whether you have walked it yet or not, and
+   fading it would read as a path that stops existing. */
+.rm-stop.is-later .rm-dot{border-color:#8a968a;}
+
+/* the ends of the line: a dot to start on, a block to finish on */
+.rm-cap{
+  position:relative;z-index:1;
+  width:21px;height:21px;
+  margin:10px 0;
+  background:var(--d-ink);
+}
+.rm-cap-a{border-radius:50%;}
+.rm-cap-b{border-radius:4px;}
+.rm-end{
+  font-weight:700;
+  font-size:11.5px;
+  letter-spacing:.08em;text-transform:uppercase;
+  line-height:1.25;
+}
+
+/* The turn, anchored to the centre of the seventh column. 92.857% is six
+   and a half columns of seven — the same arithmetic the grid does, written
+   once here because an SVG cannot be a grid item and still overflow. */
+/* Opening a stop. The content is already in the document, so there is
+   nothing to wait for — this is a quarter of a second of arrival, not a
+   load, and it starts on the press rather than after anything. */
+@keyframes rm-open{
+  from{opacity:0;transform:translateY(-12px);}
+  to  {opacity:1;transform:none;}
+}
+html.intro.go .rm-card.is-fresh,
+.rm-card.is-fresh{animation:rm-open .24s var(--e-out) both;}
+
+/* The travelling disc. Its size and ring are the dot's, so when it arrives
+   the stop looks exactly as a gold stop should. The duration is set from the
+   distance in the script — a step to the neighbour should be brisk, and a
+   jump across the map should still read as travel rather than a cut. */
+.rm-puck{
+  position:absolute;top:0;left:0;z-index:0;
+  width:41px;height:41px;
+  border-radius:50%;
+  background:var(--d-gold);
+  box-shadow:0 0 0 5px rgba(205,171,94,.32);
+  transition:transform .45s cubic-bezier(.3,.9,.28,1);
+  pointer-events:none;
+}
+.rm-puck[hidden]{display:none;}
+
+.rm-turn{
+  /* It is a drawing, not a target. Its box is 64px wide and sits over the
+     seventh column, so with pointer events on it swallowed every click on
+     stop F — the one stop on the map that could not be opened. */
+  pointer-events:none;
+  position:absolute;
+  /* Nudged right by the dot's radius so the curve leaves F's edge rather
+     than its centre, matching the segments either side of it. */
+  left:calc((100% - 64px) * 0.928571);
+  /* 20px is the first dot's centre; the path then spans exactly the 122px
+     to the second row's, so both ends meet a node rather than nearly. */
+  top:20px;
+  width:64px;height:122px;
+  overflow:visible;
+  fill:none;stroke:var(--d-ink);stroke-width:3;
+}
+
+/* ============ the stop card ============ */
+.rm-card{
+  padding:24px 26px 26px;
+  border:2px solid var(--d-ink);
+  border-radius:0;
+  /* a hard offset rather than a blur: this is a sheet laid on the page */
+  box-shadow:6px 6px 0 rgba(21,36,27,.12);
+}
+.rm-body{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,400px);
+  /* No gap: the rule between the columns IS the gap, so each side pays for
+     its own half of it. A gap plus a border would put the line against one
+     column and the air against the other. */
+  gap:0;
+}
+.rm-body[hidden]{display:none;}
+.rm-card-l{padding-right:30px;}
+.rm-card-k{display:flex;align-items:center;gap:13px;margin:0 0 12px;}
+.rm-card-h{
+  margin:0;
+  font-family:var(--d-display);
+  font-weight:700;
+  font-size:27px;line-height:1;
+  letter-spacing:.02em;
+  text-transform:uppercase;
+}
+/* The badge says where the conversation is, so it changes with the stop
+   rather than always reading "asking now". */
+.rm-badge.is-next{background:transparent;color:var(--d-ink);box-shadow:inset 0 0 0 1.5px var(--d-ink);}
+.rm-badge.is-later{background:transparent;color:#6f776f;box-shadow:inset 0 0 0 1.5px #aab2aa;}
+.rm-badge{
+  padding:6px 13px;
+  border-radius:999px;
+  background:var(--d-gold);color:var(--d-ink);
+  font-size:11px;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;
+  white-space:nowrap;
+}
+.rm-card-p{margin:0 0 18px;font-size:15px;line-height:1.5;color:var(--d-mute);}
+.rm-card-lb{
+  margin:0 0 6px;
+  font-size:11.5px;font-weight:700;
+  letter-spacing:.13em;text-transform:uppercase;
+}
+.rm-quote{margin:0;font-size:20px;}
+
+/* Tojo's question, set apart by a dashed rule rather than boxed in. A box
+   round it read as a form field — something to fill in — when it is a
+   question to answer in the conversation. */
+.rm-q{
+  border-left:1px dashed #a9afa9;
+  padding:0 0 0 26px;
+}
+.rm-q-lb{
+  margin:0 0 10px;
+  font-size:11.5px;font-weight:700;
+  letter-spacing:.11em;text-transform:uppercase;
+}
+.rm-q-t{margin:0 0 12px;font-size:19px;line-height:1.32;font-weight:500;}
+.rm-q-f{margin:0;font-size:13px;color:var(--d-mute);}
+
+/* ============ the conversation, second state ============ */
+/* What you said, in your colour, ringed the same blue as the question it
+   answered — the two are a pair and the ring is what says so. */
+/* No ring. It used to be outlined in the same blue as the question box on
+   the route map, as a pair; the box has since gone and a lone blue ring round
+   your own words meant nothing. */
+.ct-said{
+  background:var(--d-gold);
+  color:var(--d-ink);
+  border-radius:4px;
+  padding:13px 15px;
+  margin:0 0 14px;
+  font-size:14px;line-height:1.45;
+}
+.ct-where{
+  display:flex;align-items:center;gap:9px;
+  margin:0 0 14px;
+  font-size:11.5px;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;
+  color:rgba(243,241,235,.66);
+}
+.ct-where svg{
+  flex:0 0 auto;width:16px;height:16px;
+  fill:none;stroke:currentColor;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.ct-lb{
+  margin:18px 0 9px;
+  font-size:11px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(243,241,235,.62);
+}
+.ct-hand-2{margin:0;font-size:20px;line-height:1.3;}
+
+.ct-pts{display:flex;flex-direction:column;gap:8px;}
+.ct-pt{
+  display:flex;align-items:center;gap:12px;
+  width:100%;
+  padding:11px 13px;
+  border:0;border-radius:7px;
+  background:#223027;
+  color:var(--d-bg);
+  text-align:left;
+  cursor:pointer;
+  transition:background .18s ease;
+}
+.ct-pt:hover{background:#2b3b30;}
+.ct-pt:focus-visible{outline:2px solid var(--d-gold);outline-offset:2px;}
+.ct-pt[aria-pressed="true"]{box-shadow:inset 0 0 0 1.5px var(--d-gold);}
+.ct-pt-n{
+  flex:0 0 auto;
+  width:28px;height:26px;
+  display:grid;place-items:center;
+  border-radius:5px;
+  background:rgba(243,241,235,.1);
+  font-size:11.5px;font-weight:700;
+  letter-spacing:.04em;
+}
+.ct-pt-t{flex:1 1 auto;min-width:0;font-size:13px;line-height:1.35;}
+
+.ct-asks{display:flex;flex-direction:column;gap:9px;}
+.ct-ask{
+  display:flex;align-items:center;gap:12px;
+  width:100%;
+  padding:12px 14px 12px 16px;
+  border:1px solid rgba(205,171,94,.5);
+  border-radius:999px;
+  background:transparent;
+  color:var(--d-bg);
+  text-align:left;
+  cursor:pointer;
+  transition:background .18s ease,border-color .18s ease;
+}
+.ct-ask:hover{background:rgba(205,171,94,.1);border-color:var(--d-gold);}
+.ct-ask:focus-visible{outline:2px solid var(--d-gold);outline-offset:2px;}
+.ct-ask span{flex:1 1 auto;min-width:0;font-size:13.5px;line-height:1.3;}
+.ct-ask svg{
+  flex:0 0 auto;width:17px;height:17px;
+  fill:none;stroke:var(--d-gold);stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* which half of the subtitle is true depends on which screen you are on */
+.dis[data-view="1"] .ct-sub-2,
+.dis[data-view="2"] .ct-sub-1{display:none;}
+
+/* ============================================================
+   8 · THE SECOND SCREEN'S OPENING
+   ------------------------------------------------------------
+   The same clock as the first, with the parts that only exist
+   here slotted into the beats their counterparts had. The one
+   addition is the map, which draws itself stop by stop along the
+   route rather than all at once — the same idea as the tabs
+   arriving in turn, applied to something that is actually a
+   sequence.
+
+     0    the kicker        (it carries .dis-eyebrow)
+   200    the title drops
+  1500    the lede          (it carries .dis-lede)
+  1620    the key
+  1900    the route, one stop every 78ms, terminals included
+  2368    the turn draws, between F and G
+  4600    the stop card
+  5200    the panel
+
+   Indices run along the ROUTE, not along the DOM: the second row
+   reads K..G left to right but is walked G..K, so it lights from
+   the right.
+   ============================================================ */
+html.intro:not(.go) .rm-title,
+html.intro:not(.go) .wr-title,
+html.intro:not(.go) .wr-step,
+html.intro:not(.go) .wr-card,
+html.intro:not(.go) .rm-key,
+html.intro:not(.go) .rm-slot,
+html.intro:not(.go) .rm-card{opacity:0;}
+
+html.intro.go .rm-title,
+html.intro.go .wr-title{animation:dis-drop .62s var(--e-bounce) 200ms both;}
+html.intro.go .rm-key  {animation:dis-fade .38s var(--e-out) 1620ms both;}
+
+@keyframes dis-pop-in{
+  0%  {opacity:0;transform:scale(.45);}
+  65% {opacity:1;transform:scale(1.12);}
+  100%{opacity:1;transform:scale(1);}
+}
+html.intro.go .rm-slot{
+  animation:dis-pop-in .36s var(--e-out) both;
+  animation-delay:calc(1900ms + (var(--i,0) + 1) * 78ms);
+}
+/* The segment arriving at a stop is drawn just before the stop lands, so the
+   line appears to travel rather than each piece appearing under its own dot. */
+html.intro.go .rm-slot::before{
+  animation:dis-draw-x .2s linear both;
+  animation-delay:calc(1830ms + (var(--i,0) + 1) * 78ms);
+}
+html.intro.go .rm-turn path{
+  animation:dis-stroke .34s var(--e-out) 2368ms both;
+}
+.rm-turn path{stroke-dasharray:var(--len,210);stroke-dashoffset:0;}
+
+/* Scoped to .rm-intro, which the script takes off once this has played.
+   The card is MOVED between parents when the layout changes or a stop is
+   opened on a phone, and re-inserting a node restarts its CSS animations —
+   delay and all. Unscoped, the card vanished for the 4.6 seconds of this
+   delay every single time you opened a stop. */
+html.intro.go .rm-card.rm-intro{animation:dis-zoom .44s var(--e-out) 4600ms both;}
+
+/* the third screen's beats, on the second's clock: the day's steps arrive in
+   the order the day happens, then the panels */
+html.intro.go .wr-step{
+  animation:dis-fade .34s var(--e-out) both;
+  animation-delay:calc(1900ms + var(--n,0) * 120ms);
+}
+html.intro.go .wr-card{
+  animation:dis-zoom .42s var(--e-out) both;
+  animation-delay:calc(3000ms + var(--n,0) * 130ms);
+}
+
+@media (prefers-reduced-motion:reduce){
+  html.intro:not(.go) .rm-title,
+  html.intro:not(.go) .wr-title,
+  html.intro:not(.go) .wr-step,
+  html.intro:not(.go) .wr-card,
+  html.intro:not(.go) .rm-key,
+  html.intro:not(.go) .rm-slot,
+  html.intro:not(.go) .rm-card{opacity:1;}
+  .rm-turn path{stroke-dashoffset:0 !important;}
+}
+
+/* ============================================================
+   9 · THE ROUTE ON A PHONE
+   ------------------------------------------------------------
+   The map turns on its side. One column, one stop per row: the
+   circle on a vertical line, the name beside it, and where the
+   conversation has got to on the right. The open stop's card
+   drops in underneath it rather than sitting below the whole
+   map, which is why discharge.js moves that one element between
+   the two layouts instead of there being two of it.
+
+   display:contents on the rows is what makes one column out of
+   two: the list items become children of .rm itself, so `order`
+   can put them in route order — the second row reads K..G on a
+   wide window but must read G..K going down. role="list" is on
+   the <ul> because display:contents drops list semantics.
+   ============================================================ */
+@media (max-width:760px){
+
+  .rm{
+    display:flex;flex-direction:column;
+    padding:0;
+    margin:0 0 8px;
+  }
+  .rm-row{display:contents;}
+  .rm-turn{display:none;}
+  .rm-void{display:none;}
+
+  /* route order, straight from the index each stop already carries */
+  .rm-slot{order:var(--i,0);}
+
+  .rm-slot{
+    display:block;
+    text-align:left;
+    padding:0 0 18px;
+  }
+  /* The line is drawn in two halves per row — into the circle and out of it —
+     rather than as one segment between circles. Between-circles needs to know
+     how tall the row above is, and the row above may have a card in it. Each
+     row only has to know its own height, and the halves meet. */
+  .rm-slot::before{
+    top:0;left:19px;right:auto;bottom:auto;
+    width:3px;height:21px;
+    transform-origin:center top;
+  }
+  .rm-slot::after{
+    content:"";
+    position:absolute;
+    top:21px;bottom:0;left:19px;
+    width:3px;
+    background:var(--d-ink);
+  }
+  /* nothing runs in above the first stop, or on below the last */
+  .rm-row-1 > .rm-slot:first-child::before{display:none;}
+  .rm-row-2 > .rm-slot:last-child::after{display:none;}
+  .rm-void::before,.rm-void::after{display:none;}
+
+  .rm-hit{
+    display:grid;
+    grid-template-columns:41px minmax(0,1fr) auto;
+    align-items:center;
+    gap:14px;
+    text-align:left;
+  }
+  .rm-lb{
+    margin:0;max-width:none;
+    font-size:15px;font-weight:600;line-height:1.25;
+  }
+  .rm-st{
+    display:block;
+    font-size:11px;font-weight:700;
+    letter-spacing:.11em;text-transform:uppercase;
+    color:#8a8f88;
+    white-space:nowrap;
+  }
+  .rm-stop.is-now .rm-st{color:var(--d-gold-ink);}
+  .rm-stop.is-next .rm-st{color:var(--d-ink);}
+
+  /* A marker and a word on one line. flex-direction has to be named: the
+     base rule stacks these in a column and only `display` was overridden
+     above, so the row would have kept the column's direction and centring. */
+  .rm-term{
+    display:flex;flex-direction:row;
+    align-items:center;justify-content:flex-start;
+    gap:0;
+  }
+  .rm-cap{margin:0 0 0 10px;}
+  .rm-end{margin:0 0 0 24px;font-size:11.5px;}
+
+  /* the card, nested under whichever stop is open */
+  .rm-slotc{display:contents;}
+  .rm-card{
+    margin:12px 0 4px 41px;
+    padding:18px 18px 20px;
+    box-shadow:5px 5px 0 rgba(21,36,27,.1);
+    /* no squared ground on this one — it is a note pinned to the route, not
+       a worksheet panel */
+    background-image:none;
+  }
+  .rm-card-k{gap:10px;flex-wrap:nowrap;}
+  .rm-card-h{font-size:20px;}
+  .rm-badge{padding:5px 10px;font-size:10px;letter-spacing:.07em;}
+  .rm-body{
+    grid-template-columns:minmax(0,1fr);
+    gap:0;
+  }
+  .rm-card-l{padding-right:0;}
+  .rm-card-p{font-size:14.5px;margin:0 0 14px;}
+  .rm-quote{font-size:18px;margin:0 0 16px;}
+  /* the rule between the two halves lies down with them */
+  .rm-q{
+    border-left:0;
+    border-top:1px dashed #a9afa9;
+    padding:16px 0 0;
+  }
+  .rm-q-t{font-size:17px;}
+
+  /* what was said, echoed above the map */
+  /* .n-only forces display:inline, which is right for a run of words inside
+     a sentence and wrong for a block. Named here so the block wins. */
+  /* clear of the bar's rule — the gold ran flush against it */
+  div.rm-echo.n-only{display:block !important;margin:8px 0 18px;}
+  .rm-echo-said{
+    margin:0 0 14px;
+    padding:14px 16px;
+    border-radius:10px;
+    background:var(--d-gold);
+    color:var(--d-ink);
+    font-size:14.5px;line-height:1.45;
+  }
+  .rm-echo-who{
+    display:flex;align-items:center;gap:10px;
+    margin:0;
+    font-size:11.5px;font-weight:700;
+    letter-spacing:.11em;text-transform:uppercase;
+    color:var(--d-mute);
+  }
+  .rm-echo-av{
+    width:28px;height:28px;border-radius:50%;
+    display:grid;place-items:center;
+    background:var(--d-gold);color:var(--d-ink);
+    font-size:12px;font-weight:600;letter-spacing:0;
+  }
+
+  /* the bar's title sits on one line here */
+  .dis-top.bar-2{
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr) auto;
+    grid-template-areas:"home mark tour" "home sub tour";
+    align-items:center;
+    /* Both axes stated. The one-row rule above sets gap:22px, which is the
+       space between the wordmark and the line BESIDE it there; left to carry
+       over it became the space between the two ROWS here, and the wordmark
+       and its own line were pushed 22px apart. */
+    column-gap:12px;
+    row-gap:5px;
+  }
+  .dis-top.bar-2 .dis-home{grid-area:home;}
+  .dis-top.bar-2 .bar-t{grid-area:mark;font-size:23px;line-height:1.05;}
+  .dis-top.bar-2 .bar-w{
+    /* no margin: the row gap is the whole distance, so there is one number to
+       change rather than two to add up */
+    grid-area:sub;
+    font-size:11px;letter-spacing:.04em;text-transform:none;font-weight:500;
+  }
+  .dis-top.bar-2 .dis-tour{grid-area:tour;}
+  .bar-tasks{display:none;}
+  .rm-title{font-size:clamp(34px,10.4vw,46px);}
+  .rm-key{gap:14px;font-size:12.5px;margin:0 0 22px;}
+}
+
+/* ============================================================
+   10 · THE THIRD SCREEN — what the numbers add up to
+   ------------------------------------------------------------
+   Two new accents and no other new ideas: a rust for the figures
+   that are the cost of the problem, and a green for the numbers
+   that came from the hospital rather than from Tojo. Everything
+   else is the second screen's vocabulary.
+   ============================================================ */
+:root{
+  --d-rust:#833624;
+  --d-green:#427253;
+}
+.dis[data-view="3"]{--d-bg:#dde3db;--d-card:#f8f9f6;}
+.dis[data-view="3"] .dis-chat{--d-bg:#f3f1eb;}
+.dis[data-view="1"] .v3,
+.dis[data-view="2"] .v3{display:none !important;}
+.dis[data-view="3"] .v1,
+.dis[data-view="3"] .v2{display:none !important;}
+.dis[data-view="3"] .dis-topbar{padding-bottom:0;}
+.dis[data-view="3"] .ct-sub-1,
+.dis[data-view="3"] .ct-sub-nm{display:none;}
+
+.wr-title{display:block;margin:0 0 22px;font-size:clamp(34px,4.3vw,62px);line-height:.94;}
+
+/* ---- the day, step by step ---- */
+.wr-flowwrap{overflow-x:auto;overflow-y:visible;padding:14px 0 4px;margin:0 0 4px;
+  scrollbar-width:none;}
+.wr-flowwrap::-webkit-scrollbar{height:0;}
+.wr-flow{
+  display:flex;align-items:stretch;
+  gap:0;margin:0;padding:0;list-style:none;
+  min-width:100%;
+}
+.wr-step{
+  position:relative;
+  flex:1 1 0;min-width:126px;
+  display:flex;flex-direction:column;
+  padding:14px 13px 15px;
+  border:1.5px solid var(--d-ink);
+  background:var(--d-card);
+}
+/* the arrow between two steps, owned by the one it points at */
+.wr-step + .wr-step{margin-left:40px;}
+.wr-step + .wr-step::before{
+  content:"";
+  position:absolute;top:50%;left:-31px;
+  width:22px;height:1.5px;
+  background:var(--d-ink);
+}
+.wr-step + .wr-step::after{
+  content:"";
+  position:absolute;top:50%;left:-16px;
+  width:7px;height:7px;
+  border-right:1.5px solid var(--d-ink);
+  border-top:1.5px solid var(--d-ink);
+  transform:translateY(-50%) rotate(45deg);
+}
+.wr-step-n{margin:0;font-size:14px;font-weight:600;line-height:1.28;}
+.wr-step-f{
+  margin:auto 0 0;padding-top:10px;
+  font-family:var(--d-display);font-weight:700;
+  font-size:23px;line-height:1;letter-spacing:.015em;
+  text-transform:uppercase;
+}
+/* A tab sitting astride the top edge, which is why the step needs room above
+   it and the scroller must not clip the overflow vertically. */
+.wr-tab{
+  position:absolute;top:-11px;left:10px;
+  padding:3px 9px;
+  border:1.5px solid var(--d-ink);
+  border-radius:999px;
+  background:var(--d-card);
+  font-size:9.5px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  white-space:nowrap;
+}
+.wr-step.is-gold{border-color:#b1883e;}
+.wr-step.is-gold .wr-tab{border-color:var(--d-ink);}
+.wr-step.is-red{border-color:var(--d-rust);}
+.wr-step.is-red .wr-step-f{color:var(--d-rust);}
+
+/* captions under a rule — the reading of the thing above, in Tojo's aside voice */
+.wr-cap{
+  margin:0 0 26px;
+  padding-top:12px;
+  border-top:1px dashed #a9afa9;
+  font-size:13.5px;font-style:italic;line-height:1.45;
+  color:var(--d-mute);
+}
+
+/* ---- the panels ---- */
+.wr-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+  margin:0 0 4px;
+  align-items:start;
+}
+.wr-card{
+  border:1.5px solid var(--d-ink);
+  background:var(--d-card);
+  padding:15px 16px 16px;
+}
+.wr-h{margin:0 0 3px;font-size:15px;font-weight:600;line-height:1.3;}
+.wr-sub{margin:0 0 20px;font-size:12.5px;color:var(--d-mute);}
+
+/* The bar reads two things at once: where you are, and where the line is that
+   matters. --fill is the line, --at is you, and both are set on the element so
+   the numbers live in the markup beside the words they belong to. */
+.wr-bar{position:relative;height:9px;border-radius:2px;background:#d8dbd7;margin:34px 0 22px;}
+.wr-bar::before{
+  content:"";position:absolute;inset:0 auto 0 0;
+  width:var(--fill,60%);border-radius:2px;background:var(--d-ink);
+}
+.wr-bar-you{
+  position:absolute;bottom:calc(100% + 9px);left:var(--at,80%);
+  transform:translateX(-50%);
+  padding:3px 9px;border-radius:3px;
+  background:var(--d-gold);color:var(--d-ink);
+  font-size:11.5px;font-weight:700;white-space:nowrap;
+}
+.wr-bar-line{
+  position:absolute;top:-6px;bottom:-6px;left:var(--fill,60%);
+  width:1.5px;background:var(--d-rust);
+}
+.wr-bar-lim{
+  position:absolute;top:calc(100% + 7px);left:var(--fill,60%);
+  transform:translateX(-50%);
+  font-size:11.5px;font-weight:700;color:var(--d-rust);white-space:nowrap;
+}
+
+.wr-numlist{margin:0;padding:0;list-style:none;}
+.wr-num{
+  display:flex;align-items:center;gap:14px;
+  padding:13px 0;
+  border-bottom:1px solid var(--d-line-soft);
+}
+.wr-num:first-child{padding-top:2px;}
+.wr-num:last-child{border-bottom:0;padding-bottom:2px;}
+.wr-num-t{flex:1 1 auto;min-width:0;font-size:14px;font-weight:600;line-height:1.3;}
+.wr-num-v{
+  flex:0 0 auto;
+  font-family:var(--d-display);font-weight:700;
+  font-size:23px;line-height:1;letter-spacing:.01em;
+  text-transform:uppercase;
+}
+/* Where a number came from, said once and quietly. Dashed means Tojo worked
+   it out; solid green means the hospital gave it. */
+.wr-tag{
+  display:block;width:max-content;margin-top:7px;
+  padding:3px 8px;
+  border:1px solid var(--d-green);
+  color:var(--d-green);
+  font-size:9.5px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+}
+.wr-tag.is-derived{border-style:dashed;border-color:#a19476;color:#8b7d5c;}
+
+.wr-stack{display:flex;flex-direction:column;gap:0;}
+.wr-row{
+  display:flex;align-items:center;gap:16px;
+  padding:16px;
+}
+.wr-row + .wr-row{border-top:0;}
+.wr-row-t{flex:1 1 auto;min-width:0;font-size:14px;line-height:1.35;}
+.wr-row-t i{display:block;font-style:normal;font-size:12px;color:var(--d-mute);margin-top:2px;}
+.wr-row-v{
+  flex:0 0 auto;
+  font-family:var(--d-display);font-weight:700;
+  font-size:26px;line-height:1;letter-spacing:.01em;
+  text-transform:uppercase;
+}
+.wr-row.is-red{border:1.5px solid var(--d-rust);}
+.wr-row.is-red .wr-row-v{font-size:30px;color:var(--d-rust);}
+
+/* ---- the conversation's third state ---- */
+/* Which points the message was sent against, carried into it. */
+.ct-tags{display:inline;}
+.ct-tag{
+  display:inline-block;
+  margin:0 5px 3px 0;padding:2px 8px;
+  border-radius:4px;
+  background:rgba(21,36,27,.82);color:var(--d-gold);
+  font-size:11.5px;font-weight:700;
+  vertical-align:baseline;
+}
+.ct-bul{margin:0 0 12px;padding-left:19px;}
+.ct-bul li{margin:0 0 5px;font-size:14px;line-height:1.45;}
+
+@media (max-width:760px){
+  .wr-title{font-size:clamp(30px,9.2vw,42px);}
+  .wr-grid{grid-template-columns:minmax(0,1fr);gap:12px;}
+  .wr-step{min-width:150px;}
+  .wr-flowwrap{margin-inline:-22px;padding-inline:22px;}
+  .wr-row-v{font-size:22px;}
+  .wr-row.is-red .wr-row-v{font-size:25px;}
+}
+
+/* ============================================================
+   11 · THE FOURTH SCREEN — the fix, in five parts
+   ------------------------------------------------------------
+   Three border colours and they all mean the same kind of thing:
+   where something came from, or where to begin. Green is the one
+   to start with and the numbers the hospital gave; rust is what
+   the problem costs and what is still missing; dark is
+   everything else.
+   ============================================================ */
+.dis[data-view="4"]{--d-bg:#dde3db;--d-card:#f8f9f6;}
+.dis[data-view="4"] .dis-chat{--d-bg:#f3f1eb;}
+.dis[data-view="1"] .v4,.dis[data-view="2"] .v4,.dis[data-view="3"] .v4{display:none !important;}
+.dis[data-view="4"] .v1,.dis[data-view="4"] .v2,.dis[data-view="4"] .v3{display:none !important;}
+.dis[data-view="4"] .dis-topbar{padding-bottom:0;}
+.dis[data-view="4"] .ct-sub-1,
+.dis[data-view="4"] .ct-sub-nm{display:none;}
+
+.fx-title{display:block;margin:0 0 14px;font-size:clamp(34px,4.3vw,62px);line-height:.94;}
+.fx-lede{margin:0 0 26px;}
+
+.fx-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  margin:0 0 26px;padding:0;
+  list-style:none;
+  align-items:start;
+}
+.fx-part{
+  display:flex;flex-direction:column;
+  padding:16px 17px 17px;
+  border:1.5px solid var(--d-ink);
+  background:var(--d-card);
+}
+.fx-part.is-green{border-color:var(--d-green);}
+.fx-k{display:flex;align-items:flex-start;gap:12px;margin:0 0 9px;}
+.fx-h{margin:0;flex:1 1 auto;font-size:16px;font-weight:600;line-height:1.25;}
+.fx-tag{
+  flex:0 0 auto;
+  padding:4px 11px;
+  border:1.5px solid var(--d-ink);
+  border-radius:999px;
+  font-size:10px;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;
+  white-space:nowrap;
+}
+.fx-part.is-green .fx-tag{border-color:var(--d-green);color:var(--d-green);}
+.fx-p{margin:0 0 16px;font-size:14px;line-height:1.42;color:var(--d-mute);}
+
+/* All five boxes close to one height. Stretching them with the grid would
+   work until a card opens and dragged its neighbours up with it, so the
+   height is reserved in the two blocks that vary instead — two lines of
+   title, two lines of body — and an opened card still grows alone. */
+@media (min-width:761px){
+  .fx-h{min-height:calc(16px * 1.25 * 2);}
+  .fx-p{min-height:calc(14px * 1.42 * 2);}
+}
+
+/* A disclosure, and it says so: the chevron turns and aria-expanded carries
+   the state, so the arrow is decoration rather than the only signal. */
+.fx-open{
+  align-self:flex-start;
+  display:inline-flex;align-items:center;gap:9px;
+  margin-top:auto;
+  padding:9px 15px;
+  border:1px solid var(--d-ink);
+  border-radius:999px;
+  background:transparent;
+  font-size:13.5px;font-weight:600;
+  cursor:pointer;
+  transition:background .18s ease,color .18s ease;
+}
+.fx-open:hover{background:var(--d-ink);color:var(--d-card);}
+.fx-open:focus-visible{outline:2px solid var(--d-gold);outline-offset:2px;}
+.fx-open svg{
+  width:15px;height:15px;flex:0 0 auto;
+  fill:none;stroke:currentColor;stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round;
+  transition:transform .22s var(--e-out);
+}
+.fx-open[aria-expanded="true"] svg{transform:rotate(180deg);}
+.fx-body{margin-top:14px;}
+.fx-body[hidden]{display:none;}
+.fx-body ul{margin:0;padding-left:18px;}
+.fx-body li{margin:0 0 7px;font-size:13.5px;line-height:1.45;color:var(--d-mute);}
+.fx-body li:last-child{margin-bottom:0;}
+
+.fx-note{display:block;margin:0 0 20px;font-size:20px;}
+
+.fx-stats{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  margin:0;padding:0;list-style:none;
+}
+.fx-stat{
+  padding:16px 17px 17px;
+  border:1.5px solid var(--d-ink);
+  background:var(--d-card);
+}
+.fx-stat.is-gold{border-color:#b0883e;}
+.fx-stat.is-red{border-color:var(--d-rust);}
+.fx-stat-t{margin:0 0 10px;font-size:14px;font-weight:600;line-height:1.3;}
+.fx-stat-v{
+  margin:0 0 12px;
+  font-family:var(--d-display);font-weight:700;
+  font-size:31px;line-height:1;letter-spacing:.01em;
+  text-transform:uppercase;
+}
+.fx-stat.is-red .fx-stat-v{color:var(--d-rust);}
+.fx-stat-f{margin:10px 0 0;font-size:12.5px;color:var(--d-mute);}
+/* a number that is still missing is asked for in the colour of the cost it
+   is holding up */
+.wr-tag.is-need{border-style:dashed;border-color:var(--d-rust);color:var(--d-rust);}
+.fx-stat .wr-tag.is-derived{border-color:var(--d-rust);color:var(--d-rust);}
+
+/* a short reply needs no more width than it uses */
+.ct-said.is-short{width:max-content;max-width:100%;margin-left:auto;}
+
+/* ---- the fourth screen's opening, on the same clock ---- */
+html.intro:not(.go) .fx-title,
+html.intro:not(.go) .fx-part,
+html.intro:not(.go) .fx-stat,
+html.intro:not(.go) .fx-note{opacity:0;}
+html.intro.go .fx-title{animation:dis-drop .62s var(--e-bounce) 200ms both;}
+html.intro.go .fx-part{
+  animation:dis-zoom .42s var(--e-out) both;
+  animation-delay:calc(1900ms + var(--n,0) * 130ms);
+}
+html.intro.go .fx-note{animation:dis-fade .38s var(--e-out) 2700ms both;}
+html.intro.go .fx-stat{
+  animation:dis-zoom .42s var(--e-out) both;
+  animation-delay:calc(2900ms + var(--n,0) * 130ms);
+}
+@media (prefers-reduced-motion:reduce){
+  html.intro:not(.go) .fx-title,
+  html.intro:not(.go) .fx-part,
+  html.intro:not(.go) .fx-stat,
+  html.intro:not(.go) .fx-note{opacity:1;}
+}
+
+@media (max-width:760px){
+  .fx-title{font-size:clamp(30px,9.2vw,42px);}
+  .fx-grid{grid-template-columns:minmax(0,1fr);gap:12px;}
+  /* two across, and the odd one out closes the row rather than leaving a
+     half-width box beside empty space */
+  .fx-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+  .fx-stat:nth-child(3):last-child{grid-column:1 / -1;}
+  .fx-note{font-size:18px;}
+  .fx-stat{padding:14px 14px 15px;}
+  .fx-stat-t{font-size:13px;}
+  .fx-stat-v{font-size:26px;}
+  .fx-stat-f{font-size:12px;}
+  .ct-said.is-short{width:auto;}
+}
+
+/* ============================================================
+   12 · THE DIAGNOSIS LANDING
+   Reached from the rail, not from the conversation, so it is
+   switched by its own attribute. data-view still says which step
+   of the walk the chat is on; data-panel only says what the
+   middle column is showing. Keeping them apart is what lets the
+   chat carry on untouched while you look this up.
+   ============================================================ */
+/* The mock is the middle column at its full width, but here the chat sits
+   beside it, so this layout's breakpoints have to follow the column and not
+   the window — at 1300px of window the column is only about 726px wide. A
+   container is the honest measure. */
+.dis-wrap.dx{display:none;max-width:1200px;container-type:inline-size;container-name:dx;}
+.dis[data-panel="dx"] .dis-wrap{display:none !important;}
+.dis[data-panel="dx"] .dis-wrap.dx{display:block !important;}
+.dis[data-panel="dx"] .dis-topbar{display:none;}
+.dis[data-panel="dx"]{--d-bg:#dde3db;--d-card:#f8f9f6;}
+.dis[data-panel="dx"] .dis-chat{--d-bg:#f3f1eb;}
+.dis[data-panel="dx"] .dis-main{padding-top:20px;}
+
+/* ---- the header ---- */
+.dx-top{
+  display:grid;
+  grid-template-columns:auto 1fr auto auto;
+  grid-template-areas:"mag eye when go" "mag ttl when go";
+  align-items:center;
+  column-gap:16px;
+  padding:0 0 16px;
+  border-bottom:2.5px solid var(--d-ink);
+  margin:0 0 22px;
+}
+.dx-mag{grid-area:mag;width:52px;height:52px;align-self:center;}
+.dx-mag svg{
+  width:100%;height:100%;
+  fill:none;stroke:var(--d-ink);stroke-width:3.4;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.dx-mag .dx-mag-p{stroke-width:2.2;}
+.dx-eyebrow{
+  grid-area:eye;margin:0 0 1px;
+  font-size:12px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--d-mute);
+}
+.dx-title{
+  grid-area:ttl;margin:0;
+  font-family:var(--d-display);font-weight:700;
+  font-size:46px;line-height:.9;letter-spacing:.01em;
+  text-transform:uppercase;
+}
+.dx-when{grid-area:when;text-align:center;}
+.dx-when-t{margin:0 0 3px;font-size:15.5px;font-weight:600;}
+.dx-when-s{margin:0;font-size:14px;color:var(--d-mute);}
+.dx-refresh{
+  grid-area:go;
+  display:inline-flex;align-items:center;gap:10px;
+  padding:13px 22px;
+  border:2px solid var(--d-ink);border-radius:999px;
+  background:transparent;
+  font-size:15px;font-weight:600;
+  cursor:pointer;
+  transition:background .18s ease,color .18s ease;
+}
+.dx-refresh:hover{background:var(--d-ink);color:var(--d-card);}
+.dx-refresh:focus-visible{outline:2px solid var(--d-gold);outline-offset:3px;}
+.dx-refresh svg{
+  width:18px;height:18px;flex:0 0 auto;
+  fill:none;stroke:currentColor;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* ---- the two columns ---- */
+.dx-grid{
+  display:grid;
+  grid-template-columns:minmax(232px,43fr) minmax(0,54fr);
+  gap:38px;
+  align-items:start;
+  margin:0 0 26px;
+}
+/* The evidence decides its own column count from the space it actually has,
+   not from the window. That is what lets the glass stay on the left and the
+   findings on the right all the way down — the cards stack inside their
+   column instead of the whole layout giving up and going single file. */
+.dx-right{container-type:inline-size;container-name:dxr;}
+
+/* ---- the glass ---- */
+/* A container of its own so the writing under the glass is sized against
+   the glass rather than against the column: the disc is a fixed fraction of
+   this box, so type measured in cqw keeps the same fit at every width. */
+.dx-dial{position:relative;width:100%;max-width:470px;margin:0 auto 6px;
+  container-type:inline-size;}
+.dx-dial-svg{display:block;width:100%;height:auto;overflow:visible;}
+/* Five segments of one circle rather than five paths: the arc maths stays
+   in the dash pattern, so changing how many stages there are is one number
+   in --segs and not a new set of coordinates. */
+/* The dash pattern is set by the script from the data — how many stages
+   there are decides how long a segment is — so the stylesheet only says
+   what a segment looks like, never where it sits. */
+.dx-arc{fill:none;stroke:var(--d-ink);stroke-width:17;stroke-linecap:butt;}
+.dx-arc.is-now{stroke:var(--d-gold);}
+/* the empty dial: five places a stage can land, waiting */
+.dx-arc.is-track{stroke:rgba(21,36,27,.13);}
+.dx-handle{
+  stroke:var(--d-ink);stroke-width:24;stroke-linecap:round;
+}
+.dx-disc{fill:var(--d-card);stroke:var(--d-ink);stroke-width:2.5;}
+.dx-inner{
+  position:absolute;left:49.6%;top:49.4%;
+  transform:translate(-50%,-50%);
+  width:68%;text-align:center;
+}
+.dx-k{
+  margin:0 0 2.0cqw;
+  font-size:max(12px,3.0cqw);font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--d-mute);
+}
+.dx-find{
+  margin:0 0 2.6cqw;
+  font-family:var(--d-display);font-weight:700;
+  font-size:7.2cqw;line-height:1.02;
+  text-transform:uppercase;
+}
+.dx-done{margin:0;font-size:max(15px,3.7cqw);color:var(--d-mute);}
+.dx-done b{font-family:var(--d-display);font-weight:700;font-size:max(20px,5.3cqw);color:var(--d-ink);}
+
+.dx-stages{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px 18px;
+  max-width:470px;
+  margin:0 auto;padding:0;list-style:none;
+}
+/* A stage lights as its segment lands on the ring, so the list and the
+   glass are visibly one reading rather than two that happen to agree. */
+.dx-stage{
+  display:flex;align-items:center;gap:11px;font-size:15px;
+  /* Colour carries the lit state, not opacity: the arrival animation owns
+     opacity, and two rules fighting over one property is how a stage ends
+     up looking done before its segment has landed. */
+  color:var(--d-mute);
+  transition:color .34s ease;
+}
+.dx-stage.is-lit{color:var(--d-ink);}
+.dx-n{
+  flex:0 0 auto;
+  display:grid;place-items:center;
+  width:27px;height:27px;border-radius:50%;
+  border:2px solid rgba(21,36,27,.3);background:transparent;
+  color:var(--d-mute);
+  font-size:13px;font-weight:700;
+  transition:background .34s ease,border-color .34s ease,color .34s ease;
+}
+.dx-stage.is-done.is-lit .dx-n{background:var(--d-ink);border-color:var(--d-ink);color:var(--d-card);}
+/* The stage being walked is outlined rather than filled: it is the one
+   still open, and an empty disc reads that way without a legend. */
+.dx-stage.is-now.is-lit .dx-n{background:transparent;border-color:var(--d-gold);color:var(--d-gold);}
+/* nothing under the glass yet, and the type says so rather than the page
+   leaving a gap where a finding will be */
+.dx-find.is-empty{color:var(--d-mute);}
+
+/* ---- the evidence ---- */
+.dx-lb{
+  margin:0 0 13px;
+  font-size:12.5px;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--d-mute);
+}
+.dx-ev{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:21px;
+  margin:0 0 26px;padding:0;list-style:none;
+}
+.dx-e{
+  position:relative;
+  padding:19px 19px 20px;
+  border:2px solid var(--d-ink);
+  background:var(--d-card);
+  box-shadow:5px 5px 0 rgba(21,36,27,.09);
+}
+.dx-e.is-red{border-color:var(--d-rust);}
+.dx-e.is-gold{border-color:#b0883e;}
+/* a pin through the top edge, marking the card as something taken from a
+   real reading rather than something the page decided */
+.dx-e::before{
+  content:"";position:absolute;top:-8px;left:22px;
+  width:15px;height:15px;border-radius:50%;
+  background:var(--d-gold);border:2px solid var(--d-ink);
+}
+.dx-e-t{margin:0 0 6px;font-size:15px;font-weight:600;line-height:1.3;}
+.dx-e-v{
+  margin:0 0 13px;
+  font-family:var(--d-display);font-weight:700;
+  font-size:33px;line-height:1.02;letter-spacing:.01em;
+  text-transform:uppercase;
+}
+.dx-e.is-red .dx-e-v{color:var(--d-rust);}
+
+/* ---- what is left ---- */
+.dx-todo{margin:0;padding:0;list-style:none;}
+.dx-t{display:flex;align-items:flex-start;gap:15px;margin:0 0 15px;}
+.dx-t:last-child{margin-bottom:0;}
+.dx-t p{margin:0;font-size:16.5px;line-height:1.37;}
+.dx-ring{
+  flex:0 0 auto;margin-top:3px;
+  width:19px;height:19px;border-radius:50%;
+  border:2.5px solid var(--d-ink);
+}
+/* an item that cannot start yet says so in the colour of the thing it is
+   waiting for, and its ring is drawn open */
+.dx-t.is-blocked .dx-ring{border-style:dashed;border-color:var(--d-rust);}
+.dx-t.is-blocked b{display:block;color:var(--d-rust);font-size:15.5px;}
+
+/* ---- the three ways on ---- */
+.dx-acts{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+.dx-act{
+  display:block;text-align:left;
+  padding:17px 19px 19px;
+  border:2px solid var(--d-ink);
+  background:var(--d-card);
+  box-shadow:5px 5px 0 rgba(21,36,27,.09);
+  cursor:pointer;
+  transition:transform .16s ease,box-shadow .16s ease;
+}
+.dx-act:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 rgba(21,36,27,.13);}
+.dx-act:focus-visible{outline:2px solid var(--d-gold);outline-offset:3px;}
+.dx-act.is-go{background:var(--d-gold);}
+.dx-act-t{display:block;margin:0 0 4px;font-size:17px;font-weight:600;}
+.dx-act-s{display:block;font-size:14.5px;color:var(--d-mute);}
+.dx-act.is-go .dx-act-s{color:rgba(21,36,27,.72);}
+
+/* ---- its opening, on the same clock as the rest ---- */
+/* Keyed to the landing alone, not to html.intro, because the rail and the
+   chat are not arriving — they were already here and the page said so.
+   Nothing carries opacity:0 outside the animation, so the landing cannot
+   get stuck invisible if a beat is ever interrupted. */
+.dx.is-fresh .dx-top{animation:dis-fade .40s var(--e-out) 60ms both;}
+.dx.is-fresh .dx-dial{animation:dis-zoom .50s var(--e-out) 260ms both;}
+.dx.is-fresh .dx-stage{
+  animation:dis-fade .32s var(--e-out) both;
+  animation-delay:calc(760ms + var(--s,0) * 80ms);
+}
+.dx-stage:nth-child(2){--s:1;} .dx-stage:nth-child(3){--s:2;}
+.dx-stage:nth-child(4){--s:3;} .dx-stage:nth-child(5){--s:4;}
+.dx.is-fresh .dx-lb{animation:dis-fade .30s var(--e-out) 420ms both;}
+.dx.is-fresh .dx-e{
+  animation:dis-zoom .40s var(--e-out) both;
+  animation-delay:calc(520ms + var(--n,0) * 110ms);
+}
+.dx.is-fresh .dx-t{
+  animation:dis-fade .34s var(--e-out) both;
+  animation-delay:calc(1060ms + var(--s,0) * 100ms);
+}
+.dx-t:nth-child(2){--s:1;} .dx-t:nth-child(3){--s:2;}
+.dx.is-fresh .dx-act{
+  animation:dis-zoom .38s var(--e-out) both;
+  animation-delay:calc(1380ms + var(--s,0) * 100ms);
+}
+.dx-act:nth-child(2){--s:1;} .dx-act:nth-child(3){--s:2;}
+@media (prefers-reduced-motion:reduce){
+  .dx.is-fresh .dx-top,.dx.is-fresh .dx-dial,.dx.is-fresh .dx-stage,
+  .dx.is-fresh .dx-lb,.dx.is-fresh .dx-e,.dx.is-fresh .dx-t,
+  .dx.is-fresh .dx-act{animation:none;}
+}
+
+/* Between the mock's width and a phone the layout tightens rather than
+   rearranges: smaller gap, smaller type, same shape. */
+@container dx (max-width:1000px){
+  .dx-grid{gap:26px;}
+  .dx-title{font-size:38px;}
+  .dx-when-t{font-size:14px;}
+  .dx-when-s{font-size:13px;}
+  .dx-refresh{padding:11px 17px;font-size:14px;}
+  .dx-e{padding:16px 16px 17px;}
+  .dx-e-t{font-size:14px;}
+  .dx-e-v{font-size:27px;}
+  .dx-ev{gap:17px;margin-bottom:22px;}
+  .dx-t p{font-size:15.5px;}
+  .dx-act{padding:15px 16px 17px;}
+  .dx-act-t{font-size:16px;}
+  .dx-act-s{font-size:13.5px;}
+}
+@container dxr (max-width:430px){
+  .dx-ev{grid-template-columns:minmax(0,1fr);}
+}
+@container dx (max-width:780px){
+  .dx-top{grid-template-areas:"mag eye go" "mag ttl go" "when when when";}
+  .dx-when{margin-top:12px;text-align:left;}
+}
+@container dx (max-width:620px){
+  .dx-grid{grid-template-columns:minmax(0,1fr);gap:24px;}
+  .dx-dial{max-width:320px;}
+  /* Three columns so the date can keep the width it needs and the button
+     still sit beside it: the mark spans the first two, the date the last
+     two. Two columns cannot do both rows. */
+  .dx-top{
+    grid-template-columns:auto minmax(0,1fr) auto;
+    grid-template-areas:"mag eye eye" "mag ttl ttl" "when when go";
+    align-items:center;
+    row-gap:4px;column-gap:12px;
+    padding-bottom:14px;margin-bottom:18px;
+  }
+  .dx-mag{width:38px;height:38px;}
+  .dx-title{font-size:33px;}
+  .dx-when{margin-top:14px;text-align:left;}
+  .dx-when-t{font-size:14.5px;line-height:1.28;}
+  .dx-when-s{font-size:13px;line-height:1.3;}
+  .dx-refresh{margin-top:14px;padding:10px 16px;font-size:14px;white-space:nowrap;}
+  .dx-refresh svg{width:16px;height:16px;}
+
+  /* Two across, and the odd one out closes the row in the middle rather
+     than hanging off the left edge under nothing. */
+  .dx-stages{grid-template-columns:repeat(2,max-content);justify-content:center;
+    gap:10px 20px;max-width:none;}
+  .dx-stage{font-size:13.5px;gap:9px;}
+  .dx-n{width:24px;height:24px;font-size:12px;}
+  .dx-stage:last-child:nth-child(odd){grid-column:1 / -1;justify-content:center;}
+
+  .dx-lb{margin-bottom:10px;font-size:11.5px;}
+  .dx-ev{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:20px;}
+  .dx-e{padding:13px 12px 14px;box-shadow:4px 4px 0 rgba(21,36,27,.09);}
+  .dx-e::before{width:13px;height:13px;top:-7px;left:14px;}
+  .dx-e-t{font-size:13px;margin-bottom:5px;}
+  .dx-e-v{font-size:21px;margin-bottom:10px;}
+  /* width:max-content is right in a wide card and wrong in a narrow one —
+     the longest label is wider than half a phone, so here the tag wraps
+     inside the card instead of hanging off its edge. */
+  .dx-e .wr-tag{width:fit-content;max-width:100%;font-size:9.5px;line-height:1.35;}
+  .dx-t{gap:12px;margin-bottom:13px;}
+  .dx-t p{font-size:14.5px;}
+  .dx-ring{width:17px;height:17px;}
+  .dx-t.is-blocked b{font-size:13.5px;}
+  .dx-acts{grid-template-columns:minmax(0,1fr);gap:12px;}
+  .dx-act{padding:14px 15px 15px;box-shadow:4px 4px 0 rgba(21,36,27,.09);}
+  .dx-act-t{font-size:16px;}
+  .dx-act-s{font-size:13.5px;}
+}
+
+/* ============================================================
+   13 · THE SOLUTIONS DESK
+   A second rail destination, on the same data-panel switch as the
+   Diagnosis landing. The mock is a colder, bluer sheet than the
+   rest of the tool, so its palette is declared here on the section
+   and nowhere else — swapping these six values is the whole of
+   putting it back into the green.
+   ============================================================ */
+.dis-wrap.sol{
+  display:none;max-width:1200px;
+  container-type:inline-size;container-name:sol;
+  --s-bg:#e4eaef;
+  --s-card:#f8fafc;
+  --s-ink:#1c2f4b;
+  --s-mute:#4e5c70;
+  --s-link:#3a5d8a;
+  --s-line:#d5dce3;
+  color:var(--s-ink);
+}
+.dis[data-panel="sol"] .dis-wrap{display:none !important;}
+.dis[data-panel="sol"] .dis-wrap.sol{display:block !important;}
+.dis[data-panel="sol"] .dis-topbar{display:none;}
+.dis[data-panel="sol"]{--d-bg:#e4eaef;}
+.dis[data-panel="sol"] .dis-chat{--d-bg:#f3f1eb;}
+.dis[data-panel="sol"] .dis-main{padding-top:20px;}
+/* the faint ruled sheet the desk is drawn on */
+.dis[data-panel="sol"] .dis-main{
+  background-image:linear-gradient(to right,rgba(28,47,75,.045) 1px,transparent 1px),
+                   linear-gradient(to bottom,rgba(28,47,75,.045) 1px,transparent 1px);
+  background-size:34px 34px;
+}
+
+/* ---- header ---- */
+.sl-top{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  grid-template-areas:"mark eye when" "mark ttl when";
+  align-items:center;column-gap:14px;
+  margin:0 0 26px;
+}
+.sl-mark{grid-area:mark;width:46px;height:46px;}
+.sl-mark svg{
+  width:100%;height:100%;
+  fill:none;stroke:var(--s-ink);stroke-width:2.4;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.sl-eyebrow{
+  grid-area:eye;margin:0 0 2px;
+  font-size:15px;font-weight:600;color:var(--s-mute);
+}
+.sl-title{
+  grid-area:ttl;margin:0;
+  font-family:var(--d-display);font-weight:700;
+  font-size:44px;line-height:.9;letter-spacing:.01em;
+  text-transform:uppercase;
+}
+.sl-when{
+  grid-area:when;
+  border:2px solid var(--s-ink);
+  background:var(--s-card);
+  padding:10px 0 0;
+  min-width:400px;
+}
+.sl-when-k{
+  margin:0 0 9px;padding:0 14px 9px;
+  border-bottom:1px solid var(--s-line);
+  font-size:13px;font-weight:600;color:var(--s-mute);
+}
+.sl-when-b{display:flex;align-items:stretch;gap:14px;}
+.sl-when-b > div{padding:0 0 12px 14px;}
+.sl-when-t{margin:0 0 2px;font-size:15px;font-weight:700;}
+.sl-when-s{margin:0;font-size:13.5px;color:var(--s-mute);}
+/* The button fills the box's corner rather than sitting inside it, so the
+   panel reads as one control with its own caption above. */
+.sl-refresh{
+  flex:0 0 auto;align-self:stretch;
+  display:inline-flex;align-items:center;gap:9px;
+  margin:-11px -2px -2px 0;
+  padding:0 20px;
+  border:0;background:var(--s-ink);color:var(--s-card);
+  font-size:15px;font-weight:600;
+  cursor:pointer;
+  transition:background .18s ease;
+}
+.sl-refresh:hover{background:#26405f;}
+.sl-refresh:focus-visible{outline:2px solid var(--d-gold);outline-offset:2px;}
+.sl-refresh svg{
+  width:18px;height:18px;flex:0 0 auto;
+  fill:none;stroke:currentColor;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+.sl-head{
+  margin:0 0 10px;
+  font-family:var(--d-display);font-weight:700;
+  font-size:clamp(30px,3.6cqw,42px);line-height:1;
+  letter-spacing:.005em;text-transform:uppercase;
+}
+.sl-lede{margin:0 0 22px;font-size:17px;line-height:1.45;color:var(--s-mute);max-width:66ch;}
+
+/* ---- the table ---- */
+.sl-card{
+  border:2px solid var(--s-ink);
+  background:var(--s-card);
+  padding:20px 24px 8px;
+  margin:0 0 26px;
+}
+/* One grid shared by the header and every row, declared once, so a column
+   cannot drift between the label and the thing it labels. */
+.sl-hrow,.sl-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 300px 152px;
+  align-items:center;
+  column-gap:8px;
+}
+.sl-hrow{
+  padding:0 0 12px;
+  border-bottom:1.5px solid var(--s-ink);
+  font-size:13.5px;font-weight:700;
+}
+.sl-h-sol{padding-left:2px;}
+.sl-h-steps{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;}
+.sl-h-steps i{font-style:normal;line-height:1.2;}
+.sl-h-dep{text-align:left;}
+
+.sl-rows{margin:0;padding:0;list-style:none;}
+.sl-row{
+  padding:21px 0;
+  border-bottom:1.5px dotted var(--s-line);
+}
+.sl-row:last-child{border-bottom:0;}
+/* number, title and note are one cell so the steps stay on the row's centre
+   line however many lines the note runs to, and so the row is three grid
+   items and not four. */
+.sl-lead{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:12px;align-items:start;}
+.sl-no{
+  display:grid;place-items:center;
+  width:26px;height:26px;margin-top:1px;
+  border:1.5px solid var(--s-ink);
+  font-size:13.5px;font-weight:700;
+}
+.sl-t{margin:0 0 6px;font-size:17px;font-weight:700;line-height:1.25;}
+.sl-s{
+  display:flex;align-items:flex-start;gap:9px;
+  margin:0;font-size:15px;line-height:1.3;color:var(--s-link);
+}
+.sl-warn{
+  position:relative;flex:0 0 auto;
+  display:grid;place-items:center;width:26px;height:24px;
+}
+.sl-warn svg{
+  position:absolute;inset:0;width:26px;height:24px;
+  fill:none;stroke:var(--s-ink);stroke-width:1.5;stroke-linejoin:round;
+}
+/* The count sits low in the triangle, where the shape is widest — centred
+   it would collide with the apex at this size. */
+.sl-warn b{
+  position:relative;top:4px;
+  font-size:11px;line-height:1;font-weight:700;color:var(--s-ink);
+}
+
+/* ---- the four steps ---- */
+.sl-track{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  align-items:center;
+  margin:0;padding:0;list-style:none;
+}
+.sl-step{
+  position:relative;
+  justify-self:center;
+  width:25px;height:25px;border-radius:50%;
+  border:2px solid var(--s-line);background:var(--s-card);
+}
+/* the joining line is drawn by each step but the first, so the track has no
+   rule hanging off either end */
+.sl-step + .sl-step::before{
+  content:"";position:absolute;z-index:0;
+  top:50%;right:100%;
+  /* The step is 25px in a 75px cell, so the run back to the one before it
+     is the cell less the dot. A percentage here would resolve against the
+     dot, not the cell, and collapse to nothing. */
+  width:50px;height:2px;margin-top:-1px;
+  background:var(--s-ink);
+  transform-origin:left center;      /* it runs out from the dot behind it */
+}
+.sl-step.is-done{background:var(--s-ink);border-color:var(--s-ink);}
+.sl-step.is-now{background:var(--d-gold);border-color:var(--d-gold);}
+.sl-step.is-ask{
+  background:transparent;border-style:dashed;border-color:#83581e;
+}
+/* agreed is the done dot with a ring drawn round it, so the eye finds the
+   end of a finished row without a second colour */
+.sl-step.is-agreed{
+  background:var(--s-ink);border-color:var(--s-ink);
+  box-shadow:0 0 0 5px var(--d-gold);
+}
+
+/* The two states worth finding — the step being worked on, and the one that
+   has been agreed — carry a slow pulse out from the dot. It rides on a
+   pseudo-element so it cannot collide with the pop the dot arrives on, and
+   it is a ring rather than a disc so nothing is laid over the dot itself.
+   --r0 starts it outside whatever ring the dot already has. */
+.sl-step.is-now::after,
+.sl-step.is-agreed::after{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  pointer-events:none;
+  animation:sl-glow 2.6s var(--e-out) infinite;
+}
+.sl-step.is-now::after{--r0:1px;}
+.sl-step.is-agreed::after{--r0:6px;}
+@keyframes sl-glow{
+  0%  {box-shadow:0 0 0 var(--r0,1px) rgba(205,171,94,.58);}
+  70% {box-shadow:0 0 0 calc(var(--r0,1px) + 13px) rgba(205,171,94,0);}
+  100%{box-shadow:0 0 0 var(--r0,1px) rgba(205,171,94,0);}
+}
+
+/* ---- what it depends on ---- */
+.sl-dep-cell{display:block;}
+.sl-deps{display:flex;gap:7px;margin:0 0 7px;}
+.sl-dep{
+  width:15px;height:15px;border-radius:50%;
+  border:2px solid var(--s-ink);
+}
+.sl-dep.is-on{background:var(--s-ink);}
+.sl-dep.is-off{background:transparent;border-style:dashed;border-color:#83581e;}
+.sl-dep.is-ask{background:transparent;border-style:dashed;border-color:#83581e;}
+.sl-settled{display:block;font-size:14.5px;color:var(--s-ink);}
+
+/* ---- the foot ---- */
+.sl-foot{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,465px);
+  gap:30px;align-items:start;
+}
+.sl-lb{margin:0 0 12px;font-size:15px;font-weight:700;}
+.sl-todo ul{margin:0;padding:0;list-style:none;}
+.sl-todo li{display:flex;align-items:flex-start;gap:12px;margin:0 0 9px;}
+.sl-todo p{margin:0;font-size:16px;line-height:1.3;}
+.sl-dia{
+  flex:0 0 auto;margin-top:2px;
+  width:17px;height:17px;
+  border:2px solid var(--s-ink);
+  transform:rotate(45deg);
+}
+.sl-todo li.is-ask .sl-dia{border-style:dashed;border-color:#83581e;}
+.sl-todo li.is-ask b{display:block;color:#83581e;font-size:15px;}
+
+.sl-acts{display:grid;gap:9px;}
+.sl-act{
+  display:block;text-align:left;
+  padding:11px 17px 13px;
+  border:2px solid var(--s-ink);
+  background:var(--s-card);
+  cursor:pointer;
+  transition:transform .16s ease;
+}
+.sl-act:hover{transform:translateX(-2px);}
+.sl-act:focus-visible{outline:2px solid var(--d-gold);outline-offset:3px;}
+.sl-act.is-go{position:relative;background:var(--s-ink);color:var(--s-card);}
+/* a short gold rule where the eye lands after the title — the one button
+   that is a recommendation rather than a choice */
+.sl-act.is-go::after{
+  content:"";position:absolute;top:22px;right:18px;
+  width:26px;height:2px;background:var(--d-gold);
+}
+.sl-act-t{display:block;margin:0 0 2px;font-size:17px;font-weight:700;}
+.sl-act-s{display:block;font-size:14.5px;color:var(--s-mute);}
+.sl-act.is-go .sl-act-s{color:rgba(248,250,252,.76);}
+
+/* ---- its opening, on the same clock as the other desks ---- */
+.sol.is-fresh .sl-top{animation:dis-fade .40s var(--e-out) 60ms both;}
+.sol.is-fresh .sl-head{animation:dis-drop .58s var(--e-bounce) 180ms both;}
+.sol.is-fresh .sl-lede{animation:dis-fade .34s var(--e-out) 420ms both;}
+.sol.is-fresh .sl-card{animation:dis-zoom .46s var(--e-out) 560ms both;}
+.sol.is-fresh .sl-row{
+  animation:dis-fade .34s var(--e-out) both;
+  animation-delay:calc(700ms + var(--n,0) * 480ms);
+}
+/* The track lays itself out the way it would be drawn by hand: a dot, then
+   the run across to the next one, then that dot. Each step carries its own
+   index and inherits its row's, so the clock is arithmetic on two numbers
+   rather than a selector for all twenty. A step is 400ms after the one
+   before it; the line leaves 200ms into that gap and takes 240ms to arrive,
+   so it lands just as the next dot appears. */
+.sol.is-fresh .sl-step{
+  animation:sl-pop .22s var(--e-out) both;
+  animation-delay:calc(900ms + var(--n,0) * 480ms + var(--i,0) * 400ms);
+}
+.sol.is-fresh .sl-step + .sl-step::before{
+  animation:sl-draw .24s linear both;
+  animation-delay:calc(700ms + var(--n,0) * 480ms + var(--i,0) * 400ms);
+}
+.sol.is-fresh .sl-dep-cell{
+  animation:dis-fade .3s var(--e-out) both;
+  animation-delay:calc(900ms + var(--n,0) * 480ms + 1400ms);
+}
+@keyframes sl-pop{
+  from{opacity:0;transform:scale(.3);}
+  to{opacity:1;transform:scale(1);}
+}
+@keyframes sl-draw{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+.sol.is-fresh .sl-todo{animation:dis-fade .36s var(--e-out) 3300ms both;}
+.sol.is-fresh .sl-act{
+  animation:dis-zoom .38s var(--e-out) both;
+  animation-delay:calc(3420ms + var(--s,0) * 100ms);
+}
+.sl-act:nth-child(2){--s:1;} .sl-act:nth-child(3){--s:2;}
+@media (prefers-reduced-motion:reduce){
+  .sol.is-fresh .sl-top,.sol.is-fresh .sl-head,.sol.is-fresh .sl-lede,
+  .sol.is-fresh .sl-card,.sol.is-fresh .sl-row,.sol.is-fresh .sl-todo,
+  .sol.is-fresh .sl-act,.sol.is-fresh .sl-step,.sol.is-fresh .sl-dep-cell,
+  .sol.is-fresh .sl-step + .sl-step::before{animation:none;}
+  .sl-step.is-now::after,.sl-step.is-agreed::after{animation:none;}
+}
+
+@container sol (max-width:1000px){
+  .sl-top{grid-template-areas:"mark eye" "mark ttl" "when when";}
+  .sl-when{margin-top:16px;min-width:0;}
+  /* The steps keep their 300px — narrowing them here would shorten the run
+     between dots and the track would stop matching the header above it. The
+     foot stays side by side; it only stacks near phone width. */
+  .sl-hrow,.sl-row{grid-template-columns:minmax(0,1fr) 300px 132px;}
+}
+@container sol (max-width:700px){
+  .sl-title{font-size:34px;}
+  .sl-card{padding:16px 15px 6px;}
+  /* Below this the four steps cannot keep a column of their own, so the row
+     becomes a stack: what it is, how far it has got, what it waits on. */
+  .sl-hrow{display:none;}
+  .sl-row{grid-template-columns:minmax(0,1fr);row-gap:14px;}
+  .sl-track{grid-template-columns:repeat(4,1fr);max-width:270px;}
+  .sl-step + .sl-step::before{width:calc(67px - 25px);}
+  .sl-foot{grid-template-columns:minmax(0,1fr);gap:22px;}
+  .sl-when-b{flex-direction:column;gap:0;}
+  .sl-refresh{margin:0;padding:13px 18px;justify-content:center;}
+  .sl-act-t{font-size:16.5px;}
+  .sl-act-s{font-size:14px;}
+}
+
+/* ============================================================
+   14 · THE AUTOMATIONS DESK
+   Third rail destination. Its palette, like the Solutions desk's,
+   is declared on the section and used nowhere else.
+   ============================================================ */
+.dis-wrap.aut{
+  display:none;max-width:1200px;
+  container-type:inline-size;container-name:aut;
+  --a-bg:#e5e7ea;
+  --a-card:#f9fafb;
+  --a-ink:#1f2a32;
+  --a-mute:#4e5962;
+  --a-track:#ccd2d6;
+  --a-mint:#9ed1cd;
+  --a-cream:#faf6ed;
+  --a-brown:#83581e;
+  color:var(--a-ink);
+}
+.dis[data-panel="aut"] .dis-wrap{display:none !important;}
+.dis[data-panel="aut"] .dis-wrap.aut{display:block !important;}
+.dis[data-panel="aut"] .dis-topbar{display:none;}
+.dis[data-panel="aut"]{--d-bg:#e5e7ea;}
+.dis[data-panel="aut"] .dis-chat{--d-bg:#f3f1eb;}
+.dis[data-panel="aut"] .dis-main{padding-top:20px;}
+
+/* ---- header ---- */
+.au-top{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  grid-template-areas:"mark eye when" "mark ttl when";
+  align-items:center;column-gap:14px;
+  margin:0 0 24px;
+}
+.au-mark{grid-area:mark;width:46px;height:46px;}
+.au-mark svg{
+  width:100%;height:100%;
+  fill:none;stroke:var(--a-ink);stroke-width:2.2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.au-eyebrow{grid-area:eye;margin:0 0 2px;font-size:15px;font-weight:600;color:var(--a-mute);}
+.au-title{
+  grid-area:ttl;margin:0;
+  font-family:var(--d-display);font-weight:700;
+  font-size:44px;line-height:.9;letter-spacing:.01em;text-transform:uppercase;
+}
+.au-when{grid-area:when;}
+.au-when-b{
+  display:flex;align-items:stretch;
+  border-radius:12px;overflow:hidden;
+  background:var(--a-ink);color:var(--a-card);
+}
+.au-when-b > div{padding:11px 18px 13px;}
+.au-when-t{margin:0 0 3px;font-size:15.5px;font-weight:700;}
+.au-when-s{margin:0;display:flex;align-items:center;gap:8px;font-size:14px;color:#c9cfd4;}
+/* the unread mark, in the gold the rest of the tool uses for "not in yet" */
+.au-when-s i{width:8px;height:8px;border-radius:50%;background:var(--d-gold);}
+.au-refresh{
+  flex:0 0 auto;
+  display:inline-flex;align-items:center;gap:9px;
+  padding:0 22px;margin:5px 5px 5px 8px;
+  border:0;border-radius:9px;
+  background:var(--a-mint);color:var(--a-ink);
+  font-size:15px;font-weight:700;
+  cursor:pointer;transition:filter .18s ease;
+}
+.au-refresh:hover{filter:brightness(.95);}
+.au-refresh:focus-visible{outline:2px solid var(--a-ink);outline-offset:2px;}
+.au-refresh svg{
+  width:18px;height:18px;flex:0 0 auto;
+  fill:none;stroke:currentColor;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.au-when-k{margin:7px 2px 0;text-align:right;font-size:14px;color:var(--a-mute);}
+
+.au-head{
+  margin:0 0 10px;
+  font-family:var(--d-display);font-weight:700;
+  font-size:clamp(30px,3.6cqw,42px);line-height:1;text-transform:uppercase;
+}
+.au-lede{margin:0 0 22px;font-size:17px;line-height:1.45;color:var(--a-mute);max-width:70ch;}
+
+/* ---- the card: dial on the left, the six on the right ---- */
+.au-card{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.98fr);
+  gap:26px;align-items:start;
+  border:2px solid var(--a-ink);border-radius:18px;
+  background:var(--a-card);
+  padding:24px 26px 26px;
+  margin:0 0 26px;
+}
+.au-dial{position:relative;}
+.au-dial-svg{display:block;width:100%;height:auto;overflow:visible;}
+.au-arc{fill:none;stroke-width:13;stroke-linecap:butt;}
+.au-arc.is-night{stroke:var(--a-ink);}
+.au-arc.is-day{stroke:var(--a-track);}
+.au-tick{stroke:var(--a-ink);stroke-width:2.4;}
+.au-hr{fill:var(--a-mute);font-size:15px;font-weight:600;}
+/* the leader is what ties a pin to its hour; dotted so it reads as a
+   pointer and not as part of the dial */
+.au-lead{stroke:var(--a-ink);stroke-width:1.6;stroke-dasharray:3 4;fill:none;}
+.au-lead.is-idea{stroke:var(--a-brown);}
+.au-pin circle{fill:var(--a-card);stroke:var(--a-ink);stroke-width:2.2;}
+.au-pin text{fill:var(--a-ink);font-size:15px;font-weight:700;text-anchor:middle;}
+/* an idea is drawn open — it is not built, so it is not filled in */
+.au-pin.is-idea circle{stroke:var(--a-brown);stroke-dasharray:4 4;}
+.au-pin.is-idea text{fill:var(--a-brown);}
+.au-band{
+  position:absolute;bottom:-6px;margin:0;
+  font-size:14.5px;font-weight:700;
+}
+.au-band.is-l{left:4%;}
+.au-band.is-r{right:6%;}
+
+.au-lock{
+  display:flex;align-items:center;gap:13px;
+  padding:13px 16px;margin:0 0 16px;
+  border:2px dashed var(--a-brown);border-radius:12px;
+  background:var(--a-cream);
+}
+.au-lock span{flex:0 0 auto;}
+.au-lock svg{
+  width:26px;height:26px;display:block;
+  fill:none;stroke:var(--a-brown);stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.au-lock-t{margin:0 0 2px;font-size:16.5px;font-weight:700;}
+.au-lock-s{margin:0;font-size:15px;color:var(--a-mute);}
+
+.au-items{margin:0;padding:0;list-style:none;}
+.au-item{display:flex;align-items:flex-start;gap:13px;margin:0 0 13px;}
+.au-item:last-child{margin-bottom:0;}
+.au-no{
+  flex:0 0 auto;display:grid;place-items:center;
+  width:28px;height:28px;border-radius:50%;
+  border:2px solid var(--a-ink);
+  font-size:14px;font-weight:700;
+}
+.au-item.is-idea .au-no{border-style:dashed;border-color:var(--a-brown);color:var(--a-brown);}
+.au-t{margin:0 0 2px;font-size:16.5px;font-weight:700;line-height:1.25;}
+.au-s{margin:0;font-size:15px;color:var(--a-mute);}
+
+/* ---- the foot ---- */
+.au-foot{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,470px);
+  gap:30px;align-items:start;
+}
+.au-lb{margin:0 0 12px;font-size:15px;font-weight:700;color:var(--a-mute);}
+.au-todo ul{margin:0;padding:0;list-style:none;}
+.au-todo li{display:flex;align-items:flex-start;gap:13px;margin:0 0 10px;}
+.au-todo p{margin:0;font-size:16.5px;line-height:1.3;}
+.au-dot{
+  flex:0 0 auto;margin-top:5px;
+  width:15px;height:15px;border-radius:50%;
+  background:var(--a-mute);
+}
+.au-todo li.is-ask .au-dot{
+  background:transparent;border:2px dashed var(--a-brown);
+}
+.au-todo li.is-ask b{display:block;color:var(--a-brown);font-size:15px;}
+
+.au-acts{display:grid;gap:10px;}
+.au-act{
+  display:flex;align-items:center;gap:14px;text-align:left;
+  padding:13px 18px 15px;
+  border:2px solid var(--a-ink);border-radius:12px;
+  background:var(--a-card);
+  cursor:pointer;transition:transform .16s ease;
+}
+.au-act:hover{transform:translateX(-2px);}
+.au-act:focus-visible{outline:2px solid var(--a-mint);outline-offset:3px;}
+.au-act.is-go{background:var(--a-ink);color:var(--a-card);}
+/* the one recommendation carries the gold mark the rest of the tool uses */
+.au-act-d{
+  flex:0 0 auto;width:22px;height:22px;border-radius:50%;
+  background:var(--d-gold);
+}
+.au-act-t{display:block;margin:0 0 2px;font-size:17px;font-weight:700;}
+.au-act-s{display:block;font-size:15px;color:var(--a-mute);}
+.au-act.is-go .au-act-s{color:#c9cfd4;}
+
+/* ---- its opening ---- */
+.aut.is-fresh .au-top{animation:dis-fade .40s var(--e-out) 60ms both;}
+.aut.is-fresh .au-head{animation:dis-drop .58s var(--e-bounce) 180ms both;}
+.aut.is-fresh .au-lede{animation:dis-fade .34s var(--e-out) 420ms both;}
+.aut.is-fresh .au-card{animation:dis-zoom .46s var(--e-out) 560ms both;}
+/* The night sweeps round before the pins land on it. Its length is written
+   in by the script from the real arc, so a different night/morning split
+   still draws at an even speed instead of jumping. */
+.aut.is-fresh .au-arc{
+  stroke-dasharray:var(--len,640);
+  animation:au-sweep .9s var(--e-out) 820ms both;
+}
+.aut.is-fresh .au-arc.is-day{animation-delay:1500ms;animation-duration:.6s;}
+@keyframes au-sweep{from{stroke-dashoffset:var(--len,640);}to{stroke-dashoffset:0;}}
+.aut .au-dial.no-sweep .au-arc{animation:none;stroke-dasharray:none;}
+.aut.is-fresh .au-tick,.aut.is-fresh .au-hr{animation:dis-fade .3s var(--e-out) 1900ms both;}
+.aut.is-fresh .au-lead{animation:dis-fade .3s var(--e-out) both;
+  animation-delay:calc(2050ms + var(--n,0) * 130ms);}
+.aut.is-fresh .au-pin{animation:sl-pop .26s var(--e-out) both;
+  animation-delay:calc(2150ms + var(--n,0) * 130ms);transform-box:fill-box;transform-origin:center;}
+.aut.is-fresh .au-band{animation:dis-fade .3s var(--e-out) 2900ms both;}
+.aut.is-fresh .au-lock{animation:dis-zoom .4s var(--e-out) 900ms both;}
+.aut.is-fresh .au-item{
+  animation:dis-fade .32s var(--e-out) both;
+  animation-delay:calc(1100ms + var(--n,0) * 120ms);
+}
+.aut.is-fresh .au-todo{animation:dis-fade .36s var(--e-out) 2600ms both;}
+.aut.is-fresh .au-act{
+  animation:dis-zoom .38s var(--e-out) both;
+  animation-delay:calc(2720ms + var(--s,0) * 100ms);
+}
+.au-act:nth-child(2){--s:1;} .au-act:nth-child(3){--s:2;}
+@media (prefers-reduced-motion:reduce){
+  .aut.is-fresh .au-top,.aut.is-fresh .au-head,.aut.is-fresh .au-lede,
+  .aut.is-fresh .au-card,.aut.is-fresh .au-arc,.aut.is-fresh .au-tick,
+  .aut.is-fresh .au-hr,.aut.is-fresh .au-lead,.aut.is-fresh .au-pin,
+  .aut.is-fresh .au-band,.aut.is-fresh .au-lock,.aut.is-fresh .au-item,
+  .aut.is-fresh .au-todo,.aut.is-fresh .au-act{animation:none;}
+}
+
+@container aut (max-width:960px){
+  .au-top{grid-template-areas:"mark eye" "mark ttl" "when when";}
+  .au-when{margin-top:16px;}
+  .au-card{grid-template-columns:minmax(0,1fr);gap:22px;}
+  .au-dial{max-width:520px;margin:0 auto;}
+  .au-band{position:static;display:inline-block;margin:6px 14px 0 0;}
+}
+@container aut (max-width:620px){
+  .au-title{font-size:34px;}
+  .au-card{padding:16px 15px 18px;border-radius:14px;}
+  .au-when-b{flex-direction:column;}
+  .au-refresh{margin:0 12px 12px;padding:11px 18px;justify-content:center;}
+  .au-when-k{text-align:left;}
+  .au-t{font-size:15.5px;}
+  .au-s{font-size:14px;}
+  .au-todo p{font-size:15.5px;}
+  .au-foot{grid-template-columns:minmax(0,1fr);gap:22px;}
+  .au-act-t{font-size:16px;}
+  .au-act-s{font-size:14px;}
+}
+
+/* ============================================================
+   15 · THE PROCESSES DESK
+   Last rail destination. Palette on the section, as with the
+   other two desks.
+   ============================================================ */
+.dis-wrap.prc{
+  display:none;max-width:1200px;
+  container-type:inline-size;container-name:prc;
+  --p-bg:#ebe8ee;
+  --p-card:#fcfbfd;
+  --p-tile:#f3f0f6;
+  --p-ink:#281e2f;
+  --p-plum:#684b74;
+  --p-mute:#584d5f;
+  --p-line:#d3d0d7;
+  --p-green:#3f6a51;
+  --p-brown:#83581e;
+  color:var(--p-ink);
+}
+.dis[data-panel="prc"] .dis-wrap{display:none !important;}
+.dis[data-panel="prc"] .dis-wrap.prc{display:block !important;}
+.dis[data-panel="prc"] .dis-topbar{display:none;}
+.dis[data-panel="prc"]{--d-bg:#ebe8ee;}
+.dis[data-panel="prc"] .dis-chat{--d-bg:#f3f1eb;}
+.dis[data-panel="prc"] .dis-main{padding-top:20px;}
+
+/* ---- header ---- */
+.pr-top{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  grid-template-areas:"mark eye when" "mark ttl when" "mark kick when";
+  align-items:center;column-gap:14px;
+  margin:0 0 22px;
+}
+.pr-mark{grid-area:mark;width:46px;height:46px;}
+.pr-mark svg{
+  width:100%;height:100%;
+  fill:none;stroke:var(--p-ink);stroke-width:2.6;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.pr-eyebrow{grid-area:eye;margin:0 0 1px;font-size:15px;font-weight:600;color:var(--p-mute);}
+.pr-title{
+  grid-area:ttl;margin:0;
+  font-family:var(--d-display);font-weight:700;
+  font-size:44px;line-height:.9;letter-spacing:.01em;text-transform:uppercase;
+}
+.pr-kicker{grid-area:kick;margin:5px 0 0;font-size:15px;font-weight:600;color:var(--p-plum);}
+.pr-when{grid-area:when;}
+.pr-when-b{
+  display:flex;align-items:stretch;
+  border:2px solid var(--p-ink);border-radius:999px;
+  background:var(--p-card);
+  overflow:hidden;
+}
+.pr-when-b > div{padding:11px 8px 13px 22px;}
+.pr-when-t{margin:0 0 2px;font-size:15.5px;font-weight:700;}
+.pr-when-s{margin:0;font-size:14px;color:var(--p-mute);}
+.pr-refresh{
+  flex:0 0 auto;
+  display:inline-flex;align-items:center;gap:9px;
+  padding:0 26px;
+  border:0;background:var(--p-plum);color:#fff;
+  font-size:15px;font-weight:600;
+  cursor:pointer;transition:filter .18s ease;
+}
+.pr-refresh:hover{filter:brightness(1.08);}
+.pr-refresh:focus-visible{outline:2px solid var(--d-gold);outline-offset:2px;}
+.pr-refresh svg{
+  width:18px;height:18px;flex:0 0 auto;
+  fill:none;stroke:currentColor;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.pr-when-k{margin:7px 6px 0;text-align:right;font-size:14px;color:var(--p-mute);}
+
+.pr-head{
+  margin:0 0 10px;
+  font-family:var(--d-display);font-weight:700;
+  font-size:clamp(28px,3.4cqw,40px);line-height:1;text-transform:uppercase;
+}
+.pr-lede{margin:0 0 20px;font-size:17px;line-height:1.45;color:var(--p-mute);max-width:74ch;}
+
+/* ---- the three columns ---- */
+.pr-card{
+  border:2px solid var(--p-ink);border-radius:18px;
+  background:var(--p-card);
+  overflow:hidden;
+  margin:0 0 24px;
+}
+.pr-cols{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  align-items:start;
+}
+/* The rule between columns is a border on the column, not a separate
+   element, so it cannot fall out of step when one column runs longer. */
+.pr-col{padding:20px 22px 22px;}
+.pr-col + .pr-col{border-left:1.5px solid var(--p-line);}
+.pr-col-h{
+  display:flex;align-items:center;gap:11px;
+  margin:0 0 4px;font-size:19px;font-weight:700;
+}
+.pr-col-h span{flex:0 0 auto;width:24px;height:24px;}
+.pr-col-h svg{
+  width:100%;height:100%;
+  fill:none;stroke:var(--p-plum);stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.pr-col-s{
+  margin:0 0 14px;padding:0 0 13px;
+  border-bottom:1.5px solid var(--p-ink);
+  font-size:15px;color:var(--p-mute);
+}
+
+.pr-chs,.pr-mes,.pr-roles{margin:0;padding:0;list-style:none;}
+.pr-ch{
+  display:flex;align-items:flex-start;gap:11px;
+  margin:0 0 8px;padding:11px 13px;
+  border-radius:9px;background:var(--p-tile);
+  font-size:15.5px;line-height:1.3;
+}
+.pr-ch i{
+  flex:0 0 auto;margin-top:3px;
+  width:13px;height:13px;border-radius:50%;background:var(--p-plum);
+}
+/* new means agreed but not yet carried into the trial, so it takes the
+   gold the rest of the tool uses for "not settled" */
+.pr-ch.is-new i{background:var(--d-gold);}
+/* block so it drops under the change it flags, width:max-content so it
+   still hugs its words rather than ruling across the tile */
+.pr-flag{
+  display:block;width:max-content;margin:7px 0 0;padding:3px 11px;
+  border:1.5px solid var(--d-gold);border-radius:999px;
+  font-size:12.5px;font-weight:700;color:var(--p-brown);
+}
+
+.pr-me{
+  display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:start;gap:0 11px;
+  margin:0 0 8px;padding:11px 13px;
+  border-radius:9px;background:var(--p-tile);
+}
+.pr-me i{
+  grid-row:1;margin-top:4px;
+  width:13px;height:13px;border-radius:50%;background:var(--p-green);
+}
+.pr-me.is-new i{background:var(--d-gold);}
+.pr-me-t{font-size:15.5px;line-height:1.3;}
+.pr-me-v{font-size:15.5px;font-weight:700;text-align:right;max-width:9ch;}
+.pr-me.is-new .pr-me-v{color:var(--p-brown);font-weight:600;}
+
+.pr-roles li{
+  margin:0 0 10px;padding:12px 14px;
+  border-radius:9px;background:var(--p-tile);
+}
+.pr-who{display:flex;gap:7px;margin:0 0 8px;}
+.pr-who svg{
+  width:21px;height:21px;
+  fill:none;stroke:var(--p-plum);stroke-width:1.8;
+  stroke-dasharray:3 3;                 /* a role not yet filled */
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.pr-role-t{margin:0 0 2px;font-size:16.5px;font-weight:700;}
+.pr-role-s{margin:0;font-size:15px;color:var(--p-mute);}
+.pr-pay{
+  margin:12px 0 0;padding:12px 0 0;
+  border-top:1.5px dotted var(--p-line);
+  font-size:15.5px;font-style:italic;line-height:1.35;
+}
+
+/* ---- the trial, across the foot of all three ---- */
+.pr-trial{
+  display:flex;align-items:center;gap:20px;
+  padding:16px 24px 18px;
+  background:var(--p-ink);color:var(--p-card);
+}
+.pr-trial-t{margin:0 0 2px;font-size:17.5px;font-weight:700;}
+.pr-trial-s{margin:0;font-size:15px;color:#b9b2bf;}
+.pr-weeks{display:flex;gap:9px;margin-left:auto;}
+.pr-weeks i{
+  padding:9px 40px;
+  border:1.5px dashed #8b8292;border-radius:7px;
+  font-style:normal;font-size:15px;
+}
+.pr-state{
+  flex:0 0 auto;
+  padding:9px 20px;
+  border:1.5px solid var(--d-gold);border-radius:999px;
+  font-size:15px;font-weight:700;color:var(--d-gold);
+}
+
+/* ---- the foot ---- */
+.pr-foot{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,470px);
+  gap:30px;align-items:start;
+}
+.pr-lb{margin:0 0 12px;font-size:15px;font-weight:700;}
+.pr-todo ul{margin:0;padding:0;list-style:none;}
+.pr-todo li{display:flex;align-items:flex-start;gap:13px;margin:0 0 10px;}
+.pr-todo p{margin:0;font-size:16.5px;line-height:1.3;}
+.pr-box{
+  flex:0 0 auto;margin-top:3px;
+  width:17px;height:17px;border-radius:4px;
+  border:2px solid var(--p-ink);
+}
+.pr-todo li.is-ask .pr-box{border-style:dashed;border-color:var(--p-brown);}
+.pr-todo li.is-ask b{display:block;color:var(--p-brown);font-size:15px;}
+
+.pr-acts{display:grid;gap:10px;}
+.pr-act{
+  display:block;text-align:left;
+  padding:13px 20px 15px;
+  border:2px solid var(--p-ink);border-radius:999px;
+  background:var(--p-card);
+  cursor:pointer;transition:transform .16s ease;
+}
+.pr-act:hover{transform:translateX(-2px);}
+.pr-act:focus-visible{outline:2px solid var(--d-gold);outline-offset:3px;}
+.pr-act.is-go{background:var(--p-plum);border-color:var(--p-plum);color:#fff;}
+.pr-act-t{display:block;margin:0 0 2px;font-size:17px;font-weight:700;}
+.pr-act-s{display:block;font-size:15px;color:var(--p-mute);}
+.pr-act.is-go .pr-act-s{color:#ded7e3;}
+
+/* ---- its opening ---- */
+.prc.is-fresh .pr-top{animation:dis-fade .40s var(--e-out) 60ms both;}
+.prc.is-fresh .pr-head{animation:dis-drop .58s var(--e-bounce) 180ms both;}
+.prc.is-fresh .pr-lede{animation:dis-fade .34s var(--e-out) 420ms both;}
+.prc.is-fresh .pr-card{animation:dis-zoom .46s var(--e-out) 560ms both;}
+.prc.is-fresh .pr-col{
+  animation:dis-fade .34s var(--e-out) both;
+  animation-delay:calc(880ms + var(--n,0) * 200ms);
+}
+/* each column fills in after it arrives, so the eye reads one list at a time */
+.prc.is-fresh .pr-ch,.prc.is-fresh .pr-me{
+  animation:dis-fade .28s var(--e-out) both;
+  animation-delay:calc(1060ms + var(--n,0) * 70ms);
+}
+.prc.is-fresh .pr-col:nth-child(2) .pr-me{animation-delay:calc(1260ms + var(--n,0) * 70ms);}
+.prc.is-fresh .pr-roles li{
+  animation:dis-fade .3s var(--e-out) both;
+  animation-delay:calc(1480ms + var(--n,0) * 110ms);
+}
+.prc.is-fresh .pr-trial{animation:dis-fade .4s var(--e-out) 1900ms both;}
+.prc.is-fresh .pr-todo{animation:dis-fade .36s var(--e-out) 2200ms both;}
+.prc.is-fresh .pr-act{
+  animation:dis-zoom .38s var(--e-out) both;
+  animation-delay:calc(2320ms + var(--s,0) * 100ms);
+}
+.pr-act:nth-child(2){--s:1;} .pr-act:nth-child(3){--s:2;}
+@media (prefers-reduced-motion:reduce){
+  .prc.is-fresh .pr-top,.prc.is-fresh .pr-head,.prc.is-fresh .pr-lede,
+  .prc.is-fresh .pr-card,.prc.is-fresh .pr-col,.prc.is-fresh .pr-ch,
+  .prc.is-fresh .pr-me,.prc.is-fresh .pr-roles li,.prc.is-fresh .pr-trial,
+  .prc.is-fresh .pr-todo,.prc.is-fresh .pr-act{animation:none;}
+}
+
+@container prc (max-width:980px){
+  .pr-top{grid-template-areas:"mark eye" "mark ttl" "mark kick" "when when";}
+  .pr-when{margin-top:16px;}
+  .pr-cols{grid-template-columns:repeat(2,minmax(0,1fr));}
+  /* on two columns the third wraps, so the rule has to follow the row */
+  .pr-col:nth-child(3){border-left:0;border-top:1.5px solid var(--p-line);
+    grid-column:1 / -1;}
+  .pr-trial{flex-wrap:wrap;}
+  .pr-weeks{margin-left:0;}
+}
+@container prc (max-width:640px){
+  .pr-title{font-size:34px;}
+  .pr-cols{grid-template-columns:minmax(0,1fr);}
+  .pr-col + .pr-col{border-left:0;border-top:1.5px solid var(--p-line);}
+  .pr-col:nth-child(3){grid-column:auto;}
+  .pr-when-b{flex-direction:column;border-radius:16px;}
+  .pr-when-b > div{padding:12px 16px;}
+  .pr-refresh{padding:12px 18px;justify-content:center;}
+  .pr-when-k{text-align:left;}
+  .pr-weeks i{padding:9px 22px;}
+  .pr-foot{grid-template-columns:minmax(0,1fr);gap:22px;}
+  .pr-todo p{font-size:15.5px;}
+  .pr-act-t{font-size:16px;}
+  .pr-act-s{font-size:14px;}
+}
+
+/* ============================================================
+   16 · THE TOOLS ON A PHONE
+   ------------------------------------------------------------
+   Shared by the two tools that have a worksheet and a
+   conversation about it: Discharge (.dg) and Bed Management
+   (.bm). It lives here rather than in either tool's own
+   stylesheet because both wear it, and a second copy is a second
+   thing to remember when one of them changes.
+
+   It does NOT apply to chat.html or automation.html. Those have
+   no sections to navigate and no worksheet to read a
+   conversation against, and they are finished — neither carries
+   the class, so neither is touched by any of this.
+
+   Three changes, all of them below 760px:
+
+     · the conversation stops being a sheet you raise over the
+       worksheet and becomes the rest of the page, so you can see
+       what Tojo said and what the page says at the same time;
+     · the icon strip becomes the rail, which on a phone is the
+       only navigation there is;
+     · what you have picked in the conversation shows up in the
+       field you are about to send from.
+   ============================================================ */
+
+/* ---- 1 · one scrolling column ---- */
+@media (max-width:760px){
+  /* The window no longer holds the app at exactly its own height — the
+     document itself is what scrolls now.
+
+     overflow is the one that actually matters. The shell sets
+     body{overflow:hidden} because on a wide window two of the three columns
+     are fixed and a document scrollbar would drag them out from under what
+     they are anchored to. None of that is true here, and left in place it
+     meant the page was taller than the window and could not be moved: the
+     content was simply cut off at the fold. */
+  body.bm-body,
+  body.op-body,
+  body.dg-body{
+    height:auto;min-height:100%;
+    overflow-y:visible;
+    /* The column used to carry overflow-x:hidden and that is not decoration:
+       the display face is set in vw, and until Bebas lands the fallback runs
+       half again as wide, so DISCHARGE at 19.3vw genuinely does hang past a
+       narrow phone for the moment before the swap. The old scroller clipped
+       it; the page has to now.
+
+       clip, not hidden: hidden would make the body a scroll container and
+       take the sticky top bar down with it. Element overflow is still
+       checked in testing by measuring boxes rather than scrollWidth, so a
+       real one does not hide behind this. */
+    overflow-x:clip;
+  }
+  /* Each in its own rule, not one list: a selector list is thrown out whole
+     if any part of it fails to parse, so an engine without :has() would have
+     taken the body rule down with it — and that is the rule the scrolling
+     depends on. */
+  html:has(> body.bm-body){height:auto;min-height:100%;}
+  html:has(> body.dg-body){height:auto;min-height:100%;}
+  html:has(> body.op-body){height:auto;min-height:100%;}
+
+  .dis.bm,
+  .dis.op,
+  .dis.dg{display:block;height:auto;min-height:100dvh;overflow:visible;}
+  .bm .dis-col,
+  .op .dis-col,
+  .dg .dis-col{display:block;min-height:0;}
+
+  /* The bar stayed put before because it sat outside the scroller. Now that
+     there is one scroller for everything, it has to hold its place itself. */
+  .bm .dis-topbar,
+  .op .dis-topbar,
+  .dg .dis-topbar{
+    position:sticky;top:0;z-index:30;
+    background:var(--d-bg);
+  }
+
+  /* Bed Management's bar is hidden on its landing by the rule that hides it
+     on the first screen of the walk — the two tools share data-view="1" and
+     only one of them means a first screen by it. On a wide window nothing was
+     lost: the rail carries the house and the page has its own big header. On
+     a phone there is no rail, so that rule left the landing with no bar, no
+     home and no way out of the tool at all. It comes back here.
+     .dis.bm and not .bm: the rule doing the hiding is
+     .dis[data-view="1"] .dis-top.bar-2 — four selectors — so a three-selector
+     override loses on specificity and silently does nothing. */
+  .dis.bm .dis-top.bar-2,
+  .dis.op .dis-top.bar-2{display:grid;}
+  .dis.bm .dis-topbar,
+  .dis.op .dis-topbar{padding-bottom:0;}
+
+  /* The walk's desks hide the bar outright, which on a wide window is right:
+     the desk replaces the whole column and has a header of its own. On a
+     phone that left you inside a section with nothing saying which section,
+     and no way home. So at a desk the bar comes back, and it is the second
+     bar that comes back — the one with an address line — rather than the
+     first screen's, which has only the product name on it. */
+  .dis.dg[data-panel] .dis-topbar,
+  .dis.op[data-panel] .dis-topbar{display:block;}
+  .dis.dg[data-panel] .dis-top.bar-2,
+  .dis.op[data-panel] .dis-top.bar-2{display:grid;}
+  .dis.dg[data-panel] .dis-top.v1,
+  .dis.op[data-panel] .dis-top.v1{display:none;}
+
+  /* Not a scroller any more, and nothing below it to clear: the conversation
+     comes next, and it is the one that has to end above the foot. */
+  .bm .dis-main,
+  .op .dis-main,
+  .dg .dis-main{
+    flex:none;height:auto;min-height:0;
+    overflow:visible;
+    padding-bottom:26px;
+  }
+
+  /* The conversation, back in the flow. Everything that made it a sheet —
+     the fixed box, the slide-up transform, the stacking — comes off. */
+  .bm .dis-chat,
+  .op .dis-chat,
+  .dg .dis-chat{
+    position:static;
+    inset:auto;
+    width:auto;height:auto;min-height:0;
+    display:block;
+    margin:0;
+    border-radius:18px 18px 0 0;
+    transform:none;
+    transition:none;
+    z-index:auto;
+    overflow:visible;
+    /* clear of the composer and the icon strip pinned below it. --foot-h is
+       written by the script from the composer's real height, because the
+       composer grows as you type and a fixed guess would be wrong the moment
+       a message ran to three lines. */
+    padding-bottom:calc(var(--foot-h,92px) + var(--dock-nav) + env(safe-area-inset-bottom,0px) + 22px);
+  }
+  .bm .ct-head,
+  .op .ct-head,
+  .dg .ct-head{position:static;}
+  /* There is nothing to go back from any more. */
+  .bm .ct-back,
+  .op .ct-back,
+  .dg .ct-back{display:none !important;}
+  .bm .ct-body,
+  .op .ct-body,
+  .dg .ct-body{overflow:visible;height:auto;min-height:0;flex:none;}
+
+  /* The real composer takes the strip's place, so what you type goes into
+     the field you are looking at rather than into a copy of it. */
+  .bm .ct-foot,
+  .op .ct-foot,
+  .dg .ct-foot{
+    position:fixed;left:0;right:0;
+    bottom:calc(var(--dock-nav) + env(safe-area-inset-bottom,0px));
+    z-index:50;
+    padding:12px 14px 14px;
+  }
+  .bm .dock-bar,
+  .op .dock-bar,
+  .dg .dock-bar{display:none !important;}
+  /* with the sheet gone, so is the rule that hid the strip while it was up */
+  .bm.chat-open .dis-chat,
+  .op.chat-open .dis-chat,
+  .dg.chat-open .dis-chat{transform:none;}
+
+  /* The genie was the sheet arriving. In the flow it would only make the
+     conversation swing in from a corner it no longer has.
+
+     It is replaced with an opacity-only keyframe, and that matters more than
+     it looks. dis-fade moves as well as fades, and with fill-mode both the
+     element keeps the last keyframe's transform for good — which computes to
+     matrix(1,0,0,1,0,0), not none. A transform that is not none makes the
+     element the containing block for its fixed children, so the composer was
+     being pinned to the BOTTOM OF THE CONVERSATION rather than to the window:
+     invisible until you had scrolled the whole page down to meet it. */
+  html.intro.go .bm .dis-chat,
+  html.intro.go .op .dis-chat,
+  html.intro.go .dg .dis-chat{animation:ct-chat-in .4s var(--e-out) 2100ms both;}
+}
+@keyframes ct-chat-in{from{opacity:0;}to{opacity:1;}}
+
+/* ---- 2 · the strip, as the rail ---- */
+@media (max-width:760px){
+  /* Six now, not five. space-around gave the end two a half-gap against the
+     edges and the row drifted off centre as the count changed; an even
+     distribution keeps it true whatever is in it. */
+  .bm .dock-nav,
+  .op .dock-nav,
+  .dg .dock-nav{justify-content:space-evenly;padding:0 4px;}
+  .bm .dock-i,
+  .op .dock-i,
+  .dg .dock-i{width:44px;height:44px;}
+  .bm .dock-i svg,
+  .op .dock-i svg,
+  .dg .dock-i svg{width:22px;height:22px;}
+  /* The way back is a section too, so it is marked the same way — on the
+     landing it is where you are, and it says so. */
+  .bm .dock-back[aria-current],
+  .op .dock-back[aria-current],
+  .dg .dock-back[aria-current]{background:rgba(243,241,235,.1);color:var(--d-gold);}
+}
+@media (max-width:360px){
+  .bm .dock-nav,
+  .op .dock-nav,
+  .dg .dock-nav{justify-content:space-between;padding:0 6px;}
+  .bm .dock-i,
+  .op .dock-i,
+  .dg .dock-i{width:40px;height:40px;}
+  .bm .dock-i svg,
+  .op .dock-i svg,
+  .dg .dock-i svg{width:20px;height:20px;}
+}
+
+/* ---- 3 · a section with nothing behind it yet ---- */
+/* Resources is the one tab with no desk built. Among five that work it read
+   as broken rather than as unfinished — you press it, nothing happens, and
+   there is no way to tell which of those two it is. Dimmed, it says so. */
+.bm .rail-tab.is-soon,
+.op .rail-tab.is-soon,
+.dg .rail-tab.is-soon,
+.bm .dock-i.is-soon,
+.op .dock-i.is-soon,
+.dg .dock-i.is-soon{opacity:.45;cursor:default;}
+.bm .rail-tab.is-soon:hover,
+.op .rail-tab.is-soon:hover,
+.dg .rail-tab.is-soon:hover{width:var(--d-rail);filter:none;}
+.bm .dock-i.is-soon:hover,
+.op .dock-i.is-soon:hover,
+.dg .dock-i.is-soon:hover{background:transparent;}
+
+/* ============================================================
+   4 · WHAT YOU HAVE PICKED, IN THE FIELD YOU SEND FROM
+   ------------------------------------------------------------
+   Pressing a point in the conversation used to light the button
+   and nothing else, so you could pick three and still be looking
+   at an empty composer with no sign of what you were about to
+   send. The picks now appear as chips in the field itself.
+
+   They are chips and not text in the textarea on purpose. Mixed
+   into one string, the page's state and the person's words fight
+   each other: delete half of "P1, " by hand and the button above
+   still says it is pressed while the field says it is not, and
+   nothing can tell which one is true. Separated, each has one
+   owner and they cannot disagree.
+
+   Named ct-pick and not ct-tag: the discharge screen already has
+   a .ct-tag, the mark its worksheet carries forward to the next
+   screen, and one class meaning two things in one stylesheet is
+   a collision waiting for whoever touches it next.
+   ============================================================ */
+.bm .ct-field,
+.op .ct-field,
+.dg .ct-field{display:flex;flex-direction:column;border-radius:9px;}
+/* The ring belongs to the field, not to the textarea inside it. Left on the
+   textarea it drew a box around the lower half only, and the chips sat above
+   a bordered thing they were plainly not part of. No :has() needed: with no
+   chips the field's box and the textarea's are the same box. */
+.bm .ct-field:focus-within,
+.op .ct-field:focus-within,
+.dg .ct-field:focus-within{outline:2px solid var(--d-gold);outline-offset:1px;}
+.bm .ct-in:focus,
+.op .ct-in:focus,
+.dg .ct-in:focus{outline:none;}
+
+.bm .ct-picks,
+.op .ct-picks,
+.dg .ct-picks{
+  display:flex;flex-wrap:wrap;gap:6px;
+  padding:9px 10px 7px;
+  background:var(--d-bg);
+  border-radius:9px 9px 0 0;
+}
+.bm .ct-picks[hidden],
+.op .ct-picks[hidden],
+.dg .ct-picks[hidden]{display:none;}
+/* with chips above it the field is one box in two parts, so the seam between
+   them is square and only the outer corners are round */
+.bm .ct-picks:not([hidden]) + .ct-in,
+.op .ct-picks:not([hidden]) + .ct-in,
+.dg .ct-picks:not([hidden]) + .ct-in{border-radius:0 0 9px 9px;}
+
+.bm .ct-pick,
+.op .ct-pick,
+.dg .ct-pick{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:4px 5px 4px 10px;
+  border-radius:999px;
+  background:var(--d-gold);color:var(--d-ink);
+  font-size:12.5px;font-weight:700;line-height:1;
+}
+.bm .ct-pick b,
+.op .ct-pick b,
+.dg .ct-pick b{font-weight:700;}
+.bm .ct-pick-x,
+.op .ct-pick-x,
+.dg .ct-pick-x{
+  display:grid;place-items:center;
+  width:16px;height:16px;padding:0;
+  border:0;border-radius:50%;
+  background:rgba(21,36,27,.13);color:inherit;
+  font:inherit;font-size:13px;line-height:1;
+  cursor:pointer;
+}
+.bm .ct-pick-x:hover,
+.op .ct-pick-x:hover,
+.dg .ct-pick-x:hover{background:rgba(21,36,27,.3);}
+.bm .ct-pick-x:focus-visible,
+.op .ct-pick-x:focus-visible,
+.dg .ct-pick-x:focus-visible{outline:2px solid var(--d-ink);outline-offset:1px;}
+.bm .ct-pick-x svg,
+.op .ct-pick-x svg,
+.dg .ct-pick-x svg{
+  width:8px;height:8px;
+  fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;
+}
+@media (max-width:760px){
+  .bm .ct-field,
+  .op .ct-field,
+  .dg .ct-field{border-radius:6px;}
+  .bm .ct-picks,
+  .op .ct-picks,
+  .dg .ct-picks{border-radius:6px 6px 0 0;padding:9px 11px 7px;}
+  .bm .ct-picks:not([hidden]) + .ct-in,
+  .op .ct-picks:not([hidden]) + .ct-in,
+  .dg .ct-picks:not([hidden]) + .ct-in{border-radius:0 0 6px 6px;}
+  .bm .ct-pick,
+  .op .ct-pick,
+  .dg .ct-pick{font-size:13px;padding:5px 6px 5px 11px;}
+}

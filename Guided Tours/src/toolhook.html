@@ -1,0 +1,9 @@
+<style>html.tour-lock body *{pointer-events:none!important}html.tour-lock .tour-live,html.tour-lock .tour-live *{pointer-events:auto!important}</style>
+<script>
+/* Tour hook: links that would leave the Tool are handed to the tour instead. */
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href="/chat"],a[href="/discharge"]');if(!a)return;var d=document.getElementById('dis');
+if(a.getAttribute('href')==='/discharge'&&a.classList.contains('dock-back')&&d&&d.hasAttribute('data-panel'))return;
+e.preventDefault();e.stopImmediatePropagation();
+if(a.getAttribute('href')==='/discharge'&&d&&d.hasAttribute('data-panel')){d.removeAttribute('data-panel');[].forEach.call(document.querySelectorAll('.rail-tab'),function(x){x.removeAttribute('aria-current')});var b=document.getElementById('barW');if(b)b.textContent='with Tojo';return}
+try{parent.__tojoTool(a.getAttribute('href'))}catch(x){}},true);
+</script>

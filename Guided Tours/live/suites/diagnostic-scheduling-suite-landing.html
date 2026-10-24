@@ -1,0 +1,1397 @@
+<title>Diagnostic Scheduling Suite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@500;700&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: a neutral review strip on top, then one full-bleed suite landing at a time.
+   Each scheme commits to its own single look (no light/dark swap by design); every colour is set explicitly. */
+:root{
+  --f-num:"Bebas Neue","Oswald","Arial Narrow",Impact,sans-serif;
+  --f-body:"Poppins","Segoe UI",system-ui,sans-serif;
+  --f-hand:"Caveat","Segoe Print","Comic Sans MS",cursive;
+  --rv-bg:#F4F4F2; --rv-ink:#1D1F22; --rv-mute:#5E636A; --rv-line:#D9DADC;
+  --forest:#10241a; --forest2:#17321f; --cream:#F3EFE3; --gold:#d4a94f;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--rv-bg);color:var(--rv-ink);font-family:var(--f-body);font-size:14.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid #F2B705;outline-offset:2px}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- review strip (not part of the design) ---------- */
+.rv{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 16px;border-bottom:1px solid var(--rv-line);background:var(--rv-bg)}
+.rv h1{font-family:var(--f-num);font-weight:400;font-size:26px;letter-spacing:.02em;margin:0;line-height:1}
+.rv small{display:block;color:var(--rv-mute);font-size:12px}
+.rv .picks{display:flex;flex-wrap:wrap;gap:6px}
+.rv .picks button{border:1.5px solid var(--rv-line);background:#fff;border-radius:999px;padding:7px 13px;font-size:13px;font-weight:500;min-height:40px}
+.rv .picks button b{font-family:var(--f-num);font-weight:400;font-size:17px;margin-right:6px;letter-spacing:.03em}
+.rv .picks button[aria-pressed="true"]{background:var(--rv-ink);color:#fff;border-color:var(--rv-ink)}
+.rv .uni{margin-left:auto;border:1.5px dashed var(--rv-ink);background:transparent;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:600;min-height:40px}
+.rv-note{padding:8px 16px;font-size:12.5px;color:var(--rv-mute);border-bottom:1px solid var(--rv-line);background:#fff}
+.rv-note b{color:var(--rv-ink)}
+#stage{transition:margin-right .3s ease;min-height:80vh}
+body.chat-open #stage{margin-right:400px}
+@media (max-width:900px){ body.chat-open #stage{margin-right:0} .rv .uni{margin-left:0} }
+
+/* ---------- hover peek (universal) ---------- */
+#peek{position:fixed;z-index:60;max-width:300px;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s;
+  background:var(--pk-bg,#111);color:var(--pk-fg,#fff);border:1px solid var(--pk-line,#333);border-radius:var(--pk-r,10px);padding:10px 12px;font-size:12.5px;line-height:1.45;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+#peek.on{opacity:1;transform:none;pointer-events:auto}
+#peek{max-width:320px}
+#peek .pk-bar{display:flex;gap:6px;align-items:center;margin:-2px -4px 8px;padding-bottom:8px;border-bottom:1px solid var(--pk-line)}
+.pk-ask{display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--gold);background:var(--forest);color:var(--cream);border-radius:999px;padding:4px 12px 4px 4px;font-size:12px;font-weight:600;min-height:34px}
+.pk-ask i{width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--forest);display:grid;place-items:center;font-style:normal;font-family:var(--f-num);font-size:15px}
+.pk-x{margin-left:auto;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--pk-line);background:transparent;color:inherit;font-size:17px;line-height:1}
+#peek .pk-t{font-weight:600;font-size:13px;margin-bottom:2px}
+#peek .pk-n{font-family:var(--f-num);font-size:26px;line-height:1;letter-spacing:.02em}
+#peek .pk-m{opacity:.78}
+#peek .pk-hint{margin-top:6px;font-size:11px;opacity:.6}
+
+/* ---------- detail sheet (expanded item) ---------- */
+#scrim{position:fixed;inset:0;background:rgba(10,12,14,.45);z-index:70;opacity:0;pointer-events:none;transition:opacity .2s}
+#scrim.on{opacity:1;pointer-events:auto}
+#sheet{position:fixed;z-index:71;left:50%;bottom:0;transform:translate(-50%,105%);width:min(780px,100%);max-height:86vh;overflow:auto;
+  background:var(--sh-bg,#fff);color:var(--sh-fg,#111);border-radius:var(--sh-r,18px) var(--sh-r,18px) 0 0;padding:22px 22px calc(26px + env(safe-area-inset-bottom,0px));
+  transition:transform .28s cubic-bezier(.2,.8,.2,1),visibility 0s .3s;visibility:hidden;border:1px solid var(--sh-line,#ddd);border-bottom:0;font-family:var(--f-body)}
+#sheet.on{transform:translate(-50%,0);visibility:visible;transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+#sheet .shbar{position:sticky;top:-22px;z-index:2;display:flex;justify-content:flex-end;gap:10px;margin:-22px -22px 6px;padding:12px 16px;background:var(--sh-bg);border-bottom:1px solid var(--sh-line)}
+#sheet .x{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--sh-line);background:var(--sh-bg);color:var(--sh-fg);font-size:20px;line-height:1}
+#sheet .sh-ask{display:inline-flex;align-items:center;gap:9px;border:2px solid var(--gold);background:var(--forest);color:var(--cream);border-radius:999px;padding:5px 16px 5px 5px;font-size:14px;font-weight:600;min-height:44px}
+#sheet .sh-ask i{width:32px;height:32px;border-radius:50%;background:var(--gold);color:var(--forest);display:grid;place-items:center;font-style:normal;font-family:var(--f-num);font-size:20px}
+body.chat-open #sheet{left:calc((100% - 400px)/2);width:min(780px,calc(100% - 420px))}
+body.chat-open #chat{z-index:75}
+body.chat-open #peek{z-index:80}
+.d-eyebrow{font-size:11.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--sh-mute)}
+.d-title{font-family:var(--f-num);font-weight:400;font-size:38px;line-height:1;margin:4px 0 6px;letter-spacing:.01em;text-wrap:balance}
+.d-sub{color:var(--sh-mute);margin:0 0 14px}
+.d-pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600;border:1.5px solid currentColor}
+.d-pill.ahead{color:var(--c-ok)} .d-pill.watch{color:var(--c-warn)} .d-pill.off{color:var(--c-bad)}
+.d-pill::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.d-four{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+.d-four div{border:1px solid var(--sh-line);border-radius:10px;padding:10px;background:var(--sh-card)}
+.d-four span{display:block;font-size:11.5px;color:var(--sh-mute);font-weight:600}
+.d-four b{font-family:var(--f-num);font-weight:400;font-size:26px;line-height:1.1;letter-spacing:.02em}
+.d-four .now b{color:var(--sh-state)}
+.d-glide{position:relative;height:46px;margin:6px 4px 18px}
+.d-glide .rail{position:absolute;left:0;right:0;top:20px;height:6px;border-radius:3px;background:var(--sh-line)}
+.d-glide .fill{position:absolute;left:0;top:20px;height:6px;border-radius:3px;background:var(--sh-state)}
+.d-glide .mk{position:absolute;top:8px;width:2px;height:30px;background:var(--sh-fg);transform:translateX(-1px)}
+.d-glide .mk.plan{background:none;border-left:2px dashed var(--sh-mute)}
+.d-glide .mk i{position:absolute;top:32px;left:50%;transform:translateX(-50%);font-style:normal;font-size:11px;white-space:nowrap;color:var(--sh-mute)}
+.d-sec{margin-top:16px}
+.d-sec h4{margin:0 0 8px;font-size:13px;font-weight:600}
+.d-fac{display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:6px 12px;align-items:center;font-size:13.5px}
+.d-fac .bar{display:block;height:8px;border-radius:4px;background:var(--sh-line);overflow:hidden}
+.d-fac .bar i{display:block;height:100%;background:var(--c-bad)}
+.d-fix{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.d-fix li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:start;border:1px solid var(--sh-line);border-radius:10px;padding:9px 10px;background:var(--sh-card);font-size:13.5px}
+.d-fix .av{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;background:var(--sh-fg);color:var(--sh-bg)}
+.d-fix time{font-size:12px;font-weight:600;color:var(--sh-mute);white-space:nowrap}
+.d-back{margin-top:12px;font-family:var(--f-hand);font-weight:700;font-size:24px;color:var(--sh-state)}
+.d-list{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+.d-list li{display:flex;gap:10px;align-items:baseline;font-size:13.5px}
+.d-list .ck{flex:0 0 18px;height:18px;border-radius:5px;border:2px solid var(--sh-fg);display:grid;place-items:center;font-size:11px;font-weight:700}
+.d-list .ck.y{background:var(--sh-fg);color:var(--sh-bg)}
+.d-list .ck.late{border-color:var(--c-bad);color:var(--c-bad)}
+.d-list em{font-style:normal;font-size:12px;font-weight:600;color:var(--sh-mute);margin-left:auto;white-space:nowrap}
+.d-list em.late{color:var(--c-bad)}
+.d-impact{border-left:4px solid var(--c-bad);padding:8px 12px;background:var(--sh-card);border-radius:0 10px 10px 0;font-size:13.5px}
+.d-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.d-grid div{border:1px solid var(--sh-line);border-radius:10px;padding:10px;background:var(--sh-card)}
+.d-grid span{font-size:11.5px;color:var(--sh-mute);font-weight:600;display:block}
+.d-grid b{font-size:14px}
+.d-money{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+.d-money th,.d-money td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--sh-line)}
+.d-money th:first-child,.d-money td:first-child{text-align:left}
+.d-money tfoot td{font-weight:700}
+.d-wrap{overflow-x:auto}
+.d-uni{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.d-uni div{border:1px solid var(--sh-line);border-radius:12px;padding:12px;background:var(--sh-card)}
+.d-uni b{display:block;font-size:14px;margin-bottom:3px}
+.d-uni p{margin:0;font-size:13px;color:var(--sh-mute)}
+@media (max-width:600px){ .d-four{grid-template-columns:repeat(2,1fr)} .d-fac{grid-template-columns:minmax(0,1fr) 72px} .d-title{font-size:32px} }
+
+/* ---------- chat (same look as the tools) ---------- */
+#chatFab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:10px;
+  background:var(--forest);color:var(--cream);border:2px solid var(--gold);border-radius:999px;padding:8px 18px 8px 8px;min-height:56px;box-shadow:0 10px 24px rgba(0,0,0,.28)}
+#chatFab .t{width:40px;height:40px;border-radius:50%;background:var(--gold);color:var(--forest);display:grid;place-items:center;font-family:var(--f-num);font-size:24px}
+#chatFab span{font-weight:600;font-size:14px}
+#chatFab .dot{position:absolute;top:6px;left:40px;width:12px;height:12px;border-radius:50%;background:#E5484D;border:2px solid var(--forest)}
+body.chat-open #chatFab{display:none}
+#chat{position:fixed;top:0;right:0;bottom:0;width:400px;max-width:100%;z-index:55;background:var(--forest);color:var(--cream);transform:translateX(102%);transition:transform .3s ease;visibility:hidden;display:flex;flex-direction:column;border-radius:20px 0 0 20px}
+body.chat-open #chat{transform:none;visibility:visible}
+#chat header{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid rgba(243,239,227,.12)}
+#chat header .t{width:42px;height:42px;border-radius:50%;background:var(--gold);color:var(--forest);display:grid;place-items:center;font-family:var(--f-num);font-size:26px}
+#chat header h3{margin:0;font-family:var(--f-num);font-weight:400;font-size:26px;letter-spacing:.03em;line-height:1}
+#chat header small{display:block;font-size:12px;opacity:.75}
+#chat header button{margin-left:auto;width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(243,239,227,.3);background:transparent;color:var(--cream);font-size:18px}
+#chat .body{flex:1;overflow:auto;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+#chat .msg{background:var(--cream);color:var(--forest);border-radius:14px;padding:12px 14px;font-size:14px}
+#chat .msg p{margin:0 0 8px} #chat .msg p:last-child{margin:0}
+#chat .lbl{font-size:11.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;opacity:.75}
+#chat .note{font-family:var(--f-hand);font-weight:700;font-size:31px;line-height:1.08;color:var(--gold)}
+#chat .pt{display:flex;gap:10px;align-items:center;border:1px solid rgba(243,239,227,.22);border-radius:10px;padding:9px 10px;background:transparent;color:var(--cream);text-align:left;font-size:13.5px;min-height:44px}
+#chat .pt b{border:1px solid rgba(243,239,227,.35);border-radius:6px;padding:2px 6px;font-size:11.5px}
+#chat .pt[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+#chat .ask{border:1.5px dashed rgba(212,169,79,.7);border-radius:16px;padding:9px 14px;background:transparent;color:var(--cream);text-align:left;font-size:13.5px;display:flex;justify-content:space-between;gap:8px;min-height:44px}
+#chat .ask::after{content:"→";color:var(--gold)}
+#chat .ctx{margin:0 18px;padding:10px 12px;border:1.5px solid var(--gold);border-bottom:0;border-radius:12px 12px 0 0;background:rgba(212,169,79,.1);display:flex;gap:10px;align-items:flex-start}
+#chat .ctx div{flex:1;min-width:0;font-size:12.5px}
+#chat .ctx span{display:block;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:600}
+#chat .ctx b{display:block;font-size:13.5px}
+#chat .ctx small{display:block;opacity:.8;font-size:12px}
+#chat .ctx button{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(243,239,227,.35);background:transparent;color:var(--cream);font-size:16px}
+#chat .ctx:not([hidden]) + .in{border-top:0;padding-top:8px}
+#chat .you{align-self:flex-end;max-width:88%;background:rgba(243,239,227,.1);border:1px solid rgba(243,239,227,.22);border-radius:14px 14px 4px 14px;padding:10px 12px;font-size:13.5px}
+#chat .you p{margin:0}
+#chat .att{border-left:3px solid var(--gold);padding:2px 8px;margin-bottom:6px;font-size:12px}
+#chat .att span{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:600}
+#chat .msg ul{margin:0 0 8px;padding-left:18px} #chat .msg li{margin:2px 0}
+#chat .typing{display:flex;gap:5px;padding:6px 2px}
+#chat .typing i{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:tdot 1s infinite}
+#chat .typing i:nth-child(2){animation-delay:.15s} #chat .typing i:nth-child(3){animation-delay:.3s}
+@keyframes tdot{0%,100%{opacity:.25}50%{opacity:1}}
+#chat .in{padding:14px 18px calc(16px + env(safe-area-inset-bottom,0px));border-top:1px solid rgba(243,239,227,.12);display:flex;gap:10px;align-items:flex-end}
+#chat textarea{flex:1;min-height:96px;resize:none;border-radius:12px;border:0;background:var(--cream);color:var(--forest);padding:10px 12px;font:inherit;font-size:14px}
+#chat .send{width:48px;height:48px;border-radius:50%;border:0;background:var(--gold);color:var(--forest);font-size:20px;font-weight:700}
+@media (max-width:600px){ #chat{width:100%;border-radius:0} #chatFab span{display:none} #chatFab{padding:8px} }
+
+.flash{animation:flash 1.4s ease}
+@keyframes flash{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px #F2B705}}
+@media (prefers-reduced-motion:reduce){ *,*::before,*::after{animation:none!important;transition:none!important} }
+</style>
+
+<div class="rv">
+  <div><h1 id="rvTitle"></h1><small id="rvSub"></small></div>
+  <div class="picks" id="picks" role="group" aria-label="Choose a scheme"></div>
+  <button class="uni" id="uniBtn" type="button">The universal elements</button>
+</div>
+<div class="rv-note" id="rvNote"></div>
+<main id="stage"></main>
+
+<div id="peek" role="status" aria-live="polite"></div>
+<div id="scrim"></div>
+<section id="sheet" role="dialog" aria-modal="true" aria-label="Details"><div class="shbar"><button class="sh-ask" type="button"><i>T</i>Ask Tojo about this</button><button class="x" type="button" aria-label="Close">×</button></div><div id="sheetBody"></div></section>
+
+<button id="chatFab" type="button" aria-label="Open the chat with Tojo"><i class="t">T</i><span>Ask Tojo</span><i class="dot" aria-hidden="true"></i></button>
+<aside id="chat" aria-label="Chat with Tojo">
+  <header><i class="t">T</i><div><h3>Tojo</h3><small id="chatSub"></small></div><button type="button" id="chatClose" aria-label="Minimise the chat">–</button></header>
+  <div class="body" id="chatBody"></div>
+  <div class="ctx" id="chatCtx" hidden></div>
+  <div class="in"><label class="sr" for="chatIn">Write to Tojo</label><textarea id="chatIn" placeholder="Write to Tojo…"></textarea><button class="send" type="button" aria-label="Send">→</button></div>
+</aside>
+<script>
+/* suites register their data here */
+if (typeof SUITES==="undefined") var SUITES = [];
+/* ===== Example data: Discharge Summary suite, 250-bed hospital, Bhubaneswar. All figures are examples. ===== */
+SUITES.push({ key:"discharge", data:{
+  suite: "Discharge Summary",
+  family: "Discharge Process",
+  hospital: "250-bed hospital, Bhubaneswar",
+  started: "4 Aug 2026", week: 10, weeksPlanned: 26, asOf: "12 Oct 2026, 10:40 AM",
+  siblings: ["Discharge Summary","Billing & Insurance","Admission Process","Diagnostic Scheduling","Procurement","Financial Health"],
+  rvTitle:"Discharge Summary · suite landing", rvSub:"Scheme C, the hospital diorama (chosen 12 Oct). Example figures for a 250-bed hospital in Bhubaneswar, week 10 of 26.",
+  recoverLine:"If all three land, break-even returns to mid-January.",
+  aheadRisk:"The risk to watch is the imaging link: if it slips again, this gain stalls.",
+  chat:{ sub:"Discharge Summary suite · 250-bed hospital, Bhubaneswar",
+    msg:["Five of the twelve parts are live and the summary is ready 48 minutes after the doctor's decision, ahead of plan.","Three measures are off track. All three trace back to the imaging link and the bill still being made by hand.","Pick a point to add to it, or choose what to do next."],
+    note:"Chase the imaging link this week. Three measures wait on it.",
+    points:["The imaging link, 9 days late","Cash patients out by 10 AM","Starting the running bill early","Break-even moving to February"],
+    asks:["What would bring break-even back to January?","Who needs help this week?","Can we go live on phone sign-off early?"] },
+  milestone: { what: "Doctor signs off on phone goes live", date: "15 Oct", days: 3, part: 11 },
+
+  parts: [
+    { id:1,  name:"Admission notes and diagnosis", src:"Hospital software (HIS)", dept:"ward",  st:"live",     when:"Live since 2 Sep",  fresh:"2 min ago",  owner:"sanjay", vol:"about 45 admissions a day", note:"History, symptoms and diagnosis at admission are read in as they are typed." },
+    { id:2,  name:"Lab results and abnormal findings", src:"Lab system", dept:"lab", st:"live", when:"Live since 9 Sep", fresh:"6 min ago", owner:"sanjay", vol:"about 610 results a day", note:"Abnormal values are marked and pulled into the summary with the date." },
+    { id:3,  name:"Imaging reports", src:"Imaging system (PACS)", dept:"radio", st:"blocked", when:"9 days late · now 28 Oct", fresh:"no feed yet", owner:"sanjay", vol:"about 120 reports a day", note:"The vendor has not opened its data link. Reports are pasted in by hand meanwhile.",
+      delay:"The imaging vendor has not opened its data link and has asked for a ₹2.5 lakh interface fee that was not in the plan. Until it opens, about 120 reports a day are pasted in by hand, the imaging section of the summary stays empty, and ₹3.6 lakh of benefit is pushed back.",
+      fixes:[["Read imaging reports from the PDF the system already prints, until the link opens","sanjay","20 Oct"],["Escalate to the vendor's regional head and ask for the fee to be credited against next year's support","kavya","31 Oct"],["Imaging link live","sanjay","28 Oct"]] },
+    { id:4,  name:"Operation and procedure notes", src:"Theatre register", dept:"ot", st:"testing", when:"Goes live 19 Oct", fresh:"test feed, 1 h ago", owner:"sanjay", vol:"about 22 cases a day", note:"Notes from 3 of 5 theatres are coming through in the test." },
+    { id:5,  name:"Medicines given, changed and left over", src:"Pharmacy and drug chart", dept:"pharm", st:"testing", when:"Goes live 22 Oct", fresh:"test feed, 20 min ago", owner:"lipika", vol:"about 2,400 doses a day", note:"Left-over stock is counted in whole strips and bottles, so returns are realistic." },
+    { id:6,  name:"Consumables used and left over", src:"Stores (ERP)", dept:"stores", st:"building", when:"Due 30 Oct", fresh:"no feed yet", owner:"sanjay", vol:"about 3,100 items a day", note:"Item codes are being matched between the wards and the stores list." },
+    { id:7,  name:"Doctor's daily notes by voice", src:"Voice notes app", dept:"ward", st:"testing", when:"On 4 of 9 wards", fresh:"live on 4 wards", owner:"mishra", vol:"about 160 notes a day", note:"Doctors speak their round notes; nurses check them before they count." },
+    { id:8,  name:"Reasons behind each step", src:"Worked out from parts 1 to 7", dept:"engine", st:"notstarted", when:"Starts 2 Nov", fresh:"not started", owner:"kavya", vol:"—", note:"Links each test, procedure and medicine to why it was done and what came of it." },
+    { id:9,  name:"Discharge flagged at the evening round", src:"Voice app and doctor's phone", dept:"phone", st:"live", when:"Live on 6 of 9 wards", fresh:"last flag 9:52 PM", owner:"mishra", vol:"about 18 flags an evening", note:"A passing mention on the evening round starts the summary that night." },
+    { id:10, name:"Summary put together automatically", src:"Summary engine", dept:"engine", st:"live", when:"Live since 16 Sep", fresh:"1 min ago", owner:"kavya", vol:"about 42 summaries a day", note:"Fills 62% of the summary today; rises as the imaging and stores links land." },
+    { id:11, name:"Doctor signs off on phone", src:"Doctor's phone or tablet", dept:"phone", st:"testing", when:"Goes live 15 Oct", fresh:"test, 3 doctors", owner:"mishra", vol:"—", note:"The morning confirmation brings the summary back to the doctor to sign on the spot." },
+    { id:12, name:"Nurse checks captured notes", src:"Nursing station", dept:"nurse", st:"live", when:"Live since 23 Sep", fresh:"4 min ago", owner:"lipika", vol:"about 160 checks a day", note:"Nurses approve what was captured from voice notes and any change made on the floor." }
+  ],
+  handoffs: [
+    { name:"Running bill fed from the same records", to:"Billing & Insurance", st:"notstarted", when:"Kick-off moved up to 2 Nov" },
+    { name:"Summary sent to the insurer with the final bill", to:"Billing & Insurance", st:"notstarted", when:"After the running bill" }
+  ],
+
+  /* dir: "down" means lower is better. Values: base, target, plan (where the plan said we would be in week 10), now. */
+  kpis: [
+    { id:"K1", name:"Summary ready after the doctor's decision", short:"Summary ready", unit:"min", dir:"down", base:190, target:15, plan:70, now:48,
+      why:"Evening flags start the summary the night before, so most are waiting when the doctor confirms." },
+    { id:"K2", name:"Discharges flagged at the evening round", short:"Evening flags", unit:"%", dir:"up", base:0, target:70, plan:45, now:41,
+      factors:[["Orthopaedics and cardiology doctors not yet flagging by voice",60],["Evening round runs past 9 PM on two wards",40]],
+      fixes:[["A doctor lead in each of the two departments, with a weekly count by ward","mishra","26 Oct"],["7 PM reminder on the doctor's phone for patients likely to go","kavya","16 Oct"]],
+      back:"Back on the plan line by week 13 (2 Nov)" },
+    { id:"K3", name:"Summary filled without typing", short:"Filled automatically", unit:"%", dir:"up", base:0, target:90, plan:70, now:62,
+      factors:[["Imaging section empty until the imaging link opens",55],["Consumables section waits on the stores link",30],["Reasons section not started",15]],
+      fixes:[["Read imaging reports from the PDF the system already prints, until the link opens","sanjay","20 Oct"],["Stores link live","sanjay","30 Oct"]],
+      back:"Back on the plan line by week 14 (9 Nov)" },
+    { id:"K4", name:"Morning sign-off time", short:"Sign-off time", unit:"min", dir:"down", base:140, target:20, plan:45, now:35,
+      why:"Priya brings each summary to the doctor at the end of the round, before the next ward." },
+    { id:"K5", name:"Decision to patient leaving", short:"Decision to exit", unit:"min", dir:"down", base:405, target:150, plan:240, now:290,
+      factors:[["The bill is still made by hand; the Billing & Insurance suite has not started",45],["Pharmacy returns counted by hand on 3 wards",25],["Wheelchair and transport wait after 11 AM",15],["Imaging reports pasted in by hand",15]],
+      fixes:[["Start the running-bill feed early: Billing & Insurance kick-off moved to 2 Nov","kavya","2 Nov"],["Stores link live, so returns are worked out, not counted","sanjay","30 Oct"],["Book the wheelchair when the summary is signed","ritika","19 Oct"]],
+      back:"Back on the plan line by week 16 (23 Nov)" },
+    { id:"K6", name:"Cash patients out by 10 AM", short:"Cash out by 10 AM", unit:"%", dir:"up", base:8, target:60, plan:35, now:22,
+      factors:[["Tests ordered on the morning round instead of the night before",40],["Bill made by hand",35],["Family arrives after 10 AM",25]],
+      fixes:[["The evening flag asks the doctor for any last tests that night","mishra","26 Oct"],["Message to the family the moment the summary is signed","priya","15 Oct"]],
+      back:"Back on the plan line by week 17 (30 Nov)" },
+    { id:"K7", name:"Insured patients out by 1 PM", short:"Insured out by 1 PM", unit:"%", dir:"up", base:12, target:55, plan:30, now:27,
+      factors:[["Insurer's first approval still asked for the next morning",70],["Summary waits for imaging before it goes to the insurer",30]],
+      fixes:[["Arjun sends the provisional summary to the insurance desk the same night, by hand for now","arjun","14 Oct"]],
+      back:"Back on the plan line by week 12 (26 Oct)" },
+    { id:"K8", name:"Family briefed before the patient leaves", short:"Family briefed", unit:"%", dir:"up", base:72, target:100, plan:90, now:96,
+      why:"The briefing sheet now prints with the summary, so nurses brief while the bill is closed." },
+    { id:"K9", name:"Bill no longer waits on the stock count", short:"No stock-count wait", unit:"%", dir:"up", base:0, target:85, plan:40, now:18,
+      factors:[["Consumables link to the stores not live yet",70],["Nurses still do the full count out of habit",30]],
+      fixes:[["Stores link live","sanjay","30 Oct"],["Nurses count only the items the system flags","lipika","20 Oct"]],
+      back:"Back on the plan line by week 15 (16 Nov)" }
+  ],
+
+  people: [
+    { key:"ritika", name:"Ritika Das", role:"Discharge Manager", from:"New role we recommended · joined 1 Sep", done:11, due:12, late:0,
+      today:[["Morning huddle on 6 wards",1],["Clear 3 summaries stuck at sign-off",1],["Go through missed evening flags with Arjun","5 PM"]],
+      next:[["Wheelchair booked at sign-off goes live","19 Oct"],["Wards 4 and 7 brought onto evening flags","24 Oct"],["First monthly review with the COO","2 Nov"],["Pharmacy-returns rule handed to the wards","9 Nov"]] },
+    { key:"sanjay", name:"Sanjay Mohanty", role:"IT integration lead", from:"Hospital IT", done:4, due:9, late:2,
+      today:[["Imaging vendor call","late 9 days"],["Match stores item codes","due today"],["Fix tablet lock settings",1]],
+      impact:"Imaging link 9 days late: ₹3.6 lakh of benefit pushed back, break-even 3 weeks later, plus ₹2.5 lakh unplanned vendor fee.",
+      next:[["Theatre register switched on","19 Oct"],["Imaging reports read from PDF meanwhile","20 Oct"],["Imaging link live","28 Oct"],["Stores link live","30 Oct"],["Security sign-off for phone access","5 Nov"]] },
+    { key:"mishra", name:"Dr. Anup Mishra", role:"Medical Superintendent, doctor lead", from:"Hospital", done:3, due:5, late:1,
+      today:[["Orthopaedics and cardiology onboarding","late 6 days"],["Sign-off test on phone with 3 doctors",1]],
+      impact:"Evening flags 4 points under plan: about 3 bed-days a week lost, roughly ₹0.9 lakh a month.",
+      next:[["Phone sign-off live for all doctors","15 Oct"],["Doctor lead named in each department","26 Oct"],["Night-before test ordering rule","26 Oct"]] },
+    { key:"lipika", name:"Sister Lipika Behera", role:"Nursing in-charge", from:"Hospital", done:7, due:7, late:0,
+      today:[["Check yesterday's captured notes on 4 wards",1],["Brief night nurses on the drug-balance test",1]],
+      next:[["Count only flagged items","20 Oct"],["Drug balance goes live","22 Oct"],["Night-shift refresher","3 Nov"]] },
+    { key:"priya", name:"Priya Nayak", role:"Discharge Executive, mornings", from:"New role we recommended · joined 8 Sep", done:14, due:15, late:0,
+      today:[["Take 11 summaries to doctors for sign-off",1],["Family messages for 9 discharges","in progress"]],
+      next:[["Family message on sign-off goes live","15 Oct"],["Hand-over sheet with Arjun","17 Oct"],["Train the relief executive","31 Oct"]] },
+    { key:"arjun", name:"Arjun Patra", role:"Discharge Executive, evenings", from:"New role we recommended · joined 8 Sep", done:10, due:13, late:1,
+      today:[["Chase 6 unflagged likely discharges","8 PM"],["Provisional summaries to insurance desk","9 PM"]],
+      impact:"3 evening follow-ups missed last week: 2 discharges slipped past 1 PM.",
+      next:[["Same-night insurance send, by hand","14 Oct"],["Evening checklist on the phone","21 Oct"],["Weekly flag count to Ritika","every Friday"]] },
+    { key:"manoj", name:"Manoj Sahu", role:"Billing head", from:"Hospital", done:2, due:4, late:2,
+      today:[["Sign off the charge list for the running bill","late 5 days"],["Name a billing tester","due today"]],
+      impact:"Charge list 5 days late: holds up the Billing & Insurance start, so decision-to-exit stays about 50 min over plan.",
+      next:[["Charge list signed off","16 Oct"],["Billing tester named","16 Oct"],["Billing & Insurance kick-off","2 Nov"]] },
+    { key:"kavya", name:"Kavya Iyer", role:"Virevo project lead", from:"Virevo", done:6, due:6, late:0,
+      today:[["Weekly report to the COO",1],["Plan the early Billing & Insurance start",1]],
+      next:[["7 PM reminder live","16 Oct"],["Reasons section starts","2 Nov"],["Six-week review","16 Nov"]] }
+  ],
+
+  /* Money in ₹ lakh */
+  months: ["Aug","Sep","Oct"],
+  spend: [
+    { cat:"Subscription", v:[2.4,2.4,2.4] },
+    { cat:"Salaries of roles we recommended", v:[0,0.92,0.92], note:"Discharge Manager ₹4.25 lakh a year; two Discharge Executives ₹3.25 lakh a year each" },
+    { cat:"One-time costs", v:[4.8,0.9,2.5], note:"Aug: doctors' tablets · Sep: voice headsets · Oct: imaging vendor fee (not in plan)" }
+  ],
+  revenue: [0.9,5.1,8.6], ebitda:[0.4,2.3,3.9],
+  runRate: { revenue:14, ebitda:6.3 },
+  cumMonths:["Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May"],
+  cumSpend:[7.2,11.4,17.2,20.6,24.0,27.4,30.8,34.2,37.6,41.0],
+  cumPlan:[0.5,3.0,7.5,13.0,19.5,27.5,36.0,44.5,53.0,61.5],
+  cumFore:[0.4,2.7,6.6,11.4,17.0,23.6,31.2,39.6,48.4,57.2],
+  actualTo:2, /* index of last actual month */
+  breakeven:{ plan:"Jan 2027", fore:"Feb 2027", late:"about 4 weeks" },
+  healthFactors:[["Imaging link 9 days late, and its unplanned ₹2.5 lakh fee",45],["Bill still made by hand, so the hours saved stop at billing",35],["Evening flags behind plan in orthopaedics and cardiology",20]],
+  healthFixes:[["Ask the imaging vendor to credit its fee against next year's support","kavya","31 Oct"],["Start the running-bill feed early","kavya","2 Nov"],["Doctor leads in the two lagging departments","mishra","26 Oct"]],
+
+  watch: [
+    { t:"Imaging link 9 days late", who:"sanjay", ref:"part:3" },
+    { t:"Cash patients out by 10 AM: 13 points under plan", who:"mishra", ref:"kpi:K6" },
+    { t:"Charge list sign-off 5 days late", who:"manoj", ref:"per:manoj" }
+  ],
+  resources: [
+    ["Project plan and milestones","PDF · 4 Aug"],["Discharge process flow approved by the COO","PDF · 2 Sep"],
+    ["Link specifications for each system","6 files · updated 10 Oct"],["Doctor training: flagging and signing by voice","4 short videos"],
+    ["Weekly review notes","9 notes · latest 9 Oct"],["Subscription agreement and invoices","3 files"]
+  ]
+}});
+
+/* suites register their data here */
+if (typeof SUITES==="undefined") var SUITES = [];
+/* ===== Example data: Billing & Insurance suite, 250-bed hospital, Bhubaneswar. All figures are examples. ===== */
+SUITES.push({ key:"billing", data:{
+  suite: "Billing & Insurance",
+  family: "Discharge Process",
+  hospital: "250-bed hospital, Bhubaneswar",
+  started: "14 Sep 2026", week: 5, weeksPlanned: 24, asOf: "12 Oct 2026, 10:40 AM",
+  rvTitle:"Billing & Insurance · suite landing",
+  rvSub:"Three options for the whole page. Every event in the stay is charged the moment it is recorded. Example figures for a 250-bed hospital in Bhubaneswar, week 5 of 24.",
+  recoverLine:"If all three land, break-even comes back to late January.",
+  aheadRisk:"The risk to watch is the charge list: until it is signed off, rates can still change under this gain.",
+  chat:{ sub:"Billing & Insurance suite · 250-bed hospital, Bhubaneswar",
+    msg:["Three of the twelve charge lines are live, and 64% of charges now land on the bill within 15 minutes of the event, ahead of plan.","Three measures are off track: missed charges, the insurer's final approval and billing overtime. Two of them wait on the charge list sign-off.","Pick a point to add to it, or choose what to do next."],
+    note:"Get the charge list signed this week. Two measures wait on it.",
+    points:["The charge list sign-off, 5 days late","Insurer's final approval after discharge","Charges missed on the final bill","Break-even moving to March"],
+    asks:["What would bring break-even back to January?","Which insurer is slowest to approve?","Can medicines be charged on the dose before 22 Oct?"] },
+  milestone: { what: "Tariff and package rules go live", date: "16 Oct", days: 4, part: 8 },
+
+  /* side: "in" feeds the billing engine, "out" leaves it */
+  parts: [
+    { id:1,  name:"Bed-days and room charges", src:"Hospital software (HIS)", side:"in", st:"live", when:"Live since 21 Sep", fresh:"charged at 00:00 and on every transfer", owner:"manoj", vol:"about 230 bed-days a day", note:"Room, nursing and bed-day charges post at midnight and on each ward transfer, with the room category checked against the package." },
+    { id:2,  name:"Lab tests charged when ordered", src:"Lab system", side:"in", st:"live", when:"Live since 28 Sep", fresh:"4 min ago", owner:"sanjay", vol:"about 610 tests a day", note:"A test is charged when the order is placed and reversed automatically if it is cancelled before the sample is taken." },
+    { id:3,  name:"Imaging charged on the report", src:"Imaging system (PACS)", side:"in", st:"blocked", when:"9 days late · now 28 Oct", fresh:"no feed yet", owner:"sanjay", vol:"about 120 reports a day",
+      note:"Waits on the same imaging link as the Discharge Summary suite. Until it opens, imaging is charged by hand from the register.",
+      delay:"The imaging vendor has not opened its data link, the same hold-up the Discharge Summary suite has. Imaging is still charged by hand from the register at the end of each shift, so about 1 in 25 scans reaches the bill late or not at all.",
+      fixes:[["Charge imaging from the PDF report the system already prints, until the link opens","sanjay","20 Oct"],["Escalate to the vendor's regional head, jointly with the Discharge Summary suite","kavya","31 Oct"],["Imaging link live","sanjay","28 Oct"]] },
+    { id:4,  name:"Medicines charged on the dose given", src:"Pharmacy and drug chart", side:"in", st:"testing", when:"Goes live 22 Oct", fresh:"test feed, 12 min ago", owner:"rakesh", vol:"about 2,400 doses a day", note:"Charged when the nurse records the dose, not when the pharmacy issues it, so unused strips never reach the bill." },
+    { id:5,  name:"Consumables charged on use", src:"Stores (ERP)", side:"in", st:"building", when:"Due 30 Oct", fresh:"no feed yet", owner:"sanjay", vol:"about 3,100 items a day", note:"Uses the same item-code match as the Discharge Summary suite's consumables link." },
+    { id:6,  name:"Procedure and theatre charges", src:"Theatre register", side:"in", st:"testing", when:"Goes live 19 Oct", fresh:"test feed, 1 h ago", owner:"manoj", vol:"about 22 cases a day", note:"Surgeon, anaesthetist, theatre time and implants are charged from the theatre record when the case closes." },
+    { id:7,  name:"Doctor visit fees", src:"Doctors' round log", side:"in", st:"live", when:"Live since 5 Oct", fresh:"2 min ago", owner:"manoj", vol:"about 480 visits a day", note:"Each visit recorded on the round is charged at the doctor's grade and the patient's package rate." },
+    { id:8,  name:"Tariff and package rules", src:"Charge list in the ERP", side:"rules", st:"testing", when:"Goes live 16 Oct", fresh:"rates as of 1 Oct", owner:"manoj", vol:"1,840 rates · 64 packages", note:"Every charge is priced from one signed charge list, with insurer packages and caps applied as it posts." },
+    { id:9,  name:"Running bill and payments for the family", src:"Patient app, SMS and payment counter", side:"out", st:"testing", when:"Goes live 26 Oct", fresh:"test, 2 wards", owner:"smita", vol:"about 40 families a day", note:"The family sees the bill to date each evening and can pay a deposit or the balance by UPI or card." },
+    { id:10, name:"Insurer pre-approval and top-up requests", src:"Insurer portals (6 TPAs)", side:"out", st:"building", when:"Due 9 Nov", fresh:"2 of 6 portals connected", owner:"debasish", vol:"about 25 requests a day", note:"Requests for approval and for more cover go out with the running bill and the doctor's notes attached." },
+    { id:11, name:"Provisional bill to the insurer the evening before", src:"Insurer portals, with the Discharge Summary suite", side:"out", st:"notstarted", when:"Starts 2 Nov", fresh:"not started", owner:"debasish", vol:"—", note:"When the doctor flags a likely discharge on the evening round, the bill to date and the draft summary go to the insurer that night." },
+    { id:12, name:"Final bill and claim papers on discharge", src:"Insurer portals, with the Discharge Summary suite", side:"out", st:"notstarted", when:"Starts 16 Nov", fresh:"not started", owner:"debasish", vol:"—", note:"On the doctor's sign-off, the final bill, reports and signed summary go to the insurer in one pack." }
+  ],
+  handoffs: [
+    { name:"Signed discharge summary for the claim papers", to:"Discharge Summary", st:"testing", when:"Phone sign-off goes live 15 Oct" }
+  ],
+
+  kpis: [
+    { id:"K1", name:"Charges on the bill within 15 minutes of the event", short:"Charged in 15 min", unit:"%", dir:"up", base:22, target:98, plan:60, now:64,
+      why:"Lab orders, bed-days and doctor visits now post on their own; they make up two thirds of all charges." },
+    { id:"K2", name:"Bill ready after the doctor confirms discharge", short:"Bill ready", unit:"min", dir:"down", base:150, target:15, plan:90, now:98,
+      factors:[["Medicines still added from the pharmacy issue slip",55],["Imaging added by hand from the register",30],["Final check of package caps done by hand",15]],
+      fixes:[["Medicines charged on the dose given","rakesh","22 Oct"],["Imaging charged from the printed PDF report","sanjay","20 Oct"]],
+      back:"Back on the plan line by week 8 (2 Nov)" },
+    { id:"K3", name:"Charges missed on the final bill", short:"Missed charges", unit:"%", dir:"down", base:3.2, target:0.3, plan:2.0, now:2.6,
+      factors:[["Old rates in the charge list for 140 items",50],["Imaging charged late from the register",30],["Consumables not yet charged on use",20]],
+      fixes:[["Charge list signed off with the 140 rates corrected","manoj","16 Oct"],["Imaging charged from the printed PDF report","sanjay","20 Oct"],["Consumables link live","sanjay","30 Oct"]],
+      back:"Back on the plan line by week 9 (9 Nov)" },
+    { id:"K4", name:"Insurer's first approval turnaround", short:"First approval", unit:"min", dir:"down", base:240, target:60, plan:170, now:185,
+      factors:[["Only 2 of 6 insurer portals connected",65],["Doctor's notes attached by hand",35]],
+      fixes:[["Next two portals (the two largest insurers) connected","debasish","26 Oct"],["Notes attached from the Discharge Summary suite's record","kavya","2 Nov"]],
+      back:"Back on the plan line by week 8 (2 Nov)" },
+    { id:"K5", name:"Insurer's final approval after discharge", short:"Final approval", unit:"min", dir:"down", base:300, target:90, plan:230, now:285,
+      factors:[["Claim papers put together by hand in the morning",50],["Bill not ready until mid-morning",30],["Insurer queries on missing reports",20]],
+      fixes:[["Night insurance coordinator sends provisional bills by hand from 14 Oct","nibedita","14 Oct"],["Provisional bill to the insurer the evening before, automatically","debasish","2 Nov"]],
+      back:"Back on the plan line by week 10 (16 Nov)" },
+    { id:"K6", name:"Bills sent without a manual cross-check", short:"No manual check", unit:"%", dir:"up", base:0, target:60, plan:10, now:12,
+      why:"Cash bills under ₹50,000 with no package now go straight to the family after a sample check." },
+    { id:"K7", name:"Amount the insurer deducts from claims", short:"Claim deductions", unit:"%", dir:"down", base:7.5, target:3, plan:6.5, now:6.1,
+      why:"Package caps are applied as charges post, so non-payable items are flagged before the claim goes out." },
+    { id:"K8", name:"Billing team overtime each week", short:"Billing overtime", unit:"h", dir:"down", base:46, target:10, plan:34, now:38,
+      factors:[["Month-end catch-up on imaging and consumables",60],["Rates corrected by hand while the charge list is unsigned",40]],
+      fixes:[["Charge list signed off","manoj","16 Oct"],["Stores link live","sanjay","30 Oct"]],
+      back:"Back on the plan line by week 9 (9 Nov)" },
+    { id:"K9", name:"Cash bills paid before the patient leaves", short:"Paid before leaving", unit:"%", dir:"up", base:81, target:99, plan:86, now:88,
+      why:"Families are asked for the balance at the evening update, not at the discharge counter." }
+  ],
+
+  people: [
+    { key:"manoj", name:"Manoj Sahu", role:"Billing head, suite owner", from:"Hospital", done:5, due:9, late:2,
+      today:[["Sign off the charge list","late 5 days"],["Approve 140 corrected rates","late 3 days"],["Review theatre charge test",1]],
+      impact:"Charge list 5 days late: missed charges stay 0.6 points over plan, about ₹1.1 lakh a week, and break-even moves 3 weeks.",
+      next:[["Charge list signed off","16 Oct"],["Theatre charges live","19 Oct"],["Month-end close with no catch-up","31 Oct"],["Billing team rota cut by one shift","16 Nov"]] },
+    { key:"debasish", name:"Debasish Rout", role:"Insurance desk lead", from:"Hospital", done:6, due:8, late:1,
+      today:[["Portal access for the two largest insurers","late 2 days"],["Clear 9 pending first approvals",1],["Brief Nibedita on night sends",1]],
+      impact:"Portal access 2 days late: first approvals stay 15 min over plan.",
+      next:[["Two more insurer portals connected","26 Oct"],["Provisional bill to insurer starts","2 Nov"],["All six portals connected","9 Nov"],["Final claim papers sent automatically","16 Nov"]] },
+    { key:"nibedita", name:"Nibedita Sahoo", role:"Insurance coordinator, nights", from:"New role we recommended · joined 28 Sep", done:9, due:9, late:0,
+      today:[["Send 7 provisional bills to insurers by hand","9 PM"],["Log insurer queries for the morning","11 PM"]],
+      next:[["Same-night sends for every flagged discharge","14 Oct"],["Hand over to the automatic send","2 Nov"]] },
+    { key:"smita", name:"Smita Panda", role:"Billing executive, mornings", from:"Hospital", done:11, due:12, late:0,
+      today:[["Check 14 final bills before release",1],["Evening bill message test on Ward 3",1],["Deposit reminders for 6 families","in progress"]],
+      next:[["Running bill for families goes live","26 Oct"],["Sample checks only for cash bills","2 Nov"]] },
+    { key:"rakesh", name:"Rakesh Behera", role:"Pharmacy in-charge", from:"Hospital", done:4, due:6, late:1,
+      today:[["Match pharmacy codes to the drug chart","late 4 days"],["Return-to-stock rule test",1]],
+      impact:"Drug codes 4 days late: medicine charging on the dose may slip from 22 Oct, keeping bills 8 min slower than plan.",
+      next:[["Medicines charged on the dose given","22 Oct"],["Unused strips returned automatically","2 Nov"]] },
+    { key:"sanjay", name:"Sanjay Mohanty", role:"IT integration lead", from:"Hospital IT (shared with Discharge Summary)", done:4, due:7, late:1,
+      today:[["Imaging vendor call","late 9 days"],["Stores item-code match","due today"]],
+      impact:"Imaging link 9 days late: about 1 in 25 scans reaches the bill late or not at all.",
+      next:[["Imaging charged from the PDF report","20 Oct"],["Imaging link live","28 Oct"],["Stores link live","30 Oct"]] },
+    { key:"ritika", name:"Ritika Das", role:"Discharge Manager", from:"Discharge Summary suite", done:3, due:3, late:0,
+      today:[["Share tonight's likely discharges with Nibedita",1]],
+      next:[["Evening flags passed to billing automatically","2 Nov"]] },
+    { key:"kavya", name:"Kavya Iyer", role:"Virevo project lead", from:"Virevo", done:5, due:5, late:0,
+      today:[["Weekly report to the CFO",1],["Plan the joint vendor escalation",1]],
+      next:[["Insurer portal plan reviewed with the CFO","19 Oct"],["Notes attached from the summary record","2 Nov"],["Four-week review","9 Nov"]] }
+  ],
+
+  months: ["Sep","Oct"],
+  spend: [
+    { cat:"Subscription", v:[2.0,2.0] },
+    { cat:"Salaries of roles we recommended", v:[0,0.25], note:"Insurance coordinator, nights: ₹3 lakh a year" },
+    { cat:"One-time costs", v:[1.2,1.8], note:"Sep: charge-list clean-up · Oct: insurer portal connectors" }
+  ],
+  revenue: [0.9,3.4], ebitda:[0.6,2.1],
+  runRate: { revenue:9, ebitda:5.5 },
+  cumMonths:["Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun"],
+  cumSpend:[3.2,7.25,9.6,11.95,14.3,16.65,19.0,21.35,23.7,26.05],
+  cumPlan:[0.8,3.4,7.2,11.6,16.5,21.6,27.0,32.6,38.4,44.3],
+  cumFore:[0.6,2.7,5.4,8.5,12.1,16.2,21.0,26.2,31.8,37.6],
+  actualTo:1,
+  breakeven:{ plan:"Jan 2027", fore:"Mar 2027", late:"about 8 weeks" },
+  healthFactors:[["Charge list sign-off late, so missed charges are not yet recovered",40],["Insurer portals slower to connect than planned",35],["Imaging still charged by hand",25]],
+  healthFixes:[["Charge list signed off with the 140 rates corrected","manoj","16 Oct"],["Two largest insurers' portals connected first","debasish","26 Oct"],["Imaging charged from the printed PDF report","sanjay","20 Oct"]],
+  watch: [
+    { t:"Charge list sign-off 5 days late", who:"manoj", ref:"per:manoj" },
+    { t:"Insurer's final approval: 55 min over plan", who:"debasish", ref:"kpi:K5" },
+    { t:"Imaging charges stuck behind the imaging link", who:"sanjay", ref:"part:3" }
+  ],
+  resources: [
+    ["Project plan and milestones","PDF · 14 Sep"],["Charge list, draft 4 (awaiting sign-off)","Spreadsheet · 9 Oct"],
+    ["Insurer portal access checklist","6 insurers · updated 10 Oct"],["Package and cap rules","64 packages"],
+    ["Weekly review notes","4 notes · latest 9 Oct"],["Subscription agreement and invoices","2 files"]
+  ]
+}});
+
+/* ===== Example data: Admission Process suite, 250-bed hospital, Bhubaneswar. All figures are examples.
+   Content from bed-management.md §7.1 point 4 (five admission stages), §7.3 point 5 (dead bed time, bill to bill),
+   §7.4.1 (bed mapping 2 PM / 6 PM, predictive LOS, ICU step-down, discharge linkage, emergency reserve, call-in timing),
+   §7.4.2 (OPD prescription intake, 5 PM rounds, desk-console link, stage timestamps), §7.4.4 (Bed Manager, Admissions Executives)
+   and discharge-process.md (evening provisional flags, real discharge timings). ===== */
+if (typeof SUITES==="undefined") var SUITES = [];
+SUITES.push({ key:"admission", data:{
+  suite: "Admission Process",
+  family: "Bed Management",
+  hospital: "250-bed hospital, Bhubaneswar",
+  started: "21 Sep 2026", week: 4, weeksPlanned: 20, asOf: "12 Oct 2026, 10:40 AM",
+  recoverLine:"If all three land, break-even comes back to December.",
+  aheadRisk:"The risk to watch is the 5 PM rounds: if they keep slipping, tomorrow's bed map stops holding.",
+  chat:{ sub:"Admission Process suite · 250-bed hospital, Bhubaneswar",
+    msg:["Four of the twelve parts are live. A patient now reaches a bed 2 h 8 min after arriving, down from 3 h 20 min and ahead of plan.","Three measures are off track: patients in a bed by noon, dead bed time and the 5 PM rounds. All three come back to the same thing: tomorrow's discharges are not confirmed early enough to call patients in before the bed frees.","Pick a point to add to it, or choose what to do next."],
+    note:"Get the 5 PM rounds done every day. Tomorrow's bed map depends on them.",
+    points:["The 5 PM Medical Supervisory rounds","Dead bed time, bill to bill","Patient records approval for length-of-stay prediction","Break-even moving to January"],
+    asks:["Why are patients still arriving after 2 PM?","Which wards free beds latest?","Can we call patients in before the housekeeping signal is live?"] },
+  milestone: { what: "Housekeeping bed-ready signal goes live", date: "17 Oct", days: 5, part: 6 },
+  tomorrow: { planned: 46, mapped: 38, unmapped: 8, icuUnmapped: 2, reserve: 6, freeze: "6 PM", firstPass: "2 PM" },
+  today: { admitted: 21, avgTat: "2 h 8 min", last: "Bed 214 · 41 min" },
+  /* the five admission stages (bed-management.md §7.1 point 4), minutes: before, now, floor */
+  stages: [
+    { name:"Arrival to start of paperwork", base:35, now:20, floor:2 },
+    { name:"Paperwork (documentation)", base:20, now:18, floor:18 },
+    { name:"Bed given in the system", base:85, now:46, floor:2 },
+    { name:"Ward or ICU confirms bed is ready", base:45, now:30, floor:4 },
+    { name:"Patient taken to the bed", base:15, now:14, floor:4 }
+  ],
+
+  /* stage: which of the five stages each part speeds up (1–5) */
+  parts: [
+    { id:1,  name:"OPD prescription captured for planned admissions", src:"OPD records (EMR)", stage:1, st:"live", when:"Live since 28 Sep", fresh:"6 min ago", owner:"biswajit", vol:"about 30 planned admissions a day", note:"Date, procedure, expected stay and theatre need are read from the OPD prescription, so every planned admission enters the map." },
+    { id:2,  name:"Tomorrow's bed map, 2 PM and 6 PM", src:"Bed board in the hospital software", stage:3, st:"testing", when:"Goes live 19 Oct", fresh:"test run, 2 PM today", owner:"sunita", vol:"about 46 planned admissions a day", note:"Maps every planned admission to a bed that is free, freeing, or likely to free from patients near their usual stay. First pass by 2 PM, final freeze by 6 PM." },
+    { id:3,  name:"Length-of-stay prediction for likely discharges", src:"Inpatient records", stage:3, st:"blocked", when:"12 days late · now 30 Oct", fresh:"no feed yet", owner:"sanjay", vol:"about 215 inpatients",
+      note:"Flags patients approaching the usual stay for their treatment, so beds can be mapped before a doctor says the word.",
+      delay:"The records committee has not yet approved reading inpatient notes for the prediction. Until it does, the bed map only uses confirmed and evening-flagged discharges, so about 1 in 6 beds that will free tomorrow is missed.",
+      fixes:[["Records committee sign-off, with the de-identified data plan attached","kavya","17 Oct"],["Use discharge flags from the Discharge Summary suite meanwhile","sunita","14 Oct"],["Prediction live","sanjay","30 Oct"]] },
+    { id:4,  name:"ICU step-down mapping", src:"ICU system", stage:3, st:"building", when:"Due 2 Nov", fresh:"no feed yet", owner:"rashmi", vol:"about 6 step-downs a day", note:"Maps planned procedures against ICU beds, confirmed step-downs and likely step-downs; step-down signals are due by 1 PM." },
+    { id:5,  name:"Real discharge timings from the Discharge Summary suite", src:"Discharge Summary suite", stage:3, st:"live", when:"Live since 5 Oct", fresh:"2 min ago", owner:"sunita", vol:"about 42 discharges a day", note:"Uses when beds actually free, not when they are reported to, and checks the two against each other." },
+    { id:6,  name:"Housekeeping bed-ready signal", src:"Housekeeping app", stage:4, st:"testing", when:"Goes live 17 Oct", fresh:"test, 3 wards", owner:"prakash", vol:"about 45 turnarounds a day", note:"The housekeeper marks the bed clean on a phone; the ward and the desk see it at once." },
+    { id:7,  name:"Call-in time sent to the patient", src:"SMS and phone call", stage:1, st:"notstarted", when:"Starts 26 Oct", fresh:"not started", owner:"biswajit", vol:"—", note:"Works back from when each mapped bed will be free to when its patient should come in, and tells the patient." },
+    { id:8,  name:"Emergency bed reserve from past demand", src:"Three years of emergency records", stage:1, st:"notstarted", when:"Starts 9 Nov", fresh:"not started", owner:"sunita", vol:"6 beds held today, by hand", note:"Holds back beds for emergency patients by day of week, month and hour, based on three years of history." },
+    { id:9,  name:"Time stamps for all five admission stages", src:"Admission desk (hospital software)", stage:2, st:"live", when:"Live since 21 Sep", fresh:"1 min ago", owner:"biswajit", vol:"about 44 admissions a day", note:"Every admission now records arrival, paperwork, bed given, bed ready and patient in bed." },
+    { id:10, name:"Insurer pre-approval started at the desk", src:"Insurer portals, with the Billing & Insurance suite", stage:2, st:"building", when:"Due 9 Nov", fresh:"2 of 6 insurers", owner:"lopamudra", vol:"about 26 insured admissions a day", note:"Shared with the Billing & Insurance suite's pre-approval line." },
+    { id:11, name:"Two-way link between the desk and the bed board", src:"Hospital software", stage:3, st:"testing", when:"Goes live 19 Oct", fresh:"test, 1 desk", owner:"sunita", vol:"—", note:"A date confirmed at the desk shows on the bed board at once, with a bed already attached." },
+    { id:12, name:"First bill entry when the patient reaches the bed", src:"Billing, with the Billing & Insurance suite", stage:5, st:"live", when:"Live since 21 Sep", fresh:"3 min ago", owner:"lopamudra", vol:"about 44 a day", note:"Opens the bill on arrival at the bed, which ends the dead bed time on that bed." }
+  ],
+  handoffs: [
+    { name:"Real discharge timings and evening flags", to:"Discharge Summary", st:"live", when:"Live since 5 Oct" },
+    { name:"Bill opened on arrival", to:"Billing & Insurance", st:"live", when:"Live since 21 Sep" }
+  ],
+
+  kpis: [
+    { id:"K1", name:"Arrival to patient in bed", short:"Arrival to bed", unit:"min", dir:"down", base:200, target:30, plan:140, now:128,
+      why:"Stage time stamps showed the bed was given in the system 46 minutes after paperwork, not 85; the desk now asks the bed board first." },
+    { id:"K2", name:"Planned admissions in a bed by 12 noon", short:"In bed by noon", unit:"%", dir:"up", base:9, target:65, plan:25, now:19,
+      factors:[["Patients still called for 2 PM by habit",45],["Tomorrow's discharges confirmed too late to call patients earlier",35],["Bed-ready signal not live, so wards wait to confirm",20]],
+      fixes:[["Call-in times from the bed map, sent the evening before","biswajit","26 Oct"],["5 PM rounds held every day","mishra","19 Oct"],["Housekeeping bed-ready signal live","prakash","17 Oct"]],
+      back:"Back on the plan line by week 8 (9 Nov)" },
+    { id:"K3", name:"Planned admissions mapped to a bed by the 6 PM freeze", short:"Mapped by 6 PM", unit:"%", dir:"up", base:0, target:95, plan:50, now:58,
+      why:"Evening discharge flags from the Discharge Summary suite feed the map; 38 of tomorrow's 46 are already placed." },
+    { id:"K4", name:"2 PM mappings that hold to 6 PM", short:"2 PM holds", unit:"%", dir:"up", base:0, target:85, plan:40, now:34,
+      factors:[["Discharges changed after the 5 PM rounds",60],["Length-of-stay prediction not live",40]],
+      fixes:[["Rounds moved to finish by 5 PM sharp","mishra","19 Oct"],["Records committee sign-off","kavya","17 Oct"]],
+      back:"Back on the plan line by week 7 (2 Nov)" },
+    { id:"K5", name:"Dead bed time, bill to bill", short:"Dead bed time", unit:"min", dir:"down", base:570, target:180, plan:450, now:505,
+      factors:[["Next patient arrives in the afternoon though the bed frees by noon",55],["Housekeeping turnaround still confirmed by phone",25],["Discharge tail after the bill closes",20]],
+      fixes:[["Call-in times from the bed map","biswajit","26 Oct"],["Housekeeping bed-ready signal live","prakash","17 Oct"],["Insurer evening bill from the Billing & Insurance suite","sunita","2 Nov"]],
+      back:"Back on the plan line by week 9 (16 Nov)" },
+    { id:"K6", name:"Ward discharges flagged 24 hours ahead", short:"Flagged 24 h ahead", unit:"%", dir:"up", base:6, target:80, plan:35, now:31,
+      factors:[["Orthopaedics and cardiology not yet flagging by voice",70],["Weekend rounds not covered",30]],
+      fixes:[["Doctor leads in the two departments, shared with the Discharge Summary suite","mishra","26 Oct"]],
+      back:"Back on the plan line by week 7 (2 Nov)" },
+    { id:"K7", name:"Emergency patients waiting over an hour for a bed", short:"Waits over 1 h", unit:"%", dir:"down", base:38, target:5, plan:28, now:26,
+      why:"Six beds are held back each day for emergencies, chosen by hand from last month's pattern until the reserve model is ready." },
+    { id:"K8", name:"5 PM supervisory rounds done on time", short:"5 PM rounds", unit:"%", dir:"up", base:0, target:95, plan:60, now:44,
+      factors:[["Rounds clash with the evening OPD on 3 days a week",65],["No named stand-in when the Medical Superintendent is away",35]],
+      fixes:[["Rounds moved to 4:15 PM on OPD days","mishra","19 Oct"],["Deputy named for rounds","mishra","15 Oct"]],
+      back:"Back on the plan line by week 6 (26 Oct)" },
+    { id:"K9", name:"Desk confirmations shown on the bed board at once", short:"Desk to board", unit:"%", dir:"up", base:0, target:98, plan:50, now:61,
+      why:"The two-way link is in test on the main desk, which handles most planned admissions." }
+  ],
+
+  people: [
+    { key:"sunita", name:"Sunita Mohapatra", role:"Bed Manager", from:"New role we recommended · joined 22 Sep", done:12, due:13, late:0,
+      today:[["2 PM bed map for tomorrow","2 PM"],["Hold 6 emergency beds",1],["Agree tomorrow's discharges with Ritika",1]],
+      next:[["Bed map goes live","19 Oct"],["Desk-board link goes live","19 Oct"],["Emergency reserve model starts","9 Nov"],["First monthly review with the COO","16 Nov"]] },
+    { key:"biswajit", name:"Biswajit Nanda", role:"Admissions desk lead", from:"Hospital", done:9, due:11, late:1,
+      today:[["Stop booking 2 PM call-ins by default","late 4 days"],["Check stage time stamps for yesterday",1]],
+      impact:"Default 2 PM call-ins: planned patients in a bed by noon stay 6 points under plan, about 9 billable hours lost a day.",
+      next:[["Call-in times sent to patients","26 Oct"],["Desk rota split from discharges","19 Oct"],["Second desk on the board link","2 Nov"]] },
+    { key:"lopamudra", name:"Lopamudra Swain", role:"Admissions Executive, mornings", from:"New role we recommended · joined 29 Sep", done:14, due:14, late:0,
+      today:[["Paperwork for 9 planned admissions before 11 AM","in progress"],["Pre-approval requests for 4 insured patients",1]],
+      next:[["Pre-approval at the desk for the two largest insurers","26 Oct"],["Train the evening executive","2 Nov"]] },
+    { key:"mishra", name:"Dr. Anup Mishra", role:"Medical Superintendent, runs the 5 PM rounds", from:"Hospital", done:3, due:6, late:2,
+      today:[["5 PM rounds of beds likely to free tomorrow","5 PM"],["Name a deputy for rounds","late 6 days"],["Move OPD-day rounds to 4:15 PM","late 3 days"]],
+      impact:"Rounds done on time only 44% of days: the 6 PM bed map changes after the freeze and about 4 patients a day are called in late.",
+      next:[["Deputy named for rounds","15 Oct"],["Rounds at 4:15 PM on OPD days","19 Oct"],["Doctor leads for 24-hour flags","26 Oct"]] },
+    { key:"rashmi", name:"Dr. Rashmi Tripathy", role:"ICU in-charge", from:"Hospital", done:4, due:5, late:1,
+      today:[["Step-down list by 1 PM","late 1 day"],["Review ICU mapping test",1]],
+      impact:"Step-down list late once this week: 2 planned surgeries waited for an ICU bed.",
+      next:[["Step-down list by 1 PM every day","15 Oct"],["ICU step-down mapping live","2 Nov"]] },
+    { key:"prakash", name:"Prakash Jena", role:"Housekeeping supervisor", from:"Hospital", done:6, due:7, late:0,
+      today:[["Phones issued to 12 housekeepers",1],["Bed-ready test on Wards 3, 5 and 7","in progress"]],
+      next:[["Bed-ready signal live on all wards","17 Oct"],["Turnaround under 45 minutes","2 Nov"]] },
+    { key:"sanjay", name:"Sanjay Mohanty", role:"IT integration lead", from:"Hospital IT (shared with two other suites)", done:3, due:6, late:1,
+      today:[["Records committee papers","late 12 days"],["Desk-board link test",1]],
+      impact:"Inpatient records not approved: about 1 in 6 beds that will free tomorrow is missing from the bed map.",
+      next:[["Records committee sign-off","17 Oct"],["Length-of-stay prediction live","30 Oct"],["ICU system link","2 Nov"]] },
+    { key:"kavya", name:"Kavya Iyer", role:"Virevo project lead", from:"Virevo", done:5, due:5, late:0,
+      today:[["Weekly report to the COO",1],["Data plan for the records committee",1]],
+      next:[["Records committee meeting","17 Oct"],["Process flow sign-off by the COO for split desk and discharge teams","19 Oct"],["Four-week review","9 Nov"]] }
+  ],
+
+  months: ["Sep","Oct"],
+  spend: [
+    { cat:"Subscription", v:[1.8,1.8] },
+    { cat:"Salaries of roles we recommended", v:[0.12,0.62], note:"Bed Manager ₹4.25 lakh a year; one more Admissions Executive ₹3.25 lakh a year" },
+    { cat:"One-time costs", v:[0.6,1.4], note:"Sep: patient messaging set-up · Oct: bed board screens for 9 wards" }
+  ],
+  revenue: [0.4,2.9], ebitda:[0.3,1.9],
+  runRate: { revenue:9.5, ebitda:5.8 },
+  cumMonths:["Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun"],
+  cumSpend:[2.52,6.34,8.76,11.18,13.6,16.02,18.44,20.86,23.28,25.7],
+  cumPlan:[0.5,3.0,6.8,11.4,16.6,22.4,28.6,35.0,41.6,48.4],
+  cumFore:[0.3,2.2,5.3,9.3,13.9,19.0,24.5,30.2,36.1,42.0],
+  actualTo:1,
+  breakeven:{ plan:"Dec 2026", fore:"Jan 2027", late:"about 4 weeks", planIdx:3, foreIdx:4 },
+  healthFactors:[["Length-of-stay prediction held up by the records committee",40],["5 PM rounds done on time only 44% of days",35],["Patients still called for 2 PM by habit",25]],
+  healthFixes:[["Records committee sign-off with the data plan","kavya","17 Oct"],["Deputy named and OPD-day rounds moved","mishra","19 Oct"],["Call-in times sent from the bed map","biswajit","26 Oct"]],
+  watch: [
+    { t:"Patient records approval 12 days late", who:"sanjay", ref:"part:3" },
+    { t:"Dead bed time: 55 min over plan", who:"sunita", ref:"kpi:K5" },
+    { t:"5 PM rounds on time only 44% of days", who:"mishra", ref:"kpi:K8" }
+  ],
+  resources: [
+    ["Project plan and milestones","PDF · 21 Sep"],["Admission process flow for COO sign-off","Draft 3 · 9 Oct"],
+    ["Bed map rules: 2 PM pass and 6 PM freeze","2 pages"],["Five-stage time stamp definitions","1 page"],
+    ["Weekly review notes","3 notes · latest 9 Oct"],["Subscription agreement and invoices","2 files"]
+  ]
+}});
+
+/* ===== Example data: Diagnostic Scheduling suite, 250-bed hospital, Bhubaneswar. All figures are examples.
+   Content from opd-diagnostic-leakage.md: §2 activities, §3 dependencies (MRI bottleneck, each unit scheduled on its own,
+   secretaries, compensation), §6 failure modes (sequential scheduling, no redemption tracking, backwards causality),
+   §7.1 (redemption split new vs returning, peak loading, STAT slots held and released to the next OP patient, IP slots fixed,
+   off-peak discounted slots, guest services, non-ambulatory transport), §7.4 (prescription scanning and reading bot,
+   scheduling bot, patient-facing guide bot, daily performance share, Scheduling Manager above 200 OPD a day), §8 KPIs. ===== */
+if (typeof SUITES==="undefined") var SUITES = [];
+SUITES.push({ key:"diagnostic", data:{
+  suite: "Diagnostic Scheduling",
+  family: "OPD to Diagnostics",
+  hospital: "250-bed hospital, Bhubaneswar",
+  started: "21 Sep 2026", week: 4, weeksPlanned: 22, asOf: "12 Oct 2026, 10:40 AM",
+  recoverLine:"If all three land, break-even comes back to November.",
+  aheadRisk:"The risk to watch is the MRI 2 schedule: until it can be read, walk-in MRI tests can still be turned away at peak.",
+  chat:{ sub:"Diagnostic Scheduling suite · 250-bed hospital, Bhubaneswar",
+    msg:["Three of the twelve parts are live. Every OPD prescription is now scanned and read, so for the first time we know what is prescribed and what is done here: ₹8.4 lakh prescribed today, ₹3.1 lakh done in-house so far.","Three measures are off track: returning patients' tests done here, the held emergency slots and the time for MRI and CT reports to reach the doctor. Two of them come back to the MRI suite still being run by the senior radiologist's own order.","Pick a point to add to it, or choose what to do next."],
+    note:"Agree the slot rules with radiology this week. The MRI is where the money leaks.",
+    points:["The MRI 2 schedule we cannot read yet","Returning patients' tests done elsewhere","Held emergency slots being overridden","Break-even moving to December"],
+    asks:["Which doctors' patients leave without their tests?","How many MRI slots sit empty after 4 PM?","Can we offer evening slots at a lower rate now?"] },
+  milestone: { what: "Scheduling across every test room goes live", date: "20 Oct", days: 8, part: 4 },
+  opd: { newPts: 60, returning: 460, prescribedToday: 8.4, doneHere: 3.1, slotted: 212, last: "Ultrasound for OPD 7 slotted in 3 min" },
+  /* test rooms on the day board: feeding part, hours busy pattern */
+  rooms: [
+    { name:"MRI 1", part:6, st:"live" }, { name:"MRI 2", part:6, st:"blocked" }, { name:"CT", part:6, st:"live" },
+    { name:"Ultrasound", part:4, st:"testing" }, { name:"X-ray", part:4, st:"testing" }, { name:"Lab samples", part:7, st:"live" },
+    { name:"Echo and TMT", part:8, st:"building" }, { name:"Endoscopy", part:4, st:"testing" }
+  ],
+
+  parts: [
+    { id:1,  name:"Every OPD prescription scanned", src:"Scanners in 14 OPD rooms", side:"in", st:"live", when:"Live since 24 Sep", fresh:"2 min ago", owner:"debashree", vol:"about 520 prescriptions a day", note:"The scan itself is done by hand at the room door; everything after it is automatic." },
+    { id:2,  name:"Prescription read and priced", src:"OPD records and ERP rates", side:"in", st:"live", when:"Live since 28 Sep", fresh:"2 min ago", owner:"ananya", vol:"about 640 tests a day", note:"Reads the tests on each scan, sorts them by department, specialty and doctor, and prices them from the ERP." },
+    { id:3,  name:"Prescribed against done, every day", src:"Billing and every test room", side:"in", st:"testing", when:"Goes live 16 Oct", fresh:"test report, today 7 AM", owner:"ananya", vol:"new and returning patients kept apart", note:"Shows what was prescribed, what was done here, and what walked out, by test room, specialty and doctor." },
+    { id:4,  name:"Scheduling across every test room", src:"Test room schedules", side:"engine", st:"testing", when:"Goes live 20 Oct", fresh:"test, ultrasound and X-ray", owner:"ananya", vol:"about 210 tests slotted a day", note:"Books each test the moment the prescription is confirmed, room by room, with each MRI and CT unit scheduled on its own." },
+    { id:5,  name:"Emergency slots held and released", src:"Scheduling rules", side:"engine", st:"testing", when:"Goes live 20 Oct", fresh:"rule in test", owner:"satyajit", vol:"3 slots held each hour on MRI and CT", note:"Keeps slots free for emergencies; if none arrives, the next OPD patient moves up. Slots booked for inpatients never move." },
+    { id:6,  name:"MRI and CT schedules, unit by unit", src:"MRI 1, MRI 2 and CT consoles", side:"out", st:"blocked", when:"10 days late · now 27 Oct", fresh:"MRI 2 no feed", owner:"sanjay", vol:"about 70 scans a day",
+      note:"Reads each unit's own schedule so one busy MRI cannot hide behind a quiet one.",
+      delay:"MRI 1 and CT are read, but the MRI 2 vendor has not opened its console. MRI 2 bookings are still kept in a register by the senior technologist, so walk-in MRI tests are turned away at peak even when MRI 2 has gaps.",
+      fixes:[["Book MRI 2 from a shared sheet the scheduling bot reads, until the console opens","ananya","15 Oct"],["Vendor escalation through the purchase team","kavya","20 Oct"],["MRI 2 console link live","sanjay","27 Oct"]] },
+    { id:7,  name:"Lab sample queue", src:"Lab system", side:"out", st:"live", when:"Live since 1 Oct", fresh:"1 min ago", owner:"pradeep", vol:"about 380 samples a day", note:"Gives each patient a sample-collection time and shows the queue at the collection room." },
+    { id:8,  name:"Echo, TMT and ECG slots", src:"Cardiology register", side:"out", st:"building", when:"Due 3 Nov", fresh:"no feed yet", owner:"meera", vol:"about 45 tests a day", note:"Brings the cardiology tests onto the same schedule." },
+    { id:9,  name:"Patient guide on the phone", src:"WhatsApp and SMS", side:"out", st:"building", when:"Due 2 Nov", fresh:"test with 20 patients", owner:"rohit", vol:"—", note:"Tells the patient their wait and their turn, reminds them when the slot comes up, and lets them call for help." },
+    { id:10, name:"Wheelchair or porter called to the patient", src:"Housekeeping app", side:"out", st:"notstarted", when:"Starts 9 Nov", fresh:"not started", owner:"rohit", vol:"about 25 patients a day need help moving", note:"Calls a porter to the patient's room or waiting area in time for the slot." },
+    { id:11, name:"Daily performance share", src:"Reports to every team", side:"out", st:"testing", when:"Goes live 16 Oct", fresh:"sent today 8 AM, in test", owner:"ananya", vol:"by department, specialty and doctor", note:"Yesterday's prescribed value and value done here, shared as information only, with no ranking." },
+    { id:12, name:"Off-peak slots at a lower rate", src:"Billing rates", side:"out", st:"notstarted", when:"Starts 16 Nov", fresh:"not started", owner:"debashree", vol:"MRI and CT after 5 PM", note:"Offers evening MRI and CT slots at a lower rate, so patients who would go elsewhere for price stay here." }
+  ],
+  handoffs: [
+    { name:"Findings that lead to admission", to:"Admission Process", st:"notstarted", when:"Starts with the patient guide" },
+    { name:"Same-visit test bills", to:"Billing & Insurance", st:"testing", when:"With the charge list" }
+  ],
+
+  kpis: [
+    { id:"K1", name:"New patients' prescribed tests done here", short:"New patients", unit:"%", dir:"up", base:14, target:60, plan:28, now:31,
+      why:"New patients now get a slot at the room door; front office no longer just points them to the test rooms." },
+    { id:"K2", name:"Returning patients' prescribed tests done here", short:"Returning patients", unit:"%", dir:"up", base:22, target:65, plan:34, now:29,
+      factors:[["MRI tests turned away at peak while MRI 2 has gaps",45],["Doctors' secretaries booking tests outside for three part-time consultants",35],["No reminder for tests prescribed for a later date",20]],
+      fixes:[["MRI 2 booked from a shared sheet the bot reads","ananya","15 Oct"],["Secretaries hand the patient to front office before they leave the room","debashree","19 Oct"],["Patient guide sends reminders for later-date tests","rohit","2 Nov"]],
+      back:"Back on the plan line by week 8 (9 Nov)" },
+    { id:"K3", name:"Revenue walking out each day", short:"Revenue lost a day", unit:"L", dir:"down", base:1.6, target:0.4, plan:1.15, now:1.25,
+      factors:[["MRI and CT tests done elsewhere",60],["Lab tests skipped when the queue is long",25],["Echo and TMT not yet on the schedule",15]],
+      fixes:[["Scheduling across every test room","ananya","20 Oct"],["Echo, TMT and ECG on the schedule","meera","3 Nov"]],
+      back:"Back on the plan line by week 6 (26 Oct)" },
+    { id:"K4", name:"Tests done the same visit", short:"Same visit", unit:"%", dir:"up", base:18, target:70, plan:35, now:33,
+      factors:[["80% of OPD patients arrive between 9 AM and 1 PM",55],["No guest services to walk patients to the rooms",45]],
+      fixes:[["Two guest-service executives on the morning peak","rohit","19 Oct"]],
+      back:"Back on the plan line by week 6 (26 Oct)" },
+    { id:"K5", name:"Walk-in tests slotted without 'come back another day'", short:"Walk-ins slotted", unit:"%", dir:"up", base:41, target:90, plan:60, now:64,
+      why:"Ultrasound and X-ray now keep two open slots an hour for tests prescribed that morning." },
+    { id:"K6", name:"Emergencies handled by the held-slot rule", short:"Held-slot rule", unit:"%", dir:"up", base:0, target:95, plan:50, now:38,
+      factors:[["Senior radiologists override the MRI schedule for their own patients",60],["Emergencies still squeezed in by moving a booked patient",40]],
+      fixes:[["Slot rules agreed and signed by the radiology head","satyajit","17 Oct"],["Overrides only through the Scheduling Manager, logged","ananya","20 Oct"]],
+      back:"Back on the plan line by week 7 (2 Nov)" },
+    { id:"K7", name:"MRI in use after 5 PM", short:"MRI after 5 PM", unit:"%", dir:"up", base:32, target:75, plan:45, now:41,
+      factors:[["Evening slots not offered to patients",70],["One technologist on the evening shift",30]],
+      fixes:[["Lower-rate evening slots","debashree","16 Nov"],["Second evening technologist from the existing rota","satyajit","26 Oct"]],
+      back:"Back on the plan line by week 9 (16 Nov)" },
+    { id:"K8", name:"MRI and CT report to the doctor", short:"Report to doctor", unit:"min", dir:"down", base:420, target:120, plan:300, now:340,
+      factors:[["Reports typed after the radiologist's list, not between scans",55],["MRI 2 reports not linked to the request",45]],
+      fixes:[["Reporting time blocked every two hours","satyajit","19 Oct"],["MRI 2 console link","sanjay","27 Oct"]],
+      back:"Back on the plan line by week 8 (9 Nov)" },
+    { id:"K9", name:"Days the performance share went out", short:"Daily share", unit:"%", dir:"up", base:0, target:100, plan:80, now:86,
+      why:"The share goes out at 8 AM from the read prescriptions; two days missed when the ERP rates were updating." }
+  ],
+
+  people: [
+    { key:"ananya", name:"Ananya Rath", role:"Scheduling Manager", from:"New role we recommended · joined 22 Sep", done:12, due:13, late:0,
+      today:[["Test-room slot plan for tomorrow",1],["MRI 2 shared sheet set up","in progress"],["Check yesterday's prescribed-vs-done report",1]],
+      next:[["Scheduling across every test room","20 Oct"],["Overrides only through the Scheduling Manager","20 Oct"],["Off-peak slot rules with billing","9 Nov"],["First monthly review with the CEO and CFO","16 Nov"]] },
+    { key:"debashree", name:"Debashree Pani", role:"OPD front-office lead", from:"Hospital", done:8, due:10, late:1,
+      today:[["Hand-off rule with the three consultants' secretaries","late 3 days"],["Morning peak rota",1]],
+      impact:"Secretary hand-off 3 days late: about 12 returning patients a day still leave with tests booked elsewhere, roughly ₹0.25 lakh a day.",
+      next:[["Secretaries hand patients to front office","19 Oct"],["Lower-rate evening slots","16 Nov"]] },
+    { key:"satyajit", name:"Dr. Satyajit Behera", role:"Head of Radiology", from:"Hospital", done:2, due:5, late:2,
+      today:[["Sign the slot rules","late 5 days"],["Block reporting time every two hours","late 2 days"]],
+      impact:"Slot rules unsigned: emergency slots are overridden on MRI and reports reach doctors 40 minutes later than plan.",
+      next:[["Slot rules signed","17 Oct"],["Reporting time blocked","19 Oct"],["Second evening technologist","26 Oct"]] },
+    { key:"pradeep", name:"Pradeep Mallick", role:"Lab manager", from:"Hospital", done:7, due:7, late:0,
+      today:[["Collection room queue screen",1],["Peak-hour phlebotomist shift",1]],
+      next:[["Home-collection slots for later-date tests","9 Nov"]] },
+    { key:"rohit", name:"Rohit Sahoo", role:"Guest services executive", from:"New role we recommended · joined 6 Oct", done:5, due:6, late:0,
+      today:[["Walk 30 new patients to their test rooms","in progress"],["Patient guide test with 20 patients",1]],
+      next:[["Second guest-service executive joins","19 Oct"],["Patient guide on the phone","2 Nov"],["Porter calls from the guide","9 Nov"]] },
+    { key:"meera", name:"Dr. Meera Das", role:"Cardiology diagnostics in-charge", from:"Hospital", done:3, due:4, late:1,
+      today:[["Echo and TMT slot lengths for the schedule","late 2 days"]],
+      impact:"Slot lengths 2 days late: Echo and TMT stay off the schedule, about ₹0.2 lakh a day still walking out.",
+      next:[["Echo, TMT and ECG on the schedule","3 Nov"]] },
+    { key:"sanjay", name:"Sanjay Mohanty", role:"IT integration lead", from:"Hospital IT (shared with three other suites)", done:3, due:5, late:1,
+      today:[["MRI 2 vendor call","late 10 days"],["ERP rate feed check",1]],
+      impact:"MRI 2 console closed: walk-in MRI tests turned away at peak, about ₹0.4 lakh a day.",
+      next:[["MRI 2 console link","27 Oct"],["Cardiology register link","3 Nov"]] },
+    { key:"kavya", name:"Kavya Iyer", role:"Virevo project lead", from:"Virevo", done:5, due:5, late:0,
+      today:[["Weekly report to the CEO",1],["Slot rules draft for radiology",1]],
+      next:[["Performance share approved for open circulation by the CEO, CFO and COO","16 Oct"],["Vendor escalation","20 Oct"],["Four-week review","2 Nov"]] }
+  ],
+
+  months: ["Sep","Oct"],
+  spend: [
+    { cat:"Subscription", v:[2.2,2.2] },
+    { cat:"Salaries of roles we recommended", v:[0.15,0.85], note:"Scheduling Manager ₹5 lakh a year (example); two guest-service executives ₹2.6 lakh a year each" },
+    { cat:"One-time costs", v:[2.4,0.9], note:"Sep: prescription scanners for 14 OPD rooms · Oct: patient guide set-up" }
+  ],
+  revenue: [2.1,9.8], ebitda:[1.1,5.4],
+  runRate: { revenue:24, ebitda:13 },
+  cumMonths:["Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun"],
+  cumSpend:[4.75,8.7,11.75,14.8,17.85,20.9,23.95,27.0,30.05,33.1],
+  cumPlan:[1.5,7.0,13.5,20.5,28.0,35.8,43.9,52.2,60.7,69.4],
+  cumFore:[1.1,6.5,11.2,16.9,23.2,30.0,37.2,44.8,52.7,60.9],
+  actualTo:1,
+  breakeven:{ plan:"Nov 2026", fore:"Dec 2026", late:"about 4 weeks", planIdx:2, foreIdx:3 },
+  healthFactors:[["MRI 2 schedule not readable, so walk-in MRI still turned away",40],["Radiology slot rules unsigned",35],["Returning patients' tests booked outside by secretaries",25]],
+  healthFixes:[["MRI 2 booked from a shared sheet the bot reads","ananya","15 Oct"],["Slot rules signed by the radiology head","satyajit","17 Oct"],["Secretaries hand patients to front office","debashree","19 Oct"]],
+  watch: [
+    { t:"MRI 2 schedule still unreadable, 10 days late", who:"sanjay", ref:"part:6" },
+    { t:"Returning patients' tests done here: 5 points under plan", who:"debashree", ref:"kpi:K2" },
+    { t:"Held emergency slots overridden on MRI", who:"satyajit", ref:"kpi:K6" }
+  ],
+  resources: [
+    ["Project plan and milestones","PDF · 21 Sep"],["Slot rules for radiology (awaiting signature)","Draft 2 · 10 Oct"],
+    ["Test room capacity, unit by unit","8 rooms · updated 9 Oct"],["Front-office and secretary hand-off script","1 page"],
+    ["Weekly review notes","3 notes · latest 9 Oct"],["Subscription agreement and invoices","2 files"]
+  ]
+}});
+
+/* ===== Example data: Procurement suite, 250-bed hospital, Bhubaneswar. All figures are examples.
+   No domain reference file exists yet for supply chain and procurement. Content follows the approved
+   Supply Chain and Procurement tool (Tools Design/Supply Chain Procurement: README.md, landing3.py):
+   about ₹3 crore of supplies a month, about ₹20 lakh lost (₹8 lakh above the best price, ₹5 lakh rushed buys,
+   ₹4 lakh used but never billed, ₹3 lakh expired); the three fixes (one agreed price per item, a lowest level
+   per item, bill each item at the bedside); the helpers (price watch 1 AM, reorder 6 AM, bill matcher 9 PM);
+   the processes (Monday shelf count, weekly buying meeting, morning numbers, every rushed buy signed) and the
+   Stores Lead role. ===== */
+if (typeof SUITES==="undefined") var SUITES = [];
+SUITES.push({ key:"procurement", data:{
+  suite: "Procurement",
+  family: "Supply Chain and Procurement",
+  hospital: "250-bed hospital, Bhubaneswar",
+  started: "21 Sep 2026", week: 4, weeksPlanned: 20, asOf: "12 Oct 2026, 10:40 AM",
+  recoverLine:"If all three land, break-even comes back to November.",
+  aheadRisk:"The risk to watch is the agreed prices: until the top 200 items are covered, bills above the price will creep back.",
+  chat:{ sub:"Procurement suite · 250-bed hospital, Bhubaneswar",
+    msg:["Three of the twelve parts are live. Every supplier bill is now checked against the agreed price overnight, and bills above the price are down from 1 in 3 to 1 in 7.","Three measures are off track: rushed buys, items used but not billed, and supplier bills paid on time. The bill matcher is held up by the item codes, and accounts still pays in a monthly batch.","Pick a point to add to it, or choose what to do next."],
+    note:"Sign the agreed prices this week. The biggest money is in the price.",
+    points:["The bill matcher held up by item codes","Rushed buys still above plan","Supplier bills paid late","Break-even moving to December"],
+    asks:["Which items are we paying most above the price for?","Which wards rush-buy the most?","Can we take the early-payment discounts?"] },
+  milestone: { what: "Agreed prices for the top 200 items go live", date: "18 Oct", days: 6, part: 2 },
+  month: { bought: 3.0, lost: 20, boughtToday: 10.2, aboveToday: 0.3, last: "PO 7712 · gloves · at agreed price" },
+
+  /* bay: buying, stores, wards */
+  parts: [
+    { id:1,  name:"Purchase orders and supplier bills read", src:"ERP purchase module", bay:"buying", st:"live", when:"Live since 24 Sep", fresh:"5 min ago", owner:"ashok", vol:"about 90 bills a day", note:"Every purchase order, delivery note and supplier bill is read and matched line by line." },
+    { id:2,  name:"One agreed price per item", src:"Supplier rate list", bay:"buying", st:"testing", when:"Goes live 18 Oct", fresh:"top 200 items in test", owner:"ashok", vol:"1,900 items · 41 suppliers", note:"One agreed price per item from fewer suppliers; the top 200 items carry about 70% of the spend." },
+    { id:3,  name:"Price watch, every night at 1 AM", src:"Supplier bills and agreed prices", bay:"buying", st:"live", when:"Live since 1 Oct", fresh:"ran 1:04 AM", owner:"pratima", vol:"about 90 bills checked a night", note:"Flags every bill above the agreed price and sends the buyer one slip each morning." },
+    { id:4,  name:"Lowest level for each item, ward by ward", src:"Ward stock in the ERP", bay:"stores", st:"testing", when:"Goes live 22 Oct", fresh:"set for 6 of 9 wards", owner:"pratima", vol:"about 340 items on ward shelves", note:"Each ward has a lowest level per item, so the store tops up before a shelf runs out." },
+    { id:5,  name:"Reorder helper, every morning at 6 AM", src:"ERP indents", bay:"stores", st:"building", when:"Due 2 Nov", fresh:"no feed yet", owner:"sanjay", vol:"—", note:"Raises the order for anything below its lowest level and sends it to the buyer to approve." },
+    { id:6,  name:"Monday shelf count on the phone", src:"Ward phones", bay:"wards", st:"live", when:"Live since 5 Oct", fresh:"Monday 10:30 AM", owner:"lipika", vol:"9 wards", note:"Each ward sister counts the shelves against the lowest levels and sends the count to the store." },
+    { id:7,  name:"Every rushed buy signed", src:"Local purchase register", bay:"stores", st:"testing", when:"Goes live 15 Oct", fresh:"paper register meanwhile", owner:"pratima", vol:"about 46 rushed buys a month", note:"No one buys from a local shop unless the Stores Lead signs and says why the shelf ran out." },
+    { id:8,  name:"Bill matcher, every evening at 9 PM", src:"Drug chart and billing, with the Billing & Insurance suite", bay:"wards", st:"blocked", when:"11 days late · now 30 Oct", fresh:"no feed yet", owner:"sanjay", vol:"about 3,100 items used a day",
+      note:"Compares what each ward used today with what reached the patient's bill.",
+      delay:"Ward item codes do not match the billing codes for about 400 consumables, the same match the Billing & Insurance suite is waiting on. Until it is done, about 1 in 12 items used still never reaches a bill.",
+      fixes:[["Match the 400 codes jointly with the Billing & Insurance suite","sanjay","24 Oct"],["Billing desk checks the top 50 items by hand each evening meanwhile","smita","14 Oct"],["Bill matcher live","sanjay","30 Oct"]] },
+    { id:9,  name:"Expiry watch: oldest stock used first", src:"Store batch records", bay:"stores", st:"building", when:"Due 26 Oct", fresh:"batches being loaded", owner:"rakesh", vol:"about 2,600 batches", note:"Puts the oldest batch first on the pick list and warns 60 days before expiry so stock can move to a busier ward." },
+    { id:10, name:"Supplier delivery and quality score", src:"Goods received records", bay:"buying", st:"notstarted", when:"Starts 9 Nov", fresh:"not started", owner:"ashok", vol:"41 suppliers", note:"Scores each supplier on late, short and wrong deliveries, for the weekly buying meeting." },
+    { id:11, name:"Use forecast from tomorrow's admissions and theatre list", src:"Admission Process suite and the theatre list", bay:"wards", st:"notstarted", when:"Starts 16 Nov", fresh:"not started", owner:"pratima", vol:"—", note:"Sets tomorrow's ward top-ups from the bed map and the operations booked." },
+    { id:12, name:"Supplier bills paid on time", src:"Accounts payable", bay:"buying", st:"testing", when:"Goes live 26 Oct", fresh:"weekly run in test", owner:"rajesh", vol:"about ₹3 crore a month", note:"Pays each bill on its due date instead of in one monthly batch, so early-payment discounts are not lost." }
+  ],
+  handoffs: [
+    { name:"Item codes for the bill matcher", to:"Billing & Insurance", st:"blocked", when:"Joint match due 24 Oct" },
+    { name:"Tomorrow's admissions and theatre list", to:"Admission Process", st:"notstarted", when:"Starts 16 Nov" }
+  ],
+
+  kpis: [
+    { id:"K1", name:"Supplier bills above the agreed price", short:"Bills above price", unit:"%", dir:"down", base:33, target:0, plan:18, now:14,
+      why:"The price watch runs every night and the buyer clears its slip at the morning numbers." },
+    { id:"K2", name:"Paid above the best price each month", short:"Above best price", unit:"L", dir:"down", base:8, target:1, plan:5.5, now:6.1,
+      factors:[["Agreed prices cover only the top 60 items so far",60],["Two surgeons insist on one brand of implants",40]],
+      fixes:[["Agreed prices for the top 200 items","ashok","18 Oct"],["Implant brand choice taken to the buying meeting with the surgeons","kavya","22 Oct"]],
+      back:"Back on the plan line by week 7 (2 Nov)" },
+    { id:"K3", name:"Rushed buys a month", short:"Rushed buys", unit:"n", dir:"down", base:60, target:15, plan:40, now:46,
+      factors:[["Lowest levels not yet set on 3 wards",50],["Reorder helper not built, so top-ups wait for the weekly indent",35],["Night shift buys without signing",15]],
+      fixes:[["Lowest levels on all 9 wards","pratima","22 Oct"],["Reorder helper live","sanjay","2 Nov"],["Signing rule briefed to night sisters","lipika","15 Oct"]],
+      back:"Back on the plan line by week 8 (9 Nov)" },
+    { id:"K4", name:"Items used but not billed", short:"Used, not billed", unit:"%", dir:"down", base:10, target:2, plan:7, now:8.5,
+      factors:[["Bill matcher held up by 400 item codes",75],["Theatre consumables written on paper",25]],
+      fixes:[["Joint code match with Billing & Insurance","sanjay","24 Oct"],["Billing desk checks the top 50 items by hand","smita","14 Oct"]],
+      back:"Back on the plan line by week 9 (16 Nov)" },
+    { id:"K5", name:"Expired each month", short:"Expired", unit:"L", dir:"down", base:3, target:1, plan:2.4, now:2.3,
+      why:"Pharmacy moved 40 near-expiry batches to the ICU and the theatres in October." },
+    { id:"K6", name:"Wards that sent the Monday count", short:"Monday counts", unit:"%", dir:"up", base:0, target:100, plan:70, now:78,
+      why:"Seven of nine wards count on the phone; the counts reach the store before 11 AM." },
+    { id:"K7", name:"Items with an agreed price", short:"Agreed prices", unit:"%", dir:"up", base:22, target:90, plan:50, now:44,
+      factors:[["Price talks with three large suppliers still open",70],["Rate list not signed by the CFO",30]],
+      fixes:[["CFO sign-off on the rate list","kavya","16 Oct"],["Talks closed with the three suppliers","ashok","18 Oct"]],
+      back:"Back on the plan line by week 6 (26 Oct)" },
+    { id:"K8", name:"Ward stock-outs a week", short:"Stock-outs", unit:"n", dir:"down", base:38, target:5, plan:25, now:27,
+      factors:[["Weekly indent instead of daily top-ups",70],["Shelf counts missed on 2 wards",30]],
+      fixes:[["Reorder helper live","sanjay","2 Nov"]],
+      back:"Back on the plan line by week 7 (2 Nov)" },
+    { id:"K9", name:"Supplier bills paid on time", short:"Paid on time", unit:"%", dir:"up", base:54, target:95, plan:70, now:61,
+      factors:[["Accounts still pays in one monthly batch",65],["Bills held for missing delivery notes",35]],
+      fixes:[["Weekly payment run","rajesh","26 Oct"],["Delivery notes scanned at the store door","pratima","19 Oct"]],
+      back:"Back on the plan line by week 8 (9 Nov)" }
+  ],
+
+  people: [
+    { key:"pratima", name:"Pratima Mishra", role:"Stores Lead", from:"New role we recommended · joined 28 Sep", done:11, due:12, late:0,
+      today:[["Morning numbers with the buyer",1],["Sign 2 rushed buys","in progress"],["Lowest levels for Wards 7 to 9","in progress"]],
+      next:[["Signing rule live","15 Oct"],["Delivery notes scanned at the door","19 Oct"],["Lowest levels on all wards","22 Oct"],["First month's savings report to the CFO","2 Nov"]] },
+    { key:"ashok", name:"Ashok Panda", role:"Purchase manager (buyer)", from:"Hospital", done:5, due:8, late:2,
+      today:[["Close prices with three suppliers","late 6 days"],["Clear last night's price-watch slip",1],["Rate list to the CFO","late 3 days"]],
+      impact:"Prices 6 days late: about ₹0.6 lakh a month still paid above the best price, and break-even moves 2 weeks.",
+      next:[["Agreed prices for the top 200 items","18 Oct"],["Buying meeting with the surgeons on implants","22 Oct"],["Supplier score starts","9 Nov"]] },
+    { key:"lipika", name:"Sister Lipika Behera", role:"Nursing in-charge, ward counts", from:"Hospital (also on the Discharge Summary suite)", done:6, due:7, late:0,
+      today:[["Chase Monday counts from Wards 4 and 8","in progress"],["Brief night sisters on signed buys",1]],
+      next:[["Signing rule briefed to every night sister","15 Oct"],["All 9 wards counting","19 Oct"]] },
+    { key:"smita", name:"Smita Panda", role:"Billing executive", from:"Hospital (also on the Billing & Insurance suite)", done:7, due:8, late:1,
+      today:[["Evening hand check of the top 50 items","late 1 day"],["Theatre consumables list",1]],
+      impact:"Hand check started a day late: about ₹0.1 lakh of used items missed the bill yesterday.",
+      next:[["Hand check every evening","14 Oct"],["Hand over to the bill matcher","30 Oct"]] },
+    { key:"rajesh", name:"Rajesh Dash", role:"Accounts payable lead", from:"Hospital", done:3, due:5, late:2,
+      today:[["Weekly payment run test","late 4 days"],["List bills held for delivery notes","late 2 days"]],
+      impact:"Monthly batch still running: early-payment discounts worth about ₹0.8 lakh a month are lost.",
+      next:[["Weekly payment run","26 Oct"],["Early-payment discounts taken","9 Nov"]] },
+    { key:"rakesh", name:"Rakesh Behera", role:"Pharmacy in-charge", from:"Hospital (also on the Billing & Insurance suite)", done:5, due:6, late:0,
+      today:[["Load batch numbers for the main store",1],["Move 12 near-expiry batches to ICU","in progress"]],
+      next:[["Expiry watch live","26 Oct"],["Oldest-first pick list in pharmacy","2 Nov"]] },
+    { key:"sanjay", name:"Sanjay Mohanty", role:"IT integration lead", from:"Hospital IT (shared with four suites)", done:3, due:6, late:1,
+      today:[["Item code match for 400 consumables","late 11 days"],["Reorder helper set-up",1]],
+      impact:"Item codes 11 days late: the bill matcher cannot run, and about 1 in 12 items used never reaches a bill.",
+      next:[["Joint code match","24 Oct"],["Bill matcher live","30 Oct"],["Reorder helper live","2 Nov"]] },
+    { key:"kavya", name:"Kavya Iyer", role:"Virevo project lead", from:"Virevo", done:5, due:5, late:0,
+      today:[["Weekly report to the CFO",1],["Agenda for the implant meeting",1]],
+      next:[["CFO sign-off on the rate list","16 Oct"],["Implant meeting","22 Oct"],["Four-week review","9 Nov"]] }
+  ],
+
+  months: ["Sep","Oct"],
+  spend: [
+    { cat:"Subscription", v:[2.0,2.0] },
+    { cat:"Salaries of roles we recommended", v:[0.1,0.3], note:"Stores Lead ₹3.6 lakh a year (example)" },
+    { cat:"One-time costs", v:[1.5,0.8], note:"Sep: barcode scanners for the stores · Oct: phones for 9 wards" }
+  ],
+  revenue: [0.3,1.1], ebitda:[1.4,4.6],
+  runRate: { revenue:2.5, ebitda:12 },
+  cumMonths:["Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun"],
+  cumSpend:[3.6,6.7,9.0,11.3,13.6,15.9,18.2,20.5,22.8,25.1],
+  cumPlan:[1.5,6.0,12.0,19.0,26.5,34.3,42.3,50.5,58.9,67.5],
+  cumFore:[1.4,6.0,8.6,13.4,19.0,25.2,31.8,38.8,46.0,53.4],
+  actualTo:1,
+  breakeven:{ plan:"Nov 2026", fore:"Dec 2026", late:"about 4 weeks", planIdx:2, foreIdx:3 },
+  healthFactors:[["Agreed prices late, so the biggest saving is not in yet",45],["Bill matcher held up by item codes",30],["Supplier bills still paid in a monthly batch",25]],
+  healthFixes:[["Agreed prices for the top 200 items","ashok","18 Oct"],["Joint item code match","sanjay","24 Oct"],["Weekly payment run","rajesh","26 Oct"]],
+  watch: [
+    { t:"Bill matcher held up by item codes, 11 days late", who:"sanjay", ref:"part:8" },
+    { t:"Rushed buys: 46 a month against a plan of 40", who:"pratima", ref:"kpi:K3" },
+    { t:"Supplier bills paid on time: 9 points under plan", who:"rajesh", ref:"kpi:K9" }
+  ],
+  resources: [
+    ["Project plan and milestones","PDF · 21 Sep"],["Rate list for the top 200 items (awaiting CFO sign-off)","Spreadsheet · 10 Oct"],
+    ["Lowest levels by ward","9 wards · updated 11 Oct"],["Rushed-buy signing rule","1 page"],
+    ["Weekly review notes","3 notes · latest 9 Oct"],["Subscription agreement and invoices","2 files"]
+  ]
+}});
+
+/* ===== helpers ===== */
+let D, P, KP, spendTotal, ebitdaTotal, revTotal, onCourse, SUITE_KEY;
+function prog(k, v){ return Math.max(0, Math.min(1.15, (v - k.base) / (k.target - k.base))); }
+function kstate(k){ const d = prog(k,k.now) - prog(k,k.plan); return d >= 0 ? "ahead" : d > -0.1 ? "watch" : "off"; }
+function fmtv(k, v){ if (k.unit === "%") return v + "%"; if (k.unit === "h") return v + " hours"; if (k.unit === "L") return "₹" + v + " lakh"; if (k.unit === "n") return String(v); const h = Math.floor(v/60), m = v%60; return h ? (m ? `${h} h ${m} min` : `${h} h`) : `${m} min`; }
+function gapText(k){ const raw = Math.abs(k.now - k.plan); const g = Math.round(raw*10)/10; const amt = k.unit==="%" ? `${g} point${g===1?"":"s"}` : fmtv(k,g);
+  if (k.state === "ahead") return `${amt} ahead of plan`; return k.dir==="down" ? `${amt} over plan` : `${amt} under plan`; }
+const STATE_WORD = { ahead:"On track", watch:"Slightly behind", off:"Off track" };
+const PART_WORD = { live:"Live", testing:"Testing", building:"Being built", blocked:"Late", notstarted:"Not started" };
+function pstate(p){ const r = p.done / p.due; return p.late >= 2 || r < 0.6 ? "off" : p.late ? "watch" : "ahead"; }
+const PERSON_WORD = { ahead:"Doing well", watch:"Slipping", off:"Lagging" };
+const countParts = s => D.parts.filter(p => p.st === s).length;
+const L = v => "₹" + (Math.round(v*10)/10).toLocaleString("en-IN") + " lakh";
+const sum = a => a.reduce((x,y)=>x+y,0);
+/* switch the whole page to one suite's data */
+function setSuite(key){ if (SUITE_KEY === key && D) return; const s = SUITES.find(x=>x.key===key); if (!s) return; SUITE_KEY = key; D = s.data;
+  P = Object.fromEntries(D.people.map(p => [p.key, p])); KP = Object.fromEntries(D.kpis.map(k => [k.id, k]));
+  D.kpis.forEach(k => k.state = kstate(k)); D.people.forEach(p => p.state = pstate(p));
+  spendTotal = Math.round(sum(D.spend.map(s=>sum(s.v)))*100)/100; ebitdaTotal = Math.round(sum(D.ebitda)*100)/100; revTotal = Math.round(sum(D.revenue)*100)/100;
+  onCourse = D.kpis.filter(k=>k.state!=="off").length;
+  if (typeof fillChat === "function") fillChat(); if (typeof onSuite === "function") onSuite(key); }
+function suiteOf(el){ const w = el && el.closest && el.closest("[data-suite]"); if (w) setSuite(w.dataset.suite); }
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const initials = n => n.replace(/^(Dr\.|Sister)\s+/,"").split(" ").map(w=>w[0]).join("").slice(0,2);
+
+/* live "posted today" counter shared by the Billing & Insurance options */
+function tickEngine(px, sel){
+  const ev = [[2,"Lab · CBC",450,"Bed 214"],[1,"Bed-day · Twin room",4200,"Bed 118"],[7,"Visit · Cardiology",1200,"Bed 305"],[2,"Lab · Lipid profile",900,"Bed 221"],[7,"Visit · Gen Med",800,"Bed 112"],[1,"Transfer · ICU out",0,"Bed 402"],[2,"Lab · Culture",1450,"Bed 117"]];
+  let amt = 1842300, cnt = 1284, i = 0; const fa = document.getElementById(px+"amt"), fc = document.getElementById(px+"cnt"), fl = document.getElementById(px+"last");
+  if (!fa) return;
+  const t = setInterval(() => { if (!fa.isConnected) return clearInterval(t); const e = ev[i++ % ev.length]; amt += e[2]; cnt += 1;
+    fa.textContent = "₹" + amt.toLocaleString("en-IN"); if (fc) fc.textContent = cnt.toLocaleString("en-IN") + " charges"; if (fl) fl.textContent = `${e[1]} · ₹${e[2].toLocaleString("en-IN")} · ${e[3]}`;
+    const g = document.querySelector(`${sel}[data-part="${e[0]}"]`); if (g) { g.classList.remove("ping"); void g.getBBox(); g.classList.add("ping"); } }, 2200);
+}
+
+/* admissions ticker for the Admission Process looks */
+function admitTicker(px, sel){
+  const ev = [["Bed 118",38,9],["Bed 305",52,12],["ICU 4",44,9],["Bed 221",29,12],["Bed 112",61,9]];
+  let n = D.today.admitted, i = 0; const fa = document.getElementById(px+"amt"), fl = document.getElementById(px+"last");
+  if (!fa) return;
+  const t = setInterval(() => { if (!fa.isConnected) return clearInterval(t); const e = ev[i++ % ev.length]; n += 1;
+    fa.textContent = n; if (fl) fl.textContent = `last: ${e[0]} · ${e[1]} min`;
+    const g = document.querySelector(`${sel}[data-part="${e[2]}"]`); if (g) { g.classList.remove("ping"); void g.getBBox(); g.classList.add("ping"); } }, 6000);
+}
+
+/* tests-done-here ticker for the Diagnostic Scheduling looks */
+function testTicker(px, sel){
+  const ev = [["Ultrasound","OPD 7",3,4,0.012],["Lab samples","OPD 2",1,7,0.004],["CT","OPD 11",6,6,0.045],["X-ray","OPD 4",2,4,0.006],["MRI 1","OPD 9",9,6,0.06]];
+  let done = D.opd.doneHere, i = 0; const fa = document.getElementById(px+"amt"), fp = document.getElementById(px+"pct"), fb = document.getElementById(px+"bar"), fl = document.getElementById(px+"last");
+  if (!fa) return; const full = fb ? +fb.dataset.full || 116 : 0;
+  const t = setInterval(() => { if (!fa.isConnected) return clearInterval(t); const e = ev[i++ % ev.length]; done = Math.round((done + e[4])*100)/100;
+    fa.textContent = "₹" + done.toFixed(2) + " L"; const pc = Math.round(done / D.opd.prescribedToday * 100);
+    if (fp) fp.textContent = pc + "% done here"; if (fb) fb.setAttribute("width", (full*pc/100).toFixed(1)); if (fl) fl.textContent = `last: ${e[0]} for ${e[1]} slotted in ${e[2]} min`;
+    const g = document.querySelector(`${sel}[data-part="${e[3]}"]`); if (g) { g.classList.remove("ping"); void g.getBBox(); g.classList.add("ping"); } }, 4500);
+}
+
+/* bought-today ticker for the Procurement looks */
+function buyTicker(px, sel){
+  const ev = [["PO 7713 · syringes 5 ml",0.18,1,0],["Rushed buy · IV sets, Ward 4 (signed)",0.04,7,1],["PO 7714 · surgical gowns",0.31,1,0],["Bill 2290 · sutures, ₹1,800 above price",0.22,3,2],["Top-up · Ward 2 gloves",0.06,6,0],["PO 7715 · ceftriaxone",0.27,2,0]];
+  let amt = D.month.boughtToday, above = D.month.aboveToday, i = 0; const fa = document.getElementById(px+"amt"), fb = document.getElementById(px+"above"), fl = document.getElementById(px+"last");
+  if (!fa) return;
+  const t = setInterval(() => { if (!fa.isConnected) return clearInterval(t); const e = ev[i++ % ev.length]; amt = Math.round((amt + e[1])*100)/100; if (e[3]===2) above = Math.round((above + 0.02)*100)/100;
+    fa.textContent = "₹" + amt.toFixed(2) + " L"; if (fb) fb.textContent = "₹" + above.toFixed(2) + " L above price"; if (fl) fl.textContent = "last: " + e[0];
+    const g = document.querySelector(`${sel}[data-part="${e[2]}"]`); if (g) { g.classList.remove("ping"); void g.getBBox(); g.classList.add("ping"); } }, 4000);
+}
+
+/* ===== shared: details, peek, sheet, tabs, chat ===== */
+const SCHEMES = [];
+const UI = { view:"week", scheme:0 };
+const TABS = [
+  ["overview","Overview"],["links","Integrations"],["measures","KPIs"],["team","Taskboards"],["health","Project Status"],["files","Resources"],["chat","Chat"]
+];
+const UNIVERSAL = [
+  ["Pulse strip","Four readings that never leave the top of the suite: parts live, KPIs on course, money out against money back, and the break-even month."],
+  ["Plan ghost","Every number carries a faint mark of where the plan said it would be today, so ahead or behind shows without a click."],
+  ["Watch list","The three items furthest off course right now, each with its owner. It re-ranks itself every night."],
+  ["Hover peek","Rest the pointer on any part, KPI, person or month (or press and hold on a phone) and its facts appear. A click opens the full story. Every peek and popup carries Ask Tojo about this, which opens the chat with the item and a question already written."],
+  ["Next go-live countdown","The next part due to switch on, and the days left."],
+  ["Freshness marks","Each link and figure says how old its data is: a minute, today, or no feed yet."]
+];
+
+function personChip(key){ const p = P[key]; return p ? `<span class="d-av" title="${esc(p.name)}">${esc(p.name)}</span>` : ""; }
+
+function kpiDetail(k){
+  const scale = v => (prog(k,v)/1.0)*100;
+  let h = `<div class="d-eyebrow">KPI · ${k.id}</div><div class="d-title">${esc(k.name)}</div>
+  <p class="d-sub"><span class="d-pill ${k.state}">${STATE_WORD[k.state]}</span> &nbsp;${gapText(k)} · week ${D.week} of ${D.weeksPlanned}</p>
+  <div class="d-four"><div><span>At the start</span><b>${fmtv(k,k.base)}</b></div><div><span>Plan for this week</span><b>${fmtv(k,k.plan)}</b></div><div class="now"><span>Now</span><b>${fmtv(k,k.now)}</b></div><div><span>Target</span><b>${fmtv(k,k.target)}</b></div></div>
+  <div class="d-glide" aria-label="From the start to the target: now at ${Math.round(prog(k,k.now)*100)}% of the way, plan says ${Math.round(prog(k,k.plan)*100)}%">
+    <div class="rail"></div><div class="fill" style="width:${Math.min(100,scale(k.now))}%"></div>
+    <div class="mk" style="left:0"><i>Start</i></div><div class="mk plan" style="left:${scale(k.plan)}%"><i>Plan</i></div><div class="mk" style="left:100%"><i>Target</i></div>
+  </div>`;
+  if (k.state === "ahead") h += `<div class="d-sec"><h4>What is driving it</h4><p style="margin:0">${esc(k.why)}</p></div>`;
+  else {
+    h += `<div class="d-sec"><h4>Where the gap comes from</h4><div class="d-fac">${k.factors.map(f=>`<span>${esc(f[0])}</span><span class="bar" aria-label="${f[1]}% of the gap"><i style="width:${f[1]}%"></i></span>`).join("")}</div></div>
+    <div class="d-sec"><h4>Already planned to recover</h4><ul class="d-fix">${k.fixes.map(f=>`<li><span class="av">${initials(P[f[1]].name)}</span><span>${esc(f[0])}<br><small style="color:var(--sh-mute)">${esc(P[f[1]].name)}</small></span><time>${esc(f[2])}</time></li>`).join("")}</ul></div>
+    <div class="d-back">${esc(k.back)}</div>`;
+  }
+  return h;
+}
+function personDetail(p){
+  const today = p.today.map(t=>{ const done = t[1]===1; const late = typeof t[1]==="string" && t[1].startsWith("late");
+    return `<li><span class="ck ${done?"y":late?"late":""}">${done?"✓":late?"!":""}</span><span>${esc(t[0])}</span><em class="${late?"late":""}">${done?"done":esc(t[1])}</em></li>`; }).join("");
+  return `<div class="d-eyebrow">${esc(p.role)}</div><div class="d-title">${esc(p.name)}</div>
+  <p class="d-sub"><span class="d-pill ${p.state}">${PERSON_WORD[p.state]}</span> &nbsp;${esc(p.from)}</p>
+  <div class="d-four"><div><span>Due this week</span><b>${p.due}</b></div><div><span>Done</span><b>${p.done}</b></div><div><span>Late</span><b style="color:${p.late?"var(--c-bad)":"inherit"}">${p.late}</b></div><div><span>Done on time</span><b>${Math.round((p.done)/p.due*100)}%</b></div></div>
+  ${p.impact?`<div class="d-sec"><h4>What the delay costs</h4><div class="d-impact">${esc(p.impact)}</div></div>`:""}
+  <div class="d-sec"><h4>Today</h4><ul class="d-list">${today}</ul></div>
+  <div class="d-sec"><h4>Critical tasks coming up</h4><ul class="d-fix">${p.next.map(n=>`<li><span class="av">→</span><span>${esc(n[0])}</span><time>${esc(n[1])}</time></li>`).join("")}</ul></div>`;
+}
+function partDetail(x){
+  return `<div class="d-eyebrow">Part ${x.id} of ${D.parts.length} · Integration</div><div class="d-title">${esc(x.name)}</div>
+  <p class="d-sub"><span class="d-pill ${x.st==="live"?"ahead":x.st==="blocked"?"off":"watch"}">${PART_WORD[x.st]}</span> &nbsp;${esc(x.when)}</p>
+  <div class="d-grid"><div><span>Reads from</span><b>${esc(x.src)}</b></div><div><span>Data freshness</span><b>${esc(x.fresh)}</b></div><div><span>Owner</span><b>${esc(P[x.owner].name)}</b></div><div><span>Volume</span><b>${esc(x.vol)}</b></div></div>
+  <div class="d-sec"><h4>What it does</h4><p style="margin:0">${esc(x.note)}</p></div>`;
+}
+function healthDetail(){
+  const rows = D.spend.map(s=>`<tr><td>${esc(s.cat)}${s.note?`<br><small style="color:var(--sh-mute)">${esc(s.note)}</small>`:""}</td>${s.v.map(v=>`<td>${v.toFixed(2)}</td>`).join("")}<td>${sum(s.v).toFixed(2)}</td></tr>`).join("");
+  const mt = D.months.map((m,i)=>sum(D.spend.map(s=>s.v[i])));
+  return `<div class="d-eyebrow">Project Status · suite health</div><div class="d-title">Break-even in ${D.breakeven.fore}, ${D.breakeven.late} after plan</div>
+  <p class="d-sub"><span class="d-pill watch">Off track by ${D.breakeven.late}</span> &nbsp;Plan said ${D.breakeven.plan}.</p>
+  <div class="d-four"><div><span>Spent so far</span><b>${L(spendTotal)}</b></div><div><span>Extra revenue so far</span><b>${L(revTotal)}</b></div><div class="now"><span>EBITDA added so far</span><b>${L(ebitdaTotal)}</b></div><div><span>Monthly at full run</span><b>${L(D.runRate.ebitda)}</b></div></div>
+  <div class="d-sec"><h4>Monthly outlay (₹ lakh)</h4><div class="d-wrap"><table class="d-money"><thead><tr><th>What</th>${D.months.map(m=>`<th>${m}</th>`).join("")}<th>Total</th></tr></thead><tbody>${rows}</tbody>
+  <tfoot><tr><td>Total spent</td>${mt.map(v=>`<td>${v.toFixed(2)}</td>`).join("")}<td>${spendTotal.toFixed(2)}</td></tr><tr><td>Extra revenue from freed bed-days</td>${D.revenue.map(v=>`<td>${v.toFixed(1)}</td>`).join("")}<td>${revTotal.toFixed(1)}</td></tr><tr><td>EBITDA added</td>${D.ebitda.map(v=>`<td>${v.toFixed(1)}</td>`).join("")}<td>${ebitdaTotal.toFixed(1)}</td></tr></tfoot></table></div></div>
+  <div class="d-sec"><h4>Where the delay comes from</h4><div class="d-fac">${D.healthFactors.map(f=>`<span>${esc(f[0])}</span><span class="bar"><i style="width:${f[1]}%"></i></span>`).join("")}</div></div>
+  <div class="d-sec"><h4>Already planned to recover</h4><ul class="d-fix">${D.healthFixes.map(f=>`<li><span class="av">${initials(P[f[1]].name)}</span><span>${esc(f[0])}<br><small style="color:var(--sh-mute)">${esc(P[f[1]].name)}</small></span><time>${esc(f[2])}</time></li>`).join("")}</ul></div>
+  <div class="d-back">${esc(D.recoverLine)}</div>`;
+}
+function monthDetail(i){
+  const t = sum(D.spend.map(s=>s.v[i]));
+  return `<div class="d-eyebrow">Project Status · ${D.months[i]} 2026</div><div class="d-title">${L(t)} spent, ${L(D.ebitda[i])} EBITDA added</div>
+  <div class="d-grid">${D.spend.map(s=>`<div><span>${esc(s.cat)}</span><b>${L(s.v[i])}</b></div>`).join("")}<div><span>Extra revenue</span><b>${L(D.revenue[i])}</b></div></div>`;
+}
+function resourcesDetail(){
+  return `<div class="d-eyebrow">Resources</div><div class="d-title">Everything filed for this suite</div>
+  <ul class="d-fix">${D.resources.map(r=>`<li><span class="av">▤</span><span>${esc(r[0])}</span><time>${esc(r[1])}</time></li>`).join("")}</ul>`;
+}
+function universalDetail(){
+  return `<div class="d-eyebrow">Proposed for every suite</div><div class="d-title">Six universal elements</div>
+  <p class="d-sub">Each one gives a fact without a click or a typed question. Every scheme draws all six in its own look, plus the floating chat button.</p>
+  <div class="d-uni">${UNIVERSAL.map((u,i)=>`<div><b>${i+1}. ${u[0]}</b><p>${u[1]}</p></div>`).join("")}</div>`;
+}
+function detailFor(ref){
+  const [t,id] = ref.split(":");
+  if (t==="kpi") return [kpiDetail(KP[id]), KP[id].state];
+  if (t==="per") return [personDetail(P[id]), P[id].state];
+  if (t==="part") { const x = D.parts.find(p=>p.id==id); return [partDetail(x), x.st==="live"?"ahead":x.st==="blocked"?"off":"watch"]; }
+  if (t==="health") return [healthDetail(),"watch"];
+  if (t==="month") return [monthDetail(+id),"ahead"];
+  if (t==="files") return [resourcesDetail(),"ahead"];
+  if (t==="uni") return [universalDetail(),"ahead"];
+  return ["",""];
+}
+function peekFor(ref){
+  const [t,id] = ref.split(":");
+  if (t==="kpi"){ const k = KP[id]; return `<div class="pk-t">${esc(k.name)}</div><div class="pk-n">${fmtv(k,k.now)}</div><div class="pk-m">Start ${fmtv(k,k.base)} · plan ${fmtv(k,k.plan)} · target ${fmtv(k,k.target)}</div><div class="pk-m"><b>${STATE_WORD[k.state]}</b>: ${gapText(k)}</div><div class="pk-hint">Click to see why and the recovery plan</div>`; }
+  if (t==="per"){ const p = P[id]; return `<div class="pk-t">${esc(p.name)} · ${esc(p.role)}</div><div class="pk-m">${p.done} of ${p.due} done this week${p.late?`, ${p.late} late`:""}</div>${p.impact?`<div class="pk-m" style="margin-top:4px">${esc(p.impact)}</div>`:""}<div class="pk-m" style="margin-top:4px">Next: ${esc(p.next[0][0])} · ${esc(p.next[0][1])}</div><div class="pk-hint">Click for today's tasks and what is coming up</div>`; }
+  if (t==="part"){ const x = D.parts.find(p=>p.id==id); return `<div class="pk-t">${x.id}. ${esc(x.name)}</div><div class="pk-m"><b>${PART_WORD[x.st]}</b> · ${esc(x.when)}</div><div class="pk-m">From ${esc(x.src)} · ${esc(x.fresh)}</div><div class="pk-hint">Owner: ${esc(P[x.owner].name)}</div>`; }
+  if (t==="health") return `<div class="pk-t">Break-even</div><div class="pk-n">${D.breakeven.fore}</div><div class="pk-m">Plan ${D.breakeven.plan} · ${D.breakeven.late} late · spent ${L(spendTotal)}, EBITDA added ${L(ebitdaTotal)}</div><div class="pk-hint">Click for causes and recovery</div>`;
+  if (t==="month"){ const i=+id, s=sum(D.spend.map(x=>x.v[i])); return `<div class="pk-t">${D.cumMonths[i]}</div><div class="pk-m">Spent ${L(D.cumSpend[i])} to date · EBITDA back ${L(D.cumFore[i])}${i>D.actualTo?" (forecast)":""}</div>`; }
+  if (t==="files") return `<div class="pk-t">Resources</div><div class="pk-m">${D.resources.length} items · latest: weekly review, 9 Oct</div>`;
+  return "";
+}
+
+/* peek: stays open while the pointer is on it, so its buttons can be used */
+const peek = document.getElementById("peek"); let peekT, hideT, peekRef = null;
+function showPeek(el){ suiteOf(el); const ref = el.dataset.ref; const h = ref && peekFor(ref); if (!h) return; clearTimeout(hideT); peekRef = ref;
+  peek.innerHTML = `<div class="pk-bar"><button type="button" class="pk-ask" data-ask="${ref}"><i>T</i>Ask Tojo about this</button><button type="button" class="pk-x" aria-label="Close">×</button></div>${h}`;
+  peek.classList.add("on");
+  const r = el.getBoundingClientRect(); const pw = peek.offsetWidth, ph = peek.offsetHeight;
+  let x = r.left + r.width/2 - pw/2; x = Math.max(8, Math.min(innerWidth - pw - 8 - (document.body.classList.contains("chat-open") && innerWidth > 900 ? 400 : 0), x));
+  let y = r.top - ph - 8; if (y < 8) y = r.bottom + 8; peek.style.left = x+"px"; peek.style.top = y+"px"; }
+function hidePeek(){ clearTimeout(hideT); peek.classList.remove("on"); peekRef = null; }
+function laterHide(ms=260){ clearTimeout(hideT); hideT = setTimeout(()=>{ if (!peek.matches(":hover") && !peek.contains(document.activeElement)) hidePeek(); }, ms); }
+document.addEventListener("pointerover", e => { if (e.pointerType==="touch") return; if (peek.contains(e.target)) { clearTimeout(hideT); return; } const el = e.target.closest("#stage [data-ref]"); if (!el) return; clearTimeout(peekT); peekT = setTimeout(()=>showPeek(el), 120); });
+document.addEventListener("pointerout", e => { if (e.target.closest("#stage [data-ref]") || peek.contains(e.target)) { clearTimeout(peekT); laterHide(); } });
+document.addEventListener("focusin", e => { if (peek.contains(e.target)) { clearTimeout(hideT); return; } const el = e.target.closest("#stage [data-ref]"); if (el) showPeek(el); });
+document.addEventListener("focusout", () => laterHide(200));
+let pressT; document.addEventListener("touchstart", e => { if (peek.contains(e.target)) return; const el = e.target.closest("#stage [data-ref]"); if (!el) return; pressT = setTimeout(()=>{ showPeek(el); el.dataset.peeked = "1"; }, 380); }, {passive:true});
+document.addEventListener("touchend", () => clearTimeout(pressT));
+addEventListener("scroll", () => { if (!peek.contains(document.activeElement)) hidePeek(); }, {passive:true});
+peek.addEventListener("click", e => { e.stopPropagation(); if (e.target.closest(".pk-x")) return hidePeek(); const a = e.target.closest("[data-ask]"); if (a) { askTojo(a.dataset.ask); hidePeek(); } });
+
+/* sheet: the full story, with Ask Tojo beside the close button */
+const sheet = document.getElementById("sheet"), scrim = document.getElementById("scrim"), sheetBody = document.getElementById("sheetBody");
+function openSheet(ref){ const [h,st] = detailFor(ref); if (!h) return; hidePeek(); sheet.dataset.ref = ref;
+  sheet.style.setProperty("--sh-state", st==="off"?"var(--c-bad)":st==="watch"?"var(--c-warn)":"var(--c-ok)");
+  const canAsk = !ref.startsWith("uni");
+  sheet.querySelector(".sh-ask").hidden = !canAsk;
+  sheetBody.innerHTML = h; sheet.classList.add("on"); scrim.classList.add("on"); sheet.scrollTop = 0; sheet.querySelector(canAsk ? ".sh-ask" : ".x").focus(); }
+function closeSheet(){ sheet.classList.remove("on"); scrim.classList.remove("on"); }
+sheet.querySelector(".x").onclick = closeSheet; scrim.onclick = closeSheet;
+sheet.querySelector(".sh-ask").onclick = () => askTojo(sheet.dataset.ref);
+addEventListener("keydown", e => { if (e.key==="Escape") { if (sheet.classList.contains("on")) closeSheet(); else if (peek.classList.contains("on")) hidePeek(); else closeChat(); } });
+
+/* chat */
+function fillChat(){ const c = D.chat;
+  document.getElementById("chatSub").textContent = c.sub;
+  document.getElementById("chatBody").innerHTML = `<div class="msg">${c.msg.map(m=>`<p>${esc(m)}</p>`).join("")}</div><div class="lbl">Tojo's note</div><div class="note">${esc(c.note)}</div>
+  <div class="lbl">Add to a point — pick one or more</div>${c.points.map((t,i)=>`<button class="pt" type="button" aria-pressed="false"><b>P${i+1}</b> ${esc(t)}</button>`).join("")}
+  <div class="lbl">Or ask next</div>${c.asks.map(t=>`<button class="ask" type="button">${esc(t)}</button>`).join("")}`;
+  document.querySelectorAll("#chat .pt").forEach(b => b.onclick = () => b.setAttribute("aria-pressed", b.getAttribute("aria-pressed")==="true"?"false":"true"));
+  document.querySelectorAll("#chat .ask").forEach(b => b.onclick = () => { chatIn.value = b.textContent; chatIn.focus(); });
+}
+const chatIn = document.getElementById("chatIn"), chatBody = document.querySelector("#chat .body"), ctxBox = document.getElementById("chatCtx");
+let chatCtx = null;
+function openChat(){ document.body.classList.add("chat-open"); setTimeout(()=>chatIn.focus(), 300); markTab("chat"); }
+function closeChat(){ document.body.classList.remove("chat-open"); markTab(lastTab); }
+document.getElementById("chatFab").onclick = openChat;
+document.getElementById("chatClose").onclick = closeChat;
+
+function contextFor(ref){
+  const [t,id] = ref.split(":");
+  if (t==="kpi"){ const k = KP[id]; return { kind:"KPI", point:`the KPI "${k.name}"`, title:k.name, lines:[`Now ${fmtv(k,k.now)} · plan for this week ${fmtv(k,k.plan)} · target ${fmtv(k,k.target)}`, `${STATE_WORD[k.state]}: ${gapText(k)}`] }; }
+  if (t==="per"){ const p = P[id]; return { kind:"Person", point:`${p.name}'s tasks (${p.role})`, title:`${p.name} · ${p.role}`, lines:[`${p.done} of ${p.due} done this week${p.late?`, ${p.late} late`:""} · ${PERSON_WORD[p.state]}`].concat(p.impact?[p.impact]:[]) }; }
+  if (t==="part"){ const x = D.parts.find(q=>q.id==id); return { kind:"Integration", point:`part ${x.id}, "${x.name}"`, title:`${x.id}. ${x.name}`, lines:[`${PART_WORD[x.st]} · ${x.when}`, `Reads from ${x.src} · ${x.fresh} · owner ${P[x.owner].name}`] }; }
+  if (t==="health") return { kind:"Project Status", point:"the suite's break-even and costs", title:"Break-even and costs", lines:[`Break-even forecast ${D.breakeven.fore}, plan ${D.breakeven.plan} (${D.breakeven.late} late)`, `Spent ${L(spendTotal)} · EBITDA added ${L(ebitdaTotal)}`] };
+  if (t==="month"){ const i=+id; return { kind:"Project Status", point:`the money for ${D.cumMonths[i]}`, title:`${D.cumMonths[i]}: money out and back`, lines:[`Out to date ${L(D.cumSpend[i])} · EBITDA back to date ${L(D.cumFore[i])}${i>D.actualTo?" (forecast)":""}`] }; }
+  if (t==="files") return { kind:"Resources", point:"the suite's resources", title:"Resources", lines:[`${D.resources.length} items · latest: weekly review notes, 9 Oct`] };
+  return null;
+}
+function promptFor(c){ return `Tell me more about ${c.point}: where this stands, whether there is any delay or overrun on it, who or what is responsible for it, whether we have any way to recover, and how we are planning to recover.`; }
+function drawCtx(){ ctxBox.hidden = !chatCtx; if (!chatCtx) return;
+  ctxBox.innerHTML = `<div><span>${esc(chatCtx.kind)} · added from the page</span><b>${esc(chatCtx.title)}</b>${chatCtx.lines.map(l=>`<small>${esc(l)}</small>`).join("")}</div><button type="button" aria-label="Remove this from the message">×</button>`;
+  ctxBox.querySelector("button").onclick = () => { chatCtx = null; drawCtx(); chatIn.focus(); }; }
+function askTojo(ref){ const c = contextFor(ref); if (!c) return; chatCtx = Object.assign({ref, suite:SUITE_KEY}, c); drawCtx(); chatIn.value = promptFor(c);
+  openChat(); setTimeout(()=>{ chatIn.focus(); chatIn.setSelectionRange(chatIn.value.length, chatIn.value.length); chatBody.scrollTop = chatBody.scrollHeight; }, 320); }
+
+function replyFor(ref){
+  const [t,id] = ref.split(":"); const who = k => P[k].name;
+  const fixes = f => `<ul>${f.map(x=>`<li>${esc(x[0])} · <b>${esc(who(x[1]))}</b>, ${esc(x[2])}</li>`).join("")}</ul>`;
+  if (t==="kpi"){ const k = KP[id];
+    if (k.state==="ahead") return [`<p><b>${esc(k.name)}</b> is at ${fmtv(k,k.now)}. The plan for this week was ${fmtv(k,k.plan)}, so it is ${gapText(k)}. The target is ${fmtv(k,k.target)}.</p><p>There is no delay or overrun here. ${esc(k.why)}</p><p>Nothing to recover. ${esc(D.aheadRisk)}</p>`, "Ahead of plan. Keep it there."];
+    return [`<p><b>${esc(k.name)}</b> is at ${fmtv(k,k.now)} against ${fmtv(k,k.plan)} planned for this week, so it is ${STATE_WORD[k.state].toLowerCase()}: ${gapText(k)}. The target is ${fmtv(k,k.target)}.</p><p><b>What is causing it:</b></p><ul>${k.factors.map(f=>`<li>${esc(f[0])} (${f[1]}% of the gap)</li>`).join("")}</ul><p><b>How we recover:</b></p>${fixes(k.fixes)}<p>${esc(k.back)}.</p>`, k.back + "."]; }
+  if (t==="per"){ const p = P[id]; const late = p.today.filter(x=>String(x[1]).startsWith("late"));
+    return [`<p><b>${esc(p.name)}</b> (${esc(p.role)}) has done ${p.done} of ${p.due} tasks this week${p.late?`, with ${p.late} late`:""}.</p>${p.impact?`<p><b>What the delay costs:</b> ${esc(p.impact)}</p>`:`<p>No delay on this person's tasks.</p>`}${late.length?`<p><b>Running late:</b></p><ul>${late.map(x=>`<li>${esc(x[0])} (${esc(x[1])})</li>`).join("")}</ul>`:""}<p><b>Coming up:</b></p><ul>${p.next.slice(0,3).map(n=>`<li>${esc(n[0])} · ${esc(n[1])}</li>`).join("")}</ul>`, p.late ? `${p.name.split(" ").slice(-2)[0]} needs help this week.` : "On top of the work."]; }
+  if (t==="part"){ const x = D.parts.find(q=>q.id==id);
+    if (x.delay) return [`<p><b>${esc(x.name)}</b> is ${PART_WORD[x.st].toLowerCase()}: ${esc(x.when)}. ${esc(x.delay)}</p><p><b>Responsible:</b> ${esc(who(x.owner))}, with the vendor.</p><p><b>How we recover:</b></p>${fixes(x.fixes)}`, "Chase the vendor this week."];
+    return [`<p><b>${esc(x.name)}</b> is ${PART_WORD[x.st].toLowerCase()}: ${esc(x.when)}. It reads from ${esc(x.src)} and its data is ${esc(x.fresh)}.</p><p>${esc(x.note)}</p><p>${x.st==="live"?"No delay. It is running as planned.":x.st==="notstarted"?"It has not started, and it is not due to yet, so there is no overrun.":"It is on its planned date, so there is no overrun yet."} Owner: ${esc(who(x.owner))}.</p>`, x.st==="live" ? "Live and flowing." : "On its date so far."]; }
+  if (t==="health") return [`<p>Break-even is forecast for <b>${D.breakeven.fore}</b>, ${D.breakeven.late} after the plan's ${D.breakeven.plan}. So far ${L(spendTotal)} has gone out and ${L(ebitdaTotal)} of EBITDA has come back.</p><p><b>What is causing it:</b></p><ul>${D.healthFactors.map(f=>`<li>${esc(f[0])} (${f[1]}%)</li>`).join("")}</ul><p><b>How we recover:</b></p>${fixes(D.healthFixes)}<p>${esc(D.recoverLine)}</p>`, "Three fixes bring January back."];
+  if (t==="month"){ const i=+id; return [`<p>By the end of ${D.cumMonths[i]}, ${L(D.cumSpend[i])} will have gone out and ${L(D.cumFore[i])} of EBITDA will have come back${i>D.actualTo?" (forecast)":""}.</p><p>${D.cumFore[i] >= D.cumSpend[i] ? "The suite has paid for itself by this month." : `Still ${L(D.cumSpend[i]-D.cumFore[i])} short of break-even.`}</p>`, "Watch the gap close."]; }
+  return [`<p>${D.resources.length} items are filed for this suite. The latest are the weekly review notes from 9 Oct.</p>`, "All filed."];
+}
+function sendChat(){
+  const text = chatIn.value.trim(); if (!text) { chatIn.focus(); return; }
+  const c = chatCtx;
+  chatBody.insertAdjacentHTML("beforeend", `<div class="you">${c?`<div class="att"><span>${esc(c.kind)}</span><b>${esc(c.title)}</b></div>`:""}<p>${esc(text)}</p></div>`);
+  chatIn.value = ""; chatCtx = null; drawCtx(); closeSheet(); hidePeek();
+  const wait = document.createElement("div"); wait.className = "typing"; wait.innerHTML = "<i></i><i></i><i></i>"; chatBody.appendChild(wait); chatBody.scrollTop = chatBody.scrollHeight;
+  setTimeout(() => { wait.remove();
+    if (c && c.suite) setSuite(c.suite); const [h, note] = c ? replyFor(c.ref) : [`<p>In the working product I answer this from the suite's live records. In this mockup I can answer the questions raised from the page: use Ask Tojo about this on any item.</p>`, "Ask from the page."];
+    chatBody.insertAdjacentHTML("beforeend", `<div class="msg">${h}</div><div class="lbl">Tojo's note</div><div class="note">${esc(note)}</div>`);
+    chatBody.lastElementChild.previousElementSibling.previousElementSibling.scrollIntoView({block:"start", behavior:"smooth"}); }, 1100);
+}
+document.querySelector("#chat .send").onclick = sendChat;
+chatIn.addEventListener("keydown", e => { if (e.key==="Enter" && !e.shiftKey) { e.preventDefault(); sendChat(); } });
+
+/* tabs and clicks */
+let lastTab = "overview";
+function markTab(t){ document.querySelectorAll("#stage nav [data-tab]").forEach(b => { const on = b.dataset.tab===t; b.classList.toggle("on", on); b.setAttribute("aria-current", on?"page":"false"); }); }
+function go(t){
+  if (t==="chat") return openChat();
+  if (t==="files") { markTab("files"); return openSheet("files:0"); }
+  lastTab = t; markTab(t);
+  if (t==="overview") return scrollTo({top:0, behavior:"smooth"});
+  const z = document.querySelector(`#stage [data-zone="${t}"]`); if (!z) return;
+  const y = z.getBoundingClientRect().top + scrollY - 70; scrollTo({top:y, behavior:"smooth"});
+  z.classList.remove("flash"); void z.offsetWidth; z.classList.add("flash");
+}
+document.addEventListener("click", e => {
+  const tb = e.target.closest("#stage [data-tab]"); if (tb) { e.preventDefault(); return go(tb.dataset.tab); }
+  const vw = e.target.closest("[data-view]"); if (vw) { UI.view = vw.dataset.view; const y = scrollY; render(); scrollTo(0,y); return; }
+  const op = e.target.closest("[data-ref]"); if (op && !op.matches("[data-nopen]")) { suiteOf(op); return openSheet(op.dataset.ref); }
+});
+document.getElementById("uniBtn").onclick = () => openSheet("uni:0");
+
+/* small svg helpers */
+function linePath(vals, x0, x1, y0, y1, vmin, vmax){ const n = vals.length; return vals.map((v,i)=>{ const x = x0 + (x1-x0)*i/(n-1); const y = y1 - (y1-y0)*(v - vmin)/(vmax - vmin); return (i?"L":"M")+x.toFixed(1)+","+y.toFixed(1); }).join(" "); }
+function weekly(k){ /* 11 points, week 0..10, from base to now with gentle wobble */
+  const out = []; for (let w=0; w<=D.week; w++){ const t = w/D.week; const ease = t<.3 ? t*.5 : .15 + (t-.3)/.7*.85; let v = k.base + (k.now-k.base)*ease; const wob = Math.sin(w*2.3 + k.id.charCodeAt(1))*Math.abs(k.target-k.base)*0.035*(w>0&&w<D.week?1:0); out.push(v + wob); } return out; }
+function viewToggle(cls){ return `<div class="${cls}" role="group" aria-label="Show daily or weekly tasks"><button type="button" data-view="day" aria-pressed="${UI.view==="day"}">Today</button><button type="button" data-view="week" aria-pressed="${UI.view==="week"}">This week</button></div>`; }
+
+/* ===== Diagnostic Scheduling, option 1: the day board (magenta and sky on blush) ===== */
+SCHEMES.push({
+  key:"dayboard", letter:"1", name:"Magenta and sky",
+  note:"<b>Option 1 · magenta and sky.</b> Today's test rooms as a day board, hour by hour: booked, walk-ins slotted, slots held for emergencies, and gaps. Prescriptions come in at the top; what the suite sends out sits below.",
+  vars:{ "--sh-bg":"#FFFFFF","--sh-fg":"#24202F","--sh-mute":"#5E5869","--sh-line":"#E2DCE6","--sh-card":"#FAF7FB","--c-ok":"#16845C","--c-warn":"#A86B05","--c-bad":"#C62D3A","--pk-bg":"#24202F","--pk-fg":"#FFFFFF","--pk-line":"#C2185B","--pk-r":"10px","--sh-r":"16px" },
+  fab:18,
+  blocks:{ nav:".folders", pulse:".appts", watch:".clashes", countdown:".note", hero:".board", kpis:".waffles", team:".cals", money:".diverge" },
+  css:`
+.s11{--bg:#F5F2F6;--ink:#24202F;--mute:#5E5869;--mag:#C2185B;--mag2:#F8D7E6;--sky:#2F7FE0;--sky2:#D9E8FB;--ok:#16845C;--warn:#A86B05;--bad:#C62D3A;--line:#E2DCE6;
+  background:var(--bg);color:var(--ink);padding:18px 16px 90px;overflow-x:clip}
+.s11 .wrap{max-width:1240px;margin:0 auto}
+.s11 .folders{display:flex;flex-wrap:wrap;align-items:flex-end;gap:4px 4px;border-bottom:3px solid var(--ink);padding-left:4px}
+.s11 .chipd{display:flex;align-items:center;gap:10px;margin:0 12px 6px 0}
+.s11 .chipd b{display:grid;place-items:center;width:46px;height:50px;border-radius:8px;background:#fff;border:2px solid var(--ink);font-family:var(--f-num);font-weight:400;font-size:24px;line-height:.9;text-align:center}
+.s11 .chipd b small{display:block;font-family:var(--f-body);font-size:9px;font-weight:700;letter-spacing:.1em;background:var(--mag);color:#fff;width:100%;border-radius:5px 5px 0 0;margin-bottom:2px}
+.s11 .chipd span{font-size:10px;letter-spacing:.14em;color:var(--mute);font-weight:600} .s11 .chipd em{display:block;font-style:normal;font-family:var(--f-num);font-size:22px;letter-spacing:.04em;color:var(--ink)}
+.s11 .fd{background:#EBE5EE;border:1.5px solid #D3CAD8;border-bottom:0;border-radius:10px 10px 0 0;padding:10px 16px;font-size:12.5px;font-weight:600;color:var(--ink);min-height:44px}
+.s11 .fd:hover{background:#fff}
+.s11 .fd.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.s11 .head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:end;margin:22px 0 14px}
+.s11 .head small{font-size:12px;font-weight:600;letter-spacing:.14em;color:var(--mag)}
+.s11 h2{font-family:var(--f-num);font-weight:400;font-size:72px;line-height:.9;margin:4px 0 0;letter-spacing:.01em}
+.s11 .appts{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+.s11 .ap{display:grid;grid-template-columns:8px minmax(0,1fr);background:#fff;border:1.5px solid var(--line);border-radius:10px;overflow:hidden;text-align:left;color:inherit;padding:0;min-width:150px}
+.s11 .ap i{background:var(--c)}
+.s11 .ap span{padding:8px 12px}
+.s11 .ap span span{display:block;padding:0;font-size:10.5px;letter-spacing:.1em;font-weight:600;color:var(--mute)}
+.s11 .ap b{display:block;font-family:var(--f-num);font-weight:400;font-size:28px;line-height:1}
+.s11 .ap em{font-style:normal;font-size:11px;color:var(--mag)}
+.s11 .clashes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) minmax(0,.8fr);gap:12px;margin-bottom:14px;align-items:stretch}
+.s11 .cs{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:center;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;text-align:left;color:inherit;font-size:12.5px;font-weight:600}
+.s11 .cs i{position:relative;width:30px;height:26px}
+.s11 .cs i::before,.s11 .cs i::after{content:"";position:absolute;width:20px;height:14px;border-radius:3px;border:2px solid var(--mag)}
+.s11 .cs i::before{left:0;top:0;background:var(--mag2)} .s11 .cs i::after{left:9px;top:9px;background:#fff}
+.s11 .cs small{display:block;font-weight:400;color:var(--mute);font-size:11.5px}
+.s11 .note{position:relative;background:#FFF0F6;border:0;border-radius:4px;padding:16px 14px 10px;text-align:left;color:var(--ink);transform:rotate(1.5deg);box-shadow:0 8px 14px rgba(36,32,47,.12)}
+.s11 .note::before{content:"";position:absolute;top:-7px;left:50%;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--mag);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.s11 .note b{font-family:var(--f-num);font-weight:400;font-size:40px;line-height:.9;color:var(--mag)}
+.s11 .note span{display:block;font-size:12px;font-weight:700} .s11 .note small{display:block;font-weight:400;font-size:11.5px;color:var(--mute)}
+.s11 .board{border-radius:16px;background:#fff;border:1.5px solid var(--line);overflow-x:auto;box-shadow:0 14px 30px rgba(36,32,47,.06)}
+.s11 .board svg{display:block;width:100%;min-width:920px;height:auto}
+.s11 .swipe{display:none;margin:0 0 6px;font-size:12px;color:var(--mag)}
+.s11 .pc{cursor:pointer}
+.s11 .pc:focus{outline:none} .s11 .pc:focus .cd{stroke:#F2B705;stroke-width:3}
+.s11 .pc:hover .cd{stroke:var(--mag)}
+.s11 .pc.ping .cd{animation:s11ping .9s ease}
+@keyframes s11ping{0%{fill:#FCE3EE}100%{fill:#FFFFFF}}
+.s11 .newc{animation:s11pop .8s ease}
+@keyframes s11pop{0%{opacity:0}100%{opacity:1}}
+.s11 .legend{display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:center;font-size:12px;color:var(--mute);margin-top:8px}
+.s11 .legend i{display:inline-block;width:14px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+.s11 .zone{margin-top:40px;scroll-margin-top:20px;border-radius:16px}
+.s11 .zh{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 16px;margin-bottom:14px;border-bottom:3px solid var(--ink);padding-bottom:8px}
+.s11 .zh h3{font-family:var(--f-num);font-weight:400;font-size:38px;margin:0;line-height:1}
+.s11 .zh p{margin:0;font-size:13px;color:var(--mute)}
+.s11 .waffles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.s11 .wf{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;align-items:center;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px;text-align:left;color:inherit;transition:transform .15s}
+.s11 .wf:hover,.s11 .wf:focus-visible{transform:translateY(-2px);border-color:var(--mag)}
+.s11 .grid10{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;width:96px}
+.s11 .grid10 i{aspect-ratio:1;border-radius:2px;background:#EEE9F1}
+.s11 .grid10 i.on{background:var(--c)} .s11 .grid10 i.pl{outline:1.5px solid var(--ink);outline-offset:0}
+.s11 .wf .nm{font-size:13px;font-weight:600;line-height:1.3}
+.s11 .wf b{display:block;font-family:var(--f-num);font-weight:400;font-size:30px;line-height:1;margin-top:4px}
+.s11 .wf .st{display:block;font-size:11px;font-weight:700;letter-spacing:.05em;margin-top:4px}
+.s11 .wf .rg{display:block;font-size:11px;color:var(--mute);margin-top:2px}
+.s11 .ahead{color:var(--ok)} .s11 .watch{color:var(--warn)} .s11 .off{color:var(--bad)}
+.s11 .cals{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.s11 .cl{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:0;text-align:left;color:inherit;overflow:hidden;display:flex;flex-direction:column;transition:transform .15s}
+.s11 .cl:hover,.s11 .cl:focus-visible{transform:translateY(-3px);border-color:var(--mag)}
+.s11 .cl .top{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 12px;border-bottom:1.5px dashed var(--line)}
+.s11 .cl .nm{font-weight:700;font-size:13.5px;line-height:1.2} .s11 .cl .nm small{display:block;font-weight:400;font-size:11.5px;color:var(--mute)}
+.s11 .cl .chip{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:4px;white-space:nowrap;color:#fff}
+.s11 .cl .bd2{padding:10px 12px;display:grid;gap:7px}
+.s11 .sq{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.s11 .sq i{aspect-ratio:1.4;border-radius:3px;background:#F1ECF3;border:1px solid #E2DCE6}
+.s11 .sq i.y{background:var(--mag);border-color:var(--mag)} .s11 .sq i.l{background:#fff;border:2px solid var(--bad);background-image:linear-gradient(45deg,transparent 45%,var(--bad) 45% 55%,transparent 55%)}
+.s11 .cl .meta{font-size:12px} .s11 .cl .meta b{font-family:var(--f-num);font-weight:400;font-size:18px}
+.s11 .cl .imp{font-size:11.5px;color:var(--bad);line-height:1.35} .s11 .cl .nx{font-size:11.5px;color:var(--mute)}
+.s11 .cl ul{list-style:none;margin:0;padding:0;font-size:12px;display:grid;gap:3px}
+.s11 .cl li::before{content:"▢ ";color:var(--mute)} .s11 .cl li.y::before{content:"■ ";color:var(--mag)} .s11 .cl li.l{color:var(--bad);font-weight:600} .s11 .cl li.l::before{content:"▣ "}
+.s11 .vt{display:inline-flex;border:2px solid var(--ink);border-radius:8px;overflow:hidden}
+.s11 .vt button{border:0;background:#fff;padding:6px 14px;font-size:12px;font-weight:600;min-height:36px;color:var(--ink)}
+.s11 .vt button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.s11 .diverge{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px;align-items:start}
+.s11 .chart{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:12px;overflow-x:auto}
+.s11 .chart svg{display:block;width:100%;min-width:560px;height:auto}
+.s11 .mlist{display:grid;gap:10px}
+.s11 .mlist button{display:flex;justify-content:space-between;gap:12px;align-items:baseline;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;text-align:left;color:var(--mute);font-size:12.5px}
+.s11 .mlist b{font-family:var(--f-num);font-weight:400;font-size:24px;color:var(--ink);white-space:nowrap}
+.s11 .mlist .why{background:var(--mag);border-color:var(--mag);color:#FCE3EE} .s11 .mlist .why b{color:#fff}
+@media (max-width:1000px){ .s11 .head{grid-template-columns:1fr} .s11 .appts{justify-content:flex-start} .s11 .clashes{grid-template-columns:1fr 1fr} .s11 .waffles,.s11 .cals{grid-template-columns:1fr 1fr} .s11 .diverge{grid-template-columns:1fr} }
+@media (max-width:600px){ .s11 .swipe{display:block} .s11 h2{font-size:52px} .s11 .clashes,.s11 .waffles,.s11 .cals{grid-template-columns:1fr} .s11 .ap{flex:1 1 150px} .s11 .fd{padding:8px 10px;font-size:12px} .s11 .chipd{width:100%} }
+`,
+  render(){
+    const C = { live:"#16845C", testing:"#D9940A", building:"#A69DB0", blocked:"#C62D3A", notstarted:"#D8D2DE" };
+    const live = countParts("live"), O = D.opd;
+    const ap = (c, lab, val, sub, attr) => `<button class="ap" type="button" ${attr} style="--c:${c}"><i></i><span><span>${lab}</span><b>${val}</b><em>${sub}</em></span></button>`;
+    const appts = ap("#16845C","PARTS LIVE",`${live} / 12`,"plan 4",`data-tab="links"`) + ap("#D9940A","KPIs ON COURSE",`${onCourse} / 9`,"plan 8",`data-tab="measures"`)
+      + ap("#2F7FE0","EBITDA BACK / OUT",`${ebitdaTotal.toFixed(1)} / ${spendTotal.toFixed(1)}`,"₹ lakh · plan 7.0 back",`data-ref="health:0"`) + ap("#C62D3A","BREAK-EVEN","DEC 2026","plan Nov 2026",`data-ref="health:0"`);
+    const P_ = id => D.parts.find(p=>p.id===id);
+    const card = (p, x, y, w, h, small) => `<g class="pc" data-ref="part:${p.id}" data-part="${p.id}" tabindex="0" role="button" aria-label="Part ${p.id}: ${esc(p.name)}, ${PART_WORD[p.st]}">
+      <rect class="cd" x="${x}" y="${y}" width="${w}" height="${h}" rx="8" fill="#FFFFFF" stroke="#24202F" stroke-width="1.5" ${p.st==="building"||p.st==="notstarted"?'stroke-dasharray="5 3"':""}/>
+      <rect x="${x}" y="${y}" width="6" height="${h}" rx="3" fill="${C[p.st]}"/>
+      <foreignObject x="${x+12}" y="${y+4}" width="${w-16}" height="${h-8}"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 ${small?10:10.5}px/1.2 Poppins,sans-serif;color:#24202F;height:${h-8}px;display:flex;flex-direction:column;justify-content:center"><span><b style="font-family:'Bebas Neue';font-weight:400;font-size:14px;color:#C2185B">${p.id}</b> ${esc(p.name)}</span><span style="font-weight:400;font-size:9.5px;color:${p.st==="notstarted"||p.st==="building"?"#5E5869":C[p.st]}">${PART_WORD[p.st]} · ${esc(p.when.replace(/^Live since /,"since ").replace(/^Goes live /,"live "))}</span></div></foreignObject></g>`;
+
+    /* --- the day board --- */
+    const W = 1000, H = 640; let g = "";
+    /* intake */
+    g += `<text x="20" y="30" font-size="11" font-weight="700" letter-spacing="1.4" fill="#C2185B">PRESCRIPTIONS COMING IN · OPD TODAY: ${O.newPts} NEW, ${O.returning} RETURNING</text>`;
+    [1,2,3].forEach((id,i) => { const x = 20 + i*210; g += card(P_(id), x, 42, 190, 58) + (i<2?`<path d="M${x+192},71 L${x+208},71" stroke="#24202F" stroke-width="2" marker-end="url(#s11ar)"/>`:""); });
+    g += `<defs><marker id="s11ar" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#24202F"/></marker><pattern id="s11hold" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#FFFFFF"/><line x1="0" y1="0" x2="0" y2="6" stroke="#C2185B" stroke-width="2"/></pattern><pattern id="s11nofeed" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#F3EFF5"/><line x1="0" y1="0" x2="0" y2="8" stroke="#D8D2DE" stroke-width="3"/></pattern></defs>`;
+    const pct = Math.round(O.doneHere/O.prescribedToday*100);
+    g += `<g aria-label="Prescribed today against done here"><rect x="660" y="42" width="320" height="58" rx="10" fill="#24202F"/>
+      <text x="676" y="62" font-size="9.5" font-weight="700" letter-spacing="1.3" fill="#D3CAD8">PRESCRIBED TODAY · DONE HERE</text>
+      <text x="676" y="90" font-family="Bebas Neue, sans-serif" font-size="26" fill="#FFFFFF">₹${O.prescribedToday} L</text><text id="s11amt" x="760" y="90" font-family="Bebas Neue, sans-serif" font-size="26" fill="#F8D7E6">₹${O.doneHere} L</text>
+      <rect x="850" y="72" width="116" height="12" rx="6" fill="#4A4357"/><rect id="s11bar" x="850" y="72" width="${(116*pct/100).toFixed(1)}" height="12" rx="6" fill="#C2185B"/><text id="s11pct" x="966" y="64" text-anchor="end" font-size="10" fill="#F8D7E6">${pct}% done here</text></g>`;
+    /* board grid */
+    const bx0 = 240, bx1 = 840, by0 = 150, rh = 42, hours = 12, cw = (bx1-bx0)/hours; const rooms = D.rooms;
+    g += `<text x="${bx0}" y="${by0-14}" font-size="11" font-weight="700" letter-spacing="1.4" fill="#C2185B">TODAY'S TEST ROOMS, HOUR BY HOUR</text>`;
+    g += `<rect x="${bx0+cw*1}" y="${by0}" width="${cw*4}" height="${rooms.length*rh}" fill="#FCE3EE" opacity=".55"/><text x="${bx0+cw*5+6}" y="${by0+rooms.length*rh+16}" font-size="10" fill="#C2185B">◂ morning peak: 80% of patients</text>`;
+    for (let hIdx=0; hIdx<=hours; hIdx++){ const x = bx0 + hIdx*cw; g += `<line x1="${x}" x2="${x}" y1="${by0}" y2="${by0+rooms.length*rh}" stroke="#EEE9F1"/>`; if (hIdx<hours) g += `<text x="${x+cw/2}" y="${by0-2}" text-anchor="middle" font-size="9.5" fill="#5E5869" dy="-1">${(8+hIdx)>12?(8+hIdx-12)+" PM":(8+hIdx)+(8+hIdx===12?" PM":" AM")}</text>`; }
+    let seed = 11; const rnd = () => (seed = (seed*9301 + 49297) % 233280) / 233280;
+    const nowCol = 2 + 40/60;
+    rooms.forEach((r,ri) => { const y = by0 + ri*rh; const p = P_(r.part);
+      g += `<g class="pc" data-ref="part:${p.id}" data-part="${p.id}" tabindex="0" role="button" aria-label="${esc(r.name)}: part ${p.id}, ${PART_WORD[r.st]}"><rect class="cd" x="20" y="${y+4}" width="${bx0-30}" height="${rh-8}" rx="6" fill="#FFFFFF" stroke="#E2DCE6"/>
+        <circle cx="36" cy="${y+rh/2}" r="6" fill="${C[r.st]}"/><text x="50" y="${y+rh/2+4}" font-size="12" font-weight="700" fill="#24202F">${esc(r.name)}</text><text x="${bx0-16}" y="${y+rh/2+4}" text-anchor="end" font-size="10" fill="#5E5869">part ${p.id}</text></g>`;
+      for (let c=0;c<hours;c++){ const x = bx0 + c*cw + 2, w = cw-4, yy = y + 6, hh = rh-12; const peak = c>=1 && c<=4; const past = c < Math.floor(nowCol);
+        if (r.st==="blocked") { g += `<rect x="${x}" y="${yy}" width="${w}" height="${hh}" rx="4" fill="url(#s11nofeed)"/>`; continue; }
+        if (r.st==="building") { g += `<rect x="${x}" y="${yy}" width="${w}" height="${hh}" rx="4" fill="none" stroke="#A69DB0" stroke-dasharray="4 3"/>`; continue; }
+        const held = (r.name==="MRI 1"||r.name==="CT") && (c%3===1);
+        const v = rnd(); let fill;
+        if (held) fill = "url(#s11hold)"; else if (v < (peak?.62:.35)) fill = "#C2185B"; else if (v < (peak?.85:.55)) fill = "#2F7FE0"; else fill = "#FFFFFF";
+        g += `<rect x="${x}" y="${yy}" width="${w}" height="${hh}" rx="4" fill="${fill}" stroke="${fill==="#FFFFFF"?"#E2DCE6":"none"}" ${held?'stroke="#C2185B"':""} opacity="${past?.55:1}"/>`; }
+      if (r.st==="blocked") g += `<text x="${(bx0+bx1)/2}" y="${y+rh/2+4}" text-anchor="middle" font-size="11" font-weight="700" fill="#C62D3A">No feed: bookings kept in a register</text>`;
+      if (r.st==="building") g += `<text x="${(bx0+bx1)/2}" y="${y+rh/2+4}" text-anchor="middle" font-size="11" fill="#5E5869">Not on the schedule yet · due 3 Nov</text>`;
+    });
+    const nx = bx0 + nowCol*cw; g += `<line x1="${nx}" x2="${nx}" y1="${by0-6}" y2="${by0+rooms.length*rh+4}" stroke="#24202F" stroke-width="2"/><rect x="${nx-22}" y="${by0+rooms.length*rh+4}" width="44" height="16" rx="8" fill="#24202F"/><text x="${nx}" y="${by0+rooms.length*rh+16}" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">10:40</text>`;
+    /* engine column */
+    g += `<text x="860" y="${by0-14}" font-size="11" font-weight="700" letter-spacing="1.4" fill="#C2185B">RULES</text>` + card(P_(4), 856, by0, 128, 92) + card(P_(5), 856, by0+104, 128, 92)
+      + `<text x="920" y="${by0+218}" text-anchor="middle" font-size="10" fill="#5E5869">slots booked for</text><text x="920" y="${by0+232}" text-anchor="middle" font-size="10" fill="#5E5869">inpatients never move</text>`;
+    /* outputs */
+    const oy = by0 + rooms.length*rh + 52;
+    g += `<text x="20" y="${oy-10}" font-size="11" font-weight="700" letter-spacing="1.4" fill="#C2185B">WHAT THE SUITE SENDS OUT</text>`;
+    [9,10,11,12].forEach((id,i) => g += card(P_(id), 20 + i*245, oy, 225, 58));
+    g += `<text x="${W-20}" y="${H-10}" text-anchor="end" font-size="10.5" fill="#5E5869">Findings that lead to admission go to the Admission Process suite</text>`;
+    const board = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Today's test rooms hour by hour, with prescriptions coming in above and what the suite sends out below.">${g}</svg>`;
+
+    /* --- KPI waffles --- */
+    const wf = k => { const n = Math.round(Math.min(1,prog(k,k.now))*100), pl = Math.max(1,Math.round(Math.min(1,prog(k,k.plan))*100)); const col = k.state==="ahead"?"#16845C":k.state==="watch"?"#D9940A":"#C62D3A";
+      return `<button class="wf" type="button" data-ref="kpi:${k.id}"><span class="grid10" style="--c:${col}" aria-hidden="true">${Array.from({length:100},(_,i)=>`<i class="${i<n?"on":""} ${i===pl-1?"pl":""}"></i>`).join("")}</span>
+        <span><span class="nm">${esc(k.name)}</span><b class="${k.state}">${fmtv(k,k.now)}</b><span class="st ${k.state}">${STATE_WORD[k.state].toUpperCase()} · ${gapText(k)}</span><span class="rg">From ${fmtv(k,k.base)} · target ${fmtv(k,k.target)}</span></span></button>`; };
+
+    /* --- people --- */
+    const cl = p => { const cc = p.state==="ahead"?"#16845C":p.state==="watch"?"#A86B05":"#C62D3A"; let body;
+      if (UI.view==="day") body = `<ul>${p.today.map(t=>`<li class="${t[1]===1?"y":String(t[1]).startsWith("late")?"l":""}">${esc(t[0])}${t[1]!==1?` · <span style="font-weight:400">${esc(t[1])}</span>`:""}</li>`).join("")}</ul>`;
+      else { const b = []; for (let i=0;i<p.due;i++) b.push(`<i class="${i<p.done?"y":i<p.done+p.late?"l":""}"></i>`); body = `<span class="sq" aria-label="${p.done} of ${p.due} done, ${p.late} late">${b.join("")}</span><span class="meta"><b>${p.done}</b> of ${p.due} done${p.late?` · <b style="color:var(--bad)">${p.late}</b> late`:""}</span>`; }
+      return `<button class="cl" type="button" data-ref="per:${p.key}"><span class="top"><span class="nm">${esc(p.name)}<small>${esc(p.role)}</small></span><span class="chip" style="background:${cc}">${PERSON_WORD[p.state]}</span></span><span class="bd2">${body}${p.impact?`<span class="imp">${esc(p.impact)}</span>`:`<span class="nx">Next: ${esc(p.next[0][0])} · ${esc(p.next[0][1])}</span>`}</span></button>`; };
+
+    /* --- money: out below the line, back above, net line --- */
+    const CW = 760, CH = 310, cx0 = 50, cx1 = 740, n = D.cumMonths.length, bw = (cx1-cx0)/n; const vmax = 70, mid = 150, sc = 120/vmax;
+    let c = ""; [-60,-30,0,30,60].forEach(v => c += `<line x1="${cx0}" x2="${cx1}" y1="${mid - v*sc}" y2="${mid - v*sc}" stroke="${v===0?"#24202F":"#EEE9F1"}" stroke-width="${v===0?2:1}"/><text x="${cx0-8}" y="${mid - v*sc + 4}" text-anchor="end" font-size="10" fill="#5E5869">${Math.abs(v)}</text>`);
+    D.cumMonths.forEach((m,i) => { const x = cx0 + i*bw + 10, w = bw-20, fore = i > D.actualTo;
+      c += `<g data-ref="month:${i}" data-nopen style="cursor:help"><rect x="${x}" y="${mid - D.cumFore[i]*sc}" width="${w}" height="${D.cumFore[i]*sc}" rx="3" fill="#2F7FE0" fill-opacity="${fore?.3:.9}"/><rect x="${x}" y="${mid}" width="${w}" height="${D.cumSpend[i]*sc}" rx="3" fill="#C2185B" fill-opacity="${fore?.3:.9}"/>
+        <text x="${x+w/2}" y="${CH-34}" text-anchor="middle" font-size="11" font-weight="600" fill="${fore?"#5E5869":"#24202F"}">${m}</text><rect x="${x-10}" y="10" width="${bw}" height="${CH-50}" fill="transparent"/></g>`; });
+    const net = D.cumFore.map((v,i)=>v-D.cumSpend[i]);
+    c += `<polyline points="${net.map((v,i)=>`${cx0+i*bw+bw/2},${mid - v*sc}`).join(" ")}" fill="none" stroke="#24202F" stroke-width="2.5"/>${net.map((v,i)=>`<circle cx="${cx0+i*bw+bw/2}" cy="${mid - v*sc}" r="3.5" fill="${v>=0?"#16845C":"#C62D3A"}"/>`).join("")}`;
+    const fi = D.breakeven.foreIdx; c += `<text x="${cx0+fi*bw+bw/2}" y="${mid - net[fi]*sc - 10}" text-anchor="middle" font-size="11" font-weight="700" fill="#16845C">break-even</text>
+      <text x="${cx0}" y="${CH-10}" font-size="11" fill="#24202F">Above: EBITDA back to date · below: money out to date · line: the difference · faded: forecast · ₹ lakh</text>`;
+    const chart = `<svg viewBox="0 0 ${CW} ${CH}" role="img" aria-label="EBITDA back above the line and money out below it, by month; the difference turns positive in ${D.cumMonths[fi]}.">${c}</svg>`;
+    return `<div class="s11"><div class="wrap">
+      <nav class="folders" aria-label="Suite sections"><div class="chipd" aria-hidden="true"><b><small>OCT</small>12</b><span>YOU ARE ON<em id="s11at">OVERVIEW</em></span></div>
+        ${TABS.map((t,i)=>`<button class="fd ${i?"":"on"}" type="button" data-tab="${t[0]}">${t[1]}</button>`).join("")}</nav>
+      <div class="head"><div><small>AUTOMATION SUITE · ${esc(D.family.toUpperCase())} · ${esc(D.hospital.toUpperCase())}</small><h2>${esc(D.suite)}</h2></div>
+        <div class="appts" aria-label="Pulse strip">${appts}</div></div>
+      <div class="clashes" aria-label="Watch list and next go-live">${D.watch.map(w=>`<button class="cs" type="button" data-ref="${w.ref}"><i aria-hidden="true"></i><span>${esc(w.t)}<small>${esc(P[w.who].name)}</small></span></button>`).join("")}
+        <button class="note" type="button" data-ref="part:${D.milestone.part}"><b>${D.milestone.days}</b><span>days to the next go-live<small>${esc(D.milestone.what)} · ${D.milestone.date}</small></span></button></div>
+      <section class="zone" data-zone="links" style="margin-top:0"><p class="swipe">Swipe sideways to see the whole day →</p><div class="board">${board}</div>
+        <div class="legend"><span><i style="background:#C2185B"></i>Booked</span><span><i style="background:#2F7FE0"></i>Walk-in slotted today</span><span><i style="background:repeating-linear-gradient(45deg,#fff 0 2px,#C2185B 2px 4px)"></i>Held for emergencies</span><span><i style="background:#fff;border:1px solid #E2DCE6"></i>Free</span><span><i style="background:#16845C;border-radius:50%"></i>Live</span><span><i style="background:#D9940A;border-radius:50%"></i>Testing</span><span><i style="background:#A69DB0;border-radius:50%"></i>Being built</span><span><i style="background:#C62D3A;border-radius:50%"></i>Late</span><span>· Data as of ${esc(D.asOf)}</span></div></section>
+      <section class="zone" data-zone="measures"><div class="zh"><h3>KPIs</h3><p>Filled squares are how far from the start to the target we are today · the outlined square is the plan for this week</p></div><div class="waffles">${D.kpis.map(wf).join("")}</div></section>
+      <section class="zone" data-zone="team"><div class="zh"><h3>Taskboards</h3>${viewToggle("vt")}</div><div class="cals">${D.people.map(cl).join("")}</div></section>
+      <section class="zone" data-zone="health"><div class="zh"><h3>Project Status</h3><p>₹ lakh to date, by month</p></div>
+        <div class="diverge"><div class="chart">${chart}</div>
+          <div class="mlist">
+            <button type="button" data-ref="month:1"><span>Subscription, each month</span><b>${L(D.spend[0].v[1])}</b></button>
+            <button type="button" data-ref="month:1"><span>Salaries of the Scheduling Manager and guest-service executives we recommended, each month</span><b>${L(D.spend[1].v[1])}</b></button>
+            <button type="button" data-ref="month:1"><span>One-time so far (prescription scanners, patient guide)</span><b>${L(sum(D.spend[2].v))}</b></button>
+            <button type="button" data-ref="health:0"><span>Extra revenue so far, from tests done here</span><b>${L(revTotal)}</b></button>
+            <button type="button" data-ref="health:0"><span>EBITDA now, and at full run, each month</span><b>${L(D.ebitda[1])} → ${L(D.runRate.ebitda)}</b></button>
+            <button type="button" class="why" data-ref="health:0"><span>Break-even ${D.breakeven.fore}, ${D.breakeven.late} late. See why</span><b>›</b></button>
+          </div></div></section>
+    </div></div>`;
+  },
+  after(){
+    document.querySelectorAll(".s11 .fd").forEach(b => b.addEventListener("click", () => { const at = document.getElementById("s11at"); if (at) at.textContent = b.textContent.trim().toUpperCase(); }));
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    testTicker("s11", ".s11 .pc");
+  }
+});
+
+const PAGE = {"mode": "review", "suite": "diagnostic", "schemes": ["dayboard"], "title": "Diagnostic Scheduling · suite landing", "sub": "Approved look: magenta and sky. Every prescribed test slotted the moment it is written, and done here. Example figures for a 250-bed hospital in Bhubaneswar."};
+/* ===== init: one runtime, three page modes =====
+   PAGE.mode "review"  → one suite, several look options (PAGE.suite, PAGE.schemes)
+   PAGE.mode "pages"   → every approved suite landing, one picker (for the development team)
+   PAGE.mode "library" → the suite block library (91-library.js) */
+const SCHEME_SUITE = { monitor:"discharge", sheet:"discharge", diorama:"discharge", departures:"discharge", dispensary:"discharge",
+  tubes:"billing", meters:"billing", sorter:"billing", signal:"admission", radar:"admission", dayboard:"diagnostic", prism:"diagnostic", racks:"procurement", lines:"procurement" };
+const APPROVED = [["discharge","diorama"],["billing","sorter"],["admission","radar"],["diagnostic","dayboard"],["procurement","lines"]];
+const stage = document.getElementById("stage"), picks = document.getElementById("picks");
+const css = document.createElement("style"); css.textContent = SCHEMES.map(s=>s.css).join("\n"); document.head.appendChild(css);
+const byKey = k => SCHEMES.find(s=>s.key===k);
+let LIST = [];
+if (PAGE.mode === "pages") LIST = APPROVED.filter(a=>byKey(a[1]) && SUITES.find(s=>s.key===a[0])).map(([su,k],i)=>({ suite:su, scheme:byKey(k), letter:String(i+1), label:SUITES.find(s=>s.key===su).data.suite }));
+else if (PAGE.mode === "review") LIST = PAGE.schemes.map(k=>({ suite:PAGE.suite, scheme:byKey(k), letter:byKey(k).letter, label:byKey(k).name }));
+document.getElementById("rvTitle").textContent = PAGE.title;
+document.getElementById("rvSub").textContent = PAGE.sub;
+if (PAGE.mode === "library") { picks.hidden = true; setSuite(SUITES[0].key); renderLibrary(); }
+else {
+  picks.innerHTML = LIST.map((s,i)=>`<button type="button" data-i="${i}" aria-pressed="${i===0}"><b>${esc(s.letter)}</b>${esc(s.label)}</button>`).join("");
+  picks.onclick = e => { const b = e.target.closest("button"); if (!b) return; UI.scheme = +b.dataset.i; try { localStorage.setItem("suitePick-"+PAGE.mode+(PAGE.suite||""), UI.scheme); } catch(_){} render(); scrollTo(0,0); };
+  if (LIST.length === 1) picks.hidden = true;
+  try { const v = +localStorage.getItem("suitePick-"+PAGE.mode+(PAGE.suite||"")); if (v >= 0 && v < LIST.length) UI.scheme = v; } catch(_){}
+  const hashMap = {a:0,b:1,c:2,d:3,e:4}; const hv = hashMap[location.hash.slice(1)]; if (hv !== undefined && hv < LIST.length) UI.scheme = hv;
+  if (UI.scheme >= LIST.length) UI.scheme = 0;
+  render();
+}
+function render(){
+  if (PAGE.mode === "library") return renderLibrary();
+  const it = LIST[UI.scheme], s = it.scheme;
+  setSuite(it.suite);
+  picks.querySelectorAll("button").forEach((b,i)=>b.setAttribute("aria-pressed", i===UI.scheme));
+  document.getElementById("rvNote").innerHTML = PAGE.mode === "pages" ? `<b>${esc(D.suite)}</b> · approved look: ${esc(s.name.toLowerCase())}. ${esc(D.hospital)}, week ${D.week} of ${D.weeksPlanned}. Example figures.` : s.note;
+  Object.entries(s.vars).forEach(([k,v]) => document.documentElement.style.setProperty(k, v));
+  document.getElementById("chatFab").style.bottom = `calc(${s.fab||18}px + env(safe-area-inset-bottom,0px))`;
+  stage.innerHTML = `<div data-suite="${it.suite}">${s.render()}</div>`;
+  markTab(document.body.classList.contains("chat-open") ? "chat" : lastTab);
+  if (s.after) s.after();
+}
+
+</script>
