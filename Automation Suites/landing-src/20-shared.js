@@ -198,13 +198,15 @@ function go(t){
   lastTab = t; markTab(t);
   if (t==="overview") return scrollTo({top:0, behavior:"smooth"});
   const z = document.querySelector(`#stage [data-zone="${t}"]`); if (!z) return;
-  const y = z.getBoundingClientRect().top + scrollY - 70; scrollTo({top:y, behavior:"smooth"});
+  const fz = document.querySelector("#stage [data-frz]"); let off = 70;
+  if (fz) { const had = fz.classList.contains("mini"); fz.classList.add("mini"); off = fz.offsetHeight + 14; if (!had) fz.classList.remove("mini"); }
+  const y = z.getBoundingClientRect().top + scrollY - off; scrollTo({top:y, behavior:"smooth"});
   z.classList.remove("flash"); void z.offsetWidth; z.classList.add("flash");
 }
 document.addEventListener("click", e => {
   const tb = e.target.closest("#stage [data-tab]"); if (tb) { e.preventDefault(); return go(tb.dataset.tab); }
   const vw = e.target.closest("[data-view]"); if (vw) { UI.view = vw.dataset.view; const y = scrollY; render(); scrollTo(0,y); return; }
-  const op = e.target.closest("[data-ref]"); if (op && !op.matches("[data-nopen]")) { suiteOf(op); return openSheet(op.dataset.ref); }
+  const op = e.target.closest("#stage [data-ref]"); if (op && !op.matches("[data-nopen]")) { suiteOf(op); return openSheet(op.dataset.ref); }
 });
 document.getElementById("uniBtn").onclick = () => openSheet("uni:0");
 

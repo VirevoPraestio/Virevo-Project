@@ -882,6 +882,189 @@ SUITES.push({ key:"procurement", data:{
   ]
 }});
 
+/* ===== Example data: Financial Health suite, 250-bed hospital, Bhubaneswar. All figures are examples.
+   The suite watches the hospital's money every day: EBITDA, gross revenue, OPD, diagnostic and IP revenue, plus two
+   measures the user picks (financial or operational). Each morning's close is checked against what was expected for the
+   day and since the start of the project; when a measure is out of range, the suite traces it to its causes, does what
+   it is allowed to do, advises the owner, and asks the CEO to confirm anything that costs money or changes policy.
+   Causes link to the other suites (Diagnostic Scheduling, Discharge Summary, Billing & Insurance, Procurement, Admission). ===== */
+if (typeof SUITES==="undefined") var SUITES = [];
+SUITES.push({ key:"financial", data:{
+  fh: true,
+  suite: "Financial Health",
+  family: "Hospital finance",
+  hospital: "250-bed hospital, Bhubaneswar",
+  started: "1 Sep 2026", week: 8, weeksPlanned: 26, asOf: "24 Oct 2026, 6:10 AM (daily close)",
+  dayLabel: "23 Oct", sinceLabel: "since 1 Sep", dayNo: 53,
+  recoverLine:"If the three decisions are confirmed this week, break-even comes back to November.",
+  aheadRisk:"The risk to watch is the MRI 2 console: if the repair slips again, diagnostic revenue drags EBITDA down again.",
+  tabs: [["overview","Overview"],["links","Integrations"],["measures","KPIs"],["recovery","Recovery"],["team","Taskboards"],["health","Project Status"],["files","Resources"],["chat","Chat"]],
+  chat:{ sub:"Financial Health suite · 250-bed hospital, Bhubaneswar",
+    msg:["Yesterday closed at ₹9.1 lakh EBITDA against ₹10.4 lakh expected for the day. Since 1 September we are at ₹471 lakh against ₹512 lakh expected, 8% short.","Three things explain most of it: implants bought above the agreed price, MRI 2 down since 18 October, and late discharges on Wards 4 and 7. I have already acted on four items. Three decisions are waiting for you.","Pick a point to add to it, or choose what to do next."],
+    note:"Confirm the mobile MRI today. It pays for itself in five days.",
+    points:["EBITDA 8% behind since 1 September","Diagnostic revenue down while MRI 2 is out","Three decisions waiting for the CEO","Break-even moving to December"],
+    asks:["What happens if I approve all three decisions?","Which department lost the most this month?","Why is OPD revenue ahead when diagnostics are behind?"] },
+  milestone: { what: "CEO decision desk on the phone goes live", date: "28 Oct", days: 4, part: 11 },
+  today: { gross: 62.8, grossExp: 63.5, ebitda: 9.1, ebitdaExp: 10.4, out: 3, actions: 10 },
+
+  /* grp: rev (revenue feeds), cost, cash, brain (the suite itself), out (what it sends) */
+  parts: [
+    { id:1,  short:"Bills and revenue", name:"Bills and revenue, every service", src:"Hospital software (HIS) billing", grp:"rev", st:"live", when:"Live since 8 Sep", fresh:"closed 6:00 AM", owner:"manoj", vol:"about 2,900 bill lines a day", note:"Reads every bill line by department, doctor and payer, so revenue is known by the morning, not at month end." },
+    { id:2,  short:"General ledger costs", name:"Costs from the general ledger", src:"ERP general ledger", grp:"cost", st:"live", when:"Live since 12 Sep", fresh:"closed 6:00 AM", owner:"meera", vol:"about 600 entries a day", note:"Reads daily costs by head, with month-end items spread across the month so the daily EBITDA is fair." },
+    { id:3,  short:"Bed census", name:"Bed census, admissions and discharges", src:"HIS admission, transfer and discharge", grp:"rev", st:"live", when:"Live since 8 Sep", fresh:"2 min ago", owner:"sanjay", vol:"about 230 beds", note:"Occupancy, length of stay and discharge times, bed by bed." },
+    { id:4,  short:"OPD and prescriptions", name:"OPD registrations and prescriptions", src:"OPD records, with the Diagnostic Scheduling suite", grp:"rev", st:"live", when:"Live since 15 Sep", fresh:"5 min ago", owner:"sunil", vol:"about 520 patients a day", note:"Footfall by doctor, new and returning, and what was prescribed against what was done here." },
+    { id:5,  short:"Lab, imaging, pharmacy", name:"Lab, imaging and pharmacy sales", src:"Lab system, imaging consoles, pharmacy", grp:"rev", st:"live", when:"Live since 22 Sep", fresh:"10 min ago", owner:"sanjay", vol:"about 1,100 tests a day", note:"Test and pharmacy revenue by room and unit; MRI 2 read through the Diagnostic Scheduling suite's sheet until its console opens." },
+    { id:6,  short:"Payroll and overtime", name:"Payroll, rosters and overtime", src:"Payroll and nursing rosters", grp:"cost", st:"testing", when:"Goes live 30 Oct", fresh:"test, yesterday's roster", owner:"meera", vol:"about 640 staff", note:"Daily manpower cost, with overtime by ward, so a costly roster shows the next morning." },
+    { id:7,  short:"Supplier bills", name:"Purchases and supplier bills", src:"Procurement suite", grp:"cost", st:"testing", when:"Goes live 28 Oct", fresh:"test feed, 6:00 AM", owner:"meera", vol:"about 90 bills a day", note:"Consumable and implant costs, with bills above the agreed price flagged by the Procurement suite." },
+    { id:8,  short:"Bank and collections", name:"Bank statements and collections", src:"Two banks' statement feeds", grp:"cash", st:"blocked", when:"9 days late · now 4 Nov", fresh:"weekly upload by hand", owner:"sanjay", vol:"about 180 receipts a day",
+      note:"Matches money received to bills, so collection days and cash in hand are known every morning.",
+      delay:"The main bank has not approved the statement feed; its approval form is with the bank's branch since 15 Oct. Until it opens, collections are uploaded by hand once a week, so collection days are measured weekly and cash in hand can be up to six days old.",
+      fixes:[["Upload both banks' statements by hand every morning instead of weekly","ipsita","25 Oct"],["CFO to call the bank's regional head","meera","27 Oct"],["Statement feed live","sanjay","4 Nov"]] },
+    { id:9,  short:"Insurer claims", name:"Insurer claims and approvals", src:"Insurer portals, with the Billing & Insurance suite", grp:"cash", st:"building", when:"Due 9 Nov", fresh:"2 of 6 insurers", owner:"manoj", vol:"about 40 claims a day", note:"Claims raised, approved, queried and paid, so money stuck with insurers is visible by payer." },
+    { id:10, short:"Expected value each day", name:"Expected value for every day", src:"Two years of history, budget and season", grp:"brain", st:"live", when:"Live since 18 Sep", fresh:"set for 24 Oct", owner:"ipsita", vol:"7 measures × every day", note:"Sets what each measure should be each day, allowing for weekday, season and festivals, so a quiet Sunday is not read as a loss." },
+    { id:11, short:"CEO decision desk", name:"CEO decision desk on the phone", src:"CEO's phone", grp:"out", st:"testing", when:"Goes live 28 Oct", fresh:"test, 2 decisions", owner:"kavya", vol:"about 3 decisions a day", note:"Anything that costs money or changes a policy comes to the CEO to confirm with one tap, with the expected gain and cost." },
+    { id:12, short:"Doctor and payer profit", name:"Doctor-wise and payer-wise profit", src:"Bills, costs and claims together", grp:"out", st:"notstarted", when:"Starts 16 Nov", fresh:"not started", owner:"ipsita", vol:"—", note:"Profit by doctor, department and payer each month, for the pricing and package talks." }
+  ],
+  handoffs: [
+    { name:"MRI 2 console repair, from the Diagnostic Scheduling suite", to:"Diagnostic Scheduling", st:"blocked", when:"Repair due 27 Oct" },
+    { name:"Implant bills above the agreed price, from the Procurement suite", to:"Procurement", st:"testing", when:"Feed live 28 Oct" }
+  ],
+
+  /* Measures. Values per day in ₹ lakh unless the unit says otherwise. day: [expected, actual] for the last closed day.
+     td: since 1 Sep, [expected, actual]: a total for money, an average for rates. base: daily before the project; target: at full run. */
+  core: ["K1","K2","K3","K4","K5"],
+  chosen: ["K6","K7"],
+  pool: [
+    { id:"K1", name:"EBITDA", short:"EBITDA", unit:"L", dir:"up", base:8.6, target:12.5, day:[10.4,9.1], td:[512,471], tdKind:"total" },
+    { id:"K2", name:"Gross revenue", short:"Gross revenue", unit:"L", dir:"up", base:58, target:68, day:[63.5,62.8], td:[3330,3262], tdKind:"total" },
+    { id:"K3", name:"OPD revenue", short:"OPD revenue", unit:"L", dir:"up", base:3.6, target:4.6, day:[4.1,4.3], td:[214,218], tdKind:"total",
+      why:"Cardiology OPD footfall is up 18% since the new consultant joined, and returning patients are booked into the evening session." },
+    { id:"K4", name:"Diagnostic revenue", short:"Diagnostic revenue", unit:"L", dir:"up", base:7.2, target:9.6, day:[8.3,7.6], td:[430,401], tdKind:"total" },
+    { id:"K5", name:"IP revenue", short:"IP revenue", unit:"L", dir:"up", base:44, target:50.5, day:[47.8,47.3], td:[2540,2496], tdKind:"total" },
+    { id:"K6", name:"Average length of stay", short:"ALOS", unit:"d", dir:"down", base:4.6, target:3.9, day:[4.3,4.5], td:[4.4,4.52], tdKind:"average", kind:"Operational" },
+    { id:"K7", name:"OP-to-IP conversion", short:"OP-to-IP", unit:"%", dir:"up", base:6.5, target:9, day:[7.8,8.1], td:[7.5,7.6], tdKind:"average", kind:"Operational",
+      why:"Cardiology and orthopaedics OPD patients advised admission are now called back by the admissions desk within a day." },
+    { id:"K8", name:"Revenue per occupied bed (ARPOB)", short:"ARPOB", unit:"k", dir:"up", base:24.0, target:27.5, day:[25.6,25.1], td:[25.2,24.9], tdKind:"average", kind:"Financial" },
+    { id:"K9", name:"Bed occupancy", short:"Occupancy", unit:"%", dir:"up", base:72, target:82, day:[77,79], td:[76,76.8], tdKind:"average", kind:"Operational",
+      why:"Admissions called in before the bed is free, from the Admission Process suite, fill beds on the same day." },
+    { id:"K10", name:"Collection days", short:"Collection days", unit:"d", dir:"down", base:62, target:45, day:[55,58], td:[57,59], tdKind:"average", kind:"Financial" },
+    { id:"K11", name:"Claims denied by insurers", short:"Claim denials", unit:"%", dir:"down", base:7.5, target:3, day:[5.8,6.1], td:[6.2,6.3], tdKind:"average", kind:"Financial" },
+    { id:"K12", name:"Manpower cost to revenue", short:"Manpower cost", unit:"%", dir:"down", base:31, target:27, day:[29.5,30.6], td:[29.8,30.4], tdKind:"average", kind:"Financial" },
+    { id:"K13", name:"Operation theatre use", short:"OT use", unit:"%", dir:"up", base:58, target:75, day:[66,68], td:[64,65], tdKind:"average", kind:"Operational",
+      why:"Elective lists are now booked into the morning gaps the theatre register shows each evening." }
+  ],
+
+  /* Causes: what pushed the measures off. e: effect on yesterday's EBITDA (₹ lakh); etd: effect since 1 Sep. */
+  drivers: [
+    { id:"D1", name:"MRI 2 out of service since 18 Oct", kpis:["K4","K2","K1","K8"], e:-0.45, etd:-3.2, src:"Diagnostic Scheduling suite", owner:"sanjay", since:"18 Oct",
+      note:"The console fault takes out about 22 scans a day. Walk-in MRI patients are sent elsewhere at peak; about ₹0.55 lakh of revenue a day is lost." },
+    { id:"D2", name:"OPD tests done outside the hospital", kpis:["K4","K2","K1"], e:-0.20, etd:-10.5, src:"Diagnostic Scheduling suite", owner:"sunil", since:"before the project",
+      note:"62% of tests prescribed to returning patients are still done elsewhere, about ₹0.35 lakh of revenue a day above plan." },
+    { id:"D3", name:"Discharges after 1 PM on Wards 4 and 7", kpis:["K6","K5","K1","K8"], e:-0.25, etd:-9.8, src:"Discharge Summary suite", owner:"mishra", since:"since 1 Sep",
+      note:"Two wards still discharge in the afternoon, holding about 6 bed-days a day that the next admissions could have used." },
+    { id:"D4", name:"Implants bought above the agreed price", kpis:["K1"], e:-0.45, etd:-12.0, src:"Procurement suite", owner:"meera", since:"since 1 Sep",
+      note:"Orthopaedic and cardiac implants from two suppliers are billed about 9% above the agreed rates." },
+    { id:"D5", name:"Nursing overtime on Wards 4 and 7", kpis:["K1","K12"], e:-0.30, etd:-8.4, src:"Payroll and rosters", owner:"meera", since:"since 10 Sep",
+      note:"Evening shifts short by four nurses are covered by overtime at 1.5 times the rate." },
+    { id:"D6", name:"Insurer approvals taking over 4 hours", kpis:["K5","K6","K10","K11"], e:-0.10, etd:-4.6, src:"Billing & Insurance suite", owner:"manoj", since:"since 1 Sep",
+      note:"Insured patients wait for the final approval, so beds and collections are both held up." },
+    { id:"D7", name:"Cardiology OPD footfall up 18%", kpis:["K3","K7","K2","K1"], e:0.45, etd:7.5, src:"OPD records", owner:"sunil", since:"since 1 Oct", lift:true,
+      note:"The new cardiology consultant's clinic is full by 11 AM; more patients are advised admission and tests." },
+    { id:"D8", name:"Bank statements uploaded weekly by hand", kpis:["K10"], e:0, etd:0, src:"Bank statements feed", owner:"sanjay", since:"since 1 Sep",
+      note:"Collection days can only be measured weekly until the bank opens the statement feed." }
+  ],
+
+  /* What the suite did, advised and is waiting on. st: done (done by the automation), advised (sent to an owner), awaiting (needs the CEO). gain: ₹ lakh a day. */
+  actions: [
+    { id:"A1", st:"done", t:"Moved 14 evening MRI 1 slots to OPD patients who were waiting for MRI 2", drv:["D1"], gain:0.18, when:"23 Oct, 6:20 AM", who:"sanjay",
+      note:"Within the slot rules it may change on its own. Patients got their new time by message; 11 of 14 confirmed." },
+    { id:"A2", st:"done", t:"Reminded 38 OPD patients of the tests prescribed yesterday, with a slot here today", drv:["D2"], gain:0.08, when:"24 Oct, 6:15 AM", who:"sunil",
+      note:"Sent through the Diagnostic Scheduling suite's patient guide." },
+    { id:"A3", st:"done", t:"Held payment on 9 implant bills above the agreed price and sent them to the buyer", drv:["D4"], gain:0.30, when:"23 Oct, 6:25 AM", who:"meera",
+      note:"₹2.7 lakh of payments held until the supplier corrects the rate. The CFO is copied." },
+    { id:"A4", st:"done", t:"Escalated 6 insurer approvals waiting over 4 hours", drv:["D6"], gain:0.06, when:"24 Oct, 6:12 AM", who:"manoj",
+      note:"Sent to each insurer's escalation desk with the discharge summary attached." },
+    { id:"A5", st:"advised", t:"Open an evening cardiology OPD on Tuesdays and Thursdays", drv:["D7"], gain:0.25, when:"Advised 21 Oct", who:"sunil", reply:"No reply yet · 3 days",
+      note:"The morning clinic turns away about 14 patients a day. An evening session would keep them, and their tests, here." },
+    { id:"A6", st:"advised", t:"Hold an 11 AM discharge huddle on Wards 4 and 7", drv:["D3"], gain:0.20, when:"Advised 21 Oct", who:"mishra", reply:"Agreed · starts 27 Oct",
+      note:"The two wards that still discharge late. Each bed freed by noon is used by the evening admission." },
+    { id:"A7", st:"advised", t:"Upload both banks' statements every morning until the feed opens", drv:["D8"], gain:0, when:"Advised 23 Oct", who:"ipsita", reply:"Agreed · from 25 Oct",
+      note:"So collection days are measured daily, not weekly." },
+    { id:"A8", ceo:0, st:"awaiting", t:"Rent a mobile MRI for 10 days until the MRI 2 console is repaired", drv:["D1"], gain:0.45, cost:"₹2.4 lakh for 10 days", net:"+₹2.1 lakh over 10 days; pays for itself in about 5 days", when:"Raised 23 Oct, 6:15 AM", wait:"Waiting 1 day",
+      note:"Two vendors can place a van at the back gate within 48 hours. Walk-in MRI patients stay here instead of being sent away." },
+    { id:"A9", ceo:1, st:"awaiting", t:"Move 4 nurses from day to evening shift on Wards 4 and 7, instead of paying overtime", drv:["D5"], gain:0.22, cost:"No extra cost", net:"+₹6.6 lakh a month", when:"Raised 23 Oct, 6:18 AM", wait:"Waiting 1 day",
+      note:"The day shift on these wards is over-staffed by four against the patient load; the nursing in-charge has seen the roster." },
+    { id:"A10", ceo:2, st:"awaiting", t:"Offer 10% off afternoon CT and ultrasound for 30 days", drv:["D2"], gain:0.15, cost:"About ₹0.04 lakh a day of discount", net:"+₹3.3 lakh over 30 days", when:"Raised 24 Oct, 6:20 AM", wait:"New today",
+      note:"Afternoon slots run 40% empty. Returning OPD patients who now go elsewhere for price would stay." }
+  ],
+  runLog: [
+    ["6:00 AM","Yesterday's close read from all six live feeds"],
+    ["6:05 AM","7 measures checked against the day and against the total since 1 Sep"],
+    ["6:08 AM","3 out of range: EBITDA, diagnostic revenue, length of stay"],
+    ["6:10 AM","Traced to 6 causes; 1 cause lifting revenue"],
+    ["6:20 AM","2 actions done within its rules, 1 advised, 1 decision sent to the CEO"],
+    ["8:30 AM","Morning brief sent to the CEO and CFO"]
+  ],
+
+  people: [
+    { key:"anil", name:"Anil Pattnaik", role:"CEO", from:"Hospital · confirms the suite's decisions", done:3, due:5, late:1,
+      today:[["Confirm the mobile MRI","waiting 1 day"],["Confirm the nurse shift change","waiting 1 day"],["Confirm afternoon test prices","new today"],["Read the morning brief",1]],
+      impact:"Two decisions waiting a day: about ₹0.67 lakh of EBITDA a day not yet recovered.",
+      next:[["Decision desk on the phone","28 Oct"],["Monthly review with the board","2 Nov"],["Package price talks with two insurers","9 Nov"]] },
+    { key:"meera", name:"Meera Rath", role:"CFO, suite owner", from:"Hospital", done:6, due:7, late:0,
+      today:[["Call the implant supplier on the held bills",1],["Approve the daily cost spread rules","in progress"]],
+      next:[["Payroll feed live","30 Oct"],["Bank regional head call","27 Oct"],["Month-end close in 3 days, not 9","5 Nov"]] },
+    { key:"sunil", name:"Sunil Jena", role:"COO", from:"Hospital", done:4, due:7, late:2,
+      today:[["Reply on the evening cardiology OPD","late 3 days"],["Afternoon CT staffing plan","late 1 day"],["OPD footfall review",1]],
+      impact:"Evening cardiology OPD undecided for 3 days: about 14 patients a day turned away, ₹0.25 lakh of revenue a day.",
+      next:[["Evening cardiology OPD decision","25 Oct"],["Afternoon test staffing","28 Oct"],["OPD layout change","9 Nov"]] },
+    { key:"mishra", name:"Dr. Anup Mishra", role:"Medical Superintendent", from:"Hospital (also on the Discharge Summary suite)", done:4, due:5, late:1,
+      today:[["11 AM huddle plan for Wards 4 and 7",1],["Length-of-stay review with orthopaedics","late 2 days"]],
+      impact:"Orthopaedics review 2 days late: length of stay stays 0.2 days over plan, about 6 bed-days a day.",
+      next:[["11 AM huddle starts","27 Oct"],["Length-of-stay by doctor, monthly","2 Nov"]] },
+    { key:"manoj", name:"Manoj Sahu", role:"Billing head", from:"Hospital (also on the Billing & Insurance suite)", done:5, due:6, late:0,
+      today:[["Follow up the 6 escalated approvals","in progress"],["Daily revenue check against the close",1]],
+      next:[["Two more insurer portals","26 Oct"],["Claims feed live","9 Nov"]] },
+    { key:"ipsita", name:"Ipsita Nanda", role:"Financial Health Analyst", from:"New role we recommended · joined 22 Sep", done:12, due:12, late:0,
+      today:[["Check the morning close against the bank",1],["Prepare the CEO's decision notes",1],["Set expected values for Diwali week",1]],
+      next:[["Daily bank upload starts","25 Oct"],["Festival-week expected values","28 Oct"],["Doctor-wise profit design","16 Nov"]] },
+    { key:"sanjay", name:"Sanjay Mohanty", role:"IT integration lead", from:"Hospital IT (shared with five suites)", done:3, due:5, late:1,
+      today:[["Bank statement feed form","late 9 days"],["Payroll feed test",1]],
+      impact:"Bank feed 9 days late: collection days measured weekly, cash in hand up to six days old.",
+      next:[["Payroll feed live","30 Oct"],["Bank feed live","4 Nov"]] },
+    { key:"kavya", name:"Kavya Iyer", role:"Virevo project lead", from:"Virevo", done:5, due:5, late:0,
+      today:[["CEO decision desk test",1],["Weekly report to the CEO",1]],
+      next:[["Decision desk live","28 Oct"],["Eight-week review","2 Nov"]] }
+  ],
+
+  months: ["Sep","Oct"],
+  spend: [
+    { cat:"Subscription", v:[2.5,2.5] },
+    { cat:"Salaries of roles we recommended", v:[0.3,0.6], note:"Financial Health Analyst ₹7.2 lakh a year (example)" },
+    { cat:"One-time costs", v:[3.0,1.2], note:"Sep: finance data set-up · Oct: CEO decision desk" }
+  ],
+  revenue: [2.0,9.4], ebitda:[1.2,6.8],
+  runRate: { revenue:30, ebitda:14 },
+  cumMonths:["Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun"],
+  cumSpend:[5.8,10.1,13.2,16.3,19.4,22.5,25.6,28.7,31.8,34.9],
+  cumPlan:[1.5,9.5,20.0,31.0,43.0,55.5,68.0,80.5,93.0,105.5],
+  cumFore:[1.2,8.0,12.6,19.5,28.5,39.0,50.5,62.5,74.5,86.5],
+  actualTo:1,
+  breakeven:{ plan:"Nov 2026", fore:"Dec 2026", late:"about 4 weeks", planIdx:2, foreIdx:3 },
+  healthFactors:[["Three CEO decisions waiting, so their gains are not in yet",40],["MRI 2 out of service since 18 Oct",35],["Bank feed late, so cash cannot be managed daily",25]],
+  healthFixes:[["CEO decision desk on the phone","kavya","28 Oct"],["Mobile MRI until the repair (awaiting the CEO)","anil","25 Oct"],["Bank statement feed live","sanjay","4 Nov"]],
+  watch: [
+    { t:"EBITDA since 1 Sep: ₹41 lakh short of expected", who:"meera", ref:"kpi:K1" },
+    { t:"Diagnostic revenue down while MRI 2 is out", who:"sanjay", ref:"kpi:K4" },
+    { t:"Mobile MRI waiting for the CEO's decision", who:"anil", ref:"act:A8" }
+  ],
+  resources: [
+    ["Project plan and milestones","PDF · 1 Sep"],["How each day's expected value is set","2 pages · 18 Sep"],
+    ["What the suite may do on its own, and what needs the CEO","1 page · signed 15 Sep"],["Daily morning briefs","53 briefs · latest today"],
+    ["Weekly review notes","7 notes · latest 21 Oct"],["Subscription agreement and invoices","2 files"]
+  ]
+}});
+
 /* ===== helpers ===== */
 let D, P, KP, spendTotal, ebitdaTotal, revTotal, onCourse, SUITE_KEY;
 function prog(k, v){ return Math.max(0, Math.min(1.15, (v - k.base) / (k.target - k.base))); }
@@ -1148,13 +1331,15 @@ function go(t){
   lastTab = t; markTab(t);
   if (t==="overview") return scrollTo({top:0, behavior:"smooth"});
   const z = document.querySelector(`#stage [data-zone="${t}"]`); if (!z) return;
-  const y = z.getBoundingClientRect().top + scrollY - 70; scrollTo({top:y, behavior:"smooth"});
+  const fz = document.querySelector("#stage [data-frz]"); let off = 70;
+  if (fz) { const had = fz.classList.contains("mini"); fz.classList.add("mini"); off = fz.offsetHeight + 14; if (!had) fz.classList.remove("mini"); }
+  const y = z.getBoundingClientRect().top + scrollY - off; scrollTo({top:y, behavior:"smooth"});
   z.classList.remove("flash"); void z.offsetWidth; z.classList.add("flash");
 }
 document.addEventListener("click", e => {
   const tb = e.target.closest("#stage [data-tab]"); if (tb) { e.preventDefault(); return go(tb.dataset.tab); }
   const vw = e.target.closest("[data-view]"); if (vw) { UI.view = vw.dataset.view; const y = scrollY; render(); scrollTo(0,y); return; }
-  const op = e.target.closest("[data-ref]"); if (op && !op.matches("[data-nopen]")) { suiteOf(op); return openSheet(op.dataset.ref); }
+  const op = e.target.closest("#stage [data-ref]"); if (op && !op.matches("[data-nopen]")) { suiteOf(op); return openSheet(op.dataset.ref); }
 });
 document.getElementById("uniBtn").onclick = () => openSheet("uni:0");
 
@@ -1163,6 +1348,133 @@ function linePath(vals, x0, x1, y0, y1, vmin, vmax){ const n = vals.length; retu
 function weekly(k){ /* 11 points, week 0..10, from base to now with gentle wobble */
   const out = []; for (let w=0; w<=D.week; w++){ const t = w/D.week; const ease = t<.3 ? t*.5 : .15 + (t-.3)/.7*.85; let v = k.base + (k.now-k.base)*ease; const wob = Math.sin(w*2.3 + k.id.charCodeAt(1))*Math.abs(k.target-k.base)*0.035*(w>0&&w<D.week?1:0); out.push(v + wob); } return out; }
 function viewToggle(cls){ return `<div class="${cls}" role="group" aria-label="Show daily or weekly tasks"><button type="button" data-view="day" aria-pressed="${UI.view==="day"}">Today</button><button type="button" data-view="week" aria-pressed="${UI.view==="week"}">This week</button></div>`; }
+
+/* ===== Financial Health runtime: day and since-start checks, the two chosen measures, causes, actions, CEO decisions.
+   Loaded after 20-shared.js. Only acts when the suite's data has fh:true; every other suite is untouched. ===== */
+const FH_ST = { done:"Done by the suite", advised:"Advised", awaiting:"Awaiting the CEO", approved:"Approved by the CEO", held:"Held by the CEO" };
+const FH_STC = { done:"ahead", advised:"watch", awaiting:"off", approved:"ahead", held:"watch" };
+{ const _f = fmtv; fmtv = function(k, v){ if (k.unit === "d") return (Math.round(v*100)/100) + " days"; if (k.unit === "k") return "₹" + Math.round(v*1000).toLocaleString("en-IN"); if (k.unit === "L" && Math.abs(v) >= 100) return "₹" + Math.round(v).toLocaleString("en-IN") + " lakh"; return _f(k, v); }; }
+
+function fhBuild(data){
+  try { const s = JSON.parse(localStorage.getItem("fhChosen")||"null"); if (Array.isArray(s) && s.length===2 && s.every(id=>data.pool.some(k=>k.id===id) && !data.core.includes(id)) && s[0]!==s[1]) data.chosen = s; } catch(_){}
+  data.kpis = data.core.concat(data.chosen).map(id => data.pool.find(k=>k.id===id));
+}
+function fhGap(k, exp, act){ const d = act - exp; const good = k.dir==="up" ? d >= 0 : d <= 0; const g = Math.round(Math.abs(d)*100)/100;
+  const amt = k.unit==="%" ? `${g} point${g===1?"":"s"}` : fmtv(k, g);
+  if (Math.abs(d) < 1e-9) return "exactly as expected"; return good ? `${amt} better than expected` : k.dir==="up" ? `${amt} short of expected` : `${amt} over expected`; }
+function fhRatio(k){ const [e,a] = k.td; return k.dir==="up" ? (a-e)/e : (e-a)/e; }
+function fhStates(){
+  const rank = { ahead:0, watch:1, off:2 };
+  D.kpis.forEach(k => { k.plan = k.day[0]; k.now = k.day[1];
+    k.dayState = kstate(k); const r = fhRatio(k); k.tdState = r >= 0 ? "ahead" : r > -0.03 ? "watch" : "off";
+    k.state = rank[k.dayState] >= rank[k.tdState] ? k.dayState : k.tdState; });
+  KP = Object.fromEntries(D.kpis.map(k => [k.id, k]));
+  onCourse = D.kpis.filter(k=>k.state!=="off").length;
+}
+{ const _s = setSuite; setSuite = function(key){ const s = SUITES.find(x=>x.key===key); if (s && s.data.fh && !s.data.kpis) fhBuild(s.data); _s(key); if (D && D.fh) fhStates(); }; }
+function fhPick(slot, id){ const c = D.chosen.slice(); const other = 1 - slot; if (c[other] === id) c[other] = c[slot]; c[slot] = id; D.chosen = c;
+  try { localStorage.setItem("fhChosen", JSON.stringify(c)); } catch(_){}
+  fhBuild(D); fhStates(); fillChat(); const y = scrollY; render(); scrollTo(0, y); }
+document.addEventListener("change", e => { const s = e.target.closest("select[data-pick]"); if (s) fhPick(+s.dataset.pick, s.value); });
+
+/* text helpers */
+const fhDay = k => `${fmtv(k,k.day[1])} on ${D.dayLabel}, against ${fmtv(k,k.day[0])} expected`;
+function fhTd(k){ const [e,a] = k.td; const p = Math.abs(fhRatio(k)*100); const pct = (Math.round(p*10)/10) + "%";
+  const pre = k.tdKind==="total" ? "" : "average ";
+  return `${pre}${fmtv(k,a)} ${D.sinceLabel}, against ${fmtv(k,e)} expected (${pct} ${fhRatio(k)>=0?"better":"worse"})`; }
+const fhPct = k => { const p = fhRatio(k)*100; return (p>=0?"+":"−") + (Math.round(Math.abs(p)*10)/10) + "%"; };
+const fhDrivers = id => D.drivers.filter(d => d.kpis.includes(id));
+const fhActs = drvIds => D.actions.filter(a => a.drv.some(d => drvIds.includes(d)));
+const fhWho = k => k && P[k] ? P[k].name : "the suite";
+const fhCost = a => !a.cost ? "" : /^No /.test(a.cost) ? a.cost.toLowerCase() : "cost " + a.cost.replace(/^About/,"about");
+const fhL = v => (v>=0?"+":"−") + "₹" + Math.abs(v).toFixed(2) + " lakh";
+
+function fhChooser(cls){
+  const opt = slot => D.pool.filter(k => !D.core.includes(k.id)).map(k => `<option value="${k.id}" ${D.chosen[slot]===k.id?"selected":""}>${esc(k.name)} · ${esc(k.kind||"")}</option>`).join("");
+  return `<div class="${cls}"><span>Your two measures</span><label><span class="sr">First chosen measure</span><select data-pick="0">${opt(0)}</select></label><label><span class="sr">Second chosen measure</span><select data-pick="1">${opt(1)}</select></label></div>`;
+}
+function fhDecideBtns(a, cls){ if (a.st !== "awaiting") return "";
+  return `<span class="${cls||"fh-dec"}"><button type="button" data-decide="${a.id}:yes">Approve</button><button type="button" data-decide="${a.id}:no">Hold</button></span>`; }
+
+/* details */
+function fhActRow(a){ return `<li><span class="av">${a.st==="done"?"✓":a.st==="awaiting"?"?":a.st==="approved"?"✓":"→"}</span><span>${esc(a.t)}<br><small style="color:var(--sh-mute)">${esc(FH_ST[a.st])}${a.st==="advised"?` to ${esc(fhWho(a.who))} · ${esc(a.reply)}`:""} · ${a.gain?`${fhL(a.gain)} a day`:"no direct gain"}</small></span><time>${esc(a.when.replace(/^(Raised|Advised) /,""))}</time></li>`; }
+function fhKpiDetail(k){
+  const drv = fhDrivers(k.id).filter(d => k.state==="ahead" ? d.lift : true), acts = fhActs(drv.map(d=>d.id));
+  let h = `<div class="d-eyebrow">KPI · ${k.id} · ${D.core.includes(k.id)?"core measure":"your chosen measure"}</div><div class="d-title">${esc(k.name)}</div>
+  <p class="d-sub"><span class="d-pill ${k.state}">${STATE_WORD[k.state]}</span> &nbsp;checked every morning against the day and the total ${esc(D.sinceLabel)}</p>
+  <div class="d-four"><div><span>Expected ${esc(D.dayLabel)}</span><b>${fmtv(k,k.day[0])}</b></div><div class="now"><span>Actual ${esc(D.dayLabel)}</span><b>${fmtv(k,k.day[1])}</b></div><div><span>Expected ${esc(D.sinceLabel)}</span><b>${fmtv(k,k.td[0])}</b></div><div class="now"><span>Actual ${esc(D.sinceLabel)}</span><b>${fmtv(k,k.td[1])}</b></div></div>
+  <div class="d-grid"><div><span>For the day</span><b class="d-pill ${k.dayState}" style="border:0;padding:0">${fhGap(k,k.day[0],k.day[1])}</b></div><div><span>${k.tdKind==="total"?"Total":"Average"} ${esc(D.sinceLabel)}</span><b class="d-pill ${k.tdState}" style="border:0;padding:0">${fhPct(k)} against expected</b></div><div><span>Before the project</span><b>${fmtv(k,k.base)} a day</b></div><div><span>Target at full run</span><b>${fmtv(k,k.target)} a day</b></div></div>`;
+  if (k.state === "ahead") h += `<div class="d-sec"><h4>What is driving it</h4><p style="margin:0">${esc(k.why || (drv[0] && drv[0].note) || "Running above what was expected.")}</p></div>`;
+  if (drv.length) h += `<div class="d-sec"><h4>${k.state==="ahead"?"Lifting it":"What pulled it down"}</h4><ul class="d-fix">${drv.map(d=>`<li><span class="av">${d.lift?"↑":"↓"}</span><span>${esc(d.name)}<br><small style="color:var(--sh-mute)">${esc(d.src)} · ${esc(fhWho(d.owner))}</small></span><time>${d.e?fhL(d.e)+" EBITDA a day":"—"}</time></li>`).join("")}</ul></div>`;
+  if (acts.length) h += `<div class="d-sec"><h4>What the suite has done, advised and is waiting on</h4><ul class="d-fix">${acts.map(fhActRow).join("")}</ul></div>`;
+  if (k.state !== "ahead") { const g = sum(acts.filter(a=>a.st!=="held").map(a=>a.gain)); h += `<div class="d-back">${acts.length ? `All of this together brings back about ₹${g.toFixed(2)} lakh a day.` : "Watched every morning; no cause found yet."}</div>`; }
+  return h;
+}
+function fhDrvDetail(d){
+  const acts = fhActs([d.id]);
+  return `<div class="d-eyebrow">Cause · ${d.lift?"lifting revenue":"pulling the measures down"}</div><div class="d-title">${esc(d.name)}</div>
+  <p class="d-sub"><span class="d-pill ${d.lift?"ahead":"off"}">${d.e?fhL(d.e)+" EBITDA on "+esc(D.dayLabel):"No direct money effect"}</span> &nbsp;${esc(d.since)}</p>
+  <div class="d-grid"><div><span>Effect ${esc(D.sinceLabel)}</span><b>${d.etd?fhL(d.etd)+" EBITDA":"—"}</b></div><div><span>Comes from</span><b>${esc(d.src)}</b></div><div><span>Owner</span><b>${esc(fhWho(d.owner))}</b></div><div><span>Measures it moves</span><b>${d.kpis.map(id=>{ const k = D.pool.find(x=>x.id===id); return esc(k.short); }).join(", ")}</b></div></div>
+  <div class="d-sec"><h4>What is happening</h4><p style="margin:0">${esc(d.note)}</p></div>
+  ${acts.length?`<div class="d-sec"><h4>Done, advised and waiting</h4><ul class="d-fix">${acts.map(fhActRow).join("")}</ul></div>`:""}`;
+}
+function fhActDetail(a){
+  const drv = D.drivers.filter(d => a.drv.includes(d.id));
+  return `<div class="d-eyebrow">Recovery · ${esc(FH_ST[a.st])}</div><div class="d-title">${esc(a.t)}</div>
+  <p class="d-sub"><span class="d-pill ${FH_STC[a.st]}">${esc(FH_ST[a.st])}</span> &nbsp;${esc(a.when)}${a.wait&&a.st==="awaiting"?" · "+esc(a.wait):""}</p>
+  <div class="d-grid"><div><span>Expected gain</span><b>${a.gain?fhL(a.gain)+" EBITDA a day":"Visibility, no direct gain"}</b></div>${a.cost?`<div><span>Cost</span><b>${esc(a.cost)}</b></div>`:""}${a.net?`<div><span>Net</span><b>${esc(a.net)}</b></div>`:""}<div><span>${a.st==="done"?"Owner informed":a.st==="advised"?"Advised to":"Then carried out by"}</span><b>${esc(fhWho(a.who))}</b></div>${a.reply?`<div><span>Reply</span><b>${esc(a.reply)}</b></div>`:""}</div>
+  <div class="d-sec"><h4>Why</h4><p style="margin:0">${esc(a.note)}</p></div>
+  <div class="d-sec"><h4>The cause it answers</h4><ul class="d-fix">${drv.map(d=>`<li><span class="av">${d.lift?"↑":"↓"}</span><span>${esc(d.name)}</span><time>${d.e?fhL(d.e)+" a day":"—"}</time></li>`).join("")}</ul></div>
+  ${a.st==="awaiting"?`<div class="d-sec"><h4>Your decision</h4><div class="d-decide">${fhDecideBtns(a,"d-dec")}</div></div>`:""}`;
+}
+{ const _d = detailFor; detailFor = function(ref){ const [t,id] = ref.split(":");
+  if (D && D.fh){ if (t==="kpi" && KP[id]) return [fhKpiDetail(KP[id]), KP[id].state];
+    if (t==="drv") { const d = D.drivers.find(x=>x.id===id); return [fhDrvDetail(d), d.lift?"ahead":"off"]; }
+    if (t==="act") { const a = D.actions.find(x=>x.id===id); return [fhActDetail(a), FH_STC[a.st]]; } }
+  return _d(ref); }; }
+{ const _p = peekFor; peekFor = function(ref){ const [t,id] = ref.split(":");
+  if (D && D.fh){
+    if (t==="kpi" && KP[id]){ const k = KP[id]; return `<div class="pk-t">${esc(k.name)}</div><div class="pk-n">${fmtv(k,k.day[1])}</div><div class="pk-m">${esc(D.dayLabel)}: expected ${fmtv(k,k.day[0])} · ${fhGap(k,k.day[0],k.day[1])}</div><div class="pk-m">${k.tdKind==="total"?"Total":"Average"} ${esc(D.sinceLabel)}: ${fmtv(k,k.td[1])} against ${fmtv(k,k.td[0])} (${fhPct(k)})</div><div class="pk-m"><b>${STATE_WORD[k.state]}</b></div><div class="pk-hint">Click for the causes and the recovery</div>`; }
+    if (t==="drv"){ const d = D.drivers.find(x=>x.id===id); return `<div class="pk-t">${esc(d.name)}</div><div class="pk-m">${d.e?fhL(d.e)+" EBITDA on "+esc(D.dayLabel)+" · "+fhL(d.etd)+" "+esc(D.sinceLabel):"No direct money effect"}</div><div class="pk-m">${esc(d.src)} · ${esc(fhWho(d.owner))}</div><div class="pk-hint">Click for what the suite is doing about it</div>`; }
+    if (t==="act"){ const a = D.actions.find(x=>x.id===id); return `<div class="pk-t">${esc(a.t)}</div><div class="pk-m"><b>${esc(FH_ST[a.st])}</b> · ${esc(a.when)}</div><div class="pk-m">${a.gain?fhL(a.gain)+" EBITDA a day":"Visibility"}${a.cost?" · "+esc(fhCost(a)):""}</div><div class="pk-hint">${a.st==="awaiting"?"Click to approve or hold":"Click for the full story"}</div>`; } }
+  return _p(ref); }; }
+{ const _c = contextFor; contextFor = function(ref){ const [t,id] = ref.split(":");
+  if (D && D.fh){
+    if (t==="kpi" && KP[id]){ const k = KP[id]; return { kind:"KPI", point:`the KPI "${k.name}"`, title:k.name, lines:[`${D.dayLabel}: ${fmtv(k,k.day[1])} against ${fmtv(k,k.day[0])} expected`, `${D.sinceLabel}: ${fmtv(k,k.td[1])} against ${fmtv(k,k.td[0])} (${fhPct(k)})`] }; }
+    if (t==="drv"){ const d = D.drivers.find(x=>x.id===id); return { kind:"Cause", point:`the cause "${d.name}"`, title:d.name, lines:[d.e?`${fhL(d.e)} EBITDA a day · ${fhL(d.etd)} ${D.sinceLabel}`:"No direct money effect", `${d.src} · ${fhWho(d.owner)}`] }; }
+    if (t==="act"){ const a = D.actions.find(x=>x.id===id); return { kind:"Recovery", point:`the recovery step "${a.t}"`, title:a.t, lines:[`${FH_ST[a.st]} · ${a.when}`, a.gain?`${fhL(a.gain)} EBITDA a day${a.cost?" · cost "+a.cost:""}`:"Visibility"] }; } }
+  return _c(ref); }; }
+{ const _r = replyFor; replyFor = function(ref){ const [t,id] = ref.split(":");
+  if (D && D.fh){
+    const actList = acts => `<ul>${acts.map(a=>`<li>${esc(a.t)} · <b>${esc(FH_ST[a.st])}</b>${a.st==="advised"?` (${esc(fhWho(a.who))}: ${esc(a.reply)})`:""}${a.gain?`, ${fhL(a.gain)} a day`:""}</li>`).join("")}</ul>`;
+    if (t==="kpi" && KP[id]){ const k = KP[id]; const drv = fhDrivers(k.id).filter(d=>!d.lift), acts = fhActs(drv.map(d=>d.id));
+      if (k.state==="ahead") return [`<p><b>${esc(k.name)}</b> was ${fhDay(k)}: ${fhGap(k,k.day[0],k.day[1])}. ${k.tdKind==="total"?"The total":"The average"} is ${fhTd(k)}.</p><p>No delay or overrun. ${esc(k.why||"")}</p><p>Nothing to recover. ${esc(D.aheadRisk)}</p>`, "Ahead. Keep it there."];
+      const wait = acts.filter(a=>a.st==="awaiting");
+      return [`<p><b>${esc(k.name)}</b> was ${fhDay(k)}: ${fhGap(k,k.day[0],k.day[1])}. ${k.tdKind==="total"?"The total":"The average"} is ${fhTd(k)}.</p><p><b>What is causing it:</b></p><ul>${drv.map(d=>`<li>${esc(d.name)}${d.e?` (${fhL(d.e)} EBITDA a day)`:""} · ${esc(fhWho(d.owner))}</li>`).join("")}</ul>${acts.length?`<p><b>How we recover:</b></p>${actList(acts)}`:""}${wait.length?`<p>${wait.length} of these need${wait.length===1?"s":""} your decision.</p>`:""}`, wait.length ? "Confirm the waiting decisions today." : "Recovery is under way."]; }
+    if (t==="drv"){ const d = D.drivers.find(x=>x.id===id), acts = fhActs([d.id]);
+      return [`<p><b>${esc(d.name)}</b> (${esc(d.since)}). ${esc(d.note)}</p><p>${d.e?`It moved yesterday's EBITDA by ${fhL(d.e)}, and ${fhL(d.etd)} ${esc(D.sinceLabel)}.`:"It has no direct money effect."} Responsible: ${esc(fhWho(d.owner))}, through the ${esc(d.src)}.</p>${acts.length?`<p><b>What is being done:</b></p>${actList(acts)}`:""}`, d.lift ? "Keep this one growing." : "Recovery is in hand."]; }
+    if (t==="act"){ const a = D.actions.find(x=>x.id===id);
+      return [`<p><b>${esc(a.t)}</b> is ${esc(FH_ST[a.st].toLowerCase())} (${esc(a.when)}).</p><p>${esc(a.note)}</p><p>${a.gain?`Expected gain ${fhL(a.gain)} of EBITDA a day.`:""} ${a.cost?`Cost: ${esc(a.cost)}. Net: ${esc(a.net)}.`:""}</p>${a.st==="awaiting"?`<p>It is waiting for your decision (${esc(a.wait)}). Approve or hold it from the Recovery section or from its panel.</p>`:""}`, a.st==="awaiting" ? "Your decision is the only thing it waits on." : "In hand."]; } }
+  return _r(ref); }; }
+
+/* CEO decisions */
+function fhToast(msg){ let t = document.getElementById("fhToast"); if (!t){ t = document.createElement("div"); t.id = "fhToast"; t.setAttribute("role","status"); document.body.appendChild(t);
+  const s = document.createElement("style"); s.textContent = "#fhToast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);opacity:0;z-index:90;background:#10241a;color:#F3EFE3;border:1.5px solid #d4a94f;border-radius:12px;padding:10px 16px;font:500 13.5px/1.4 Poppins,sans-serif;max-width:min(520px,calc(100% - 32px));transition:opacity .2s,transform .2s;pointer-events:none}#fhToast.on{opacity:1;transform:translate(-50%,0)}"; document.head.appendChild(s); }
+  t.textContent = msg; t.classList.add("on"); clearTimeout(t._h); t._h = setTimeout(()=>t.classList.remove("on"), 3200); }
+function fhDecide(id, yes){ const a = D.actions.find(x=>x.id===id); if (!a || a.st!=="awaiting") return;
+  a.st = yes ? "approved" : "held"; a.when = yes ? "Approved by the CEO just now · the suite is carrying it out" : "Held by the CEO just now";
+  const ceo = D.people.find(p=>p.key==="anil"); if (ceo && a.ceo !== undefined && ceo.today[a.ceo]) { const was = ceo.today[a.ceo][1]; ceo.today[a.ceo] = [ceo.today[a.ceo][0] + (yes?"":" (held)"), 1]; ceo.done += 1; if (String(was).startsWith("waiting 1")) ceo.late = Math.max(0, ceo.late-1); ceo.state = pstate(ceo); if (!ceo.today.some(x=>x[1]!==1)) ceo.impact = ""; }
+  const y = scrollY; render(); scrollTo(0, y);
+  if (sheet.classList.contains("on") && sheet.dataset.ref === "act:"+id) { const [h,st] = detailFor("act:"+id); sheetBody.innerHTML = h; sheet.style.setProperty("--sh-state", st==="off"?"var(--c-bad)":st==="watch"?"var(--c-warn)":"var(--c-ok)"); }
+  fhToast(yes ? `Approved: ${a.t}. Expected ${fhL(a.gain)} EBITDA a day.` : `Held: ${a.t}. The suite will raise it again tomorrow with fresh numbers.`); }
+document.addEventListener("click", e => { const b = e.target.closest("[data-decide]"); if (!b) return; e.preventDefault(); e.stopPropagation(); suiteOf(b.closest("[data-suite]") || document.querySelector("#stage [data-suite]")); const [id, v] = b.dataset.decide.split(":"); fhDecide(id, v==="yes"); }, true);
+
+/* 30 closed days for the day strips: actual against expected, as a ratio where 1 is on expected (higher is better for every measure) */
+function fhSeries(k, n){ n = n || 30; const r = fhRatio(k), seed = k.id.charCodeAt(1) + (k.id.charCodeAt(2)||0); const dayR = k.dir==="up" ? (k.day[1]-k.day[0])/k.day[0] : (k.day[0]-k.day[1])/k.day[0];
+  const out = []; for (let i=0;i<n;i++){ let v = r + 0.035*Math.sin(i*1.7 + seed) + 0.02*Math.cos(i*0.9 + seed*2);
+    if ((k.id==="K4"||k.id==="K1"||k.id==="K8") && i >= n-6) v -= k.id==="K4" ? 0.07 : 0.03; if (i===n-1) v = dayR; out.push(v); } return out; }
+const fhDates = n => { const out = []; for (let i=n-1;i>=0;i--){ const d = new Date(2026, 9, 23 - i); out.push(d.getDate() + " " + ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][d.getMonth()]); } return out; };
+document.addEventListener("keydown", e => { if ((e.key==="Enter"||e.key===" ") && e.target.matches && e.target.matches('#stage div[role="button"][data-ref]')) { e.preventDefault(); e.target.click(); } });
 
 /* ===== Procurement, option 2: teal and coral, the supply lines ===== */
 SCHEMES.push({
@@ -1372,8 +1684,8 @@ const PAGE = {"mode": "review", "suite": "procurement", "schemes": ["lines"], "t
    PAGE.mode "pages"   → every approved suite landing, one picker (for the development team)
    PAGE.mode "library" → the suite block library (91-library.js) */
 const SCHEME_SUITE = { monitor:"discharge", sheet:"discharge", diorama:"discharge", departures:"discharge", dispensary:"discharge",
-  tubes:"billing", meters:"billing", sorter:"billing", signal:"admission", radar:"admission", dayboard:"diagnostic", prism:"diagnostic", racks:"procurement", lines:"procurement" };
-const APPROVED = [["discharge","diorama"],["billing","sorter"],["admission","radar"],["diagnostic","dayboard"],["procurement","lines"]];
+  tubes:"billing", meters:"billing", sorter:"billing", signal:"admission", radar:"admission", dayboard:"diagnostic", prism:"diagnostic", racks:"procurement", lines:"procurement", tree:"financial", tape:"financial", bridge:"financial" };
+const APPROVED = [["discharge","diorama"],["billing","sorter"],["admission","radar"],["diagnostic","dayboard"],["procurement","lines"],["financial","bridge"]];
 const stage = document.getElementById("stage"), picks = document.getElementById("picks");
 const css = document.createElement("style"); css.textContent = SCHEMES.map(s=>s.css).join("\n"); document.head.appendChild(css);
 const byKey = k => SCHEMES.find(s=>s.key===k);

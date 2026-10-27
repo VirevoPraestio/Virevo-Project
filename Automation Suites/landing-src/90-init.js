@@ -3,8 +3,8 @@
    PAGE.mode "pages"   → every approved suite landing, one picker (for the development team)
    PAGE.mode "library" → the suite block library (91-library.js) */
 const SCHEME_SUITE = { monitor:"discharge", sheet:"discharge", diorama:"discharge", departures:"discharge", dispensary:"discharge",
-  tubes:"billing", meters:"billing", sorter:"billing", signal:"admission", radar:"admission", dayboard:"diagnostic", prism:"diagnostic", racks:"procurement", lines:"procurement" };
-const APPROVED = [["discharge","diorama"],["billing","sorter"],["admission","radar"],["diagnostic","dayboard"],["procurement","lines"]];
+  tubes:"billing", meters:"billing", sorter:"billing", signal:"admission", radar:"admission", dayboard:"diagnostic", prism:"diagnostic", racks:"procurement", lines:"procurement", tree:"financial", tape:"financial", bridge:"financial" };
+const APPROVED = [["discharge","diorama"],["billing","sorter"],["admission","radar"],["diagnostic","dayboard"],["procurement","lines"],["financial","bridge"]];
 const stage = document.getElementById("stage"), picks = document.getElementById("picks");
 const css = document.createElement("style"); css.textContent = SCHEMES.map(s=>s.css).join("\n"); document.head.appendChild(css);
 const byKey = k => SCHEMES.find(s=>s.key===k);
